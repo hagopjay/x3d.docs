@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**103 drills**, 93 with a recorded run (`Checked`), 10 not yet run. Levels: L1 18, L2 52, L3 33.
+**104 drills**, 94 with a recorded run (`Checked`), 10 not yet run. Levels: L1 19, L2 52, L3 33.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -65,6 +65,7 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-BAB-3 | [08](08-babylon-bridge.md) | L3 | Break a shader key, then predict which half moves | 2026-11-14 `x3d.loom@162ab18`, Python 3 with lxml, scratch copies of the scene |
 | D-BAB-4 | [08](08-babylon-bridge.md) | L2 | Move a PSNR by changing its window | 2026-11-14 numpy 2.5.3, Pillow 12.3.0, `x3d.loom@162ab18` |
 | D-BAB-5 | [08](08-babylon-bridge.md) | L3 | Census a corpus before you promise a port | 2026-11-14 lxml, `x3d.demo@d10b457`, `x3d.loom@162ab18` |
+| D-BAB-6 | [08](08-babylon-bridge.md) | L1 | Opacity of a stack of slices | 2026-11-14 python3 -I |
 | D-CAS-1 | [09](09-castle-engine.md) | L2 | Count the parse-only nodes and name the denominator | 2026-11-14 `castle-engine@48ce617`, Python 3.13.18 |
 | D-CAS-2 | [09](09-castle-engine.md) | L2 | Count loaders and savers without trusting a number | 2026-11-14 `castle-engine@48ce617`, Python 3.13.18 |
 | D-CAS-3 | [09](09-castle-engine.md) | L2 | Re-derive the headline FLIP and what it hides | 2026-11-14 `x3d.castle@d70e00c` receipt, Python 3.13.18 |

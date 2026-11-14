@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**298 numbers** from 14 chapters. Grades: [C] 255 · [L] 39 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**301 numbers** from 14 chapters. Grades: [C] 258 · [L] 39 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -179,6 +179,9 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-BAB-17 | [08](08-babylon-bridge.md) | Chirp; Cloud; Gobbler 3; Demiurge; Dynasty; Hall | 24.87 to 25.36; 19.24 to 19.40 (21.01 to 24.96 masked); 14.60 to 19.66; 7.18 to 13.26; 29.0 to 37.8; 17.5 to 25.3 dB | L | `X_ITE 16.5.1`, SwiftShader | x3d.loom@162ab18:runs/webgpu-{chirp,cloud,gobbler,demiurge,dynasty,hall}-*/ |
 | N-BAB-18 | [08](08-babylon-bridge.md) | corpus name census | 111 files: 86 base-only, 22 need gap or todo or claimed, 1 unknown | C | lxml, `NODES.json` | x3d.demo@d10b457:docs/demos (D-BAB-5) |
 | N-BAB-19 | [08](08-babylon-bridge.md) | real-GPU timing receipts for any bridge body | 0; `bench/receipts/` holds 1 file (the G1 adapter probe) | C | `ls` | x3d.loom@162ab18:x3d.webgpu/bench/receipts/ |
+| N-BAB-20 | [08](08-babylon-bridge.md) | X_ITE volume slice count | 400 at MEDIUM (200 LOW, 600 HIGH); spacing \|dimensions\| / 399 | C | X_ITE 16.6.0, `VolumeRenderingComponent` read | x_ite 16.6.0 npm package, `VolumeRenderingComponent.js` (read) |
+| N-BAB-21 | [08](08-babylon-bridge.md) | batch 43 fixture assertions | 151 over 10 nodes (19, 30, 14, 8, 18, 11, 10, 11, 11, 19) | C | x3d.loom batch 43 receipts; X_ITE 16.6.0, Chromium 153, SwiftShader | x3d.loom `receipts/` (batch 43) |
+| N-BAB-22 | [08](08-babylon-bridge.md) | faint-alpha stack, bridge against X_ITE | 10 against 24 plain stack; 14 against 28 Edge; 40 against 78 Boundary | C | x3d.loom batch 43 fixtures; X_ITE 16.6.0 | `VolumeData`, `EdgeEnhancementVolumeStyle`, `BoundaryEnhancementVolumeStyle` fixtures |
 | N-CAS-1 | [09](09-castle-engine.md) | registered model formats; of them with `OnSave` | 21; 7 | C | `formats.py`, 2026-11-14 | `castle-engine@48ce617:src/` |
 | N-CAS-2 | [09](09-castle-engine.md) | parse-only groups; registrations in them (one abstract) | 11; 99 | C | `xite_names.py` | `castle-engine@48ce617:src/scene/x3d/castleinternalnodesunsupported.pas` |
 | N-CAS-3 | [09](09-castle-engine.md) | parse-only names with a same-named non-abstract class in X_ITE | 97 of 99 | C | `xite_names.py`, `x_ite@16.7.1` npm dist | `x_ite@16.7.1:dist/x_ite.js`, `dist/assets/components/` |
@@ -289,7 +292,7 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-PHY-22 | [13](13-physics.md) | Ball at 4 m/s against a fixed wall, bounce 1, minBounceSpeed 0, speed after | 3.2 to 4 m/s in X_ITE; 3.99 in the bridge | [C] | same rig | section 9.3 |
 | N-PHY-23 | [13](13-physics.md) | Body rest height with a sphere offset 1 m below the origin | 0.5 m in X_ITE, 1.5 m in the bridge | [C] | same rig | section 9.3 |
 | N-PHY-24 | [13](13-physics.md) | Files using RigidBodyCollection, RigidBody, CollidableShape | 31, 31, 27 | [L] | `grep -rl` by the batch author over the Loom repos, not re-run here | section 9 |
-| N-PHY-25 | [13](13-physics.md) | Hinge limits plus and minus 0.5 rad, final ball position, bridge | x 1.755, y 4.034, angle -0.50 | [C] | batch 41 `SingleAxisHingeJoint` probe; X_ITE 16.6.0, Chromium 153, SwiftShader | section 9.5 |
+| N-PHY-25 | [13](13-physics.md) | Hinge limits plus and minus 0.5 rad, final ball position, bridge | x 1.755, y 4.034, angle -0.50 | [C] | batch 42 `SingleAxisHingeJoint` probe; X_ITE 16.6.0, Chromium 153, SwiftShader | section 9.5 |
 | N-PHY-26 | [13](13-physics.md) | Same swing in X_ITE, unsigned angle | 3.45 (limits ignored) | [C] | same rig | section 9.5 |
 | N-PHY-27 | [13](13-physics.md) | Motor torque 1 N m on 1 kg, 0.3 m sphere, angular acceleration | 25.1 rad/s per second measured; 27.8 theory | [C] | same rig, wall-clock wait | section 9.5 |
 | N-PHY-28 | [13](13-physics.md) | DoubleAxisHingeJoint motor 1 rad/s for 1.5 s, hinge1Angle band in the test | 1.1 to 1.9 rad | [C] | same rig | section 9.5 |

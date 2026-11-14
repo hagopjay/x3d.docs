@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**178 heuristics.** Grades: [C] 134 · [L] 37 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**182 heuristics.** Grades: [C] 137 · [L] 38 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -104,6 +104,10 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-BAB-8 | [08](08-babylon-bridge.md) | On every public WebGPU page show the adapter, which request answered and, when null, the flag tip with its safety cost. | L | one gen-9 laptop got no adapter until the flag was set | playbook v1; `docs/index.html` |
 | H-BAB-9 | [08](08-babylon-bridge.md) | Make no speed claim without a named real GPU, driver, three runs and a receipt that fits the schema. | C | 0 timing receipts for any bridge body; 1 file in `bench/receipts/` | `ls`, `BENCHMARK.md` section 9 |
 | H-BAB-10 | [08](08-babylon-bridge.md) | Where a playbook line and the code disagree, the code wins; record both and correct the playbook by a new version. | C | v1 and v2 say "convert authored sRGB"; `body.js` line 303 assigns the colour as authored | `brain/body.js` read |
+| H-BAB-11 | [08](08-babylon-bridge.md) | Ask what the renderer samples, not what the spec says: X_ITE draws a volume as 400 slices with no spacing correction, so copy its lattice before comparing pixels. | C | a 4-level ramp, a block and a cartoon band match within 2 levels | x3d.loom batch 43 fixtures; X_ITE 16.6.0 source read |
+| H-BAB-12 | [08](08-babylon-bridge.md) | Test a volume style against a second volume with no voxels: X_ITE draws the empty one as a white box. | C | white box measured | `VolumeData` fixture |
+| H-BAB-13 | [08](08-babylon-bridge.md) | Check the default opacity map first: it keeps only the red channel, so a red RGBA voxel is white and a green one is invisible. | C | (255, 0, 0, 255) draws white | `VolumeData` fixture |
+| H-BAB-14 | [08](08-babylon-bridge.md) | Where two engines blend differently, write each engine's own value into the test and say which one is more accurate; never loosen the tolerance. | L | 24 against 10, 28 against 14, 78 against 40 | x3d.loom batch 43 fixtures |
 | H-CAS-1 | [09](09-castle-engine.md) | Judge a Castle load by its warnings and a shape census against the declared count; never by "it loaded" or an exit code. | C | classic reader warns once and skips the rest of the file | `castle-engine@48ce617:x3dnodes_encoding_classic.inc:569-573` |
 | H-CAS-2 | [09](09-castle-engine.md) | Quote node coverage by rung and definition (registered, parse-only, name present in a peer, behaves); never a bare "98 of 328". | C | 99 registrations, 98 concrete, five denominators in circulation | `castle-engine@48ce617`; `x_ite@16.7.1` dist |
 | H-CAS-3 | [09](09-castle-engine.md) | Treat name presence in a peer as the weakest rung; do not turn 97 of 99 into "X_ITE implements them". | C | the scan reads class names, not behaviour | `x_ite@16.7.1` dist |
@@ -173,7 +177,7 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-PHY-18 | [13](13-physics.md) | For a bounce test against a wall or floor set `minBounceSpeed` to 0 in X_ITE; a fixed body has speed 0, so the default 0.1 gives it restitution 0. | [C] | ball returned at 3.2 to 4 m/s only with 0 | x3d.loom PR #56 `CollisionCollection` fixture; X_ITE 16.6.0 |
 | H-PHY-19 | [13](13-physics.md) | Do not trust a CollidableOffset or CollidableShape translation in X_ITE until the node has received an event; test where the body rests. | [C] | rest height 0.5 m in X_ITE against 1.5 m expected | x3d.loom PR #56 `CollidableOffset` fixture; X_ITE 16.6.0 |
 | H-PHY-20 | [13](13-physics.md) | When two engines differ by design, check each against its own written value and log the gap; never loosen a tolerance until both pass. | [L] | five nodes, four per-engine values | x3d.loom PR #56 fixtures |
-| H-PHY-21 | [13](13-physics.md) | Count the degrees of freedom a joint removes before testing it: ball 3, hinge 5, slider 5, universal 4, motor 0; then test the one that is left. | [C] | six fixtures, each checking the free motion (swing, slide, spin) as well as the constraint | x3d.loom batch 41 fixtures; X_ITE 16.6.0 |
+| H-PHY-21 | [13](13-physics.md) | Count the degrees of freedom a joint removes before testing it: ball 3, hinge 5, slider 5, universal 4, motor 0; then test the one that is left. | [C] | six fixtures, each checking the free motion (swing, slide, spin) as well as the constraint | x3d.loom batch 42 fixtures; X_ITE 16.6.0 |
 | H-PHY-22 | [13](13-physics.md) | Test a joint limit by checking the body against the limit, not that the joint exists; X_ITE 16.6.0 builds hinges without limits. | [C] | bridge angle -0.50 against X_ITE 3.45 for the same swing | `SingleAxisHingeJoint` fixture |
 | H-PHY-23 | [13](13-physics.md) | Treat an unsigned joint angle as a size and compare absolute values across engines; do not compare signs. | [C] | X_ITE angle 3.45 where a signed continuous angle would pass pi | `SingleAxisHingeJoint` fixture |
 | H-PHY-24 | [13](13-physics.md) | Check that a force or torque field does anything at all (rate of change over a second) before trusting a joint node; X_ITE reads sliderForce and axisTorque and applies neither. | [C] | slider stays; motor angular velocity changes under 0.01 rad/s in X_ITE, 25.1 rad/s per second in the bridge | `SliderJoint`, `MotorJoint` fixtures |

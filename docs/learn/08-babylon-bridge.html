@@ -20,7 +20,7 @@ blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;backgr
 details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
 .foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a class="cur" href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="08-babylon-bridge.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/08-babylon-bridge.md">GitHub</a></div><h1>08. The Babylon bridge</h1>
-<details class="toc"><summary>On this page (22 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-why-a-second-renderer-and-why-the-file-stays-the-master">2. Why: a second renderer, and why the file stays the master</a><a class="l2" href="#3-architecture-the-reader-is-the-brain-babylon-is-the-body">3. Architecture: the reader is the brain, Babylon is the body</a><a class="l2" href="#4-node-coverage-recounted-at-x3dloom162ab18">4. Node coverage, recounted at x3d.loom@162ab18</a><a class="l2" href="#5-the-playbook-merged-50-traps-ranked">5. The playbook, merged: 50 traps, ranked</a><a class="l2" href="#6-the-parity-method-psnr-against-x_ite-on-a-software-gpu">6. The parity method: PSNR against X_ITE on a software GPU</a><a class="l2" href="#7-the-ports-and-what-each-taught">7. The ports and what each taught</a><a class="l2" href="#8-a-look-may-add-never-assert-a-fallback-must-say-so">8. A look may add, never assert; a fallback must say so</a><a class="l2" href="#9-shader-porting-hash-keyed-glsl-to-hand-written-wgsl">9. Shader porting: hash-keyed GLSL to hand-written WGSL</a><a class="l2" href="#10-the-adapter-and-blocklist-trap">10. The adapter and blocklist trap</a><a class="l2" href="#11-porting-a-new-demo-sixteen-steps-append-only">11. Porting a new demo: sixteen steps, append-only</a><a class="l2" href="#12-no-speed-claim-exists-and-what-one-would-take">12. No speed claim exists, and what one would take</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-bab-1-recount-the-bridges-coverage">D-BAB-1 Recount the bridge&#x27;s coverage</a><a class="l3" href="#d-bab-2-re-derive-the-primers-68">D-BAB-2 Re-derive the primer&#x27;s 68</a><a class="l3" href="#d-bab-3-break-a-shader-key-then-predict-which-half-moves">D-BAB-3 Break a shader key, then predict which half moves</a><a class="l3" href="#d-bab-4-move-a-psnr-by-changing-its-window">D-BAB-4 Move a PSNR by changing its window</a><a class="l3" href="#d-bab-5-census-a-corpus-before-you-promise-a-port">D-BAB-5 Census a corpus before you promise a port</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<details class="toc"><summary>On this page (24 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-why-a-second-renderer-and-why-the-file-stays-the-master">2. Why: a second renderer, and why the file stays the master</a><a class="l2" href="#3-architecture-the-reader-is-the-brain-babylon-is-the-body">3. Architecture: the reader is the brain, Babylon is the body</a><a class="l2" href="#4-node-coverage-recounted-at-x3dloom162ab18">4. Node coverage, recounted at x3d.loom@162ab18</a><a class="l2" href="#5-the-playbook-merged-50-traps-ranked">5. The playbook, merged: 50 traps, ranked</a><a class="l2" href="#6-the-parity-method-psnr-against-x_ite-on-a-software-gpu">6. The parity method: PSNR against X_ITE on a software GPU</a><a class="l2" href="#7-the-ports-and-what-each-taught">7. The ports and what each taught</a><a class="l2" href="#8-a-look-may-add-never-assert-a-fallback-must-say-so">8. A look may add, never assert; a fallback must say so</a><a class="l2" href="#9-shader-porting-hash-keyed-glsl-to-hand-written-wgsl">9. Shader porting: hash-keyed GLSL to hand-written WGSL</a><a class="l2" href="#10-the-adapter-and-blocklist-trap">10. The adapter and blocklist trap</a><a class="l2" href="#11-porting-a-new-demo-sixteen-steps-append-only">11. Porting a new demo: sixteen steps, append-only</a><a class="l2" href="#12-no-speed-claim-exists-and-what-one-would-take">12. No speed claim exists, and what one would take</a><a class="l3" href="#41-volume-rendering-ten-nodes-one-lattice-x3dloom-batch-43">4.1 Volume rendering: ten nodes, one lattice (x3d.loom batch 43)</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-bab-1-recount-the-bridges-coverage">D-BAB-1 Recount the bridge&#x27;s coverage</a><a class="l3" href="#d-bab-2-re-derive-the-primers-68">D-BAB-2 Re-derive the primer&#x27;s 68</a><a class="l3" href="#d-bab-3-break-a-shader-key-then-predict-which-half-moves">D-BAB-3 Break a shader key, then predict which half moves</a><a class="l3" href="#d-bab-4-move-a-psnr-by-changing-its-window">D-BAB-4 Move a PSNR by changing its window</a><a class="l3" href="#d-bab-5-census-a-corpus-before-you-promise-a-port">D-BAB-5 Census a corpus before you promise a port</a><a class="l3" href="#d-bab-6-opacity-of-a-stack-of-slices">D-BAB-6 Opacity of a stack of slices</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
 <blockquote>
 <p><strong>Say it:</strong> one X3D file is the master, our own reader runs its events, and Babylon on WebGPU only paints the result; every picture is a claim against X_ITE on a named rig, every fallback says so on screen, and nothing about speed has been measured. <strong><span class="g C" title="Confirmed">C</span></strong></p>
 </blockquote>
@@ -1105,6 +1105,75 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <li>The only real-GPU number in the sources is an X_ITE frame rate on one machine, vsync-capped: a ceiling check, not a comparison (<a href="06-xite-the-oracle.html">06</a>, <code>STATE.md</code>) [L, carried].</li>
 </ul>
 <p>A timing claim needs a named GPU and driver, vsync off, three runs and their spread, the same scene on the X_ITE arm and on the engine's WebGL2 arm, and a receipt that fits <code>bench/receipt.schema.json</code>. Until then this chapter says nothing about &quot;faster&quot;, &quot;lighter&quot; or &quot;smoother&quot;, and neither should a page.</p>
+<h3 id="41-volume-rendering-ten-nodes-one-lattice-x3dloom-batch-43">4.1 Volume rendering: ten nodes, one lattice (x3d.loom batch 43)</h3>
+<p>X_ITE 16.6.0 does not ray-cast a volume. It draws 400 view-aligned quads (200 at LOW, 600 at HIGH), spaced |dimensions| / 399 apart along the viewing direction, each reading the voxel texture and blended back to front with plain source-alpha blending and no correction for the spacing. So <code>alpha</code> means &quot;per slice&quot;: 230 slices of alpha 0.02 give 1 - 0.98^230 = 0.990 opaque (D-BAB-6). The bridge marches one ray per pixel through the box on the same planes, front to back in float, and stops at 0.998 opaque. The style code is generated as WGSL per volume with every field written in, so a field change rebuilds that volume. Ten nodes pass in our reader and in X_ITE: <code>VolumeData</code>, <code>IsoSurfaceVolumeData</code>, <code>SegmentedVolumeData</code>, and the Opacity map, Shaded, ToneMapped, Cartoon, Boundary, Edge and Silhouette styles <span class="g C" title="Confirmed">C</span>.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>X_ITE 16.6.0 behaviour measured or read</th>
+<th>What the bridge does</th>
+<th>Test</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>A default OpacityMap always runs first and turns a voxel (r, g, b, a) into (r, r, r, r)</td>
+<td>same, so a red RGBA voxel draws white and a green one draws nothing</td>
+<td><code>VolumeData</code> fixture</td>
+</tr>
+<tr>
+<td>2</td>
+<td>A volume with no voxels, or one not loaded yet, is a white 1 x 1 x 1 volume that fills the box</td>
+<td>same</td>
+<td><code>VolumeData</code> fixture, second volume</td>
+</tr>
+<tr>
+<td>3</td>
+<td>A user OpacityMap reads its 2D table at (r, r), the diagonal, not at intensity against gradient</td>
+<td>same: voxels 0, 85, 170, 255 pick red, green, blue, white</td>
+<td><code>OpacityMapVolumeStyle</code> fixture</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Shaded lighting defaults to FALSE; the headlight gives 204 face on, 144 at 45 degrees</td>
+<td>same</td>
+<td><code>ShadedVolumeStyle</code> fixture</td>
+</tr>
+<tr>
+<td>5</td>
+<td>ToneMapped: facing the light is the COOL colour, (37, 37, 218) at 45 degrees</td>
+<td>same</td>
+<td><code>ToneMappedVolumeStyle</code> fixture</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Cartoon measures the angle from the eye to the sample, so faces turned to the eye are dropped; HSV mix, red to blue passes through (150, 0, 255)</td>
+<td>same</td>
+<td><code>CartoonVolumeStyle</code> fixture</td>
+</tr>
+<tr>
+<td>7</td>
+<td>IsoSurface draws every sample above the value as an opaque flat grey of the surface value (200 draws 128 at value 0.5)</td>
+<td>same; <code>contourStepSize</code> left unused (X_ITE tests only the lowest contour)</td>
+<td><code>IsoSurfaceVolumeData</code> fixture</td>
+</tr>
+<tr>
+<td>8</td>
+<td>A changed 2D transfer-function PixelTexture image is not taken after load</td>
+<td>updates</td>
+<td><code>OpacityMapVolumeStyle</code> fixture, per-engine check</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Faint-alpha stacks come out lighter (8 bit blend per slice): 24 against 10, 28 against 14, 78 against 40</td>
+<td>float accumulation</td>
+<td><code>VolumeData</code>, <code>EdgeEnhancementVolumeStyle</code>, <code>BoundaryEnhancementVolumeStyle</code> fixtures, per-engine values</td>
+</tr>
+</tbody>
+</table>
+<p>Instruments: x3d.loom batch 43 fixtures (151 assertions over ten nodes) run in our reader and in X_ITE 16.6.0 (WebGL2, Chromium 153.0.8010.12, SwiftShader), Babylon 9.32.0 WebGPU, 320 x 240; X_ITE behaviour read in its <code>VolumeRenderingComponent</code>. <strong><span class="g C" title="Confirmed">C</span></strong> for every row. The cause of row 9 (8 bit rounding on a white background) is <strong><span class="g S" title="Suspected">S</span></strong>; the difference itself was measured. Gaps logged in the batch: no fog or clip planes, no per-pixel cutting of a volume by a shape that pierces it, no light attenuation or cones, <code>shadows</code> and <code>phaseFunction</code> unused (X_ITE ignores them too), the plane count fixed at 400. <code>BlendedVolumeStyle</code>, <code>ComposedVolumeStyle</code> and <code>ProjectionVolumeStyle</code> are the next batch.</p>
 <h2 id="heuristics">Heuristics</h2>
 <table>
 <thead>
@@ -1187,6 +1256,34 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>v1 and v2 say &quot;convert authored sRGB&quot;; <code>body.js</code> line 303 assigns the colour as authored</td>
 <td><code>brain/body.js</code> read</td>
 </tr>
+<tr>
+<td>H-BAB-11</td>
+<td>Ask what the renderer samples, not what the spec says: X_ITE draws a volume as 400 slices with no spacing correction, so copy its lattice before comparing pixels.</td>
+<td>C</td>
+<td>a 4-level ramp, a block and a cartoon band match within 2 levels</td>
+<td>x3d.loom batch 43 fixtures; X_ITE 16.6.0 source read</td>
+</tr>
+<tr>
+<td>H-BAB-12</td>
+<td>Test a volume style against a second volume with no voxels: X_ITE draws the empty one as a white box.</td>
+<td>C</td>
+<td>white box measured</td>
+<td><code>VolumeData</code> fixture</td>
+</tr>
+<tr>
+<td>H-BAB-13</td>
+<td>Check the default opacity map first: it keeps only the red channel, so a red RGBA voxel is white and a green one is invisible.</td>
+<td>C</td>
+<td>(255, 0, 0, 255) draws white</td>
+<td><code>VolumeData</code> fixture</td>
+</tr>
+<tr>
+<td>H-BAB-14</td>
+<td>Where two engines blend differently, write each engine's own value into the test and say which one is more accurate; never loosen the tolerance.</td>
+<td>L</td>
+<td>24 against 10, 28 against 14, 78 against 40</td>
+<td>x3d.loom batch 43 fixtures</td>
+</tr>
 </tbody>
 </table>
 <h2 id="drills">Drills</h2>
@@ -1246,6 +1343,14 @@ for cs in etree.parse(sys.argv[1]).iter('ComposedShader'):
 <li><strong>Verify:</strong> parse each file with lxml, skip <code>X3D head Scene ROUTE field meta component unit IS connect fieldValue Proto* IMPORT EXPORT</code>, treat <code>BlendMode DepthMode EnvironmentLight GaussianSplats</code> as extension names, look the rest up in <code>NODES.json</code>.</li>
 <li><strong>Answer:</strong> 111 files parse (the two <code>facade.x3d</code> do not); 86 use only <code>base</code> or extension names, 22 use at least one <code>gap</code>, <code>todo</code> or <code>claimed</code> node (CoordinateInterpolator 9, LineSet 8, PointProperties 6, Geo nodes 2 each), 1 uses unknown names. &quot;Base&quot; is the union of six reader parts: a page loads only its own bundle, and each page's census must be run on its own <code>PARTS</code> list (the hall extension alone adds 8).</li>
 <li><strong>Checked:</strong> 2026-11-14 lxml, <code>x3d.demo@d10b457</code>, <code>x3d.loom@162ab18</code></li>
+</ul>
+<h3 id="d-bab-6-opacity-of-a-stack-of-slices">D-BAB-6 Opacity of a stack of slices</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> X_ITE blends 400 slices with source-alpha and no spacing correction. A ray crosses 230 slices of alpha 0.02. How opaque is the pixel, and what would 200 and 600 slices (LOW and HIGH) give?</li>
+<li><strong>Verify:</strong> <code>1 - (1 - a) ** n</code> in Python.</li>
+<li><strong>Answer:</strong> 0.9904 for 230; for a full 200, 400 and 600 slices 0.9824, 0.9997 and 0.999995. The same alpha is thicker at HIGH, so alpha is &quot;per slice&quot; and a quality setting changes the picture.</li>
+<li><strong>Checked:</strong> 2026-11-14 python3 -I</li>
 </ul>
 <h2 id="honest-limits">Honest limits</h2>
 <ul>
@@ -1420,6 +1525,30 @@ for cs in etree.parse(sys.argv[1]).iter('ComposedShader'):
 <td>C</td>
 <td><code>ls</code></td>
 <td>x3d.loom@162ab18:x3d.webgpu/bench/receipts/</td>
+</tr>
+<tr>
+<td>N-BAB-20</td>
+<td>X_ITE volume slice count</td>
+<td>400 at MEDIUM (200 LOW, 600 HIGH); spacing |dimensions| / 399</td>
+<td>C</td>
+<td>X_ITE 16.6.0, <code>VolumeRenderingComponent</code> read</td>
+<td>x_ite 16.6.0 npm package, <code>VolumeRenderingComponent.js</code> (read)</td>
+</tr>
+<tr>
+<td>N-BAB-21</td>
+<td>batch 43 fixture assertions</td>
+<td>151 over 10 nodes (19, 30, 14, 8, 18, 11, 10, 11, 11, 19)</td>
+<td>C</td>
+<td>x3d.loom batch 43 receipts; X_ITE 16.6.0, Chromium 153, SwiftShader</td>
+<td>x3d.loom <code>receipts/</code> (batch 43)</td>
+</tr>
+<tr>
+<td>N-BAB-22</td>
+<td>faint-alpha stack, bridge against X_ITE</td>
+<td>10 against 24 plain stack; 14 against 28 Edge; 40 against 78 Boundary</td>
+<td>C</td>
+<td>x3d.loom batch 43 fixtures; X_ITE 16.6.0</td>
+<td><code>VolumeData</code>, <code>EdgeEnhancementVolumeStyle</code>, <code>BoundaryEnhancementVolumeStyle</code> fixtures</td>
 </tr>
 </tbody>
 </table>

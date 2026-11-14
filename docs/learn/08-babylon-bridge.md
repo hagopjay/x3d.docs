@@ -343,6 +343,24 @@ A page must show the tip when `requestAdapter()` is null, and which adapter and 
 - The only real-GPU number in the sources is an X_ITE frame rate on one machine, vsync-capped: a ceiling check, not a comparison ([06](06-xite-the-oracle.md), `STATE.md`) [L, carried].
 
 A timing claim needs a named GPU and driver, vsync off, three runs and their spread, the same scene on the X_ITE arm and on the engine's WebGL2 arm, and a receipt that fits `bench/receipt.schema.json`. Until then this chapter says nothing about "faster", "lighter" or "smoother", and neither should a page.
+### 4.1 Volume rendering: ten nodes, one lattice (x3d.loom batch 43)
+
+X_ITE 16.6.0 does not ray-cast a volume. It draws 400 view-aligned quads (200 at LOW, 600 at HIGH), spaced |dimensions| / 399 apart along the viewing direction, each reading the voxel texture and blended back to front with plain source-alpha blending and no correction for the spacing. So `alpha` means "per slice": 230 slices of alpha 0.02 give 1 - 0.98^230 = 0.990 opaque (D-BAB-6). The bridge marches one ray per pixel through the box on the same planes, front to back in float, and stops at 0.998 opaque. The style code is generated as WGSL per volume with every field written in, so a field change rebuilds that volume. Ten nodes pass in our reader and in X_ITE: `VolumeData`, `IsoSurfaceVolumeData`, `SegmentedVolumeData`, and the Opacity map, Shaded, ToneMapped, Cartoon, Boundary, Edge and Silhouette styles [C].
+
+| # | X_ITE 16.6.0 behaviour measured or read | What the bridge does | Test |
+|---|---|---|---|
+| 1 | A default OpacityMap always runs first and turns a voxel (r, g, b, a) into (r, r, r, r) | same, so a red RGBA voxel draws white and a green one draws nothing | `VolumeData` fixture |
+| 2 | A volume with no voxels, or one not loaded yet, is a white 1 x 1 x 1 volume that fills the box | same | `VolumeData` fixture, second volume |
+| 3 | A user OpacityMap reads its 2D table at (r, r), the diagonal, not at intensity against gradient | same: voxels 0, 85, 170, 255 pick red, green, blue, white | `OpacityMapVolumeStyle` fixture |
+| 4 | Shaded lighting defaults to FALSE; the headlight gives 204 face on, 144 at 45 degrees | same | `ShadedVolumeStyle` fixture |
+| 5 | ToneMapped: facing the light is the COOL colour, (37, 37, 218) at 45 degrees | same | `ToneMappedVolumeStyle` fixture |
+| 6 | Cartoon measures the angle from the eye to the sample, so faces turned to the eye are dropped; HSV mix, red to blue passes through (150, 0, 255) | same | `CartoonVolumeStyle` fixture |
+| 7 | IsoSurface draws every sample above the value as an opaque flat grey of the surface value (200 draws 128 at value 0.5) | same; `contourStepSize` left unused (X_ITE tests only the lowest contour) | `IsoSurfaceVolumeData` fixture |
+| 8 | A changed 2D transfer-function PixelTexture image is not taken after load | updates | `OpacityMapVolumeStyle` fixture, per-engine check |
+| 9 | Faint-alpha stacks come out lighter (8 bit blend per slice): 24 against 10, 28 against 14, 78 against 40 | float accumulation | `VolumeData`, `EdgeEnhancementVolumeStyle`, `BoundaryEnhancementVolumeStyle` fixtures, per-engine values |
+
+Instruments: x3d.loom batch 43 fixtures (151 assertions over ten nodes) run in our reader and in X_ITE 16.6.0 (WebGL2, Chromium 153.0.8010.12, SwiftShader), Babylon 9.32.0 WebGPU, 320 x 240; X_ITE behaviour read in its `VolumeRenderingComponent`. **[C]** for every row. The cause of row 9 (8 bit rounding on a white background) is **[S]**; the difference itself was measured. Gaps logged in the batch: no fog or clip planes, no per-pixel cutting of a volume by a shape that pierces it, no light attenuation or cones, `shadows` and `phaseFunction` unused (X_ITE ignores them too), the plane count fixed at 400. `BlendedVolumeStyle`, `ComposedVolumeStyle` and `ProjectionVolumeStyle` are the next batch.
+
 ## Heuristics
 
 | ID | Rule (imperative, at most 30 words) | Grade | Evidence | Instrument |
@@ -357,6 +375,10 @@ A timing claim needs a named GPU and driver, vsync off, three runs and their spr
 | H-BAB-8 | On every public WebGPU page show the adapter, which request answered and, when null, the flag tip with its safety cost. | L | one gen-9 laptop got no adapter until the flag was set | playbook v1; `docs/index.html` |
 | H-BAB-9 | Make no speed claim without a named real GPU, driver, three runs and a receipt that fits the schema. | C | 0 timing receipts for any bridge body; 1 file in `bench/receipts/` | `ls`, `BENCHMARK.md` section 9 |
 | H-BAB-10 | Where a playbook line and the code disagree, the code wins; record both and correct the playbook by a new version. | C | v1 and v2 say "convert authored sRGB"; `body.js` line 303 assigns the colour as authored | `brain/body.js` read |
+| H-BAB-11 | Ask what the renderer samples, not what the spec says: X_ITE draws a volume as 400 slices with no spacing correction, so copy its lattice before comparing pixels. | C | a 4-level ramp, a block and a cartoon band match within 2 levels | x3d.loom batch 43 fixtures; X_ITE 16.6.0 source read |
+| H-BAB-12 | Test a volume style against a second volume with no voxels: X_ITE draws the empty one as a white box. | C | white box measured | `VolumeData` fixture |
+| H-BAB-13 | Check the default opacity map first: it keeps only the red channel, so a red RGBA voxel is white and a green one is invisible. | C | (255, 0, 0, 255) draws white | `VolumeData` fixture |
+| H-BAB-14 | Where two engines blend differently, write each engine's own value into the test and say which one is more accurate; never loosen the tolerance. | L | 24 against 10, 28 against 14, 78 against 40 | x3d.loom batch 43 fixtures |
 
 ## Drills
 
@@ -411,6 +433,13 @@ for cs in etree.parse(sys.argv[1]).iter('ComposedShader'):
 - **Answer:** 111 files parse (the two `facade.x3d` do not); 86 use only `base` or extension names, 22 use at least one `gap`, `todo` or `claimed` node (CoordinateInterpolator 9, LineSet 8, PointProperties 6, Geo nodes 2 each), 1 uses unknown names. "Base" is the union of six reader parts: a page loads only its own bundle, and each page's census must be run on its own `PARTS` list (the hall extension alone adds 8).
 - **Checked:** 2026-11-14 lxml, `x3d.demo@d10b457`, `x3d.loom@162ab18`
 
+### D-BAB-6 Opacity of a stack of slices
+- **Level:** L1
+- **Task:** X_ITE blends 400 slices with source-alpha and no spacing correction. A ray crosses 230 slices of alpha 0.02. How opaque is the pixel, and what would 200 and 600 slices (LOW and HIGH) give?
+- **Verify:** `1 - (1 - a) ** n` in Python.
+- **Answer:** 0.9904 for 230; for a full 200, 400 and 600 slices 0.9824, 0.9997 and 0.999995. The same alpha is thicker at HIGH, so alpha is "per slice" and a quality setting changes the picture.
+- **Checked:** 2026-11-14 python3 -I
+
 ## Honest limits
 
 - **Software GL only, Chromium only [C].** Every pixel number is SwiftShader in Chrome for Testing 153.0.8010.12; no real GPU, Firefox or Safari. Babylon 9.32.0 is a snapshot; 9.33.0 to 9.35.0 (per the primer) were not run [L].
@@ -443,6 +472,9 @@ for cs in etree.parse(sys.argv[1]).iter('ComposedShader'):
 | N-BAB-17 | Chirp; Cloud; Gobbler 3; Demiurge; Dynasty; Hall | 24.87 to 25.36; 19.24 to 19.40 (21.01 to 24.96 masked); 14.60 to 19.66; 7.18 to 13.26; 29.0 to 37.8; 17.5 to 25.3 dB | L | `X_ITE 16.5.1`, SwiftShader | x3d.loom@162ab18:runs/webgpu-{chirp,cloud,gobbler,demiurge,dynasty,hall}-*/ |
 | N-BAB-18 | corpus name census | 111 files: 86 base-only, 22 need gap or todo or claimed, 1 unknown | C | lxml, `NODES.json` | x3d.demo@d10b457:docs/demos (D-BAB-5) |
 | N-BAB-19 | real-GPU timing receipts for any bridge body | 0; `bench/receipts/` holds 1 file (the G1 adapter probe) | C | `ls` | x3d.loom@162ab18:x3d.webgpu/bench/receipts/ |
+| N-BAB-20 | X_ITE volume slice count | 400 at MEDIUM (200 LOW, 600 HIGH); spacing \|dimensions\| / 399 | C | X_ITE 16.6.0, `VolumeRenderingComponent` read | x_ite 16.6.0 npm package, `VolumeRenderingComponent.js` (read) |
+| N-BAB-21 | batch 43 fixture assertions | 151 over 10 nodes (19, 30, 14, 8, 18, 11, 10, 11, 11, 19) | C | x3d.loom batch 43 receipts; X_ITE 16.6.0, Chromium 153, SwiftShader | x3d.loom `receipts/` (batch 43) |
+| N-BAB-22 | faint-alpha stack, bridge against X_ITE | 10 against 24 plain stack; 14 against 28 Edge; 40 against 78 Boundary | C | x3d.loom batch 43 fixtures; X_ITE 16.6.0 | `VolumeData`, `EdgeEnhancementVolumeStyle`, `BoundaryEnhancementVolumeStyle` fixtures |
 
 ## Sources and provenance
 
