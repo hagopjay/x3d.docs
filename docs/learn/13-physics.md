@@ -402,7 +402,7 @@ Instruments: x3d.loom PR #56 fixtures (`RigidBodyCollection`, `RigidBody`, `Coll
 
 With collisions switched off the ball fell to y = -10.9 and two equal spheres passed through each other (velocities +2 and -2 instead of swapped), so the head-on pair test, the rest heights and the force rate (2 N on 1 kg gives 2 m/s each second) are real checks (H-PHY-2, H-PHY-3). Because Bullet's step varies, tests use ranges, never exact trajectories.
 
-### 9.5 The six joints (x3d.loom batch 41)
+### 9.5 The six joints (x3d.loom batch 42)
 
 A joint removes degrees of freedom. In the bridge each joint is a few velocity rows in the same loop as the contacts: three point rows (anchors move together), two align rows (hinge axes stay parallel), one perpendicular row (universal and second hinge), one-sided limit rows, and a two-sided motor row capped at maxTorque times the step. Position drift is eased out at 20 percent per step. The hinge angle is a running unwrapped angle, so it is signed and continuous; X_ITE's is the unsigned size of an axis-angle rotation.
 
@@ -415,7 +415,7 @@ A joint removes degrees of freedom. In the bridge each joint is a few velocity r
 | 5 | MotorJoint: no torque is applied | torque about motorNAxis | 1 N m on a 1 kg, 0.3 m sphere: about 27.8 rad/s per second in theory, 25.1 measured (wall-clock wait) |
 | 6 | UniversalJoint: marked not supported, no constraint | anchors meet, axes stay perpendicular | bridge axes dot product under 0.05; X_ITE ball falls below y 3 in 1.5 s |
 
-Instruments: x3d.loom batch 41 fixtures (`BallJoint`, `SingleAxisHingeJoint`, `SliderJoint`, `DoubleAxisHingeJoint`, `MotorJoint`, `UniversalJoint`) run in our reader and in X_ITE 16.6.0 (WebGL2, Chromium 153.0.8010.12, SwiftShader), Babylon 9.32.0. **[C]** The cause of X_ITE's hinge-2 behaviour (axis mixed into the frame) is **[S]**; the behaviour itself was measured. A first draft of the limit rows had their signs swapped and the hinge ran away to angle -989 and x -90; the limit test is what caught it.
+Instruments: x3d.loom batch 42 fixtures (`BallJoint`, `SingleAxisHingeJoint`, `SliderJoint`, `DoubleAxisHingeJoint`, `MotorJoint`, `UniversalJoint`) run in our reader and in X_ITE 16.6.0 (WebGL2, Chromium 153.0.8010.12, SwiftShader), Babylon 9.32.0. **[C]** The cause of X_ITE's hinge-2 behaviour (axis mixed into the frame) is **[S]**; the behaviour itself was measured. A first draft of the limit rows had their signs swapped and the hinge ran away to angle -989 and x -90; the limit test is what caught it.
 
 ---
 
@@ -442,7 +442,7 @@ Instruments: x3d.loom batch 41 fixtures (`BallJoint`, `SingleAxisHingeJoint`, `S
 | H-PHY-18 | For a bounce test against a wall or floor set `minBounceSpeed` to 0 in X_ITE; a fixed body has speed 0, so the default 0.1 gives it restitution 0. | [C] | ball returned at 3.2 to 4 m/s only with 0 | x3d.loom PR #56 `CollisionCollection` fixture; X_ITE 16.6.0 |
 | H-PHY-19 | Do not trust a CollidableOffset or CollidableShape translation in X_ITE until the node has received an event; test where the body rests. | [C] | rest height 0.5 m in X_ITE against 1.5 m expected | x3d.loom PR #56 `CollidableOffset` fixture; X_ITE 16.6.0 |
 | H-PHY-20 | When two engines differ by design, check each against its own written value and log the gap; never loosen a tolerance until both pass. | [L] | five nodes, four per-engine values | x3d.loom PR #56 fixtures |
-| H-PHY-21 | Count the degrees of freedom a joint removes before testing it: ball 3, hinge 5, slider 5, universal 4, motor 0; then test the one that is left. | [C] | six fixtures, each checking the free motion (swing, slide, spin) as well as the constraint | x3d.loom batch 41 fixtures; X_ITE 16.6.0 |
+| H-PHY-21 | Count the degrees of freedom a joint removes before testing it: ball 3, hinge 5, slider 5, universal 4, motor 0; then test the one that is left. | [C] | six fixtures, each checking the free motion (swing, slide, spin) as well as the constraint | x3d.loom batch 42 fixtures; X_ITE 16.6.0 |
 | H-PHY-22 | Test a joint limit by checking the body against the limit, not that the joint exists; X_ITE 16.6.0 builds hinges without limits. | [C] | bridge angle -0.50 against X_ITE 3.45 for the same swing | `SingleAxisHingeJoint` fixture |
 | H-PHY-23 | Treat an unsigned joint angle as a size and compare absolute values across engines; do not compare signs. | [C] | X_ITE angle 3.45 where a signed continuous angle would pass pi | `SingleAxisHingeJoint` fixture |
 | H-PHY-24 | Check that a force or torque field does anything at all (rate of change over a second) before trusting a joint node; X_ITE reads sliderForce and axisTorque and applies neither. | [C] | slider stays; motor angular velocity changes under 0.01 rad/s in X_ITE, 25.1 rad/s per second in the bridge | `SliderJoint`, `MotorJoint` fixtures |
@@ -671,7 +671,7 @@ grep -c Interpolator docs/demos/ten-minute-physics/v6/23-sweep-and-prune.x3d
 | N-PHY-22 | Ball at 4 m/s against a fixed wall, bounce 1, minBounceSpeed 0, speed after | 3.2 to 4 m/s in X_ITE; 3.99 in the bridge | [C] | same rig | section 9.3 |
 | N-PHY-23 | Body rest height with a sphere offset 1 m below the origin | 0.5 m in X_ITE, 1.5 m in the bridge | [C] | same rig | section 9.3 |
 | N-PHY-24 | Files using RigidBodyCollection, RigidBody, CollidableShape | 31, 31, 27 | [L] | `grep -rl` by the batch author over the Loom repos, not re-run here | section 9 |
-| N-PHY-25 | Hinge limits plus and minus 0.5 rad, final ball position, bridge | x 1.755, y 4.034, angle -0.50 | [C] | batch 41 `SingleAxisHingeJoint` probe; X_ITE 16.6.0, Chromium 153, SwiftShader | section 9.5 |
+| N-PHY-25 | Hinge limits plus and minus 0.5 rad, final ball position, bridge | x 1.755, y 4.034, angle -0.50 | [C] | batch 42 `SingleAxisHingeJoint` probe; X_ITE 16.6.0, Chromium 153, SwiftShader | section 9.5 |
 | N-PHY-26 | Same swing in X_ITE, unsigned angle | 3.45 (limits ignored) | [C] | same rig | section 9.5 |
 | N-PHY-27 | Motor torque 1 N m on 1 kg, 0.3 m sphere, angular acceleration | 25.1 rad/s per second measured; 27.8 theory | [C] | same rig, wall-clock wait | section 9.5 |
 | N-PHY-28 | DoubleAxisHingeJoint motor 1 rad/s for 1.5 s, hinge1Angle band in the test | 1.1 to 1.9 rad | [C] | same rig | section 9.5 |

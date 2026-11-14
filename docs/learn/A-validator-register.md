@@ -3,7 +3,7 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-219 distinct instrument strings across the numbers registers.
+222 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
@@ -70,6 +70,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `X_ITE 16.6.0 private getVertices, SwiftShader` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0, 640 x 360, SwiftShader` | 1 | 08 | L:1 |
 | `X_ITE 16.6.0, SwiftShader, parsed from the report` | 1 | 08 | C:1 |
+| `X_ITE 16.6.0, VolumeRenderingComponent read` | 1 | 08 | C:1 |
 | `X_ITE 16.7.0 (and 16.4.3, 16.5.1, 16.6.1, 16.7.1), Chromium 153, SwiftShader` | 1 | 06 | C:1 |
 | `X_ITE 16.7.0, browser.supportedComponents` | 1 | 06 | C:1 |
 | `X_ITE 16.7.0; x3d_mcp fork b4efcd3` | 1 | 06 | C:1 |
@@ -83,7 +84,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `arithmetic on add_light.glsl` | 1 | 09 | C:1 |
 | `as recorded, not re-run` | 1 | 02 | L:1 |
 | `as reported, not re-checked` | 1 | 01 | L:1 |
-| `batch 41 SingleAxisHingeJoint probe; X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 13 | C:1 |
+| `batch 42 SingleAxisHingeJoint probe; X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 13 | C:1 |
 | `bpy 5.3.0 Cycles CPU 16 spp, x3d_mcp fork b4efcd3` | 1 | 10 | C:1 |
 | `bpy 5.3.0, Khronos glTF-Validator 2.0.0-dev.3.10, carried` | 1 | 11 | L:1 |
 | `carried from a private note` | 1 | 09 | S:1 |
@@ -198,6 +199,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d-blender-io@ab99988 catalogue` | 1 | 03 | C:1 |
 | `x3d.demo@d10b457 directory read` | 1 | 05 | C:1 |
 | `x3d.loom PR #56, X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 13 | C:1 |
+| `x3d.loom batch 43 fixtures; X_ITE 16.6.0` | 1 | 08 | C:1 |
+| `x3d.loom batch 43 receipts; X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 08 | C:1 |
 | `x3d.loom@162ab18 kit/loom physics` | 1 | 13 | C:1 |
 | `x3d.loom@162ab18 kit/tests/test_gates.py` | 1 | 13 | C:1 |
 | `x3d.loom@162ab18 physx_controls.py` | 1 | 13 | C:1 |

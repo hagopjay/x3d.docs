@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**106 drills**, 96 with a recorded run (`Checked`), 10 not yet run. Levels: L1 18, L2 54, L3 34.
+**107 drills**, 97 with a recorded run (`Checked`), 10 not yet run. Levels: L1 19, L2 54, L3 34.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -65,6 +65,7 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-BAB-3 | [08](08-babylon-bridge.md) | L3 | Break a shader key, then predict which half moves | 2026-11-14 `x3d.loom@162ab18`, Python 3 with lxml, scratch copies of the scene |
 | D-BAB-4 | [08](08-babylon-bridge.md) | L2 | Move a PSNR by changing its window | 2026-11-14 numpy 2.5.3, Pillow 12.3.0, `x3d.loom@162ab18` |
 | D-BAB-5 | [08](08-babylon-bridge.md) | L3 | Census a corpus before you promise a port | 2026-11-14 lxml, `x3d.demo@d10b457`, `x3d.loom@162ab18` |
+| D-BAB-9 | [08](08-babylon-bridge.md) | L1 | Opacity of a stack of slices | 2026-11-14 python3 -I |
 | D-BAB-6 | [08](08-babylon-bridge.md) | L2 | Check the weights: radius 1.00, not 1.24 | 2026-11-14 Node, `x3d.loom@4887a98` |
 | D-BAB-7 | [08](08-babylon-bridge.md) | L2 | Re-run one NURBS node against X_ITE | 2026-11-14 `x3d.loom@4887a98`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, Babylon 9.32.0 |
 | D-BAB-8 | [08](08-babylon-bridge.md) | L3 | Predict a set's triangle counts | 2026-11-14 `x3d.loom@4887a98`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, Babylon 9.32.0 |
