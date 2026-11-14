@@ -343,6 +343,57 @@ A page must show the tip when `requestAdapter()` is null, and which adapter and 
 - The only real-GPU number in the sources is an X_ITE frame rate on one machine, vsync-capped: a ceiling check, not a comparison ([06](06-xite-the-oracle.md), `STATE.md`) [L, carried].
 
 A timing claim needs a named GPU and driver, vsync off, three runs and their spread, the same scene on the X_ITE arm and on the engine's WebGL2 arm, and a receipt that fits `bench/receipt.schema.json`. Until then this chapter says nothing about "faster", "lighter" or "smoother", and neither should a page.
+## 13. NURBS in the bridge: shared maths, X_ITE's tessellation rule, and where X_ITE is wrong
+
+Batch 44 bridged ten of the 13 NURBS nodes: NurbsCurve, NurbsCurve2D, ContourPolyline2D, Contour2D, NurbsPositionInterpolator, NurbsOrientationInterpolator, NurbsSurfaceInterpolator, NurbsPatchSurface, NurbsSet and NurbsSwungSurface. NurbsSweptSurface, NurbsTextureCoordinate and NurbsTrimmedSurface are open. Read at `x3d.loom@4887a98` (the batch-44 pull request branch, not yet on main when this section was written); reference engine `X_ITE 16.6.0`; rig for every number in this section: `Chromium 153.0.8010.12 (Chrome for Testing), headless, SwiftShader (CPU), Babylon 9.32.0 (WebGPU), Playwright 1.62.1`. The explanation for a reader new to NURBS is `x3d.webgpu/bridge/WHY-nurbs-batch.md`; the findings file is `x3d.webgpu/bridge/knowledge/NURBS-FINDINGS.md`.
+
+```text
+ control points + order + knots + weights           compared with X_ITE through its own API
+        |                                           (getVertices, tessellate, SAI events)
+        v
+  BR.nurbs (src/nurbs.js)  --> NurbsCurve ............ line strip, point list
+   knots, span, basisDers      NurbsCurve2D, ContourPolyline2D, Contour2D ... point list
+   curve, surface, mesh        Position, Orientation, SurfaceInterpolator ... events
+   extrude                     NurbsPatchSurface ..... triangles, uv, normals
+                               NurbsSet .............. tessellationScale -> triangle counts
+                               NurbsSwungSurface ..... triangles via the Extrusion frame walk
+```
+
+### 13.1 What was built and why it is one library
+
+| piece | what it does | grade | instrument |
+|---|---|---|---|
+| `src/nurbs.js` (`BR.nurbs`) | knot validity and fallbacks, span search (Piegl and Tiller A2.1), basis derivatives (A2.3), rational curve and surface, analytic surface normal, tessellation rule, swung-surface extrusion | C | `x3d.loom@4887a98`, read and run |
+| `spec.refs` in the kit | node fields (a curve's `controlPoint` Coordinate) that a node's cached geometry depends on; both `geometryChanged` wrappers in `body-br.js` read them, so a moved control point redraws the curve | C | `x3d.loom@4887a98:x3d.webgpu/bridge/src/body-br.js` |
+| `xsdAllow` fix | a spec naming several nodes added only the first to the XSD copy (after the first insert the anchor text no longer matched) | C | `driver.py` before and after, `x3d.loom@4887a98` |
+| 10 fixtures and specs | each node passes its spec in our reader and in X_ITE; XSD checked with `xmllint` | C | `driver.py batch -n 10 --close`, rig above |
+
+The reason for one library: ten nodes need the same four steps (check the knot vector, find the span, evaluate the basis, cut a tessellation count). One implementation means one set of bugs and one place the X_ITE rules live. Unit check (D-BAB-6): a weighted quarter circle has radius error 2.2e-16 [C].
+
+### 13.2 The tessellation rule is X_ITE's on purpose; the maths is the standard's
+
+The standard fixes the curve and leaves the cutting into segments to the browser, so the rule is where two engines drift. The bridge copies X_ITE 16.6.0's count so a model has the same number of segments in both: `t > 0` is `t` segments, `t < 0` is `-t * dimension`, `0` is `2 * dimension`; NurbsSet multiplies by `tessellationScale` and floors. A scale of 0 or below leaves X_ITE with zero segments and NaN vertices; the bridge keeps one cell [C]. Every point list, uv and triangle corner agrees with X_ITE's own vertex arrays in the fixtures (NurbsCurve 32 of 32 steps in each engine, NurbsPatchSurface 35 of 35, NurbsSet 47 of 47 and 46 of 46, NurbsSwungSurface 18 of 18 [C]).
+
+### 13.3 Where X_ITE 16.6.0 is wrong, and where it is only different
+
+| # | behaviour | X_ITE 16.6.0 | bridge | grade |
+|---|---|---|---|---|
+| 1 | weights | a weighted quarter circle has radius up to 1.24; a rational B-spline has 1.00 | rational, radius 1.00 to 1e-5 | C |
+| 2 | interpolators and weights | the weighted midpoint is the unweighted point (0.75, 0.75, 0); the exact point is (0.7071, 0.7071, 0) | exact to 1e-6 | C |
+| 3 | invalid curve at an interpolator | throws TypeError (reading `domain` of undefined) when `set_fraction` arrives; the page stops answering | no event, no throw; the step runs in our engine only | C |
+| 4 | patch normals | average of face normals inside an 85 degree crease: faceted at low tessellation | analytic dS/du x dS/dv; largest component difference to X_ITE 0.21 at 12 x 12 cells, 0.28 at 8 x 8 | C |
+| 5 | closed surface seam | normals leave a seam (its source says "TODO: handle uClosed") | smooth across the seam | C |
+| 6 | Extrusion Y axis at an interior spine point | bisector of the two unit vectors | chord spine[i+1] - spine[i-1]; same to 1.2e-7 on an even spine, up to 0.017 apart on a 2.2-unit vase | C on the number, L on the chord reading |
+| 7 | surface interpolator normal | unnormalised cross product | unit vector; directions agree to 1e-5 | C |
+
+Rows 1 to 3 are X_ITE defects the bridge does not copy; rows 4, 5 and 7 are differences chosen for quality (standing rule: quality over matching X_ITE, measured and bounded in the spec); row 6 is an open reading of ISO/IEC 19775-1 whose text was not in the repository. Separate from NURBS: a solid FALSE face seen from behind is lit by X_ITE and drawn black by the Babylon body (a two-quad IndexedFaceSet measured 9312 of 19012 pixels drawn), so the affected fixtures keep that view off screen and compare triangles only [C, cause S].
+
+### 13.4 Two schema findings and one test-rig trap
+
+- The 4.0 XSD content model of NurbsSet is a `sequence` of NurbsPatchSurface, NurbsSweptSurface, NurbsSwungSurface, NurbsTrimmedSurface and ProtoInstance, repeated; a set that names only patches does not validate. The spec carries `xsdChoice: ["NurbsSet"]` and the receipt says the XSD was patched [C, `xmllint` against `x3d_mcp` `x3d-4.0.xsd`]. Held for an upstream report, not sent.
+- Contour2D, NurbsCurve2D and ContourPolyline2D are children of no scene node in the schema; the specs use `xsdAllow` [C].
+- A `Coordinate` inside a NURBS curve or patch without `containerField="controlPoint"` leaves X_ITE with no control points and no error [C].
+
 ## Heuristics
 
 | ID | Rule (imperative, at most 30 words) | Grade | Evidence | Instrument |
@@ -357,6 +408,11 @@ A timing claim needs a named GPU and driver, vsync off, three runs and their spr
 | H-BAB-8 | On every public WebGPU page show the adapter, which request answered and, when null, the flag tip with its safety cost. | L | one gen-9 laptop got no adapter until the flag was set | playbook v1; `docs/index.html` |
 | H-BAB-9 | Make no speed claim without a named real GPU, driver, three runs and a receipt that fits the schema. | C | 0 timing receipts for any bridge body; 1 file in `bench/receipts/` | `ls`, `BENCHMARK.md` section 9 |
 | H-BAB-10 | Where a playbook line and the code disagree, the code wins; record both and correct the playbook by a new version. | C | v1 and v2 say "convert authored sRGB"; `body.js` line 303 assigns the colour as authored | `brain/body.js` read |
+| H-BAB-11 | Copy the reference engine's tessellation rule so segment counts match; follow the standard for the maths. A count is a convention, a weight is a definition. | C | NURBS point lists agree in 32 of 32 to 55 of 55 steps; X_ITE weights give radius 1.24 | `X_ITE 16.6.0`, SwiftShader, `x3d.loom@4887a98` |
+| H-BAB-12 | When the reference throws or hangs on an invalid input, run that step in your engine only and say so in the gap log; never let a test depend on a hung page. | C | `set_fraction` into an order 4, three point curve stops X_ITE answering | `X_ITE 16.6.0`, Chromium 153.0.8010.12 |
+| H-BAB-13 | Prefer the exact derivative to an averaged one where the standard gives it; bound the difference from the reference in the spec instead of matching it. | C | patch normals differ 0.21 and 0.28; spec bound 0.3 | `X_ITE 16.6.0`, 12 x 12 and 8 x 8 cells |
+| H-BAB-14 | When a node's geometry depends on another node's field, declare that field to the kit (`spec.refs`) and test a live change by event. | C | a moved control point redraws the curve only through `refs` | `x3d.loom@4887a98:x3d.webgpu/bridge/src/body-br.js` |
+| H-BAB-15 | Check a schema failure against the content model before editing the fixture: some 4.0 nodes cannot be written validly as specified. Record the patch in the receipt. | C | NurbsSet is a sequence, not a choice; Contour2D has no parent in the model | `xmllint`, `x3d_mcp` `x3d-4.0.xsd`, driver spec keys `xsdChoice` and `xsdAllow` |
 
 ## Drills
 
@@ -411,6 +467,36 @@ for cs in etree.parse(sys.argv[1]).iter('ComposedShader'):
 - **Answer:** 111 files parse (the two `facade.x3d` do not); 86 use only `base` or extension names, 22 use at least one `gap`, `todo` or `claimed` node (CoordinateInterpolator 9, LineSet 8, PointProperties 6, Geo nodes 2 each), 1 uses unknown names. "Base" is the union of six reader parts: a page loads only its own bundle, and each page's census must be run on its own `PARTS` list (the hall extension alone adds 8).
 - **Checked:** 2026-11-14 lxml, `x3d.demo@d10b457`, `x3d.loom@162ab18`
 
+### D-BAB-6 Check the weights: radius 1.00, not 1.24
+- **Level:** L2
+- **Task:** Load `src/nurbs.js` in plain Node, build the weighted quarter circle (control points `1 0 0, 1 1 0, 0 1 0`, order 3, knots `0 0 0 1 1 1`, weights `1, 0.7071, 1`) and the same curve unweighted, and report the largest radius error of the weighted one and both midpoints. Then say which of the two midpoints X_ITE's NurbsPositionInterpolator returns.
+- **Verify:**
+```js
+const fs = require('fs'), BR = {};
+new Function('BR', fs.readFileSync('src/nurbs.js', 'utf8'))(BR);
+const q = { pts: [[1, 0, 0], [1, 1, 0], [0, 1, 0]], order: 3, knot: [0, 0, 0, 1, 1, 1] };
+const w = BR.nurbs.curve({ ...q, weight: [1, Math.SQRT1_2, 1] }), u = BR.nurbs.curve(q);
+let worst = 0; for (let i = 0; i <= 20; i++) { const p = w.at(i / 20); worst = Math.max(worst, Math.abs(Math.hypot(p[0], p[1]) - 1)); }
+console.log(worst, w.at(0.5), u.at(0.5));
+```
+Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
+- **Answer:** radius error 2.2e-16; weighted midpoint (0.7071, 0.7071, 0), unweighted (0.75, 0.75, 0). X_ITE 16.6.0 returns the unweighted one (0.75, 0.75, 0), which a rational B-spline does not.
+- **Checked:** 2026-11-14 Node, `x3d.loom@4887a98`
+
+### D-BAB-7 Re-run one NURBS node against X_ITE
+- **Level:** L2
+- **Task:** Run the driver check for NurbsPositionInterpolator and read the step counts; then find which steps run in our engine only and why.
+- **Verify:** `python3 tools/driver.py check NurbsPositionInterpolator` from `x3d.webgpu/bridge` with X_ITE 16.6.0 and Babylon 9.32.0 in place (see the README); open `fixtures/NurbsPositionInterpolator.test.json` and search for `only`.
+- **Answer:** ours 55 of 55, X_ITE 52 of 52 steps pass. Four steps carry `only: "ours"`: the weighted midpoint checked against the exact (0.7071, 0.7071, 0) to 1e-6, its radius check, and the invalid-curve `set_fraction` with its no-event check (X_ITE throws and stops answering). One carries `only: "xite"`: it records X_ITE's own unweighted (0.75, 0.75, 0). 55 - 4 = 51 shared steps, plus 1 = 52.
+- **Checked:** 2026-11-14 `x3d.loom@4887a98`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, Babylon 9.32.0
+
+### D-BAB-8 Predict a set's triangle counts
+- **Level:** L3
+- **Task:** A NurbsPatchSurface A has `uTessellation=8`, `vTessellation=4` (8 x 4 cells), another, B, has 6 x 6. Both are in a NurbsSet. Predict A's triangle count at `tessellationScale` 1, 0.5, 2 and 0.3, and B's count after `removeGeometry` of B at scale 1.5. Then check against `fixtures/NurbsSet.test.json`.
+- **Verify:** the `jsn` steps in `fixtures/NurbsSet.test.json` (steps 1, 6, 11, 16, 27); `python3 tools/driver.py check NurbsSet`.
+- **Answer:** cells = floor(8 x scale) times floor(4 x scale), two triangles per cell: 64, 16, 256 and 4 (floor(2.4) x floor(1.2) = 2 x 1 cells). B leaves the set and returns to its own 6 x 6 x 2 = 72 triangles. The spec records 64, 16, 256, 4 and 72; both engines agree.
+- **Checked:** 2026-11-14 `x3d.loom@4887a98`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, Babylon 9.32.0
+
 ## Honest limits
 
 - **Software GL only, Chromium only [C].** Every pixel number is SwiftShader in Chrome for Testing 153.0.8010.12; no real GPU, Firefox or Safari. Babylon 9.32.0 is a snapshot; 9.33.0 to 9.35.0 (per the primer) were not run [L].
@@ -419,6 +505,7 @@ for cs in etree.parse(sys.argv[1]).iter('ComposedShader'):
 - **Open defects were read at `6b3cb76`, not re-checked at `162ab18` [L]:** shared-node occurrence bookkeeping, dropped shear, IndexedFaceSet normals, ignored `head/unit`, ColorRGBA alpha. They bound what "bridged" means.
 - **Behaviour was never compared [L].** No event traces, pointer tapes or audio pass; fixtures compare ROUTE chains in two engines, not whole pages. The noise floor of X_ITE against itself (TBD-13) is unmeasured, so no dB threshold here is a standard.
 - **Carried, not re-checked [S]:** law-40 coverage by page, the Gobbler review defect, all effort figures in `PATHS.md` and `BABYLON.md` (person-weeks are guesses), the 1,396 `gl.*` call sites. Private run logs, device owners' details and unpublished material are left out on purpose.
+- **NURBS section read at the batch-44 branch, not main [L]:** `x3d.loom@4887a98` carried the pull request when written; counts are from the batch run of 2026-11-14 (our reader and X_ITE 16.6.0 on SwiftShader). Not covered: real GPU timing, GeoCoordinate control points, NurbsTextureCoordinate, trimming, picking of NURBS lines. The chord reading of the Extrusion Y axis is Likely: read from memory of 19775-1, not re-checked against the text.
 
 ## Numbers register
 
@@ -443,10 +530,18 @@ for cs in etree.parse(sys.argv[1]).iter('ComposedShader'):
 | N-BAB-17 | Chirp; Cloud; Gobbler 3; Demiurge; Dynasty; Hall | 24.87 to 25.36; 19.24 to 19.40 (21.01 to 24.96 masked); 14.60 to 19.66; 7.18 to 13.26; 29.0 to 37.8; 17.5 to 25.3 dB | L | `X_ITE 16.5.1`, SwiftShader | x3d.loom@162ab18:runs/webgpu-{chirp,cloud,gobbler,demiurge,dynasty,hall}-*/ |
 | N-BAB-18 | corpus name census | 111 files: 86 base-only, 22 need gap or todo or claimed, 1 unknown | C | lxml, `NODES.json` | x3d.demo@d10b457:docs/demos (D-BAB-5) |
 | N-BAB-19 | real-GPU timing receipts for any bridge body | 0; `bench/receipts/` holds 1 file (the G1 adapter probe) | C | `ls` | x3d.loom@162ab18:x3d.webgpu/bench/receipts/ |
+| N-BAB-20 | batch 44 nodes bridged; steps passed, ours and X_ITE | 10 nodes; NurbsCurve 32 and 32, NurbsCurve2D 36 and 36, ContourPolyline2D 14 and 14, Contour2D 22 and 22, NurbsPositionInterpolator 55 and 52, NurbsOrientationInterpolator 51 and 48, NurbsSurfaceInterpolator 52 and 51, NurbsPatchSurface 35 and 35, NurbsSet 47 and 46, NurbsSwungSurface 18 and 18 | C | `driver.py batch -n 10 --close`, X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader | x3d.loom@4887a98:x3d.webgpu/bridge/BATCH-44.md |
+| N-BAB-21 | weighted quarter circle radius | 1.00 to 2.2e-16 here; up to 1.24 in X_ITE 16.6.0 | C | Node (D-BAB-6); X_ITE 16.6.0 SwiftShader | x3d.loom@4887a98:x3d.webgpu/bridge/fixtures/NurbsCurve.test.json |
+| N-BAB-22 | weighted midpoint of the quarter circle | (0.7071, 0.7071, 0) here; (0.75, 0.75, 0) in X_ITE 16.6.0 | C | Node (D-BAB-6); X_ITE SAI | x3d.loom@4887a98:x3d.webgpu/bridge/fixtures/NurbsPositionInterpolator.test.json |
+| N-BAB-23 | patch normal difference to X_ITE | largest component 0.21 (12 x 12 cells), 0.28 (8 x 8); spec bound 0.3 | C | X_ITE 16.6.0 private getNormals, SwiftShader | x3d.loom@4887a98:x3d.webgpu/bridge/fixtures/NurbsPatchSurface.test.json |
+| N-BAB-24 | swung surface frame difference | 1.2e-7 on an even spine; up to 0.017 on a 2.2-unit vase; spec bound 0.02 | C | X_ITE 16.6.0 private getVertices, SwiftShader | x3d.loom@4887a98:x3d.webgpu/bridge/fixtures/NurbsSwungSurface.test.json |
+| N-BAB-25 | NURBS visual compare rows, batch 44 | 6 rows; iou 0.85 to 0.99; mad 1.64 to 3.74; PSNR 23.38 to 37.12 dB (320 x 240) | C | X_ITE 16.6.0, SwiftShader, parsed from the report | x3d.loom@4887a98:x3d.webgpu/bridge/BATCH-44.md |
+| N-BAB-26 | solid FALSE back face gap | 9312 of 19012 pixels drawn in a two-quad IndexedFaceSet fixture | C | Babylon 9.32.0 body vs X_ITE 16.6.0, SwiftShader | x3d.loom@4887a98:x3d.webgpu/bridge/fixtures/NurbsPatchSurface.test.json |
 
 ## Sources and provenance
 
 - `x3d.loom@162ab18` (read 2026-11-14): `x3d.webgpu/{README,STATE,PATHS,BABYLON,BENCHMARK,SPEC}.md`, the four playbook files, `bridge/` (tracker, assessment, batches 01 to 26, tools, src, fixtures, receipts), `demo/src/`, `runs/webgpu-*/`. Re-run: census, driver status, tests, hash keys, greps. `x3d.loom@60824ce` extracted with `git archive` (D-BAB-2).
 - `x3d.demo@d10b457`: `CHANGELOG.md` (append-only rule), `docs/index.html` (blocklist text), `docs/demos/SOURCES.md`, every `.x3d` for D-BAB-5. `x3d.docs@f172f67`: `docs/vendor/x_ite/x_ite.min.js` (grep, section 2); chapters [06](06-xite-the-oracle.md) and [02](02-loom-laws.md); [the Loom masterclass](../x3d.loom/MASTERCLASS.md) for the AST view of the same repository, not duplicated here.
+- `x3d.loom@4887a98` (batch 44, read and run 2026-11-14): `x3d.webgpu/bridge/{BATCH-44.md,WHY-nurbs-batch.md,knowledge/NURBS-FINDINGS.md,src/nurbs.js,src/nodes/Nurbs*.js,fixtures/Nurbs*,receipts/Nurbs*}`.
 - Private-source gap: a private primer of 8 November and private notes on each port were pointers only. Figures here were re-derived from the repository or read from a named receipt; the rest are graded [S] or [L] and labelled carried. No private document, link, identifier or chat wording is reproduced.
 - Siblings: [01](01-the-tether.md), [03](03-validator-and-gates.md), [04](04-mcp-for-agents.md), [07](07-xray.md), [09](09-castle-engine.md), [11](11-gltf-usd-khronos.md), [13](13-physics.md).

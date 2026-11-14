@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**178 heuristics.** Grades: [C] 134 · [L] 37 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**183 heuristics.** Grades: [C] 139 · [L] 37 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -104,6 +104,11 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-BAB-8 | [08](08-babylon-bridge.md) | On every public WebGPU page show the adapter, which request answered and, when null, the flag tip with its safety cost. | L | one gen-9 laptop got no adapter until the flag was set | playbook v1; `docs/index.html` |
 | H-BAB-9 | [08](08-babylon-bridge.md) | Make no speed claim without a named real GPU, driver, three runs and a receipt that fits the schema. | C | 0 timing receipts for any bridge body; 1 file in `bench/receipts/` | `ls`, `BENCHMARK.md` section 9 |
 | H-BAB-10 | [08](08-babylon-bridge.md) | Where a playbook line and the code disagree, the code wins; record both and correct the playbook by a new version. | C | v1 and v2 say "convert authored sRGB"; `body.js` line 303 assigns the colour as authored | `brain/body.js` read |
+| H-BAB-11 | [08](08-babylon-bridge.md) | Copy the reference engine's tessellation rule so segment counts match; follow the standard for the maths. A count is a convention, a weight is a definition. | C | NURBS point lists agree in 32 of 32 to 55 of 55 steps; X_ITE weights give radius 1.24 | `X_ITE 16.6.0`, SwiftShader, `x3d.loom@4887a98` |
+| H-BAB-12 | [08](08-babylon-bridge.md) | When the reference throws or hangs on an invalid input, run that step in your engine only and say so in the gap log; never let a test depend on a hung page. | C | `set_fraction` into an order 4, three point curve stops X_ITE answering | `X_ITE 16.6.0`, Chromium 153.0.8010.12 |
+| H-BAB-13 | [08](08-babylon-bridge.md) | Prefer the exact derivative to an averaged one where the standard gives it; bound the difference from the reference in the spec instead of matching it. | C | patch normals differ 0.21 and 0.28; spec bound 0.3 | `X_ITE 16.6.0`, 12 x 12 and 8 x 8 cells |
+| H-BAB-14 | [08](08-babylon-bridge.md) | When a node's geometry depends on another node's field, declare that field to the kit (`spec.refs`) and test a live change by event. | C | a moved control point redraws the curve only through `refs` | `x3d.loom@4887a98:x3d.webgpu/bridge/src/body-br.js` |
+| H-BAB-15 | [08](08-babylon-bridge.md) | Check a schema failure against the content model before editing the fixture: some 4.0 nodes cannot be written validly as specified. Record the patch in the receipt. | C | NurbsSet is a sequence, not a choice; Contour2D has no parent in the model | `xmllint`, `x3d_mcp` `x3d-4.0.xsd`, driver spec keys `xsdChoice` and `xsdAllow` |
 | H-CAS-1 | [09](09-castle-engine.md) | Judge a Castle load by its warnings and a shape census against the declared count; never by "it loaded" or an exit code. | C | classic reader warns once and skips the rest of the file | `castle-engine@48ce617:x3dnodes_encoding_classic.inc:569-573` |
 | H-CAS-2 | [09](09-castle-engine.md) | Quote node coverage by rung and definition (registered, parse-only, name present in a peer, behaves); never a bare "98 of 328". | C | 99 registrations, 98 concrete, five denominators in circulation | `castle-engine@48ce617`; `x_ite@16.7.1` dist |
 | H-CAS-3 | [09](09-castle-engine.md) | Treat name presence in a peer as the weakest rung; do not turn 97 of 99 into "X_ITE implements them". | C | the scan reads class names, not behaviour | `x_ite@16.7.1` dist |

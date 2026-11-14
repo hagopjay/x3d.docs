@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**298 numbers** from 14 chapters. Grades: [C] 255 · [L] 39 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**305 numbers** from 14 chapters. Grades: [C] 262 · [L] 39 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -179,6 +179,13 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-BAB-17 | [08](08-babylon-bridge.md) | Chirp; Cloud; Gobbler 3; Demiurge; Dynasty; Hall | 24.87 to 25.36; 19.24 to 19.40 (21.01 to 24.96 masked); 14.60 to 19.66; 7.18 to 13.26; 29.0 to 37.8; 17.5 to 25.3 dB | L | `X_ITE 16.5.1`, SwiftShader | x3d.loom@162ab18:runs/webgpu-{chirp,cloud,gobbler,demiurge,dynasty,hall}-*/ |
 | N-BAB-18 | [08](08-babylon-bridge.md) | corpus name census | 111 files: 86 base-only, 22 need gap or todo or claimed, 1 unknown | C | lxml, `NODES.json` | x3d.demo@d10b457:docs/demos (D-BAB-5) |
 | N-BAB-19 | [08](08-babylon-bridge.md) | real-GPU timing receipts for any bridge body | 0; `bench/receipts/` holds 1 file (the G1 adapter probe) | C | `ls` | x3d.loom@162ab18:x3d.webgpu/bench/receipts/ |
+| N-BAB-20 | [08](08-babylon-bridge.md) | batch 44 nodes bridged; steps passed, ours and X_ITE | 10 nodes; NurbsCurve 32 and 32, NurbsCurve2D 36 and 36, ContourPolyline2D 14 and 14, Contour2D 22 and 22, NurbsPositionInterpolator 55 and 52, NurbsOrientationInterpolator 51 and 48, NurbsSurfaceInterpolator 52 and 51, NurbsPatchSurface 35 and 35, NurbsSet 47 and 46, NurbsSwungSurface 18 and 18 | C | `driver.py batch -n 10 --close`, X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader | x3d.loom@4887a98:x3d.webgpu/bridge/BATCH-44.md |
+| N-BAB-21 | [08](08-babylon-bridge.md) | weighted quarter circle radius | 1.00 to 2.2e-16 here; up to 1.24 in X_ITE 16.6.0 | C | Node (D-BAB-6); X_ITE 16.6.0 SwiftShader | x3d.loom@4887a98:x3d.webgpu/bridge/fixtures/NurbsCurve.test.json |
+| N-BAB-22 | [08](08-babylon-bridge.md) | weighted midpoint of the quarter circle | (0.7071, 0.7071, 0) here; (0.75, 0.75, 0) in X_ITE 16.6.0 | C | Node (D-BAB-6); X_ITE SAI | x3d.loom@4887a98:x3d.webgpu/bridge/fixtures/NurbsPositionInterpolator.test.json |
+| N-BAB-23 | [08](08-babylon-bridge.md) | patch normal difference to X_ITE | largest component 0.21 (12 x 12 cells), 0.28 (8 x 8); spec bound 0.3 | C | X_ITE 16.6.0 private getNormals, SwiftShader | x3d.loom@4887a98:x3d.webgpu/bridge/fixtures/NurbsPatchSurface.test.json |
+| N-BAB-24 | [08](08-babylon-bridge.md) | swung surface frame difference | 1.2e-7 on an even spine; up to 0.017 on a 2.2-unit vase; spec bound 0.02 | C | X_ITE 16.6.0 private getVertices, SwiftShader | x3d.loom@4887a98:x3d.webgpu/bridge/fixtures/NurbsSwungSurface.test.json |
+| N-BAB-25 | [08](08-babylon-bridge.md) | NURBS visual compare rows, batch 44 | 6 rows; iou 0.85 to 0.99; mad 1.64 to 3.74; PSNR 23.38 to 37.12 dB (320 x 240) | C | X_ITE 16.6.0, SwiftShader, parsed from the report | x3d.loom@4887a98:x3d.webgpu/bridge/BATCH-44.md |
+| N-BAB-26 | [08](08-babylon-bridge.md) | solid FALSE back face gap | 9312 of 19012 pixels drawn in a two-quad IndexedFaceSet fixture | C | Babylon 9.32.0 body vs X_ITE 16.6.0, SwiftShader | x3d.loom@4887a98:x3d.webgpu/bridge/fixtures/NurbsPatchSurface.test.json |
 | N-CAS-1 | [09](09-castle-engine.md) | registered model formats; of them with `OnSave` | 21; 7 | C | `formats.py`, 2026-11-14 | `castle-engine@48ce617:src/` |
 | N-CAS-2 | [09](09-castle-engine.md) | parse-only groups; registrations in them (one abstract) | 11; 99 | C | `xite_names.py` | `castle-engine@48ce617:src/scene/x3d/castleinternalnodesunsupported.pas` |
 | N-CAS-3 | [09](09-castle-engine.md) | parse-only names with a same-named non-abstract class in X_ITE | 97 of 99 | C | `xite_names.py`, `x_ite@16.7.1` npm dist | `x_ite@16.7.1:dist/x_ite.js`, `dist/assets/components/` |
