@@ -3,7 +3,7 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-215 distinct instrument strings across the numbers registers.
+222 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
@@ -38,6 +38,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d_mcp fork b4efcd3, libxml2 2.14.6` | 2 | 04 | C:2 |
 | `x3d_mcp upstream 74da0ec, x3d_mcp fork b4efcd3` | 2 | 04 | C:2 |
 | `xite_names.py` | 2 | 09 | C:2 |
+| `Babylon 9.32.0 body vs X_ITE 16.6.0, SwiftShader` | 1 | 08 | C:1 |
 | `D-LAW-2 script (judgement of the column)` | 1 | 02 | L:1 |
 | `D-LAW-7 script` | 1 | 02 | C:1 |
 | `JSON parse 2026-11-14` | 1 | 11 | C:1 |
@@ -48,6 +49,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `Khronos glTF-Validator 2.0.0-dev.3.10, receipt` | 1 | 09 | C:1 |
 | `Khronos registry sha256 prefix 32868b162d85` | 1 | 11 | C:1 |
 | `NODES.json, merge log` | 1 | 08 | C:1 |
+| `Node (D-BAB-6); X_ITE 16.6.0 SwiftShader` | 1 | 08 | C:1 |
+| `Node (D-BAB-6); X_ITE SAI` | 1 | 08 | C:1 |
 | `PR descriptions via the masterclass; not re-derived` | 1 | 04 | L:1 |
 | `Python 3.13.18 ast` | 1 | 10 | C:1 |
 | `X3DUOM 4.0 via NODES.json` | 1 | 08 | C:1 |
@@ -63,7 +66,10 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `X_ITE 16.5.1, 16.7.0, emulated policy` | 1 | 06 | C:1 |
 | `X_ITE 16.5.1, 640 x 360, SwiftShader` | 1 | 08 | L:1 |
 | `X_ITE 16.5.1, SwiftShader` | 1 | 08 | L:1 |
+| `X_ITE 16.6.0 private getNormals, SwiftShader` | 1 | 08 | C:1 |
+| `X_ITE 16.6.0 private getVertices, SwiftShader` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0, 640 x 360, SwiftShader` | 1 | 08 | L:1 |
+| `X_ITE 16.6.0, SwiftShader, parsed from the report` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0, VolumeRenderingComponent read` | 1 | 08 | C:1 |
 | `X_ITE 16.7.0 (and 16.4.3, 16.5.1, 16.6.1, 16.7.1), Chromium 153, SwiftShader` | 1 | 06 | C:1 |
 | `X_ITE 16.7.0, browser.supportedComponents` | 1 | 06 | C:1 |
@@ -95,6 +101,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `core11.py, inline Python` | 1 | 09 | C:1 |
 | `core11.py; FLIP 1.7, Cycles 256 spp, 512 px` | 1 | 09 | C:1 |
 | `count, x3d.loom@162ab18` | 1 | 02 | C:1 |
+| `driver.py batch -n 10 --close, X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader` | 1 | 08 | C:1 |
 | `driver.py status` | 1 | 08 | C:1 |
 | `driver.py status, x3d.loom@162ab18` | 1 | 08 | C:1 |
 | `examples/eda_1_signal_and_noise.py` | 1 | 07 | C:1 |

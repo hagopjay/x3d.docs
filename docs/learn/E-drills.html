@@ -22,7 +22,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a class="cur" href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="E-drills.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/E-drills.md">GitHub</a></div><h1>Appendix E. Drill index</h1>
 <p>Every drill has a task, a verify command and an answer key. Run the ones marked <em>not run</em> and send the result as a PR to the chapter.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>104 drills</strong>, 94 with a recorded run (<code>Checked</code>), 10 not yet run. Levels: L1 19, L2 52, L3 33.</p>
+<p><strong>107 drills</strong>, 97 with a recorded run (<code>Checked</code>), 10 not yet run. Levels: L1 19, L2 54, L3 34.</p>
 <table>
 <thead>
 <tr>
@@ -441,11 +441,32 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>2026-11-14 lxml, <code>x3d.demo@d10b457</code>, <code>x3d.loom@162ab18</code></td>
 </tr>
 <tr>
-<td>D-BAB-6</td>
+<td>D-BAB-9</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>L1</td>
 <td>Opacity of a stack of slices</td>
 <td>2026-11-14 python3 -I</td>
+</tr>
+<tr>
+<td>D-BAB-6</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>L2</td>
+<td>Check the weights: radius 1.00, not 1.24</td>
+<td>2026-11-14 Node, <code>x3d.loom@4887a98</code></td>
+</tr>
+<tr>
+<td>D-BAB-7</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>L2</td>
+<td>Re-run one NURBS node against X_ITE</td>
+<td>2026-11-14 <code>x3d.loom@4887a98</code>, <code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, Babylon 9.32.0</td>
+</tr>
+<tr>
+<td>D-BAB-8</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>L3</td>
+<td>Predict a set's triangle counts</td>
+<td>2026-11-14 <code>x3d.loom@4887a98</code>, <code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, Babylon 9.32.0</td>
 </tr>
 <tr>
 <td>D-CAS-1</td>
