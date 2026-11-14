@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**174 heuristics.** Grades: [C] 130 · [L] 37 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**178 heuristics.** Grades: [C] 134 · [L] 37 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -173,6 +173,10 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-PHY-18 | [13](13-physics.md) | For a bounce test against a wall or floor set `minBounceSpeed` to 0 in X_ITE; a fixed body has speed 0, so the default 0.1 gives it restitution 0. | [C] | ball returned at 3.2 to 4 m/s only with 0 | x3d.loom PR #56 `CollisionCollection` fixture; X_ITE 16.6.0 |
 | H-PHY-19 | [13](13-physics.md) | Do not trust a CollidableOffset or CollidableShape translation in X_ITE until the node has received an event; test where the body rests. | [C] | rest height 0.5 m in X_ITE against 1.5 m expected | x3d.loom PR #56 `CollidableOffset` fixture; X_ITE 16.6.0 |
 | H-PHY-20 | [13](13-physics.md) | When two engines differ by design, check each against its own written value and log the gap; never loosen a tolerance until both pass. | [L] | five nodes, four per-engine values | x3d.loom PR #56 fixtures |
+| H-PHY-21 | [13](13-physics.md) | Count the degrees of freedom a joint removes before testing it: ball 3, hinge 5, slider 5, universal 4, motor 0; then test the one that is left. | [C] | six fixtures, each checking the free motion (swing, slide, spin) as well as the constraint | x3d.loom batch 41 fixtures; X_ITE 16.6.0 |
+| H-PHY-22 | [13](13-physics.md) | Test a joint limit by checking the body against the limit, not that the joint exists; X_ITE 16.6.0 builds hinges without limits. | [C] | bridge angle -0.50 against X_ITE 3.45 for the same swing | `SingleAxisHingeJoint` fixture |
+| H-PHY-23 | [13](13-physics.md) | Treat an unsigned joint angle as a size and compare absolute values across engines; do not compare signs. | [C] | X_ITE angle 3.45 where a signed continuous angle would pass pi | `SingleAxisHingeJoint` fixture |
+| H-PHY-24 | [13](13-physics.md) | Check that a force or torque field does anything at all (rate of change over a second) before trusting a joint node; X_ITE reads sliderForce and axisTorque and applies neither. | [C] | slider stays; motor angular velocity changes under 0.01 rad/s in X_ITE, 25.1 rad/s per second in the bridge | `SliderJoint`, `MotorJoint` fixtures |
 | H-MET-1 | [14](14-methods.md) | Write the predicted answer before running a drill; a correct prediction teaches less than a wrong one. | L | method argument; no trial run | none (design rule) |
 | H-MET-2 | [14](14-methods.md) | Seed one failure at a time into a valid scene, so the diagnostic maps to one cause. | L | practice in chapters 02 and 03 | `x3d_mcp fork b4efcd3` |
 | H-MET-3 | [14](14-methods.md) | Demote on contradiction: record both numbers and the pins, never overwrite. | L | [AUTHORING](AUTHORING.md) section 6 | none (policy) |
