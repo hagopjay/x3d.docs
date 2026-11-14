@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**194 heuristics.** Grades: [C] 149 · [L] 38 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**200 heuristics.** Grades: [C] 155 · [L] 38 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -120,6 +120,12 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-BAB-24 | [08](08-babylon-bridge.md) | Read the reference engine's formula in its source before tuning a look, patch your engine's shader chunk once with it, and make the patch throw when the engine's text moves. | C | six formulas, 36 to 63 dB; a moved chunk would fail at load | `X_ITE 16.6.0` source, three.js r187, SwiftShader |
 | H-BAB-25 | [08](08-babylon-bridge.md) | When a formula's order or sign is uncertain, render every variant against the reference in one run and keep the one that wins by the widest margin. | C | TextureTransform: 50.1 dB against 21.2 to 25.7 dB for the other seven | `X_ITE 16.6.0`, three.js r187, 8 variants over two runs, SwiftShader |
 | H-BAB-26 | [08](08-babylon-bridge.md) | Turn the reference engine's own notifications and timing overlays off before taking a picture. | C | a "Loading done" toast added about 4000 differing pixels | `X_ITE 16.6.0` `setBrowserOption`, 320 x 240 |
+| H-BAB-27 | [08](08-babylon-bridge.md) | Before defining a node for a new body, grep every reader extension for it; a second definition throws at load and the page reports only that the body class is missing. | C | `BR.node` threw for Extrusion and PointSet; the page said `Body is not defined` | `x3d.loom@38530ab`, `grep` over `demo/src/*/reader*.js` |
+| H-BAB-28 | [08](08-babylon-bridge.md) | Load the body bundle in node with a stub window before a browser run: load errors and data-code bugs show at once and become unit tests. | C | the missing-body failure reproduced in node; 7 tests pass | `node --test tools/`, `x3d.loom@38530ab` |
+| H-BAB-29 | [08](08-babylon-bridge.md) | Where two triangulations are both valid, render both against the reference and keep the one that is pixel-identical. | C | ElevationGrid 99 dB against 29.13 dB | X_ITE 16.6.0, SwiftShader |
+| H-BAB-30 | [08](08-babylon-bridge.md) | A function lifted from another engine's body carries that body's omissions: list the features it never used (creaseAngle, Normal, per-face colour) and give each a fixture. | C | Extrusion faceted until `BR.ifsExtras`; IndexedFaceSetNormals 80.17 dB | `x3d.loom@38530ab` |
+| H-BAB-31 | [08](08-babylon-bridge.md) | Check that a passing fixture can fail: if both engines draw black or nothing, the match proves nothing. | C | 6108 against 9236 foreground pixels after the normals were changed | IndexedFaceSetNormals receipt |
+| H-BAB-32 | [08](08-babylon-bridge.md) | Review each batch with independent adversarial reviewers before the merge request: they find what the picture comparison cannot (dynamic changes, input-event paths, stale lists), and a verifier per finding keeps the false ones out. | C | 29 confirmed, 3 refuted; the 45 fixtures had passed before the review | workflow run of 35 agents over `x3d.loom@8a1e769`, fixes in `38530ab` |
 | H-CAS-1 | [09](09-castle-engine.md) | Judge a Castle load by its warnings and a shape census against the declared count; never by "it loaded" or an exit code. | C | classic reader warns once and skips the rest of the file | `castle-engine@48ce617:x3dnodes_encoding_classic.inc:569-573` |
 | H-CAS-2 | [09](09-castle-engine.md) | Quote node coverage by rung and definition (registered, parse-only, name present in a peer, behaves); never a bare "98 of 328". | C | 99 registrations, 98 concrete, five denominators in circulation | `castle-engine@48ce617`; `x_ite@16.7.1` dist |
 | H-CAS-3 | [09](09-castle-engine.md) | Treat name presence in a peer as the weakest rung; do not turn 97 of 99 into "X_ITE implements them". | C | the scan reads class names, not behaviour | `x_ite@16.7.1` dist |

@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**321 numbers** from 14 chapters. Grades: [C] 277 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**327 numbers** from 14 chapters. Grades: [C] 283 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -202,6 +202,12 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-BAB-40 | [08](08-babylon-bridge.md) | texture rows | ImageTexture 99 dB (identical); PixelTexture 45.66; TextureTransform 50.12 and 50.21; textured primitives 39.58 | C | same rig | x3d.loom@95eda37:x3d.threejs/bridge/receipts/ |
 | N-BAB-41 | [08](08-babylon-bridge.md) | TextureTransform order and sign, 4 variants in the Transform order and 4 in the column order | 50.12 (-C S R C T, rotation +, translation +); 21.34, 25.72, 21.39 for the other signs; 21.30 for T C R S -C | C | same rig, one run | x3d.loom@95eda37:x3d.threejs/bridge/src/body-three.js |
 | N-BAB-42 | [08](08-babylon-bridge.md) | all compared pictures of the two batches | 30 pictures; IoU 0.90 to 1.00; PSNR 32.38 to 70.12 dB over 24, median 50.13; 6 identical | C | same rig | x3d.loom@95eda37:x3d.threejs/bridge/receipts/ |
+| N-BAB-43 | [08](08-babylon-bridge.md) | three.js bridge status, batch 2 | drawn 53, reader-checked 29, reader 46, todo 95, upstream 37 | C | `driver.py status` | x3d.loom@38530ab:x3d.threejs/bridge/NODES.json |
+| N-BAB-44 | [08](08-babylon-bridge.md) | all compared pictures after batch 2 | 61 pictures; IoU 0.90 to 1.00; PSNR 25.32 to 80.17 dB over 47 that differ, median 50.24; 14 at 99 dB (12 identical, 2 empty frames) | C | X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader, three.js r187 | x3d.loom@38530ab:x3d.threejs/bridge/receipts/*.json |
+| N-BAB-45 | [08](08-babylon-bridge.md) | pictures new in batch 2 | 31 pictures over 27 fixtures; 8 pixel-identical; IoU 0.91 to 1.00 | C | same rig | same receipts |
+| N-BAB-46 | [08](08-babylon-bridge.md) | ElevationGrid triangulation | diagonal (a, c, d) (a, d, b): 99 dB; the other diagonal: mad 2.70, 29.13 dB | C | same rig, same fixture twice | x3d.loom@38530ab:x3d.threejs/bridge/src/nodes/Geometry.js |
+| N-BAB-47 | [08](08-babylon-bridge.md) | Extrusion before and after BR.ifsExtras (first fixture) | IoU 0.98 to 0.99; mad 0.41 to 0.16; PSNR 39.98 to 38.65 dB; star fixture after: 0.99, 0.20, 37.51 dB | C | same rig | x3d.loom@38530ab:x3d.threejs/bridge/receipts/Extrusion.json |
+| N-BAB-48 | [08](08-babylon-bridge.md) | lines of the three.js body | body-three.js 461 (was 284 for 12 core nodes), nodes/Geometry.js 115 | C | `wc -l` | x3d.loom@38530ab:x3d.threejs/bridge/src |
 | N-CAS-1 | [09](09-castle-engine.md) | registered model formats; of them with `OnSave` | 21; 7 | C | `formats.py`, 2026-11-14 | `castle-engine@48ce617:src/` |
 | N-CAS-2 | [09](09-castle-engine.md) | parse-only groups; registrations in them (one abstract) | 11; 99 | C | `xite_names.py` | `castle-engine@48ce617:src/scene/x3d/castleinternalnodesunsupported.pas` |
 | N-CAS-3 | [09](09-castle-engine.md) | parse-only names with a same-named non-abstract class in X_ITE | 97 of 99 | C | `xite_names.py`, `x_ite@16.7.1` npm dist | `x_ite@16.7.1:dist/x_ite.js`, `dist/assets/components/` |

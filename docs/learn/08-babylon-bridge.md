@@ -466,6 +466,25 @@ Batch 1 (`x3d.loom@95eda37`) added PointLight, SpotLight, Fog, ImageTexture, Pix
 
 Rig for every number: Chromium 153.0.8010.12, SwiftShader, 320 x 240, X_ITE 16.6.0 with its notifications off (the "Loading done" toast had drawn 4000 extra pixels into a picture), three.js r187. A first read of the X_ITE source is not proof: the TextureTransform product looked like the Transform order and was 29 dB wrong until the variants were measured. The 30 compared pictures of both batches: IoU 0.90 to 1.00, PSNR 32.4 to 70.1 dB over the 24 that differ (median 50.1), 6 identical [C].
 
+### 14.5 Batch 2: geometry sets, lines, points, Billboard, LOD and ClipPlane
+
+Batch 2 (`x3d.loom@38530ab`) drew 30 more nodes by the tracker's count, from 27 new scene fixtures (the rest ride along: Group, Normal, Collision, StaticGroup); the tracker reads drawn 53, reader-checked 29, reader 46, todo 95, upstream 37 [C, `driver.py status`]. Eleven of the 26 needed no node-specific body code: seven bridge nodes return vertex data from a `geometry()` hook (QuadSet, IndexedQuadSet, TriangleFanSet, IndexedTriangleFanSet, IndexedTriangleStripSet, TriangleSet2D, ArcClose2D) and four return a polyline from `lines()` (LineSet, Arc2D, Circle2D, Polyline2D); the three.js body calls the same hook the Babylon body calls and wraps the arrays in a `BufferGeometry` or `LineSegments` [C, `grep` over `bridge/src/nodes/`]. Of the 31 new pictures, 8 are pixel-identical to X_ITE (TriangleSet, ElevationGrid, IndexedLineSet, LineSet, PointSet, Rectangle2D, Circle2D, Polyline2D at 99 dB), the rest are within IoU 0.91 to 1.00.
+
+What was learned, in the order it happened:
+
+| # | what | result | grade |
+|---|---|---|---|
+| 1 | A node the reader already defines cannot be defined again: `BR.node` throws "already in the reader" at load and the page then says only `Body is not defined`. The Hall reader already turns Extrusion, Rectangle2D and Disk2D into an IndexedFaceSet at parse time, and defines PointSet; the first Extrusion and PointSet nodes written here killed the bundle. | both removed; Extrusion drew through the existing path | C |
+| 2 | ElevationGrid has two valid triangulations; X_ITE cuts each square from its first corner to the far one, `(a, c, d)` and `(a, d, b)`. | 99 dB (identical) against mad 2.7 and 29.1 dB with the other diagonal | C |
+| 3 | `Body.geometryData` was lifted verbatim from the Babylon body and carries its omissions: IndexedFaceSet normals are always flat, a Normal node is ignored and colours are always per corner. Extrusion, which the reader turns into an IndexedFaceSet with a creaseAngle, therefore drew faceted. A small `BR.ifsExtras` adds Normal, creaseAngle and per-face colour. | Extrusion IoU 0.98 to 0.99, mad 0.41 to 0.16, foreground mean exact; PSNR moved 39.98 to 38.65 dB (edge pixels) on the first fixture; after its fourth shape became a real star the row reads IoU 0.99, mad 0.20, 37.51 dB; the new IndexedFaceSetNormals fixture is 80.17 dB with all three features lit | C |
+| 4 | Billboard, LOD and ClipPlane port as per-frame functions of the camera (`updateView()`); the Babylon maths was engine-neutral and carried over. | Billboard 63.13 dB (identical silhouette), LOD 38.99, 64.48 and 55.16 dB at three distances, ClipPlane 50.24, 55.61 and 49.40 dB | C |
+| 5 | Lines and points are `LineSegments` and `Points` with a 1-pixel material in the Material's emissive colour (white with no Material, replaced by Color); X_ITE draws them the same way here. | IndexedLineSet, LineSet and PointSet 99 dB | C |
+| 6 | A first IndexedFaceSetNormals fixture used normals pointing up under the headlight, so every face was black in both engines and the "pass" meant nothing (6108 foreground pixels against 9236 once the normals were slanted). | fixture changed | C |
+
+A 35-agent adversarial review of the batch (three reviewers over code, runtime behaviour and claims; every finding tried by a verifier) reported 29 confirmed defects, four rated high: an ElevationGrid Normal read per vertex instead of per square, a render-loop throw when a group is rebuilt in a world with no ClipPlane, change hooks of line and point nodes never called, and children events ignored on Billboard, LOD, Anchor, Collision and StaticGroup; 3 reports were refuted. All were fixed before the merge request, and three of them became unit tests.
+
+Not matched: IndexedTriangleSet and IndexedQuadSet generated normals sit at IoU 0.95 (a dim rim; the cause was not isolated), and PhysicalMaterial is reference-only at IoU 0.91, 25.32 dB, because X_ITE adds an environment glow that three.js has no counterpart for without an environment map. The unit tests (`node --test tools/`, 7 pass) load the body bundle in node with a stub window and check ElevationGrid winding, creaseAngle and TriangleSet counts without a browser.
+
 ## Heuristics
 
 | ID | Rule (imperative, at most 30 words) | Grade | Evidence | Instrument |
@@ -496,6 +515,12 @@ Rig for every number: Chromium 153.0.8010.12, SwiftShader, 320 x 240, X_ITE 16.6
 | H-BAB-24 | Read the reference engine's formula in its source before tuning a look, patch your engine's shader chunk once with it, and make the patch throw when the engine's text moves. | C | six formulas, 36 to 63 dB; a moved chunk would fail at load | `X_ITE 16.6.0` source, three.js r187, SwiftShader |
 | H-BAB-25 | When a formula's order or sign is uncertain, render every variant against the reference in one run and keep the one that wins by the widest margin. | C | TextureTransform: 50.1 dB against 21.2 to 25.7 dB for the other seven | `X_ITE 16.6.0`, three.js r187, 8 variants over two runs, SwiftShader |
 | H-BAB-26 | Turn the reference engine's own notifications and timing overlays off before taking a picture. | C | a "Loading done" toast added about 4000 differing pixels | `X_ITE 16.6.0` `setBrowserOption`, 320 x 240 |
+| H-BAB-27 | Before defining a node for a new body, grep every reader extension for it; a second definition throws at load and the page reports only that the body class is missing. | C | `BR.node` threw for Extrusion and PointSet; the page said `Body is not defined` | `x3d.loom@38530ab`, `grep` over `demo/src/*/reader*.js` |
+| H-BAB-28 | Load the body bundle in node with a stub window before a browser run: load errors and data-code bugs show at once and become unit tests. | C | the missing-body failure reproduced in node; 7 tests pass | `node --test tools/`, `x3d.loom@38530ab` |
+| H-BAB-29 | Where two triangulations are both valid, render both against the reference and keep the one that is pixel-identical. | C | ElevationGrid 99 dB against 29.13 dB | X_ITE 16.6.0, SwiftShader |
+| H-BAB-30 | A function lifted from another engine's body carries that body's omissions: list the features it never used (creaseAngle, Normal, per-face colour) and give each a fixture. | C | Extrusion faceted until `BR.ifsExtras`; IndexedFaceSetNormals 80.17 dB | `x3d.loom@38530ab` |
+| H-BAB-31 | Check that a passing fixture can fail: if both engines draw black or nothing, the match proves nothing. | C | 6108 against 9236 foreground pixels after the normals were changed | IndexedFaceSetNormals receipt |
+| H-BAB-32 | Review each batch with independent adversarial reviewers before the merge request: they find what the picture comparison cannot (dynamic changes, input-event paths, stale lists), and a verifier per finding keeps the false ones out. | C | 29 confirmed, 3 refuted; the 45 fixtures had passed before the review | workflow run of 35 agents over `x3d.loom@8a1e769`, fixes in `38530ab` |
 
 ## Drills
 
@@ -593,6 +618,13 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 - **Answer:** the body keeps its default pose (0 0 10, field of view 0.7854) while the fixture's Viewpoint sits at 0 0 8, so the box is drawn smaller than X_ITE draws it: the Box fixture measured IoU 0.64 (5773 pixels against 9021) before the lines existed, and 1.00 after.
 - **Checked:** 2026-11-14 `x3d.loom@108a282`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187
 
+### D-BAB-11 Swap the ElevationGrid diagonal and predict the number
+- **Level:** L2
+- **Task:** In `x3d.threejs/bridge/src/nodes/Geometry.js` change `tri.push(a, c, d, a, d, b)` to `tri.push(a, c, b, b, c, d)`, run the ElevationGrid fixture and predict whether the silhouette or the shading moves before you look.
+- **Verify:** `NODE_PATH=/opt/node22/lib/node_modules node tools/run-tests.js ElevationGrid` from `x3d.threejs/bridge`, with X_ITE 16.6.0 and three.js r187 in place; restore the line afterwards.
+- **Answer:** the silhouette does not move (both triangulations cover the same squares, IoU 0.97 and above); the shading does, because the flat facets of a creaseAngle 0 grid follow the diagonal: mad 2.70 and 29.13 dB against 99 dB (identical) with X_ITE's diagonal.
+- **Checked:** 2026-11-14 `x3d.loom@38530ab`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187
+
 ## Honest limits
 
 - **Software GL only, Chromium only [C].** Every pixel number is SwiftShader in Chrome for Testing 153.0.8010.12; no real GPU, Firefox or Safari. Babylon 9.32.0 is a snapshot; 9.33.0 to 9.35.0 (per the primer) were not run [L].
@@ -602,7 +634,7 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 - **Behaviour was never compared [L].** No event traces, pointer tapes or audio pass; fixtures compare ROUTE chains in two engines, not whole pages. The noise floor of X_ITE against itself (TBD-13) is unmeasured, so no dB threshold here is a standard.
 - **Carried, not re-checked [S]:** law-40 coverage by page, the Gobbler review defect, all effort figures in `PATHS.md` and `BABYLON.md` (person-weeks are guesses), the 1,396 `gl.*` call sites. Private run logs, device owners' details and unpublished material are left out on purpose.
 - **NURBS section read at the batch-44 branch, not main [L]:** `x3d.loom@4887a98` carried the pull request when written; counts are from the batch run of 2026-11-14 (our reader and X_ITE 16.6.0 on SwiftShader). Not covered: real GPU timing, GeoCoordinate control points, NurbsTextureCoordinate, trimming, picking of NURBS lines. The chord reading of the Extrusion Y axis is Likely: read from memory of 19775-1, not re-checked against the text.
-- **The three.js bridge is 18 scene fixtures, not a port [L].** 23 of 260 nodes are drawn; MultiTexture, movie and cube-map textures, Billboard, ClipPlane, picking and pointer sensors are not, and `global=FALSE` light scope is not implemented. All pixel numbers are SwiftShader at 320 x 240; no timing, no real GPU, no WebGPU renderer. The person-day figures in `ESTIMATE.md` are guesses [S]; the item list of what three.js gives and lacks is read from its documentation, not run [L].
+- **The three.js bridge is 45 scene fixtures, not a port [L].** 53 of 260 nodes are drawn; MultiTexture, movie and cube-map textures, Text, Inline, picking and pointer sensors are not, `global=FALSE` light scope is not implemented, and 32 Babylon fixtures that probe `__body` internals run here for their pictures only. All pixel numbers are SwiftShader at 320 x 240; no timing, no real GPU, no WebGPU renderer. The person-day figures in `ESTIMATE.md` are guesses [S]; the item list of what three.js gives and lacks is read from its documentation, not run [L].
 
 ## Numbers register
 
@@ -650,6 +682,12 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 | N-BAB-40 | texture rows | ImageTexture 99 dB (identical); PixelTexture 45.66; TextureTransform 50.12 and 50.21; textured primitives 39.58 | C | same rig | x3d.loom@95eda37:x3d.threejs/bridge/receipts/ |
 | N-BAB-41 | TextureTransform order and sign, 4 variants in the Transform order and 4 in the column order | 50.12 (-C S R C T, rotation +, translation +); 21.34, 25.72, 21.39 for the other signs; 21.30 for T C R S -C | C | same rig, one run | x3d.loom@95eda37:x3d.threejs/bridge/src/body-three.js |
 | N-BAB-42 | all compared pictures of the two batches | 30 pictures; IoU 0.90 to 1.00; PSNR 32.38 to 70.12 dB over 24, median 50.13; 6 identical | C | same rig | x3d.loom@95eda37:x3d.threejs/bridge/receipts/ |
+| N-BAB-43 | three.js bridge status, batch 2 | drawn 53, reader-checked 29, reader 46, todo 95, upstream 37 | C | `driver.py status` | x3d.loom@38530ab:x3d.threejs/bridge/NODES.json |
+| N-BAB-44 | all compared pictures after batch 2 | 61 pictures; IoU 0.90 to 1.00; PSNR 25.32 to 80.17 dB over 47 that differ, median 50.24; 14 at 99 dB (12 identical, 2 empty frames) | C | X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader, three.js r187 | x3d.loom@38530ab:x3d.threejs/bridge/receipts/*.json |
+| N-BAB-45 | pictures new in batch 2 | 31 pictures over 27 fixtures; 8 pixel-identical; IoU 0.91 to 1.00 | C | same rig | same receipts |
+| N-BAB-46 | ElevationGrid triangulation | diagonal (a, c, d) (a, d, b): 99 dB; the other diagonal: mad 2.70, 29.13 dB | C | same rig, same fixture twice | x3d.loom@38530ab:x3d.threejs/bridge/src/nodes/Geometry.js |
+| N-BAB-47 | Extrusion before and after BR.ifsExtras (first fixture) | IoU 0.98 to 0.99; mad 0.41 to 0.16; PSNR 39.98 to 38.65 dB; star fixture after: 0.99, 0.20, 37.51 dB | C | same rig | x3d.loom@38530ab:x3d.threejs/bridge/receipts/Extrusion.json |
+| N-BAB-48 | lines of the three.js body | body-three.js 461 (was 284 for 12 core nodes), nodes/Geometry.js 115 | C | `wc -l` | x3d.loom@38530ab:x3d.threejs/bridge/src |
 
 ## Sources and provenance
 
@@ -658,5 +696,6 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 - `x3d.loom@4887a98` (batch 44, read and run 2026-11-14): `x3d.webgpu/bridge/{BATCH-44.md,WHY-nurbs-batch.md,knowledge/NURBS-FINDINGS.md,src/nurbs.js,src/nodes/Nurbs*.js,fixtures/Nurbs*,receipts/Nurbs*}`.
 - `x3d.loom@108a282` (scaffold, read and run 2026-11-14): `x3d.threejs/bridge/{README.md,ESTIMATE.md,src/body-three.js,tools/*,fixtures/*,receipts/*,NODES.json}`; the Babylon files it reads at bundle time are those of `x3d.loom@ed1bed8`.
 - `x3d.loom@95eda37` (batch 1, read and run 2026-11-14): `x3d.threejs/bridge/{src/body-three.js,fixtures/{PointLight,PointLightAttenuation,SpotLight,Fog,PixelTexture,ImageTexture,TextureTransform,TexturedPrimitives}.*,receipts/*}`; X_ITE formulas read in `x_ite.js` 16.6.0 (`Fog2.glsl`, `TextureTransform`, `QuadSphereOptions`, `CylinderOptions`).
+- `x3d.loom@38530ab` (batch 2, read and run 2026-11-14): `x3d.threejs/bridge/{src/body-three.js,src/nodes/Geometry.js,tools/tooling.test.js,fixtures/*,receipts/*}`; X_ITE 16.6.0 read for the ElevationGrid and line behaviour only through renders.
 - Private-source gap: a private primer of 8 November and private notes on each port were pointers only. Figures here were re-derived from the repository or read from a named receipt; the rest are graded [S] or [L] and labelled carried. No private document, link, identifier or chat wording is reproduced.
 - Siblings: [01](01-the-tether.md), [03](03-validator-and-gates.md), [04](04-mcp-for-agents.md), [07](07-xray.md), [09](09-castle-engine.md), [11](11-gltf-usd-khronos.md), [13](13-physics.md).
