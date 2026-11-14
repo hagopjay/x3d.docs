@@ -22,7 +22,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a class="cur" href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="C-numbers-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/C-numbers-ledger.md">GitHub</a></div><h1>Appendix C. Numbers ledger</h1>
 <p>Merged from the <em>Numbers register</em> of every chapter by <code>tools-shared/build_learn.py</code>. Edit the chapter, not this file.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>289 numbers</strong> from 14 chapters. Grades: <span class="g C" title="Confirmed">C</span> 247 · <span class="g L" title="Likely">L</span> 38 · <span class="g S" title="Suspected">S</span> 4. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
+<p><strong>294 numbers</strong> from 14 chapters. Grades: <span class="g C" title="Confirmed">C</span> 251 · <span class="g L" title="Likely">L</span> 39 · <span class="g S" title="Suspected">S</span> 4. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
 <table>
 <thead>
 <tr>
@@ -2528,6 +2528,51 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><span class="g L" title="Likely">L</span></td>
 <td>read, <code>ten-minute-physics/ERRATA-v1-v4.md</code></td>
 <td>law 44 row</td>
+</tr>
+<tr>
+<td>N-PHY-20</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Default contact friction in X_ITE (two bodies at 0.5, multiplied)</td>
+<td>0.25</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>x3d.loom PR #56, X_ITE 16.6.0, Chromium 153, SwiftShader</td>
+<td>section 9.3</td>
+</tr>
+<tr>
+<td>N-PHY-21</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Box thrown at 4 m/s, slide distance in X_ITE and in the bridge</td>
+<td>3.06 to 3.27 m and 1.63 m</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same rig</td>
+<td>section 9.3</td>
+</tr>
+<tr>
+<td>N-PHY-22</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Ball at 4 m/s against a fixed wall, bounce 1, minBounceSpeed 0, speed after</td>
+<td>3.2 to 4 m/s in X_ITE; 3.99 in the bridge</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same rig</td>
+<td>section 9.3</td>
+</tr>
+<tr>
+<td>N-PHY-23</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Body rest height with a sphere offset 1 m below the origin</td>
+<td>0.5 m in X_ITE, 1.5 m in the bridge</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same rig</td>
+<td>section 9.3</td>
+</tr>
+<tr>
+<td>N-PHY-24</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Files using RigidBodyCollection, RigidBody, CollidableShape</td>
+<td>31, 31, 27</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>grep -rl</code> by the batch author over the Loom repos, not re-run here</td>
+<td>section 9</td>
 </tr>
 <tr>
 <td>N-MET-1</td>

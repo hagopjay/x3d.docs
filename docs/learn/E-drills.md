@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**102 drills**, 92 with a recorded run (`Checked`), 10 not yet run. Levels: L1 18, L2 51, L3 33.
+**103 drills**, 93 with a recorded run (`Checked`), 10 not yet run. Levels: L1 18, L2 52, L3 33.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -104,6 +104,7 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-PHY-8 | [13](13-physics.md) | L2 | Re-judge the PhysX run records and attack them | `2026-11-14 x3d.loom@162ab18 kit/loom physics`: status pass; `physx_controls.py`: "14 controls on the real record, 14 caught with the intended code"; `test_gates.py`: 82 controls, optimized False and True. This verifies the records replay in the **recorded** hosts (it reads the hashes; it does not run PhysX again). |
 | D-PHY-9 | [13](13-physics.md) | L1 | Count the MuJoCo threat checks yourself | `2026-11-14 x3d.loom@162ab18`: Counter({('defended','pass'): 16, ('gap','pass'): 3}). |
 | D-PHY-10 | [13](13-physics.md) | L1 | The ports are baked, not simulated by X3D | `2026-11-14 x3d.demo@d10b457 grep`: 17; 0; 200. |
+| D-PHY-11 | [13](13-physics.md) | L2 | Find the four X_ITE contact rules in the source | 2026-11-14 `grep` over X_ITE 16.7.0 (read, behaviour not run) |
 | D-MET-1 | [14](14-methods.md) | L1 | Count the base | 2026-11-14 `build_learn.py` at this commit. |
 | D-MET-2 | [14](14-methods.md) | L2 | Grade mix | 2026-11-14 `learn_lib.py` count, Python 3.13. |
 | D-MET-3 | [14](14-methods.md) | L3 | Break the linter | 2026-11-14 `check_learn.py` at this commit. |

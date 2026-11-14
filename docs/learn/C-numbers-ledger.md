@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**289 numbers** from 14 chapters. Grades: [C] 247 · [L] 38 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**294 numbers** from 14 chapters. Grades: [C] 251 · [L] 39 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -284,6 +284,11 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-PHY-17 | [13](13-physics.md) | Replay of the Chromium run: steps and differing hashes | 1918 steps, 0 differing, 4 hosts | [L] | read, `x3d.loom@162ab18:x3d.physics/runs/physx-grand-cascade-chromium.physics.json` | PLAYBOOK pattern 3 |
 | N-PHY-18 | [13](13-physics.md) | CCD tunnelling, 5 m/s marble, 5 mm wall | 0 of 40 on, 10 of 40 off | [L] | read, `physx-bridge/tests/analytic.test.ts` evidence | PLAYBOOK pattern 7 |
 | N-PHY-19 | [13](13-physics.md) | Independent review of v1 to v4 | 125 claims, 55 findings, 25 survived, 0 false alarms | [L] | read, `ten-minute-physics/ERRATA-v1-v4.md` | law 44 row |
+| N-PHY-20 | [13](13-physics.md) | Default contact friction in X_ITE (two bodies at 0.5, multiplied) | 0.25 | [C] | x3d.loom PR #56, X_ITE 16.6.0, Chromium 153, SwiftShader | section 9.3 |
+| N-PHY-21 | [13](13-physics.md) | Box thrown at 4 m/s, slide distance in X_ITE and in the bridge | 3.06 to 3.27 m and 1.63 m | [C] | same rig | section 9.3 |
+| N-PHY-22 | [13](13-physics.md) | Ball at 4 m/s against a fixed wall, bounce 1, minBounceSpeed 0, speed after | 3.2 to 4 m/s in X_ITE; 3.99 in the bridge | [C] | same rig | section 9.3 |
+| N-PHY-23 | [13](13-physics.md) | Body rest height with a sphere offset 1 m below the origin | 0.5 m in X_ITE, 1.5 m in the bridge | [C] | same rig | section 9.3 |
+| N-PHY-24 | [13](13-physics.md) | Files using RigidBodyCollection, RigidBody, CollidableShape | 31, 31, 27 | [L] | `grep -rl` by the batch author over the Loom repos, not re-run here | section 9 |
 | N-MET-1 | [14](14-methods.md) | chapters 01 to 13 | 13 | C | `check_learn.py` at this commit | `x3d.docs@f172f67:docs/learn/` |
 | N-MET-2 | [14](14-methods.md) | heuristics before chapter 14 | 161 | C | `build_learn.py` at this commit | `docs/learn/D-heuristics-ledger.md` |
 | N-MET-3 | [14](14-methods.md) | drills before chapter 14 | 97 | C | `build_learn.py` at this commit | `docs/learn/E-drills.md` |

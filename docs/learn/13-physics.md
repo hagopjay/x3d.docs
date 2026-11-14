@@ -363,6 +363,47 @@ Energy conservation is a check only against the right reference. For a stepped s
 
 ---
 
+## 9. The Babylon bridge's own engine, and what X_ITE's Bullet does that the spec does not say
+
+The Babylon bridge (`x3d.loom` `x3d.webgpu/bridge`) reached the rigid body group at tracker batch 37 (x3d.loom PR #56): RigidBodyCollection, RigidBody, CollidableShape, CollidableOffset and CollisionCollection. These five were chosen because they are the nodes the platformer levels, the PhysX scenes and the marble machine all share (RigidBodyCollection and RigidBody each appear in 31 files of the Loom repos, CollidableShape in 27, the joints in 13 to 22). **[C]** (`grep -rl` over the repos at the time of the batch, counted by the batch's author.)
+
+### 9.1 Why a small engine of our own
+
+| option | cost | chosen? |
+|---|---|---|
+| Babylon's Havok plugin | a binary the page has to fetch; the pages run under tight network rules | no |
+| the PhysX 5 bridge (section 3) | a worker and its own build; right for a finished demo | no |
+| about 230 lines of JavaScript in `RigidBodyCollection.js` | no download, repeatable, every behaviour explainable and testable against X_ITE | yes |
+
+### 9.2 What the engine does
+
+| part | choice | why |
+|---|---|---|
+| time | fixed 1/240 s slices up to the clock, catch-up capped at 0.5 s | repeatable; small steps keep contacts stable; a stalled tab cannot spiral (H-PHY-8) |
+| integrator | symplectic (semi-implicit) Euler | bounded energy error for the same cost (section 5) |
+| contacts | sphere-sphere, sphere-box (closest point), box-box by the separating axis test over 15 axes with corner contacts | a box on a floor gets four points and does not rock |
+| solver | sequential impulses, `iterations` passes (default 10), pushes only, Coulomb friction limited to mu times the normal impulse | the standard small-engine choice |
+| mass | inertia from the shapes (box and sphere formulas, parallel-axis to the body origin); the `inertia` field is ignored | X_ITE's Bullet derives it from the shapes too |
+| output | `position`, `orientation`, `linearVelocity`, `angularVelocity` raised as events | a ROUTE to a Transform is all it takes |
+
+### 9.3 Five things X_ITE's Bullet does (measured at 16.6.0, source read at 16.7.0)
+
+| # | behaviour | measured effect | how it was found |
+|---|---|---|---|
+| 1 | every body gets friction 0.5 and Bullet multiplies the two bodies' values | default contact friction 0.25; a box thrown at 4 m/s slides 3.06 to 3.27 m where mu 0.5 gives v squared over 2 mu g = 1.63 m | slide test, two runs |
+| 2 | `frictionCoefficients` is read only if `appliedParameters` contains `FRICTION_COEFFICIENT_2` (underscore); the 4.0 XSD and the spec write `FRICTION_COEFFICIENT-2` (hyphen) | a valid scene never gets its friction in X_ITE | component source |
+| 3 | restitution is set from the body's own speed at configuration time, so a fixed wall (speed 0) gets 0, and Bullet multiplies the two | nothing bounces off a fixed body unless `minBounceSpeed` is 0; with 0, a ball returned at 3.2 to 4 m/s from 4 | wall test, component source |
+| 4 | the translation and rotation of a CollidableOffset or CollidableShape reach the physics only in `eventsProcessed`, after the node first receives an event | a sphere offset 1 m below its body rested the body at 0.5 m in X_ITE, 1.5 m in the bridge | offset test, component source |
+| 5 | the step follows measured frame time; the collider's `collidables` list is not used for collision | results differ in the third digit between runs | repeated runs, component source |
+
+Instruments: x3d.loom PR #56 fixtures (`RigidBodyCollection`, `RigidBody`, `CollisionCollection`, `CollidableShape`, `CollidableOffset`) run in our reader and in X_ITE 16.6.0 (WebGL2, Chromium 153.0.8010.12, SwiftShader), Babylon 9.32.0; where X_ITE differs the fixture checks each engine against its own value. **[C]** The 16.7.0 source lines (`setFriction(.5)`, `FRICTION_COEFFICIENT_2`, speed against `_minBounceSpeed`, `eventsProcessed`) were read in `docs/vendor/x_ite/assets/components/RigidBodyPhysicsComponent.min.js`; behaviour at 16.7.0 was not run. **[L]**
+
+### 9.4 How the tests keep honest
+
+With collisions switched off the ball fell to y = -10.9 and two equal spheres passed through each other (velocities +2 and -2 instead of swapped), so the head-on pair test, the rest heights and the force rate (2 N on 1 kg gives 2 m/s each second) are real checks (H-PHY-2, H-PHY-3). Because Bullet's step varies, tests use ranges, never exact trajectories.
+
+---
+
 ## Heuristics
 
 | ID | Rule (imperative, at most 30 words) | Grade | Evidence | Instrument |
@@ -381,6 +422,11 @@ Energy conservation is a check only against the right reference. For a stepped s
 | H-PHY-12 | A mutation control must change the record; count caught of total and distrust a control whose reference limit is 0. | [C] | 9 of 11 became 11 of 11 | v6 receipt |
 | H-PHY-14 | Treat a second engine as a model check, not a build check, and compute the chaos horizon before blaming a method. | [C] | MuJoCo against RK4 1.3e-7 m over 3 s; horizon 8.9 s at 1e-9 | ERRATA-v1-v4, read |
 | H-PHY-15 | Run the schema check and the semantic check; the XSD accepts routes and containerFields the semantic rules reject. | [C] | MuJoCo bridge: 9 of 9 XSD-valid, 9 of 9 semantic failures before fix | `x3d_mcp fork fa0b389` as recorded in GATE-0 |
+| H-PHY-16 | Read the engine's contact parameters from its source before you compare a bridge to it; Bullet multiplies friction and restitution of the two bodies, so one value hides in the product. | [C] | default friction 0.25 against 0.5; slide 3.06 to 3.27 m against 1.63 m | x3d.loom PR #56 fixtures; X_ITE 16.6.0, Chromium 153, SwiftShader; source read at 16.7.0 |
+| H-PHY-17 | Write `appliedParameters` in the spelling the engine reads and check what it does with the spec's; X_ITE reads `FRICTION_COEFFICIENT_2`, the XSD says `FRICTION_COEFFICIENT-2`. | [C] | one underscore, one hyphen | `RigidBodyPhysicsComponent.min.js` 16.7.0, read |
+| H-PHY-18 | For a bounce test against a wall or floor set `minBounceSpeed` to 0 in X_ITE; a fixed body has speed 0, so the default 0.1 gives it restitution 0. | [C] | ball returned at 3.2 to 4 m/s only with 0 | x3d.loom PR #56 `CollisionCollection` fixture; X_ITE 16.6.0 |
+| H-PHY-19 | Do not trust a CollidableOffset or CollidableShape translation in X_ITE until the node has received an event; test where the body rests. | [C] | rest height 0.5 m in X_ITE against 1.5 m expected | x3d.loom PR #56 `CollidableOffset` fixture; X_ITE 16.6.0 |
+| H-PHY-20 | When two engines differ by design, check each against its own written value and log the gap; never loosen a tolerance until both pass. | [L] | five nodes, four per-engine values | x3d.loom PR #56 fixtures |
 
 ---
 
@@ -555,10 +601,18 @@ grep -c Interpolator docs/demos/ten-minute-physics/v6/23-sweep-and-prune.x3d
 - **Answer:** 17 scenes; 0 files with RigidBody or Script; `grep -c` counts matching lines: 200. A script-free scene cannot step anything; the numbers come from the generators in `witness-scripts/`. (`grep -c` counts lines, not occurrences; the scene is one element per line in this file.)
 - **Checked:** `2026-11-14 x3d.demo@d10b457 grep`: 17; 0; 200.
 
+### D-PHY-11 Find the four X_ITE contact rules in the source
+- **Level:** L2 (run a tool and compare)
+- **Task:** In the vendored `docs/vendor/x_ite/assets/components/RigidBodyPhysicsComponent.min.js`, find (a) the default friction set on every body, (b) the spelling of the friction parameter it recognises, (c) the test that decides a body's restitution, (d) where a collidable's translation reaches the physics. Say what each means for a scene that follows the spec.
+- **Verify:** `grep -o 'setFriction([^)]*)' F`, `grep -o 'FRICTION_COEFFICIENT_2' F | wc -l`, `grep -o 'getLinearVelocity().length()>=t._minBounceSpeed' F`, `grep -o 'eventsProcessed(){this.matrix.setTransform' F`, with F the file above.
+- **Answer:** (a) `setFriction(.5)` for every body, then `setFriction(t._frictionCoefficients.x)` only when the parameter is applied; (b) `FRICTION_COEFFICIENT_2` with an underscore, appearing twice, never the spec's hyphen form; (c) restitution is the bounce only when the body's own linear speed is at least `minBounceSpeed`, otherwise 0, so a fixed body gets 0; (d) in `eventsProcessed`, after the node first receives an event.
+- **Checked:** 2026-11-14 `grep` over X_ITE 16.7.0 (read, behaviour not run)
+
 ---
 
 ## Honest limits
 
+- **[C] The X_ITE Bullet measurements are 16.6.0 on a software GPU in headless Chromium 153.** The 16.7.0 file shows the same code for friction, restitution and `eventsProcessed`; its behaviour was not run. Bullet's variable step means a distance such as 3.06 to 3.27 m is a range, not a constant. The bridge's own engine has no sleeping, no joints yet, and collides boxes and spheres exactly (cylinders and cones as spheres).
 - **[C] One machine.** Every replay in the bridge records ran on one Apple-silicon Mac; "deterministic across hosts" means across Chromium, Firefox 146, WebKit 26 and Node 24 on it, not across machines or CPUs (README, "Not shown"; PLAYBOOK section 5, `visible_not_run: cross-machine`).
 - **[C] PhysX and MuJoCo were not run for this chapter.** All engine numbers (analytic ladder, 1918 and 969 steps, Gate 0 counts) are read from evidence files and receipts. What was re-run: the witness over the records (it reads hashes), 14 controls, 82 kit controls, the threat count, the numpy drills.
 - **[C] The ragdoll and MuJoCo have no run record.** The witness cannot judge them; their gaps (0.43 rad against 0.2; 2.97 against 2.22 rad/s) are logged and not tuned.
@@ -593,6 +647,11 @@ grep -c Interpolator docs/demos/ten-minute-physics/v6/23-sweep-and-prune.x3d
 | N-PHY-17 | Replay of the Chromium run: steps and differing hashes | 1918 steps, 0 differing, 4 hosts | [L] | read, `x3d.loom@162ab18:x3d.physics/runs/physx-grand-cascade-chromium.physics.json` | PLAYBOOK pattern 3 |
 | N-PHY-18 | CCD tunnelling, 5 m/s marble, 5 mm wall | 0 of 40 on, 10 of 40 off | [L] | read, `physx-bridge/tests/analytic.test.ts` evidence | PLAYBOOK pattern 7 |
 | N-PHY-19 | Independent review of v1 to v4 | 125 claims, 55 findings, 25 survived, 0 false alarms | [L] | read, `ten-minute-physics/ERRATA-v1-v4.md` | law 44 row |
+| N-PHY-20 | Default contact friction in X_ITE (two bodies at 0.5, multiplied) | 0.25 | [C] | x3d.loom PR #56, X_ITE 16.6.0, Chromium 153, SwiftShader | section 9.3 |
+| N-PHY-21 | Box thrown at 4 m/s, slide distance in X_ITE and in the bridge | 3.06 to 3.27 m and 1.63 m | [C] | same rig | section 9.3 |
+| N-PHY-22 | Ball at 4 m/s against a fixed wall, bounce 1, minBounceSpeed 0, speed after | 3.2 to 4 m/s in X_ITE; 3.99 in the bridge | [C] | same rig | section 9.3 |
+| N-PHY-23 | Body rest height with a sphere offset 1 m below the origin | 0.5 m in X_ITE, 1.5 m in the bridge | [C] | same rig | section 9.3 |
+| N-PHY-24 | Files using RigidBodyCollection, RigidBody, CollidableShape | 31, 31, 27 | [L] | `grep -rl` by the batch author over the Loom repos, not re-run here | section 9 |
 
 ---
 
