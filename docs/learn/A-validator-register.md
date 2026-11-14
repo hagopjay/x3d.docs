@@ -3,7 +3,7 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-210 distinct instrument strings across the numbers registers.
+212 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
@@ -11,12 +11,12 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `same` | 13 | 05, 06, 07, 09, 10, 11, 12 | C:12 L:1 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
 | `learn_lib.py count` | 6 | 14 | C:6 |
+| `same rig` | 6 | 09, 13 | C:6 |
 | `bpy 5.3.0` | 5 | 10, 11 | C:2 L:3 |
 | `Khronos glTF-Validator 2.0.0-dev.3.10` | 4 | 09, 10, 11 | C:4 |
 | `build_learn.py at this commit` | 4 | 14 | C:4 |
 | `rdflib 7.6.0` | 4 | 05 | C:4 |
 | `read, not re-run` | 4 | 06, 07 | L:4 |
-| `same rig` | 4 | 09, 13 | C:4 |
 | `Python 3, 2026-11-14` | 3 | 12 | C:3 |
 | `count` | 3 | 02 | C:3 |
 | `inline Python` | 3 | 09 | C:3 |
@@ -77,6 +77,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `arithmetic on add_light.glsl` | 1 | 09 | C:1 |
 | `as recorded, not re-run` | 1 | 02 | L:1 |
 | `as reported, not re-checked` | 1 | 01 | L:1 |
+| `batch 41 SingleAxisHingeJoint probe; X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 13 | C:1 |
 | `bpy 5.3.0 Cycles CPU 16 spp, x3d_mcp fork b4efcd3` | 1 | 10 | C:1 |
 | `bpy 5.3.0, Khronos glTF-Validator 2.0.0-dev.3.10, carried` | 1 | 11 | L:1 |
 | `carried from a private note` | 1 | 09 | S:1 |
@@ -163,6 +164,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `row count` | 1 | 09 | C:1 |
 | `rule in section 3` | 1 | 10 | C:1 |
 | `run of an X3D33 export` | 1 | 10 | C:1 |
+| `same rig, wall-clock wait` | 1 | 13 | C:1 |
 | `same validator, receipt` | 1 | 09 | C:1 |
 | `same, seed 7` | 1 | 07 | C:1 |
 | `scratch copy of x3d_mcp fork b4efcd3` | 1 | 03 | C:1 |
