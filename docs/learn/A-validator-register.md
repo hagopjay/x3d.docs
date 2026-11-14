@@ -3,15 +3,15 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-219 distinct instrument strings across the numbers registers.
+223 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `same` | 13 | 05, 06, 07, 09, 10, 11, 12 | C:12 L:1 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
+| `same rig` | 7 | 08, 09, 13 | C:7 |
 | `learn_lib.py count` | 6 | 14 | C:6 |
-| `same rig` | 6 | 09, 13 | C:6 |
 | `bpy 5.3.0` | 5 | 10, 11 | C:2 L:3 |
 | `Khronos glTF-Validator 2.0.0-dev.3.10` | 4 | 09, 10, 11 | C:4 |
 | `build_learn.py at this commit` | 4 | 14 | C:4 |
@@ -23,6 +23,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d_mcp fork b4efcd3, seed 20261029` | 3 | 01, 03 | C:3 |
 | `Chromium 153, SwiftShader (carried)` | 2 | 11, 12 | L:2 |
 | `X_ITE 16.7.0, Chromium 153, SwiftShader, 320 x 240` | 2 | 01 | C:2 |
+| `driver.py status` | 2 | 08 | C:2 |
 | `file size, 2026-11-14` | 2 | 12 | C:2 |
 | `marker scan, X_ITE 16.7.0` | 2 | 06 | C:2 |
 | `numpy, 2026-11-14` | 2 | 12 | C:2 |
@@ -30,6 +31,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `pyshacl 0.40.2` | 2 | 05 | C:2 |
 | `pytest 9.2.0, Python 3.13.18, no Chromium` | 2 | 03, 04 | C:2 |
 | `python parse of the table, x3d.loom@162ab18` | 2 | 02 | C:2 |
+| `wc -l` | 2 | 08, 10 | C:2 |
 | `x3d.xray@8fa6845` | 2 | 07 | C:2 |
 | `x3d_mcp fork 535fdac and b4efcd3` | 2 | 01 | C:2 |
 | `x3d_mcp fork b4efcd3, 24 seeds` | 2 | 01 | C:2 |
@@ -69,7 +71,9 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `X_ITE 16.6.0 private getNormals, SwiftShader` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0 private getVertices, SwiftShader` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0, 640 x 360, SwiftShader` | 1 | 08 | L:1 |
+| `X_ITE 16.6.0, Chromium 153.0.8010.12` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0, SwiftShader, parsed from the report` | 1 | 08 | C:1 |
+| `X_ITE 16.6.0, three.js r187, Chromium 153.0.8010.12, SwiftShader, 320 x 240` | 1 | 08 | C:1 |
 | `X_ITE 16.7.0 (and 16.4.3, 16.5.1, 16.6.1, 16.7.1), Chromium 153, SwiftShader` | 1 | 06 | C:1 |
 | `X_ITE 16.7.0, browser.supportedComponents` | 1 | 06 | C:1 |
 | `X_ITE 16.7.0; x3d_mcp fork b4efcd3` | 1 | 06 | C:1 |
@@ -101,7 +105,6 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `core11.py; FLIP 1.7, Cycles 256 spp, 512 px` | 1 | 09 | C:1 |
 | `count, x3d.loom@162ab18` | 1 | 02 | C:1 |
 | `driver.py batch -n 10 --close, X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader` | 1 | 08 | C:1 |
-| `driver.py status` | 1 | 08 | C:1 |
 | `driver.py status, x3d.loom@162ab18` | 1 | 08 | C:1 |
 | `examples/eda_1_signal_and_noise.py` | 1 | 07 | C:1 |
 | `examples/eda_1_signal_and_noise.py --calibrate, seeds 1000 to 1149` | 1 | 07 | C:1 |
@@ -165,12 +168,14 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `receipt read, arithmetic` | 1 | 09 | C:1 |
 | `recorded reports parsed; Blender 5.2.2 and 5.1.0, add-on v2.6.1` | 1 | 03 | C:1 |
 | `regex over section 8, 2 false hits removed` | 1 | 02 | C:1 |
+| `regex over src/nodes/*.js` | 1 | 08 | L:1 |
 | `regex over unminified dist/` | 1 | 06 | C:1 |
 | `rig on nine scenes, README` | 1 | 10 | L:1 |
 | `rig, 3 repeats, Babylon 9.32 only; receipt re-read` | 1 | 09 | C:1 |
 | `row count` | 1 | 09 | C:1 |
 | `rule in section 3` | 1 | 10 | C:1 |
 | `run of an X3D33 export` | 1 | 10 | C:1 |
+| `same rig, two runs of the 10 fixtures` | 1 | 08 | C:1 |
 | `same rig, wall-clock wait` | 1 | 13 | C:1 |
 | `same validator, receipt` | 1 | 09 | C:1 |
 | `same, seed 7` | 1 | 07 | C:1 |
@@ -192,7 +197,6 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `unittest runner` | 1 | 10 | C:1 |
 | `validate_x3d_export.py, bpy 5.3.0` | 1 | 10 | C:1 |
 | `verifier pass in a private note` | 1 | 10 | S:1 |
-| `wc -l` | 1 | 10 | C:1 |
 | `wc -l, grep` | 1 | 07 | C:1 |
 | `wc, gzip -9, sha256sum` | 1 | 06 | C:1 |
 | `x3d-blender-io@ab99988 catalogue` | 1 | 03 | C:1 |

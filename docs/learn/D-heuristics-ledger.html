@@ -22,7 +22,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a class="cur" href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="D-heuristics-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/D-heuristics-ledger.md">GitHub</a></div><h1>Appendix D. Heuristics ledger</h1>
 <p>Merged from the <em>Heuristics</em> table of every chapter. Edit the chapter, not this file.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>183 heuristics.</strong> Grades: <span class="g C" title="Confirmed">C</span> 139 · <span class="g L" title="Likely">L</span> 37 · <span class="g S" title="Suspected">S</span> 7. Retired rules are struck through in their chapter, never deleted.</p>
+<p><strong>187 heuristics.</strong> Grades: <span class="g C" title="Confirmed">C</span> 143 · <span class="g L" title="Likely">L</span> 37 · <span class="g S" title="Suspected">S</span> 7. Retired rules are struck through in their chapter, never deleted.</p>
 <table>
 <thead>
 <tr>
@@ -850,6 +850,38 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C</td>
 <td>NurbsSet is a sequence, not a choice; Contour2D has no parent in the model</td>
 <td><code>xmllint</code>, <code>x3d_mcp</code> <code>x3d-4.0.xsd</code>, driver spec keys <code>xsdChoice</code> and <code>xsdAllow</code></td>
+</tr>
+<tr>
+<td>H-BAB-16</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Share the reader and write only the body: read the reader files at bundle time instead of copying them, so a reader fix reaches every engine.</td>
+<td>C</td>
+<td>three.js body 284 lines against 1671 for the Babylon one; no file under <code>x3d.webgpu/</code> changed</td>
+<td><code>x3d.loom@108a282</code>, <code>wc -l</code></td>
+</tr>
+<tr>
+<td>H-BAB-17</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Bind the first Viewpoint at load in any new body and test the framing before the lighting.</td>
+<td>C</td>
+<td>IoU 0.34 to 0.64 before, 0.99 to 1.00 after, on the same 10 fixtures</td>
+<td><code>X_ITE 16.6.0</code>, SwiftShader, three.js r187</td>
+</tr>
+<tr>
+<td>H-BAB-18</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Make X_ITE hard for events, fields and silhouettes, and a bounded reference for lit colour; write the reason when a quality choice leaves it.</td>
+<td>C</td>
+<td>scaffold split; owner's ruling of 14 Nov</td>
+<td><code>tools/run-tests.js</code>, <code>x3d.loom@108a282</code></td>
+</tr>
+<tr>
+<td>H-BAB-19</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Convert light units and the Phong exponent between engines before judging a look: three.js needs a factor PI on lights and about four times the exponent.</td>
+<td>C</td>
+<td>Sphere 28.22 to 36.98 dB, Box 63.84 to 70.12 dB</td>
+<td><code>X_ITE 16.6.0</code>, three.js r187, SwiftShader</td>
 </tr>
 <tr>
 <td>H-CAS-1</td>

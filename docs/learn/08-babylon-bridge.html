@@ -20,7 +20,7 @@ blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;backgr
 details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
 .foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a class="cur" href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="08-babylon-bridge.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/08-babylon-bridge.md">GitHub</a></div><h1>08. The Babylon bridge</h1>
-<details class="toc"><summary>On this page (30 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-why-a-second-renderer-and-why-the-file-stays-the-master">2. Why: a second renderer, and why the file stays the master</a><a class="l2" href="#3-architecture-the-reader-is-the-brain-babylon-is-the-body">3. Architecture: the reader is the brain, Babylon is the body</a><a class="l2" href="#4-node-coverage-recounted-at-x3dloom162ab18">4. Node coverage, recounted at x3d.loom@162ab18</a><a class="l2" href="#5-the-playbook-merged-50-traps-ranked">5. The playbook, merged: 50 traps, ranked</a><a class="l2" href="#6-the-parity-method-psnr-against-x_ite-on-a-software-gpu">6. The parity method: PSNR against X_ITE on a software GPU</a><a class="l2" href="#7-the-ports-and-what-each-taught">7. The ports and what each taught</a><a class="l2" href="#8-a-look-may-add-never-assert-a-fallback-must-say-so">8. A look may add, never assert; a fallback must say so</a><a class="l2" href="#9-shader-porting-hash-keyed-glsl-to-hand-written-wgsl">9. Shader porting: hash-keyed GLSL to hand-written WGSL</a><a class="l2" href="#10-the-adapter-and-blocklist-trap">10. The adapter and blocklist trap</a><a class="l2" href="#11-porting-a-new-demo-sixteen-steps-append-only">11. Porting a new demo: sixteen steps, append-only</a><a class="l2" href="#12-no-speed-claim-exists-and-what-one-would-take">12. No speed claim exists, and what one would take</a><a class="l2" href="#13-nurbs-in-the-bridge-shared-maths-x_ites-tessellation-rule-and-where-x_ite-is-wrong">13. NURBS in the bridge: shared maths, X_ITE&#x27;s tessellation rule, and where X_ITE is wrong</a><a class="l3" href="#131-what-was-built-and-why-it-is-one-library">13.1 What was built and why it is one library</a><a class="l3" href="#132-the-tessellation-rule-is-x_ites-on-purpose-the-maths-is-the-standards">13.2 The tessellation rule is X_ITE&#x27;s on purpose; the maths is the standard&#x27;s</a><a class="l3" href="#133-where-x_ite-1660-is-wrong-and-where-it-is-only-different">13.3 Where X_ITE 16.6.0 is wrong, and where it is only different</a><a class="l3" href="#134-two-schema-findings-and-one-test-rig-trap">13.4 Two schema findings and one test-rig trap</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-bab-1-recount-the-bridges-coverage">D-BAB-1 Recount the bridge&#x27;s coverage</a><a class="l3" href="#d-bab-2-re-derive-the-primers-68">D-BAB-2 Re-derive the primer&#x27;s 68</a><a class="l3" href="#d-bab-3-break-a-shader-key-then-predict-which-half-moves">D-BAB-3 Break a shader key, then predict which half moves</a><a class="l3" href="#d-bab-4-move-a-psnr-by-changing-its-window">D-BAB-4 Move a PSNR by changing its window</a><a class="l3" href="#d-bab-5-census-a-corpus-before-you-promise-a-port">D-BAB-5 Census a corpus before you promise a port</a><a class="l3" href="#d-bab-6-check-the-weights-radius-100-not-124">D-BAB-6 Check the weights: radius 1.00, not 1.24</a><a class="l3" href="#d-bab-7-re-run-one-nurbs-node-against-x_ite">D-BAB-7 Re-run one NURBS node against X_ITE</a><a class="l3" href="#d-bab-8-predict-a-sets-triangle-counts">D-BAB-8 Predict a set&#x27;s triangle counts</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<details class="toc"><summary>On this page (35 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-why-a-second-renderer-and-why-the-file-stays-the-master">2. Why: a second renderer, and why the file stays the master</a><a class="l2" href="#3-architecture-the-reader-is-the-brain-babylon-is-the-body">3. Architecture: the reader is the brain, Babylon is the body</a><a class="l2" href="#4-node-coverage-recounted-at-x3dloom162ab18">4. Node coverage, recounted at x3d.loom@162ab18</a><a class="l2" href="#5-the-playbook-merged-50-traps-ranked">5. The playbook, merged: 50 traps, ranked</a><a class="l2" href="#6-the-parity-method-psnr-against-x_ite-on-a-software-gpu">6. The parity method: PSNR against X_ITE on a software GPU</a><a class="l2" href="#7-the-ports-and-what-each-taught">7. The ports and what each taught</a><a class="l2" href="#8-a-look-may-add-never-assert-a-fallback-must-say-so">8. A look may add, never assert; a fallback must say so</a><a class="l2" href="#9-shader-porting-hash-keyed-glsl-to-hand-written-wgsl">9. Shader porting: hash-keyed GLSL to hand-written WGSL</a><a class="l2" href="#10-the-adapter-and-blocklist-trap">10. The adapter and blocklist trap</a><a class="l2" href="#11-porting-a-new-demo-sixteen-steps-append-only">11. Porting a new demo: sixteen steps, append-only</a><a class="l2" href="#12-no-speed-claim-exists-and-what-one-would-take">12. No speed claim exists, and what one would take</a><a class="l2" href="#13-nurbs-in-the-bridge-shared-maths-x_ites-tessellation-rule-and-where-x_ite-is-wrong">13. NURBS in the bridge: shared maths, X_ITE&#x27;s tessellation rule, and where X_ITE is wrong</a><a class="l3" href="#131-what-was-built-and-why-it-is-one-library">13.1 What was built and why it is one library</a><a class="l3" href="#132-the-tessellation-rule-is-x_ites-on-purpose-the-maths-is-the-standards">13.2 The tessellation rule is X_ITE&#x27;s on purpose; the maths is the standard&#x27;s</a><a class="l3" href="#133-where-x_ite-1660-is-wrong-and-where-it-is-only-different">13.3 Where X_ITE 16.6.0 is wrong, and where it is only different</a><a class="l3" href="#134-two-schema-findings-and-one-test-rig-trap">13.4 Two schema findings and one test-rig trap</a><a class="l2" href="#14-a-second-body-the-reader-on-threejs">14. A second body: the reader on three.js</a><a class="l3" href="#141-why-this-is-easy-and-what-is-not">14.1 Why this is easy, and what is not</a><a class="l3" href="#142-what-the-first-run-taught">14.2 What the first run taught</a><a class="l3" href="#143-x_ite-lighting-is-a-target-not-a-rule">14.3 X_ITE lighting is a target, not a rule</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-bab-1-recount-the-bridges-coverage">D-BAB-1 Recount the bridge&#x27;s coverage</a><a class="l3" href="#d-bab-2-re-derive-the-primers-68">D-BAB-2 Re-derive the primer&#x27;s 68</a><a class="l3" href="#d-bab-3-break-a-shader-key-then-predict-which-half-moves">D-BAB-3 Break a shader key, then predict which half moves</a><a class="l3" href="#d-bab-4-move-a-psnr-by-changing-its-window">D-BAB-4 Move a PSNR by changing its window</a><a class="l3" href="#d-bab-5-census-a-corpus-before-you-promise-a-port">D-BAB-5 Census a corpus before you promise a port</a><a class="l3" href="#d-bab-6-check-the-weights-radius-100-not-124">D-BAB-6 Check the weights: radius 1.00, not 1.24</a><a class="l3" href="#d-bab-7-re-run-one-nurbs-node-against-x_ite">D-BAB-7 Re-run one NURBS node against X_ITE</a><a class="l3" href="#d-bab-8-predict-a-sets-triangle-counts">D-BAB-8 Predict a set&#x27;s triangle counts</a><a class="l3" href="#d-bab-9-break-the-first-viewpoint-rule-and-read-the-picture">D-BAB-9 Break the first-Viewpoint rule and read the picture</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
 <blockquote>
 <p><strong>Say it:</strong> one X3D file is the master, our own reader runs its events, and Babylon on WebGPU only paints the result; every picture is a claim against X_ITE on a named rig, every fallback says so on screen, and nothing about speed has been measured. <strong><span class="g C" title="Confirmed">C</span></strong></p>
 </blockquote>
@@ -1227,6 +1227,93 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <li>Contour2D, NurbsCurve2D and ContourPolyline2D are children of no scene node in the schema; the specs use <code>xsdAllow</code> <span class="g C" title="Confirmed">C</span>.</li>
 <li>A <code>Coordinate</code> inside a NURBS curve or patch without <code>containerField=&quot;controlPoint&quot;</code> leaves X_ITE with no control points and no error <span class="g C" title="Confirmed">C</span>.</li>
 </ul>
+<h2 id="14-a-second-body-the-reader-on-threejs">14. A second body: the reader on three.js</h2>
+<p>The three.js bridge is a scaffold at <code>x3d.loom@108a282</code> (<code>x3d.threejs/bridge/</code>): a three.js r187 drawing half for the reader this chapter describes, written without copying or editing anything under <code>x3d.webgpu/</code>. It is a feasibility proof with a tracker, not a port: 15 of 260 nodes are drawn, 119 need the body, 47 wait on the Babylon batches <span class="g C" title="Confirmed">C</span>.</p>
+<pre><code class="language-text">   x3d.webgpu/ (read at bundle time, not copied)            x3d.threejs/bridge/
+   reader.js  kit.js  nodes/*.js  sai.js   -------------&gt;   tools/bundle.js  --&gt; page
+   Body.geometryData (vertex data)         -------------&gt;        + src/body-three.js (THREE)
+                                                                 + src/nodes/*.js (empty; registry ready)
+   fixtures/*.x3d + *.test.json (events)   -------------&gt;   tools/run-tests.js: ours | X_ITE 16.6.0
+                                                             fixtures/ (scene, for the three.js body)
+</code></pre>
+<h3 id="141-why-this-is-easy-and-what-is-not">14.1 Why this is easy, and what is not</h3>
+<table>
+<thead>
+<tr>
+<th>layer</th>
+<th>lines</th>
+<th>engine mentions</th>
+<th>in the scaffold</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>reader.js</code>, <code>sai.js</code>, <code>kit.js</code></td>
+<td>388, 319, 648</td>
+<td>0, 1, 4</td>
+<td>shared</td>
+</tr>
+<tr>
+<td>150 node files</td>
+<td>5882</td>
+<td>19 files</td>
+<td>shared; the 19 are the port list</td>
+</tr>
+<tr>
+<td>Babylon body: <code>body.js</code>, <code>body-cam.js</code>, <code>body-br.js</code></td>
+<td>518, 234, 919</td>
+<td>62, 17, 53</td>
+<td>replaced; the three.js core body is 284 lines</td>
+</tr>
+</tbody>
+</table>
+<p>The reader has no engine call, so the hard 80 percent was already engine-neutral. The hooks left to port, counted by regex: 15 <code>geometry</code> hooks (all plain vertex data), 61 <code>build</code> (43 call only <code>Body</code> methods) and 61 <code>changed</code> <span class="g L" title="Likely">L</span>. By group: 79 event and logic nodes cost nothing, about 50 percent map onto three.js objects, about 20 percent are real work (volume, particles, HAnim, text, layering); about 45 to 65 person-days for the 119 open nodes <span class="g S" title="Suspected">S</span>. The full table is <code>x3d.threejs/bridge/ESTIMATE.md</code>.</p>
+<h3 id="142-what-the-first-run-taught">14.2 What the first run taught</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>finding</th>
+<th>numbers</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>the stock Babylon body binds no Viewpoint at load; <code>body-br.js</code> adds it. A body that forgets draws at the default pose</td>
+<td>silhouette IoU 0.34 to 0.64 on all 10 fixtures before, 0.99 to 1.00 on 9 after (Material 0.90)</td>
+<td>C</td>
+</tr>
+<tr>
+<td>2</td>
+<td>three.js lights are physical units: a factor PI makes diffuse x intensity x N.L</td>
+<td>the 10 fixtures draw lit colours within a few grey levels of X_ITE (foreground mean)</td>
+<td>C</td>
+</tr>
+<tr>
+<td>3</td>
+<td>X_ITE evaluates Phong with the reflection vector, three.js with Blinn-Phong; four times the exponent matches the highlight</td>
+<td>Sphere 28.22 to 36.98 dB, Box 63.84 to 70.12 dB from that change alone</td>
+<td>C</td>
+</tr>
+<tr>
+<td>4</td>
+<td>a Transform with <code>scaleOrientation</code> keeps its shear as one matrix; the Babylon body decomposes to TRS and drops it</td>
+<td>Transform fixture: IoU 1.00, 99 dB, both pictures</td>
+<td>C</td>
+</tr>
+<tr>
+<td>5</td>
+<td>the same 30 event fixtures run through the three.js bundle</td>
+<td>29 of 30 pass in ours and X_ITE; ColorDamper passes in ours and X_ITE never goes inactive across the hue seam (spec <code>xiteDisagrees</code>)</td>
+<td>C</td>
+</tr>
+</tbody>
+</table>
+<p>The visual rows: 16 pictures, IoU 0.90 to 1.00, PSNR 32.38 to 70.12 dB over the 11 that differ at all (median 42.95), 5 identical (2 of them empty pictures). Colour management is off and the output is linear, because X_ITE writes authored values as they are; <code>opts.srgb</code> is one switch, so the colour-space choice stays the owner's. Instrument: <code>X_ITE 16.6.0</code>, <code>Chromium 153.0.8010.12</code>, SwiftShader, 320 x 240, three.js r187 <span class="g C" title="Confirmed">C</span>.</p>
+<h3 id="143-x_ite-lighting-is-a-target-not-a-rule">14.3 X_ITE lighting is a target, not a rule</h3>
+<p>Under the owner's 14 Nov ruling the scaffold splits its checks. Events, fields, silhouettes and geometry are hard: X_ITE is the oracle and a disagreement fails the node. Lit colour is a reference: each spec's <code>compare</code> bound is measured and receipted, may be widened with a written <code>lookNote</code>, and a quality choice (tone map, image-based light, <code>MeshPhysicalMaterial</code> extensions) is logged, not failed. None is on by default, because the classic Phong look reproduces and compares cheaply [C, design].</p>
 <h2 id="heuristics">Heuristics</h2>
 <table>
 <thead>
@@ -1344,6 +1431,34 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>NurbsSet is a sequence, not a choice; Contour2D has no parent in the model</td>
 <td><code>xmllint</code>, <code>x3d_mcp</code> <code>x3d-4.0.xsd</code>, driver spec keys <code>xsdChoice</code> and <code>xsdAllow</code></td>
 </tr>
+<tr>
+<td>H-BAB-16</td>
+<td>Share the reader and write only the body: read the reader files at bundle time instead of copying them, so a reader fix reaches every engine.</td>
+<td>C</td>
+<td>three.js body 284 lines against 1671 for the Babylon one; no file under <code>x3d.webgpu/</code> changed</td>
+<td><code>x3d.loom@108a282</code>, <code>wc -l</code></td>
+</tr>
+<tr>
+<td>H-BAB-17</td>
+<td>Bind the first Viewpoint at load in any new body and test the framing before the lighting.</td>
+<td>C</td>
+<td>IoU 0.34 to 0.64 before, 0.99 to 1.00 after, on the same 10 fixtures</td>
+<td><code>X_ITE 16.6.0</code>, SwiftShader, three.js r187</td>
+</tr>
+<tr>
+<td>H-BAB-18</td>
+<td>Make X_ITE hard for events, fields and silhouettes, and a bounded reference for lit colour; write the reason when a quality choice leaves it.</td>
+<td>C</td>
+<td>scaffold split; owner's ruling of 14 Nov</td>
+<td><code>tools/run-tests.js</code>, <code>x3d.loom@108a282</code></td>
+</tr>
+<tr>
+<td>H-BAB-19</td>
+<td>Convert light units and the Phong exponent between engines before judging a look: three.js needs a factor PI on lights and about four times the exponent.</td>
+<td>C</td>
+<td>Sphere 28.22 to 36.98 dB, Box 63.84 to 70.12 dB</td>
+<td><code>X_ITE 16.6.0</code>, three.js r187, SwiftShader</td>
+</tr>
 </tbody>
 </table>
 <h2 id="drills">Drills</h2>
@@ -1438,6 +1553,14 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <li><strong>Answer:</strong> cells = floor(8 x scale) times floor(4 x scale), two triangles per cell: 64, 16, 256 and 4 (floor(2.4) x floor(1.2) = 2 x 1 cells). B leaves the set and returns to its own 6 x 6 x 2 = 72 triangles. The spec records 64, 16, 256, 4 and 72; both engines agree.</li>
 <li><strong>Checked:</strong> 2026-11-14 <code>x3d.loom@4887a98</code>, <code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, Babylon 9.32.0</li>
 </ul>
+<h3 id="d-bab-9-break-the-first-viewpoint-rule-and-read-the-picture">D-BAB-9 Break the first-Viewpoint rule and read the picture</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> In <code>x3d.threejs/bridge/src/body-three.js</code> delete the lines in <code>setWorld</code> that bind the first Viewpoint, run the Box fixture, and predict the silhouette IoU before you look.</li>
+<li><strong>Verify:</strong> <code>python3 tools/driver.py check Box</code> from <code>x3d.threejs/bridge</code>, with X_ITE 16.6.0 and three.js r187 in place; restore the lines afterwards.</li>
+<li><strong>Answer:</strong> the body keeps its default pose (0 0 10, field of view 0.7854) while the fixture's Viewpoint sits at 0 0 8, so the box is drawn smaller than X_ITE draws it: the Box fixture measured IoU 0.64 (5773 pixels against 9021) before the lines existed, and 1.00 after.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d.loom@108a282</code>, <code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, three.js r187</li>
+</ul>
 <h2 id="honest-limits">Honest limits</h2>
 <ul>
 <li><strong>Software GL only, Chromium only <span class="g C" title="Confirmed">C</span>.</strong> Every pixel number is SwiftShader in Chrome for Testing 153.0.8010.12; no real GPU, Firefox or Safari. Babylon 9.32.0 is a snapshot; 9.33.0 to 9.35.0 (per the primer) were not run <span class="g L" title="Likely">L</span>.</li>
@@ -1447,6 +1570,7 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <li><strong>Behaviour was never compared <span class="g L" title="Likely">L</span>.</strong> No event traces, pointer tapes or audio pass; fixtures compare ROUTE chains in two engines, not whole pages. The noise floor of X_ITE against itself (TBD-13) is unmeasured, so no dB threshold here is a standard.</li>
 <li><strong>Carried, not re-checked <span class="g S" title="Suspected">S</span>:</strong> law-40 coverage by page, the Gobbler review defect, all effort figures in <code>PATHS.md</code> and <code>BABYLON.md</code> (person-weeks are guesses), the 1,396 <code>gl.*</code> call sites. Private run logs, device owners' details and unpublished material are left out on purpose.</li>
 <li><strong>NURBS section read at the batch-44 branch, not main <span class="g L" title="Likely">L</span>:</strong> <code>x3d.loom@4887a98</code> carried the pull request when written; counts are from the batch run of 2026-11-14 (our reader and X_ITE 16.6.0 on SwiftShader). Not covered: real GPU timing, GeoCoordinate control points, NurbsTextureCoordinate, trimming, picking of NURBS lines. The chord reading of the Extrusion Y axis is Likely: read from memory of 19775-1, not re-checked against the text.</li>
+<li><strong>The three.js scaffold is 10 scene fixtures, not a port <span class="g L" title="Likely">L</span>.</strong> 15 of 260 nodes are drawn; PointLight, SpotLight, Fog, most textures, Billboard, ClipPlane, picking and pointer sensors are not. All pixel numbers are SwiftShader at 320 x 240; no timing, no real GPU, no WebGPU renderer. The person-day figures in <code>ESTIMATE.md</code> are guesses <span class="g S" title="Suspected">S</span>; the item list of what three.js gives and lacks is read from its documentation, not run <span class="g L" title="Likely">L</span>.</li>
 </ul>
 <h2 id="numbers-register">Numbers register</h2>
 <table>
@@ -1669,6 +1793,62 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <td>Babylon 9.32.0 body vs X_ITE 16.6.0, SwiftShader</td>
 <td>x3d.loom@4887a98:x3d.webgpu/bridge/fixtures/NurbsPatchSurface.test.json</td>
 </tr>
+<tr>
+<td>N-BAB-27</td>
+<td>three.js bridge status of the 260 nodes</td>
+<td>drawn 15, reader-checked 29, reader 50, todo 119, upstream 47</td>
+<td>C</td>
+<td><code>driver.py status</code></td>
+<td>x3d.loom@108a282:x3d.threejs/bridge/NODES.json</td>
+</tr>
+<tr>
+<td>N-BAB-28</td>
+<td>lines: reader, sai, kit, 150 node files; Babylon body files; three.js body</td>
+<td>388, 319, 648, 5882; 518 + 234 + 919 = 1671; 284</td>
+<td>C</td>
+<td><code>wc -l</code></td>
+<td>x3d.loom@108a282:x3d.webgpu/ and x3d.threejs/bridge/src/body-three.js</td>
+</tr>
+<tr>
+<td>N-BAB-29</td>
+<td>node hooks left to port</td>
+<td>15 geometry (15 plain data), 61 build (43 call only Body), 61 changed; 19 files name the engine</td>
+<td>L</td>
+<td>regex over <code>src/nodes/*.js</code></td>
+<td>x3d.loom@108a282:x3d.webgpu/bridge/src/nodes</td>
+</tr>
+<tr>
+<td>N-BAB-30</td>
+<td>three.js visual rows</td>
+<td>16 pictures; IoU 0.90 to 1.00; PSNR 32.38 to 70.12 dB over 11, median 42.95; 5 identical (2 empty)</td>
+<td>C</td>
+<td>X_ITE 16.6.0, three.js r187, Chromium 153.0.8010.12, SwiftShader, 320 x 240</td>
+<td>x3d.loom@108a282:x3d.threejs/bridge/receipts/</td>
+</tr>
+<tr>
+<td>N-BAB-31</td>
+<td>first Viewpoint bound at load, IoU before and after</td>
+<td>0.34 to 0.64 on 10 of 10; 0.99 to 1.00 on 9 of 10, Material 0.90</td>
+<td>C</td>
+<td>same rig, two runs of the 10 fixtures</td>
+<td>x3d.loom@108a282:x3d.threejs/bridge/fixtures/</td>
+</tr>
+<tr>
+<td>N-BAB-32</td>
+<td>Phong exponent factor 4</td>
+<td>Sphere 28.22 to 36.98 dB; Box 63.84 to 70.12 dB</td>
+<td>C</td>
+<td>same rig</td>
+<td>x3d.loom@108a282:x3d.threejs/bridge/src/body-three.js</td>
+</tr>
+<tr>
+<td>N-BAB-33</td>
+<td>event fixtures through the three.js bundle</td>
+<td>30 run; 29 pass in ours and X_ITE; ColorDamper differs by a documented X_ITE hue-seam defect</td>
+<td>C</td>
+<td>X_ITE 16.6.0, Chromium 153.0.8010.12</td>
+<td>x3d.loom@108a282:x3d.threejs/bridge/receipts/</td>
+</tr>
 </tbody>
 </table>
 <h2 id="sources-and-provenance">Sources and provenance</h2>
@@ -1676,6 +1856,7 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <li><code>x3d.loom@162ab18</code> (read 2026-11-14): <code>x3d.webgpu/{README,STATE,PATHS,BABYLON,BENCHMARK,SPEC}.md</code>, the four playbook files, <code>bridge/</code> (tracker, assessment, batches 01 to 26, tools, src, fixtures, receipts), <code>demo/src/</code>, <code>runs/webgpu-*/</code>. Re-run: census, driver status, tests, hash keys, greps. <code>x3d.loom@60824ce</code> extracted with <code>git archive</code> (D-BAB-2).</li>
 <li><code>x3d.demo@d10b457</code>: <code>CHANGELOG.md</code> (append-only rule), <code>docs/index.html</code> (blocklist text), <code>docs/demos/SOURCES.md</code>, every <code>.x3d</code> for D-BAB-5. <code>x3d.docs@f172f67</code>: <code>docs/vendor/x_ite/x_ite.min.js</code> (grep, section 2); chapters <a href="06-xite-the-oracle.html">06</a> and <a href="02-loom-laws.html">02</a>; <a href="../x3d.loom/MASTERCLASS.html">the Loom masterclass</a> for the AST view of the same repository, not duplicated here.</li>
 <li><code>x3d.loom@4887a98</code> (batch 44, read and run 2026-11-14): <code>x3d.webgpu/bridge/{BATCH-44.md,WHY-nurbs-batch.md,knowledge/NURBS-FINDINGS.md,src/nurbs.js,src/nodes/Nurbs*.js,fixtures/Nurbs*,receipts/Nurbs*}</code>.</li>
+<li><code>x3d.loom@108a282</code> (scaffold, read and run 2026-11-14): <code>x3d.threejs/bridge/{README.md,ESTIMATE.md,src/body-three.js,tools/*,fixtures/*,receipts/*,NODES.json}</code>; the Babylon files it reads at bundle time are those of <code>x3d.loom@ed1bed8</code>.</li>
 <li>Private-source gap: a private primer of 8 November and private notes on each port were pointers only. Figures here were re-derived from the repository or read from a named receipt; the rest are graded <span class="g S" title="Suspected">S</span> or <span class="g L" title="Likely">L</span> and labelled carried. No private document, link, identifier or chat wording is reproduced.</li>
 <li>Siblings: <a href="01-the-tether.html">01</a>, <a href="03-validator-and-gates.html">03</a>, <a href="04-mcp-for-agents.html">04</a>, <a href="07-xray.html">07</a>, <a href="09-castle-engine.html">09</a>, <a href="11-gltf-usd-khronos.html">11</a>, <a href="13-physics.html">13</a>.</li>
 </ul>
