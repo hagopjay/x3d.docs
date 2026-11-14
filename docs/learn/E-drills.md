@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**107 drills**, 97 with a recorded run (`Checked`), 10 not yet run. Levels: L1 19, L2 54, L3 34.
+**108 drills**, 98 with a recorded run (`Checked`), 10 not yet run. Levels: L1 19, L2 55, L3 34.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -69,6 +69,7 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-BAB-6 | [08](08-babylon-bridge.md) | L2 | Check the weights: radius 1.00, not 1.24 | 2026-11-14 Node, `x3d.loom@4887a98` |
 | D-BAB-7 | [08](08-babylon-bridge.md) | L2 | Re-run one NURBS node against X_ITE | 2026-11-14 `x3d.loom@4887a98`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, Babylon 9.32.0 |
 | D-BAB-8 | [08](08-babylon-bridge.md) | L3 | Predict a set's triangle counts | 2026-11-14 `x3d.loom@4887a98`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, Babylon 9.32.0 |
+| D-BAB-10 | [08](08-babylon-bridge.md) | L2 | Break the first-Viewpoint rule and read the picture | 2026-11-14 `x3d.loom@108a282`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 |
 | D-CAS-1 | [09](09-castle-engine.md) | L2 | Count the parse-only nodes and name the denominator | 2026-11-14 `castle-engine@48ce617`, Python 3.13.18 |
 | D-CAS-2 | [09](09-castle-engine.md) | L2 | Count loaders and savers without trusting a number | 2026-11-14 `castle-engine@48ce617`, Python 3.13.18 |
 | D-CAS-3 | [09](09-castle-engine.md) | L2 | Re-derive the headline FLIP and what it hides | 2026-11-14 `x3d.castle@d70e00c` receipt, Python 3.13.18 |

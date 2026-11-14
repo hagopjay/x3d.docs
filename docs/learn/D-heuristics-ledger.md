@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**187 heuristics.** Grades: [C] 142 · [L] 38 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**194 heuristics.** Grades: [C] 149 · [L] 38 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -113,6 +113,13 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-BAB-13 | [08](08-babylon-bridge.md) | Prefer the exact derivative to an averaged one where the standard gives it; bound the difference from the reference in the spec instead of matching it. | C | patch normals differ 0.21 and 0.28; spec bound 0.3 | `X_ITE 16.6.0`, 12 x 12 and 8 x 8 cells |
 | H-BAB-14 | [08](08-babylon-bridge.md) | When a node's geometry depends on another node's field, declare that field to the kit (`spec.refs`) and test a live change by event. | C | a moved control point redraws the curve only through `refs` | `x3d.loom@4887a98:x3d.webgpu/bridge/src/body-br.js` |
 | H-BAB-15 | [08](08-babylon-bridge.md) | Check a schema failure against the content model before editing the fixture: some 4.0 nodes cannot be written validly as specified. Record the patch in the receipt. | C | NurbsSet is a sequence, not a choice; Contour2D has no parent in the model | `xmllint`, `x3d_mcp` `x3d-4.0.xsd`, driver spec keys `xsdChoice` and `xsdAllow` |
+| H-BAB-20 | [08](08-babylon-bridge.md) | Share the reader and write only the body: read the reader files at bundle time instead of copying them, so a reader fix reaches every engine. | C | three.js body 284 lines against 1671 for the Babylon one; no file under `x3d.webgpu/` changed | `x3d.loom@108a282`, `wc -l` |
+| H-BAB-21 | [08](08-babylon-bridge.md) | Bind the first Viewpoint at load in any new body and test the framing before the lighting. | C | IoU 0.34 to 0.64 before, 0.99 to 1.00 after, on the same 10 fixtures | `X_ITE 16.6.0`, SwiftShader, three.js r187 |
+| H-BAB-22 | [08](08-babylon-bridge.md) | Make X_ITE hard for events, fields and silhouettes, and a bounded reference for lit colour; write the reason when a quality choice leaves it. | C | scaffold split; owner's ruling of 14 Nov | `tools/run-tests.js`, `x3d.loom@108a282` |
+| H-BAB-23 | [08](08-babylon-bridge.md) | Convert light units and the Phong exponent between engines before judging a look: three.js needs a factor PI on lights and about four times the exponent. | C | Sphere 28.22 to 36.98 dB, Box 63.84 to 70.12 dB | `X_ITE 16.6.0`, three.js r187, SwiftShader |
+| H-BAB-24 | [08](08-babylon-bridge.md) | Read the reference engine's formula in its source before tuning a look, patch your engine's shader chunk once with it, and make the patch throw when the engine's text moves. | C | six formulas, 36 to 63 dB; a moved chunk would fail at load | `X_ITE 16.6.0` source, three.js r187, SwiftShader |
+| H-BAB-25 | [08](08-babylon-bridge.md) | When a formula's order or sign is uncertain, render every variant against the reference in one run and keep the one that wins by the widest margin. | C | TextureTransform: 50.1 dB against 21.2 to 25.7 dB for the other seven | `X_ITE 16.6.0`, three.js r187, 8 variants over two runs, SwiftShader |
+| H-BAB-26 | [08](08-babylon-bridge.md) | Turn the reference engine's own notifications and timing overlays off before taking a picture. | C | a "Loading done" toast added about 4000 differing pixels | `X_ITE 16.6.0` `setBrowserOption`, 320 x 240 |
 | H-CAS-1 | [09](09-castle-engine.md) | Judge a Castle load by its warnings and a shape census against the declared count; never by "it loaded" or an exit code. | C | classic reader warns once and skips the rest of the file | `castle-engine@48ce617:x3dnodes_encoding_classic.inc:569-573` |
 | H-CAS-2 | [09](09-castle-engine.md) | Quote node coverage by rung and definition (registered, parse-only, name present in a peer, behaves); never a bare "98 of 328". | C | 99 registrations, 98 concrete, five denominators in circulation | `castle-engine@48ce617`; `x_ite@16.7.1` dist |
 | H-CAS-3 | [09](09-castle-engine.md) | Treat name presence in a peer as the weakest rung; do not turn 97 of 99 into "X_ITE implements them". | C | the scan reads class names, not behaviour | `x_ite@16.7.1` dist |

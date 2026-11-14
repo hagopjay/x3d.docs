@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**308 numbers** from 14 chapters. Grades: [C] 265 · [L] 39 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**321 numbers** from 14 chapters. Grades: [C] 277 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -189,6 +189,19 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-BAB-24 | [08](08-babylon-bridge.md) | swung surface frame difference | 1.2e-7 on an even spine; up to 0.017 on a 2.2-unit vase; spec bound 0.02 | C | X_ITE 16.6.0 private getVertices, SwiftShader | x3d.loom@4887a98:x3d.webgpu/bridge/fixtures/NurbsSwungSurface.test.json |
 | N-BAB-25 | [08](08-babylon-bridge.md) | NURBS visual compare rows, batch 44 | 6 rows; iou 0.85 to 0.99; mad 1.64 to 3.74; PSNR 23.38 to 37.12 dB (320 x 240) | C | X_ITE 16.6.0, SwiftShader, parsed from the report | x3d.loom@4887a98:x3d.webgpu/bridge/BATCH-44.md |
 | N-BAB-26 | [08](08-babylon-bridge.md) | solid FALSE back face gap | 9312 of 19012 pixels drawn in a two-quad IndexedFaceSet fixture | C | Babylon 9.32.0 body vs X_ITE 16.6.0, SwiftShader | x3d.loom@4887a98:x3d.webgpu/bridge/fixtures/NurbsPatchSurface.test.json |
+| N-BAB-30 | [08](08-babylon-bridge.md) | three.js bridge status of the 260 nodes | drawn 15, reader-checked 29, reader 50, todo 119, upstream 47 | C | `driver.py status` | x3d.loom@108a282:x3d.threejs/bridge/NODES.json |
+| N-BAB-31 | [08](08-babylon-bridge.md) | lines: reader, sai, kit, 150 node files; Babylon body files; three.js body | 388, 319, 648, 5882; 518 + 234 + 919 = 1671; 284 | C | `wc -l` | x3d.loom@108a282:x3d.webgpu/ and x3d.threejs/bridge/src/body-three.js |
+| N-BAB-32 | [08](08-babylon-bridge.md) | node hooks left to port | 15 geometry (15 plain data), 61 build (43 call only Body), 61 changed; 19 files name the engine | L | regex over `src/nodes/*.js` | x3d.loom@108a282:x3d.webgpu/bridge/src/nodes |
+| N-BAB-33 | [08](08-babylon-bridge.md) | three.js visual rows | 16 pictures; IoU 0.90 to 1.00; PSNR 32.38 to 70.12 dB over 11, median 42.95; 5 identical (2 empty) | C | X_ITE 16.6.0, three.js r187, Chromium 153.0.8010.12, SwiftShader, 320 x 240 | x3d.loom@108a282:x3d.threejs/bridge/receipts/ |
+| N-BAB-34 | [08](08-babylon-bridge.md) | first Viewpoint bound at load, IoU before and after | 0.34 to 0.64 on 10 of 10; 0.99 to 1.00 on 9 of 10, Material 0.90 | C | same rig, two runs of the 10 fixtures | x3d.loom@108a282:x3d.threejs/bridge/fixtures/ |
+| N-BAB-35 | [08](08-babylon-bridge.md) | Phong exponent factor 4 | Sphere 28.22 to 36.98 dB; Box 63.84 to 70.12 dB | C | same rig | x3d.loom@108a282:x3d.threejs/bridge/src/body-three.js |
+| N-BAB-36 | [08](08-babylon-bridge.md) | event fixtures through the three.js bundle | 30 run; 29 pass in ours and X_ITE; ColorDamper differs by a documented X_ITE hue-seam defect | C | X_ITE 16.6.0, Chromium 153.0.8010.12 | x3d.loom@108a282:x3d.threejs/bridge/receipts/ |
+| N-BAB-37 | [08](08-babylon-bridge.md) | three.js bridge status, batch 1 | drawn 23, reader-checked 29, reader 49, todo 122, upstream 37 | C | `driver.py status` | x3d.loom@95eda37:x3d.threejs/bridge/NODES.json |
+| N-BAB-38 | [08](08-babylon-bridge.md) | batch 1 lighting rows against X_ITE | SpotLight 63.14 and 63.13 dB; PointLight 36.61, 36.30, 51.15; attenuation 59.17 | C | X_ITE 16.6.0, three.js r187, SwiftShader, 320 x 240 | x3d.loom@95eda37:x3d.threejs/bridge/receipts/ |
+| N-BAB-39 | [08](08-babylon-bridge.md) | Fog rows | 52.00, 53.41, 46.55 dB; IoU 0.99 | C | same rig | x3d.loom@95eda37:x3d.threejs/bridge/receipts/Fog.json |
+| N-BAB-40 | [08](08-babylon-bridge.md) | texture rows | ImageTexture 99 dB (identical); PixelTexture 45.66; TextureTransform 50.12 and 50.21; textured primitives 39.58 | C | same rig | x3d.loom@95eda37:x3d.threejs/bridge/receipts/ |
+| N-BAB-41 | [08](08-babylon-bridge.md) | TextureTransform order and sign, 4 variants in the Transform order and 4 in the column order | 50.12 (-C S R C T, rotation +, translation +); 21.34, 25.72, 21.39 for the other signs; 21.30 for T C R S -C | C | same rig, one run | x3d.loom@95eda37:x3d.threejs/bridge/src/body-three.js |
+| N-BAB-42 | [08](08-babylon-bridge.md) | all compared pictures of the two batches | 30 pictures; IoU 0.90 to 1.00; PSNR 32.38 to 70.12 dB over 24, median 50.13; 6 identical | C | same rig | x3d.loom@95eda37:x3d.threejs/bridge/receipts/ |
 | N-CAS-1 | [09](09-castle-engine.md) | registered model formats; of them with `OnSave` | 21; 7 | C | `formats.py`, 2026-11-14 | `castle-engine@48ce617:src/` |
 | N-CAS-2 | [09](09-castle-engine.md) | parse-only groups; registrations in them (one abstract) | 11; 99 | C | `xite_names.py` | `castle-engine@48ce617:src/scene/x3d/castleinternalnodesunsupported.pas` |
 | N-CAS-3 | [09](09-castle-engine.md) | parse-only names with a same-named non-abstract class in X_ITE | 97 of 99 | C | `xite_names.py`, `x_ite@16.7.1` npm dist | `x_ite@16.7.1:dist/x_ite.js`, `dist/assets/components/` |
