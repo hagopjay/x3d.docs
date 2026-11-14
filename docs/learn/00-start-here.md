@@ -71,7 +71,7 @@ add a dated row, never overwrite the old one.
 | [11](11-gltf-usd-khronos.md) | glTF, USD and Khronos: what survives and what the gate proves | an X3D scene that goes through Blender to a glb keeps its geometry, materials, lights, cameras and fixed animation, loses its behaviour (ROUTEs, Scripts, PROTOs, sensors) and its authoring identity unless you pay to c... | 11 | 6 | 16 | 41 KB |
 | [12](12-unreal-tier1.md) | Unreal as a tier-1 X3D framework | Unreal is a plausible tier-1 endpoint for *rendering* an X3D scene through a glb, it cannot run X3D behaviour without a plugin that does not exist, and today every Unreal claim in this base is read, not run: no Unreal... | 11 | 6 | 18 | 38 KB |
 | [13](13-physics.md) | Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports | A valid X3D physics scene says nothing about whether the simulation is stable, deterministic or right; the physics analogue of the validator is a run record whose hashes replay, whose references are exact, and whose c... | 14 | 10 | 19 | 54 KB |
-| [14](14-methods.md) | Methods: how to learn, test and extend this base | You learn X3D here by predicting a result, running the tool, comparing, grading the gap and recording a rule with a falsifier; a heuristic you cannot falsify is not in the ledger. **[L]** | 8 | 5 | 12 | 9 KB |
+| [14](14-methods.md) | Methods: how to learn, test and extend this base | You learn X3D here by predicting a result, running the tool, comparing, grading the gap and recording a rule with a falsifier; a heuristic you cannot falsify is not in the ledger. **[L]** | 8 | 5 | 12 | 10 KB |
 <!-- END CHAPTER-TABLE -->
 
 ## What every chapter contains

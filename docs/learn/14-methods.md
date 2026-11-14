@@ -57,6 +57,14 @@ Read next: [02](02-loom-laws.md) for the failure modes to seed; [D](D-heuristics
 
 ## 4. Self-assessment: score your pipeline
 
+```text
+ tether score   unreliable   exact     valid != works   history must   someone answerable
+ (one point     writer?      oracle?   (render check)   travel?        later?
+  each)           [1]          [2]          [3]             [4]            [5]
+ 4-5 = loop + ledger     3 = ledger + gate     0-2 = a log table is enough
+```
+
+
 Give one point each (the tether score of [01](01-the-tether.md)): unreliable writer; exact oracle available; valid differs from works; history must travel with the artifact; someone answerable later.
 4 to 5: full tether (loop plus ledger). 3: ledger plus gate. 2 or less: a log table is enough. Only X3D is measured in this base; any other family you score is your own [S] until you run it.
 
