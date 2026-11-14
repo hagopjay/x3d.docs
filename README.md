@@ -1,7 +1,7 @@
 # x3d.docs
 
 AST teardowns of six X3D code bases, published with GitHub Pages: **x3d-blender-io, x3d_mcp, x3d.loom, x3d.onto, x3d.demo and X_ITE 16.7.0**.
-Open `index.html` (or the Pages site). Each folder holds the write-up (`MASTERCLASS.md`, also as `MASTERCLASS.html`), a scene index,
+Site files live in `docs/`; open `docs/index.html` or the Pages site, https://hagsmac.github.io/x3d.docs/. Each folder holds the write-up (`MASTERCLASS.md`, also as `MASTERCLASS.html`), a scene index,
 a viewer (`view.html?scene=…`) and validated X3D 4.0 scenes under `scenes/`.
 
 * Analysis: Python `ast`, the TypeScript compiler's parser, an XML walk over every `.x3d` file, git and the GitHub API; X3D vocabulary from the X3D Unified Object Model 4.1.
