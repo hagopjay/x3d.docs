@@ -1,0 +1,642 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>x3d.onto: an AST masterclass and teardown</title><style>body{margin:0;background:#1a1a19;color:#f0efec;font:16px/1.6 system-ui,-apple-system,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:2rem 1.25rem 5rem} a{color:#86b6ef} code{background:#262624;padding:.1rem .3rem;border-radius:3px}
+pre{background:#232321;padding:1rem;overflow:auto;border-radius:6px;border:1px solid #383835} pre code{background:none;padding:0}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.9rem} th,td{border:1px solid #383835;padding:.35rem .55rem;vertical-align:top}
+th{background:#232321} h1,h2,h3{line-height:1.25} h2{border-bottom:1px solid #383835;padding-bottom:.3rem;margin-top:2.2rem}
+.nav{color:#8a8a85;font-size:.9rem}</style></head><body><main><p class="nav"><a href="../index.html">← all teardowns</a> · <a href="index.html">scenes for this teardown</a> · <a href="MASTERCLASS.md">Markdown source</a></p><h1 dir="auto">x3d.onto: an AST masterclass and teardown</h1>
+<p dir="auto"><a href="https://github.com/hagopjay/x3d.onto">hagopjay/x3d.onto</a> (private; default branch <code class="notranslate">claude/project-thread-3mgt8g</code>, head 554c647),<br>
+measured 2026-11-13. hagsmac/x3d.onto is a fork with the same head (0 ahead, 0 behind). The repo starts on 2026-10-27<br>
+("extracted from the Mac working tree") and its last change is 2026-11-04: 67 commits, 37 first-parent steps,<br>
+17 PRs, all merged (#6 and #7 into <code class="notranslate">dynasty-loom/*</code> branches, the rest into the default branch; #15 was merged despite its<br>
+"[Do not merge yet]" title). No CI: the repo has no Actions runs. 6 remote branches are not merged (<code class="notranslate">dspy-agent</code>,<br>
+<code class="notranslate">project-thread-bfwscy</code>, <code class="notranslate">dynasty-loom/v2</code> and <code class="notranslate">v3</code>, <code class="notranslate">loom/gemini-api</code>, <code class="notranslate">loom/lawful-gemini</code>).</p>
+<p dir="auto"><strong>Labels</strong> as in the x3d.loom masterclass. The ontology lens adds rdflib 7.6.0 (from the x3d_mcp venv, already installed):<br>
+every <code class="notranslate">.ttl</code> file parsed, classes, properties, <code class="notranslate">rdfs:subClassOf</code> and OWL restrictions counted.</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>scene</th>
+<th>what it shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">scenes/ontology-hierarchy.x3d</code></td>
+<td><strong>the X3D Ontology 4.1 class tree</strong> in 3D: 364 classes, levels by depth; gold = new in 4.1, blue ring = narrowed by the proposal, orange halo = named by the sim vocabularies, size = use in the repo's scenes</td>
+</tr>
+<tr>
+<td><code class="notranslate">scenes/callgraph-3d.x3d</code></td>
+<td>186 files, 1724 functions, 1581 in-file and 26 cross-file calls</td>
+</tr>
+<tr>
+<td><code class="notranslate">scenes/coverage-sunburst.x3d</code></td>
+<td>the 267 X3D 4.1 nodes: used in the 253 X3D files (orange) and named in code (blue)</td>
+</tr>
+<tr>
+<td><code class="notranslate">scenes/fork-timeline.x3d</code></td>
+<td>37 steps from 2026-10-27 to 2026-11-04</td>
+</tr>
+<tr>
+<td><code class="notranslate">scenes/code-city.x3d</code></td>
+<td>functions as buildings per directory; amber = body in 2+ files</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h2 dir="auto">1. What the AST says x3d.onto is</h2>
+<p dir="auto"><strong>An ontology repo whose code is mostly worlds.</strong> Only <strong>7 of 175 Python files</strong> touch the ontology (import rdflib, run<br>
+SPARQL or name a <code class="notranslate">.ttl</code>): <code class="notranslate">harness/build.py</code> (6 SPARQL queries), <code class="notranslate">harness/build_sim.py</code>, <code class="notranslate">harness/proposal_sketch.py</code>,<br>
+<code class="notranslate">harness/test_harness41.py</code>, <code class="notranslate">harness/xslt_diagnosis.py</code>, <code class="notranslate">demo/audit_numbers.py</code>, <code class="notranslate">demo/build_tour.py</code>. The ontology itself<br>
+lives in data: two copies of the official X3D Ontology (4.0 and 4.1, 1.1 MB each), one proposal, and 8 small "sim"<br>
+vocabularies. Everything else is scenes built <em>from</em> the ontology's knowledge: the Dynasty Loom genealogy hypersphere<br>
+(half of all code), the Gobbler demiurge village, the v2 Sun-Earth-Moon village of 364 classes, and the cross-domain tools.</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>role (hand-assigned from directory names)</th>
+<th>code files</th>
+<th>code lines</th>
+<th>functions</th>
+<th>X3D files</th>
+<th>X3D MB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dynasty-loom (genealogy hypersphere)</td>
+<td>61</td>
+<td>17,534</td>
+<td>1,476</td>
+<td>9</td>
+<td>5.2</td>
+</tr>
+<tr>
+<td>xdomain (fuzz, lawful metric, URDF/glTF, eval)</td>
+<td>37</td>
+<td>3,737</td>
+<td>298</td>
+<td>224</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>Gobbler demiurge + v4</td>
+<td>47</td>
+<td>6,909</td>
+<td>620</td>
+<td>10</td>
+<td>4.2</td>
+</tr>
+<tr>
+<td>Loom gates (loom, loom-feedback, tools, evidence)</td>
+<td>54</td>
+<td>2,523</td>
+<td>267</td>
+<td>8</td>
+<td>0.3</td>
+</tr>
+<tr>
+<td>v2 Sun-Earth-Moon village</td>
+<td>18</td>
+<td>2,194</td>
+<td>363</td>
+<td>0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>v1 explorer, harness, demo, data</td>
+<td>22</td>
+<td>1,664</td>
+<td>159</td>
+<td>2</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>sim ontologies + proposal</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>docs and root</td>
+<td>7</td>
+<td>457</td>
+<td>49</td>
+<td>0</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<ul dir="auto">
+<li><strong>Code:</strong> 35,018 lines in 246 files (html 9, py 175, js 62), 3,169 named function definitions; 156 over complexity 20, 38 over 50.</li>
+<li><strong>Scenes:</strong> 253 X3D files, 10.1 MB; X3D 4.1 226, X3D 4.0 27; profiles Full 204, Immersive 32, Interchange 8, Interactive 4, CADInterchange 3, MedicalInterchange 2. 224 of them are the <code class="notranslate">xdomain</code> differential<br>
+validator fuzzer's corpus (small X3D 4.1 Full-profile files). 25 files use protos, 3 a Script, 147 ROUTEs in all.</li>
+<li><strong>Little copying:</strong> 137 of 1,734 functions of 3+ lines have a body in another file (8 %), far less than the Loom (31 %) or<br>
+the demo shelf (69 %).</li>
+<li><strong>Tests:</strong> 101 Python <code class="notranslate">test_*</code> functions and 9 JS <code class="notranslate">test(</code>/<code class="notranslate">it(</code> calls, no CI to run them.</li>
+</ul>
+<h3 dir="auto">Hot spots (measured; one row per distinct body)</h3>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>function</th>
+<th>CC</th>
+<th>lines</th>
+<th>nesting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">dynasty-loom/gates/datagates.py::check</code></td>
+<td>165</td>
+<td>201</td>
+<td>4</td>
+</tr>
+<tr>
+<td><code class="notranslate">dynasty-loom/ingest/ingest.py::main</code></td>
+<td>162</td>
+<td>247</td>
+<td>5</td>
+</tr>
+<tr>
+<td><code class="notranslate">dynasty-loom/tapestry/build_loom_scene.py::gen_stops</code></td>
+<td>145</td>
+<td>171</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code class="notranslate">dynasty-loom/ingest/build.py::Builder.person</code></td>
+<td>130</td>
+<td>147</td>
+<td>4</td>
+</tr>
+<tr>
+<td><code class="notranslate">dynasty-loom/ingest/loomview.py::compute</code></td>
+<td>126</td>
+<td>144</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code class="notranslate">dynasty-loom/gates/run_gates.py::main</code></td>
+<td>119</td>
+<td>142</td>
+<td>4</td>
+</tr>
+<tr>
+<td><code class="notranslate">xdomain/lawful/metric.py::score</code></td>
+<td>119</td>
+<td>126</td>
+<td>4</td>
+</tr>
+<tr>
+<td><code class="notranslate">dynasty-loom/x3d/build_genealogy_x3d.py::build</code></td>
+<td>115</td>
+<td>234</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code class="notranslate">xdomain/urdf/urdf_check.py::check</code></td>
+<td>113</td>
+<td>122</td>
+<td>5</td>
+</tr>
+<tr>
+<td><code class="notranslate">dynasty-loom/tapestry/build_loom_scene.py::plan</code></td>
+<td>111</td>
+<td>143</td>
+<td>4</td>
+</tr>
+<tr>
+<td><code class="notranslate">xdomain/lawful/offline.py::summarise_live</code></td>
+<td>108</td>
+<td>63</td>
+<td>4</td>
+</tr>
+<tr>
+<td><code class="notranslate">dynasty-loom/tapestry/tools/write_receipt.py::main</code></td>
+<td>104</td>
+<td>118</td>
+<td>2</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">Every top function is in <code class="notranslate">dynasty-loom</code> or <code class="notranslate">xdomain/lawful</code>: data gates (<code class="notranslate">datagates.check</code> 165), ingest (<code class="notranslate">ingest.main</code> 162),<br>
+scene generation (<code class="notranslate">gen_stops</code> 145) and the lawful metric (<code class="notranslate">metric.score</code> 119). These are long single-pass builders; they<br>
+read top to bottom, but each is a candidate for splitting by stage.</p>
+<h2 dir="auto">2. The ontology lens (measured with rdflib)</h2>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>file</th>
+<th>triples</th>
+<th>OWL classes</th>
+<th>object props</th>
+<th>datatype props</th>
+<th>subClassOf</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">data/X3dOntology4.0.ttl</code></td>
+<td>17,736</td>
+<td>355</td>
+<td>326</td>
+<td>712</td>
+<td>440</td>
+</tr>
+<tr>
+<td><code class="notranslate">data/X3dOntology4.1.ttl</code></td>
+<td>18,121</td>
+<td>364</td>
+<td>337</td>
+<td>727</td>
+<td>454</td>
+</tr>
+<tr>
+<td><code class="notranslate">proposal/X3dOntology4.1.narrowing-sketch.ttl</code></td>
+<td>2,088</td>
+<td>56</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code class="notranslate">sim/agency.ttl</code></td>
+<td>97</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code class="notranslate">sim/geons.ttl</code></td>
+<td>119</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code class="notranslate">sim/heritage.ttl</code></td>
+<td>105</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code class="notranslate">sim/parts_contact.ttl</code></td>
+<td>131</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code class="notranslate">sim/perspective.ttl</code></td>
+<td>137</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code class="notranslate">sim/prepositions.ttl</code></td>
+<td>134</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code class="notranslate">sim/scale.ttl</code></td>
+<td>121</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code class="notranslate">sim/verification.ttl</code></td>
+<td>64</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<ul dir="auto">
+<li><strong>4.0 → 4.1:</strong> 355 → 364 classes, <strong>+9, none removed</strong>: EnvironmentLight, FontLibrary, GaussianSplats, HAnimPose, InlineGeometry, RenderedTexture, Tangent, X3DTangentNode, X3DUrlOutputObject.</li>
+<li><strong>The narrowing proposal</strong> (<code class="notranslate">proposal/X3dOntology4.1.narrowing-sketch.ttl</code>, 2,088 triples, none of them in 4.1) adds<br>
+<strong>310 <code class="notranslate">owl:allValuesFrom</code> restrictions on 143 classes</strong>. It narrows what a node field may hold, mostly<br>
+<code class="notranslate">hasChildren</code> (42), <code class="notranslate">hasColor</code>, <code class="notranslate">hasTexCoord</code>, <code class="notranslate">hasCoord</code> (15 each), <code class="notranslate">hasNormal</code> (14), <code class="notranslate">hasAttrib</code> (13), <code class="notranslate">hasFogCoord</code><br>
+(13). In the official ontology these SFNode/MFNode properties accept any X3D node; the proposal encodes the spec's<br>
+acceptable node types, which is what x3d_mcp's <code class="notranslate">where_can_place</code> and containerField checks need. HAnimHumanoid gets the<br>
+most (12), then the geometry sets (7 each).</li>
+<li><strong>The sim vocabularies</strong> (<code class="notranslate">sim/*.ttl</code>: agency, geons, heritage, parts_contact, perspective, prepositions, scale,<br>
+verification; 64–137 triples each) define no OWL classes. They are graded statements in a private namespace<br>
+(<code class="notranslate">example.invalid/sim/spatial-cognition#</code>) with <code class="notranslate">x3dNode</code> / <code class="notranslate">x3dField</code> / <code class="notranslate">onNode</code> links into X3D 4.1: perspective → Viewpoint,<br>
+NavigationInfo, OrthoViewpoint; scale → GeoCoordinate, GeoLOD, LOD, <code class="notranslate">unit</code>; parts_contact → SingleAxisHingeJoint, Cone;<br>
+prepositions → Transform. 35 X3D terms are named this way (orange halos in the hierarchy scene).</li>
+</ul>
+<h2 dir="auto">3. Taxonomy: X3D used by the scenes</h2>
+<p dir="auto">Node types used, by number of files: Appearance (42), Shape (41), NavigationInfo (31), Transform (31), Group (30), Coordinate (27), ProtoInstance (25), Background (24), CADFace (23), PhysicalMaterial (21), Viewpoint (19), ParticleSystem (19), GeoLOD (17), IndexedLineSet (15), IndexedFaceSet (15). Components touched: Rendering 11, Sound 9, Shape 8, Texturing 7, Geospatial 7, NURBS 7, Navigation 6, Interpolation 6, HAnim 6, ParticleSystems 5, Picking 5, VolumeRendering 5, EnvironmentalEffects 4, Grouping 4, Geometry3D 4, Core 4, Networking 4, DIS 4, CADGeometry 4, Layout 4, RigidBodyPhysics 4, Lighting 3, Text 3, Shaders 3, Texturing3D 3, Layering 3, EventUtilities 2, CubeMapTexturing 2, Geometry2D 2, PointingDeviceSensor 1, Time 1, EnvironmentalSensor 1, GaussianSplats 1, Scripting 1, Followers 1.</p>
+<p dir="auto">The code names all 267 node types only because <code class="notranslate">explorer.html</code> embeds the complete node table (284 names); without it,<br>
+the most is 43 (<code class="notranslate">dynasty-loom/x3d/build_genealogy_x3d.py</code>).</p>
+<h2 dir="auto">4. The history, step by step</h2>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>step</th>
+<th>date</th>
+<th>title</th>
+<th>code delta</th>
+<th>X3D delta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">9d5fd9b</code></td>
+<td>10-27</td>
+<td>Add Gobbler v4 vision spec from owner's answers</td>
+<td>+0 lines; +0 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">ec56def</code></td>
+<td>10-27</td>
+<td>PLAN: drop a private artifact link</td>
+<td>+0 lines; +0 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">268c94d</code></td>
+<td>10-27</td>
+<td>Gobbler v4: hover and UI-corner spec, mock on the owner's stills, placement function with tests, pick benchmarks</td>
+<td>+457 lines; +43 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">9faf90e</code></td>
+<td>10-28</td>
+<td>Gobbler v4 step 1: live hover, none/minimal UI and corner cards on the Gobbler 3 Deep scene</td>
+<td>+1,836 lines; +170 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">be53dca</code></td>
+<td>10-28</td>
+<td>Gobbler v4: fixes from the first review pass, phone-touch and bad-parameter suites</td>
+<td>+53 lines; +5 -0 ~14 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">9195527</code></td>
+<td>10-28</td>
+<td>Gobbler v4: tuning panel (key T), second review pass fixes, frames and docs</td>
+<td>+64 lines; +9 -1 ~16 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">9aa9cb8</code></td>
+<td>10-28</td>
+<td>Gobbler v4: published copy carries the scene as .xml</td>
+<td>+7 lines; +0 -0 ~2 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">91e13e9</code></td>
+<td>10-28</td>
+<td>Gobbler demiurge step 2: bird-first page (honest staged loader, gzip delivery, Face view, four controls)</td>
+<td>+840 lines; +73 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">3f2c16e</code></td>
+<td>10-28</td>
+<td>Gobbler demiurge: validator helper takes the fork checkout from X3D_MCP</td>
+<td>-1 lines; +0 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">c8dfcbb</code></td>
+<td>10-28</td>
+<td>Gobbler demiurge: T = tour and Shift+T = tuning (plan key rule), step-3 notes from the planning review, honest fps row</td>
+<td>+7 lines; +0 -0 ~1 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">85b88ed</code></td>
+<td>10-28</td>
+<td>Gobbler demiurge: key table on the page names T = tour and Shift+T = tuning</td>
+<td>+0 lines; +0 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">598a941</code></td>
+<td>10-28</td>
+<td>Gobbler demiurge step 5: feathers modelled in Blender, golden-hour light baked, exported through the blenderizer; fan unfurls on approach</td>
+<td>+378 lines; +27 -0 ~3 fns</td>
+<td>+3 X3D files (+0.2 MB); scenes start using 3 node types</td>
+</tr>
+<tr>
+<td><code class="notranslate">860e73a</code></td>
+<td>10-28</td>
+<td>Gobbler demiurge steps 6 and 7: spline tour over the shot list with seeded drift, preening wave, weaving shuttles, flight bows; the heart beats a replay of 30 real validator runs</td>
+<td>+128 lines; +11 -0 ~6 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">e8e19bf</code></td>
+<td>10-28</td>
+<td>Gobbler demiurge: tour route round the underside, thinner heart ping, fan frame, README for steps 5 to 7, unused mid vane dropped</td>
+<td>+1 lines; +0 -0 ~2 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">114420e</code></td>
+<td>10-28</td>
+<td>Gobbler demiurge: page text names the heartbeat, the Blender feathers and the seed parameter</td>
+<td>+0 lines; +0 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">a986523</code></td>
+<td>10-28</td>
+<td>Gobbler demiurge step 8: the shell tenders are H-Anim humanoids modelled in Blender, three gaits, walking the ribcage</td>
+<td>+251 lines; +14 -0 ~4 fns</td>
+<td>+1 X3D files (+0.0 MB); scenes start using 2 node types</td>
+</tr>
+<tr>
+<td><code class="notranslate">0f6be62</code></td>
+<td>10-28</td>
+<td>Gobbler demiurge step 3 and 11: Earth, Moon and the village from Blender, ladder stops 4 to 7, the picture-judge test</td>
+<td>+856 lines; +86 -1 ~19 fns</td>
+<td>+2 X3D files (+1.4 MB)</td>
+</tr>
+<tr>
+<td><code class="notranslate">874c45b</code></td>
+<td>10-29</td>
+<td>Gobbler demiurge: lighting, materials and shaders pass on the world (baked village light, atmosphere, fountain, clothed villagers, earthshine)</td>
+<td>+437 lines; +35 -2 ~34 fns</td>
+<td>+3 X3D files (+2.2 MB)</td>
+</tr>
+<tr>
+<td><code class="notranslate">593dbcd</code></td>
+<td>10-29</td>
+<td>Gobbler demiurge step 10: sound on M (a bed for the cosmos, a bed for the village, the Sun's heartbeat)</td>
+<td>+230 lines; +29 -0 ~2 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">bb56a8d</code></td>
+<td>10-29</td>
+<td>Gobbler demiurge: a published copy can carry the beds as .mp4 (same container), sound.js is ASCII only</td>
+<td>+1 lines; +0 -0 ~3 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">4fd3cdd</code></td>
+<td>10-29</td>
+<td>Gobbler demiurge: README no longer lists music as open (it is built, unlistened on a real device)</td>
+<td>+0 lines; +0 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">92bcaa6</code></td>
+<td>10-29</td>
+<td>Gobbler demiurge: correct numbers and wording found by a fact-check of the tech breakdown</td>
+<td>+0 lines; +0 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.onto/pull/1" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.onto/pull/1/hovercard">#1</a></td>
+<td>10-29</td>
+<td>Loom thesis loop: gate lints, lawful metric + DSPy, differential validator fuzzer</td>
+<td>+3,066 lines; +209 -0 ~0 fns</td>
+<td>+224 X3D files (+0.0 MB); scenes start using 102 node types</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.onto/pull/2" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.onto/pull/2/hovercard">#2</a></td>
+<td>10-29</td>
+<td>Gobbler demiurge: Mashtots ring, a khachkar in the plaza, and the Armenian knot</td>
+<td>+1,115 lines; +76 -0 ~9 fns</td>
+<td>+1 X3D files (+0.4 MB)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.onto/pull/3" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.onto/pull/3/hovercard">#3</a></td>
+<td>10-30</td>
+<td>Loom gate: flag raw shader CDATA, and record the genealogy loom's findings</td>
+<td>+49 lines; +2 -0 ~2 fns</td>
+<td>+4 X3D files (+0.0 MB); scenes start using 2 node types</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.onto/pull/4" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.onto/pull/4/hovercard">#4</a></td>
+<td>10-31</td>
+<td>Loom gate: leave an int compared inside a float builtin alone</td>
+<td>+6 lines; +0 -0 ~2 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.onto/pull/5" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.onto/pull/5/hovercard">#5</a></td>
+<td>10-31</td>
+<td>dynasty-loom: Dynasty Loom v3 under version control, exactly as published</td>
+<td>+14,448 lines; +1062 -0 ~0 fns</td>
+<td>+9 X3D files (+5.1 MB); scenes start using 5 node types</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.onto/pull/8" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.onto/pull/8/hovercard">#8</a></td>
+<td>11-01</td>
+<td>Dynasty Loom v2 + v5 into the default branch (follow-up to #6 and #7)</td>
+<td>+3,086 lines; +357 -2 ~53 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.onto/pull/9" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.onto/pull/9/hovercard">#9</a></td>
+<td>11-01</td>
+<td>Loom gate: color-emissive-white, a white emissive washes out per-face colours (FACTS Q, from x3d-ray)</td>
+<td>+79 lines; +4 -0 ~1 fns</td>
+<td>+2 X3D files (+0.0 MB); scenes start using 1 node types</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.onto/pull/10" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.onto/pull/10/hovercard">#10</a></td>
+<td>11-04</td>
+<td>Loom v1: consolidated definition, sources, learnings and loomkit</td>
+<td>+1,235 lines; +48 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.onto/pull/11" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.onto/pull/11/hovercard">#11</a></td>
+<td>11-04</td>
+<td>Fold back: Gear Loom mechanism gates (tools/gear_loom)</td>
+<td>+156 lines; +17 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.onto/pull/12" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.onto/pull/12/hovercard">#12</a></td>
+<td>11-04</td>
+<td>Fold back: Break-the-Loom mutant/control detectors (tools/break_loom)</td>
+<td>+255 lines; +38 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.onto/pull/13" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.onto/pull/13/hovercard">#13</a></td>
+<td>11-04</td>
+<td>Fold back: Data City source-to-scene truth gates (tools/loom_data_city)</td>
+<td>+268 lines; +13 -0 ~0 fns</td>
+<td>+1 X3D files (+0.1 MB); scenes start using 2 node types</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.onto/pull/14" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.onto/pull/14/hovercard">#14</a></td>
+<td>11-04</td>
+<td>Fold back: Loomsong IV fidelity predicates (tools/loom_fidelity_v4)</td>
+<td>+92 lines; +9 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.onto/pull/15" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.onto/pull/15/hovercard">#15</a></td>
+<td>11-04</td>
+<td>[Do not merge yet] Fold back: IFC bridge contracts and world-triangle witness (tools/loom_ifc_bridge_v1)</td>
+<td>+145 lines; +17 -0 ~0 fns</td>
+<td>+1 X3D files (+0.2 MB)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.onto/pull/16" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.onto/pull/16/hovercard">#16</a></td>
+<td>11-04</td>
+<td>Fold back: Gobbler Cabinet residency, profiler and radiance contracts (loom-feedback/gobbler-cabinet)</td>
+<td>+197 lines; +65 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.onto/pull/17" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.onto/pull/17/hovercard">#17</a></td>
+<td>11-04</td>
+<td>Fold back: Linked Observatory arrival, join and scope contracts (loom-feedback/linked-observatory)</td>
+<td>+125 lines; +43 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto"><strong>Phases.</strong> Oct 27–28: the extraction and Gobbler v4. Oct 30–31: the Loom thesis loop (gate lints, lawful metric with DSPy,<br>
+differential validator fuzzer), Gobbler demiurge, and Dynasty Loom v2, v3 and v5 under version control. Nov 1: gates<br>
+(color-emissive-white). Nov 4: <strong>Loom v1</strong> consolidated and seven fold-back PRs (#11–#17) that move gates from other<br>
+projects (gear loom, break-the-loom, data city, Loomsong fidelity, IFC bridge, Gobbler cabinet, linked observatory) into<br>
+the method. The next day the method moved to its own repo, x3d.loom (created 2026-11-05), and x3d.onto stopped changing.</p>
+<h2 dir="auto">5. Insights, risks, recommendations</h2>
+<ol dir="auto">
+<li><strong>x3d.onto is the Loom's birthplace.</strong> Its last week is the Loom v1 consolidation; x3d.loom starts the day after. The<br>
+gates, laws and fold-back pattern began here. Worth stating in both READMEs so the lineage is not lost.</li>
+<li><strong>The proposal is the most reusable artefact.</strong> 310 restrictions that turn "any node" into the spec's acceptable types<br>
+are exactly what a validator or a generator needs. Recommendation: test it against x3d_mcp's X3DUOM-based placement<br>
+table (they should agree node by node) and, if they do, offer it upstream to Web3D with that agreement as evidence.</li>
+<li><strong>Two copies of a 1.1 MB official ontology</strong> are vendored without a source pin. Record the upstream URL and date, or<br>
+fetch them in the harness, so a refresh is a diff and not a mystery.</li>
+<li><strong>101 tests, no CI.</strong> A single pytest workflow would protect the harness and the gates; the repo is small enough.</li>
+<li><strong>The sim vocabularies</strong> use a placeholder namespace (<code class="notranslate">example.invalid</code>). Give them a real one before anything links to<br>
+them.</li>
+</ol>
+<h2 dir="auto">6. Method and limits</h2>
+<p dir="auto">As in the x3d.loom masterclass, plus <code class="notranslate">tools/onto_lens.py</code> (rdflib over every <code class="notranslate">.ttl</code>, Python <code class="notranslate">ast</code> for SPARQL strings and<br>
+<code class="notranslate">.ttl</code> paths). <code class="notranslate">v2/tour.js</code> inlines a minified bundle and is excluded from function counts. Restriction counts are taken<br>
+from <code class="notranslate">rdfs:subClassOf</code> blank nodes in the proposal. The hierarchy scene draws the 412 <code class="notranslate">rdfs:subClassOf</code> edges between<br>
+classes that are themselves declared <code class="notranslate">owl:Class</code> (454 in the file; the rest point at classes declared elsewhere).</p></main></body></html>

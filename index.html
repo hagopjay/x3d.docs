@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>X3D teardowns · AST masterclasses</title><style>
+body{margin:0;background:#1a1a19;color:#f0efec;font:16px/1.6 system-ui,-apple-system,sans-serif}main{max-width:1000px;margin:0 auto;padding:2.5rem 1.25rem 4rem}
+a{color:#86b6ef}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-top:1.5rem}
+.card{background:#232321;border:1px solid #383835;border-radius:8px;padding:1rem 1.1rem}.card h2{margin:.1rem 0 .4rem;font-size:1.15rem}.card p{color:#c3c2b7;margin:.3rem 0 .7rem}
+.btn{display:inline-block;background:#262624;border:1px solid #4a4a46;color:#f0efec;padding:.3rem .65rem;border-radius:5px;text-decoration:none;margin:.15rem .3rem .15rem 0;font-size:.9rem}
+.note{color:#8a8a85;font-size:.9rem}</style></head><body><main>
+<h1>X3D teardowns</h1>
+<p>Six code bases taken apart with abstract syntax trees (Python <code>ast</code>, the TypeScript parser, an XML walk of every X3D file), git history and the
+X3D 4.1 Unified Object Model. Every figure is a 3D X3D 4.0 scene that you can orbit and hover, rendered by X_ITE in the browser; every scene passes the
+x3d_mcp validator. Measured numbers are plain; heuristics are labelled <i>inferred</i>. Generated 2026-11-13.</p>
+<div class="grid">
+<div class="card"><h2>x3d-blender-io</h2><p>The Blender X3D add-on: two exporters and one importer, X3D node coverage 39 → 54 written, 42 → 68 read, the fork era PR by PR.</p>
+<a class="btn" href="x3d-blender-io/MASTERCLASS.html">Read</a><a class="btn" href="x3d-blender-io/index.html">Scenes</a></div>
+<div class="card"><h2>x3d_mcp</h2><p>The MCP server: 34 → 48 tools, validator rules 19 → 62, the transfer layer, playground and exact-fix hints.</p>
+<a class="btn" href="x3d_mcp/MASTERCLASS.html">Read</a><a class="btn" href="x3d_mcp/index.html">Scenes</a></div>
+<div class="card"><h2>x3d.loom</h2><p>Eight sub-projects that share a method, not a library; the WebGPU bridge's node tracker checked against its code.</p>
+<a class="btn" href="x3d.loom/MASTERCLASS.html">Read</a><a class="btn" href="x3d.loom/index.html">Scenes</a></div>
+<div class="card"><h2>x3d.onto</h2><p>The Loom's birthplace: the X3D Ontology 4.1 class tree in 3D and a 310-restriction narrowing proposal.</p>
+<a class="btn" href="x3d.onto/MASTERCLASS.html">Read</a><a class="btn" href="x3d.onto/index.html">Scenes</a></div>
+<div class="card"><h2>x3d.demo</h2><p>The publishing shelf: append-only by construction, 55 % of its function lines copied from the Loom.</p>
+<a class="btn" href="x3d.demo/MASTERCLASS.html">Read</a><a class="btn" href="x3d.demo/index.html">Scenes</a></div>
+<div class="card"><h2>X_ITE 16.7.0</h2><p>The renderer itself: 266 of 267 X3D 4.1 nodes, field-by-field spec conformance, eight learning heuristics and a curriculum.</p>
+<a class="btn" href="x_ite/MASTERCLASS.html">Read</a><a class="btn" href="x_ite/index.html">Scenes</a></div>
+</div>
+<p class="note">Rendering uses a bundled copy of <a href="https://github.com/create3000/x_ite">X_ITE</a> 16.7.0 (MIT, licence in <code>vendor/x_ite/LICENSE.md</code>).
+Large scenes take 30–50 s to load on software WebGL. Tools to regenerate everything are in each folder's <code>tools/</code> and in <code>tools-shared/</code>; they expect the source repos checked out locally.</p>
+</main></body></html>

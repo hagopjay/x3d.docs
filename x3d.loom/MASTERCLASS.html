@@ -1,0 +1,644 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>x3d.loom: an AST masterclass and teardown</title><style>body{margin:0;background:#1a1a19;color:#f0efec;font:16px/1.6 system-ui,-apple-system,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:2rem 1.25rem 5rem} a{color:#86b6ef} code{background:#262624;padding:.1rem .3rem;border-radius:3px}
+pre{background:#232321;padding:1rem;overflow:auto;border-radius:6px;border:1px solid #383835} pre code{background:none;padding:0}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.9rem} th,td{border:1px solid #383835;padding:.35rem .55rem;vertical-align:top}
+th{background:#232321} h1,h2,h3{line-height:1.25} h2{border-bottom:1px solid #383835;padding-bottom:.3rem;margin-top:2.2rem}
+.nav{color:#8a8a85;font-size:.9rem}</style></head><body><main><p class="nav"><a href="../index.html">← all teardowns</a> · <a href="index.html">scenes for this teardown</a> · <a href="MASTERCLASS.md">Markdown source</a></p><h1 dir="auto">x3d.loom: an AST masterclass and teardown</h1>
+<p dir="auto"><a href="https://github.com/hagopjay/x3d.loom">hagopjay/x3d.loom</a>, <code class="notranslate">origin/main</code> 162ab18, measured 2026-11-13. The repo was created on<br>
+2026-11-05 ("The X3D Loom v1.0, public snapshot"), so there is no fork era: its whole history is the era. In 8 days the<br>
+first-parent line of <code class="notranslate">main</code> took 45 steps; 44 of the 45 PRs merged into <code class="notranslate">main</code> (#36 went to <code class="notranslate">bridge-review</code> and #42 to a<br>
+working branch). The hagsmac copy has its own 4 PRs (2 merged into hagsmac/main, 1 closed, 1 open: the Babylon visual-lane WIP).</p>
+<p dir="auto"><strong>Labels.</strong> <em>Measured</em>: Python <code class="notranslate">ast</code>, the TypeScript compiler's parser (JS, MJS, TS, TSX and inline <code class="notranslate">&lt;script&gt;</code> in HTML),<br>
+an XML element walk of every <code class="notranslate">.x3d</code> file, <code class="notranslate">git</code> and <code class="notranslate">gh</code>. <em>Inferred</em>: call resolution (static, by name and import binding),<br>
+X3D node names found as string literals in code, and the roles, which are assigned by top-level directory. <em>Claimed</em>: the<br>
+bridge's own tracker <code class="notranslate">x3d.webgpu/bridge/NODES.json</code> and PR text. Nothing was executed and nothing was installed (the<br>
+TypeScript parser is the copy already installed for x3d-physx-bridge).</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>scene</th>
+<th>what it shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">scenes/callgraph-3d.x3d</code></td>
+<td>383 files laid out by a force model, 3419 functions of 3+ lines around them, 1012 cross-file and 2610 in-file calls</td>
+</tr>
+<tr>
+<td><code class="notranslate">scenes/coverage-sunburst.x3d</code></td>
+<td>the 267 X3D 4.1 nodes: used in the repo's 219 X3D files (orange) and the bridge tracker's status per node</td>
+</tr>
+<tr>
+<td><code class="notranslate">scenes/fork-timeline.x3d</code></td>
+<td>45 steps of <code class="notranslate">main</code>: code lines per role, X3D megabytes, new node types in scenes and code, CI</td>
+</tr>
+<tr>
+<td><code class="notranslate">scenes/code-city.x3d</code></td>
+<td>functions as buildings per directory; aqua = body in one file, amber = same body in 2+ files</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h2 dir="auto">1. What the AST says the Loom is</h2>
+<p dir="auto">The Loom is not one program. It is <strong>eight sub-projects that do not call each other</strong>: in the call graph each role is an<br>
+island: all 1,174 statically resolved cross-file calls stay inside their own sub-project (physics 484, drift 459,<br>
+kit 139, platformer 91, mol 1). Static resolution finds no calls between <code class="notranslate">x3d.webgpu</code> files: whatever wires them<br>
+(globals, dynamic registration, page-level script order) is outside what this method follows. They share a <em>method</em> (laws, failure modes,<br>
+loomkit gates, receipts, documented in the root Markdown files) rather than a library.</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>role (hand-assigned from directory names)</th>
+<th>code files</th>
+<th>code lines</th>
+<th>functions</th>
+<th>X3D files</th>
+<th>X3D MB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x3d.webgpu (Babylon/WebGPU bridge, reader, ports)</td>
+<td>201</td>
+<td>36,301</td>
+<td>3,132</td>
+<td>120</td>
+<td>3.0</td>
+</tr>
+<tr>
+<td>x3d.physics (PhysX + MuJoCo bridges, TMP ports)</td>
+<td>209</td>
+<td>18,684</td>
+<td>1,468</td>
+<td>33</td>
+<td>1.2</td>
+</tr>
+<tr>
+<td>x3d.drift (KANSEI racing game)</td>
+<td>37</td>
+<td>12,261</td>
+<td>724</td>
+<td>14</td>
+<td>10.5</td>
+</tr>
+<tr>
+<td>kit (loomkit gates, examples) + docs</td>
+<td>61</td>
+<td>11,405</td>
+<td>548</td>
+<td>0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>x3d.brain (imaging demo)</td>
+<td>14</td>
+<td>8,063</td>
+<td>628</td>
+<td>2</td>
+<td>5.2</td>
+</tr>
+<tr>
+<td>x3d.mol (proteins, AlphaFold keyframes)</td>
+<td>25</td>
+<td>4,986</td>
+<td>361</td>
+<td>0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>x3d.platformer (NIB)</td>
+<td>19</td>
+<td>3,382</td>
+<td>235</td>
+<td>4</td>
+<td>0.4</td>
+</tr>
+<tr>
+<td>runs (recorded evidence)</td>
+<td>46</td>
+<td>1,620</td>
+<td>199</td>
+<td>46</td>
+<td>21.4</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<ul dir="auto">
+<li><strong>Code:</strong> 96,702 lines in 612 files (py 133, js 454, html 25). 6,916 named function definitions, 241 with cyclomatic complexity<br>
+over 20 and 34 over 50.</li>
+<li><strong>Scenes:</strong> 219 X3D files, 41.7 MB: X3D 4.0 202, X3D 4.1 17; profiles Immersive 152, Interchange 62, Interactive 4, Full 1. 1,694 ROUTEs, but only 2 files with a <code class="notranslate">Script</code> node and 1<br>
+file with a <code class="notranslate">ProtoInstance</code>: behaviour lives in the JavaScript around the scenes, not inside them.</li>
+<li><strong>Duplication:</strong> of 3,814 functions of 3+ lines, 1168 have a body that also exists in another file. 25 files are exact<br>
+copies of another (same multiset of function bodies). The biggest family is the WebGPU viewer: <code class="notranslate">viewer.tpl.html</code>,<br>
+<code class="notranslate">-v2</code>, <code class="notranslate">-v2-1</code>, <code class="notranslate">-v3</code>, <code class="notranslate">-v3-1</code>, <code class="notranslate">collider.html</code>, <code class="notranslate">collider-v2.html</code> and <code class="notranslate">first-light*.html</code> each carry their own <code class="notranslate">frame</code><br>
+function (CC 127 to 154). Versioning by copying a page is the Loom's habit; it keeps old demos frozen, at the price of<br>
+fixes that must be applied N times (PR #20's SAI texture-fallback fix is the kind of change this multiplies).</li>
+</ul>
+<h3 dir="auto">Hot spots (measured; one row per distinct body)</h3>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>function</th>
+<th>CC</th>
+<th>lines</th>
+<th>nesting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">x3d.drift/engine/car.js::stepCar</code></td>
+<td>185</td>
+<td>331</td>
+<td>5</td>
+</tr>
+<tr>
+<td><code class="notranslate">x3d.webgpu/demo/src/viewer-v3-1.tpl.html::frame</code> (same body in 2 files)</td>
+<td>154</td>
+<td>266</td>
+<td>5</td>
+</tr>
+<tr>
+<td><code class="notranslate">x3d.webgpu/demo/collider-v2.html::frame</code> (same body in 3 files)</td>
+<td>144</td>
+<td>239</td>
+<td>5</td>
+</tr>
+<tr>
+<td><code class="notranslate">x3d.drift/engine/ai.js::driftDrive</code></td>
+<td>132</td>
+<td>186</td>
+<td>4</td>
+</tr>
+<tr>
+<td><code class="notranslate">x3d.webgpu/demo/collider.html::frame</code> (same body in 3 files)</td>
+<td>127</td>
+<td>221</td>
+<td>5</td>
+</tr>
+<tr>
+<td><code class="notranslate">x3d.mol/src/witness.py::check</code></td>
+<td>106</td>
+<td>163</td>
+<td>6</td>
+</tr>
+<tr>
+<td><code class="notranslate">kit/loomkit/hepevent.py::load_spec</code></td>
+<td>83</td>
+<td>92</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code class="notranslate">x3d.webgpu/demo/first-light.html::frame</code></td>
+<td>83</td>
+<td>163</td>
+<td>5</td>
+</tr>
+<tr>
+<td><code class="notranslate">kit/examples/zinc_site_scene.py::build</code></td>
+<td>79</td>
+<td>113</td>
+<td>5</td>
+</tr>
+<tr>
+<td><code class="notranslate">x3d.drift/build/kcars.py::build_car</code></td>
+<td>77</td>
+<td>360</td>
+<td>4</td>
+</tr>
+<tr>
+<td><code class="notranslate">x3d.brain/tools/build_brain_scene.py::main</code></td>
+<td>72</td>
+<td>277</td>
+<td>5</td>
+</tr>
+<tr>
+<td><code class="notranslate">x3d.drift/engine/ai.js::driveAI</code></td>
+<td>72</td>
+<td>123</td>
+<td>5</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto"><code class="notranslate">x3d.drift/engine/car.js::stepCar</code> (CC 185) and <code class="notranslate">ai.js::driftDrive</code> (CC 132) are the most complex functions in either repo:<br>
+a vehicle model and a driving AI in single functions. They are the first candidates for splitting, with the drift game's<br>
+own tests as the net.</p>
+<h2 dir="auto">2. Taxonomy: X3D through three lenses</h2>
+<p dir="auto">Node types used, by number of files: Appearance (166), Shape (165), Viewpoint (162), Material (138), Transform (137), NavigationInfo (123), WorldInfo (101), Background (96), Coordinate (94), DirectionalLight (79), Box (77), Group (76), IndexedFaceSet (69), Sphere (61), Cylinder (53). Components touched: Sound 21, Rendering 14, Followers 14, RigidBodyPhysics 13, Interpolation 11, Shape 9, Texturing 9, Core 8, Shaders 8, ParticleSystems 8, Geometry3D 7, Texturing3D 7, Geometry2D 6, CADGeometry 6, Navigation 5, EnvironmentalEffects 5, Layout 5, Grouping 4, Lighting 4, PointingDeviceSensor 4, EventUtilities 4, CubeMapTexturing 3, Networking 3, Layering 3, Text 2, KeyDeviceSensor 2, EnvironmentalSensor 2, Time 1, Scripting 1, GaussianSplats 1.</p>
+<p dir="auto"><strong>The bridge tracker against the AST.</strong> <code class="notranslate">x3d.webgpu/bridge/NODES.json</code> tracks 260 X3D 4.0 nodes for the Babylon/WebGPU<br>
+reader. Its statuses: base 75, bridged 41, claimed 8, gap 70, todo 65, blocked 1. Cross-checked against the code:</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>tracker status</th>
+<th>nodes</th>
+<th>named as a literal in code</th>
+<th>used in a scene in the repo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>base</td>
+<td>75</td>
+<td>75</td>
+<td>63</td>
+</tr>
+<tr>
+<td>bridged</td>
+<td>41</td>
+<td>41</td>
+<td>41</td>
+</tr>
+<tr>
+<td>claimed</td>
+<td>8</td>
+<td>8</td>
+<td>1</td>
+</tr>
+<tr>
+<td>gap</td>
+<td>70</td>
+<td>70</td>
+<td>70</td>
+</tr>
+<tr>
+<td>todo</td>
+<td>65</td>
+<td>17</td>
+<td>12</td>
+</tr>
+<tr>
+<td>blocked</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">Every node the tracker calls base, bridged, claimed, gap or blocked is named in the code, so the tracker and the code agree<br>
+(measured). Only 17 of the 65 "todo" nodes appear in code. The 70 "gap" nodes all have a test scene: a gap is a node that is<br>
+read and tested but not yet drawn the way X_ITE draws it, which is what the Babylon "visual lane" PRs (#43 to #45) burn<br>
+down with picture comparisons against X_ITE. In the sunburst, the outer ring is this tracker and the white dots mark code<br>
+naming.</p>
+<h2 dir="auto">3. The history, step by step</h2>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>step</th>
+<th>date</th>
+<th>title</th>
+<th>code delta</th>
+<th>X3D delta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">849fc7e</code></td>
+<td>11-05</td>
+<td>The X3D Loom v1.0, public snapshot 2: the Mashtots2 fold-in</td>
+<td>+159 lines; +9 -0 ~6 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">58b0d40</code></td>
+<td>11-05</td>
+<td>The X3D Loom v1.0, public snapshot 3: Mashtots slide show guard applied</td>
+<td>+0 lines; +0 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/1" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/1/hovercard">#1</a></td>
+<td>11-06</td>
+<td>Zinc fingers under the Loom: metal-site witness, controls and study plan</td>
+<td>+472 lines; +23 -0 ~1 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/3" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/3/hovercard">#3</a></td>
+<td>11-06</td>
+<td>x3d.platformer (NIB): a physics platformer made of X3D, and a play witness for the Loom</td>
+<td>+3,654 lines; +238 -0 ~5 fns</td>
+<td>+4 X3D files (+0.4 MB); scenes start using 30 node types; code names 32 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/4" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/4/hovercard">#4</a></td>
+<td>11-06</td>
+<td>The Loom Collider: a collider-event demo in X3D, a plausibility witness and first light</td>
+<td>+6,680 lines; +343 -0 ~3 fns</td>
+<td>+18 X3D files (+20.7 MB); scenes start using 14 node types; code names 36 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/5" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/5/hovercard">#5</a></td>
+<td>11-06</td>
+<td>x3d.brain: high-fidelity brain imaging demo under the Loom</td>
+<td>+8,063 lines; +603 -0 ~0 fns</td>
+<td>+2 X3D files (+5.1 MB); scenes start using 11 node types; code names 6 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/6" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/6/hovercard">#6</a></td>
+<td>11-06</td>
+<td>x3d.drift (KANSEI): a drift-racing game made of X3D, and the x3d-drift Loom profile</td>
+<td>+12,261 lines; +705 -0 ~0 fns</td>
+<td>+14 X3D files (+10.6 MB); scenes start using 5 node types; code names 7 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/2" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/2/hovercard">#2</a></td>
+<td>11-06</td>
+<td>Zinc fingers P1: fourteen deposited structures, a site census and fourteen site scenes</td>
+<td>+2,333 lines; +84 -0 ~10 fns</td>
+<td>+28 X3D files (+0.7 MB)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/7" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/7/hovercard">#7</a></td>
+<td>11-06</td>
+<td>x3d.webgpu: a specification scaffold for X3D on WebGPU (docs plus a probe page)</td>
+<td>+56 lines; +2 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/8" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/8/hovercard">#8</a></td>
+<td>11-07</td>
+<td>x3d.webgpu: First Light and the Collider, X3D scenes run and drawn with WebGPU</td>
+<td>+8,662 lines; +647 -0 ~0 fns</td>
+<td>+2 X3D files (+2.1 MB); scenes start using 7 node types; code names 4 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/9" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/9/hovercard">#9</a></td>
+<td>11-07</td>
+<td>Loom: fold back two rebuilds by another model (laws 38-40, five rules)</td>
+<td>+132 lines; +6 -0 ~2 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/10" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/10/hovercard">#10</a></td>
+<td>11-07</td>
+<td>x3d.webgpu: Collider v2, an outside rebuild reviewed and folded in</td>
+<td>+5,212 lines; +374 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/11" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/11/hovercard">#11</a></td>
+<td>11-07</td>
+<td>x3d.webgpu: GaussianSplats on the WebGPU bridge (Pantheon port)</td>
+<td>+2,864 lines; +195 -0 ~0 fns</td>
+<td>+1 X3D files (+0.7 MB); scenes start using 1 node types</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/12" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/12/hovercard">#12</a></td>
+<td>11-07</td>
+<td>x3d.webgpu: five HEP event pages and a splat facade (quick wins)</td>
+<td>+141 lines; +6 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/13" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/13/hovercard">#13</a></td>
+<td>11-07</td>
+<td>x3d.webgpu: Neural Canvas (Brain Loom) on Babylon WebGPU through our X3D reader</td>
+<td>+1,720 lines; +189 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/14" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/14/hovercard">#14</a></td>
+<td>11-07</td>
+<td>x3d.webgpu: viewer adapter fallback (v2-1, v3-1 templates)</td>
+<td>+5,317 lines; +377 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/15" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/15/hovercard">#15</a></td>
+<td>11-07</td>
+<td>x3d.webgpu: Babylon/WebGPU bridge playbook v1</td>
+<td>+0 lines; +0 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/16" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/16/hovercard">#16</a></td>
+<td>11-07</td>
+<td>x3d.webgpu: Manifold of Emotion WebGPU port, plan and scaffold</td>
+<td>+235 lines; +15 -0 ~0 fns</td>
+<td>code names 1 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/17" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/17/hovercard">#17</a></td>
+<td>11-07</td>
+<td>x3d.webgpu: KANSEI drift on Babylon WebGPU (port 3), with an opt-in Timing button</td>
+<td>+825 lines; +101 -0 ~7 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/18" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/18/hovercard">#18</a></td>
+<td>11-07</td>
+<td>Neural Canvas v2: brain parity re-run after the normals fix, shared adapter retry and Timing button</td>
+<td>+87 lines; +35 -22 ~4 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/19" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/19/hovercard">#19</a></td>
+<td>11-07</td>
+<td>x3d.webgpu: Manifold of Emotion on Babylon WebGPU (port 4), opt-in Timing button</td>
+<td>+868 lines; +76 -4 ~11 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/20" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/20/hovercard">#20</a></td>
+<td>11-07</td>
+<td>SAI shim: probe texture fallback urls once (KANSEI made about 2,350 failed requests on Pages)</td>
+<td>+19 lines; +3 -0 ~1 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/22" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/22/hovercard">#22</a></td>
+<td>11-07</td>
+<td>Gobbler 3 knowledge-graph page on Babylon 9.32.0 WebGPU (port 2)</td>
+<td>+1,434 lines; +71 -0 ~0 fns</td>
+<td>code names 5 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/21" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/21/hovercard">#21</a></td>
+<td>11-07</td>
+<td>x3d.webgpu: Chirp and Electron Cloud on Babylon WebGPU (ports 4 and 5), switchable cinematic looks, parity gaps logged</td>
+<td>+636 lines; +64 -0 ~11 fns</td>
+<td>code names 1 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/23" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/23/hovercard">#23</a></td>
+<td>11-08</td>
+<td>Material Odyssey on Babylon (port #6) and bridge playbook v2</td>
+<td>+530 lines; +51 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/24" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/24/hovercard">#24</a></td>
+<td>11-08</td>
+<td>Gobbler demiurge on Babylon (port #7)</td>
+<td>+677 lines; +45 -0 ~0 fns</td>
+<td>code names 5 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/25" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/25/hovercard">#25</a></td>
+<td>11-08</td>
+<td>x3d.webgpu: Dynasty Loom hypersphere on Babylon (port #8)</td>
+<td>+866 lines; +43 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/26" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/26/hovercard">#26</a></td>
+<td>11-08</td>
+<td>x3d.webgpu/bridge: node tracker, driver and kit; batches 1 to 12 (60 nodes), reader 135 of 260</td>
+<td>+2,532 lines; +293 -0 ~0 fns</td>
+<td>+57 X3D files (+0.0 MB); scenes start using 54 node types; code names 50 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/27" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/27/hovercard">#27</a></td>
+<td>11-08</td>
+<td>Library hall on Babylon WebGPU (port #9, +8 node types)</td>
+<td>+751 lines; +75 -0 ~0 fns</td>
+<td>code names 4 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/28" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/28/hovercard">#28</a></td>
+<td>11-08</td>
+<td>x3d.webgpu/bridge: batches 12 and 13 (10 nodes), reader 140 of 260</td>
+<td>+736 lines; +68 -0 ~4 fns</td>
+<td>+11 X3D files (+0.1 MB); scenes start using 11 node types; code names 9 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/29" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/29/hovercard">#29</a></td>
+<td>11-08</td>
+<td>x3d.webgpu/bridge: batch 14, Sound graph (5 nodes), reader 145 of 260</td>
+<td>+274 lines; +24 -2 ~4 fns</td>
+<td>+5 X3D files (+0.0 MB); scenes start using 5 node types; code names 5 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/30" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/30/hovercard">#30</a></td>
+<td>11-08</td>
+<td>x3d.webgpu/bridge: batch 15, Sound graph (5 nodes), reader 150 of 260</td>
+<td>+189 lines; +10 -0 ~3 fns</td>
+<td>+5 X3D files (+0.0 MB); scenes start using 5 node types; code names 5 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/31" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/31/hovercard">#31</a></td>
+<td>11-08</td>
+<td>x3d.webgpu/bridge: batch 16, Sound sources and spatial (5 nodes), reader 155 of 260</td>
+<td>+249 lines; +30 -0 ~1 fns</td>
+<td>+5 X3D files (+0.0 MB); scenes start using 5 node types; code names 5 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/32" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/32/hovercard">#32</a></td>
+<td>11-08</td>
+<td>Bridge batches 17 to 19: sound streams, Layering, Layout, shader holders (170/260)</td>
+<td>+524 lines; +48 -0 ~2 fns</td>
+<td>+15 X3D files (+0.0 MB); scenes start using 15 node types; code names 14 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/33" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/33/hovercard">#33</a></td>
+<td>11-08</td>
+<td>Bridge batch 20: ShaderProgram, cube maps, 3D textures (175/260)</td>
+<td>+266 lines; +31 -0 ~6 fns</td>
+<td>+5 X3D files (+0.0 MB); scenes start using 6 node types; code names 5 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/34" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/34/hovercard">#34</a></td>
+<td>11-08</td>
+<td>Bridge: shot op and three demo scenes</td>
+<td>+2 lines; +1 -0 ~1 fns</td>
+<td>+3 X3D files (+0.0 MB)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/35" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/35/hovercard">#35</a></td>
+<td>11-09</td>
+<td>Bridge: validation that can fail, fidelity preflight, scene lifecycle, first CI</td>
+<td>+574 lines; +45 -7 ~28 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/37" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/37/hovercard">#37</a></td>
+<td>11-12</td>
+<td>x3d.mol: proteins as validated X3D, a Babylon.js viewer and a Blender stage</td>
+<td>+3,599 lines; +262 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/38" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/38/hovercard">#38</a></td>
+<td>11-13</td>
+<td>Physics under the Loom: the physics witness, two profiles, laws 41-43, failure modes 124-147, and x3d.physics</td>
+<td>+18,155 lines; +1147 -0 ~2 fns</td>
+<td>+33 X3D files (+1.2 MB); scenes start using 9 node types; code names 8 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/39" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/39/hovercard">#39</a></td>
+<td>11-13</td>
+<td>x3d.mol: AlphaFold 3 diffusion illustration as validated X3D keyframes, with a live player</td>
+<td>+1,387 lines; +91 -0 ~12 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/40" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/40/hovercard">#40</a></td>
+<td>11-13</td>
+<td>docs: what Marble splats teach (frame wrapper, header drift, clip and renormalise)</td>
+<td>+0 lines; +0 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/41" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/41/hovercard">#41</a></td>
+<td>11-13</td>
+<td>Fold back the Ten Minute Physics ports: law 44, failure modes 148-160, playbook patterns 11-19</td>
+<td>+842 lines; +123 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/43" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/43/hovercard">#43</a></td>
+<td>11-13</td>
+<td>Babylon bridge, visual lane: gap burn-down with X_ITE picture compare (batches 21 on)</td>
+<td>+1,042 lines; +108 -0 ~15 fns</td>
+<td>code names 8 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/44" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/44/hovercard">#44</a></td>
+<td>11-13</td>
+<td>Babylon bridge, visual lane part 2: batches 22 to 23 and on (Texturing3D, particles, CAD)</td>
+<td>+1 lines; +1 -0 ~4 fns</td>
+<td>+9 X3D files (+0.1 MB); scenes start using 12 node types</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.loom/pull/45" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.loom/pull/45/hovercard">#45</a></td>
+<td>11-13</td>
+<td>Babylon bridge, visual lane part 3: batches 24 to 26 (Texturing, 2D geometry, CAD)</td>
+<td>+0 lines; +0 -0 ~0 fns</td>
+<td>+2 X3D files (+0.0 MB)</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto"><strong>Phases.</strong> Nov 5–6: public snapshots and five sub-projects in a day (zinc fingers, platformer, collider, brain, drift).<br>
+Nov 7–8: x3d.webgpu, a Babylon/WebGPU bridge, nine ports of existing X3D demos and the node-by-node reader (batches 1 to 20,<br>
+"reader 175 of 260"). Nov 9: the bridge gets validation that can fail, a fidelity preflight and the first CI. Nov 12–13:<br>
+x3d.mol (proteins, AlphaFold 3 keyframes), physics under the Loom (PhysX and MuJoCo bridges, laws 41–44, failure modes<br>
+124–160) and the Babylon visual lane.</p>
+<h2 dir="auto">4. Tests and CI</h2>
+<ul dir="auto">
+<li>CI exists only for the bridge: <code class="notranslate">.github/workflows/bridge.yml</code> (from #35). Runs: 13 in all; on <code class="notranslate">main</code> 2 succeeded and 2<br>
+were cancelled. The rest of the Loom (drift, physics bridges, mol, brain, kit) has no CI.</li>
+<li>Tests found by AST: 62 JS <code class="notranslate">test(</code>/<code class="notranslate">it(</code> calls and no Python <code class="notranslate">test_*</code> functions. The Loom's real checks are its <strong>gates<br>
+and receipts</strong> (<code class="notranslate">kit/loomkit</code>, <code class="notranslate">receipts/*.json</code>, <code class="notranslate">runs/</code>), which are evidence files rather than unit tests; this<br>
+analysis does not count them as tests.</li>
+</ul>
+<h2 dir="auto">5. Insights, risks, recommendations</h2>
+<ol dir="auto">
+<li><strong>A method repo, not a code library.</strong> No shared runtime between sub-projects. Good for isolation; it means a fix in<br>
+one viewer does not reach the copies. Recommendation: extract the WebGPU viewer's <code class="notranslate">frame</code> loop and the SAI shim into one<br>
+module that the pages import, and keep frozen versions as tags rather than copied files.</li>
+<li><strong>The tracker is honest and checkable.</strong> The AST agrees with NODES.json on every claimed or bridged node. Worth<br>
+publishing as a generated table, with this cross-check as a CI step, so the claim "N of 260" can never drift from the code.</li>
+<li><strong>Complexity lives in games and render loops</strong> (<code class="notranslate">stepCar</code> 185, <code class="notranslate">frame</code> 127–154, <code class="notranslate">driftDrive</code> 132). Split by phase<br>
+(input, integrate, collide, render) before the next feature.</li>
+<li><strong>CI covers one of eight sub-projects.</strong> Add the existing drift and physics tests to a workflow; they already run headless.</li>
+<li><strong>Behaviour outside the scenes.</strong> 1,694 ROUTEs but 2 Scripts: the X3D files stay portable, and the JS does the work.<br>
+That is a deliberate Loom rule; the risk is that X_ITE-only users get a static scene.</li>
+</ol>
+<h2 dir="auto">6. Method and limits</h2>
+<p dir="auto">Same method as the x3d-blender-io and x3d_mcp masterclasses, extended: <code class="notranslate">tools/jsast.cjs</code> (TypeScript parser) for JS/TS<br>
+and inline scripts, <code class="notranslate">tools/repo_ast.py</code> (blob-sha cache, <code class="notranslate">git cat-file</code>, no checkout), <code class="notranslate">tools/era.py</code> (every first-parent<br>
+commit). Vendored files are excluded by path (5 files: X_ITE, Babylon, minified bundles). Anonymous callbacks are<br>
+charged to their enclosing function. Six <code class="notranslate">.tpl.html</code> templates contain placeholders and parse with recoverable errors.<br>
+Clone detection hashes each function's whitespace-normalised source text. Scenes validate with x3d_mcp (XSD 4.0 valid,<br>
+0 errors, 0 warnings) and were rendered in the Claude browser pane (X_ITE 16.7.0, software WebGL); the call graph and the<br>
+city take 30 to 50 s to load there.</p></main></body></html>

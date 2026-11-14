@@ -1,0 +1,426 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>x3d.demo: an AST masterclass and teardown</title><style>body{margin:0;background:#1a1a19;color:#f0efec;font:16px/1.6 system-ui,-apple-system,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:2rem 1.25rem 5rem} a{color:#86b6ef} code{background:#262624;padding:.1rem .3rem;border-radius:3px}
+pre{background:#232321;padding:1rem;overflow:auto;border-radius:6px;border:1px solid #383835} pre code{background:none;padding:0}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.9rem} th,td{border:1px solid #383835;padding:.35rem .55rem;vertical-align:top}
+th{background:#232321} h1,h2,h3{line-height:1.25} h2{border-bottom:1px solid #383835;padding-bottom:.3rem;margin-top:2.2rem}
+.nav{color:#8a8a85;font-size:.9rem}</style></head><body><main><p class="nav"><a href="../index.html">← all teardowns</a> · <a href="index.html">scenes for this teardown</a> · <a href="MASTERCLASS.md">Markdown source</a></p><h1 dir="auto">x3d.demo: an AST masterclass and teardown</h1>
+<p dir="auto"><a href="https://github.com/hagopjay/x3d.demo">hagopjay/x3d.demo</a>, <code class="notranslate">main</code> d10b457, measured 2026-11-13 ("Demo repo for x3d-io.ai<br>
+work", GitHub Pages from <code class="notranslate">docs/</code>). Created 2026-11-07; 26 first-parent steps; 25 PRs, all merged. The local checkout's<br>
+<code class="notranslate">origin</code> is hagsmac/x3d.demo, which is 40 commits behind (last change 2026-11-07); this analysis uses hagopjay's <code class="notranslate">main</code>.</p>
+<p dir="auto"><strong>Labels</strong> as in the x3d.loom masterclass: measured (ASTs, XML walk, git, gh), inferred (call resolution, literal node<br>
+names, roles from demo folder names), claimed (PR text). Nothing executed or installed.</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>scene</th>
+<th>what it shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">scenes/callgraph-3d.x3d</code></td>
+<td>97 files (28 more are exact copies), 3113 functions, 3100 in-file calls and only 5 cross-file calls</td>
+</tr>
+<tr>
+<td><code class="notranslate">scenes/coverage-sunburst.x3d</code></td>
+<td>the 267 X3D 4.1 nodes: used in the 111 X3D files (orange) and named in code (blue)</td>
+</tr>
+<tr>
+<td><code class="notranslate">scenes/fork-timeline.x3d</code></td>
+<td>26 steps of <code class="notranslate">main</code> with code lines per role, X3D megabytes, new node types, Pages deploys</td>
+</tr>
+<tr>
+<td><code class="notranslate">scenes/code-city.x3d</code></td>
+<td>functions as buildings per demo folder; amber = the same body exists in 2+ files</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h2 dir="auto">1. What the AST says the demo repo is</h2>
+<p dir="auto">A <strong>publishing shelf</strong>. Every demo is a self-contained page: 3100 calls inside files, 5 across files. Each new<br>
+version is a new folder (<code class="notranslate">v1</code>, <code class="notranslate">v2</code> …) and the old one is never edited: across all 26 steps of history the AST sees<br>
+<strong>0 functions changed</strong>, only added. That makes the repo append-only by construction.</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>role (hand-assigned from directory names)</th>
+<th>code files</th>
+<th>code lines</th>
+<th>functions</th>
+<th>X3D files</th>
+<th>X3D MB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Babylon/WebGPU ports</td>
+<td>25</td>
+<td>27,008</td>
+<td>3,047</td>
+<td>25</td>
+<td>32.8</td>
+</tr>
+<tr>
+<td>X_ITE demos</td>
+<td>59</td>
+<td>15,979</td>
+<td>3,016</td>
+<td>62</td>
+<td>37.8</td>
+</tr>
+<tr>
+<td>collider events + heritage facade</td>
+<td>12</td>
+<td>31,104</td>
+<td>2,318</td>
+<td>2</td>
+<td>23.4</td>
+</tr>
+<tr>
+<td>physics (Ten Minute Physics, MuJoCo bridge)</td>
+<td>20</td>
+<td>6,985</td>
+<td>279</td>
+<td>17</td>
+<td>26.9</td>
+</tr>
+<tr>
+<td>STEM studies</td>
+<td>39</td>
+<td>4,505</td>
+<td>365</td>
+<td>5</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>doc shelf (index, versions)</td>
+<td>20</td>
+<td>387</td>
+<td>39</td>
+<td>0</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<ul dir="auto">
+<li><strong>Code:</strong> 85,968 lines in 175 files (html 59, js 61, py 55), 8,963 named function definitions, 409 vendored files excluded (X_ITE and Babylon builds).<br>
+One page (<code class="notranslate">x3d-mujoco-bridge/v1/index.html</code>) inlines a minified bundle and is excluded from function counts.</li>
+<li><strong>Scenes:</strong> 111 X3D files, 120.9 MB: X3D 4.0 100, X3D 4.1 11; profiles Immersive 91, Full 17, Interchange 3. 3,767 ROUTEs, 1 file with a Script, 6 files with a ProtoInstance.<br>
+The largest are <code class="notranslate">hall.x3d</code> (13 MB), <code class="notranslate">facade.x3d</code> (11 MB, twice) and <code class="notranslate">pantheon.x3d</code> (6 MB).</li>
+<li><strong>Duplication:</strong> 2784 of 4056 functions of 3+ lines (69 %) have a body that exists in another file, and 28 files<br>
+are exact copies. <strong>2,139 of 4056 function bodies (55 % of the function lines) are identical to functions in<br>
+x3d.loom</strong>: the HEP collider pages, the brain/torso pages, the heritage facade and the WebGPU ports are copies of the<br>
+Loom's viewers. The demo repo is a downstream mirror of the Loom's pages.</li>
+</ul>
+<h3 dir="auto">Hot spots (measured; one row per distinct body)</h3>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>function</th>
+<th>CC</th>
+<th>lines</th>
+<th>nesting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">docs/demos/heritage-facade/v1/facade.html::frame</code> (same body in 2 files)</td>
+<td>154</td>
+<td>266</td>
+<td>5</td>
+</tr>
+<tr>
+<td><code class="notranslate">docs/demos/collider-events/v1/dijet.html::frame</code> (same body in 10 files)</td>
+<td>144</td>
+<td>239</td>
+<td>5</td>
+</tr>
+<tr>
+<td><code class="notranslate">docs/demos/tether-firehose/v4/index.html::drawWF</code></td>
+<td>142</td>
+<td>80</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code class="notranslate">docs/demos/tether-firehose/v4/index.html::drawMatrix</code></td>
+<td>123</td>
+<td>60</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code class="notranslate">docs/demos/gobbler-demiurge-webgpu/v1/src/hover.js::start.frame</code> (same body in 2 files)</td>
+<td>96</td>
+<td>51</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code class="notranslate">docs/demos/tether-firehose/v4/index.html::liveTether</code></td>
+<td>93</td>
+<td>40</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code class="notranslate">docs/demos/gobbler-demiurge-webgpu/v1/src/hover.js::start</code> (same body in 2 files)</td>
+<td>87</td>
+<td>340</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code class="notranslate">docs/demos/tether-firehose/v4/index.html::patchRow</code></td>
+<td>80</td>
+<td>30</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code class="notranslate">docs/demos/tether-firehose/v4/index.html::cardShow</code></td>
+<td>76</td>
+<td>18</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code class="notranslate">docs/demos/tether-firehose/v4/index.html::drawScope</code></td>
+<td>76</td>
+<td>49</td>
+<td>5</td>
+</tr>
+<tr>
+<td><code class="notranslate">docs/demos/tether-firehose/v4/index.html::run</code></td>
+<td>69</td>
+<td>28</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code class="notranslate">docs/demos/tether-firehose/v4/index.html::restore</code></td>
+<td>67</td>
+<td>15</td>
+<td>4</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">The top entries are the Loom's WebGPU viewer <code class="notranslate">frame</code> loop, copied into each collider and facade page.</p>
+<h2 dir="auto">2. Taxonomy: X3D used by the demos</h2>
+<p dir="auto">Node types used, by number of files: Shape (103), Appearance (103), Transform (101), Viewpoint (90), Coordinate (87), NavigationInfo (86), Background (82), TimeSensor (66), PhysicalMaterial (58), DirectionalLight (57), WorldInfo (51), Material (50), IndexedTriangleSet (40), Color (39), PositionInterpolator (38). Components touched: Rendering 11, Shape 7, Geometry3D 7, Navigation 6, Texturing 6, Interpolation 6, Geospatial 5, Core 4, Lighting 3, Grouping 3, Shaders 3, EventUtilities 3, EnvironmentalEffects 2, Text 2, HAnim 2, ParticleSystems 2, Geometry2D 2, NURBS 1, GaussianSplats 1, Time 1, Networking 1, PointingDeviceSensor 1, EnvironmentalSensor 1, Texturing3D 1, Scripting 1.</p>
+<p dir="auto">The code names 122 node types, more than the 82 the scenes use, because the embedded WebGPU reader (from the Loom bridge)<br>
+carries its own node table.</p>
+<h2 dir="auto">3. The history, step by step</h2>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>step</th>
+<th>date</th>
+<th>title</th>
+<th>code delta</th>
+<th>X3D delta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/1" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/1/hovercard">#1</a></td>
+<td>11-07</td>
+<td>Demo doc v1: three WebGPU demos, versioned</td>
+<td>+15,553 lines; +1117 -0 ~0 fns</td>
+<td>+1 X3D files (+11.7 MB); scenes start using 4 node types; code names 44 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/2" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/2/hovercard">#2</a></td>
+<td>11-07</td>
+<td>Demo doc v2: fix "no adapter" on the demo pages</td>
+<td>+15,594 lines; +1119 -0 ~0 fns</td>
+<td>+1 X3D files (+11.7 MB)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/3" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/3/hovercard">#3</a></td>
+<td>11-07</td>
+<td>Demo doc v3: explain the Chrome WebGPU blocklist</td>
+<td>+24 lines; +1 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/4" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/4/hovercard">#4</a></td>
+<td>11-07</td>
+<td>Demo doc v4: meme wall</td>
+<td>+20 lines; +1 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/5" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/5/hovercard">#5</a></td>
+<td>11-07</td>
+<td>Demo doc v5: Neural Canvas (brain and torso CT) as demo 3</td>
+<td>+2,819 lines; +319 -0 ~0 fns</td>
+<td>code names 12 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/6" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/6/hovercard">#6</a></td>
+<td>11-07</td>
+<td>Demo doc v6: Manifold of emotion (demo 4) and a STEM shelf</td>
+<td>+20 lines; +1 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/7" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/7/hovercard">#7</a></td>
+<td>11-07</td>
+<td>Demo doc v7: STEM studies live, hosted manifold, X_ITE twins</td>
+<td>+7,749 lines; +735 -0 ~0 fns</td>
+<td>+6 X3D files (+2.1 MB); scenes start using 25 node types; code names 1 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/8" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/8/hovercard">#8</a></td>
+<td>11-07</td>
+<td>Doc v8: KANSEI as the Babylon flagship, plus the X_ITE twin fix</td>
+<td>+0 lines; +0 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/9" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/9/hovercard">#9</a></td>
+<td>11-07</td>
+<td>Docs v8 and v9: KANSEI (demo 6), Loomsong (demo 7) and a GitHub shelf</td>
+<td>+20 lines; +1 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/10" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/10/hovercard">#10</a></td>
+<td>11-07</td>
+<td>Docs v9 and v10: Loomsong playable, Tether Firehose 4, GitHub shelf</td>
+<td>+8,474 lines; +1336 -0 ~0 fns</td>
+<td>+3 X3D files (+6.7 MB); scenes start using 8 node types; code names 53 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/11" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/11/hovercard">#11</a></td>
+<td>11-07</td>
+<td>Neural Canvas (Babylon WebGPU) v2 as a new folder, v1 untouched</td>
+<td>+2,984 lines; +350 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/12" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/12/hovercard">#12</a></td>
+<td>11-07</td>
+<td>Docs v11 and v12: WebGPU manifold, Chirp and Electron Cloud (Demos 9 to 11)</td>
+<td>+5,336 lines; +598 -0 ~0 fns</td>
+<td>+1 X3D files (+2.0 MB); code names 6 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/13" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/13/hovercard">#13</a></td>
+<td>11-08</td>
+<td>X3D demos: Blender X3D I/O showcase (12), MuJoCo bridge, Ontology constellation, Dynasty Loom, Confluence IFC, Gobbler</td>
+<td>+8,466 lines; +695 -0 ~0 fns</td>
+<td>+56 X3D files (+28.3 MB); scenes start using 35 node types; code names 2 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/14" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/14/hovercard">#14</a></td>
+<td>11-08</td>
+<td>Docs v14, v15: Gobbler 3 on WebGPU (Demo 18), artifact card kept, STEM Pages link</td>
+<td>+3,150 lines; +275 -0 ~0 fns</td>
+<td>+1 X3D files (+0.2 MB); code names 4 more</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/15" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/15/hovercard">#15</a></td>
+<td>11-08</td>
+<td>Doc v16: Demo 19, Material Odyssey on Babylon WebGPU</td>
+<td>+3,374 lines; +316 -0 ~0 fns</td>
+<td>+1 X3D files (+0.9 MB)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/16" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/16/hovercard">#16</a></td>
+<td>11-08</td>
+<td>Docs v17, v18: Gobbler Demiurge, Dynasty Loom, Library Hall on Babylon WebGPU (Demos 20 to 22)</td>
+<td>+3,112 lines; +517 -0 ~0 fns</td>
+<td>+21 X3D files (+27.7 MB); scenes start using 7 node types</td>
+</tr>
+<tr>
+<td><code class="notranslate">9db2b1d</code></td>
+<td>11-08</td>
+<td>Revise introductory paragraph in index.html</td>
+<td>+0 lines; +0 -0 ~0 fns</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/17" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/17/hovercard">#17</a></td>
+<td>11-09</td>
+<td>Doc v19: Demo 23, Gobbler Gyroscope on Babylon WebGPU</td>
+<td>+6,413 lines; +509 -0 ~0 fns</td>
+<td>+1 X3D files (+1.9 MB)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/18" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/18/hovercard">#18</a></td>
+<td>11-13</td>
+<td>LUMEN Interference on X_ITE v1 (demo candidate, not yet linked from the index)</td>
+<td>+167 lines; +24 -0 ~0 fns</td>
+<td>+1 X3D files (+0.7 MB); scenes start using 1 node types</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/19" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/19/hovercard">#19</a></td>
+<td>11-13</td>
+<td>Add Ten Minute Physics in X3D, batches 1 and 2</td>
+<td>+247 lines; +18 -0 ~0 fns</td>
+<td>+3 X3D files (+0.6 MB)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/20" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/20/hovercard">#20</a></td>
+<td>11-13</td>
+<td>Add Ten Minute Physics in X3D, batch 2 (jelly, cloth, height-field water)</td>
+<td>+285 lines; +19 -0 ~0 fns</td>
+<td>+3 X3D files (+11.6 MB)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/21" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/21/hovercard">#21</a></td>
+<td>11-13</td>
+<td>Add Giza Osiris Shaft and Hall of Records X3D study (demo v1)</td>
+<td>+286 lines; +18 -0 ~0 fns</td>
+<td>+1 X3D files (+0.1 MB); scenes start using 1 node types</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/22" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/22/hovercard">#22</a></td>
+<td>11-13</td>
+<td>Ten Minute Physics in X3D, batch 3: physics witness, MuJoCo cross-check, fixed billiards</td>
+<td>+590 lines; +60 -0 ~0 fns</td>
+<td>+2 X3D files (+0.5 MB)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/23" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/23/hovercard">#23</a></td>
+<td>11-13</td>
+<td>Ten Minute Physics in X3D, batch 4: spatial hashing, smoke tunnel, joints vs MuJoCo</td>
+<td>+343 lines; +45 -0 ~0 fns</td>
+<td>+3 X3D files (+6.1 MB); scenes start using 1 node types</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/24" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/24/hovercard">#24</a></td>
+<td>11-13</td>
+<td>Ten Minute Physics in X3D, batch 5: FLIP water, rigid bodies, cloth self collision (+ review errata, field guide)</td>
+<td>+521 lines; +71 -0 ~0 fns</td>
+<td>+3 X3D files (+7.1 MB)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d.demo/pull/25" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d.demo/pull/25/hovercard">#25</a></td>
+<td>11-13</td>
+<td>Ten Minute Physics in X3D, batch 6: integrators, sweep and prune, Morton and BVH</td>
+<td>+421 lines; +59 -0 ~0 fns</td>
+<td>+3 X3D files (+1.0 MB)</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto"><strong>Phases.</strong> Nov 7: the demo doc v1 to v12, WebGPU demos (Neural Canvas, KANSEI, manifold, chirp, electron cloud). Nov 8:<br>
+the X3D demo shelf (Blender X3D I/O showcase, MuJoCo bridge, ontology constellation, Dynasty Loom, Confluence IFC, Gobbler)<br>
+and the Babylon ports. Nov 9: Gobbler Gyroscope. Nov 13: LUMEN interference, Giza Osiris Hall, and Ten Minute Physics in<br>
+X3D (six batches).</p>
+<h2 dir="auto">4. Tests and deploys</h2>
+<ul dir="auto">
+<li>No test workflow. The only Actions runs are GitHub Pages deploys: 26 on <code class="notranslate">main</code>, 25 succeeded and 1 failed.</li>
+<li>18 Python test functions found by AST, all in <code class="notranslate">gobbler-worlds-within/v1/tests</code> (radiance, semantic, server). The pages are verified by hand and by the PRs'<br>
+screenshots, according to the PR text.</li>
+</ul>
+<h2 dir="auto">5. Insights, risks, recommendations</h2>
+<ol dir="auto">
+<li><strong>Copies drift.</strong> With 53 % of function bodies copied from the Loom, a fix in the Loom's viewer does not reach the<br>
+published demos. Recommendation: record each demo's source commit in the Loom (a <code class="notranslate">SOURCE</code> line per folder) and add a<br>
+check that reports which demo pages lag their Loom source, using the body-hash comparison from this teardown.</li>
+<li><strong>Append-only is a feature here.</strong> Frozen versions make every doc link stable. Keep it, but point the index at the<br>
+newest version and mark old ones as archived.</li>
+<li><strong>The repo is heavy:</strong> 120.9 MB of X3D plus 104 MB of HTML (inlined data). Pages serves it, but clones and CI will slow<br>
+down. Consider Git LFS or release assets for scenes over 5 MB.</li>
+<li><strong>A smoke test per page</strong> would catch the "no adapter" and texture-fallback class of bug (PRs #2, Loom #20) before<br>
+deploy; the x3d.poc Pages smoke recipe (full Chromium, not headless-shell) is reusable.</li>
+</ol>
+<h2 dir="auto">6. Method and limits</h2>
+<p dir="auto">As in the x3d.loom masterclass (same tools, same cache). Inline scripts are analysed at their HTML line numbers. Roles are<br>
+assigned from folder names (<code class="notranslate">*-webgpu</code> and <code class="notranslate">brain-torso</code> → WebGPU; collider events and heritage facade → HEP; Ten Minute<br>
+Physics and the MuJoCo bridge → physics; <code class="notranslate">stem</code>; everything else under <code class="notranslate">docs/demos</code> → X_ITE demos; the rest → doc shelf).<br>
+Scenes validate with x3d_mcp (XSD valid, 0 errors, 0 warnings) and render in X_ITE 16.7.0 in the Claude browser pane.</p></main></body></html>

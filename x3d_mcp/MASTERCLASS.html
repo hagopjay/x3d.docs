@@ -1,0 +1,1163 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>x3d_mcp: an AST masterclass and teardown of the fork</title><style>body{margin:0;background:#1a1a19;color:#f0efec;font:16px/1.6 system-ui,-apple-system,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:2rem 1.25rem 5rem} a{color:#86b6ef} code{background:#262624;padding:.1rem .3rem;border-radius:3px}
+pre{background:#232321;padding:1rem;overflow:auto;border-radius:6px;border:1px solid #383835} pre code{background:none;padding:0}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.9rem} th,td{border:1px solid #383835;padding:.35rem .55rem;vertical-align:top}
+th{background:#232321} h1,h2,h3{line-height:1.25} h2{border-bottom:1px solid #383835;padding-bottom:.3rem;margin-top:2.2rem}
+.nav{color:#8a8a85;font-size:.9rem}</style></head><body><main><p class="nav"><a href="../index.html">← all teardowns</a> · <a href="index.html">scenes for this teardown</a> · <a href="MASTERCLASS.md">Markdown source</a></p><h1 dir="auto">x3d_mcp: an AST masterclass and teardown of the fork</h1>
+<p dir="auto">The user's fork <a href="https://github.com/hagopjay/x3d_mcp">hagopjay/x3d_mcp</a> of<br>
+<a href="https://github.com/Web3DConsortium/x3d_mcp">Web3DConsortium/x3d_mcp</a>, measured on 2026-11-13 at <code class="notranslate">origin/main</code><br>
+<code class="notranslate">13121b6</code> (2026-11-03). It is compared against the fork base <code class="notranslate">74da0ec</code>, which is upstream <code class="notranslate">main</code> of 2026-08-05 and<br>
+the commit the fork's own work starts from (the first fork PR merged on 2026-10-11).</p>
+<p dir="auto"><strong>Labels.</strong> <em>Measured</em> numbers come from Python's <code class="notranslate">ast</code> over the source, <code class="notranslate">git</code>, <code class="notranslate">gh</code> and the x3d_mcp validator<br>
+itself. <em>Inferred</em> marks a heuristic: X3D node knowledge read from string literals, static call resolution, and<br>
+roles assigned by hand per package. <em>Claimed</em> marks a PR description. Nothing in the server was imported or<br>
+executed for this document. The method and tools are the same as the x3d-blender-io masterclass, with an<br>
+analyser extended for FastMCP registrations and validator rules.</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>scene</th>
+<th>what it shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">scenes/callgraph-3d.x3d</code></td>
+<td>911 functions as a 3D force layout, coloured by package role, with 1,187 static call edges</td>
+</tr>
+<tr>
+<td><code class="notranslate">scenes/coverage-sunburst.x3d</code></td>
+<td>the 267 X3D 4.1 nodes: which the tools build by name, and which a validator rule names</td>
+</tr>
+<tr>
+<td><code class="notranslate">scenes/fork-timeline.x3d</code></td>
+<td>main's first-parent history and the integration branch as two lanes, with arcs where PRs landed</td>
+</tr>
+<tr>
+<td><code class="notranslate">scenes/code-city.x3d</code></td>
+<td>modules as districts and functions as buildings; height is complexity, colour is fork-era status</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<hr>
+<h2 dir="auto">1. The shape of the server</h2>
+<pre class="notranslate"><code class="notranslate">  MCP client ──stdio / streamable HTTP──►  server.py (FastMCP, 189 lines)
+                                              │ register(mcp) × 12 tool modules
+       ┌──────────────────────────────────────┼───────────────────────────────────────┐
+  tools/ (3,802 lines)                     validation/ (4,294)                   transfer/ (3,733, new)
+  48 @mcp.tool, 4 @mcp.prompt,             XSD (x3d-4.0/4.1.xsd, libxml2),       blob store + HTTP upload/download,
+  2 @mcp.resource                          semantic.py: 23 _check_* rules,       capped reads, jobs queue,
+  workflow · granular · convert ·          hints.py (exact-fix), repair.py,      splat PLY/SPZ/X3D readers,
+  query · validate_tool · render ·         profile.py, defuse.py, autofix,       inspect + chunk
+  scene_ops · animate · semantics ·        splat_arrays, oversize
+  claims · splats · transfer                     │
+       │                                         ▼
+  x3d_utils/ (1,964): SceneManager over x3d.py, X3DUOM, ontology (rdflib/SPARQL + guard), placement, claims,
+                      gen_schema, json2xml
+  playground/ (2,969, new): Accountability Playground web app (auth, store, loop, judge, mutate, report)
+  dataset/ + evaluation/ (2,339): scene generators, augmentation, exact-fix evaluation, Gemini hint loop
+</code></pre>
+<p dir="auto">These things are measured.</p>
+<ul dir="auto">
+<li><strong>Three new subsystems.</strong> The fork grew the package from 5,733 to 19,290 lines (3.4×) and from 214 to 911<br>
+<code class="notranslate">def</code>s. Most of the growth is in three subsystems that did not exist at base: the <strong>transfer layer</strong> (#12,<br>
+documents by id instead of pasted, because of the 4 MiB HTTP body limit), the <strong>Accountability Playground</strong><br>
+(#6, a private web app where a model writes a scene and the validator judges it), and <strong>exact-fix hints</strong> (#14,<br>
+structured repairs for every validator error).</li>
+<li><strong>The validator is the core.</strong> <code class="notranslate">validation/</code> is the largest role (4,294 lines). <code class="notranslate">semantic.py</code> grew from 715 to<br>
+1,616 lines, and the new <code class="notranslate">hints.py</code> is 1,127 lines.</li>
+<li><strong>The MCP surface grew by 14 tools and 2 resources</strong>, from 34 tools to 48. The 4 prompts are unchanged.<br>
+Registration is uniform: every tool module exposes <code class="notranslate">register(mcp)</code>, and the decorated functions are closures<br>
+inside it.</li>
+<li><strong>Imports:</strong> 77 of the 550 import statements are lazy (inside functions). Because <code class="notranslate">src/</code> is put on <code class="notranslate">sys.path</code>,<br>
+imports are absolute (<code class="notranslate">from validation.semantic import …</code>). The analyser resolves them that way.</li>
+</ul>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>module</th>
+<th>role</th>
+<th>lines base -&gt; head</th>
+<th>defs</th>
+<th>CC sum</th>
+<th>max CC (function)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">validation.semantic</code></td>
+<td>validation</td>
+<td>715 -&gt; 1616</td>
+<td>52</td>
+<td>530</td>
+<td>57 (<code class="notranslate">_check_rigid_body_physics</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">transfer.blobs</code></td>
+<td>transfer</td>
+<td>new -&gt; 1218</td>
+<td>77</td>
+<td>328</td>
+<td>23 (<code class="notranslate">BlobConfig.from_env</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">validation.hints</code></td>
+<td>validation</td>
+<td>new -&gt; 1127</td>
+<td>47</td>
+<td>500</td>
+<td>68 (<code class="notranslate">_attribute_hint</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">playground.app</code></td>
+<td>playground</td>
+<td>new -&gt; 681</td>
+<td>49</td>
+<td>193</td>
+<td>17 (<code class="notranslate">run</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.render</code></td>
+<td>mcp-tools</td>
+<td>435 -&gt; 550</td>
+<td>23</td>
+<td>70</td>
+<td>11 (<code class="notranslate">_element_to_x3dom_html</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.animate</code></td>
+<td>mcp-tools</td>
+<td>519 -&gt; 519</td>
+<td>14</td>
+<td>59</td>
+<td>19 (<code class="notranslate">_animate</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">validation.validate</code></td>
+<td>validation</td>
+<td>117 -&gt; 472</td>
+<td>23</td>
+<td>110</td>
+<td>16 (<code class="notranslate">_validate_xml</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">dataset.generators.numeric_sequences</code></td>
+<td>dataset-eval</td>
+<td>454 -&gt; 454</td>
+<td>10</td>
+<td>69</td>
+<td>21 (<code class="notranslate">generate_interpolator</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">evaluation.exact_fix_eval</code></td>
+<td>dataset-eval</td>
+<td>new -&gt; 446</td>
+<td>18</td>
+<td>218</td>
+<td>78 (<code class="notranslate">sites</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.convert</code></td>
+<td>mcp-tools</td>
+<td>174 -&gt; 437</td>
+<td>12</td>
+<td>132</td>
+<td>38 (<code class="notranslate">_coerce_value</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.scene_ops</code></td>
+<td>mcp-tools</td>
+<td>326 -&gt; 432</td>
+<td>18</td>
+<td>84</td>
+<td>14 (<code class="notranslate">_move_node</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">playground.store</code></td>
+<td>playground</td>
+<td>new -&gt; 406</td>
+<td>60</td>
+<td>129</td>
+<td>11 (<code class="notranslate">JournalStore.load</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">transfer.inspect_splats</code></td>
+<td>transfer</td>
+<td>new -&gt; 379</td>
+<td>13</td>
+<td>120</td>
+<td>40 (<code class="notranslate">cloud_from_x3d</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">playground.loop</code></td>
+<td>playground</td>
+<td>new -&gt; 344</td>
+<td>11</td>
+<td>79</td>
+<td>27 (<code class="notranslate">run_loop.main</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">dataset.augment</code></td>
+<td>dataset-eval</td>
+<td>317 -&gt; 317</td>
+<td>12</td>
+<td>46</td>
+<td>12 (<code class="notranslate">augment_instruction</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.validate_tool</code></td>
+<td>mcp-tools</td>
+<td>105 -&gt; 316</td>
+<td>8</td>
+<td>43</td>
+<td>11 (<code class="notranslate">register.validate_x3d</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">transfer.spz</code></td>
+<td>transfer</td>
+<td>new -&gt; 315</td>
+<td>18</td>
+<td>73</td>
+<td>18 (<code class="notranslate">unpack</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">x3d_utils.gen_schema</code></td>
+<td>x3d-utils</td>
+<td>new -&gt; 312</td>
+<td>13</td>
+<td>121</td>
+<td>40 (<code class="notranslate">build_generation_schema</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.splats</code></td>
+<td>mcp-tools</td>
+<td>new -&gt; 301</td>
+<td>14</td>
+<td>72</td>
+<td>14 (<code class="notranslate">_chunk_job</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">transfer.chunk</code></td>
+<td>transfer</td>
+<td>new -&gt; 301</td>
+<td>12</td>
+<td>94</td>
+<td>30 (<code class="notranslate">build_envelope</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">x3d_utils.scene</code></td>
+<td>x3d-utils</td>
+<td>264 -&gt; 296</td>
+<td>20</td>
+<td>64</td>
+<td>7 (<code class="notranslate">SceneManager.set_field</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">x3d_utils.json2xml</code></td>
+<td>x3d-utils</td>
+<td>new -&gt; 290</td>
+<td>13</td>
+<td>97</td>
+<td>30 (<code class="notranslate">_Writer.node</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">x3d_utils.x3duom</code></td>
+<td>x3d-utils</td>
+<td>264 -&gt; 270</td>
+<td>12</td>
+<td>55</td>
+<td>11 (<code class="notranslate">X3DUOM.get_abstract_types</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">evaluation.hint_loop_gemini</code></td>
+<td>dataset-eval</td>
+<td>new -&gt; 256</td>
+<td>12</td>
+<td>68</td>
+<td>30 (<code class="notranslate">main</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">playground.report</code></td>
+<td>playground</td>
+<td>new -&gt; 252</td>
+<td>9</td>
+<td>78</td>
+<td>27 (<code class="notranslate">full_report</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.transfer</code></td>
+<td>mcp-tools</td>
+<td>new -&gt; 248</td>
+<td>11</td>
+<td>63</td>
+<td>16 (<code class="notranslate">register.blob_put</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">validation.oversize</code></td>
+<td>validation</td>
+<td>new -&gt; 246</td>
+<td>13</td>
+<td>66</td>
+<td>24 (<code class="notranslate">oversize_result</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">transfer.capped</code></td>
+<td>transfer</td>
+<td>new -&gt; 240</td>
+<td>11</td>
+<td>66</td>
+<td>21 (<code class="notranslate">Capped.feed</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">x3d_utils.ontology</code></td>
+<td>x3d-utils</td>
+<td>132 -&gt; 238</td>
+<td>14</td>
+<td>48</td>
+<td>9 (<code class="notranslate">X3DOntology.extension_status</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.workflow</code></td>
+<td>mcp-tools</td>
+<td>231 -&gt; 231</td>
+<td>5</td>
+<td>58</td>
+<td>33 (<code class="notranslate">register.compose_scene</code>)</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">84 modules in all; the table shows the 30 largest. Lines by role: validation 4,294, mcp-tools 3,802, transfer 3,733, playground 2,969, dataset-eval 2,339, x3d-utils 1,964, server 189.</p>
+<h2 dir="auto">2. The taxonomy the AST reveals</h2>
+<h3 dir="auto">2.1 The MCP surface (measured from decorators)</h3>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>module</th>
+<th>MCP tools (new in the fork era: PR)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">tools.granular</code></td>
+<td>add_child, add_route, create_node, def_node, get_scene, remove_node, reset_scene, set_field, use_node</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.validate_tool</code></td>
+<td>autofix_x3d, <strong>exact_fix_hints</strong> (#14), <strong>repair_x3d</strong> (#6), validate_current_scene, validate_semantic, validate_x3d</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.semantics</code></td>
+<td>describe_ontology_term, node_parents, query_ontology, <strong>query_ontology_page</strong> (#13), <strong>where_can_place</strong> (#13)</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.query</code></td>
+<td>describe_node, list_components, list_nodes, list_profiles</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.render</code></td>
+<td>render_current_scene, render_image, x3dom_page, x3dom_starter</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.transfer</code></td>
+<td><strong>blob_delete</strong> (#12), <strong>blob_info</strong> (#12), <strong>blob_put</strong> (#12), <strong>blob_read</strong> (#12)</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.animate</code></td>
+<td>add_x3d_route, animate_x3d_node, x3d_animation_info</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.claims</code></td>
+<td><strong>claim_append</strong> (#13), <strong>claims_page</strong> (#13), <strong>claims_verify</strong> (#13)</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.scene_ops</code></td>
+<td>modify_x3d_node, move_x3d_node, remove_x3d_node</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.workflow</code></td>
+<td>compose_scene, create_geometry, create_scene</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.convert</code></td>
+<td>convert_x3d, <strong>x3d_generation_schema</strong> (#12)</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.splats</code></td>
+<td><strong>splat_chunk</strong> (#12), <strong>splat_inspect</strong> (#12)</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">Prompts: animate_scene, audit_scene, build_scene, convert_to_x3dom (unchanged). Resources (new, #13): ontology_turtle, placement_resource. HTTP routes on the server: _pulse, _root plus the transfer layer's upload/download routes registered in <code class="notranslate">transfer.routes</code> when blobs are enabled.</p>
+<h3 dir="auto">2.2 Validator rules (measured from <code class="notranslate">Diagnostic(level, check, …)</code> calls and reporter helpers)</h3>
+<p dir="auto">At base the semantic validator had <strong>19</strong> named rules; at head it has <strong>62</strong> across 90 report sites (50 error-level<br>
+sites, 20 warning, 10 info, 1 warning-or-info, and 9 helper-reported sites whose level is a parameter). The rules run as 23 <code class="notranslate">_check_*</code><br>
+functions in <code class="notranslate">semantic._ALL_CHECKS</code>. The splat inspector (<code class="notranslate">transfer.inspect_splats</code>) and <code class="notranslate">validation.splat_arrays</code><br>
+report 10 rules each. The PR number is the first fork PR whose merge adds the rule. Rules from #1–#4 and #7–#8<br>
+landed on main inside #6 and #15.</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>family</th>
+<th>rules (new in fork era: PR; level)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>splat</td>
+<td><code class="notranslate">sh-degree-dropped</code> (#12) info; <code class="notranslate">spherical-harmonics</code> (#12) info; <code class="notranslate">splat-array-length</code> (#2) error; <code class="notranslate">splat-array-syntax</code> (#12) error; <code class="notranslate">splat-no-color</code> (#2) warning; <code class="notranslate">splat-opacity-space</code> (#2) error; <code class="notranslate">splat-quaternion-norm</code> (#2) error/warning; <code class="notranslate">splat-quaternion-order</code> (#3) warning; <code class="notranslate">splat-scale-space</code> (#2) error; <code class="notranslate">splat-sh-partial</code> (#2) warning; <code class="notranslate">splat-values-unchecked</code> (#12) warning</td>
+</tr>
+<tr>
+<td>route</td>
+<td><code class="notranslate">route-before-def</code> (#15) error; <code class="notranslate">route-invalid-from-field</code> error; <code class="notranslate">route-invalid-to-field</code> error; <code class="notranslate">route-missing-from-node</code> error; <code class="notranslate">route-missing-to-node</code> error; <code class="notranslate">route-never-fires</code> (#2) warning; <code class="notranslate">route-out-of-scope</code> (#15) error; <code class="notranslate">route-type-mismatch</code> error; <code class="notranslate">route-wrong-access-type</code> error</td>
+</tr>
+<tr>
+<td>splat (inspect)</td>
+<td><code class="notranslate">all-invisible</code> (#12) error; <code class="notranslate">chunk-before-x3d</code> (#12) info; <code class="notranslate">coordinate-frame</code> (#12) info; <code class="notranslate">non-finite</code> (#12) error; <code class="notranslate">opacity-range</code> (#12) error; <code class="notranslate">scale-range</code> (#12) error; <code class="notranslate">zero-quaternion</code> (#12) error</td>
+</tr>
+<tr>
+<td>physics</td>
+<td><code class="notranslate">physics-joint-body</code> (#11) error/warning; <code class="notranslate">physics-joint-cross-collection</code> (#11) error; <code class="notranslate">physics-mass</code> (#11) error; <code class="notranslate">physics-non-finite</code> (#11) error; <code class="notranslate">physics-not-in-collection</code> (#11) warning; <code class="notranslate">physics-zero-axis</code> (#11) error</td>
+</tr>
+<tr>
+<td>counts and indices</td>
+<td><code class="notranslate">array-count-extra</code> (#8) (helper); <code class="notranslate">array-count</code> (#8) (helper); <code class="notranslate">index-out-of-range</code> (#7) error; <code class="notranslate">lod-range-order</code> (#8) (helper); <code class="notranslate">tuple-count</code> (#2) error</td>
+</tr>
+<tr>
+<td>spec values</td>
+<td><code class="notranslate">colour-out-of-range</code> (#15) error; <code class="notranslate">cycle-interval-zero</code> (#7) (helper); <code class="notranslate">enum-invalid</code> (#7) (helper); <code class="notranslate">rotation-zero-axis</code> (#7) (helper); <code class="notranslate">value-out-of-range</code> (#7) (helper)</td>
+</tr>
+<tr>
+<td>def/use</td>
+<td><code class="notranslate">duplicate-def</code> error; <code class="notranslate">unused-def</code> info; <code class="notranslate">use-before-def</code> error; <code class="notranslate">use-undefined-def</code> error</td>
+</tr>
+<tr>
+<td>containerfield</td>
+<td><code class="notranslate">containerfield-not-node</code> error; <code class="notranslate">containerfield-type-mismatch</code> error; <code class="notranslate">containerfield-unknown</code> error</td>
+</tr>
+<tr>
+<td>shape</td>
+<td><code class="notranslate">shape-no-appearance</code> info; <code class="notranslate">shape-no-geometry</code> warning</td>
+</tr>
+<tr>
+<td>structure</td>
+<td><code class="notranslate">empty-group</code> warning; <code class="notranslate">no-viewpoint</code> info</td>
+</tr>
+<tr>
+<td>interpolators</td>
+<td><code class="notranslate">interpolator-key-length</code> error; <code class="notranslate">interpolator-key-order</code> (#7) error</td>
+</tr>
+<tr>
+<td>naming</td>
+<td><code class="notranslate">hanim-*-name</code> (#15) warning/warning/info; <code class="notranslate">naming-convention</code> error/warning</td>
+</tr>
+<tr>
+<td>profile</td>
+<td><code class="notranslate">profile-component-fix</code> (#6) info; <code class="notranslate">profile-component</code> (#6) error</td>
+</tr>
+<tr>
+<td>size limits</td>
+<td><code class="notranslate">start-tag-over-limit</code> (#12) info</td>
+</tr>
+<tr>
+<td>protos</td>
+<td><code class="notranslate">proto-undeclared</code> (#7) error</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">The <strong>rule families track the user's other work</strong>: splats (Gaussian-splat export from x3d-blender-io and the<br>
+star views), physics (#11, from the x3d-physx-bridge stress test, findings X-05…X-13), and counts/indices/spec<br>
+values (#7, #8, built from mutation sweeps on the X3D example archives).</p>
+<h3 dir="auto">2.3 X3D node knowledge (inferred from string literals)</h3>
+<p dir="auto">XSD validation and the X3DUOM-driven checks (containerField, ROUTE field types, placement) cover <strong>every</strong> X3D<br>
+node generically. The sunburst therefore shows <strong>node-specific</strong> knowledge:</p>
+<ul dir="auto">
+<li>a node a validator rule names (outer ring), and</li>
+<li>a node a generator builds by name (middle ring): an x3d.py constructor (<code class="notranslate">Transform(...)</code>), an<br>
+<code class="notranslate">etree.SubElement(scene, "TimeSensor")</code>, or an emitted <code class="notranslate">&lt;Tag</code>.</li>
+</ul>
+<p dir="auto">The granular tools can create any node through <code class="notranslate">getattr(x3d_mod, node_type)</code>. "Built by name" is therefore about<br>
+templates, not limits.</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th></th>
+<th>base <code class="notranslate">74da0ec</code></th>
+<th>head <code class="notranslate">13121b6</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>X3D 4.1 nodes named in a validator rule</td>
+<td>52</td>
+<td><strong>80</strong></td>
+</tr>
+<tr>
+<td>X3D 4.1 nodes built by name (tools, dataset, playground)</td>
+<td>21</td>
+<td><strong>30</strong></td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>component</th>
+<th>nodes</th>
+<th>built by name (base -&gt; head)</th>
+<th>named by validator (base -&gt; head)</th>
+<th>validator names</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Interpolation</td>
+<td>13</td>
+<td>5 -&gt; 5</td>
+<td>12 -&gt; 12</td>
+<td>ColorInterpolator, CoordinateInterpolator, CoordinateInterpolator2D, NormalInterpolator, OrientationInterpolator, PositionInterpolator, PositionInterpolator2D, ScalarInterpolator, SplinePositionInterpolator, SplinePositionInterpolator2D, SplineScalarInterpolator, SquadOrientationInterpolator</td>
+</tr>
+<tr>
+<td>Rendering</td>
+<td>16</td>
+<td>2 -&gt; 2</td>
+<td>5 -&gt; 11</td>
+<td>Color, ColorRGBA, Coordinate, CoordinateDouble, IndexedLineSet, IndexedTriangleFanSet, IndexedTriangleSet, IndexedTriangleStripSet, LineSet, PointSet, TriangleSet</td>
+</tr>
+<tr>
+<td>Geometry3D</td>
+<td>7</td>
+<td>4 -&gt; 5</td>
+<td>7 -&gt; 7</td>
+<td>Box, Cone, Cylinder, ElevationGrid, Extrusion, IndexedFaceSet, Sphere</td>
+</tr>
+<tr>
+<td>Navigation</td>
+<td>7</td>
+<td>1 -&gt; 3</td>
+<td>4 -&gt; 5</td>
+<td>Billboard, Collision, LOD, NavigationInfo, Viewpoint</td>
+</tr>
+<tr>
+<td>Shape</td>
+<td>10</td>
+<td>3 -&gt; 5</td>
+<td>2 -&gt; 2</td>
+<td>Appearance, Shape</td>
+</tr>
+<tr>
+<td>CADGeometry</td>
+<td>6</td>
+<td>0 -&gt; 0</td>
+<td>3 -&gt; 4</td>
+<td>CADAssembly, CADLayer, CADPart, IndexedQuadSet</td>
+</tr>
+<tr>
+<td>DIS</td>
+<td>6</td>
+<td>0 -&gt; 0</td>
+<td>4 -&gt; 4</td>
+<td>EspduTransform, ReceiverPdu, SignalPdu, TransmitterPdu</td>
+</tr>
+<tr>
+<td>EnvironmentalEffects</td>
+<td>5</td>
+<td>1 -&gt; 1</td>
+<td>0 -&gt; 4</td>
+<td>Background, Fog, LocalFog, TextureBackground</td>
+</tr>
+<tr>
+<td>Grouping</td>
+<td>4</td>
+<td>1 -&gt; 2</td>
+<td>4 -&gt; 4</td>
+<td>Group, StaticGroup, Switch, Transform</td>
+</tr>
+<tr>
+<td>HAnim</td>
+<td>7</td>
+<td>0 -&gt; 0</td>
+<td>3 -&gt; 4</td>
+<td>HAnimHumanoid, HAnimJoint, HAnimSegment, HAnimSite</td>
+</tr>
+<tr>
+<td>EventUtilities</td>
+<td>7</td>
+<td>0 -&gt; 0</td>
+<td>0 -&gt; 3</td>
+<td>BooleanToggle, IntegerTrigger, TimeTrigger</td>
+</tr>
+<tr>
+<td>Geospatial</td>
+<td>11</td>
+<td>0 -&gt; 0</td>
+<td>2 -&gt; 3</td>
+<td>GeoLOD, GeoOrigin, GeoPositionInterpolator</td>
+</tr>
+<tr>
+<td>Layout</td>
+<td>5</td>
+<td>0 -&gt; 0</td>
+<td>2 -&gt; 3</td>
+<td>LayoutGroup, ScreenFontStyle, ScreenGroup</td>
+</tr>
+<tr>
+<td>Lighting</td>
+<td>4</td>
+<td>2 -&gt; 3</td>
+<td>0 -&gt; 0</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Shaders</td>
+<td>8</td>
+<td>0 -&gt; 0</td>
+<td>0 -&gt; 3</td>
+<td>ComposedShader, PackagedShader, ShaderProgram</td>
+</tr>
+<tr>
+<td>RigidBodyPhysics</td>
+<td>14</td>
+<td>0 -&gt; 0</td>
+<td>0 -&gt; 2</td>
+<td>RigidBody, RigidBodyCollection</td>
+</tr>
+<tr>
+<td>Text</td>
+<td>3</td>
+<td>0 -&gt; 0</td>
+<td>1 -&gt; 2</td>
+<td>FontStyle, Text</td>
+</tr>
+<tr>
+<td>Texturing</td>
+<td>11</td>
+<td>1 -&gt; 1</td>
+<td>0 -&gt; 1</td>
+<td>TextureProperties</td>
+</tr>
+<tr>
+<td>Core</td>
+<td>8</td>
+<td>0 -&gt; 1</td>
+<td>0 -&gt; 1</td>
+<td>ProtoInstance</td>
+</tr>
+<tr>
+<td>GaussianSplats</td>
+<td>1</td>
+<td>0 -&gt; 0</td>
+<td>0 -&gt; 1</td>
+<td>GaussianSplats</td>
+</tr>
+<tr>
+<td>Layering</td>
+<td>3</td>
+<td>0 -&gt; 0</td>
+<td>1 -&gt; 1</td>
+<td>Viewport</td>
+</tr>
+<tr>
+<td>Networking</td>
+<td>4</td>
+<td>0 -&gt; 0</td>
+<td>1 -&gt; 1</td>
+<td>Anchor</td>
+</tr>
+<tr>
+<td>PointingDeviceSensor</td>
+<td>4</td>
+<td>0 -&gt; 1</td>
+<td>0 -&gt; 0</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Scripting</td>
+<td>1</td>
+<td>0 -&gt; 0</td>
+<td>1 -&gt; 1</td>
+<td>Script</td>
+</tr>
+<tr>
+<td>Time</td>
+<td>1</td>
+<td>1 -&gt; 1</td>
+<td>0 -&gt; 1</td>
+<td>TimeSensor</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">Components no rule or generator names: CubeMapTexturing (3), EnvironmentalSensor (3), Followers (14), Geometry2D (8), KeyDeviceSensor (2), NURBS (13), ParticleSystems (10), Picking (5), Sound (21), TextureProjection (2), Texturing3D (7), VolumeRendering (13).</p>
+<h3 dir="auto">2.4 Package roles (assigned by hand per package, so inferred)</h3>
+<p dir="auto"><code class="notranslate">validation</code> → <code class="notranslate">mcp-tools</code> → <code class="notranslate">x3d-utils</code> → <code class="notranslate">transfer</code> → <code class="notranslate">server</code> → <code class="notranslate">playground</code> → <code class="notranslate">dataset-eval</code>. This order fixes<br>
+the colours in every scene. They are the dataviz reference palette's dark steps, checked with its validator: all<br>
+checks pass.</p>
+<h2 dir="auto">3. Complexity and coupling</h2>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>function</th>
+<th>CC</th>
+<th>lines</th>
+<th>nesting</th>
+<th>fork era</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">evaluation.exact_fix_eval:sites</code></td>
+<td>78</td>
+<td>91</td>
+<td>4</td>
+<td>added</td>
+</tr>
+<tr>
+<td><code class="notranslate">validation.hints:_attribute_hint</code></td>
+<td>68</td>
+<td>98</td>
+<td>4</td>
+<td>added</td>
+</tr>
+<tr>
+<td><code class="notranslate">validation.hints:_placement_hint</code></td>
+<td>63</td>
+<td>146</td>
+<td>3</td>
+<td>added</td>
+</tr>
+<tr>
+<td><code class="notranslate">validation.semantic:_check_rigid_body_physics</code></td>
+<td>57</td>
+<td>101</td>
+<td>5</td>
+<td>added</td>
+</tr>
+<tr>
+<td><code class="notranslate">transfer.inspect_splats:cloud_from_x3d</code></td>
+<td>40</td>
+<td>75</td>
+<td>4</td>
+<td>added</td>
+</tr>
+<tr>
+<td><code class="notranslate">x3d_utils.gen_schema:build_generation_schema</code></td>
+<td>40</td>
+<td>62</td>
+<td>2</td>
+<td>added</td>
+</tr>
+<tr>
+<td><code class="notranslate">evaluation.exact_fix_eval:build_corpus</code></td>
+<td>40</td>
+<td>70</td>
+<td>4</td>
+<td>added</td>
+</tr>
+<tr>
+<td><code class="notranslate">transfer.inspect_splats:_inspect</code></td>
+<td>39</td>
+<td>132</td>
+<td>2</td>
+<td>added</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.convert:_coerce_value</code></td>
+<td>38</td>
+<td>56</td>
+<td>1</td>
+<td>modified (CC 31 -&gt; 38)</td>
+</tr>
+<tr>
+<td><code class="notranslate">validation.semantic:_check_gaussian_splats</code></td>
+<td>38</td>
+<td>84</td>
+<td>4</td>
+<td>added</td>
+</tr>
+<tr>
+<td><code class="notranslate">validation.splat_arrays:check_splat_arrays</code></td>
+<td>37</td>
+<td>94</td>
+<td>3</td>
+<td>added</td>
+</tr>
+<tr>
+<td><code class="notranslate">validation.hints:apply_fix</code></td>
+<td>35</td>
+<td>98</td>
+<td>4</td>
+<td>added</td>
+</tr>
+<tr>
+<td><code class="notranslate">tools.workflow:register.compose_scene</code></td>
+<td>33</td>
+<td>110</td>
+<td>4</td>
+<td>unchanged</td>
+</tr>
+<tr>
+<td><code class="notranslate">validation.hints:_required_hint</code></td>
+<td>33</td>
+<td>47</td>
+<td>3</td>
+<td>added</td>
+</tr>
+<tr>
+<td><code class="notranslate">validation.hints:_route_hints</code></td>
+<td>33</td>
+<td>58</td>
+<td>4</td>
+<td>added</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">These things are measured.</p>
+<ul dir="auto">
+<li><strong>No god function.</strong> 39 functions have CC &gt; 20 and 4 have CC &gt; 50. All four were added in the fork era:<br>
+<code class="notranslate">exact_fix_eval.sites</code> 78 (an evaluation script), <code class="notranslate">hints._attribute_hint</code> 68, <code class="notranslate">hints._placement_hint</code> 63 and<br>
+<code class="notranslate">semantic._check_rigid_body_physics</code> 57.</li>
+<li><strong>The fork era rewrote most of the code.</strong> 697 functions were added, 52 modified and 162 left unchanged since<br>
+<code class="notranslate">74da0ec</code>, by AST body hash. In the code city, most buildings are new.</li>
+<li><strong>Coupling</strong> (cross-role call edges, inferred static resolution): <code class="notranslate">mcp-tools → transfer</code> 87 is by far the<br>
+largest. Since #12, every tool reads its input and writes its output through the transfer layer<br>
+(<code class="notranslate">transfer.outputs</code>, <code class="notranslate">transfer.tooling</code>): <code class="notranslate">tools.validate_tool → transfer.outputs</code> 21 and<br>
+<code class="notranslate">→ transfer.tooling</code> 14. Next come <code class="notranslate">mcp-tools → x3d-utils</code> 27, <code class="notranslate">dataset-eval → validation</code> 16 and<br>
+<code class="notranslate">validation → x3d-utils</code> 14. <code class="notranslate">validation.hints → validation.semantic</code> (15) is the exact-fix layer reading the<br>
+rules.</li>
+<li><strong>The playground reuses the validator in process</strong> but stays apart from the server. <code class="notranslate">playground.report</code> imports<br>
+<code class="notranslate">validation.semantic</code>, <code class="notranslate">validation.validate</code> and <code class="notranslate">validation.repair</code>, and <code class="notranslate">playground.mutate</code> imports<br>
+<code class="notranslate">validation.profile</code>: 5 call edges, and no call into <code class="notranslate">tools/</code> or <code class="notranslate">server</code>. In the call graph it is a separate<br>
+green continent joined by a single thread.</li>
+<li><strong>Modules over 80 lines that no test file imports:</strong> <code class="notranslate">server</code>, <code class="notranslate">tools.query</code> (4 MCP tools; possibly exercised<br>
+through the server in other tests, not checked) and the <code class="notranslate">evaluation/</code> scripts.</li>
+</ul>
+<h2 dir="auto">4. The fork era, PR by PR</h2>
+<p dir="auto">There are 16 PRs on hagopjay/x3d_mcp: <strong>15 merged and 1 closed</strong> (#10, a duplicate CI proposal; #9 merged<br>
+instead). The hagsmac fork has no PRs of its own; #11 came from <code class="notranslate">hagsmac:fix/physics-findings</code>. PRs #1–#4 and #7–#8<br>
+were merged into <code class="notranslate">integration/validator-fixes</code> and reached <code class="notranslate">main</code> inside #6 and #15, so the timeline draws them as<br>
+a second lane with arcs. Besides the PRs, <code class="notranslate">main</code> has an upstream sync (<code class="notranslate">d61d4de</code>, bringing in <code class="notranslate">ff0c0c9</code>, solar<br>
+system examples, no source change) and one direct commit (<code class="notranslate">13121b6</code>, the notebook <code class="notranslate">x3d_duo.ipynb</code>, 2,088 lines).<br>
+Each row compares that PR's own merge commit with its first parent.</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>PR</th>
+<th>date</th>
+<th>into</th>
+<th>what and why</th>
+<th>AST delta (lines; functions +new -gone ~changed)</th>
+<th>tools / rules added</th>
+<th>tests (+functions)</th>
+<th>CI on main</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d_mcp/pull/1" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d_mcp/pull/1/hovercard">#1</a></td>
+<td>10-11</td>
+<td>integration</td>
+<td><strong>Accept ROUTEs into a shader's declared fields</strong>. ROUTEs into a ComposedShader's declared <code class="notranslate">&lt;field&gt;</code> were flagged <code class="notranslate">route-invalid-to-field</code>; X_ITE runs them.</td>
+<td>+7; +0 -0 ~2</td>
+<td>-</td>
+<td>+2</td>
+<td>(integration)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d_mcp/pull/2" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d_mcp/pull/2/hovercard">#2</a></td>
+<td>10-11</td>
+<td>integration</td>
+<td><strong>Check MF tuple counts, GaussianSplats data and routes that never fire</strong>. Files passing XSD and semantic checks were still wrong: 5-number <code class="notranslate">Coordinate point</code>, raw ln(scale)/logit(opacity) splats, routes that never fire.</td>
+<td>+165; +5 -0 ~1</td>
+<td>8 rules</td>
+<td>+14</td>
+<td>(integration)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d_mcp/pull/3" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d_mcp/pull/3/hovercard">#3</a></td>
+<td>10-12</td>
+<td>integration</td>
+<td><strong>Warn when splat orientations look written w x y z</strong>. Splats written w x y z (3DGS PLY order) render smeared in X_ITE (SSIM 0.888): warn.</td>
+<td>+13; +0 -0 ~1</td>
+<td>1 rules</td>
+<td>+3</td>
+<td>(integration)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d_mcp/pull/4" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d_mcp/pull/4/hovercard">#4</a></td>
+<td>10-12</td>
+<td>integration</td>
+<td><strong>Fix three semantic-check false positives (ProtoInstance, Metadata ancestry, ROUTE proto lookup)</strong>. Three false positives (ProtoInstance children, Metadata ancestry, ROUTE on ProtoInstance): 96 -&gt; 22 error files on 264 example scenes.</td>
+<td>+23; +0 -0 ~6</td>
+<td>-</td>
+<td>+8</td>
+<td>(integration)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d_mcp/pull/5" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d_mcp/pull/5/hovercard">#5</a></td>
+<td>10-13</td>
+<td>main</td>
+<td><strong>Integrate 3D_perspective_skill: 720p default, blank-frame detection, optional extension ontologies</strong>. Integrate npolys/3D_perspective_skill: 720p default renders, blank-frame detection, optional extension ontologies.</td>
+<td>+203; +9 -0 ~13</td>
+<td>-</td>
+<td>+14</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d_mcp/pull/6" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d_mcp/pull/6/hovercard">#6</a></td>
+<td>10-15</td>
+<td>main</td>
+<td><strong>Accountability Playground: write, validate, repair, render, judge</strong> (includes #1-#4). Accountability Playground: a private web app where a model writes a scene, the validator judges, repair and render follow. Carries #1-#4.</td>
+<td>+3781; +240 -0 ~19</td>
+<td>tools: repair_x3d; 11 rules</td>
+<td>+118</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d_mcp/pull/7" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d_mcp/pull/7/hovercard">#7</a></td>
+<td>10-16</td>
+<td>integration</td>
+<td><strong>Check spec values the XSD lets through: protos, rotations, sizes, enums, indices, key order</strong>. Spec values the XSD lets through: undeclared protos, zero-axis rotations, negative sizes, bad enums, indices, key order (mutation sweep caught 0% of five kinds).</td>
+<td>+174; +6 -0 ~0</td>
+<td>7 rules</td>
+<td>+13</td>
+<td>(integration)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d_mcp/pull/8" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d_mcp/pull/8/hovercard">#8</a></td>
+<td>10-16</td>
+<td>integration</td>
+<td><strong>Add count and index checks for six fresh blind spots</strong>. Count and index rules: blind mutation set caught 62.6% -&gt; 100%, no new alarms.</td>
+<td>+114; +4 -0 ~0</td>
+<td>3 rules</td>
+<td>+8</td>
+<td>(integration)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d_mcp/pull/9" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d_mcp/pull/9/hovercard">#9</a></td>
+<td>10-17</td>
+<td>main</td>
+<td><strong>ci: run the test suite on every push and pull request</strong>. No automated checks: pytest on 3.12/3.13 per push and PR, plus a non-blocking Chromium render smoke.</td>
+<td>no source change</td>
+<td>-</td>
+<td>-</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d_mcp/pull/11" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d_mcp/pull/11/hovercard">#11</a></td>
+<td>10-18</td>
+<td>main</td>
+<td><strong>Fix physics findings: DEF ordering, convert_x3d, set_field booleans, physics semantic checks</strong>. Physics stress test findings X-05/06/08/09/10/13: DEF ordering, convert_x3d containerField, SFBool, RigidBodyPhysics checks.</td>
+<td>+286; +10 -0 ~11</td>
+<td>6 rules</td>
+<td>+26</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d_mcp/pull/12" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d_mcp/pull/12/hovercard">#12</a></td>
+<td>10-26</td>
+<td>main</td>
+<td><strong>Transfer layer: blob store, splat inspect/chunk, JSON input for convert_x3d</strong>. 4 MiB HTTP body limit: documents by id (blob store), splat inspect/chunk on the server, JSON input for convert_x3d.</td>
+<td>+5958; +296 -0 ~21</td>
+<td>tools: blob_delete, blob_info, blob_put, blob_read, splat_chunk, splat_inspect, x3d_generation_schema; 12 rules</td>
+<td>+525</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d_mcp/pull/13" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d_mcp/pull/13/hovercard">#13</a></td>
+<td>10-26</td>
+<td>main</td>
+<td><strong>Ontology tools: SPARQL guard and deadline, paged query, placement table, claim ledger</strong>. Ontology tools: SPARQL guard (no SERVICE/FROM), deadline, row cap, paged query, placement table, claim ledger.</td>
+<td>+637; +34 -0 ~5</td>
+<td>tools: ontology_turtle, placement_resource, claim_append, claims_page, claims_verify, query_ontology_page, where_can_place</td>
+<td>+25</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d_mcp/pull/14" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d_mcp/pull/14/hovercard">#14</a></td>
+<td>10-29</td>
+<td>main</td>
+<td><strong>Exact-fix hints: turn validator errors into structured repairs</strong>. Exact-fix hints: every XSD/semantic error gets a structured, applicable repair (loom thesis loop A4/D17).</td>
+<td>+1925; +82 -0 ~2</td>
+<td>tools: exact_fix_hints</td>
+<td>+12</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d_mcp/pull/15" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d_mcp/pull/15/hovercard">#15</a></td>
+<td>10-30</td>
+<td>main</td>
+<td><strong>Merge integration fixes; add ROUTE order, colour range and H-Anim name checks</strong> (includes #7, #8). Merge the integration branch (#7, #8) and add ROUTE order, colour range and H-Anim name checks; report libxml2 give-ups.</td>
+<td>+767; +26 -0 ~6</td>
+<td>14 rules</td>
+<td>+43</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d_mcp/pull/16" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d_mcp/pull/16/hovercard">#16</a></td>
+<td>11-01</td>
+<td>main</td>
+<td><strong>Make the https XSI namespace repair test independent of the x3d.py version</strong>. Test assumed x3d.py writes https XSI namespace; 4.0.65.8 writes http.</td>
+<td>no source change</td>
+<td>-</td>
+<td>-</td>
+<td>success</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto"><strong>The phases:</strong></p>
+<ol dir="auto">
+<li><strong>Oct 11–12: closing validator blind spots (integration lane).</strong> Shader-field ROUTEs, MF tuple counts,<br>
+splat data, routes that never fire, the w x y z quaternion order, and three false positives. On 264 example<br>
+scenes the error-level files fell from 96 to 22 (claimed).</li>
+<li><strong>Oct 13–16: people can watch.</strong> The perspective skill (720p renders, blank-frame detection) and the<br>
+Accountability Playground. With the integration lane it carried, its merge added 3,781 lines and 240<br>
+functions, the largest product addition.</li>
+<li><strong>Oct 16–18: spec values and physics.</strong> Mutation-sweep-driven count/index/value checks (claimed: a blind defect<br>
+set went from 62.6 % to 100 % caught) and the physics findings from the PhysX bridge. CI arrives (#9).</li>
+<li><strong>Oct 25–26: the transfer layer.</strong> Blobs, splat inspect/chunk, JSON input: +5,958 lines, 296 functions, 23 new<br>
+modules, and +525 test functions in one PR. Then ontology tools with a SPARQL guard.</li>
+<li><strong>Oct 29–Nov 1: the repair loop.</strong> Exact-fix hints (#14), the integration merge with ROUTE-order, colour and<br>
+H-Anim checks (#15), and a test made robust to x3d.py's namespace change (#16).</li>
+</ol>
+<h2 dir="auto">5. How it is tested</h2>
+<ul dir="auto">
+<li>
+<p dir="auto"><strong>Test functions (AST):</strong> from 284 in 20 files to <strong>1,047 in 51 files</strong>. PRs quote pytest's <em>passed</em> count,<br>
+which counts each parametrised case. That count is close to the AST count early on and drifts as<br>
+parametrisation grows:</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>PR</th>
+<th>2</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>11</th>
+<th>12</th>
+<th>13</th>
+<th>14</th>
+<th>15</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>claimed pytest passed</td>
+<td>342</td>
+<td>358</td>
+<td>296</td>
+<td>442</td>
+<td>476 (+7 skip)</td>
+<td>1,180 (+26)</td>
+<td>1,209</td>
+<td>1,242 (+26)</td>
+<td>1,316 (+21)</td>
+</tr>
+<tr>
+<td>AST <code class="notranslate">test_*</code> functions at merge</td>
+<td>342</td>
+<td>353</td>
+<td>298</td>
+<td>416</td>
+<td>442</td>
+<td>967</td>
+<td>992</td>
+<td>1,004</td>
+<td>1,047</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">The gap is consistent with <code class="notranslate">@pytest.mark.parametrize</code>. This is inferred: the parametrisation was not counted.</p>
+</li>
+<li>
+<p dir="auto"><strong>CI (measured, <code class="notranslate">gh run list</code>):</strong> the <code class="notranslate">tests</code> workflow arrived with #9 on 2026-10-17. It runs pytest on<br>
+Python 3.12 and 3.13 (installing <code class="notranslate">.[dev,playground]</code> plus httpx and pillow), and a <strong>non-blocking</strong> headless<br>
+Chromium render smoke test. All <strong>8 runs on <code class="notranslate">main</code> succeeded</strong>. Across all branches there were 18 runs: 15<br>
+succeeded, 2 were cancelled and 1 failed (<code class="notranslate">fix/physics-findings</code> at <code class="notranslate">fa0b389</code>, before #11 merged).</p>
+</li>
+<li>
+<p dir="auto"><strong>Before #9 there was no CI.</strong> PRs #1–#8 were tested locally; their descriptions quote local pytest runs.</p>
+</li>
+<li>
+<p dir="auto"><strong>Evaluations outside CI:</strong> <code class="notranslate">evaluation/exact_fix_eval.py</code> and <code class="notranslate">hint_loop_gemini.py</code> measure the hint loop. #14<br>
+states its own limits: valid is not the same as intended, fewer than half of the repairs restore the original<br>
+scene, and the mutation classes and the hint rules were written by the same author.</p>
+</li>
+</ul>
+<h2 dir="auto">6. Insights</h2>
+<ol dir="auto">
+<li><strong>The fork turned a generator into a judge.</strong> At base, x3d_mcp was mostly tools that build scenes. The fork<br>
+era's weight is in judging them (62 rules, exact-fix hints, repair) and in moving big documents (the transfer<br>
+layer). Validation is now the largest role, and every tool's input and output passes through the transfer layer.</li>
+<li><strong>Rules come from real failures.</strong> Every rule family maps to an incident with a measured before and after: X_ITE<br>
+rendering splats smeared (#3), physics stress-test findings (#11), mutation sweeps (#7, #8), 96 → 22 false<br>
+positives (#4). That is the "accountability" theme made concrete.</li>
+<li><strong>The integration branch worked as a staging lane.</strong> Six validator PRs were reviewed small and landed in two<br>
+merges. The cost: two merges carry 6 PRs' worth of rules each, and <code class="notranslate">semantic.py</code> clashed with the hints in #15.</li>
+<li><strong>The playground is a client of the validator, not of the server.</strong> It imports <code class="notranslate">validation.*</code> directly. That is<br>
+simple and fast, but the playground does not exercise the MCP tool surface it showcases.</li>
+<li><strong>Upstream has not moved since the fork.</strong> <code class="notranslate">upstream/main</code> has 0 commits that are not in the fork. The fork is<br>
+106 commits ahead. Three PRs offered upstream (#33, #34 "Integration/validator fixes", #35 ontology) were<br>
+closed without merging.</li>
+</ol>
+<h2 dir="auto">7. Risks and recommendations</h2>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>risk (evidence)</th>
+<th>recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The render smoke job is non-blocking; the playground and render paths can break silently</td>
+<td>Make the smoke job blocking on <code class="notranslate">main</code> with the pinned full-Chromium recipe (<code class="notranslate">smoke-ci-findings.md</code>: X_ITE's wasm pages crash headless-shell).</td>
+</tr>
+<tr>
+<td><code class="notranslate">hints.py</code> (1,127 lines, 2 functions with CC &gt; 60) is tested by its own author's mutation classes (#14's stated limit)</td>
+<td>Add an independent defect corpus (for example x3d-blender-io's 194-case suite output and real user scenes) and report hint success on it separately.</td>
+</tr>
+<tr>
+<td><code class="notranslate">server</code> and <code class="notranslate">tools.query</code> have no test file importing them</td>
+<td>Add an in-process FastMCP round trip that lists tools and calls each one with a minimal valid input (<code class="notranslate">test_inprocess_signatures.py</code> is a start).</td>
+</tr>
+<tr>
+<td>Two branches carry unmerged work: <code class="notranslate">origin/claude/ontology-lentz-polys-3j5h8z</code> (<code class="notranslate">use-type-mismatch</code> check, 1 commit) and <code class="notranslate">origin/loom/exact-fix-gemini</code> (2 commits of Gemini hint-loop runs). The local <code class="notranslate">bridge/agents-slice</code> (worktree <code class="notranslate">x3d_mcp-agents-slice</code>) has 1 unpushed commit (MuJoCo bridge tools).</td>
+<td>Decide on each. The <code class="notranslate">use-type-mismatch</code> rule looks like a candidate for the next validator PR.</td>
+</tr>
+<tr>
+<td>The local checkout sits on <code class="notranslate">fix/physics-findings</code> (merged as #11); local <code class="notranslate">main</code> is 72 commits behind <code class="notranslate">origin/main</code></td>
+<td>Fast-forward local <code class="notranslate">main</code>. Not done here.</td>
+</tr>
+<tr>
+<td>The rule PR attribution passes through merges (#6 carries #1–#4)</td>
+<td>Keep <code class="notranslate">docs/</code> change notes per rule (as #15 did with <code class="notranslate">ROUTE-COLOUR-HANIM-CHECKS.md</code>) so blame survives the staging lane.</td>
+</tr>
+<tr>
+<td>Upstream divergence (106 ahead, 3 upstream PRs closed)</td>
+<td>If upstream contribution still matters, split out the false-positive fixes (#4) and the physics checks (#11) as small upstream PRs. They have the least fork-specific coupling.</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h2 dir="auto">8. Method and limits</h2>
+<ul dir="auto">
+<li>This uses the same analyser as the x3d-blender-io masterclass (<code class="notranslate">tools/astlib.py</code>), extended for dotted<br>
+absolute imports, FastMCP decorators (<code class="notranslate">@mcp.tool/prompt/resource/custom_route</code>), validator report calls<br>
+(<code class="notranslate">Diagnostic(level, check)</code> and reporter helpers like <code class="notranslate">report("error", "physics-mass", …)</code>), and x3d.py<br>
+constructors and <code class="notranslate">etree.SubElement</code> as node generation.</li>
+<li><strong>Two analyser bugs were found and fixed while making this document.</strong> (1) Nested <code class="notranslate">def</code>s directly in a function<br>
+body were charged to the outer function. (2) Each <code class="notranslate">elif</code> counted one nesting level deeper. Both masterclasses were<br>
+recomputed. The x3d-blender-io document carries a correction note: <code class="notranslate">export_x3d.export</code> has its own CC 8, not<br>
+287. Its 29 closures sum to 310.</li>
+<li>Call resolution is static. FastMCP's dispatch to tool closures and any <code class="notranslate">getattr</code> construction are not drawn.<br>
+The graph has 1,187 distinct edges between functions (1,201 resolved targets including recursion).</li>
+<li><code class="notranslate">tools/era.py</code> analyses every first-parent commit since <code class="notranslate">74da0ec</code> and each PR's own merge commit with<br>
+<code class="notranslate">git show</code>, with no checkout.</li>
+<li>All scenes validate with this very repo's validator (XSD 4.0 valid; semantic 0 errors, 0 warnings). They were<br>
+rendered in the Claude app's browser pane (X_ITE 16.7.0, software WebGL). They were not checked on a real GPU.</li>
+</ul>
+<h3 dir="auto">Reproduce</h3>
+<div class="highlight highlight-source-shell" dir="auto"><pre class="notranslate"><span class="pl-c1">cd</span> <span class="pl-k">~</span>/Projects/x3d/work/x3d-mcp-masterclass
+python3 tools/run_snap.py base <span class="pl-k">&amp;&amp;</span> python3 tools/run_snap.py head      <span class="pl-c"><span class="pl-c">#</span> snap/* = git archive 74da0ec / origin/main</span>
+python3 tools/coverage.py head <span class="pl-k">&amp;&amp;</span> python3 tools/mcp_taxonomy.py <span class="pl-k">&amp;&amp;</span> python3 tools/era.py
+python3 tools/scenes.py <span class="pl-k">&amp;&amp;</span> python3 tools/doc_tables.py <span class="pl-k">&amp;&amp;</span> python3 tools/build_doc.py <span class="pl-k">&amp;&amp;</span> python3 tools/build_index.py
+python3 -m http.server 8818 --bind 127.0.0.1</pre></div></main></body></html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Scene viewer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="../vendor/x_ite/x_ite.min.js"></script>
+<style>
+ html,body{margin:0;height:100%;background:#1a1a19;color:#f0efec;font:14px/1.4 system-ui,sans-serif}
+ header{display:flex;gap:1rem;align-items:center;padding:.5rem 1rem;border-bottom:1px solid #383835}
+ header a{color:#c3c2b7} x3d-canvas{display:block;width:100%;height:calc(100% - 3rem)}
+ #tip{position:fixed;pointer-events:none;background:#262624ee;border:1px solid #4a4a46;border-radius:4px;padding:.35rem .55rem;max-width:44rem;font:12px/1.35 ui-monospace,Menlo,monospace;color:#f0efec;display:none;z-index:9}
+ #vps button{background:#262624;color:#f0efec;border:1px solid #4a4a46;border-radius:4px;padding:.2rem .5rem;margin-right:.3rem;cursor:pointer}
+</style></head>
+<body>
+<header><a href="index.html">&larr; teardown</a><strong id="t"></strong><span id="vps"></span></header>
+<div id="tip"></div>
+<x3d-canvas id="c" contentScale="auto" debug="false" contextMenu="true" notifications="true" timings="false"></x3d-canvas>
+<script>
+const q = new URLSearchParams(location.search), s = q.get("scene") || "callgraph-3d";
+const canvas = document.getElementById("c");
+document.getElementById("t").textContent = s + ".x3d";
+canvas.setAttribute("src", "scenes/" + s + ".x3d");
+canvas.addEventListener("load", () => {
+  const scene = canvas.browser.currentScene, box = document.getElementById("vps");
+  for (const n of scene.rootNodes) {
+    if (n && n.getNodeTypeName && n.getNodeTypeName() === "Viewpoint") {
+      const b = document.createElement("button"); b.textContent = n.description;
+      b.onclick = () => { n.set_bind = true; }; box.appendChild(b);
+    }
+  }
+  // Tooltips: X_ITE does not display Anchor descriptions, so add a TouchSensor to each Anchor at runtime.
+  // The TouchSensor becomes the lowest pointing sensor, so the click is forwarded to the Anchor's url here.
+  const tip = document.getElementById("tip");
+  let mx = 0, my = 0, n = 0;
+  canvas.addEventListener("pointermove", e => { mx = e.clientX; my = e.clientY;
+    tip.style.left = Math.min(mx + 14, innerWidth - tip.offsetWidth - 8) + "px"; tip.style.top = (my + 16) + "px"; });
+  const visit = node => {
+    if (!node || !node.getNodeTypeName) return;
+    if (node.getNodeTypeName() === "Anchor") {
+      const desc = node.description, url = node.url.length ? node.url[0] : "";
+      if (desc) {
+        const ts = scene.createNode("TouchSensor"); ts.description = desc; node.children.push(ts); n++;
+        ts.getField("isOver").addFieldCallback("tip" + n, over => {
+          tip.style.display = over ? "block" : "none"; if (over) tip.textContent = desc + (url ? "  (click: open on GitHub)" : ""); });
+        if (url) ts.getField("touchTime").addFieldCallback("go" + n, () => window.open(url, "_blank", "noopener"));
+      }
+    }
+    for (const f of ["children"]) { try { for (const c of node[f]) visit(c); } catch (e) {} }
+  };
+  for (const r of scene.rootNodes) visit(r);
+  document.body.dataset.tooltips = n;
+  document.body.dataset.loadMs = Math.round(performance.now()); document.body.dataset.loaded = "1";
+});
+</script>
+</body></html>

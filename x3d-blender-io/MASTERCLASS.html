@@ -1,0 +1,1305 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>x3d-blender-io: an AST masterclass and teardown</title><style>body{margin:0;background:#1a1a19;color:#f0efec;font:16px/1.6 system-ui,-apple-system,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:2rem 1.25rem 5rem} a{color:#86b6ef} code{background:#262624;padding:.1rem .3rem;border-radius:3px}
+pre{background:#232321;padding:1rem;overflow:auto;border-radius:6px;border:1px solid #383835} pre code{background:none;padding:0}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.9rem} th,td{border:1px solid #383835;padding:.35rem .55rem;vertical-align:top}
+th{background:#232321} h1,h2,h3{line-height:1.25} h2{border-bottom:1px solid #383835;padding-bottom:.3rem;margin-top:2.2rem}
+.nav{color:#8a8a85;font-size:.9rem}</style></head><body><main><p class="nav"><a href="../index.html">← all teardowns</a> · <a href="index.html">scenes for this teardown</a> · <a href="MASTERCLASS.md">Markdown source</a></p><h1 dir="auto">x3d-blender-io: an AST masterclass and teardown</h1>
+<p dir="auto">The add-on (<code class="notranslate">io_scene_x3d</code>, extension id <code class="notranslate">x3d_blender_io</code>) at<br>
+<a href="https://github.com/hagopjay/x3d-blender-io">hagopjay/x3d-blender-io</a>, measured on 2026-11-13 at <code class="notranslate">origin/main</code><br>
+<code class="notranslate">e071a61</code> and compared against the fork's first commit <code class="notranslate">7f8c0fb</code> (2026-10-08, "Import April 2026 X3D 4.0 rewrite<br>
+of io_scene_x3d (extension 2.5.1 base)").</p>
+<p dir="auto"><strong>How to read the labels in this document.</strong></p>
+<ul dir="auto">
+<li><strong>Measured</strong> means a script in <code class="notranslate">tools/</code> computed it from the source with Python's <code class="notranslate">ast</code>, from <code class="notranslate">git</code>, from the<br>
+GitHub API (<code class="notranslate">gh</code>), or from the x3d_mcp validator. Every number in a table is measured unless the table says<br>
+otherwise.</li>
+<li><strong>Inferred</strong> means the number comes from a heuristic. These are marked <em>inferred</em> where they appear: X3D node<br>
+and field use from string literals, call resolution, and pipeline roles assigned by hand to modules.</li>
+<li><strong>Claimed</strong> means a PR description says it. Claims are quoted, and checked where the data allows.</li>
+<li>Nothing in the add-on was imported or executed. No Blender or X_ITE run of the add-on was made for this<br>
+document.</li>
+</ul>
+<p dir="auto">The four scenes (X3D 4.0, validated with the user's x3d_mcp fork, rendered in X_ITE 16.7.0) are linked from<br>
+<code class="notranslate">index.html</code>:</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>scene</th>
+<th>what it shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">scenes/callgraph-3d.x3d</code></td>
+<td>554 functions as a 3D force layout, 697 static call edges, coloured by pipeline role</td>
+</tr>
+<tr>
+<td><code class="notranslate">scenes/coverage-sunburst.x3d</code></td>
+<td>the 267 concrete X3D 4.1 nodes by component, and which are written and read</td>
+</tr>
+<tr>
+<td><code class="notranslate">scenes/fork-timeline.x3d</code></td>
+<td>42 snapshots of <code class="notranslate">origin/main</code>: lines, tests and X3D coverage per PR, and CI results</td>
+</tr>
+<tr>
+<td><code class="notranslate">scenes/code-city.x3d</code></td>
+<td>modules as districts and functions as buildings; height is complexity, colour is fork-era status</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<hr>
+<h2 dir="auto">1. The shape of the add-on</h2>
+<pre class="notranslate"><code class="notranslate">                         Blender scene (bpy)
+             ┌──────────────────┴──────────────────┐
+   EXPORT    │                                     │   IMPORT
+             ▼                                     ▲
+  export_x3d.export  (legacy fw() writer,     import_x3d.load_web3d (legacy VRML/X3D
+  1,620 lines, 29 nested writers)┐               tree: vrmlNode/x3dNode parser, then
+             │ X3D 4.0/4.1     │               geometry_importers{28}, appearance_*,
+             ▼                 │ X3D 3.x        importLamp_*, importRoutesXML, HAnim,
+  export_pipeline ─► extract ─►│ text           Geo*, Inline, splats)  ◄── .x3d .wrl .x3dv .x3dz
+  (Blender → IR)     material  │                     │  Inline assets
+             ▼        splat_*  ▼                     ▼
+          ir.py  (IRScene, IRShape, IRMeshGeometry, IRPBRMaterial, IRLight, IRHumanoid, IRGaussianSplats …)
+             ▼                                       ▲
+       emit_x3d40 ─► validate ─► .x3d       parse_x3d40 ─► populate (Inline asset bridge),
+                                            bridge_gltf (glTF/glb Inlines), splat_io
+</code></pre>
+<p dir="auto">These things are measured.</p>
+<ul dir="auto">
+<li><strong>Two pipelines in each direction.</strong> Export has the legacy Blender exporter, which builds XML strings with<br>
+<code class="notranslate">fw('%s&lt;Shape' % ident)</code>, and the X3D 4.0 path, <em>Blender → <code class="notranslate">extract</code> → <code class="notranslate">ir</code> dataclasses → <code class="notranslate">emit_x3d40</code></em>. The two<br>
+are not separate: <code class="notranslate">export_x3d</code> calls into <code class="notranslate">extract</code> 13 times (the biggest cross-module edge in<br>
+the call graph). It is both the 3.x writer and the dispatcher for the 4.0 path.</li>
+<li><strong>Import has one dominant module.</strong> <code class="notranslate">import_x3d.py</code> is 7,264 of 16,530 source lines (44 %) and holds 245 of 557<br>
+<code class="notranslate">def</code>s. The IR-based import (<code class="notranslate">parse_x3d40</code> → <code class="notranslate">populate</code>) is small (445 lines) and is used for Inline assets. It is<br>
+not a second full importer.</li>
+<li><strong>The Blender surface is small.</strong> There are three registered classes: <code class="notranslate">ImportX3D</code> (<code class="notranslate">import_scene.x3d</code>, 12<br>
+options, including the fork's <code class="notranslate">color_space</code>, <code class="notranslate">light_units</code> and <code class="notranslate">gpu_instances</code>), <code class="notranslate">ExportX3D</code><br>
+(<code class="notranslate">export_scene.x3d</code>, 27 options, including <code class="notranslate">x3d_version</code> and <code class="notranslate">color_space</code>), and the <code class="notranslate">IO_FH_X3D</code> file handler<br>
+for <code class="notranslate">.x3d;.wrl;.x3dv;.x3dz</code>. There is also an <code class="notranslate">AddonPreferences</code>. There are no Panels or custom Menus.</li>
+<li><strong>Imports are lazy.</strong> 101 of the 206 import statements sit inside functions; <code class="notranslate">import_x3d</code> alone has 35. That is<br>
+the usual Blender add-on idiom, which keeps registration cheap and avoids import cycles. It also means the<br>
+module-level import graph understates the coupling. The call graph is the truer picture.</li>
+</ul>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>module</th>
+<th>role</th>
+<th>lines base -&gt; head</th>
+<th>defs</th>
+<th>CC sum</th>
+<th>max CC (function)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">import_x3d</code></td>
+<td>import-classic</td>
+<td>4386 -&gt; 7264</td>
+<td>245</td>
+<td>2045</td>
+<td>79 (<code class="notranslate">importMesh_IndexedFaceSet</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">export_x3d</code></td>
+<td>export-classic</td>
+<td>1918 -&gt; 1985</td>
+<td>46</td>
+<td>371</td>
+<td>94 (<code class="notranslate">export.writeIndexedFaceSet</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">extract</code></td>
+<td>export-modern</td>
+<td>184 -&gt; 1317</td>
+<td>53</td>
+<td>472</td>
+<td>41 (<code class="notranslate">extract_scene</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">translations</code></td>
+<td>ui</td>
+<td>1201 -&gt; 1226</td>
+<td>3</td>
+<td>5</td>
+<td>3 (<code class="notranslate">translate</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">emit_x3d40</code></td>
+<td>export-modern</td>
+<td>260 -&gt; 822</td>
+<td>44</td>
+<td>294</td>
+<td>26 (<code class="notranslate">_animation_xml</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">__init__</code></td>
+<td>ui</td>
+<td>621 -&gt; 712</td>
+<td>24</td>
+<td>44</td>
+<td>4 (<code class="notranslate">export_ui_include</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">material</code></td>
+<td>export-modern</td>
+<td>573 -&gt; 666</td>
+<td>30</td>
+<td>248</td>
+<td>32 (<code class="notranslate">analyze_material</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">ir</code></td>
+<td>ir</td>
+<td>118 -&gt; 373</td>
+<td>13</td>
+<td>34</td>
+<td>8 (<code class="notranslate">IRInstance.iter_shapes</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">parse_x3d40</code></td>
+<td>import-modern</td>
+<td>258 -&gt; 258</td>
+<td>15</td>
+<td>63</td>
+<td>10 (<code class="notranslate">_decompose_matrix</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">splat_io</code></td>
+<td>bridge</td>
+<td>new -&gt; 256</td>
+<td>14</td>
+<td>84</td>
+<td>21 (<code class="notranslate">_rows_to_splats</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">export_pipeline</code></td>
+<td>export-modern</td>
+<td>156 -&gt; 250</td>
+<td>7</td>
+<td>56</td>
+<td>25 (<code class="notranslate">save</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">geospatial</code></td>
+<td>import-classic</td>
+<td>new -&gt; 216</td>
+<td>8</td>
+<td>32</td>
+<td>11 (<code class="notranslate">parse_geo_system</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">populate</code></td>
+<td>import-modern</td>
+<td>185 -&gt; 187</td>
+<td>10</td>
+<td>45</td>
+<td>9 (<code class="notranslate">_populate_viewpoints</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">mfstring</code></td>
+<td>ir</td>
+<td>174 -&gt; 174</td>
+<td>8</td>
+<td>29</td>
+<td>13 (<code class="notranslate">decode</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">splat_native</code></td>
+<td>bridge</td>
+<td>new -&gt; 171</td>
+<td>10</td>
+<td>51</td>
+<td>14 (<code class="notranslate">extract_native_splats</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">validate</code></td>
+<td>export-modern</td>
+<td>50 -&gt; 165</td>
+<td>7</td>
+<td>51</td>
+<td>23 (<code class="notranslate">_coerce_field</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">matrix_safety</code></td>
+<td>import-classic</td>
+<td>new -&gt; 157</td>
+<td>9</td>
+<td>38</td>
+<td>21 (<code class="notranslate">push_scale_to_children</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">x3d_registry</code></td>
+<td>ir</td>
+<td>107 -&gt; 107</td>
+<td>1</td>
+<td>1</td>
+<td>1 (<code class="notranslate">get_node_spec</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">prefs</code></td>
+<td>ui</td>
+<td>69 -&gt; 69</td>
+<td>2</td>
+<td>5</td>
+<td>4 (<code class="notranslate">X3D_Preferences.get_report_url</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">viewpoint_fov</code></td>
+<td>bridge</td>
+<td>new -&gt; 50</td>
+<td>4</td>
+<td>13</td>
+<td>5 (<code class="notranslate">blender_camera_angle</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">bridge_gltf</code></td>
+<td>bridge</td>
+<td>49 -&gt; 49</td>
+<td>3</td>
+<td>16</td>
+<td>6 (<code class="notranslate">import_gltf</code>)</td>
+</tr>
+<tr>
+<td><code class="notranslate">material_node_search</code></td>
+<td>export-modern</td>
+<td>30 -&gt; 30</td>
+<td>0</td>
+<td>0</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code class="notranslate">emit_x3d33</code></td>
+<td>export-modern</td>
+<td>26 -&gt; 26</td>
+<td>1</td>
+<td>2</td>
+<td>2 (<code class="notranslate">export_ir_scene</code>)</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto"><code class="notranslate">export_x3d</code> is 1,985 lines but a single function, <code class="notranslate">export</code>, spans 1,620 of them. It defines 29 nested writer<br>
+closures (<code class="notranslate">writeIndexedFaceSet</code>, <code class="notranslate">writeFog</code>, <code class="notranslate">writeSpeaker</code> …) that share the outer function's state.</p>
+<h2 dir="auto">2. The taxonomy the AST reveals</h2>
+<h3 dir="auto">2.1 X3D coverage (inferred from string literals, with evidence strength)</h3>
+<p dir="auto">The analyser reads every string literal and f-string fragment and checks it against the X3D Unified Object Model<br>
+4.1 (<code class="notranslate">X3dUnifiedObjectModel-4.1.xml</code> in the x3d_mcp fork): 267 concrete nodes in 37 components. Each literal is<br>
+classified as follows.</p>
+<ul dir="auto">
+<li><strong>write</strong>: an emitted tag (<code class="notranslate">'&lt;Sphere '</code>) or attribute (<code class="notranslate">radius="</code>) anywhere, or a node name in an export-role<br>
+module.</li>
+<li><strong>read</strong>: a node name in an import-role module used as a dispatch-table key, in a comparison<br>
+(<code class="notranslate">spec == 'Switch'</code>), as an argument to <code class="notranslate">getChildBySpec</code> / <code class="notranslate">getFieldAs*</code>, or in a node-name constant.</li>
+<li><strong>strength</strong>: 3 means an emitted tag or dispatch-table key; 2 means a comparison or getter argument; 1 means the<br>
+name only appears in a collection, such as <code class="notranslate">SHADER_SPECS</code>. The sunburst draws strength-1 wedges translucent.</li>
+</ul>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th></th>
+<th>base <code class="notranslate">7f8c0fb</code></th>
+<th>head <code class="notranslate">e071a61</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>X3D 4.1 nodes written by export</td>
+<td>39</td>
+<td><strong>54</strong></td>
+</tr>
+<tr>
+<td>X3D 4.1 nodes read by import</td>
+<td>42</td>
+<td><strong>68</strong></td>
+</tr>
+<tr>
+<td>written and read (round-trippable at node level)</td>
+<td>26</td>
+<td><strong>43</strong></td>
+</tr>
+<tr>
+<td>components touched</td>
+<td>14</td>
+<td><strong>20 of 37</strong></td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto"><strong>A finding that changes the method: the importer animates by ROUTE field names, not by node type.</strong><br>
+<code class="notranslate">importRoutesXML</code> builds channels from <code class="notranslate">fromField</code>/<code class="notranslate">toField</code> (<code class="notranslate">value_changed → set_translation | set_rotation | set_scale</code>, <code class="notranslate">fraction_changed → set_fraction</code>, <code class="notranslate">value_changed → set_point</code>). It then reads <code class="notranslate">key</code>/<code class="notranslate">keyValue</code><br>
+(width 4 for rotation, 3 otherwise) from <em>whatever node</em> is routed. The literals <code class="notranslate">PositionInterpolator</code>,<br>
+<code class="notranslate">OrientationInterpolator</code> and <code class="notranslate">TimeSensor</code> therefore never appear in a type check. The analyser adds them as reads<br>
+from ROUTE fields, and that addition is <em>inferred</em>. The consequence:</p>
+<ul dir="auto">
+<li>a <code class="notranslate">SplinePositionInterpolator</code> or <code class="notranslate">EaseInEaseOut</code> chain imports as linear keys, with no warning;</li>
+<li>a <code class="notranslate">ScalarInterpolator</code> routed to <code class="notranslate">set_scale</code> would be read with width 3.</li>
+</ul>
+<p dir="auto">The field-name routing is elegant duck typing. It is also an untested edge.</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>component</th>
+<th>nodes</th>
+<th>written (base -&gt; head)</th>
+<th>read (base -&gt; head)</th>
+<th>nodes written</th>
+<th>nodes read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rendering</td>
+<td>16</td>
+<td>5 -&gt; 7</td>
+<td>13 -&gt; 13</td>
+<td>Color, ColorRGBA, Coordinate, IndexedLineSet, IndexedTriangleSet, Normal, PointSet</td>
+<td>Color, ColorRGBA, Coordinate, IndexedLineSet, IndexedTriangleFanSet, IndexedTriangleSet, IndexedTriangleStripSet, LineSet, Normal, PointSet, TriangleFanSet, TriangleSet, TriangleStripSet</td>
+</tr>
+<tr>
+<td>Geometry2D</td>
+<td>8</td>
+<td>2 -&gt; 2</td>
+<td>0 -&gt; 8</td>
+<td>Circle2D, Rectangle2D</td>
+<td>Arc2D, ArcClose2D, Circle2D, Disk2D, Polyline2D, Polypoint2D, Rectangle2D, TriangleSet2D</td>
+</tr>
+<tr>
+<td>Core</td>
+<td>8</td>
+<td>1 -&gt; 7</td>
+<td>0 -&gt; 1</td>
+<td>MetadataBoolean, MetadataDouble, MetadataFloat, MetadataInteger, MetadataSet, MetadataString, WorldInfo</td>
+<td>MetadataSet</td>
+</tr>
+<tr>
+<td>Geometry3D</td>
+<td>7</td>
+<td>5 -&gt; 5</td>
+<td>7 -&gt; 7</td>
+<td>Box, Cone, Cylinder, IndexedFaceSet, Sphere</td>
+<td>Box, Cone, Cylinder, ElevationGrid, Extrusion, IndexedFaceSet, Sphere</td>
+</tr>
+<tr>
+<td>Shape</td>
+<td>10</td>
+<td>5 -&gt; 5</td>
+<td>3 -&gt; 6</td>
+<td>Appearance, Material, PhysicalMaterial, Shape, UnlitMaterial</td>
+<td>Appearance, Material, PhysicalMaterial, Shape, TwoSidedMaterial, UnlitMaterial</td>
+</tr>
+<tr>
+<td>Shaders</td>
+<td>8</td>
+<td>3 -&gt; 3</td>
+<td>0 -&gt; 3</td>
+<td>ComposedShader, FloatVertexAttribute, ShaderPart</td>
+<td>ComposedShader, PackagedShader, ProgramShader</td>
+</tr>
+<tr>
+<td>Texturing</td>
+<td>11</td>
+<td>5 -&gt; 5</td>
+<td>5 -&gt; 5</td>
+<td>ImageTexture, MovieTexture, PixelTexture, TextureCoordinate, TextureTransform</td>
+<td>ImageTexture, MovieTexture, PixelTexture, TextureCoordinate, TextureTransform</td>
+</tr>
+<tr>
+<td>Geospatial</td>
+<td>11</td>
+<td>0 -&gt; 0</td>
+<td>0 -&gt; 3</td>
+<td>-</td>
+<td>GeoElevationGrid, GeoOrigin, GeoViewpoint</td>
+</tr>
+<tr>
+<td>Grouping</td>
+<td>4</td>
+<td>3 -&gt; 2</td>
+<td>1 -&gt; 2</td>
+<td>Group, Transform</td>
+<td>Switch, Transform</td>
+</tr>
+<tr>
+<td>Interpolation</td>
+<td>13</td>
+<td>0 -&gt; 3</td>
+<td>2 -&gt; 3</td>
+<td>CoordinateInterpolator, OrientationInterpolator, PositionInterpolator</td>
+<td>CoordinateInterpolator, OrientationInterpolator, PositionInterpolator</td>
+</tr>
+<tr>
+<td>Lighting</td>
+<td>4</td>
+<td>3 -&gt; 3</td>
+<td>3 -&gt; 3</td>
+<td>DirectionalLight, PointLight, SpotLight</td>
+<td>DirectionalLight, PointLight, SpotLight</td>
+</tr>
+<tr>
+<td>Navigation</td>
+<td>7</td>
+<td>3 -&gt; 3</td>
+<td>2 -&gt; 2</td>
+<td>Collision, NavigationInfo, Viewpoint</td>
+<td>NavigationInfo, Viewpoint</td>
+</tr>
+<tr>
+<td>CADGeometry</td>
+<td>6</td>
+<td>0 -&gt; 0</td>
+<td>0 -&gt; 2</td>
+<td>-</td>
+<td>IndexedQuadSet, QuadSet</td>
+</tr>
+<tr>
+<td>EnvironmentalEffects</td>
+<td>5</td>
+<td>2 -&gt; 2</td>
+<td>0 -&gt; 1</td>
+<td>Background, Fog</td>
+<td>Background</td>
+</tr>
+<tr>
+<td>HAnim</td>
+<td>7</td>
+<td>0 -&gt; 2</td>
+<td>0 -&gt; 2</td>
+<td>HAnimHumanoid, HAnimJoint</td>
+<td>HAnimHumanoid, HAnimJoint</td>
+</tr>
+<tr>
+<td>Sound</td>
+<td>21</td>
+<td>2 -&gt; 2</td>
+<td>2 -&gt; 2</td>
+<td>AudioClip, Sound</td>
+<td>AudioClip, Sound</td>
+</tr>
+<tr>
+<td>Text</td>
+<td>3</td>
+<td>0 -&gt; 0</td>
+<td>2 -&gt; 2</td>
+<td>-</td>
+<td>FontStyle, Text</td>
+</tr>
+<tr>
+<td>GaussianSplats</td>
+<td>1</td>
+<td>0 -&gt; 1</td>
+<td>0 -&gt; 1</td>
+<td>GaussianSplats</td>
+<td>GaussianSplats</td>
+</tr>
+<tr>
+<td>Networking</td>
+<td>4</td>
+<td>0 -&gt; 1</td>
+<td>1 -&gt; 1</td>
+<td>Inline</td>
+<td>Inline</td>
+</tr>
+<tr>
+<td>Time</td>
+<td>1</td>
+<td>0 -&gt; 1</td>
+<td>1 -&gt; 1</td>
+<td>TimeSensor</td>
+<td>TimeSensor</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">Components with no node touched (17 of 37): CubeMapTexturing (3), DIS (6), EnvironmentalSensor (3), EventUtilities (7), Followers (14), KeyDeviceSensor (2), Layering (3), Layout (5), NURBS (13), ParticleSystems (10), Picking (5), PointingDeviceSensor (4), RigidBodyPhysics (14), Scripting (1), TextureProjection (2), Texturing3D (7), VolumeRendering (13).</p>
+<p dir="auto"><strong>The dispatch table.</strong> <code class="notranslate">import_x3d.geometry_importers</code> maps 28 X3D geometry nodes to builder functions. It is the<br>
+most reliable evidence of real import support, and the place to add new geometry.</p>
+<h3 dir="auto">2.2 Round-trip asymmetry (measured at node level, a lower bound at field level)</h3>
+<ul dir="auto">
+<li><strong>Read but never written (25 nodes).</strong> Arc2D, ArcClose2D, Disk2D, Polyline2D, Polypoint2D, TriangleSet2D,<br>
+ElevationGrid, Extrusion, GeoElevationGrid, GeoOrigin, GeoViewpoint, IndexedQuadSet, QuadSet, all six<br>
+triangle/fan/strip sets, LineSet, Switch, Text, FontStyle, TwoSidedMaterial, and the two shader nodes the<br>
+importer only recognises. A round trip turns all of these into <code class="notranslate">IndexedFaceSet</code>/<code class="notranslate">IndexedTriangleSet</code> (mesh) or<br>
+lines. That is by design for a DCC tool, but worth stating: a <code class="notranslate">Switch</code> comes back as visibility, and a <code class="notranslate">Text</code><br>
+comes back as a mesh (the exporter treats <code class="notranslate">FONT</code> as mesh-like).</li>
+<li><strong>Written but never read (11 nodes).</strong> Collision, Fog, Group, WorldInfo, ShaderPart, FloatVertexAttribute, and<br>
+five <code class="notranslate">Metadata*</code> value nodes (only <code class="notranslate">MetadataSet</code> is matched on import). Fog and Collision come from the legacy<br>
+writer.</li>
+<li><strong>Field level</strong> (lower bound on the read side; import fields are attributed by function name, such as<br>
+<code class="notranslate">importLamp_SpotLight</code>, so fields read in shared helpers are missed). <code class="notranslate">Background</code> is written with 11 fields<br>
+(the six skybox <code class="notranslate">*Url</code>s, <code class="notranslate">skyAngle</code>, <code class="notranslate">groundColor</code> …). The importer keeps the sky and ground gradients and<br>
+<code class="notranslate">transparency</code> on the scene for re-export (<code class="notranslate">importBackground</code>, read by hand), but not the six <code class="notranslate">*Url</code> fields. Light<br>
+<code class="notranslate">attenuation</code>, <code class="notranslate">ambientIntensity</code> and <code class="notranslate">global</code> are written but not read back. <code class="notranslate">ElevationGrid</code> and <code class="notranslate">Extrusion</code><br>
+are read field by field but never written. Details are in <code class="notranslate">data/field_roundtrip.json</code>.</li>
+</ul>
+<h3 dir="auto">2.3 Blender data handled (measured literals and attribute chains)</h3>
+<ul dir="auto">
+<li>Object types compared: <code class="notranslate">MESH</code> (27 sites), <code class="notranslate">ARMATURE</code> 11, <code class="notranslate">LIGHT</code> 10, <code class="notranslate">EMPTY</code> 10, <code class="notranslate">FONT</code> 8, <code class="notranslate">CURVE</code> 6, <code class="notranslate">SURFACE</code><br>
+6, <code class="notranslate">CAMERA</code> 6, <code class="notranslate">POINTCLOUD</code> 5 (Blender 5.3 splats), <code class="notranslate">META</code> 4, <code class="notranslate">IMAGE</code> 4, <code class="notranslate">SPEAKER</code> 2. The 4.0 path treats<br>
+<code class="notranslate">{MESH, CURVE, SURFACE, FONT}</code> as mesh-like (<code class="notranslate">extract.MESH_LIKE_TYPES</code>).</li>
+<li><code class="notranslate">bpy.data</code> collections touched: meshes (53), objects (37), materials (18), fonts (16), scenes, images, curves,<br>
+actions, collections, sounds, textures, lights, speakers, cameras, armatures, pointclouds.</li>
+<li>Shader nodes the importer creates by type: OutputMaterial, VertexColor, Math, BsdfTransparent, MixShader, RGB,<br>
+Mix, LightPath, Emission, Mapping, TexCoord, TexImage, Value, SeparateColor. The Principled BSDF is reached<br>
+through Blender's <code class="notranslate">node_shader_utils</code> wrapper, which a literal scan does not see.</li>
+<li>Bulk data paths: 37 functions use <code class="notranslate">foreach_get</code>/<code class="notranslate">foreach_set</code>. PR #25 added the two on the export side<br>
+(<code class="notranslate">extract._read_all</code>, <code class="notranslate">_crease_from_sharp_edges</code>). The importer had them from the start.</li>
+</ul>
+<h3 dir="auto">2.4 Pipeline stages (roles assigned by hand per module, so inferred)</h3>
+<p dir="auto"><code class="notranslate">ui</code> (registration, prefs, translations) → <strong>export</strong>: <code class="notranslate">export-classic</code> (legacy writer), <code class="notranslate">export-modern</code><br>
+(pipeline, extract, material, emit, validate) → <code class="notranslate">ir</code> (dataclasses, registry, MFString) → <strong>import</strong>:<br>
+<code class="notranslate">import-classic</code> (import_x3d, geospatial, matrix_safety), <code class="notranslate">import-modern</code> (parse_x3d40, populate) → <code class="notranslate">bridge</code><br>
+(glTF, splats, viewpoint FOV). The colours in every scene use this order. They are the dataviz reference palette's<br>
+dark steps, checked with its validator: all checks pass, and the worst adjacent CVD ΔE is 8.4.</p>
+<h2 dir="auto">3. Complexity and structure</h2>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>function</th>
+<th>CC</th>
+<th>lines</th>
+<th>nesting</th>
+<th>fork era</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">export_x3d:export.writeIndexedFaceSet</code></td>
+<td>94</td>
+<td>400</td>
+<td>9</td>
+<td>unchanged</td>
+</tr>
+<tr>
+<td><code class="notranslate">import_x3d:importMesh_IndexedFaceSet</code></td>
+<td>79</td>
+<td>248</td>
+<td>4</td>
+<td>modified (CC 77 -&gt; 79)</td>
+</tr>
+<tr>
+<td><code class="notranslate">import_x3d:importMesh_Extrusion</code></td>
+<td>65</td>
+<td>208</td>
+<td>4</td>
+<td>unchanged</td>
+</tr>
+<tr>
+<td><code class="notranslate">import_x3d:importRoutesXML</code></td>
+<td>54</td>
+<td>144</td>
+<td>4</td>
+<td>added</td>
+</tr>
+<tr>
+<td><code class="notranslate">import_x3d:load_web3d</code></td>
+<td>53</td>
+<td>199</td>
+<td>5</td>
+<td>modified (CC 29 -&gt; 53)</td>
+</tr>
+<tr>
+<td><code class="notranslate">import_x3d:finalize_light_units</code></td>
+<td>50</td>
+<td>161</td>
+<td>3</td>
+<td>added</td>
+</tr>
+<tr>
+<td><code class="notranslate">import_x3d:importShape</code></td>
+<td>47</td>
+<td>128</td>
+<td>3</td>
+<td>modified (CC 9 -&gt; 47)</td>
+</tr>
+<tr>
+<td><code class="notranslate">import_x3d:appearance_CreatePBRMaterial</code></td>
+<td>46</td>
+<td>127</td>
+<td>3</td>
+<td>added</td>
+</tr>
+<tr>
+<td><code class="notranslate">import_x3d:unlit_colour_material</code></td>
+<td>43</td>
+<td>79</td>
+<td>3</td>
+<td>added</td>
+</tr>
+<tr>
+<td><code class="notranslate">extract:extract_scene</code></td>
+<td>41</td>
+<td>285</td>
+<td>3</td>
+<td>modified (CC 33 -&gt; 41)</td>
+</tr>
+<tr>
+<td><code class="notranslate">import_x3d:_import_coordinate_morphs</code></td>
+<td>40</td>
+<td>68</td>
+<td>5</td>
+<td>added</td>
+</tr>
+<tr>
+<td><code class="notranslate">import_x3d:vrmlNode.__parse</code></td>
+<td>38</td>
+<td>162</td>
+<td>7</td>
+<td>unchanged</td>
+</tr>
+<tr>
+<td><code class="notranslate">import_x3d:_import_skin_shape</code></td>
+<td>36</td>
+<td>95</td>
+<td>4</td>
+<td>added</td>
+</tr>
+<tr>
+<td><code class="notranslate">export_x3d:export.writeMaterialH3D</code></td>
+<td>32</td>
+<td>277</td>
+<td>6</td>
+<td>unchanged</td>
+</tr>
+<tr>
+<td><code class="notranslate">import_x3d:vrmlNode.getFieldName</code></td>
+<td>32</td>
+<td>67</td>
+<td>9</td>
+<td>unchanged</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">These things are measured.</p>
+<ul dir="auto">
+<li><strong>One god function, complexity hidden in closures.</strong> <code class="notranslate">export_x3d.export</code> spans 1,620 lines, but its own<br>
+cyclomatic complexity is only 8. The complexity lives in its 29 nested writer closures, which share the outer<br>
+function's state and together sum to CC 310 (298 at base). The largest is <code class="notranslate">writeIndexedFaceSet</code> (CC 94, 400 lines,<br>
+unchanged). The fork era touched 8 of the closures (<code class="notranslate">writeSpotLight</code> 3 → 7, <code class="notranslate">writePointLight</code> 3 → 6,<br>
+<code class="notranslate">export_main</code> 17 → 21, <code class="notranslate">writeMaterial</code> 8 → 9 …) through PRs #28–#31 (colour space, light units).<br>
+<em>Correction:</em> an earlier version of this document said <code class="notranslate">export</code> had CC 287. That came from an analyser bug that<br>
+charged the closures' statements to the outer function; it is fixed and every number here is recomputed.</li>
+<li><strong>Complexity is accreting into dispatchers.</strong> <code class="notranslate">importShape</code> went from CC 9 to 47, <code class="notranslate">load_web3d</code> from 29 to 53 and<br>
+<code class="notranslate">extract_scene</code> from 33 to 41 (its 4 closures add another 61). Each fidelity PR added a branch in the place that<br>
+already knew the context. New functions are not more complex than old ones: the median CC is 4 for both, the mean<br>
+7.6 for added functions vs 6.9 for older ones. The risk is concentrated in those dispatchers.</li>
+<li><strong>45 functions have CC &gt; 20 and 5 have CC &gt; 50</strong> (all five in the importer or in <code class="notranslate">writeIndexedFaceSet</code>).</li>
+<li><strong>The fork era's footprint:</strong> 249 functions added, 51 modified and 257 unchanged since <code class="notranslate">7f8c0fb</code>, by AST body<br>
+hash. The code city colours these. Most of the legacy importer's geometry builders (<code class="notranslate">importMesh_Extrusion</code>,<br>
+the triangle sets, the parser classes <code class="notranslate">vrmlNode</code>/<code class="notranslate">x3dNode</code>) were never touched.</li>
+<li><strong>Cross-module calls (inferred static resolution):</strong> <code class="notranslate">export_x3d → extract</code> 13, <code class="notranslate">__init__ → translations</code> 8,<br>
+<code class="notranslate">import_x3d → geospatial</code> 7, <code class="notranslate">extract → matrix_safety</code> 4, <code class="notranslate">import_x3d → mfstring</code> 4, <code class="notranslate">import_x3d → splat_native</code> 3.<br>
+<code class="notranslate">matrix_safety</code> (PR #37) is already called from both directions. Of 697 call edges, 72 cross a module boundary.</li>
+<li><strong>Candidates for dead code (static, needs a human).</strong> 18 public top-level functions have no resolved caller,<br>
+for example <code class="notranslate">emit_x3d33.export_ir_scene</code>, <code class="notranslate">material.get_diffuse_color</code>/<code class="notranslate">get_emissive_color</code>,<br>
+<code class="notranslate">splat_io.write_antimatter_splat</code>, <code class="notranslate">x3d_registry.get_node_spec</code> and <code class="notranslate">import_x3d.load_with_profiler</code>. Some are<br>
+reached dynamically or from tools and tests. Treat the list as a review queue, not a verdict.</li>
+<li><strong>The first fork commit removed a hidden-Switch geometry library.</strong> At base, <code class="notranslate">emit_x3d40</code> wrote<br>
+<code class="notranslate">&lt;Switch DEF="GeometryLibrary" whichChoice="-1"&gt;</code> to hold DEF'd geometry. <code class="notranslate">d3ad977</code> replaced it with<br>
+DEF-at-first-use / USE-after, which is why the timeline shows <code class="notranslate">W- Switch</code> on that step.</li>
+</ul>
+<h2 dir="auto">4. The fork era, PR by PR</h2>
+<p dir="auto">38 PRs on hagopjay/x3d-blender-io, <strong>all merged, none open</strong> (checked with <code class="notranslate">gh pr list --state all</code>). The<br>
+hagsmac fork has no PRs of its own; PRs #23–#25 came from hagsmac branches. On top of those, 4 commits were pushed<br>
+straight to main on 2026-10-08. Each row compares the merge commit's AST with its first parent's.</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>step</th>
+<th>date</th>
+<th>what and why</th>
+<th>AST delta (lines; functions +new -gone ~changed)</th>
+<th>X3D coverage delta</th>
+<th>tests (+new = total)</th>
+<th>CI on main</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/commit/d3ad977"><code class="notranslate">d3ad977</code></a></td>
+<td>10-08</td>
+<td><strong>Add X3D 4.0 export path with PBR materials, full mesh data and DEF/USE</strong>.</td>
+<td>+712; +35 -7 ~18</td>
+<td>R+ PhysicalMaterial, UnlitMaterial; W- Switch</td>
+<td>+8 = 20</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/commit/420cfc3"><code class="notranslate">420cfc3</code></a></td>
+<td>10-08</td>
+<td><strong>Honour X3D_STRICT_VALIDATION in the round-trip test</strong>.</td>
+<td>no add-on change</td>
+<td>-</td>
+<td>20</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/commit/fd87df7"><code class="notranslate">fd87df7</code></a></td>
+<td>10-08</td>
+<td><strong>Write hierarchy, lights, cameras, text and animation on the X3D 4.0 path</strong>.</td>
+<td>+344; +14 -1 ~7</td>
+<td>W+ OrientationInterpolator, PositionInterpolator, TimeSensor</td>
+<td>+6 = 26</td>
+<td>-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/1" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/1/hovercard">#1</a></td>
+<td>10-08</td>
+<td><strong>Add CI, AI review workflows, contribution templates and CONTRIBUTING</strong>. No automation: add CI (unit 3.11/3.13, bpy wheel, Blender 4.5/5.1/5.2 headless), AI review, templates.</td>
+<td>no add-on change</td>
+<td>-</td>
+<td>26</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/2" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/2/hovercard">#2</a></td>
+<td>10-08</td>
+<td><strong>Milestone 3: animation import from XML ROUTEs and HAnim export</strong>. X3D 4.0 animation came back static and armatures were skipped: ROUTE import, HAnim 2.0 export.</td>
+<td>+498; +15 -0 ~12</td>
+<td>W+ HAnimHumanoid, HAnimJoint</td>
+<td>+3 = 30</td>
+<td>cancelled</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/3" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/3/hovercard">#3</a></td>
+<td>10-08</td>
+<td><strong>Bump the actions group with 4 updates</strong>. Dependabot: actions group bump.</td>
+<td>no add-on change</td>
+<td>-</td>
+<td>30</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/4" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/4/hovercard">#4</a></td>
+<td>10-08</td>
+<td><strong>Milestone 4a: import HAnim humanoids into armatures with skin and joint animation</strong>. HAnimHumanoid imported as a static mesh: build armature, skin weights, joint animation.</td>
+<td>+306; +8 -0 ~2</td>
+<td>R+ HAnimHumanoid, HAnimJoint</td>
+<td>+1 = 31</td>
+<td>cancelled</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/5" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/5/hovercard">#5</a></td>
+<td>10-08</td>
+<td><strong>Milestone 4b: Inline asset bridge (X3D, glTF, splat files) and X3D 4.1 GaussianSplats</strong>. X3D as the scene graph that references glTF parts and splats: Inline bridge + 4.1 GaussianSplats.</td>
+<td>+680; +32 -0 ~11; new <code class="notranslate">splat_io</code></td>
+<td>W+ GaussianSplats, Inline, PointSet; R+ GaussianSplats</td>
+<td>+15 = 46</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/6" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/6/hovercard">#6</a></td>
+<td>10-10</td>
+<td><strong>Declare Shape and Geometry2D components when needed in X3D headers</strong>. profile=Immersive without component statements failed x3d_mcp's profile check.</td>
+<td>+25; +1 -0 ~1</td>
+<td>-</td>
+<td>+3 = 49</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/7" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/7/hovercard">#7</a></td>
+<td>10-11</td>
+<td><strong>README: X_ITE renders the 4.1 GaussianSplats node</strong>. README: X_ITE does render the 4.1 GaussianSplats node.</td>
+<td>no add-on change</td>
+<td>-</td>
+<td>49</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/8" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/8/hovercard">#8</a></td>
+<td>10-11</td>
+<td><strong>Fit emissiveColor, Viewpoint fieldOfView and Background to X3D 4.0</strong>. emissiveColor &gt; 1 broke the XSD; 16:9 cameras opened 1.8x too wide; Background fit.</td>
+<td>+93; +6 -0 ~8; new <code class="notranslate">viewpoint_fov</code></td>
+<td>-</td>
+<td>+5 = 54</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/9" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/9/hovercard">#9</a></td>
+<td>10-11</td>
+<td><strong>Export lights with global="true" so they light the scene</strong>. Suns exported with global=false lit nothing in X_ITE.</td>
+<td>+10; +0 -0 ~7</td>
+<td>-</td>
+<td>54</td>
+<td>cancelled</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/10" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/10/hovercard">#10</a></td>
+<td>10-11</td>
+<td><strong>Own extension id (x3d_blender_io 2.6.0) and Blender 5.3 native splat export</strong>. Own extension id 2.6.0; Blender 5.3 PointCloud splats export natively.</td>
+<td>+194; +11 -0 ~4; new <code class="notranslate">splat_native</code></td>
+<td>-</td>
+<td>+6 = 60</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/11" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/11/hovercard">#11</a></td>
+<td>10-11</td>
+<td><strong>Add a research showcase page with live X3D demos</strong>. Research showcase page with live X3D demos (docs only).</td>
+<td>no add-on change</td>
+<td>-</td>
+<td>60</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/12" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/12/hovercard">#12</a></td>
+<td>10-11</td>
+<td><strong>Make the splat round trip exact at any size</strong>. Imports of &gt;= ~18k splats silently produced nothing (expat deferral); exact float32 round trip.</td>
+<td>+91; +5 -0 ~6</td>
+<td>-</td>
+<td>+8 = 68</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/13" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/13/hovercard">#13</a></td>
+<td>10-12</td>
+<td><strong>docs(showcase): drop the p = 0.017 claim from the Evolved Light tile</strong>. Showcase: drop an unsupported p = 0.017 claim.</td>
+<td>no add-on change</td>
+<td>-</td>
+<td>68</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/14" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/14/hovercard">#14</a></td>
+<td>10-15</td>
+<td><strong>Bump actions/upload-artifact from 6 to 7 in the actions group</strong>. Dependabot: upload-artifact 6 -&gt; 7.</td>
+<td>no add-on change</td>
+<td>-</td>
+<td>68</td>
+<td>cancelled</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/15" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/15/hovercard">#15</a></td>
+<td>10-15</td>
+<td><strong>Bridge fixes: light strength round trip, importer texture cache, export-import-export tests</strong>. Light strength round trip, importer texture cache, export-import-export tests.</td>
+<td>+7; +0 -0 ~5</td>
+<td>-</td>
+<td>+6 = 74</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/16" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/16/hovercard">#16</a></td>
+<td>10-16</td>
+<td><strong>X3D 4.0 round trip: keep light intensity and shadows, Viewpoint descriptions, head meta, Shape metadata and Background</strong>. Earth-twin round trip lost light intensity/shadows, Viewpoint descriptions, head meta, metadata, Background; AO false positive.</td>
+<td>+378; +16 -0 ~14</td>
+<td>W+ MetadataBoolean, MetadataDouble, MetadataFloat, MetadataInteger, MetadataSet, MetadataString; R+ Background, MetadataSet</td>
+<td>+28 = 102</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/17" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/17/hovercard">#17</a></td>
+<td>10-16</td>
+<td><strong>Import: animate every object under a routed Transform; add Rectangle2D and Disk2D</strong>. Two shapes under one routed Transform crashed (UnboundLocalError); Rectangle2D, Disk2D.</td>
+<td>+48; +2 -0 ~1</td>
+<td>R+ Disk2D, Rectangle2D</td>
+<td>+3 = 105</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/18" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/18/hovercard">#18</a></td>
+<td>10-16</td>
+<td><strong>Import: show only the child an X3D Switch chooses</strong>. Switch showed every child at once.</td>
+<td>+43; +2 -0 ~1</td>
+<td>R+ Switch</td>
+<td>+6 = 111</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/19" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/19/hovercard">#19</a></td>
+<td>10-16</td>
+<td><strong>Import: an UnlitMaterial shows emissiveColor times emissiveTexture</strong>. UnlitMaterial emissiveTexture ignored emissiveColor.</td>
+<td>+26; +1 -0 ~1</td>
+<td>-</td>
+<td>+4 = 115</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/20" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/20/hovercard">#20</a></td>
+<td>10-16</td>
+<td><strong>Import: a texture's alpha makes the surface transparent</strong>. Texture alpha only honoured for PhysicalMaterial + BLEND/MASK.</td>
+<td>+55; +2 -0 ~2</td>
+<td>-</td>
+<td>+6 = 121</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/21" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/21/hovercard">#21</a></td>
+<td>10-17</td>
+<td><strong>Shroud round-trip fixes: ElevationGrid colours import, lines survive X3D 4.0 export</strong>. Shroud round trips: ElevationGrid colours, lines lost on 4.0 export.</td>
+<td>+58; +2 -0 ~3</td>
+<td>W+ IndexedLineSet</td>
+<td>+7 = 128</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/22" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/22/hovercard">#22</a></td>
+<td>10-17</td>
+<td><strong>Morphs both ways: CoordinateInterpolator to shape keys on import, shape keys to CoordinateInterpolator on export</strong>. CoordinateInterpolator ROUTEs ignored: morphs both ways (shape keys).</td>
+<td>+246; +5 -0 ~7</td>
+<td>W+ CoordinateInterpolator; R+ CoordinateInterpolator</td>
+<td>+11 = 139</td>
+<td>success</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/23" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/23/hovercard">#23</a></td>
+<td>10-18</td>
+<td><strong>Fix phantom  for mesh objects that evaluate to no faces</strong>. Face-less meshes exported a phantom grey .</td>
+<td>+4; +0 -0 ~3</td>
+<td>-</td>
+<td>+2 = 141</td>
+<td>cancelled</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/24" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/24/hovercard">#24</a></td>
+<td>10-18</td>
+<td><strong>Add 194-case export conformance suite and CI job</strong>. 194-case export conformance suite + CI job + answer key + golden GLSL target.</td>
+<td>no add-on change</td>
+<td>-</td>
+<td>+4 = 145</td>
+<td>success+suite</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/25" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/25/hovercard">#25</a></td>
+<td>10-26</td>
+<td><strong>Export: read per-corner attributes in bulk (315 s to 0.67 s on a 66k-vertex mesh)</strong>. Per-corner attribute reads were quadratic: 315 s -&gt; 0.67 s on a 66k-vertex mesh.</td>
+<td>+28; +2 -0 ~4</td>
+<td>-</td>
+<td>+2 = 147</td>
+<td>success+suite</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/26" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/26/hovercard">#26</a></td>
+<td>11-12</td>
+<td><strong>Import fidelity: smooth primitives, X3D's Blinn-Phong specular, unlit lines and points, quads and Geometry2D</strong>. x3d.demo through Unreal/Babylon/Cycles vs X_ITE: smooth primitives, Blinn-Phong, quads, Geometry2D.</td>
+<td>+288; +16 -0 ~8</td>
+<td>R+ Arc2D, ArcClose2D, Circle2D, IndexedQuadSet, Polyline2D, Polypoint2D, QuadSet, TriangleSet2D, TwoSidedMaterial</td>
+<td>+35 = 182</td>
+<td>success+suite</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/27" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/27/hovercard">#27</a></td>
+<td>11-12</td>
+<td><strong>X3D colours and lines as X_ITE draws them: line and point colours, a Colour Space option, unlit surfaces without a material</strong>. Line/point colours, Colour Space option, unlit surfaces without a material, as X_ITE draws them.</td>
+<td>+306; +11 -0 ~14</td>
+<td>R+ ComposedShader, PackagedShader, ProgramShader</td>
+<td>+11 = 192</td>
+<td>success+suite</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/28" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/28/hovercard">#28</a></td>
+<td>11-12</td>
+<td><strong>Light units (X3D lights in glTF viewers as X_ITE draws them), ColorRGBA clamp, fidelity rig</strong>. Point/spot lights 1.75 W per unit drew 30 where X_ITE draws 74: light units; fidelity rig.</td>
+<td>+236; +8 -0 ~12</td>
+<td>-</td>
+<td>+15 = 207</td>
+<td>success+suite</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/29" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/29/hovercard">#29</a></td>
+<td>11-12</td>
+<td><strong>Colour round trip: the export writes colours back the way the import read them</strong>. sRGB import had no way back: export Colour Space option.</td>
+<td>+119; +5 -0 ~11</td>
+<td>-</td>
+<td>+7 = 214</td>
+<td>success+suite</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/30" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/30/hovercard">#30</a></td>
+<td>11-12</td>
+<td><strong>sRGB by default; classic lights fitted to what X_ITE draws; light-unit review fixes</strong>. As Is default drew classic colours too bright; classic lights fitted to X_ITE.</td>
+<td>+400; +13 -1 ~18</td>
+<td>-</td>
+<td>+18 = 230</td>
+<td>success+suite</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/31" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/31/hovercard">#31</a></td>
+<td>11-12</td>
+<td><strong>Unlit glb colours and ColorRGBA alpha; light-fit and light-colour fixes from the #30 review</strong>. Filled UnlitMaterial + Color drew white in Babylon; ColorRGBA alpha; light fit review fixes.</td>
+<td>+272; +10 -1 ~18</td>
+<td>-</td>
+<td>+22 = 252</td>
+<td>success+suite</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/32" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/32/hovercard">#32</a></td>
+<td>11-13</td>
+<td><strong>Export: drop unreadable emission masks; rig: Khronos glTF Validator step</strong>. Procedural emission masks read as 'on': drop unreadable masks; glTF Validator step.</td>
+<td>+46; +1 -0 ~1</td>
+<td>-</td>
+<td>+5 = 257</td>
+<td>success+suite</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/33" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/33/hovercard">#33</a></td>
+<td>11-13</td>
+<td><strong>Rig: glTF Validator gate and manifest; glb animation time; DEF identity in glb extras</strong>. glb animation time from 0, DEF identity into glb extras, Validator gate + manifest.</td>
+<td>+33; +1 -0 ~7</td>
+<td>-</td>
+<td>+18 = 275</td>
+<td>success+suite</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/34" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/34/hovercard">#34</a></td>
+<td>11-13</td>
+<td><strong>Add Group instances import option for EXT_mesh_gpu_instancing</strong>. Group instances option so the glTF exporter writes EXT_mesh_gpu_instancing.</td>
+<td>+55; +2 -0 ~3</td>
+<td>-</td>
+<td>+4 = 279</td>
+<td>success+suite</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/35" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/35/hovercard">#35</a></td>
+<td>11-13</td>
+<td><strong>Import GeoElevationGrid and GeoViewpoint; fix the stars-view import crash</strong>. stars-view.x3d (scale 1e-16) crashed: float64 inverses; GeoElevationGrid, GeoViewpoint.</td>
+<td>+379; +14 -0 ~6; new <code class="notranslate">geospatial</code></td>
+<td>R+ GeoElevationGrid, GeoOrigin, GeoViewpoint</td>
+<td>+42 = 321</td>
+<td>success+suite</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/36" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/36/hovercard">#36</a></td>
+<td>11-13</td>
+<td><strong>docs: single-page brag/showcase site for GitHub Pages (/docs)</strong>. Single-page brag/showcase site under /docs (docs only).</td>
+<td>no add-on change</td>
+<td>-</td>
+<td>321</td>
+<td>success+suite</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/37" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/37/hovercard">#37</a></td>
+<td>11-13</td>
+<td><strong>Fix stars-view glb scale: keep extreme Inline scales out of Blender's float32 inverses</strong>. Extreme Inline scales left glb 1e8 too small: push scale to children.</td>
+<td>+185; +12 -0 ~11; new <code class="notranslate">matrix_safety</code></td>
+<td>-</td>
+<td>+8 = 329</td>
+<td>success+suite</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hagopjay/x3d-blender-io/pull/38" data-hovercard-type="pull_request" data-hovercard-url="/hagopjay/x3d-blender-io/pull/38/hovercard">#38</a></td>
+<td>11-13</td>
+<td><strong>Brag page v2: named star view as POC #1, live Blender showpieces</strong>. Brag page v2 (docs only).</td>
+<td>no add-on change</td>
+<td>-</td>
+<td>329</td>
+<td>success+suite</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto"><strong>The phases</strong> (the bands in <code class="notranslate">fork-timeline.x3d</code>):</p>
+<ol dir="auto">
+<li><strong>Oct 8: the 4.0 path and Milestones 3–4.</strong> PBR, DEF/USE, lights, cameras, sampled animation, HAnim both<br>
+ways, Inline asset bridge, X3D 4.1 GaussianSplats. The largest structural growth: <code class="notranslate">extract</code> grew from 184 to<br>
+about 800 lines.</li>
+<li><strong>Oct 10–12: conformance to the spec and to X_ITE.</strong> Component statements, <code class="notranslate">emissiveColor</code> clamping, FOV,<br>
+<code class="notranslate">global="true"</code> lights, its own extension id, Blender 5.3 native splats, exact float32 splat round trips. The<br>
+last of these fixed a silent empty import of ≥ 18k splats caused by expat's deferral.</li>
+<li><strong>Oct 15–17: round-trip fidelity found by real scenes.</strong> The earth-twin campus, the Library of Polyxandria and<br>
+the Shroud scenes exposed light-intensity and shadow loss, metadata, Switch, unlit/alpha and morph gaps, each<br>
+fixed with a bpy test.</li>
+<li><strong>Oct 18–26: proof and performance.</strong> The phantom-Sphere fix (#23), the 194-case conformance suite with its CI<br>
+job (#24), and bulk attribute reads (#25, claimed 315 s → 0.67 s). Then 17 quiet days.</li>
+<li><strong>Nov 12: "as X_ITE draws it".</strong> Import fidelity against Unreal, Babylon.js and Cycles; X_ITE's colour<br>
+model; light units fitted to X_ITE (claimed: a PointLight of 1 drew 30 where X_ITE draws 74); sRGB as the<br>
+default. The busiest day for the importer: <code class="notranslate">finalize_light_units</code> (CC 54) and <code class="notranslate">fit_classic_lights</code> arrived.</li>
+<li><strong>Nov 13: the glb leg and extremes.</strong> The Khronos glTF Validator gate, DEF identity in glb extras, GPU<br>
+instancing, <code class="notranslate">GeoElevationGrid</code>/<code class="notranslate">GeoViewpoint</code> (new <code class="notranslate">geospatial</code>), float64 inverses for 1e-16 scales (new<br>
+<code class="notranslate">matrix_safety</code>). Plus the docs site.</li>
+</ol>
+<h2 dir="auto">5. How it is tested</h2>
+<ul dir="auto">
+<li>
+<p dir="auto"><strong>Unit and bpy tests (measured with AST):</strong> from 12 test functions in 3 files at base to <strong>329 in 36 files</strong>.<br>
+The <code class="notranslate">*_bpy</code> modules need Blender's <code class="notranslate">bpy</code> wheel; CI runs them in the "Round-trip tests with the bpy wheel" job.</p>
+</li>
+<li>
+<p dir="auto"><strong>The PRs' own test counts check out.</strong> The counts PR authors quote in their descriptions match the AST count<br>
+of <code class="notranslate">test_*</code> functions at each merge:</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>PR</th>
+<th>8</th>
+<th>12</th>
+<th>15</th>
+<th>18</th>
+<th>19</th>
+<th>20</th>
+<th>25</th>
+<th>26</th>
+<th>27</th>
+<th>28</th>
+<th>29</th>
+<th>30</th>
+<th>31</th>
+<th>32</th>
+<th>33</th>
+<th>34</th>
+<th>35</th>
+<th>37</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>claimed</td>
+<td>54</td>
+<td>68</td>
+<td>74</td>
+<td>111</td>
+<td>115</td>
+<td>121</td>
+<td>147</td>
+<td>182</td>
+<td>192</td>
+<td>207</td>
+<td>214</td>
+<td>230</td>
+<td>252</td>
+<td>257</td>
+<td>274</td>
+<td>278+10 skip</td>
+<td>320</td>
+<td>328+10 skip</td>
+</tr>
+<tr>
+<td>AST <code class="notranslate">test_*</code></td>
+<td>54</td>
+<td>68</td>
+<td>74</td>
+<td>111</td>
+<td>115</td>
+<td>121</td>
+<td>147</td>
+<td>182</td>
+<td>192</td>
+<td>207</td>
+<td>214</td>
+<td>230</td>
+<td>252</td>
+<td>257</td>
+<td>275</td>
+<td>279</td>
+<td>321</td>
+<td>329</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">From #33 on, the AST count is one higher. That fits one <code class="notranslate">test_*</code> function that is not collected, or is skipped,<br>
+outside the "skipped" figure. This is inferred, not checked.</p>
+</li>
+<li>
+<p dir="auto"><strong>CI on <code class="notranslate">main</code> (measured, <code class="notranslate">gh run list</code>).</strong> There were 38 pushes to main. 33 runs succeeded, 5 were cancelled<br>
+when the next merge started a new run, and <strong>0 failed</strong>. The jobs are: unit tests on Python 3.11 and 3.13 (ruff<br>
+syntax errors block the job; undefined names are advisory "until the legacy exporter is cleaned up"); bpy-wheel<br>
+round trips on Python 3.11 (the Khronos glTF Validator was added for the glb gate in #33); Blender 4.5.14, 5.1.2<br>
+and 5.2.2 headless (build and validate the extension zip, install it into a clean profile, run the tests inside<br>
+Blender); and since #24, <strong>the export conformance suite on Blender 5.1.2, green in all 14 runs since it was<br>
+added</strong>.</p>
+</li>
+<li>
+<p dir="auto"><strong>The conformance suite (<code class="notranslate">tests/suite</code>), parsed with AST:</strong> 19 zones (Z00 document … Z18 stress). There are 133<br>
+literal <code class="notranslate">case()</code> calls (CORE 97, FIDELITY 17, ROADMAP 19) and 10 loop-generated case sites. At run time this<br>
+gives the documented 194 cases (the CI step name says 195). The most common checks are transforms (<code class="notranslate">xf</code>, 34),<br>
+XPath (22), mesh (18), roadmap (16) and textures (14). The suite exports with the checked-out <code class="notranslate">source/</code><br>
+(<code class="notranslate">--repo</code>), validates the file and fails on any CORE failure. A separate browser check (<code class="notranslate">x3d_browser_check.py</code>,<br>
+X_ITE) exists but is not in CI.</p>
+</li>
+<li>
+<p dir="auto"><strong>Not covered by CI (measured from the workflow and the PR text).</strong> Since #28 the PR authors have tested<br>
+locally on <strong>bpy 5.3.0</strong>, but the CI matrix tops out at <strong>5.2.2</strong>. Code paths that only exist in Blender 5.3<br>
+(native PointCloud splats from #10, <code class="notranslate">POINTCLOUD</code> handling) are therefore only tested on the authors' machines.<br>
+The fidelity rig (<code class="notranslate">tools/fidelity_rig</code>, Playwright + X_ITE + Babylon.js + glTF Validator) also runs outside CI.</p>
+</li>
+</ul>
+<h2 dir="auto">6. Insights</h2>
+<ol dir="auto">
+<li><strong>The add-on is two exporters and one importer wearing one operator.</strong> The legacy writer (<code class="notranslate">fw()</code> strings) and<br>
+the IR path coexist. The legacy function is also the router, which is why its closures still form the tallest cluster after<br>
+the 4.0 work.</li>
+<li><strong>The IR is real on export and thin on import.</strong> Export goes through dataclasses (<code class="notranslate">IRScene</code> … <code class="notranslate">IRHumanoid</code>).<br>
+Import builds Blender data straight from the parse tree, and the IR is used only for Inlines. Feature work on<br>
+import therefore lands in <code class="notranslate">import_x3d.py</code>: it grew 4,386 → 7,264 lines, and 2,878 of the 6,165 lines the fork<br>
+added are there.</li>
+<li><strong>Fidelity is defined by X_ITE.</strong> Colour space, light units, unlit handling and line colours (#26–#31) all<br>
+calibrate to how X_ITE draws, then carry that through glb to Babylon.js. This is a deliberate reference-renderer<br>
+choice. It is visible in the code as functions named after it (<code class="notranslate">_x_ite_spot_factor</code>, <code class="notranslate">fit_classic_lights</code>).</li>
+<li><strong>The tests grew 27×.</strong> Source lines grew 1.6× and test functions 27×. Almost every PR from #15 on adds bpy<br>
+tests, and several (#21, #22, #28, #32, #35) say in their text that the new tests fail on the previous main.</li>
+<li><strong>Reading wins over writing.</strong> Import touches 68 nodes and export 54. The gold caps in the sunburst show where<br>
+the fork era added reach: Geometry2D, CAD quads, Geo*, Switch, TwoSidedMaterial on the read side;<br>
+interpolators, HAnim, metadata, <code class="notranslate">GaussianSplats</code> and <code class="notranslate">Inline</code> on the write side.</li>
+<li><strong>17 of 37 components are untouched</strong>, including RigidBodyPhysics, NURBS, Followers, ParticleSystems,<br>
+VolumeRendering, Layering/Layout and the sensors. RigidBodyPhysics matters to your other work: the<br>
+x3d-physx-bridge writes RigidBodyCollection scenes, and no RigidBodyPhysics node is read here, so the physics<br>
+would not survive an import (inferred: not run).</li>
+</ol>
+<h2 dir="auto">7. Risks and recommendations</h2>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>risk (evidence)</th>
+<th>recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">export_x3d.export</code>: 1,620 lines, 29 closures sharing state (sum CC 310), still changing (#28–#31)</td>
+<td>Extract the 3.x writer from the 4.0 dispatcher. Move the closures to a module with an explicit writer context object, one PR per zone, and let the conformance suite be the safety net.</td>
+</tr>
+<tr>
+<td><code class="notranslate">importShape</code> CC 9 → 47, <code class="notranslate">load_web3d</code> 29 → 53, <code class="notranslate">extract_scene</code> 33 → 41</td>
+<td>Give each fidelity concern (colour space, unlit, light units) its own resolver called once per shape. Add a CI complexity gate on these three (e.g. <code class="notranslate">radon cc</code> or this repo's <code class="notranslate">tools/astlib.py</code>).</td>
+</tr>
+<tr>
+<td>ROUTE import is duck-typed by field name</td>
+<td>Check the node type of the routed source. Warn for spline/ease interpolators and for a <code class="notranslate">ScalarInterpolator</code> routed to <code class="notranslate">set_scale</code>. Add bpy tests for both.</td>
+</tr>
+<tr>
+<td>Blender 5.3 paths are tested only locally</td>
+<td>Add 5.3 to the Blender matrix once its headless build is cacheable, or mark the 5.3-only tests clearly as skipped in CI.</td>
+</tr>
+<tr>
+<td>The X_ITE browser check and the fidelity rig are outside CI</td>
+<td>Run <code class="notranslate">x3d_browser_check.py</code> as a nightly job with the pinned full-Chromium recipe from the x3d.poc smoke fix (headless-shell crashes on X_ITE's wasm pages, see the sibling note <code class="notranslate">smoke-ci-findings.md</code>).</td>
+</tr>
+<tr>
+<td>Round-trip asymmetry (25 read-only, 11 write-only nodes; Background skybox URLs not read)</td>
+<td>Publish the asymmetry as a table in the README. Reading <code class="notranslate">Background</code> URLs and <code class="notranslate">Fog</code> back is cheap and closes visible gaps.</td>
+</tr>
+<tr>
+<td>18 statically uncalled public functions</td>
+<td>Review them: delete them or wire them up. <code class="notranslate">emit_x3d33.export_ir_scene</code> and <code class="notranslate">splat_io.write_antimatter_splat</code> look like stubs.</td>
+</tr>
+<tr>
+<td>Branch hygiene (measured): 38 merged remote branches still exist on origin and fork; <code class="notranslate">origin/claude/project-thread-r9gvzh</code> has 1 unmerged commit (a glTF Validator script and measured scenes). Local <code class="notranslate">feat/x3d-test-suite</code> and <code class="notranslate">feat/export-suite-and-phantom-fix</code> are superseded (the AO fix landed independently in #16 as <code class="notranslate">35c4e63</code>). The local checkout is on <code class="notranslate">feat/export-suite-conformance</code>, 38 commits behind <code class="notranslate">origin/main</code>.</td>
+<td>Decide on r9gvzh and delete the merged branches. Neither was done here.</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h2 dir="auto">8. Method and limits</h2>
+<ul dir="auto">
+<li><code class="notranslate">tools/astlib.py</code> parses each module with <code class="notranslate">ast</code> and records classes (with Blender bases and <code class="notranslate">bl_*</code> and<br>
+<code class="notranslate">*Property</code> options), every <code class="notranslate">def</code> including methods and nested functions, imports (and whether they are lazy),<br>
+McCabe complexity (<code class="notranslate">if</code>/loops/<code class="notranslate">except</code>/comprehension <code class="notranslate">if</code>s/boolean operators/<code class="notranslate">match</code> cases), block nesting<br>
+depth (an <code class="notranslate">elif</code> counts at the depth of its <code class="notranslate">if</code>; an earlier version of this document counted each <code class="notranslate">elif</code> one level<br>
+deeper and quoted <code class="notranslate">load_web3d</code> at depth 11, the corrected value is 5), a position-free body hash, calls, X3D vocabulary and Blender vocabulary.</li>
+<li><strong>Call resolution is static and partial:</strong> bare names (local, nested, sibling-nested, imported), <code class="notranslate">self.</code>/<code class="notranslate">cls.</code><br>
+methods, <code class="notranslate">module.func</code> and <code class="notranslate">Class.method</code>. Dynamic dispatch (<code class="notranslate">geometry_importers[spec](...)</code>, callbacks,<br>
+<code class="notranslate">getattr</code>) is not drawn as edges. The dispatch table is reported separately.</li>
+<li><code class="notranslate">tools/era.py</code> re-runs the analysis on every first-parent commit of <code class="notranslate">origin/main</code> with <code class="notranslate">git show</code> (no checkout).<br>
+<code class="notranslate">tools/coverage.py</code> holds the read/write rules; <code class="notranslate">tools/scenes.py</code> builds the scenes.</li>
+<li>There are 557 <code class="notranslate">def</code> statements and 554 unique qualified names. <code class="notranslate">export.writeIndexedFaceSet.vertex_key</code> is<br>
+defined in several branches. The call graph uses unique names, the code city every <code class="notranslate">def</code>.</li>
+<li><strong>graphify</strong> was not found on this Mac: not on PATH, not in pip, pipx, uv, brew or global npm, not in<br>
+<code class="notranslate">~/Projects</code>, the Claude plugin folders or shell history. Nothing was installed. This teardown uses Python's<br>
+<code class="notranslate">ast</code> directly.</li>
+<li>Rendering was checked in the Claude app's built-in browser (Chromium, software WebGL). Cold loads took up to<br>
+about 35 s per scene with no slow network request (CPU-bound, probably font decoding and Text tessellation). A<br>
+warm reload of the timeline took 2.4 s. This was not measured on a real GPU.</li>
+</ul>
+<h3 dir="auto">Reproduce</h3>
+<div class="highlight highlight-source-shell" dir="auto"><pre class="notranslate"><span class="pl-c1">cd</span> <span class="pl-k">~</span>/Projects/x3d/work/x3d-blender-io-masterclass
+python3 tools/run_head.py head <span class="pl-k">&amp;&amp;</span> python3 tools/coverage.py head   <span class="pl-c"><span class="pl-c">#</span> needs snap/head (git archive origin/main source tests tools)</span>
+python3 tools/era.py            <span class="pl-c"><span class="pl-c">#</span> ~90 s, reads git objects only</span>
+python3 tools/scenes.py <span class="pl-k">&amp;&amp;</span> python3 tools/pr_table.py <span class="pl-k">&amp;&amp;</span> python3 tools/doc_tables.py <span class="pl-k">&amp;&amp;</span> python3 tools/build_doc.py
+<span class="pl-k">~</span>/Projects/x3d/x3d_mcp/.venv/bin/python <span class="pl-k">~</span>/Projects/x3d/work/x3d-physx-bridge/tools/validate_one.py scenes/<span class="pl-k">*</span>.x3d
+python3 -m http.server 8817 --bind 127.0.0.1   <span class="pl-c"><span class="pl-c">#</span> then open http://localhost:8817/</span></pre></div></main></body></html>
