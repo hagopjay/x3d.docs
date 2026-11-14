@@ -125,6 +125,24 @@ What is missing (`NODES.json`) [C]: NURBS 13 and VolumeRendering 13 are all `tod
 
 A name-level census of the 111 parseable demo scenes (86 base-only, 22 needing a `gap`, `todo` or `claimed` node, 1 with unknown names) is drill D-BAB-5; "base" is the union of six reader parts, not what any one page loads.
 
+### 4.1 Volume rendering: ten nodes, one lattice (x3d.loom batch 43)
+
+X_ITE 16.6.0 does not ray-cast a volume. It draws 400 view-aligned quads (200 at LOW, 600 at HIGH), spaced |dimensions| / 399 apart along the viewing direction, each reading the voxel texture and blended back to front with plain source-alpha blending and no correction for the spacing. So `alpha` means "per slice": 230 slices of alpha 0.02 give 1 - 0.98^230 = 0.990 opaque (D-BAB-9). The bridge marches one ray per pixel through the box on the same planes, front to back in float, and stops at 0.998 opaque. The style code is generated as WGSL per volume with every field written in, so a field change rebuilds that volume. Ten nodes pass in our reader and in X_ITE: `VolumeData`, `IsoSurfaceVolumeData`, `SegmentedVolumeData`, and the Opacity map, Shaded, ToneMapped, Cartoon, Boundary, Edge and Silhouette styles [C].
+
+| # | X_ITE 16.6.0 behaviour measured or read | What the bridge does | Test |
+|---|---|---|---|
+| 1 | A default OpacityMap always runs first and turns a voxel (r, g, b, a) into (r, r, r, r) | same, so a red RGBA voxel draws white and a green one draws nothing | `VolumeData` fixture |
+| 2 | A volume with no voxels, or one not loaded yet, is a white 1 x 1 x 1 volume that fills the box | same | `VolumeData` fixture, second volume |
+| 3 | A user OpacityMap reads its 2D table at (r, r), the diagonal, not at intensity against gradient | same: voxels 0, 85, 170, 255 pick red, green, blue, white | `OpacityMapVolumeStyle` fixture |
+| 4 | Shaded lighting defaults to FALSE; the headlight gives 204 face on, 144 at 45 degrees | same | `ShadedVolumeStyle` fixture |
+| 5 | ToneMapped: facing the light is the COOL colour, (37, 37, 218) at 45 degrees | same | `ToneMappedVolumeStyle` fixture |
+| 6 | Cartoon measures the angle from the eye to the sample, so faces turned to the eye are dropped; HSV mix, red to blue passes through (150, 0, 255) | same | `CartoonVolumeStyle` fixture |
+| 7 | IsoSurface draws every sample above the value as an opaque flat grey of the surface value (200 draws 128 at value 0.5) | same; `contourStepSize` left unused (X_ITE tests only the lowest contour) | `IsoSurfaceVolumeData` fixture |
+| 8 | A changed 2D transfer-function PixelTexture image is not taken after load | updates | `OpacityMapVolumeStyle` fixture, per-engine check |
+| 9 | Faint-alpha stacks come out lighter (8 bit blend per slice): 24 against 10, 28 against 14, 78 against 40 | float accumulation | `VolumeData`, `EdgeEnhancementVolumeStyle`, `BoundaryEnhancementVolumeStyle` fixtures, per-engine values |
+
+Instruments: x3d.loom batch 43 fixtures (151 assertions over ten nodes) run in our reader and in X_ITE 16.6.0 (WebGL2, Chromium 153.0.8010.12, SwiftShader), Babylon 9.32.0 WebGPU, 320 x 240; X_ITE behaviour read in its `VolumeRenderingComponent`. **[C]** for every row. The cause of row 9 (8 bit rounding on a white background) is **[S]**; the difference itself was measured. Gaps logged: no fog or clip planes, no per-pixel cutting by piercing shapes, no light cones, `shadows` and `phaseFunction` unused (X_ITE ignores them too), plane count fixed at 400. The same PR fixes the solid FALSE back-face gap recorded in section 13 (N-BAB-26): solid TRUE now culls, solid FALSE lights the back side, and a sweep of the 118 scene fixtures found and fixed two knock-ons [C, `_backface` fixtures]. `BlendedVolumeStyle`, `ComposedVolumeStyle` and `ProjectionVolumeStyle` are the next batch.
+
 ## 5. The playbook, merged: 50 traps, ranked
 
 The playbook is four files in `x3d.loom@162ab18:x3d.webgpu/`, each a new file that leaves the earlier ones unchanged: `BABYLON-BRIDGE-PLAYBOOK.md` v1 (7 Nov, 11,796 B: laws, ports #1 to #3, adapter pitfall, publishing), `-v2.md` (8 Nov, 9,044 B: a trap table by area from ports #3 to #9 and the Odyssey port), `-v3.md` (7,005 B: Demiurge and Dynasty) and `-v4.md` (1,304 B: the Hall, eight lines) [C, `wc -c`]. Merged and de-duplicated here: **50 traps (T01 to T44 in the table, T45 to T50 beside it); 13 first appear in v1, 19 in v2, 13 in v3, 5 in v4** [C, counted from the table below by script].
@@ -433,6 +451,21 @@ The visual rows: 16 pictures, IoU 0.90 to 1.00, PSNR 32.38 to 70.12 dB over the 
 
 Under the owner's 14 Nov ruling the scaffold splits its checks. Events, fields, silhouettes and geometry are hard: X_ITE is the oracle and a disagreement fails the node. Lit colour is a reference: each spec's `compare` bound is measured and receipted, may be widened with a written `lookNote`, and a quality choice (tone map, image-based light, `MeshPhysicalMaterial` extensions) is logged, not failed. None is on by default, because the classic Phong look reproduces and compares cheaply [C, design].
 
+### 14.4 Batch 1: lights, fog, textures, and how X_ITE's formulas were found
+
+Batch 1 (`x3d.loom@95eda37`) added PointLight, SpotLight, Fog, ImageTexture, PixelTexture, TextureTransform and TextureCoordinate with 8 scene fixtures; the tracker now reads drawn 23, reader-checked 29, reader 49, todo 122, upstream 37 [C, `driver.py status`]. three.js has no per-formula switches, so each formula was read in X_ITE 16.6.0's own source and patched into the shader chunks once (`patchThreeShaders`; a replace that matches nothing throws, so a three.js upgrade fails loudly).
+
+| # | what | X_ITE 16.6.0 | three.js r187 as shipped | result against X_ITE | grade |
+|---|---|---|---|---|---|
+| 1 | light radius | hard edge, flat inside | window `(1 - (d / r)^4)^2` | step at the radius; PointLight 36.3 to 51.2 dB | C |
+| 2 | spot cone | full inside beamWidth, linear ramp in the angle | smoothstep over cosines | SpotLight 63.1 dB, 2 pictures | C |
+| 3 | fog | distance to the eye; LINEAR `max(range - d, 0) / range`, EXPONENTIAL `exp(-d / max(range - d, 0.001))` | view depth, smoothstep, `exp(-density^2 d^2)` | Fog 46.6 to 53.4 dB, 3 pictures | C |
+| 4 | attenuation | `1 / max(a0 + a1 d + a2 d^2, 1)` | `d^-decay`, no constant term | exact for a1 = 0 or a2 = 0 after normalising by a0 (`decay` carries b2 or -b1): 59.2 dB; both terms at once is a fit | C |
+| 5 | Sphere, Cylinder, Cone | u = 0 at -Z growing toward -X; planar cap images | u = 0 at -X (Sphere) or +Z (Cylinder); transposed caps | textured primitives 24.0 to 39.6 dB after the turn and the cap rewrite | C |
+| 6 | TextureTransform | matrix `-C S R C T` as a column matrix | (no counterpart, the matrix is ours) | 50.1 dB; the Transform order `T C R S -C` gives 21.3 dB; 4 sign variants tried | C |
+
+Rig for every number: Chromium 153.0.8010.12, SwiftShader, 320 x 240, X_ITE 16.6.0 with its notifications off (the "Loading done" toast had drawn 4000 extra pixels into a picture), three.js r187. A first read of the X_ITE source is not proof: the TextureTransform product looked like the Transform order and was 29 dB wrong until the variants were measured. The 30 compared pictures of both batches: IoU 0.90 to 1.00, PSNR 32.4 to 70.1 dB over the 24 that differ (median 50.1), 6 identical [C].
+
 ## Heuristics
 
 | ID | Rule (imperative, at most 30 words) | Grade | Evidence | Instrument |
@@ -447,15 +480,22 @@ Under the owner's 14 Nov ruling the scaffold splits its checks. Events, fields, 
 | H-BAB-8 | On every public WebGPU page show the adapter, which request answered and, when null, the flag tip with its safety cost. | L | one gen-9 laptop got no adapter until the flag was set | playbook v1; `docs/index.html` |
 | H-BAB-9 | Make no speed claim without a named real GPU, driver, three runs and a receipt that fits the schema. | C | 0 timing receipts for any bridge body; 1 file in `bench/receipts/` | `ls`, `BENCHMARK.md` section 9 |
 | H-BAB-10 | Where a playbook line and the code disagree, the code wins; record both and correct the playbook by a new version. | C | v1 and v2 say "convert authored sRGB"; `body.js` line 303 assigns the colour as authored | `brain/body.js` read |
+| H-BAB-16 | Ask what the renderer samples, not what the spec says: X_ITE draws a volume as 400 slices with no spacing correction, so copy its lattice before comparing pixels. | C | a 4-level ramp, a block and a cartoon band match within 2 levels | x3d.loom batch 43 fixtures; X_ITE 16.6.0 source read |
+| H-BAB-17 | Test a volume style against a second volume with no voxels: X_ITE draws the empty one as a white box. | C | white box measured | `VolumeData` fixture |
+| H-BAB-18 | Check the default opacity map first: it keeps only the red channel, so a red RGBA voxel is white and a green one is invisible. | C | (255, 0, 0, 255) draws white | `VolumeData` fixture |
+| H-BAB-19 | Where two engines blend differently, write each engine's own value into the test and say which one is more accurate; never loosen the tolerance. | L | 24 against 10, 28 against 14, 78 against 40 | x3d.loom batch 43 fixtures |
 | H-BAB-11 | Copy the reference engine's tessellation rule so segment counts match; follow the standard for the maths. A count is a convention, a weight is a definition. | C | NURBS point lists agree in 32 of 32 to 55 of 55 steps; X_ITE weights give radius 1.24 | `X_ITE 16.6.0`, SwiftShader, `x3d.loom@4887a98` |
 | H-BAB-12 | When the reference throws or hangs on an invalid input, run that step in your engine only and say so in the gap log; never let a test depend on a hung page. | C | `set_fraction` into an order 4, three point curve stops X_ITE answering | `X_ITE 16.6.0`, Chromium 153.0.8010.12 |
 | H-BAB-13 | Prefer the exact derivative to an averaged one where the standard gives it; bound the difference from the reference in the spec instead of matching it. | C | patch normals differ 0.21 and 0.28; spec bound 0.3 | `X_ITE 16.6.0`, 12 x 12 and 8 x 8 cells |
 | H-BAB-14 | When a node's geometry depends on another node's field, declare that field to the kit (`spec.refs`) and test a live change by event. | C | a moved control point redraws the curve only through `refs` | `x3d.loom@4887a98:x3d.webgpu/bridge/src/body-br.js` |
 | H-BAB-15 | Check a schema failure against the content model before editing the fixture: some 4.0 nodes cannot be written validly as specified. Record the patch in the receipt. | C | NurbsSet is a sequence, not a choice; Contour2D has no parent in the model | `xmllint`, `x3d_mcp` `x3d-4.0.xsd`, driver spec keys `xsdChoice` and `xsdAllow` |
-| H-BAB-16 | Share the reader and write only the body: read the reader files at bundle time instead of copying them, so a reader fix reaches every engine. | C | three.js body 284 lines against 1671 for the Babylon one; no file under `x3d.webgpu/` changed | `x3d.loom@108a282`, `wc -l` |
-| H-BAB-17 | Bind the first Viewpoint at load in any new body and test the framing before the lighting. | C | IoU 0.34 to 0.64 before, 0.99 to 1.00 after, on the same 10 fixtures | `X_ITE 16.6.0`, SwiftShader, three.js r187 |
-| H-BAB-18 | Make X_ITE hard for events, fields and silhouettes, and a bounded reference for lit colour; write the reason when a quality choice leaves it. | C | scaffold split; owner's ruling of 14 Nov | `tools/run-tests.js`, `x3d.loom@108a282` |
-| H-BAB-19 | Convert light units and the Phong exponent between engines before judging a look: three.js needs a factor PI on lights and about four times the exponent. | C | Sphere 28.22 to 36.98 dB, Box 63.84 to 70.12 dB | `X_ITE 16.6.0`, three.js r187, SwiftShader |
+| H-BAB-20 | Share the reader and write only the body: read the reader files at bundle time instead of copying them, so a reader fix reaches every engine. | C | three.js body 284 lines against 1671 for the Babylon one; no file under `x3d.webgpu/` changed | `x3d.loom@108a282`, `wc -l` |
+| H-BAB-21 | Bind the first Viewpoint at load in any new body and test the framing before the lighting. | C | IoU 0.34 to 0.64 before, 0.99 to 1.00 after, on the same 10 fixtures | `X_ITE 16.6.0`, SwiftShader, three.js r187 |
+| H-BAB-22 | Make X_ITE hard for events, fields and silhouettes, and a bounded reference for lit colour; write the reason when a quality choice leaves it. | C | scaffold split; owner's ruling of 14 Nov | `tools/run-tests.js`, `x3d.loom@108a282` |
+| H-BAB-23 | Convert light units and the Phong exponent between engines before judging a look: three.js needs a factor PI on lights and about four times the exponent. | C | Sphere 28.22 to 36.98 dB, Box 63.84 to 70.12 dB | `X_ITE 16.6.0`, three.js r187, SwiftShader |
+| H-BAB-24 | Read the reference engine's formula in its source before tuning a look, patch your engine's shader chunk once with it, and make the patch throw when the engine's text moves. | C | six formulas, 36 to 63 dB; a moved chunk would fail at load | `X_ITE 16.6.0` source, three.js r187, SwiftShader |
+| H-BAB-25 | When a formula's order or sign is uncertain, render every variant against the reference in one run and keep the one that wins by the widest margin. | C | TextureTransform: 50.1 dB against 21.2 to 25.7 dB for the other seven | `X_ITE 16.6.0`, three.js r187, 8 variants over two runs, SwiftShader |
+| H-BAB-26 | Turn the reference engine's own notifications and timing overlays off before taking a picture. | C | a "Loading done" toast added about 4000 differing pixels | `X_ITE 16.6.0` `setBrowserOption`, 320 x 240 |
 
 ## Drills
 
@@ -510,6 +550,12 @@ for cs in etree.parse(sys.argv[1]).iter('ComposedShader'):
 - **Answer:** 111 files parse (the two `facade.x3d` do not); 86 use only `base` or extension names, 22 use at least one `gap`, `todo` or `claimed` node (CoordinateInterpolator 9, LineSet 8, PointProperties 6, Geo nodes 2 each), 1 uses unknown names. "Base" is the union of six reader parts: a page loads only its own bundle, and each page's census must be run on its own `PARTS` list (the hall extension alone adds 8).
 - **Checked:** 2026-11-14 lxml, `x3d.demo@d10b457`, `x3d.loom@162ab18`
 
+### D-BAB-9 Opacity of a stack of slices
+- **Level:** L1
+- **Task:** X_ITE blends 400 slices with source-alpha and no spacing correction. A ray crosses 230 slices of alpha 0.02. How opaque is the pixel, and what would 200 and 600 slices (LOW and HIGH) give?
+- **Verify:** `1 - (1 - a) ** n` in Python.
+- **Answer:** 0.9904 for 230; for a full 200, 400 and 600 slices 0.9824, 0.9997 and 0.999995. The same alpha is thicker at HIGH, so alpha is "per slice" and a quality setting changes the picture.
+- **Checked:** 2026-11-14 python3 -I
 ### D-BAB-6 Check the weights: radius 1.00, not 1.24
 - **Level:** L2
 - **Task:** Load `src/nurbs.js` in plain Node, build the weighted quarter circle (control points `1 0 0, 1 1 0, 0 1 0`, order 3, knots `0 0 0 1 1 1`, weights `1, 0.7071, 1`) and the same curve unweighted, and report the largest radius error of the weighted one and both midpoints. Then say which of the two midpoints X_ITE's NurbsPositionInterpolator returns.
@@ -540,7 +586,7 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 - **Answer:** cells = floor(8 x scale) times floor(4 x scale), two triangles per cell: 64, 16, 256 and 4 (floor(2.4) x floor(1.2) = 2 x 1 cells). B leaves the set and returns to its own 6 x 6 x 2 = 72 triangles. The spec records 64, 16, 256, 4 and 72; both engines agree.
 - **Checked:** 2026-11-14 `x3d.loom@4887a98`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, Babylon 9.32.0
 
-### D-BAB-9 Break the first-Viewpoint rule and read the picture
+### D-BAB-10 Break the first-Viewpoint rule and read the picture
 - **Level:** L2
 - **Task:** In `x3d.threejs/bridge/src/body-three.js` delete the lines in `setWorld` that bind the first Viewpoint, run the Box fixture, and predict the silhouette IoU before you look.
 - **Verify:** `python3 tools/driver.py check Box` from `x3d.threejs/bridge`, with X_ITE 16.6.0 and three.js r187 in place; restore the lines afterwards.
@@ -556,7 +602,7 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 - **Behaviour was never compared [L].** No event traces, pointer tapes or audio pass; fixtures compare ROUTE chains in two engines, not whole pages. The noise floor of X_ITE against itself (TBD-13) is unmeasured, so no dB threshold here is a standard.
 - **Carried, not re-checked [S]:** law-40 coverage by page, the Gobbler review defect, all effort figures in `PATHS.md` and `BABYLON.md` (person-weeks are guesses), the 1,396 `gl.*` call sites. Private run logs, device owners' details and unpublished material are left out on purpose.
 - **NURBS section read at the batch-44 branch, not main [L]:** `x3d.loom@4887a98` carried the pull request when written; counts are from the batch run of 2026-11-14 (our reader and X_ITE 16.6.0 on SwiftShader). Not covered: real GPU timing, GeoCoordinate control points, NurbsTextureCoordinate, trimming, picking of NURBS lines. The chord reading of the Extrusion Y axis is Likely: read from memory of 19775-1, not re-checked against the text.
-- **The three.js scaffold is 10 scene fixtures, not a port [L].** 15 of 260 nodes are drawn; PointLight, SpotLight, Fog, most textures, Billboard, ClipPlane, picking and pointer sensors are not. All pixel numbers are SwiftShader at 320 x 240; no timing, no real GPU, no WebGPU renderer. The person-day figures in `ESTIMATE.md` are guesses [S]; the item list of what three.js gives and lacks is read from its documentation, not run [L].
+- **The three.js bridge is 18 scene fixtures, not a port [L].** 23 of 260 nodes are drawn; MultiTexture, movie and cube-map textures, Billboard, ClipPlane, picking and pointer sensors are not, and `global=FALSE` light scope is not implemented. All pixel numbers are SwiftShader at 320 x 240; no timing, no real GPU, no WebGPU renderer. The person-day figures in `ESTIMATE.md` are guesses [S]; the item list of what three.js gives and lacks is read from its documentation, not run [L].
 
 ## Numbers register
 
@@ -581,6 +627,9 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 | N-BAB-17 | Chirp; Cloud; Gobbler 3; Demiurge; Dynasty; Hall | 24.87 to 25.36; 19.24 to 19.40 (21.01 to 24.96 masked); 14.60 to 19.66; 7.18 to 13.26; 29.0 to 37.8; 17.5 to 25.3 dB | L | `X_ITE 16.5.1`, SwiftShader | x3d.loom@162ab18:runs/webgpu-{chirp,cloud,gobbler,demiurge,dynasty,hall}-*/ |
 | N-BAB-18 | corpus name census | 111 files: 86 base-only, 22 need gap or todo or claimed, 1 unknown | C | lxml, `NODES.json` | x3d.demo@d10b457:docs/demos (D-BAB-5) |
 | N-BAB-19 | real-GPU timing receipts for any bridge body | 0; `bench/receipts/` holds 1 file (the G1 adapter probe) | C | `ls` | x3d.loom@162ab18:x3d.webgpu/bench/receipts/ |
+| N-BAB-27 | X_ITE volume slice count | 400 at MEDIUM (200 LOW, 600 HIGH); spacing \|dimensions\| / 399 | C | X_ITE 16.6.0, `VolumeRenderingComponent` read | x_ite 16.6.0 npm package, `VolumeRenderingComponent.js` (read) |
+| N-BAB-28 | batch 43 fixture assertions | 151 over 10 nodes (19, 30, 14, 8, 18, 11, 10, 11, 11, 19) | C | x3d.loom batch 43 receipts; X_ITE 16.6.0, Chromium 153, SwiftShader | x3d.loom `receipts/` (batch 43) |
+| N-BAB-29 | faint-alpha stack, bridge against X_ITE | 10 against 24 plain stack; 14 against 28 Edge; 40 against 78 Boundary | C | x3d.loom batch 43 fixtures; X_ITE 16.6.0 | `VolumeData`, `EdgeEnhancementVolumeStyle`, `BoundaryEnhancementVolumeStyle` fixtures |
 | N-BAB-20 | batch 44 nodes bridged; steps passed, ours and X_ITE | 10 nodes; NurbsCurve 32 and 32, NurbsCurve2D 36 and 36, ContourPolyline2D 14 and 14, Contour2D 22 and 22, NurbsPositionInterpolator 55 and 52, NurbsOrientationInterpolator 51 and 48, NurbsSurfaceInterpolator 52 and 51, NurbsPatchSurface 35 and 35, NurbsSet 47 and 46, NurbsSwungSurface 18 and 18 | C | `driver.py batch -n 10 --close`, X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader | x3d.loom@4887a98:x3d.webgpu/bridge/BATCH-44.md |
 | N-BAB-21 | weighted quarter circle radius | 1.00 to 2.2e-16 here; up to 1.24 in X_ITE 16.6.0 | C | Node (D-BAB-6); X_ITE 16.6.0 SwiftShader | x3d.loom@4887a98:x3d.webgpu/bridge/fixtures/NurbsCurve.test.json |
 | N-BAB-22 | weighted midpoint of the quarter circle | (0.7071, 0.7071, 0) here; (0.75, 0.75, 0) in X_ITE 16.6.0 | C | Node (D-BAB-6); X_ITE SAI | x3d.loom@4887a98:x3d.webgpu/bridge/fixtures/NurbsPositionInterpolator.test.json |
@@ -588,13 +637,19 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 | N-BAB-24 | swung surface frame difference | 1.2e-7 on an even spine; up to 0.017 on a 2.2-unit vase; spec bound 0.02 | C | X_ITE 16.6.0 private getVertices, SwiftShader | x3d.loom@4887a98:x3d.webgpu/bridge/fixtures/NurbsSwungSurface.test.json |
 | N-BAB-25 | NURBS visual compare rows, batch 44 | 6 rows; iou 0.85 to 0.99; mad 1.64 to 3.74; PSNR 23.38 to 37.12 dB (320 x 240) | C | X_ITE 16.6.0, SwiftShader, parsed from the report | x3d.loom@4887a98:x3d.webgpu/bridge/BATCH-44.md |
 | N-BAB-26 | solid FALSE back face gap | 9312 of 19012 pixels drawn in a two-quad IndexedFaceSet fixture | C | Babylon 9.32.0 body vs X_ITE 16.6.0, SwiftShader | x3d.loom@4887a98:x3d.webgpu/bridge/fixtures/NurbsPatchSurface.test.json |
-| N-BAB-27 | three.js bridge status of the 260 nodes | drawn 15, reader-checked 29, reader 50, todo 119, upstream 47 | C | `driver.py status` | x3d.loom@108a282:x3d.threejs/bridge/NODES.json |
-| N-BAB-28 | lines: reader, sai, kit, 150 node files; Babylon body files; three.js body | 388, 319, 648, 5882; 518 + 234 + 919 = 1671; 284 | C | `wc -l` | x3d.loom@108a282:x3d.webgpu/ and x3d.threejs/bridge/src/body-three.js |
-| N-BAB-29 | node hooks left to port | 15 geometry (15 plain data), 61 build (43 call only Body), 61 changed; 19 files name the engine | L | regex over `src/nodes/*.js` | x3d.loom@108a282:x3d.webgpu/bridge/src/nodes |
-| N-BAB-30 | three.js visual rows | 16 pictures; IoU 0.90 to 1.00; PSNR 32.38 to 70.12 dB over 11, median 42.95; 5 identical (2 empty) | C | X_ITE 16.6.0, three.js r187, Chromium 153.0.8010.12, SwiftShader, 320 x 240 | x3d.loom@108a282:x3d.threejs/bridge/receipts/ |
-| N-BAB-31 | first Viewpoint bound at load, IoU before and after | 0.34 to 0.64 on 10 of 10; 0.99 to 1.00 on 9 of 10, Material 0.90 | C | same rig, two runs of the 10 fixtures | x3d.loom@108a282:x3d.threejs/bridge/fixtures/ |
-| N-BAB-32 | Phong exponent factor 4 | Sphere 28.22 to 36.98 dB; Box 63.84 to 70.12 dB | C | same rig | x3d.loom@108a282:x3d.threejs/bridge/src/body-three.js |
-| N-BAB-33 | event fixtures through the three.js bundle | 30 run; 29 pass in ours and X_ITE; ColorDamper differs by a documented X_ITE hue-seam defect | C | X_ITE 16.6.0, Chromium 153.0.8010.12 | x3d.loom@108a282:x3d.threejs/bridge/receipts/ |
+| N-BAB-30 | three.js bridge status of the 260 nodes | drawn 15, reader-checked 29, reader 50, todo 119, upstream 47 | C | `driver.py status` | x3d.loom@108a282:x3d.threejs/bridge/NODES.json |
+| N-BAB-31 | lines: reader, sai, kit, 150 node files; Babylon body files; three.js body | 388, 319, 648, 5882; 518 + 234 + 919 = 1671; 284 | C | `wc -l` | x3d.loom@108a282:x3d.webgpu/ and x3d.threejs/bridge/src/body-three.js |
+| N-BAB-32 | node hooks left to port | 15 geometry (15 plain data), 61 build (43 call only Body), 61 changed; 19 files name the engine | L | regex over `src/nodes/*.js` | x3d.loom@108a282:x3d.webgpu/bridge/src/nodes |
+| N-BAB-33 | three.js visual rows | 16 pictures; IoU 0.90 to 1.00; PSNR 32.38 to 70.12 dB over 11, median 42.95; 5 identical (2 empty) | C | X_ITE 16.6.0, three.js r187, Chromium 153.0.8010.12, SwiftShader, 320 x 240 | x3d.loom@108a282:x3d.threejs/bridge/receipts/ |
+| N-BAB-34 | first Viewpoint bound at load, IoU before and after | 0.34 to 0.64 on 10 of 10; 0.99 to 1.00 on 9 of 10, Material 0.90 | C | same rig, two runs of the 10 fixtures | x3d.loom@108a282:x3d.threejs/bridge/fixtures/ |
+| N-BAB-35 | Phong exponent factor 4 | Sphere 28.22 to 36.98 dB; Box 63.84 to 70.12 dB | C | same rig | x3d.loom@108a282:x3d.threejs/bridge/src/body-three.js |
+| N-BAB-36 | event fixtures through the three.js bundle | 30 run; 29 pass in ours and X_ITE; ColorDamper differs by a documented X_ITE hue-seam defect | C | X_ITE 16.6.0, Chromium 153.0.8010.12 | x3d.loom@108a282:x3d.threejs/bridge/receipts/ |
+| N-BAB-37 | three.js bridge status, batch 1 | drawn 23, reader-checked 29, reader 49, todo 122, upstream 37 | C | `driver.py status` | x3d.loom@95eda37:x3d.threejs/bridge/NODES.json |
+| N-BAB-38 | batch 1 lighting rows against X_ITE | SpotLight 63.14 and 63.13 dB; PointLight 36.61, 36.30, 51.15; attenuation 59.17 | C | X_ITE 16.6.0, three.js r187, SwiftShader, 320 x 240 | x3d.loom@95eda37:x3d.threejs/bridge/receipts/ |
+| N-BAB-39 | Fog rows | 52.00, 53.41, 46.55 dB; IoU 0.99 | C | same rig | x3d.loom@95eda37:x3d.threejs/bridge/receipts/Fog.json |
+| N-BAB-40 | texture rows | ImageTexture 99 dB (identical); PixelTexture 45.66; TextureTransform 50.12 and 50.21; textured primitives 39.58 | C | same rig | x3d.loom@95eda37:x3d.threejs/bridge/receipts/ |
+| N-BAB-41 | TextureTransform order and sign, 4 variants in the Transform order and 4 in the column order | 50.12 (-C S R C T, rotation +, translation +); 21.34, 25.72, 21.39 for the other signs; 21.30 for T C R S -C | C | same rig, one run | x3d.loom@95eda37:x3d.threejs/bridge/src/body-three.js |
+| N-BAB-42 | all compared pictures of the two batches | 30 pictures; IoU 0.90 to 1.00; PSNR 32.38 to 70.12 dB over 24, median 50.13; 6 identical | C | same rig | x3d.loom@95eda37:x3d.threejs/bridge/receipts/ |
 
 ## Sources and provenance
 
@@ -602,5 +657,6 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 - `x3d.demo@d10b457`: `CHANGELOG.md` (append-only rule), `docs/index.html` (blocklist text), `docs/demos/SOURCES.md`, every `.x3d` for D-BAB-5. `x3d.docs@f172f67`: `docs/vendor/x_ite/x_ite.min.js` (grep, section 2); chapters [06](06-xite-the-oracle.md) and [02](02-loom-laws.md); [the Loom masterclass](../x3d.loom/MASTERCLASS.md) for the AST view of the same repository, not duplicated here.
 - `x3d.loom@4887a98` (batch 44, read and run 2026-11-14): `x3d.webgpu/bridge/{BATCH-44.md,WHY-nurbs-batch.md,knowledge/NURBS-FINDINGS.md,src/nurbs.js,src/nodes/Nurbs*.js,fixtures/Nurbs*,receipts/Nurbs*}`.
 - `x3d.loom@108a282` (scaffold, read and run 2026-11-14): `x3d.threejs/bridge/{README.md,ESTIMATE.md,src/body-three.js,tools/*,fixtures/*,receipts/*,NODES.json}`; the Babylon files it reads at bundle time are those of `x3d.loom@ed1bed8`.
+- `x3d.loom@95eda37` (batch 1, read and run 2026-11-14): `x3d.threejs/bridge/{src/body-three.js,fixtures/{PointLight,PointLightAttenuation,SpotLight,Fog,PixelTexture,ImageTexture,TextureTransform,TexturedPrimitives}.*,receipts/*}`; X_ITE formulas read in `x_ite.js` 16.6.0 (`Fog2.glsl`, `TextureTransform`, `QuadSphereOptions`, `CylinderOptions`).
 - Private-source gap: a private primer of 8 November and private notes on each port were pointers only. Figures here were re-derived from the repository or read from a named receipt; the rest are graded [S] or [L] and labelled carried. No private document, link, identifier or chat wording is reproduced.
 - Siblings: [01](01-the-tether.md), [03](03-validator-and-gates.md), [04](04-mcp-for-agents.md), [07](07-xray.md), [09](09-castle-engine.md), [11](11-gltf-usd-khronos.md), [13](13-physics.md).

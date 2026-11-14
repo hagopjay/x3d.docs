@@ -3,14 +3,14 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-223 distinct instrument strings across the numbers registers.
+228 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `same` | 13 | 05, 06, 07, 09, 10, 11, 12 | C:12 L:1 |
+| `same rig` | 10 | 08, 09, 13 | C:10 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
-| `same rig` | 7 | 08, 09, 13 | C:7 |
 | `learn_lib.py count` | 6 | 14 | C:6 |
 | `bpy 5.3.0` | 5 | 10, 11 | C:2 L:3 |
 | `Khronos glTF-Validator 2.0.0-dev.3.10` | 4 | 09, 10, 11 | C:4 |
@@ -19,11 +19,11 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `read, not re-run` | 4 | 06, 07 | L:4 |
 | `Python 3, 2026-11-14` | 3 | 12 | C:3 |
 | `count` | 3 | 02 | C:3 |
+| `driver.py status` | 3 | 08 | C:3 |
 | `inline Python` | 3 | 09 | C:3 |
 | `x3d_mcp fork b4efcd3, seed 20261029` | 3 | 01, 03 | C:3 |
 | `Chromium 153, SwiftShader (carried)` | 2 | 11, 12 | L:2 |
 | `X_ITE 16.7.0, Chromium 153, SwiftShader, 320 x 240` | 2 | 01 | C:2 |
-| `driver.py status` | 2 | 08 | C:2 |
 | `file size, 2026-11-14` | 2 | 12 | C:2 |
 | `marker scan, X_ITE 16.7.0` | 2 | 06 | C:2 |
 | `numpy, 2026-11-14` | 2 | 12 | C:2 |
@@ -73,7 +73,9 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `X_ITE 16.6.0, 640 x 360, SwiftShader` | 1 | 08 | L:1 |
 | `X_ITE 16.6.0, Chromium 153.0.8010.12` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0, SwiftShader, parsed from the report` | 1 | 08 | C:1 |
+| `X_ITE 16.6.0, VolumeRenderingComponent read` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0, three.js r187, Chromium 153.0.8010.12, SwiftShader, 320 x 240` | 1 | 08 | C:1 |
+| `X_ITE 16.6.0, three.js r187, SwiftShader, 320 x 240` | 1 | 08 | C:1 |
 | `X_ITE 16.7.0 (and 16.4.3, 16.5.1, 16.6.1, 16.7.1), Chromium 153, SwiftShader` | 1 | 06 | C:1 |
 | `X_ITE 16.7.0, browser.supportedComponents` | 1 | 06 | C:1 |
 | `X_ITE 16.7.0; x3d_mcp fork b4efcd3` | 1 | 06 | C:1 |
@@ -87,7 +89,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `arithmetic on add_light.glsl` | 1 | 09 | C:1 |
 | `as recorded, not re-run` | 1 | 02 | L:1 |
 | `as reported, not re-checked` | 1 | 01 | L:1 |
-| `batch 41 SingleAxisHingeJoint probe; X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 13 | C:1 |
+| `batch 42 SingleAxisHingeJoint probe; X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 13 | C:1 |
 | `bpy 5.3.0 Cycles CPU 16 spp, x3d_mcp fork b4efcd3` | 1 | 10 | C:1 |
 | `bpy 5.3.0, Khronos glTF-Validator 2.0.0-dev.3.10, carried` | 1 | 11 | L:1 |
 | `carried from a private note` | 1 | 09 | S:1 |
@@ -175,6 +177,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `row count` | 1 | 09 | C:1 |
 | `rule in section 3` | 1 | 10 | C:1 |
 | `run of an X3D33 export` | 1 | 10 | C:1 |
+| `same rig, one run` | 1 | 08 | C:1 |
 | `same rig, two runs of the 10 fixtures` | 1 | 08 | C:1 |
 | `same rig, wall-clock wait` | 1 | 13 | C:1 |
 | `same validator, receipt` | 1 | 09 | C:1 |
@@ -202,6 +205,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d-blender-io@ab99988 catalogue` | 1 | 03 | C:1 |
 | `x3d.demo@d10b457 directory read` | 1 | 05 | C:1 |
 | `x3d.loom PR #56, X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 13 | C:1 |
+| `x3d.loom batch 43 fixtures; X_ITE 16.6.0` | 1 | 08 | C:1 |
+| `x3d.loom batch 43 receipts; X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 08 | C:1 |
 | `x3d.loom@162ab18 kit/loom physics` | 1 | 13 | C:1 |
 | `x3d.loom@162ab18 kit/tests/test_gates.py` | 1 | 13 | C:1 |
 | `x3d.loom@162ab18 physx_controls.py` | 1 | 13 | C:1 |

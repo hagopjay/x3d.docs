@@ -22,7 +22,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a class="cur" href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="C-numbers-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/C-numbers-ledger.md">GitHub</a></div><h1>Appendix C. Numbers ledger</h1>
 <p>Merged from the <em>Numbers register</em> of every chapter by <code>tools-shared/build_learn.py</code>. Edit the chapter, not this file.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>312 numbers</strong> from 14 chapters. Grades: <span class="g C" title="Confirmed">C</span> 268 · <span class="g L" title="Likely">L</span> 40 · <span class="g S" title="Suspected">S</span> 4. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
+<p><strong>321 numbers</strong> from 14 chapters. Grades: <span class="g C" title="Confirmed">C</span> 277 · <span class="g L" title="Likely">L</span> 40 · <span class="g S" title="Suspected">S</span> 4. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
 <table>
 <thead>
 <tr>
@@ -1585,6 +1585,33 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>x3d.loom@162ab18:x3d.webgpu/bench/receipts/</td>
 </tr>
 <tr>
+<td>N-BAB-27</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>X_ITE volume slice count</td>
+<td>400 at MEDIUM (200 LOW, 600 HIGH); spacing |dimensions| / 399</td>
+<td>C</td>
+<td>X_ITE 16.6.0, <code>VolumeRenderingComponent</code> read</td>
+<td>x_ite 16.6.0 npm package, <code>VolumeRenderingComponent.js</code> (read)</td>
+</tr>
+<tr>
+<td>N-BAB-28</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>batch 43 fixture assertions</td>
+<td>151 over 10 nodes (19, 30, 14, 8, 18, 11, 10, 11, 11, 19)</td>
+<td>C</td>
+<td>x3d.loom batch 43 receipts; X_ITE 16.6.0, Chromium 153, SwiftShader</td>
+<td>x3d.loom <code>receipts/</code> (batch 43)</td>
+</tr>
+<tr>
+<td>N-BAB-29</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>faint-alpha stack, bridge against X_ITE</td>
+<td>10 against 24 plain stack; 14 against 28 Edge; 40 against 78 Boundary</td>
+<td>C</td>
+<td>x3d.loom batch 43 fixtures; X_ITE 16.6.0</td>
+<td><code>VolumeData</code>, <code>EdgeEnhancementVolumeStyle</code>, <code>BoundaryEnhancementVolumeStyle</code> fixtures</td>
+</tr>
+<tr>
 <td>N-BAB-20</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>batch 44 nodes bridged; steps passed, ours and X_ITE</td>
@@ -1648,7 +1675,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>x3d.loom@4887a98:x3d.webgpu/bridge/fixtures/NurbsPatchSurface.test.json</td>
 </tr>
 <tr>
-<td>N-BAB-27</td>
+<td>N-BAB-30</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>three.js bridge status of the 260 nodes</td>
 <td>drawn 15, reader-checked 29, reader 50, todo 119, upstream 47</td>
@@ -1657,7 +1684,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>x3d.loom@108a282:x3d.threejs/bridge/NODES.json</td>
 </tr>
 <tr>
-<td>N-BAB-28</td>
+<td>N-BAB-31</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>lines: reader, sai, kit, 150 node files; Babylon body files; three.js body</td>
 <td>388, 319, 648, 5882; 518 + 234 + 919 = 1671; 284</td>
@@ -1666,7 +1693,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>x3d.loom@108a282:x3d.webgpu/ and x3d.threejs/bridge/src/body-three.js</td>
 </tr>
 <tr>
-<td>N-BAB-29</td>
+<td>N-BAB-32</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>node hooks left to port</td>
 <td>15 geometry (15 plain data), 61 build (43 call only Body), 61 changed; 19 files name the engine</td>
@@ -1675,7 +1702,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>x3d.loom@108a282:x3d.webgpu/bridge/src/nodes</td>
 </tr>
 <tr>
-<td>N-BAB-30</td>
+<td>N-BAB-33</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>three.js visual rows</td>
 <td>16 pictures; IoU 0.90 to 1.00; PSNR 32.38 to 70.12 dB over 11, median 42.95; 5 identical (2 empty)</td>
@@ -1684,7 +1711,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>x3d.loom@108a282:x3d.threejs/bridge/receipts/</td>
 </tr>
 <tr>
-<td>N-BAB-31</td>
+<td>N-BAB-34</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>first Viewpoint bound at load, IoU before and after</td>
 <td>0.34 to 0.64 on 10 of 10; 0.99 to 1.00 on 9 of 10, Material 0.90</td>
@@ -1693,7 +1720,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>x3d.loom@108a282:x3d.threejs/bridge/fixtures/</td>
 </tr>
 <tr>
-<td>N-BAB-32</td>
+<td>N-BAB-35</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>Phong exponent factor 4</td>
 <td>Sphere 28.22 to 36.98 dB; Box 63.84 to 70.12 dB</td>
@@ -1702,13 +1729,67 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>x3d.loom@108a282:x3d.threejs/bridge/src/body-three.js</td>
 </tr>
 <tr>
-<td>N-BAB-33</td>
+<td>N-BAB-36</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>event fixtures through the three.js bundle</td>
 <td>30 run; 29 pass in ours and X_ITE; ColorDamper differs by a documented X_ITE hue-seam defect</td>
 <td>C</td>
 <td>X_ITE 16.6.0, Chromium 153.0.8010.12</td>
 <td>x3d.loom@108a282:x3d.threejs/bridge/receipts/</td>
+</tr>
+<tr>
+<td>N-BAB-37</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>three.js bridge status, batch 1</td>
+<td>drawn 23, reader-checked 29, reader 49, todo 122, upstream 37</td>
+<td>C</td>
+<td><code>driver.py status</code></td>
+<td>x3d.loom@95eda37:x3d.threejs/bridge/NODES.json</td>
+</tr>
+<tr>
+<td>N-BAB-38</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>batch 1 lighting rows against X_ITE</td>
+<td>SpotLight 63.14 and 63.13 dB; PointLight 36.61, 36.30, 51.15; attenuation 59.17</td>
+<td>C</td>
+<td>X_ITE 16.6.0, three.js r187, SwiftShader, 320 x 240</td>
+<td>x3d.loom@95eda37:x3d.threejs/bridge/receipts/</td>
+</tr>
+<tr>
+<td>N-BAB-39</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Fog rows</td>
+<td>52.00, 53.41, 46.55 dB; IoU 0.99</td>
+<td>C</td>
+<td>same rig</td>
+<td>x3d.loom@95eda37:x3d.threejs/bridge/receipts/Fog.json</td>
+</tr>
+<tr>
+<td>N-BAB-40</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>texture rows</td>
+<td>ImageTexture 99 dB (identical); PixelTexture 45.66; TextureTransform 50.12 and 50.21; textured primitives 39.58</td>
+<td>C</td>
+<td>same rig</td>
+<td>x3d.loom@95eda37:x3d.threejs/bridge/receipts/</td>
+</tr>
+<tr>
+<td>N-BAB-41</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>TextureTransform order and sign, 4 variants in the Transform order and 4 in the column order</td>
+<td>50.12 (-C S R C T, rotation +, translation +); 21.34, 25.72, 21.39 for the other signs; 21.30 for T C R S -C</td>
+<td>C</td>
+<td>same rig, one run</td>
+<td>x3d.loom@95eda37:x3d.threejs/bridge/src/body-three.js</td>
+</tr>
+<tr>
+<td>N-BAB-42</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>all compared pictures of the two batches</td>
+<td>30 pictures; IoU 0.90 to 1.00; PSNR 32.38 to 70.12 dB over 24, median 50.13; 6 identical</td>
+<td>C</td>
+<td>same rig</td>
+<td>x3d.loom@95eda37:x3d.threejs/bridge/receipts/</td>
 </tr>
 <tr>
 <td>N-CAS-1</td>
@@ -2706,7 +2787,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>Hinge limits plus and minus 0.5 rad, final ball position, bridge</td>
 <td>x 1.755, y 4.034, angle -0.50</td>
 <td><span class="g C" title="Confirmed">C</span></td>
-<td>batch 41 <code>SingleAxisHingeJoint</code> probe; X_ITE 16.6.0, Chromium 153, SwiftShader</td>
+<td>batch 42 <code>SingleAxisHingeJoint</code> probe; X_ITE 16.6.0, Chromium 153, SwiftShader</td>
 <td>section 9.5</td>
 </tr>
 <tr>
