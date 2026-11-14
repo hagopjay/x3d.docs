@@ -1,0 +1,199 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>AUTHORING: how this knowledge base is written, checked and grown · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a class="cur" href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="AUTHORING.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/AUTHORING.md">GitHub</a></div><h1>AUTHORING: how this knowledge base is written, checked and grown</h1>
+<details class="toc"><summary>On this page (6 sections)</summary><a class="l2" href="#1-grades-every-claim-carries-one">1. Grades (every claim carries one)</a><a class="l2" href="#2-name-the-instrument-behind-every-number">2. Name the instrument behind every number</a><a class="l2" href="#3-chapter-template-strict-the-linter-checks-the-headings">3. Chapter template (strict; the linter checks the headings)</a><a class="l2" href="#4-style">4. Style</a><a class="l2" href="#5-public-repo-hygiene-this-repo-is-public-the-linter-and-the-leak-sweep-enforce-this">5. Public-repo hygiene (this repo is PUBLIC; the linter and the leak sweep enforce this)</a><a class="l2" href="#6-how-the-base-grows-the-augmentation-loop">6. How the base grows (the augmentation loop)</a></details>
+<p>This file is the contract for every chapter under <code>docs/learn/</code>. A chapter that breaks it fails <code>tools-shared/check_learn.py</code>.
+It is also the <em>method</em>: the way a claim enters this base is the same way a claim enters an X3D pipeline we trust.</p>
+<p><strong>Thesis the whole base serves:</strong> <em>X3D is the 3D format an AI can be held accountable to.</em> Machine-readable rules (XSD, DTD,
+X3DUOM, ontology) let software name exactly what is wrong; a second renderer shows what is visible; a ledger travels with the file.
+Everything here either teaches that machinery, measures it, or marks where it stops.</p>
+<p><strong>Audience:</strong> people who already believe in X3D and want to learn the framework deeply: the laws, the traps, the instruments, the
+numbers and the honest limits. No marketing. Assume the reader will re-run what you wrote.</p>
+<hr />
+<h2 id="1-grades-every-claim-carries-one">1. Grades (every claim carries one)</h2>
+<table>
+<thead>
+<tr>
+<th>grade</th>
+<th>token</th>
+<th>meaning</th>
+<th>what is required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Confirmed</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>we measured it, or read it in the exact code or file</td>
+<td>the <em>instrument</em> is named (validator commit, renderer version, hardware, tool version)</td>
+</tr>
+<tr>
+<td>Likely</td>
+<td><strong><span class="g L" title="Likely">L</span></strong></td>
+<td>read in a source we trust, or reasoned from <span class="g C" title="Confirmed">C</span> facts</td>
+<td>the <em>source</em> is named; say what would confirm it</td>
+</tr>
+<tr>
+<td>Suspected</td>
+<td><strong><span class="g S" title="Suspected">S</span></strong></td>
+<td>a guess, a design expectation, or a number from a source we did not re-check</td>
+<td>say it is a guess; never use it as a premise for a <span class="g C" title="Confirmed">C</span></td>
+</tr>
+</tbody>
+</table>
+<p>Rules: never upgrade a grade in a later chapter without a re-measurement; a number copied from another document is <span class="g L" title="Likely">L</span> at best until you
+re-derive it; &quot;x leads the field&quot; style claims are not gradable and are not written.</p>
+<h2 id="2-name-the-instrument-behind-every-number">2. Name the instrument behind every number</h2>
+<p>A number without an instrument is a rumour. Canonical instrument strings (use these spellings; Appendix A registers them):</p>
+<table>
+<thead>
+<tr>
+<th>instrument</th>
+<th>how to write it</th>
+<th>what it checks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>X3D MCP validator, our fork</td>
+<td><code>x3d_mcp fork &lt;sha7&gt;</code> e.g. <code>x3d_mcp fork b4efcd3</code></td>
+<td>XSD plus semantic rules, exact-fix hints</td>
+</tr>
+<tr>
+<td>X3D MCP validator, upstream</td>
+<td><code>x3d_mcp upstream 74da0ec</code></td>
+<td>upstream baseline</td>
+</tr>
+<tr>
+<td>X3D Unified Object Model / XSD</td>
+<td><code>X3DUOM 4.1</code>, <code>X3D XSD 4.0</code> (with sha256 prefix when you used a file)</td>
+<td>vocabulary, field types</td>
+</tr>
+<tr>
+<td>Reference renderer</td>
+<td><code>X_ITE &lt;version&gt;</code> plus the rig: <code>Chromium &lt;ver&gt;, SwiftShader</code> or the named GPU</td>
+<td>what a browser draws</td>
+</tr>
+<tr>
+<td>glTF validator</td>
+<td><code>Khronos glTF-Validator &lt;ver&gt;</code></td>
+<td>glb structure only, not looks</td>
+</tr>
+<tr>
+<td>Blender</td>
+<td><code>bpy &lt;ver&gt;</code></td>
+<td>the add-on's test suite and rig</td>
+</tr>
+<tr>
+<td>Repo state</td>
+<td><code>&lt;repo&gt;@&lt;sha7&gt;</code></td>
+<td>which checkout was read or run</td>
+</tr>
+<tr>
+<td>Hardware</td>
+<td>the exact GPU and driver, or <code>software GL</code></td>
+<td>any timing</td>
+</tr>
+</tbody>
+</table>
+<p>If you did not run it, say <code>read, not run</code>. If a number comes from a recorded run in a repo, cite the receipt path.</p>
+<h2 id="3-chapter-template-strict-the-linter-checks-the-headings">3. Chapter template (strict; the linter checks the headings)</h2>
+<pre><code># NN. Title                                   (NN = two digits; file is NN-slug.md)
+
+&gt; **Say it:** one sentence a reader can repeat. **[grade]**
+
+| field | value |
+|---|---|
+| chapter code | `XXX` (the id prefix used below) |
+| prerequisites | chapter numbers or &quot;none&quot; |
+| after this you can | 3 to 5 concrete abilities |
+| sources read | repo@sha:path list (short) |
+| instruments used | the strings from section 2 |
+
+## 1. The map
+   One ASCII diagram (fenced ```text, at most 96 columns) and one table that orients the reader. Say what is in scope and what is not.
+
+## 2..N. Core sections
+   Dense tables, ranked lists, worked examples with real snippets (X3D XML, commands, field names). Every numeric row names its instrument.
+   Prefer a table to a paragraph. Prefer a worked example to an explanation. Quote file paths and commands exactly so they can be re-run.
+
+## Heuristics
+   | ID | Rule (imperative, at most 30 words) | Grade | Evidence | Instrument |
+   IDs are `H-&lt;CODE&gt;-&lt;n&gt;`. A rule is something a practitioner can apply at a decision point and be wrong about; not a fact.
+
+## Drills
+   ### D-&lt;CODE&gt;-&lt;n&gt; Title
+   - **Level:** L1 (look it up) | L2 (run a tool and compare) | L3 (break it, fix it, extend it)
+   - **Task:** what to do
+   - **Verify:** the exact command, file or tool that checks the answer
+   - **Answer:** the answer key, with numbers
+   - **Checked:** `&lt;date&gt; &lt;instrument&gt;` if you ran it, or `not run`
+   At least five drills; at least two must be L2 or L3; at least two must have `Checked` run, not &quot;not run&quot;.
+
+## Honest limits
+   What this chapter does NOT show, what was read and not run, where sources disagree, which numbers are stale. A bullet list with grades.
+
+## Numbers register
+   | ID | Quantity | Value | Grade | Instrument | Source |
+   IDs are `N-&lt;CODE&gt;-&lt;n&gt;`. One row per number a reader might quote (at least 12). The Source column is `repo@sha:path` or a recorded-run path.
+   The registers of all chapters are merged into Appendix C by `tools-shared/build_learn.py`.
+
+## Sources and provenance
+   Repos, commits, dates read. Mention private-source gaps without linking them (see section 5).
+</code></pre>
+<p>Depth ladder: put a &quot;Read next&quot; line at the end of the map section pointing to one chapter that goes deeper and one that goes wider.</p>
+<h2 id="4-style">4. Style</h2>
+<ul>
+<li>Density beats length. Chapters run 20 to 60 KB; a table row should carry a fact, a number and an instrument.</li>
+<li>Diagrams are fenced <code>text</code> blocks (box-drawing or plain ASCII, at most 96 columns, no tabs) so they render on GitHub and on the Pages site.
+Every chapter has at least two. Prefer: pipelines, ladders, matrices, annotated node trees.</li>
+<li>Code and X3D are fenced with a language tag (<code>xml</code>, <code>bash</code>, <code>python</code>, <code>json</code>). Every snippet must be copyable.</li>
+<li>Say what you did not check. A short honest limit is worth more than a long hedge.</li>
+<li>One voice: plain sentences, no exclamation marks, no marketing words, no emoji. Ranked lists over adjectives.</li>
+<li>Do not write &quot;leads&quot;, &quot;best&quot;, &quot;first ever&quot;, &quot;revolutionary&quot;. Write the measurement.</li>
+<li>Name the patch AND the rig with every render claim (X_ITE version plus Chromium/SwiftShader or the GPU).</li>
+<li>When two sources disagree, record both, say which one the code supports, and grade the loser <span class="g S" title="Suspected">S</span>.</li>
+<li>Cross-link chapters with relative links (<code>[the tether](01-the-tether.md)</code>); link to code with <code>repo@sha:path</code> text, plus a GitHub URL only
+for PUBLIC repos.</li>
+</ul>
+<h2 id="5-public-repo-hygiene-this-repo-is-public-the-linter-and-the-leak-sweep-enforce-this">5. Public-repo hygiene (this repo is PUBLIC; the linter and the leak sweep enforce this)</h2>
+<p>Never write, in any file: links to private documents or artifacts, cloud project ids or bucket names, API keys or key fragments, email
+addresses, local machine paths (a person's home or drive paths; cite <code>repo@sha:path</code> instead), account aliases, spend or credit figures,
+session or thread ids, or anything about unpublished plates, unpublished lab material or unpublished data of any project whose owner has not
+published it. Do not quote the owner's chat words; write the <em>rule</em> instead. <code>tools-shared/check_learn.py</code> carries the exact patterns.</p>
+<p>Findings held for an upstream report (to the Web3D Consortium, X_ITE, Castle or others) and not yet sent are NOT published here unless the same
+finding already stands in a file of a PUBLIC repository (then cite that file). When unsure, leave it out and list it in your hand-off note.</p>
+<p>Private memory notes and private artifacts are <em>leads</em>, not sources: re-derive every figure from a public file, a repo checkout, a recorded
+run, or run the tool again. If you cannot, grade it <span class="g S" title="Suspected">S</span> and say &quot;carried from a private note, not re-checked&quot;.</p>
+<h2 id="6-how-the-base-grows-the-augmentation-loop">6. How the base grows (the augmentation loop)</h2>
+<ol>
+<li><strong>Observe</strong>: a new measurement, a failure, a PR or a drill that went wrong.</li>
+<li><strong>Write the rule</strong>: add a row to the owning chapter's Heuristics table with the next free ID and a grade no higher than the evidence.</li>
+<li><strong>Name the instrument</strong> and add the number to that chapter's Numbers register.</li>
+<li><strong>Add or fix a drill</strong> that would have caught it; run it; fill <code>Checked</code>.</li>
+<li><strong>Rebuild</strong>: <code>python3 docs/tools-shared/build_learn.py</code> regenerates the ledgers (Appendix C numbers, D heuristics, E drills) and the HTML;
+<code>python3 docs/tools-shared/check_learn.py</code> lints structure, grades and leaks.</li>
+<li><strong>Log it</strong> in <code>docs/learn/CHANGELOG.md</code> (date, chapter, what changed, which instrument). Retire a heuristic by striking it, never by deleting its ID.</li>
+<li><strong>Demote on contradiction</strong>: a later measurement that disagrees with a <span class="g C" title="Confirmed">C</span> row downgrades the row and records both numbers.</li>
+</ol>
+<p>New demos or measurements land as new versions; an earlier measurement is never overwritten, it is superseded by a dated row.</p>
+<p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

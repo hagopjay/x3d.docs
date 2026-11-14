@@ -1,0 +1,443 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>14. Methods: how to learn, test and extend this base · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a class="cur" href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="14-methods.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/14-methods.md">GitHub</a></div><h1>14. Methods: how to learn, test and extend this base</h1>
+<details class="toc"><summary>On this page (14 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-a-four-week-curriculum">2. A four-week curriculum</a><a class="l2" href="#3-cross-chapter-patterns-the-same-lesson-in-different-clothes">3. Cross-chapter patterns (the same lesson in different clothes)</a><a class="l2" href="#4-self-assessment-score-your-pipeline">4. Self-assessment: score your pipeline</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-met-1-count-the-base">D-MET-1 Count the base</a><a class="l3" href="#d-met-2-grade-mix">D-MET-2 Grade mix</a><a class="l3" href="#d-met-3-break-the-linter">D-MET-3 Break the linter</a><a class="l3" href="#d-met-4-pin-audit">D-MET-4 Pin audit</a><a class="l3" href="#d-met-5-teach-back">D-MET-5 Teach-back</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> You learn X3D here by predicting a result, running the tool, comparing, grading the gap and recording a rule with a falsifier; a heuristic you cannot falsify is not in the ledger. <strong><span class="g L" title="Likely">L</span></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>MET</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="index.html">00</a>; any one of chapters 01 to 13</td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>run the predict-run-compare loop on any drill; seed a failure and predict the diagnostic; audit a number for its pin; add a heuristic with the right grade; score your own pipeline against the tether</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td><code>x3d.docs@f172f67:docs/learn/*</code> (this base), <code>docs/tools-shared/{learn_lib,build_learn,check_learn}.py</code></td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td><code>check_learn.py</code> and <code>build_learn.py</code> at this commit, Python 3.13</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text">   READ the rule --&gt; PREDICT the result --&gt; RUN the tool --&gt; COMPARE --&gt; GRADE the gap
+        ^                                                                   |
+        |                                                                   v
+   PIN + DATE  &lt;---- RECORD heuristic with falsifier &lt;---- EXPLAIN why prediction missed
+        |
+        +--&gt; re-run at a new pin: add a dated row, demote on contradiction
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>method</th>
+<th>what you do</th>
+<th>where it is practised</th>
+<th>failure it prevents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M1 predict-then-run</td>
+<td>write the expected output before running the drill</td>
+<td>every L2 drill</td>
+<td>reading answer keys as facts</td>
+</tr>
+<tr>
+<td>M2 seed-a-failure</td>
+<td>take a valid scene, apply one failure mode, predict the diagnostic code</td>
+<td><a href="03-validator-and-gates.html">03</a>, <a href="02-loom-laws.html">02</a></td>
+<td>trusting a gate that never saw a bad input</td>
+</tr>
+<tr>
+<td>M3 two-renderer reading</td>
+<td>state a render claim as patch plus rig, then check it in a second renderer</td>
+<td><a href="06-xite-the-oracle.html">06</a>, <a href="08-babylon-bridge.html">08</a></td>
+<td>one renderer agreeing with itself</td>
+</tr>
+<tr>
+<td>M4 grade ladder</td>
+<td>demote any number you cannot re-derive to <span class="g L" title="Likely">L</span> or <span class="g S" title="Suspected">S</span></td>
+<td><a href="AUTHORING.html">AUTHORING</a></td>
+<td>rumours promoted to facts</td>
+</tr>
+<tr>
+<td>M5 pin-and-diff</td>
+<td>re-run a <span class="g C" title="Confirmed">C</span> row at a newer commit; record both</td>
+<td><a href="A-validator-register.html">A</a>, <a href="F-source-map.html">F</a></td>
+<td>stale numbers</td>
+</tr>
+<tr>
+<td>M6 minimal reproduction</td>
+<td>cut a failing scene to the smallest file that still fails</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>bugs reported without evidence</td>
+</tr>
+<tr>
+<td>M7 teach-back</td>
+<td>restate a chapter as 3 heuristics each with a falsifier</td>
+<td>this chapter</td>
+<td>passive reading</td>
+</tr>
+</tbody>
+</table>
+<p>Read next: <a href="02-loom-laws.html">02</a> for the failure modes to seed; <a href="D-heuristics-ledger.html">D</a> for the rules to attack.</p>
+<h2 id="2-a-four-week-curriculum">2. A four-week curriculum</h2>
+<table>
+<thead>
+<tr>
+<th>week</th>
+<th>read</th>
+<th>drills (run, do not skim)</th>
+<th>checkpoint you can state</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="01-the-tether.html">01</a>, <a href="03-validator-and-gates.html">03</a></td>
+<td>all L2 drills of 01 and 03</td>
+<td>which rung of the ladder catches a given fault, and which rung never will</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="06-xite-the-oracle.html">06</a>, <a href="08-babylon-bridge.html">08</a>, <a href="10-blender-pipeline.html">10</a></td>
+<td>one L3 per chapter</td>
+<td>a render claim with patch, rig and a second-renderer number</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="04-mcp-for-agents.html">04</a>, <a href="05-semantic-layer.html">05</a>, <a href="02-loom-laws.html">02</a></td>
+<td>tool-call transcripts, SPARQL and SHACL drills</td>
+<td>a repair loop and what valid-but-wrong still escapes it</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="09-castle-engine.html">09</a>, <a href="11-gltf-usd-khronos.html">11</a>, <a href="12-unreal-tier1.html">12</a>, <a href="13-physics.html">13</a>, <a href="07-xray.html">07</a></td>
+<td>the not-run drills</td>
+<td>one new row in a Numbers register, with its instrument, sent as a PR</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-cross-chapter-patterns-the-same-lesson-in-different-clothes">3. Cross-chapter patterns (the same lesson in different clothes)</h2>
+<table>
+<thead>
+<tr>
+<th>pattern</th>
+<th>seen in</th>
+<th>one-line form</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>exact oracle before judge</td>
+<td><a href="01-the-tether.html">01</a>, <a href="05-semantic-layer.html">05</a></td>
+<td>if a file can answer exactly, do not ask a model</td>
+</tr>
+<tr>
+<td>valid is not visible, not placed, not stable</td>
+<td><a href="03-validator-and-gates.html">03</a>, <a href="05-semantic-layer.html">05</a>, <a href="13-physics.html">13</a></td>
+<td>every grammar pass opens a second question</td>
+</tr>
+<tr>
+<td>producer and reader that share a reading agree on the bug</td>
+<td><a href="07-xray.html">07</a></td>
+<td>pin raw stored values, not only producer-vs-reader agreement</td>
+</tr>
+<tr>
+<td>a fallback must announce itself</td>
+<td><a href="02-loom-laws.html">02</a>, <a href="08-babylon-bridge.html">08</a></td>
+<td>silent degradation reads as success</td>
+</tr>
+<tr>
+<td>a number is true at a pin</td>
+<td><a href="03-validator-and-gates.html">03</a>, <a href="A-validator-register.html">A</a></td>
+<td>name the commit or do not quote it</td>
+</tr>
+<tr>
+<td>structure gates do not judge looks</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>a valid glb can be empty</td>
+</tr>
+<tr>
+<td>native hosts teach seams</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>n=1 engine: lessons, not rankings</td>
+</tr>
+<tr>
+<td>status claims for unrun targets stay low</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>no install, no <span class="g C" title="Confirmed">C</span></td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-self-assessment-score-your-pipeline">4. Self-assessment: score your pipeline</h2>
+<p>Give one point each (the tether score of <a href="01-the-tether.html">01</a>): unreliable writer; exact oracle available; valid differs from works; history must travel with the artifact; someone answerable later.
+4 to 5: full tether (loop plus ledger). 3: ledger plus gate. 2 or less: a log table is enough. Only X3D is measured in this base; any other family you score is your own <span class="g S" title="Suspected">S</span> until you run it.</p>
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-MET-1</td>
+<td>Write the predicted answer before running a drill; a correct prediction teaches less than a wrong one.</td>
+<td>L</td>
+<td>method argument; no trial run</td>
+<td>none (design rule)</td>
+</tr>
+<tr>
+<td>H-MET-2</td>
+<td>Seed one failure at a time into a valid scene, so the diagnostic maps to one cause.</td>
+<td>L</td>
+<td>practice in chapters 02 and 03</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-MET-3</td>
+<td>Demote on contradiction: record both numbers and the pins, never overwrite.</td>
+<td>L</td>
+<td><a href="AUTHORING.html">AUTHORING</a> section 6</td>
+<td>none (policy)</td>
+</tr>
+<tr>
+<td>H-MET-4</td>
+<td>Give a heuristic a falsifier (a result that would refute it) or leave it out of the ledger.</td>
+<td>L</td>
+<td><a href="D-heuristics-ledger.html">D</a> construction</td>
+<td><code>check_learn.py</code> structure only</td>
+</tr>
+<tr>
+<td>H-MET-5</td>
+<td>Run the drill before trusting its answer key; mark <code>Checked</code> honestly.</td>
+<td>C</td>
+<td>89 of 97 drills carry a run record at this commit</td>
+<td><code>build_learn.py</code>, this commit</td>
+</tr>
+<tr>
+<td>H-MET-6</td>
+<td>Prefer the lowest grade the evidence allows; a copied number is <span class="g L" title="Likely">L</span> at best.</td>
+<td>L</td>
+<td>grade mix below</td>
+<td>Appendix C count</td>
+</tr>
+<tr>
+<td>H-MET-7</td>
+<td>Cut a failing scene to the smallest file that still fails before reporting it.</td>
+<td>L</td>
+<td>practice in chapter 03</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-MET-8</td>
+<td>Two independent readings agree only if tests pin a raw value; compare against stored values, not only each other.</td>
+<td>C</td>
+<td>chapter 07 gallery lesson</td>
+<td><code>x3d.xray@8fa6845</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="drills">Drills</h2>
+<h3 id="d-met-1-count-the-base">D-MET-1 Count the base</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> Count heuristics, drills and numbers in the base.</li>
+<li><strong>Verify:</strong> <code>python3 docs/tools-shared/build_learn.py</code> (first line of output).</li>
+<li><strong>Answer:</strong> 161 heuristics, 97 drills, 277 numbers before this chapter was added.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>build_learn.py</code> at this commit.</li>
+</ul>
+<h3 id="d-met-2-grade-mix">D-MET-2 Grade mix</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> From Appendix C, compute the share of <span class="g C" title="Confirmed">C</span>, <span class="g L" title="Likely">L</span>, <span class="g S" title="Suspected">S</span> numbers and say what an <span class="g S" title="Suspected">S</span> share of 4 of 277 implies about how the registers were written.</li>
+<li><strong>Verify:</strong> <code>grep -c '| C |' docs/learn/C-numbers-ledger.md</code> and the same for L and S, or the header line of the appendix.</li>
+<li><strong>Answer:</strong> 235 C, 38 L, 4 S before this chapter; <span class="g S" title="Suspected">S</span> is rare because registers list measured rows first and carry unverified claims in prose (a limit of the registers).</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>learn_lib.py</code> count, Python 3.13.</li>
+</ul>
+<h3 id="d-met-3-break-the-linter">D-MET-3 Break the linter</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Delete the Instrument cell of one number row in a scratch copy and predict the linter's message.</li>
+<li><strong>Verify:</strong> <code>python3 docs/tools-shared/check_learn.py</code> on the copy.</li>
+<li><strong>Answer:</strong> <code>empty Instrument cell</code> for that <code>N-</code> id, exit status 1.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>check_learn.py</code> at this commit.</li>
+</ul>
+<h3 id="d-met-4-pin-audit">D-MET-4 Pin audit</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Pick three <span class="g C" title="Confirmed">C</span> rows from different chapters and find the repo and commit for each in Appendix F.</li>
+<li><strong>Verify:</strong> open <a href="F-source-map.html">F</a>; each cited <code>repo@sha</code> must appear.</li>
+<li><strong>Answer:</strong> every cited pair is listed with its chapters; a row whose source has no pair is a defect to report.</li>
+<li><strong>Checked:</strong> not run.</li>
+</ul>
+<h3 id="d-met-5-teach-back">D-MET-5 Teach-back</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Restate one chapter as three heuristics with falsifiers and a grade each; submit as a PR to that chapter.</li>
+<li><strong>Verify:</strong> <code>check_learn.py</code> passes and the new ids are unique.</li>
+<li><strong>Answer:</strong> none fixed; the check is a clean lint plus a drill that would have caught the rule.</li>
+<li><strong>Checked:</strong> not run.</li>
+</ul>
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li>The methods are a design, not a measured effect on learners; no trial of M1 to M7 exists. <strong><span class="g S" title="Suspected">S</span></strong></li>
+<li>The curriculum timings are an estimate. <strong><span class="g S" title="Suspected">S</span></strong></li>
+<li>Grade counts describe how rows were written, not how true the base is. <strong><span class="g L" title="Likely">L</span></strong></li>
+<li>Cross-chapter patterns are this author's grouping of the chapters' own rules. <strong><span class="g L" title="Likely">L</span></strong></li>
+</ul>
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-MET-1</td>
+<td>chapters 01 to 13</td>
+<td>13</td>
+<td>C</td>
+<td><code>check_learn.py</code> at this commit</td>
+<td><code>x3d.docs@f172f67:docs/learn/</code></td>
+</tr>
+<tr>
+<td>N-MET-2</td>
+<td>heuristics before chapter 14</td>
+<td>161</td>
+<td>C</td>
+<td><code>build_learn.py</code> at this commit</td>
+<td><code>docs/learn/D-heuristics-ledger.md</code></td>
+</tr>
+<tr>
+<td>N-MET-3</td>
+<td>drills before chapter 14</td>
+<td>97</td>
+<td>C</td>
+<td><code>build_learn.py</code> at this commit</td>
+<td><code>docs/learn/E-drills.md</code></td>
+</tr>
+<tr>
+<td>N-MET-4</td>
+<td>drills with a recorded run</td>
+<td>89</td>
+<td>C</td>
+<td><code>build_learn.py</code> at this commit</td>
+<td><code>docs/learn/E-drills.md</code></td>
+</tr>
+<tr>
+<td>N-MET-5</td>
+<td>numbers registered</td>
+<td>277</td>
+<td>C</td>
+<td><code>build_learn.py</code> at this commit</td>
+<td><code>docs/learn/C-numbers-ledger.md</code></td>
+</tr>
+<tr>
+<td>N-MET-6</td>
+<td>numbers graded C</td>
+<td>235</td>
+<td>C</td>
+<td><code>learn_lib.py</code> count</td>
+<td><code>docs/learn/C-numbers-ledger.md</code></td>
+</tr>
+<tr>
+<td>N-MET-7</td>
+<td>numbers graded L</td>
+<td>38</td>
+<td>C</td>
+<td><code>learn_lib.py</code> count</td>
+<td><code>docs/learn/C-numbers-ledger.md</code></td>
+</tr>
+<tr>
+<td>N-MET-8</td>
+<td>numbers graded S</td>
+<td>4</td>
+<td>C</td>
+<td><code>learn_lib.py</code> count</td>
+<td><code>docs/learn/C-numbers-ledger.md</code></td>
+</tr>
+<tr>
+<td>N-MET-9</td>
+<td>heuristics graded C</td>
+<td>124</td>
+<td>C</td>
+<td><code>learn_lib.py</code> count</td>
+<td><code>docs/learn/D-heuristics-ledger.md</code></td>
+</tr>
+<tr>
+<td>N-MET-10</td>
+<td>heuristics graded L</td>
+<td>30</td>
+<td>C</td>
+<td><code>learn_lib.py</code> count</td>
+<td><code>docs/learn/D-heuristics-ledger.md</code></td>
+</tr>
+<tr>
+<td>N-MET-11</td>
+<td>heuristics graded S</td>
+<td>7</td>
+<td>C</td>
+<td><code>learn_lib.py</code> count</td>
+<td><code>docs/learn/D-heuristics-ledger.md</code></td>
+</tr>
+<tr>
+<td>N-MET-12</td>
+<td>methods in this chapter</td>
+<td>7</td>
+<td>C</td>
+<td>read</td>
+<td>this file</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<p>Counts taken from the base at branch <code>claude/project-thread-3r22fz</code> on 2026-11-14, tools <code>x3d.docs@f172f67:docs/tools-shared/</code>. Nothing external was read for this chapter.</p>
+<div class="pn"><a href="13-physics.html">&larr; 13-physics</a><a href="A-validator-register.html">A-validator-register &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

@@ -1,0 +1,1287 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Appendix A. Instrument and validator register · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a class="cur" href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="A-validator-register.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/A-validator-register.md">GitHub</a></div><h1>Appendix A. Instrument and validator register</h1>
+<p>Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.</p>
+<!-- BEGIN GENERATED -->
+<p>208 distinct instrument strings across the numbers registers.</p>
+<table>
+<thead>
+<tr>
+<th>Instrument as written</th>
+<th>Numbers</th>
+<th>Chapters</th>
+<th>Grades</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>17</td>
+<td>01, 03, 04, 05, 07, 09, 10</td>
+<td>C:17</td>
+</tr>
+<tr>
+<td><code>same</code></td>
+<td>13</td>
+<td>05, 06, 07, 09, 10, 11, 12</td>
+<td>C:12 L:1</td>
+</tr>
+<tr>
+<td><code>numpy 2.5.3</code></td>
+<td>8</td>
+<td>13</td>
+<td>C:8</td>
+</tr>
+<tr>
+<td><code>learn_lib.py count</code></td>
+<td>6</td>
+<td>14</td>
+<td>C:6</td>
+</tr>
+<tr>
+<td><code>bpy 5.3.0</code></td>
+<td>5</td>
+<td>10, 11</td>
+<td>C:2 L:3</td>
+</tr>
+<tr>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code></td>
+<td>4</td>
+<td>09, 10, 11</td>
+<td>C:4</td>
+</tr>
+<tr>
+<td><code>build_learn.py at this commit</code></td>
+<td>4</td>
+<td>14</td>
+<td>C:4</td>
+</tr>
+<tr>
+<td><code>rdflib 7.6.0</code></td>
+<td>4</td>
+<td>05</td>
+<td>C:4</td>
+</tr>
+<tr>
+<td><code>read, not re-run</code></td>
+<td>4</td>
+<td>06, 07</td>
+<td>L:4</td>
+</tr>
+<tr>
+<td><code>Python 3, 2026-11-14</code></td>
+<td>3</td>
+<td>12</td>
+<td>C:3</td>
+</tr>
+<tr>
+<td><code>count</code></td>
+<td>3</td>
+<td>02</td>
+<td>C:3</td>
+</tr>
+<tr>
+<td><code>inline Python</code></td>
+<td>3</td>
+<td>09</td>
+<td>C:3</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, seed 20261029</code></td>
+<td>3</td>
+<td>01, 03</td>
+<td>C:3</td>
+</tr>
+<tr>
+<td><code>Chromium 153, SwiftShader (carried)</code></td>
+<td>2</td>
+<td>11, 12</td>
+<td>L:2</td>
+</tr>
+<tr>
+<td><code>X_ITE 16.7.0, Chromium 153, SwiftShader, 320 x 240</code></td>
+<td>2</td>
+<td>01</td>
+<td>C:2</td>
+</tr>
+<tr>
+<td><code>file size, 2026-11-14</code></td>
+<td>2</td>
+<td>12</td>
+<td>C:2</td>
+</tr>
+<tr>
+<td><code>marker scan, X_ITE 16.7.0</code></td>
+<td>2</td>
+<td>06</td>
+<td>C:2</td>
+</tr>
+<tr>
+<td><code>numpy, 2026-11-14</code></td>
+<td>2</td>
+<td>12</td>
+<td>C:2</td>
+</tr>
+<tr>
+<td><code>owlrl 7.6.2</code></td>
+<td>2</td>
+<td>05</td>
+<td>C:2</td>
+</tr>
+<tr>
+<td><code>pyshacl 0.40.2</code></td>
+<td>2</td>
+<td>05</td>
+<td>C:2</td>
+</tr>
+<tr>
+<td><code>pytest 9.2.0, Python 3.13.18, no Chromium</code></td>
+<td>2</td>
+<td>03, 04</td>
+<td>C:2</td>
+</tr>
+<tr>
+<td><code>python parse of the table, x3d.loom@162ab18</code></td>
+<td>2</td>
+<td>02</td>
+<td>C:2</td>
+</tr>
+<tr>
+<td><code>x3d.xray@8fa6845</code></td>
+<td>2</td>
+<td>07</td>
+<td>C:2</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork 535fdac and b4efcd3</code></td>
+<td>2</td>
+<td>01</td>
+<td>C:2</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, 24 seeds</code></td>
+<td>2</td>
+<td>01</td>
+<td>C:2</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, Python ast</code></td>
+<td>2</td>
+<td>03</td>
+<td>C:2</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, in-process</code></td>
+<td>2</td>
+<td>04</td>
+<td>C:2</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, libxml2 2.14.6</code></td>
+<td>2</td>
+<td>04</td>
+<td>C:2</td>
+</tr>
+<tr>
+<td><code>x3d_mcp upstream 74da0ec, x3d_mcp fork b4efcd3</code></td>
+<td>2</td>
+<td>04</td>
+<td>C:2</td>
+</tr>
+<tr>
+<td><code>xite_names.py</code></td>
+<td>2</td>
+<td>09</td>
+<td>C:2</td>
+</tr>
+<tr>
+<td><code>D-LAW-2 script (judgement of the column)</code></td>
+<td>1</td>
+<td>02</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>D-LAW-7 script</code></td>
+<td>1</td>
+<td>02</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>JSON parse 2026-11-14</code></td>
+<td>1</td>
+<td>11</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>JSON parse, 2026-11-14</code></td>
+<td>1</td>
+<td>12</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>JSON parse, Khronos glTF-Validator 2.0.0-dev.3.10, 2026-11-14</code></td>
+<td>1</td>
+<td>12</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10 plus JSON parse</code></td>
+<td>1</td>
+<td>11</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10, 2026-11-14</code></td>
+<td>1</td>
+<td>12</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10, receipt</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>Khronos registry sha256 prefix 32868b162d85</code></td>
+<td>1</td>
+<td>11</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>NODES.json, merge log</code></td>
+<td>1</td>
+<td>08</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>PR descriptions via the masterclass; not re-derived</code></td>
+<td>1</td>
+<td>04</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>Python 3.13.18 ast</code></td>
+<td>1</td>
+<td>10</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>X3DUOM 4.0 via NODES.json</code></td>
+<td>1</td>
+<td>08</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>X3DUOM 4.1 (4fc10e8e15c0), X3DUOM 4.0 (7e426a238656)</code></td>
+<td>1</td>
+<td>03</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>X3DUOM 4.1 (sha256 4fc10e8e15c0), ElementTree</code></td>
+<td>1</td>
+<td>06</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>XML count of ConcreteNode</code></td>
+<td>1</td>
+<td>10</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>X_ITE 16.4.3 (960 x 540); X_ITE 16.5.1 (640 x 360); SwiftShader</code></td>
+<td>1</td>
+<td>08</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>X_ITE 16.4.3 to 16.7.1, Chromium 153, SwiftShader, 320 x 240</code></td>
+<td>1</td>
+<td>06</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>X_ITE 16.4.3 to 16.7.1, getBrowserOption</code></td>
+<td>1</td>
+<td>06</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>X_ITE 16.4.3, 1280 x 536, SwiftShader</code></td>
+<td>1</td>
+<td>08</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>X_ITE 16.4.3, 16.5.1, 16.7.0</code></td>
+<td>1</td>
+<td>06</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>X_ITE 16.5.1, 16.7.0, 16.7.1</code></td>
+<td>1</td>
+<td>06</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>X_ITE 16.5.1, 16.7.0, emulated policy</code></td>
+<td>1</td>
+<td>06</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>X_ITE 16.5.1, 640 x 360, SwiftShader</code></td>
+<td>1</td>
+<td>08</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>X_ITE 16.5.1, SwiftShader</code></td>
+<td>1</td>
+<td>08</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>X_ITE 16.6.0, 640 x 360, SwiftShader</code></td>
+<td>1</td>
+<td>08</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>X_ITE 16.7.0 (and 16.4.3, 16.5.1, 16.6.1, 16.7.1), Chromium 153, SwiftShader</code></td>
+<td>1</td>
+<td>06</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>X_ITE 16.7.0, browser.supportedComponents</code></td>
+<td>1</td>
+<td>06</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>X_ITE 16.7.0; x3d_mcp fork b4efcd3</code></td>
+<td>1</td>
+<td>06</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>X_ITE 16.7.1 vs Babylon 9.32.0, Chromium 153.0.8010.12, SwiftShader, 512 px</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>X_ITE 16.7.1, Babylon.js 9.32.0, Chrome 153 SwiftShader</code></td>
+<td>1</td>
+<td>10</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>X_ITE 16.7.1, Babylon.js 9.32.0, Chromium 153, SwiftShader</code></td>
+<td>1</td>
+<td>11</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>X_ITE 16.7.1, Chromium 153, SwiftShader (carried)</code></td>
+<td>1</td>
+<td>12</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>a hosted model, as reported</code></td>
+<td>1</td>
+<td>01</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>arithmetic on ALPHA</code></td>
+<td>1</td>
+<td>07</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>arithmetic on N-MCP-4</code></td>
+<td>1</td>
+<td>04</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>arithmetic on add_light.glsl</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>as recorded, not re-run</code></td>
+<td>1</td>
+<td>02</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>as reported, not re-checked</code></td>
+<td>1</td>
+<td>01</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>bpy 5.3.0 Cycles CPU 16 spp, x3d_mcp fork b4efcd3</code></td>
+<td>1</td>
+<td>10</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>bpy 5.3.0, Khronos glTF-Validator 2.0.0-dev.3.10, carried</code></td>
+<td>1</td>
+<td>11</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>carried from a private note</code></td>
+<td>1</td>
+<td>09</td>
+<td>S:1</td>
+</tr>
+<tr>
+<td><code>carried from the bake-stage skill text</code></td>
+<td>1</td>
+<td>10</td>
+<td>S:1</td>
+</tr>
+<tr>
+<td><code>census.js on git archive 60824ce</code></td>
+<td>1</td>
+<td>08</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>census.js, 162ab18</code></td>
+<td>1</td>
+<td>08</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>census_compare.py receipt</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>chain sketch, Python 3.13.18</code></td>
+<td>1</td>
+<td>01</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>check_learn.py at this commit</code></td>
+<td>1</td>
+<td>14</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>converter formula, 2026-11-14</code></td>
+<td>1</td>
+<td>12</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>converter functions, 2026-11-14</code></td>
+<td>1</td>
+<td>12</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>converter tables sha256 1a5f3229a7ee</code></td>
+<td>1</td>
+<td>05</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>core11.py</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>core11.py, inline Python</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>core11.py; FLIP 1.7, Cycles 256 spp, 512 px</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>count, x3d.loom@162ab18</code></td>
+<td>1</td>
+<td>02</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>driver.py status</code></td>
+<td>1</td>
+<td>08</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>driver.py status, x3d.loom@162ab18</code></td>
+<td>1</td>
+<td>08</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>examples/eda_1_signal_and_noise.py</code></td>
+<td>1</td>
+<td>07</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>examples/eda_1_signal_and_noise.py --calibrate, seeds 1000 to 1149</code></td>
+<td>1</td>
+<td>07</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>formats.py, 2026-11-14</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>gh run view, 2026-11-14</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>git show --stat babba96</code></td>
+<td>1</td>
+<td>02</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>git show 0244784:LOOM-v1.md, python parse</code></td>
+<td>1</td>
+<td>02</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>gltf-validator 2.0.0-dev.3.10, bpy 5.3.0</code></td>
+<td>1</td>
+<td>10</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>grep -c '&lt;ROUTE' and JSON parse, 2026-11-14</code></td>
+<td>1</td>
+<td>11</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>grep -lE, x3d.demo@d10b457</code></td>
+<td>1</td>
+<td>13</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>grep -o '&lt;Transform ', 2026-11-14</code></td>
+<td>1</td>
+<td>12</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>grep of '[0-9a-f]{8}-[0-9a-f]{8}'</code></td>
+<td>1</td>
+<td>08</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>grep, 2026-11-14</code></td>
+<td>1</td>
+<td>12</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>grep, X_ITE 16.7.0</code></td>
+<td>1</td>
+<td>06</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>grep, export header</code></td>
+<td>1</td>
+<td>10</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>grep, x_ite.min.js sha256 prefix b7df063e8cb1</code></td>
+<td>1</td>
+<td>08</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>inline Python, 15 scenes</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>inline Python, ls</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>libxml2 2.14.6, as reported</code></td>
+<td>1</td>
+<td>01</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>libxml2 2.14.6, fork 56809ca to the PR #15 change</code></td>
+<td>1</td>
+<td>01</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>loomkit 162ab18</code></td>
+<td>1</td>
+<td>03</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>loomkit 162ab18 evidence records</code></td>
+<td>1</td>
+<td>03</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>loomkit 162ab18, read</code></td>
+<td>1</td>
+<td>03</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>loomkit physics, one machine</code></td>
+<td>1</td>
+<td>02</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>loomkit physics, x3d.physics/runs</code></td>
+<td>1</td>
+<td>02</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>loomkit self-test</code></td>
+<td>1</td>
+<td>02</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>loomkit test_gates.py, Python 3.13.18</code></td>
+<td>1</td>
+<td>02</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>ls</code></td>
+<td>1</td>
+<td>08</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>ls, x3d.demo@d10b457</code></td>
+<td>1</td>
+<td>13</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>lxml, NODES.json</code></td>
+<td>1</td>
+<td>08</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>marker and name scan</code></td>
+<td>1</td>
+<td>06</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>mcp 1.30.0 server/transport_security.py (read)</code></td>
+<td>1</td>
+<td>04</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>none</code></td>
+<td>1</td>
+<td>12</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>not run (no Blender here)</code></td>
+<td>1</td>
+<td>03</td>
+<td>S:1</td>
+</tr>
+<tr>
+<td><code>npm 10.9.9</code></td>
+<td>1</td>
+<td>06</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>npm 10.9.9 npm view x_ite time</code></td>
+<td>1</td>
+<td>06</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>numpy, Pillow, 960 x 540, X_ITE 16.4.3 reference</code></td>
+<td>1</td>
+<td>08</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>parsed from the reports; X_ITE 16.6.0, 320 x 240, SwiftShader</code></td>
+<td>1</td>
+<td>08</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>phase3_check.py receipts</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>physics.py docstring; last-run.json</code></td>
+<td>1</td>
+<td>02</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>physx_controls.py</code></td>
+<td>1</td>
+<td>02</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>pip index versions, npm view</code></td>
+<td>1</td>
+<td>10</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>pyshacl 0.40.2, owlrl 7.6.2</code></td>
+<td>1</td>
+<td>05</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>python over kit/profiles/*.json</code></td>
+<td>1</td>
+<td>02</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>python parse, x3d.loom@162ab18</code></td>
+<td>1</td>
+<td>02</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>python3 -m x3dray tools</code></td>
+<td>1</td>
+<td>07</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>rdflib, pyshacl 0.40.2</code></td>
+<td>1</td>
+<td>05</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>read</code></td>
+<td>1</td>
+<td>14</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>read in BATCH-NN.md</code></td>
+<td>1</td>
+<td>08</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>read in code</code></td>
+<td>1</td>
+<td>07</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>read in the exact file</code></td>
+<td>1</td>
+<td>06</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>read via python json count, x3d.loom@162ab18</code></td>
+<td>1</td>
+<td>13</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>read, not run</code></td>
+<td>1</td>
+<td>05</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>read, not run: x3d.loom@162ab18:x3d.physics/physx-bridge/evidence/p1-analytic.json</code></td>
+<td>1</td>
+<td>13</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>read, physx-bridge/tests/analytic.test.ts evidence</code></td>
+<td>1</td>
+<td>13</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>read, ten-minute-physics/ERRATA-v1-v4.md</code></td>
+<td>1</td>
+<td>13</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>read, x3d.loom@162ab18:x3d.physics/runs/physx-grand-cascade-chromium.physics.json</code></td>
+<td>1</td>
+<td>13</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>reasoned from the [C] rows above</code></td>
+<td>1</td>
+<td>01</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>receipt read</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>receipt read, arithmetic</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>recorded reports parsed; Blender 5.2.2 and 5.1.0, add-on v2.6.1</code></td>
+<td>1</td>
+<td>03</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>regex over section 8, 2 false hits removed</code></td>
+<td>1</td>
+<td>02</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>regex over unminified dist/</code></td>
+<td>1</td>
+<td>06</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>rig on nine scenes, README</code></td>
+<td>1</td>
+<td>10</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>rig, 3 repeats, Babylon 9.32 only; receipt re-read</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>row count</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>rule in section 3</code></td>
+<td>1</td>
+<td>10</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>run of an X3D33 export</code></td>
+<td>1</td>
+<td>10</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>same rig</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>same validator, receipt</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>same, seed 7</code></td>
+<td>1</td>
+<td>07</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>scratch copy of x3d_mcp fork b4efcd3</code></td>
+<td>1</td>
+<td>03</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>scratch copy, Python 3.13.18</code></td>
+<td>1</td>
+<td>07</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>script over the section 5 table</code></td>
+<td>1</td>
+<td>08</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>shell over banners</code></td>
+<td>1</td>
+<td>06</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>splat_io.write_ply, 1,000 splats</code></td>
+<td>1</td>
+<td>10</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>stated in the repo, not re-derived at its commit</code></td>
+<td>1</td>
+<td>03</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>stated in the repo, not re-run</code></td>
+<td>1</td>
+<td>04</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>stated in the teardown at 13121b6, not re-run</code></td>
+<td>1</td>
+<td>04</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>stated in the teardown; not reproduced</code></td>
+<td>1</td>
+<td>03</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>stats.SplitMix64</code></td>
+<td>1</td>
+<td>07</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>stats.bh_q</code></td>
+<td>1</td>
+<td>07</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>teardown method, not reproduced</code></td>
+<td>1</td>
+<td>10</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>test_eda_infer, test_eda_js_parity, Node 22.23.4</code></td>
+<td>1</td>
+<td>07</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>tests/suite/x3d_test_suite.py on bpy 5.3.0</code></td>
+<td>1</td>
+<td>10</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>unittest discover, Git 2.43.0, Python 3.13.18</code></td>
+<td>1</td>
+<td>07</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>unittest runner</code></td>
+<td>1</td>
+<td>10</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>validate_x3d_export.py, bpy 5.3.0</code></td>
+<td>1</td>
+<td>10</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>verifier pass in a private note</code></td>
+<td>1</td>
+<td>10</td>
+<td>S:1</td>
+</tr>
+<tr>
+<td><code>wc -l</code></td>
+<td>1</td>
+<td>10</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>wc -l, grep</code></td>
+<td>1</td>
+<td>07</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>wc, gzip -9, sha256sum</code></td>
+<td>1</td>
+<td>06</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d-blender-io@ab99988 catalogue</code></td>
+<td>1</td>
+<td>03</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d.demo@d10b457 directory read</code></td>
+<td>1</td>
+<td>05</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d.loom@162ab18 kit/loom physics</code></td>
+<td>1</td>
+<td>13</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d.loom@162ab18 kit/tests/test_gates.py</code></td>
+<td>1</td>
+<td>13</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d.loom@162ab18 physx_controls.py</code></td>
+<td>1</td>
+<td>13</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d.loom@162ab18:kit/loomkit/physics.py</code></td>
+<td>1</td>
+<td>13</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d.onto, as reported</code></td>
+<td>1</td>
+<td>01</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>x3d.xray@8fa6845 on x3d.castle@d70e00c</code></td>
+<td>1</td>
+<td>07</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork 13121b6</code></td>
+<td>1</td>
+<td>05</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork 535fdac, seed 20261029</code></td>
+<td>1</td>
+<td>01</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3 (read; refusals exercised at 1 s and 5 rows)</code></td>
+<td>1</td>
+<td>04</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3 exact_fix_hints(apply=true)</code></td>
+<td>1</td>
+<td>03</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3 rdf_infer</code></td>
+<td>1</td>
+<td>05</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, 300 runs each</code></td>
+<td>1</td>
+<td>03</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, Python ast, mcp 1.30.0</code></td>
+<td>1</td>
+<td>04</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, X3D XSD 4.1</code></td>
+<td>1</td>
+<td>03</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, X3DUOM 4.1, X3D XSD 4.1</code></td>
+<td>1</td>
+<td>05</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, in-memory list_tools</code></td>
+<td>1</td>
+<td>05</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, inspect.iscoroutinefunction</code></td>
+<td>1</td>
+<td>04</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, libxml2 2.14.6, 4 vCPU 2.30 GHz</code></td>
+<td>1</td>
+<td>03</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, list_tools()</code></td>
+<td>1</td>
+<td>04</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, lxml 6.1.3</code></td>
+<td>1</td>
+<td>07</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, numpy 2.5.4</code></td>
+<td>1</td>
+<td>04</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, pyshacl 0.40.2</code></td>
+<td>1</td>
+<td>05</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, rdflib 7.6.0</code></td>
+<td>1</td>
+<td>05</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, regex and ast</code></td>
+<td>1</td>
+<td>03</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3, zstandard 0.25.0</code></td>
+<td>1</td>
+<td>04</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp upstream 74da0ec, Python ast</code></td>
+<td>1</td>
+<td>03</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp upstream 74da0ec, list_tools()</code></td>
+<td>1</td>
+<td>04</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>xite_names.py, x_ite@16.7.1 npm dist</code></td>
+<td>1</td>
+<td>09</td>
+<td>C:1</td>
+</tr>
+</tbody>
+</table>
+<!-- END GENERATED -->
+<div class="pn"><a href="14-methods.html">&larr; 14-methods</a><a href="B-glossary.html">B-glossary &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

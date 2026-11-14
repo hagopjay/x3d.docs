@@ -1,0 +1,1221 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a class="cur" href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="05-semantic-layer.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/05-semantic-layer.md">GitHub</a></div><h1>05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</h1>
+<details class="toc"><summary>On this page (24 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-rdf-in-ten-minutes-what-a-graph-gains-and-what-it-forgets">2. RDF in ten minutes: what a graph gains and what it forgets</a><a class="l2" href="#3-the-rule-the-ontology-proposes-shapes-dispose-the-validator-gates">3. The rule: the ontology proposes, shapes dispose, the validator gates</a><a class="l2" href="#4-faithful-x3d-to-turtle">4. Faithful X3D to Turtle</a><a class="l2" href="#5-sparql-on-scenes">5. SPARQL on scenes</a><a class="l2" href="#6-rdfs-and-owl-rl-on-the-x3d-ontology">6. RDFS and OWL-RL on the X3D Ontology</a><a class="l2" href="#7-shacl-shapes">7. SHACL shapes</a><a class="l2" href="#8-the-tool-surface-added-in-pr-17">8. The tool surface added in PR #17</a><a class="l2" href="#9-a-worked-session-scripted-not-a-model-run">9. A worked session (scripted, not a model run)</a><a class="l2" href="#10-lookup-before-judge">10. Lookup before judge</a><a class="l2" href="#11-the-ontology-lab-the-plan-not-yet-published">11. The ontology lab: the plan, not yet published</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-sem-1-count-the-tool-surface">D-SEM-1 Count the tool surface</a><a class="l3" href="#d-sem-2-count-the-ontology">D-SEM-2 Count the ontology</a><a class="l3" href="#d-sem-3-strip-the-doctype">D-SEM-3 Strip the DOCTYPE</a><a class="l3" href="#d-sem-4-one-query-two-ontologies">D-SEM-4 One query, two ontologies</a><a class="l3" href="#d-sem-5-a-part-that-floats">D-SEM-5 A part that floats</a><a class="l3" href="#d-sem-6-break-it-with-reasoning">D-SEM-6 Break it with reasoning</a><a class="l3" href="#d-sem-7-set-semantics-and-a-silent-ignore">D-SEM-7 Set semantics and a silent ignore</a><a class="l3" href="#d-sem-8-what-rdf-forgets">D-SEM-8 What RDF forgets</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> An X3D scene can be turned into a graph of facts, questioned with SPARQL, held to SHACL shapes and (carefully) reasoned over, but the ontology only proposes, the shapes dispose and the validators gate; every result names a node, a check id and an instrument. <strong><span class="g C" title="Confirmed">C</span></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>SEM</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="01-the-tether.html">01 The tether</a>; <a href="03-validator-and-gates.html">03 The validator and the gates</a> for the rungs this layer sits beside</td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>convert a scene to Turtle and say whether the DTD defaults were applied; write and run SPARQL for DEF/USE, ROUTE chains, colours and parent/child legality; write a SHACL shape that catches a scene the XSD passes (a part that floats or sinks); explain why <code>inference=&quot;rdfs&quot;</code> turns a clean scene into 2,185 findings; call the five semantic tools of <code>x3d_mcp</code> PR #17, name their caps and guards, read the <code>instrument</code> block; say which layer catches which fault, from a measured matrix</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td>x3d_mcp@b4efcd3:src/tools/semantic_web.py, src/x3d_utils/{semantic_web,scene_rdf,ontology_guard}.py, src/validation/schemas/ (both ontologies, x3d-core shapes), docs/semantic-web-tools.md, tests/fixtures/scene_rdf/*; x3d.docs@f172f67:docs/x3d.onto/MASTERCLASS.md</td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td><code>x3d_mcp fork b4efcd3</code>; <code>x3d_mcp fork 13121b6</code> (PR base); ontology <code>X3dOntology4.1.ttl</code> (sha256 057f1ba083a6) and <code>X3dOntology4.0.ttl</code> (b7bb83d13177) as bundled; <code>X3DUOM 4.1</code> (4fc10e8e15c0); <code>X3D XSD 4.1</code>; stylesheet <code>X3dToTurtle.xslt r40388</code> (e3c5aa40756b, read from the fixture manifest, not run); rdflib 7.6.0; pyshacl 0.40.2; owlrl 7.6.2; Python 3.13.18; software only (4 vCPU Intel Xeon 2.30 GHz, no GPU)</td>
+</tr>
+</tbody>
+</table>
+<p>Rig for every <strong><span class="g C" title="Confirmed">C</span></strong> number: a scratch virtualenv with the repo's pinned dependencies (<code>mcp</code> 1.30.0, <code>lxml</code> 6.1.3, <code>xmlschema</code> 4.3.2, <code>pytest</code> 9.2.0 and the libraries above), 2026-11-14, a read-only checkout of <code>x3d_mcp@b4efcd3</code>. Tools were called in memory through <code>server.mcp.call_tool</code> (the stdio path minus the transport) and <code>x3d_utils.semantic_web</code>. No LLM ran; a &quot;model turn&quot; is scripted and says so. No network, GPU or paid API.</p>
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text"> X3D document (XML)                          X3D Ontology 4.1 (TBox, Consortium Turtle, bundled)
+   |  version picks the DTD: 3.x -&gt; 3.3,        364 classes, 1,064 properties, 18,108 triples
+   |  4.0 -&gt; 4.0, else 4.1 (containerField      0 owl:disjointWith, 0 owl:Restriction
+   |  and attribute defaults)
+   v                                                            |
+ scene_to_rdf --&gt; scene graph (ABox) -- joined with ------------+
+   |              graph_id = sha256(Turtle)[:16]
+   +--&gt; sparql_scene    SELECT / ASK             &quot;what is in it?&quot;    an answer, never a verdict
+   +--&gt; rdf_infer       subclass | rdfs | owl-rl  &quot;what follows?&quot;    proposes types
+   +--&gt; shacl_validate  x3d-core + your shapes    &quot;what must hold?&quot;  disposes: node, id, fix
+   +--&gt; ontology_vs_gate(child)  map | gate | XSD &quot;where may it go?&quot; three answers side by side
+ outside RDF (document order lives here): validate_x3d (XSD)  validate_semantic  render_image
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>layer</th>
+<th>answers</th>
+<th>instrument</th>
+<th>blind to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RDF graph</td>
+<td>what nodes, fields and links the file states</td>
+<td>converter, isomorphic to 10 of 10 recorded Saxon goldens</td>
+<td>order, defaults (omitted), MFString items</td>
+</tr>
+<tr>
+<td>SPARQL</td>
+<td>which nodes match; how many</td>
+<td>rdflib 7.6.0</td>
+<td>whether a match is wrong</td>
+</tr>
+<tr>
+<td>RDFS, OWL-RL</td>
+<td>which types follow from the axioms</td>
+<td>owlrl 7.6.2</td>
+<td>anything not axiomatised (no disjointness)</td>
+</tr>
+<tr>
+<td>SHACL</td>
+<td>what must hold of every matching node</td>
+<td>pyshacl 0.40.2</td>
+<td>order; engine-dependent features</td>
+</tr>
+</tbody>
+</table>
+<p><strong>In scope:</strong> the five semantic tools of PR #17, the ontology as bundled, shapes and SPARQL you can run, and the plan for a public teaching lab. <strong>Out of scope:</strong> transport and the other 48 tools (<a href="04-mcp-for-agents.html">04</a>); what X_ITE draws (<a href="06-xite-the-oracle.html">06</a>); the XSD and semantic rungs (<a href="03-validator-and-gates.html">03</a>).</p>
+<p><strong>Read next:</strong> deeper, <code>x3d_mcp@b4efcd3:docs/semantic-web-tools.md</code> and <a href="../x3d.onto/MASTERCLASS.html">the x3d.onto masterclass</a>; wider, <a href="04-mcp-for-agents.html">04 MCP for agents</a> for how a model calls these tools.</p>
+<h2 id="2-rdf-in-ten-minutes-what-a-graph-gains-and-what-it-forgets">2. RDF in ten minutes: what a graph gains and what it forgets</h2>
+<p>A <strong>triple</strong> is subject, predicate, object: IRIs and literals; a set of triples is a graph. The <strong>ABox</strong> holds the facts about one scene, the <strong>TBox</strong> the vocabulary (classes such as <code>x3do:Transform</code>, properties such as <code>x3do:hasChildren</code>). One XML element becomes one <strong>individual</strong>. An excerpt from <code>LabScene41.x3d</code> (a scene written for the converter's tests; 230 triples, 28 individuals):</p>
+<pre><code class="language-xml">&lt;Transform DEF='Orb' translation='0 1 0'&gt;
+  &lt;MetadataString name='role' value='&quot;hero&quot;' containerField='metadata'/&gt;
+  &lt;Shape&gt;&lt;Appearance&gt;&lt;Material DEF='Blue' diffuseColor='0.1 0.5 1' transparency='0.2'/&gt;&lt;/Appearance&gt;
+    &lt;Sphere radius='0.75'/&gt;&lt;/Shape&gt;
+&lt;/Transform&gt;
+</code></pre>
+<pre><code class="language-turtle">:Orb a owl:NamedIndividual, x3do:Transform ;
+  x3do:hasParent :Scene ;
+  x3do:hasMetadata :MetadataString_2_4_1 ;     # containerField='metadata' was written in the XML
+  x3do:hasChildren :Shape_2_4_2 ;              # Shape's default containerField is 'children'
+  x3do:DEF &quot;Orb&quot; ;
+  x3do:translation ( 0 1 0 ) .                 # an rdf:List: first / rest cells
+:Shape_2_4_2 a owl:NamedIndividual, x3do:Shape ; x3do:hasParent :Orb ;   # no DEF: positional name
+  x3do:hasAppearance :Appearance_2_4_2_1 ; x3do:hasGeometry :Sphere_2_4_2_2 .   # &lt;Element&gt;_&lt;i&gt;_&lt;j&gt;_&lt;k&gt;
+:Blue a owl:NamedIndividual, x3do:Material ; x3do:hasParent :Appearance_2_4_2_1 ; x3do:DEF &quot;Blue&quot; ;
+  x3do:diffuseColor ( 0.1 0.5 1 ) ; x3do:transparency 0.2 .
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>X3D</th>
+<th>triples (read from the converter and the output above)</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>element; <code>DEF='Orb'</code></td>
+<td><code>:Name a owl:NamedIndividual, x3do:&lt;Element&gt;</code>; the DEF is the IRI and <code>x3do:DEF &quot;Orb&quot;</code></td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td><code>USE='Blue'</code></td>
+<td>a new individual <code>:Blue-USE-1 a x3do:Material ; owl:sameAs :Blue</code>, no fields</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>parent and child</td>
+<td>both ways: <code>:c x3do:hasParent :p</code> and <code>:p x3do:has&lt;Field&gt; :c</code></td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>SFFloat, SFBool; SFVec3f, SFColor, MFFloat</td>
+<td>bare <code>0.75</code>, <code>true</code>; an <code>rdf:List</code> <code>( 0.1 0.5 1 )</code></td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>SFTime, SFString, MFString</td>
+<td>one string literal: an MFString's items are not separate</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>a field at its default</td>
+<td>omitted: <code>&lt;Cone/&gt;</code> is a type and a parent, 2 triples</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td><code>ROUTE</code></td>
+<td>an <code>x3do:ROUTE</code> individual under <code>x3do:hasROUTE</code>; endpoints are DEF strings</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>the graph gains</th>
+<th>evidence</th>
+<th>the graph forgets</th>
+<th>evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>class-hierarchy queries: all geometry in one pattern</td>
+<td>Q2: 3 rows</td>
+<td>the order of <code>children</code> (Switch picks by index)</td>
+<td>Q11 lists 3 children as a set, no order</td>
+</tr>
+<tr>
+<td>reuse as identity: 19 USE copies in <code>Altar.x3d</code> in one query</td>
+<td>Q3b: 19 rows</td>
+<td>USE before DEF</td>
+<td>same graph either way (D-SEM-8)</td>
+</tr>
+<tr>
+<td>a verdict with a node, DEF, check id and fix</td>
+<td>section 7</td>
+<td>stable names for unnamed nodes</td>
+<td>one inserted node renamed 8 of 42 (section 4)</td>
+</tr>
+</tbody>
+</table>
+<p>Three readings of &quot;nothing here&quot;: <strong>open world</strong> (RDFS, OWL) is unknown, not false; <strong>closed over this graph</strong> (SPARQL <code>FILTER NOT EXISTS</code>): absent from this data (Q6); <strong>closed by declaration</strong> (SHACL): a violation if the shape says so (S2 on the same Shape).</p>
+<h2 id="3-the-rule-the-ontology-proposes-shapes-dispose-the-validator-gates">3. The rule: the ontology proposes, shapes dispose, the validator gates</h2>
+<p>Each verb is a different instrument. The ontology states which property a class may use and what range it admits: what is <em>conceivable</em>. A SHACL shape turns a requirement into a repeatable yes or no on named nodes. The XSD and <code>validate_semantic</code> decide validity and see document order, which RDF cannot. Never write &quot;the ontology can gate&quot;. The measured case, &quot;where may this node go?&quot;, answers three ways in <code>ontology_vs_gate(child)</code> (rules in section 8; XSD verdicts from the shipped <code>verified-containment.json</code> plus live one-node documents; <code>x3d_mcp fork b4efcd3</code>, <code>X3DUOM 4.1</code>, 2026-11-14):</p>
+<pre><code class="language-text"> where may a Box go?                                       each # is one parent
+ ontology map   12 parents (10 concrete, 2 abstract)       ############
+ X3DUOM gate    10 parents, 9 of them also in the map      ##########
+ XSD on the 10 gate pairs: 5 accepted, 3 rejected, 2 unclear              #####  (accepted)
+ where may an ImageTexture go?                             each # is about 2 parents
+ ontology map   62 parents (55 concrete), 85 rows          ##############################
+ X3DUOM gate    14 parents, 36 pairs; 12 parents in both   #######
+ XSD on the 36 gate pairs: 31 accepted, 1 rejected, 4 unclear;
+ on the 44 map-only pairs it could test: 42 rejected, 2 unclear
+</code></pre>
+<p>The gate is not the last word: for Box, 3 of 10 gate pairs are rejected by the XSD (<code>GeoMetadata.data</code>, <code>LinePickSensor.pickingGeometry</code>, <code>PointPickSensor.pickingGeometry</code>). Quote the layer you ran. The &quot;62 slots for a Box&quot; in older notes keeps every <code>(parent, field)</code> whose range is the bare <code>X3DNode</code> class; <code>node_parents</code> filters it on purpose and gives 12 (source conflict 3, Honest limits).</p>
+<h2 id="4-faithful-x3d-to-turtle">4. Faithful X3D to Turtle</h2>
+<p>The Consortium's <code>X3dToTurtle.xslt</code> is run on documents <em>with their DTD</em>, so attributes the author never wrote, above all <code>containerField</code>, arrive as defaults. A property is <code>has</code> plus the upper-camel <code>containerField</code>, or the element name if there is none. Drop the DOCTYPE and every <code>&lt;Sphere/&gt;</code> becomes <code>x3do:hasSphere</code> instead of <code>x3do:hasGeometry</code>; SPARQL joined to the ontology then returns silent blanks.</p>
+<table>
+<thead>
+<tr>
+<th>measurement</th>
+<th>value</th>
+<th>grade</th>
+<th>instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>converter graph vs recorded Saxon golden, 10 fixtures</td>
+<td>isomorphic 10 of 10; text-identical 0 of 10 (HelloWorld: 118 of 197 lines differ)</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>x3d_mcp fork b4efcd3</code>, rdflib <code>isomorphic</code>, <code>difflib</code></td>
+</tr>
+<tr>
+<td>elements with a <code>containerField</code> default in the converter tables</td>
+<td>235 of 252 (3.3), 261 of 278 (4.0), 268 of 285 (4.1)</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>tables sha256 1a5f3229a7ee</td>
+</tr>
+<tr>
+<td>DOCTYPE stripped (emulated: tables emptied): <code>has*</code> names the ontology does not declare</td>
+<td>HelloWorld 0 faithful, 8 stripped (<code>hasBackground hasGroup hasImageTexture hasSphere hasText hasTransform hasViewpoint hasWorldInfo</code>); Altar 0 to 7; SwitchOrder 0 to 4</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>scene_rdf</code>, ontology 4.1 (D-SEM-3)</td>
+</tr>
+</tbody>
+</table>
+<p>The emulation is the converter's own rule for a node its tables lack, applied to all nodes; it is not a Saxon run. The count excludes <code>hasROUTE</code> and <code>hasProtoDeclare</code>.</p>
+<table>
+<thead>
+<tr>
+<th>document <code>version</code></th>
+<th>DTD defaults</th>
+<th>ontology for <code>sparql_scene</code>, <code>rdf_infer</code></th>
+<th>ontology for <code>shacl_validate</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3.x (HelloWorld is 3.3)</td>
+<td>3.3</td>
+<td>4.0, rewritten into the 4.1 namespace</td>
+<td>4.1</td>
+</tr>
+<tr>
+<td>4.0</td>
+<td>4.0</td>
+<td>4.0</td>
+<td>4.1</td>
+</tr>
+<tr>
+<td>4.1, later or none</td>
+<td>4.1</td>
+<td>4.1</td>
+<td>4.1</td>
+</tr>
+</tbody>
+</table>
+<p>The split matters: Q8 (a field the parent type does not allow) on the 3.3 <code>HelloWorldFaulted</code> returns <strong>6</strong> rows against 4.0 and <strong>1</strong> against 4.1 (D-SEM-4). The 4.0 file lists fewer <code>rdfs:domain</code> classes, so five legal fields look illegal; the shapes therefore read 4.1 for every document.</p>
+<p><strong>Identity.</strong> DEF names are stable IRIs; anything else is positional and shifts on insertion. One <code>&lt;NavigationInfo/&gt;</code> inserted before HelloWorld's Group: 42 individuals before, 43 after, <strong>34 kept, 8 renamed</strong>, 5 of 5 DEF-named kept (<code>x3d_mcp fork b4efcd3</code>). Without an <code>identifier</code> meta the base is the shared <code>https://www.web3d.org/semantics/scenes/UnnamedX3dModel.ttl#</code>; the tool warns that such scenes collide when merged; <code>base_iri=</code> overrides it. Two nodes with one DEF merge into one IRI; S8 <code>duplicate-def</code> fired when their parents differed, not when they shared one, and the XSD rejected both (two probes, <strong><span class="g C" title="Confirmed">C</span></strong>): the XSD is the gate here.</p>
+<h2 id="5-sparql-on-scenes">5. SPARQL on scenes</h2>
+<p><code>sparql_scene(sparql, graph_id | content | path | blob_id, include_ontology=true, ontology_version, offset, limit)</code> runs SELECT or ASK over the scene joined to the ontology. Pre-declared prefixes: <code>x3do:</code> (4.1 namespace), <code>rdf</code>, <code>rdfs</code>, <code>owl</code>, <code>xsd</code>, <code>dcterms</code>, and <code>:</code> for the scene base. Behaviours that surprise (all <strong><span class="g C" title="Confirmed">C</span></strong>, <code>x3d_mcp fork b4efcd3</code>):</p>
+<table>
+<thead>
+<tr>
+<th>behaviour</th>
+<th>what happens</th>
+<th>consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rows are sorted by the server</td>
+<td>pages sort by each row's JSON text</td>
+<td>stable <code>page_sha256</code>; do not rely on ORDER BY</td>
+</tr>
+<tr>
+<td>a guard parses first</td>
+<td>UPDATE, LOAD, CONSTRUCT, DESCRIBE, SERVICE, FROM, a syntax error and a 21,393-character query: 8 of 8 refused</td>
+<td>no write, no network</td>
+</tr>
+<tr>
+<td>multi-step paths over the joined graph can duplicate rows</td>
+<td><code>rdf:rest/rdf:first</code> twice in a pattern: 4 rows for one material with the ontology joined, 1 without (D-SEM-8)</td>
+<td>use <code>DISTINCT</code>, or explicit <code>rdf:rest</code> hops</td>
+</tr>
+<tr>
+<td>the first query on a scene is slow</td>
+<td>520 to 730 ms, then 15 to 30 ms</td>
+<td>pass <code>graph_id=</code></td>
+</tr>
+</tbody>
+</table>
+<p>The catalogue; every query is complete, runs as the <code>sparql</code> argument or with <code>sw.sparql(sg, q, ontology_version=&quot;4.1&quot;)</code>. Rows are on the named fixture:</p>
+<pre><code class="language-sparql"># Q2  SELECT ?n ?t WHERE { ?n a ?t . ?t rdfs:subClassOf* x3do:X3DGeometryNode . FILTER(STRSTARTS(STR(?t), STR(x3do:))) }
+# Q3  SELECT ?use ?def WHERE { ?use owl:sameAs ?def }   (Q3b: the same on Altar)
+# Q4  SELECT ?a ?b ?c WHERE { ?r1 x3do:fromNode ?a ; x3do:toNode ?b . ?r2 x3do:fromNode ?b ; x3do:toNode ?c }
+# Q5  SELECT DISTINCT ?m ?Y WHERE { ?m a x3do:Material ; x3do:diffuseColor ?c .
+#       ?c rdf:first ?r ; rdf:rest/rdf:first ?g ; rdf:rest/rdf:rest/rdf:first ?b .
+#       BIND(0.2126*?r + 0.7152*?g + 0.0722*?b AS ?Y) }
+# Q6  SELECT ?s WHERE { ?s a x3do:Shape . FILTER NOT EXISTS { ?s x3do:hasGeometry ?g } FILTER NOT EXISTS { ?s owl:sameAs ?d } }
+# Q8  SELECT ?parent ?p ?child WHERE { ?parent ?p ?child . ?p rdfs:subPropertyOf+ x3do:hasChild . ?parent a ?pt .
+#       FILTER(STRSTARTS(STR(?pt), STR(x3do:))) FILTER NOT EXISTS { ?p rdfs:domain ?d . ?pt rdfs:subClassOf* ?d } }
+# Q9  SELECT ?use ?ut ?def ?dt WHERE { ?use owl:sameAs ?def . ?use a ?ut . ?def a ?dt .
+#       FILTER(STRSTARTS(STR(?ut), STR(x3do:)) &amp;&amp; STRSTARTS(STR(?dt), STR(x3do:)) &amp;&amp; ?ut != ?dt) }
+# Q11 SELECT ?c WHERE { :Picker x3do:hasChildren ?c }
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>query</th>
+<th>scene</th>
+<th>rows</th>
+<th>what it teaches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q2 geometry</td>
+<td>LabScene41</td>
+<td>3 (Box, Cone, Sphere)</td>
+<td>one pattern replaces 37 geometry classes (34 leaves; 4.1 file)</td>
+</tr>
+<tr>
+<td>Q3, Q3b</td>
+<td>LabScene41, Altar</td>
+<td>1 (<code>:Blue-USE-1</code> to <code>:Blue</code>), 19</td>
+<td><code>owl:sameAs</code> is the whole USE story</td>
+</tr>
+<tr>
+<td>Q4</td>
+<td>LabScene41</td>
+<td>1 (Clock, Spin, Orb)</td>
+<td>ROUTE endpoints are strings; join on <code>x3do:DEF</code></td>
+</tr>
+<tr>
+<td>Q5</td>
+<td>LabScene41</td>
+<td>1 (<code>:Blue</code>, Y = 0.45106)</td>
+<td>colours are lists; the DISTINCT matters</td>
+</tr>
+<tr>
+<td>Q6</td>
+<td>HelloWorldFaulted</td>
+<td>1 (<code>Shape_2_3_1_1</code>)</td>
+<td>closed-world absence; the SHACL twin is S2</td>
+</tr>
+<tr>
+<td>Q8</td>
+<td>HelloWorldFaulted</td>
+<td>6 against 4.0, 1 against 4.1</td>
+<td>legality is a question to the ontology, and the release matters</td>
+</tr>
+<tr>
+<td>Q9</td>
+<td>HelloWorldFaulted</td>
+<td>1 (Material USE of an ImageTexture DEF)</td>
+<td>the XSD and OWL cannot see it</td>
+</tr>
+<tr>
+<td>Q11</td>
+<td>SwitchOrder</td>
+<td>3, no order</td>
+<td>a set, not a sequence</td>
+</tr>
+</tbody>
+</table>
+<p>A query that returns rows is not a verdict: use SPARQL to find out, SHACL to say it every time (Q9 and S3 state one fact).</p>
+<h2 id="6-rdfs-and-owl-rl-on-the-x3d-ontology">6. RDFS and OWL-RL on the X3D Ontology</h2>
+<table>
+<thead>
+<tr>
+<th>profile of <code>rdf_infer</code></th>
+<th>adds</th>
+<th>HelloWorld (3.3, ontology 4.0)</th>
+<th>LabScene41 (4.1)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>subclass</code> (default)</td>
+<td>each node's superclasses as <code>rdf:type</code></td>
+<td>+81 triples; types per node 3 / 3 / 8 (min / median / max); 688 ms</td>
+<td>+72; 3 / 4 / 6; 46 ms</td>
+</tr>
+<tr>
+<td><code>rdfs</code></td>
+<td>the full RDFS closure of scene plus ontology</td>
+<td>+17,985; 5 / 34 / 343; 4.9 s</td>
+<td>+18,620; 5 / 30.5 / 352; 4.8 s</td>
+</tr>
+<tr>
+<td><code>owl-rl</code></td>
+<td>the OWL 2 RL closure</td>
+<td>+32,510; 15.2 s</td>
+<td>+33,394; 15.4 s</td>
+</tr>
+</tbody>
+</table>
+<p>(<code>x3d_mcp fork b4efcd3</code>, owlrl 7.6.2, <strong><span class="g C" title="Confirmed">C</span></strong>.) <code>subclass</code> is safe: a Sphere is also an <code>X3DGeometryNode</code> and an <code>X3DNode</code>. The others are not, and one modelling choice is the cause:</p>
+<pre><code class="language-text"> x3do:DEF  rdfs:domain  Anchor, Appearance, Box, ..., Transform, ..., Viewpoint   (337 in 4.1)
+        |  RDFS rule rdfs2: if p rdfs:domain C and s p o then s a C, once per listed class
+        v
+ :Orb  x3do:DEF &quot;Orb&quot;   =&gt;   :Orb a Anchor, a Appearance, a Box, a Transform, ... all at once
+</code></pre>
+<p>The authors list many classes as the domain of one field to say &quot;any of these may carry it&quot; (a union); RDFS and OWL read several <code>rdfs:domain</code> values as <strong>all apply</strong> (an intersection). Counts re-derived on the bundled files (rdflib 7.6.0, <strong><span class="g C" title="Confirmed">C</span></strong>):</p>
+<table>
+<thead>
+<tr>
+<th>quantity</th>
+<th>4.0</th>
+<th>4.1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>triples; classes; object and datatype properties</td>
+<td>17,736; 355; 326 and 712</td>
+<td>18,108; 364; 337 and 727</td>
+</tr>
+<tr>
+<td>properties with a domain; with more than one; most domains on one</td>
+<td>877; 296; 347</td>
+<td>901; 294; 355</td>
+</tr>
+<tr>
+<td>domains of <code>x3do:DEF</code>; <code>owl:disjointWith</code>; <code>owl:Restriction</code></td>
+<td>329; 0; 0</td>
+<td>337; 0; 0</td>
+</tr>
+</tbody>
+</table>
+<p>Three consequences. <strong>The type count depends on whether the node has a DEF:</strong> the DEF'd Transform in HelloWorld ends with 343 types, the DEF-less Group 51; quote counts with the DEF status and the release. <strong>OWL has no teeth here:</strong> with no disjointness axioms a node typed both <code>Box</code> and <code>Transform</code> is consistent; OWL-RL expanded it to 14 types in 8.3 s with 0 subjects typed <code>owl:Nothing</code>, so the ontology cannot reject a chimera and cannot gate. <strong>A closed graph answers differently:</strong> with <code>inference=&quot;rdfs&quot;</code> the shapes find 2,180 nodes holding fields they should not (section 7). Use <code>subclass</code> for class membership; use <code>rdfs</code> and <code>owl-rl</code> to study the ontology, never to validate a scene.</p>
+<h2 id="7-shacl-shapes">7. SHACL shapes</h2>
+<p>A <strong>shape</strong> says what must hold of every node it targets; a <strong>result</strong> names the node, path, message and shape. The bundled <code>x3d-core</code> file has 272 lines, 9 node shapes, 11 property shapes, 12 <code>check_id</code> values; 5 shapes carry a SHACL 1.2 <code>sh:agentInstruction</code>, which pyshacl 0.40.2 treats as data. Shapes read a 1,734-triple slice of the 4.1 ontology (of 18,108).</p>
+<table>
+<thead>
+<tr>
+<th>shape</th>
+<th>check_id</th>
+<th>severity</th>
+<th>rule and measured case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S1</td>
+<td><code>colour-out-of-range</code>, <code>value-out-of-range</code></td>
+<td>Violation</td>
+<td>colour, transparency, intensity in [0, 1]; <code>0.1 1.5 1</code> and <code>transparency</code> 1.2 caught</td>
+</tr>
+<tr>
+<td>S1b</td>
+<td><code>tuple-count</code></td>
+<td>Violation</td>
+<td>an SFColor has 3 members (a SPARQL constraint, see below); a 2-component colour caught</td>
+</tr>
+<tr>
+<td>S2</td>
+<td><code>shape-no-geometry</code></td>
+<td>Warning</td>
+<td>a non-USE Shape has geometry</td>
+</tr>
+<tr>
+<td>S3</td>
+<td><code>use-type-mismatch</code>, <code>use-undefined-def</code></td>
+<td>Violation</td>
+<td>a USE names an existing DEF of its type; Material USE of an ImageTexture caught</td>
+</tr>
+<tr>
+<td>S4</td>
+<td><code>no-viewpoint</code></td>
+<td>Warning</td>
+<td>the Scene has a viewpoint; 3 of 7 clean fixtures lack one (a convention)</td>
+</tr>
+<tr>
+<td>S5</td>
+<td><code>route-missing-from-node</code>, <code>-to-node</code></td>
+<td>Violation</td>
+<td>endpoints name DEFs; <code>Ghost</code> caught</td>
+</tr>
+<tr>
+<td>S6</td>
+<td><code>field-not-in-domain</code></td>
+<td>Violation</td>
+<td>each <code>has&lt;Field&gt;</code> is allowed for the type by the 4.1 ontology; Box in a Transform's <code>geometry</code> caught</td>
+</tr>
+<tr>
+<td>S7</td>
+<td><code>children-not-child-node</code></td>
+<td>Violation</td>
+<td>children are <code>X3DChildNode</code></td>
+</tr>
+<tr>
+<td>S8</td>
+<td><code>duplicate-def</code></td>
+<td>Violation</td>
+<td>one DEF names one node (section 4)</td>
+</tr>
+</tbody>
+</table>
+<p><code>inference=&quot;none&quot;</code>, pyshacl 0.40.2, <code>x3d_mcp fork b4efcd3</code>: the 7 clean fixtures give 0 Violations and 3 Warnings (S4); <code>HelloWorldFaulted</code> one result per planted fault (6 check ids: 4 V, 2 W); <code>HelloWorldBoxChild</code> 1 V; <code>LabScene41Faulted</code> 3 V. Calls took 356 to 2,956 ms.</p>
+<p><strong>Valid but wrong: a part that floats or sinks.</strong> This scene passes the XSD (4.1), <code>validate_semantic</code> (0 errors) and <code>x3d-core</code> (0 results):</p>
+<pre><code class="language-xml">&lt;X3D profile='Interchange' version='4.1'&gt;
+  &lt;head&gt;&lt;meta name='identifier' content='https://example.org/learn/ShelfCase.x3d'/&gt;&lt;/head&gt;
+  &lt;Scene&gt;
+    &lt;Viewpoint DEF='Front' description='Front view' position='0 1.5 9'/&gt;
+    &lt;Transform DEF='Table' translation='0 0.5 0'&gt;&lt;Shape&gt;&lt;Appearance&gt;&lt;Material diffuseColor='0.5 0.35 0.2'/&gt;&lt;/Appearance&gt;&lt;Box size='4 1 2'/&gt;&lt;/Shape&gt;&lt;/Transform&gt;
+    &lt;Transform DEF='Mug'   translation='0 1.25 0'&gt;&lt;Shape&gt;&lt;Appearance&gt;&lt;Material diffuseColor='0.9 0.9 0.9'/&gt;&lt;/Appearance&gt;&lt;Box size='0.5 0.5 0.5'/&gt;&lt;/Shape&gt;&lt;/Transform&gt;
+    &lt;Transform DEF='Lamp'  translation='1 2.1 0'&gt;&lt;Shape&gt;&lt;Appearance&gt;&lt;Material diffuseColor='1 0.9 0.4'/&gt;&lt;/Appearance&gt;&lt;Sphere radius='0.25'/&gt;&lt;/Shape&gt;&lt;/Transform&gt;
+    &lt;Transform DEF='Book'  translation='-1 0.9 0'&gt;&lt;Shape&gt;&lt;Appearance&gt;&lt;Material diffuseColor='0.2 0.3 0.8'/&gt;&lt;/Appearance&gt;&lt;Box size='1 0.2 1'/&gt;&lt;/Shape&gt;&lt;/Transform&gt;
+  &lt;/Scene&gt;
+&lt;/X3D&gt;
+</code></pre>
+<p>The table spans y 0 to 1. The mug (bottom 1.0) rests; the lamp's bottom is 1.85, 0.85 above; the book's bottom is 0.8, sunk 0.2. The shape <code>parts.ttl</code> finds the nearest overlapping part below and compares its top with this part's bottom:</p>
+<pre><code class="language-turtle">@prefix sh:   &lt;http://www.w3.org/ns/shacl#&gt; .
+@prefix xsd:  &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+@prefix x3do: &lt;https://www.web3d.org/specifications/X3dOntology4.1#&gt; .
+@prefix ex:   &lt;urn:example:parts#&gt; .
+ex: sh:declare [ sh:prefix &quot;x3do&quot; ; sh:namespace &quot;https://www.web3d.org/specifications/X3dOntology4.1#&quot;^^xsd:anyURI ] ,
+               [ sh:prefix &quot;rdf&quot;  ; sh:namespace &quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;^^xsd:anyURI ] .
+ex:PartRestsOnSupport a sh:NodeShape ; sh:targetClass x3do:Transform ; sh:severity sh:Warning ;
+  sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes ex: ;
+    sh:message &quot;part is {?kind}: its lowest point is {?gap} from the top of the part below it&quot; ;
+    sh:select &quot;&quot;&quot;
+SELECT $this ?gap ?kind WHERE {
+  { SELECT $this ?gap WHERE {
+      # part $this: centre (px py pz), half-extents (phx phy phz); omitted fields are defaults
+      $this x3do:translation ?pt . ?pt rdf:first ?px ; rdf:rest/rdf:first ?py ; rdf:rest/rdf:rest/rdf:first ?pz .
+      $this x3do:hasChildren/x3do:hasGeometry ?pg .
+      { ?pg a x3do:Box . OPTIONAL { ?pg x3do:size ?pl . ?pl rdf:first ?pa ; rdf:rest/rdf:first ?pb ; rdf:rest/rdf:rest/rdf:first ?pc }
+        BIND(COALESCE(?pa, 2) / 2 AS ?phx) BIND(COALESCE(?pb, 2) / 2 AS ?phy) BIND(COALESCE(?pc, 2) / 2 AS ?phz) }
+      UNION { ?pg a x3do:Sphere . OPTIONAL { ?pg x3do:radius ?pr }
+        BIND(COALESCE(?pr, 1) AS ?phx) BIND(COALESCE(?pr, 1) AS ?phy) BIND(COALESCE(?pr, 1) AS ?phz) }
+      # every other part q, same pattern
+      ?q x3do:translation ?qt . ?qt rdf:first ?qx ; rdf:rest/rdf:first ?qy ; rdf:rest/rdf:rest/rdf:first ?qz .
+      ?q x3do:hasChildren/x3do:hasGeometry ?qg .
+      { ?qg a x3do:Box . OPTIONAL { ?qg x3do:size ?ql . ?ql rdf:first ?qa ; rdf:rest/rdf:first ?qb ; rdf:rest/rdf:rest/rdf:first ?qc }
+        BIND(COALESCE(?qa, 2) / 2 AS ?qhx) BIND(COALESCE(?qb, 2) / 2 AS ?qhy) BIND(COALESCE(?qc, 2) / 2 AS ?qhz) }
+      UNION { ?qg a x3do:Sphere . OPTIONAL { ?qg x3do:radius ?qr }
+        BIND(COALESCE(?qr, 1) AS ?qhx) BIND(COALESCE(?qr, 1) AS ?qhy) BIND(COALESCE(?qr, 1) AS ?qhz) }
+      # q is below the part and overlaps it on the floor plan (axis-aligned)
+      FILTER(?q != $this &amp;&amp; ?qy &lt; ?py &amp;&amp; ABS(?px - ?qx) &lt; ?phx + ?qhx &amp;&amp; ABS(?pz - ?qz) &lt; ?phz + ?qhz)
+      BIND(?py - ?phy - (?qy + ?qhy) AS ?gap)
+    } ORDER BY DESC(?qy + ?qhy) LIMIT 1 }
+  FILTER(ABS(?gap) &gt; 0.05)
+  BIND(IF(?gap &gt; 0, &quot;floating&quot;, &quot;sunk&quot;) AS ?kind)
+}&quot;&quot;&quot; ] .
+</code></pre>
+<p>Result through <code>shacl_validate(shapes=&quot;none&quot;, extra_shapes_ttl=...)</code>: <code>Book: sunk, -0.2</code> and <code>Lamp: floating, 0.85</code>; mug and table pass. On <code>LabScene41</code> (a fixture written for converter tests, not a physical scene): <code>Orb: floating, 1.00</code>. Carry over: the nested SELECT must select <code>$this</code> (pyshacl refuses it otherwise); <code>COALESCE(?pa, 2)</code> and <code>COALESCE(?pr, 1)</code> because defaults are omitted (a Box without <code>size</code> is 2 by 2 by 2); pick the nearest support first, then judge it; Warning severity and a tolerance of 0.05 chosen by hand <strong><span class="g S" title="Suspected">S</span></strong>. Scope: Box and Sphere under a top-level Transform, no rotation, no scale. Turn the table 90 degrees and move the mug off it: still no mug result, a false negative (D-SEM-5).</p>
+<p><strong>The set-semantics trap.</strong> SHACL counts <em>distinct value nodes</em>. Over the path <code>( x3do:diffuseColor [ sh:zeroOrMorePath rdf:rest ] rdf:first )</code> a white <code>( 1 1 1 )</code> has one value, so <code>sh:minCount 3</code> flags it. Measured (D-SEM-7): naive <code>minCount 3</code> flags <code>( 1 1 1 )</code> (wrong) and <code>( 1 1 )</code> (right); a SPARQL <code>COUNT</code> over <code>rdf:rest*</code> flags only <code>( 1 1 )</code>; the SHACL 1.2 draft's <code>sh:minListLength 3</code> flags nothing and answers <code>conforms=True</code>, because this engine version does not implement it: a false green with no warning. That is why S1b is SPARQL, and why every new constraint needs a known-bad input.</p>
+<p><strong>The false-violation trap.</strong> The same shapes with the ontology's closure applied (<code>shacl_validate</code>, 2026-11-14, D-SEM-6):</p>
+<table>
+<thead>
+<tr>
+<th>scene</th>
+<th>inference</th>
+<th>results</th>
+<th>by check_id</th>
+<th>time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HelloWorld (clean)</td>
+<td>none</td>
+<td>0</td>
+<td>none</td>
+<td>1.8 s</td>
+</tr>
+<tr>
+<td>HelloWorld (clean)</td>
+<td>rdfs</td>
+<td><strong>2,185</strong> (2,180 V, 5 W)</td>
+<td><code>field-not-in-domain</code> 2,180, <code>shape-no-geometry</code> 5</td>
+<td>17.3 s</td>
+</tr>
+<tr>
+<td>HelloWorldFaulted (6 faults)</td>
+<td>none</td>
+<td>6</td>
+<td>one each</td>
+<td>1.4 s</td>
+</tr>
+<tr>
+<td>HelloWorldFaulted</td>
+<td>rdfs</td>
+<td>2,236 (2,231 V, 5 W)</td>
+<td><code>field-not-in-domain</code> 2,229, <code>colour-out-of-range</code> 1, <code>route-missing-from-node</code> 1, <code>shape-no-geometry</code> 5</td>
+<td>15.6 s</td>
+</tr>
+</tbody>
+</table>
+<p>Of six planted faults under <code>rdfs</code>, two vanish (<code>use-type-mismatch</code>, <code>no-viewpoint</code>), one drowns among 2,229 look-alikes (the Box in a Transform) and two survive. Only the <code>warnings</code> text names the reasoner. <code>owlrl</code> hit the 20 s deadline. Keep <code>inference=&quot;none&quot;</code>; for class membership use <code>rdfs:subClassOf*</code>.</p>
+<h2 id="8-the-tool-surface-added-in-pr-17">8. The tool surface added in PR #17</h2>
+<p>PR #17 (merge b4efcd3, 2026-11-13) is four commits on the base <code>13121b6</code> (2026-11-03): the 4.1 ontology bundle; the converter (<code>scene_rdf</code> 649 lines, <code>xpath_mini</code> 245, DTD tables) with 10 fixtures and Saxon goldens; the five tools (758 and 378 lines, shapes 272, 30 test functions), the <code>semantic_audit</code> prompt and <code>instrument</code> on every answer; and <code>docs/semantic-web-tools.md</code>. Its tests plus <code>tests/test_prompts.py</code>: 61 passed, 1 skipped, 25 s.</p>
+<p><strong>Counting the surface at b4efcd3</strong> (D-SEM-1): <strong>53 tools</strong>, 5 prompts, 1 resource, 1 resource template with numpy installed; <strong>51 tools without numpy</strong> (the two splat tools need it). At <code>13121b6</code>: 48 tools, 4 prompts; the difference is the five tools below and the prompt.</p>
+<table>
+<thead>
+<tr>
+<th>tool</th>
+<th>inputs</th>
+<th>returns</th>
+<th>caps and guards</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scene_to_rdf</code></td>
+<td><code>content</code>, <code>path</code> or <code>blob_id</code>; <code>format</code>; <code>base_iri</code>; <code>return_mode</code></td>
+<td><code>graph_id</code>, <code>sha256</code>, <code>triples</code>, <code>individuals</code>, <code>warnings</code>, <code>turtle</code></td>
+<td>300,000 triples; 120,000 inline characters; 8 graphs per session</td>
+</tr>
+<tr>
+<td><code>sparql_scene</code></td>
+<td><code>sparql</code>; <code>graph_id</code> or a document; <code>ontology_version</code>; <code>offset</code>; <code>limit</code> 1 to 500</td>
+<td><code>rows</code>, <code>total</code>, <code>next_offset</code>, <code>page_sha256</code></td>
+<td>SELECT and ASK only; 20,000 characters; 20 s forked deadline; 20,000 rows</td>
+</tr>
+<tr>
+<td><code>shacl_validate</code></td>
+<td><code>graph_id</code> or a document; <code>shapes</code>; <code>extra_shapes_ttl</code>; <code>inference</code> none, rdfs, owlrl, both</td>
+<td><code>conforms</code>, <code>counts</code>, <code>by_check</code>, <code>results</code> of <code>{focus, def, node_type, path, value, severity, message, shape, check_id, fix_hint}</code></td>
+<td>shapes 256,000 characters; <code>owl:imports</code>, <code>sh:construct</code>, <code>sh:update</code> refused; shape SPARQL passes the same guard</td>
+</tr>
+<tr>
+<td><code>rdf_infer</code></td>
+<td><code>graph_id</code> or a document; <code>profile</code>; <code>budget</code> 1 to 300 s</td>
+<td><code>added</code>, <code>per_node_type_counts</code>, <code>warnings</code></td>
+<td>the session graph is never changed</td>
+</tr>
+<tr>
+<td><code>ontology_vs_gate</code></td>
+<td><code>child</code>; <code>ontology_version</code>; <code>xsd</code></td>
+<td><code>counts</code>, <code>parents</code>, <code>counting_rules</code></td>
+<td>at most 120 live XSD documents per call; needs no scene</td>
+</tr>
+</tbody>
+</table>
+<p>Counting rules of <code>ontology_vs_gate</code>: <strong>map</strong> is <code>node_parents</code> (a <code>(parent, has&lt;Field&gt;)</code> whose property is under <code>hasChild</code> and whose range subsumes the child, other than bare <code>X3DNode</code>); <strong>gate</strong> is <code>where_can_place</code> on the X3DUOM (<code>acceptableNodeTypes</code>, no event-only fields); parents are distinct names; XSD verdicts are A accepts, R rejects, I could not tell. Caps are set by <code>X3D_MCP_SCENE_MAX_TRIPLES</code>, <code>X3D_MCP_TURTLE_INLINE_MAX</code>, <code>X3D_MCP_SPARQL_TIMEOUT</code> (shared by queries, SHACL and inference), <code>X3D_MCP_SPARQL_MAX_CHARS</code> and <code>X3D_MCP_ONTOLOGY_MAX_ROWS</code>. A <code>graph_id</code> is the first 16 hex digits of the Turtle's sha256, so an identical document gives the same id. The <code>instrument</code> block carries the commit and dirty flag, the ontology, shapes and X3DUOM hashes, the converter and the library versions; paste it into <code>claim_append</code> so a finding is re-runnable. The <code>semantic_audit</code> prompt has 7 steps (graph, ask, shapes, gate, placement, receipts, repeat) and says to keep <code>inference=&quot;none&quot;</code>.</p>
+<h2 id="9-a-worked-session-scripted-not-a-model-run">9. A worked session (scripted, not a model run)</h2>
+<p><code>ShelfStranger.x3d</code> is the shelf with a colour of 1.5 on the table, a USE of <code>Wood</code> before its DEF, a ROUTE from <code>Ghost</code>, and the lamp and book problems. The calls are real, in the <code>semantic_audit</code> order; the choosing is the author's, so this shows tool input and output, not model skill, and no bare-versus-grounded trial exists.</p>
+<pre><code class="language-text">[1] scene_to_rdf(content=&lt;ShelfStranger.x3d&gt;, return_mode=&quot;summary&quot;)
+    graph_id e88db1ed180ea947, 230 triples, 31 individuals, ontology 4.1, 56 ms
+[2] sparql_scene(graph_id=e88db1..., ?use owl:sameAs ?def)       :Wood-USE-1 -&gt; :Wood
+[3] shacl_validate(graph_id=e88db1...)         conforms false, 2 Violation
+      colour-out-of-range      :Wood       component outside [0,1], value 1.5
+      route-missing-from-node  :ROUTE_2_7  fromNode 'Ghost' names no DEF in this scene
+[4] shacl_validate(shapes=&quot;none&quot;, extra_shapes_ttl=&lt;parts.ttl&gt;)   2 Warning
+      Book: part is sunk, -0.2            Lamp: part is floating, 0.85
+[5] validate_x3d       valid false, 1 error: diffuseColor '0.5 1.5 0.2' fails the colour pattern
+[6] validate_semantic  3 errors: use-before-def (USE='Wood'), route-missing-from-node,
+                       colour-out-of-range
+[7] claim_append x3    3 records (Confirmed, Confirmed, Likely), head ba02c848be0e901c
+[8] claims_verify      ok true; one changed character in record 0: ok false, index 0
+[9] scripted edits (colour 0.35, Spare after Table, ROUTE deleted, Lamp y 1.25, Book y 1.1):
+    x3d-core + parts.ttl 0 results; validate_x3d valid; validate_semantic 0 errors
+</code></pre>
+<p>The matrix this session measured (each cell a real verdict; <code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.1</code>):</p>
+<pre><code class="language-text"> fault in the scene             XSD       x3d-core    parts.ttl   validate_semantic
+ ----------------------------   -------   ---------   ---------   ---------------------
+ colour component 1.5           caught    caught S1   -           caught
+ USE before its DEF             -         -           -           caught use-before-def
+ ROUTE from a missing node      -         caught S5   -           caught
+ lamp floats, book sunk         -         -           caught      -
+</code></pre>
+<p>Four faults, four different sets of layers, and the last row is seen by exactly one: the argument for stacking layers and for naming which one caught what. Results carried the DEF and a <code>fix_hint</code>; <code>claim_append</code> refuses a grade outside Confirmed, Likely, Suspected.</p>
+<h2 id="10-lookup-before-judge">10. Lookup before judge</h2>
+<p>If the X3DUOM, the XSD, the scene's own DEF table or a shape can answer a statement exactly, call the tool and quote it; do not ask a model, or a person, to judge it.</p>
+<table>
+<thead>
+<tr>
+<th>question</th>
+<th>exact source</th>
+<th>call</th>
+<th>what a model may still judge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>may an ImageTexture sit under this parent</td>
+<td>X3DUOM, then the XSD</td>
+<td><code>where_can_place</code>, <code>ontology_vs_gate</code></td>
+<td>which of the 14 gate parents the scene needs</td>
+</tr>
+<tr>
+<td>USE before its DEF; colour legal</td>
+<td>document order; XSD pattern, S1</td>
+<td><code>validate_semantic</code>, <code>validate_x3d</code></td>
+<td>whether 0 to 255 was meant (the fix hint says so)</td>
+</tr>
+<tr>
+<td>does the lamp touch the table</td>
+<td>geometry in the graph</td>
+<td>a contact shape (section 7)</td>
+<td>whether a hanging lamp is intended</td>
+</tr>
+<tr>
+<td>does it look right</td>
+<td>no exact source</td>
+<td><code>render_image</code>, a person</td>
+<td>everything; grade it <strong><span class="g S" title="Suspected">S</span></strong> or <strong><span class="g L" title="Likely">L</span></strong></td>
+</tr>
+</tbody>
+</table>
+<p>In practice: never state a placement from memory (map, gate and XSD disagree, so say which you ran); quote the <code>check_id</code>, node and <code>instrument</code>; record <strong>Confirmed</strong> only when a tool verdict shows it, <strong>Likely</strong> when it follows from one, <strong>Suspected</strong> otherwise; and where no oracle exists say so, because that is where judgment, and its grade, begins.</p>
+<h2 id="11-the-ontology-lab-the-plan-not-yet-published">11. The ontology lab: the plan, not yet published</h2>
+<p><strong>Status: not yet published.</strong> A public, interactive teaching page for this material is being designed for the <code>x3d.demo</code> site. At <code>x3d.demo@d10b457</code> (2026-11-14) it has no ontology-lab page; the one ontology page there is a separate 3D viewer of the class tree (<code>docs/demos/ontology-constellation/v1/index.html</code>). The design is a private working note, so there is no link; this chapter will link the page by relative path when it ships and will not call it existing until then. The lab must show the facts measured here.</p>
+<table>
+<thead>
+<tr>
+<th>tier</th>
+<th>question</th>
+<th>sections</th>
+<th>measured fact a station would show</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1 Facts (RDF)</td>
+<td>what is a scene as triples</td>
+<td>2, 4</td>
+<td>Turtle beside the scene; 8 of 42 positional IRIs renamed by one insertion</td>
+</tr>
+<tr>
+<td>T2 Questions (SPARQL)</td>
+<td>what can I ask</td>
+<td>5</td>
+<td>Q2 to Q11 with row counts</td>
+</tr>
+<tr>
+<td>T3 Meaning (RDFS, OWL)</td>
+<td>what follows</td>
+<td>6</td>
+<td>one node from 2 types to 343; 0 disjointness axioms</td>
+</tr>
+<tr>
+<td>T4 Accountability (SHACL, gates)</td>
+<td>what must hold, who decides</td>
+<td>3, 7</td>
+<td>the Box funnel 12 to 10 to 5; the 2,185-result false alarm; a fault bench naming each catching layer</td>
+</tr>
+<tr>
+<td>T5 Agents (MCP)</td>
+<td>what does a model see</td>
+<td>8 to 10</td>
+<td>recorded sessions replayed with tool, arguments, result hash</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The receipt-gathering protocol.</strong> A lab number is quotable only with a receipt: claim, grade, command, pins, output hash, date. (1) <strong>Pin table first:</strong> ontology, X3DUOM and XSD sha256, <code>x3d_mcp</code> commit, X_ITE version and rig, every engine version. (2) <strong>Build the Turtle at build time</strong> through the faithful pipeline, never from a DOCTYPE-stripped copy, and gate the build on isomorphism with the recorded Saxon golden. (3) <strong>Give every station an oracle:</strong> the Python result (rdflib, pyshacl, owlrl) beside the live result with a parity flag; report engines that disagree (pyshacl ignores SHACL 1.2 list constraints; a second engine may differ <strong><span class="g S" title="Suspected">S</span></strong>). (4) <strong>Source and grade on every number;</strong> the build fails on one with none. (5) <strong>Record sessions, do not stage them:</strong> per call the tool, arguments, latency, a sha256 of the result; say &quot;recorded&quot;; claim no LLM improvement without a bare-versus-grounded trial. (6) <strong>Publish after a leak sweep and the owner's go;</strong> Consortium example scenes keep their licence notice, and nothing says one is defective. (7) <strong>Version, never overwrite:</strong> a new measurement is a new dated row (<a href="AUTHORING.html">AUTHORING</a>).</p>
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule (imperative, at most 30 words)</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-SEM-1</td>
+<td>Write &quot;the ontology proposes, shapes dispose, validators gate&quot;; never let an ontology answer stand as a validity verdict. Check placement with <code>ontology_vs_gate</code> and the XSD.</td>
+<td>C</td>
+<td>ImageTexture: 62 map parents, 14 gate; XSD rejects 42 of 44 tested map-only pairs</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>X3DUOM 4.1</code>, <code>X3D XSD 4.1</code></td>
+</tr>
+<tr>
+<td>H-SEM-2</td>
+<td>Run <code>shacl_validate</code> with <code>inference=&quot;none&quot;</code>. For class membership use <code>rdf_infer</code> profile <code>subclass</code> or <code>rdfs:subClassOf*</code>.</td>
+<td>C</td>
+<td>clean HelloWorld 0 results, 2,185 with rdfs</td>
+<td><code>x3d_mcp fork b4efcd3</code>, pyshacl 0.40.2, owlrl 7.6.2</td>
+</tr>
+<tr>
+<td>H-SEM-3</td>
+<td>Convert with the DTD defaults of the document's version; count <code>has&lt;Element&gt;</code> predicates the ontology does not declare, and read a non-zero count as missing defaults.</td>
+<td>C</td>
+<td>HelloWorld: 0 faithful, 8 with the tables emptied</td>
+<td><code>x3d_mcp fork b4efcd3</code> converter tables</td>
+</tr>
+<tr>
+<td>H-SEM-4</td>
+<td>Join on DEF names or the identifier meta, never on positional IRIs such as <code>Shape_2_4_2</code>.</td>
+<td>C</td>
+<td>8 of 42 individuals renamed by one inserted node; DEF-named 5 of 5 kept</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-SEM-5</td>
+<td>Keep document-order rules in XML checks: USE before DEF is invisible to SPARQL and SHACL, and <code>children</code> is a set in the graph.</td>
+<td>C</td>
+<td>both orders give the same graph; only <code>validate_semantic</code> reports it</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-SEM-6</td>
+<td>Count list members with SPARQL over <code>rdf:rest*</code>, not <code>sh:minCount</code>: SHACL counts distinct values, so white <code>( 1 1 1 )</code> fails a naive arity shape.</td>
+<td>C</td>
+<td>naive shape flags white and <code>( 1 1 )</code>; SPARQL flags only <code>( 1 1 )</code></td>
+<td>pyshacl 0.40.2</td>
+</tr>
+<tr>
+<td>H-SEM-7</td>
+<td>Give every new constraint a known-bad input before trusting a pass; an engine may ignore a feature silently.</td>
+<td>C</td>
+<td><code>sh:minListLength 3</code> on <code>( 1 1 )</code> gave <code>conforms=True</code></td>
+<td>pyshacl 0.40.2</td>
+</tr>
+<tr>
+<td>H-SEM-8</td>
+<td>After XSD, semantic and core shapes pass, add a contact shape for floating and sunk parts as a Warning with a stated tolerance and scope.</td>
+<td>C</td>
+<td>lamp 0.85 above, book 0.2 sunk, both passed every other layer</td>
+<td><code>x3d_mcp fork b4efcd3</code>, pyshacl 0.40.2</td>
+</tr>
+<tr>
+<td>H-SEM-9</td>
+<td>Record each verdict with <code>claim_append</code>, passing the <code>instrument</code> the tool returned; then run <code>claims_verify</code>.</td>
+<td>C</td>
+<td>3 chained records; one changed character fails at index 0</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-SEM-10</td>
+<td>Look up before you judge: when the XSD, X3DUOM, a DEF table or a shape answers exactly, call it; reserve judgment for what no oracle covers, and grade it.</td>
+<td>L</td>
+<td>3 of 4 session faults had an exact tool; no tool saw all four</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-SEM-11</td>
+<td>Name, in every report, the layer that caught each problem; a fault one layer sees is why the others exist.</td>
+<td>C</td>
+<td>lamp and book seen by 1 of 4 layers, colour by 3 of 4</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="drills">Drills</h2>
+<p>Run each script from the root of an <code>x3d_mcp</code> checkout at <code>b4efcd3</code> with its dependencies installed, as <code>PYTHONPATH=src python3 &lt;file&gt;</code>. <code>d5.py</code> reads <code>parts.ttl</code> and <code>shelf.x3d</code> (section 7) from its own folder; run it there with <code>PYTHONPATH=&lt;checkout&gt;/src</code>. D-SEM-2, 4 and 6 are one-liners given in their Verify lines.</p>
+<pre><code class="language-python"># d3.py  strip the DOCTYPE: empty the converter's DTD tables, count undeclared has* names
+import rdflib
+from rdflib import RDF
+from x3d_utils import scene_rdf as sr
+X = &quot;https://www.web3d.org/specifications/X3dOntology4.1#&quot;
+declared = set(rdflib.Graph().parse(&quot;src/validation/schemas/X3dOntology4.1.ttl&quot;).subjects(RDF.type, None))
+text = open(&quot;tests/fixtures/scene_rdf/HelloWorld.x3d&quot;).read()
+def undeclared():
+    g = sr.scene_to_rdf(text).graph
+    return sorted(str(p)[len(X):] for p in set(g.predicates()) if str(p).startswith(X + &quot;has&quot;) and p not in declared)
+print(&quot;faithful:&quot;, undeclared())
+for table in sr.get_rules().dtd.values():
+    table.clear()
+print(&quot;stripped:&quot;, undeclared())
+</code></pre>
+<pre><code class="language-python"># d5.py  the contact shape, then three variations
+from x3d_utils import semantic_web as sw
+shape, scene = open(&quot;parts.ttl&quot;).read(), open(&quot;shelf.x3d&quot;).read()
+def run(label, xml):
+    res = sw.shacl(sw.convert(xml), shapes=&quot;none&quot;, extra_shapes_ttl=shape)
+    print(label, [(r[&quot;def&quot;], r[&quot;message&quot;].split(&quot;: its&quot;)[0]) for r in res[&quot;results&quot;]])
+run(&quot;base           &quot;, scene)
+run(&quot;Mug at y=1.35  &quot;, scene.replace(&quot;translation='0 1.25 0'&quot;, &quot;translation='0 1.35 0'&quot;))
+rot = scene.replace(&quot;DEF='Table' translation='0 0.5 0'&quot;, &quot;DEF='Table' translation='0 0.5 0' rotation='0 1 0 1.5708'&quot;)
+run(&quot;table turned 90&quot;, rot.replace(&quot;DEF='Mug' translation='0 1.25 0'&quot;, &quot;DEF='Mug' translation='1.5 1.25 0'&quot;))
+</code></pre>
+<pre><code class="language-python"># d7.py  set semantics and a silent ignore
+import pyshacl, rdflib
+from rdflib import Graph
+P = &quot;&quot;&quot;@prefix sh: &lt;http://www.w3.org/ns/shacl#&gt; . @prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix x3do: &lt;https://www.web3d.org/specifications/X3dOntology4.1#&gt; . @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; . @prefix : &lt;urn:s#&gt; .
+: sh:declare [ sh:prefix &quot;x3do&quot; ; sh:namespace &quot;https://www.web3d.org/specifications/X3dOntology4.1#&quot;^^xsd:anyURI ] ,
+             [ sh:prefix &quot;rdf&quot; ; sh:namespace &quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;^^xsd:anyURI ] .
+:s a sh:NodeShape ; sh:targetClass x3do:Material ; &quot;&quot;&quot;
+SHAPES = {
+ &quot;naive minCount 3&quot;: P + &quot;sh:property [ sh:path ( x3do:diffuseColor [ sh:zeroOrMorePath rdf:rest ] rdf:first ) ; sh:minCount 3 ] .&quot;,
+ &quot;SPARQL arity&quot;: P + '''sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes : ; sh:message &quot;arity&quot; ; sh:select &quot;&quot;&quot;SELECT $this ?n WHERE {
+   { SELECT $this (COUNT(?c) AS ?n) WHERE { $this x3do:diffuseColor ?l . ?l rdf:rest* ?k . ?k rdf:first ?c } GROUP BY $this } FILTER(?n != 3) }&quot;&quot;&quot; ] .''',
+ &quot;SHACL 1.2 list&quot;: P + &quot;sh:property [ sh:path x3do:diffuseColor ; sh:minListLength 3 ] .&quot;,
+}
+data = Graph().parse(format=&quot;turtle&quot;, data=&quot;&quot;&quot;@prefix x3do: &lt;https://www.web3d.org/specifications/X3dOntology4.1#&gt; . @prefix : &lt;urn:t#&gt; .
+:white a x3do:Material ; x3do:diffuseColor ( 1 1 1 ) . :grey a x3do:Material ; x3do:diffuseColor ( 0.2 0.5 0.8 ) .
+:short a x3do:Material ; x3do:diffuseColor ( 1 1 ) .&quot;&quot;&quot;)
+for name, shapes in SHAPES.items():
+    ok, rep, _ = pyshacl.validate(data, shacl_graph=Graph().parse(format=&quot;turtle&quot;, data=shapes))
+    print(f&quot;{name:17s} conforms={ok} flagged={sorted(str(o).split('#')[1] for o in rep.objects(None, rdflib.SH.focusNode))}&quot;)
+</code></pre>
+<pre><code class="language-python"># d8.py  what RDF forgets (USE before DEF) and the duplicate-row trap
+from x3d_utils import semantic_web as sw
+from validation.semantic import semantic_diagnostics
+T = &quot;&lt;X3D profile='Interchange' version='4.1'&gt;&lt;head/&gt;&lt;Scene&gt;&lt;Viewpoint position='0 0 6'/&gt;%s&lt;/Scene&gt;&lt;/X3D&gt;&quot;
+A = &quot;&lt;Shape&gt;&lt;Appearance&gt;&lt;Material DEF='M' diffuseColor='1 0 0'/&gt;&lt;/Appearance&gt;&lt;Sphere/&gt;&lt;/Shape&gt;&quot;
+B = &quot;&lt;Shape&gt;&lt;Appearance&gt;&lt;Material USE='M'/&gt;&lt;/Appearance&gt;&lt;Box/&gt;&lt;/Shape&gt;&quot;
+for name, doc in ((&quot;DEF then USE&quot;, T % (A + B)), (&quot;USE then DEF&quot;, T % (B + A))):
+    print(name, &quot;| shacl conforms:&quot;, sw.shacl(sw.convert(doc))[&quot;conforms&quot;],
+          &quot;| semantic errors:&quot;, [d.check for d in semantic_diagnostics(doc) if d.level == &quot;error&quot;])
+sg = sw.convert(open(&quot;tests/fixtures/scene_rdf/LabScene41.x3d&quot;).read())
+Q = &quot;SELECT %s ?m WHERE { ?m a x3do:Material ; x3do:diffuseColor ?c . ?c rdf:first ?r ; rdf:rest/rdf:first ?g ; rdf:rest/rdf:rest/rdf:first ?b }&quot;
+for kw in (&quot;&quot;, &quot;DISTINCT&quot;):
+    print(kw or &quot;plain   &quot;, &quot;rows with / without the ontology:&quot;, [sw.sparql(sg, Q % kw, include_ontology=i)[&quot;total&quot;] for i in (True, False)])
+</code></pre>
+<h3 id="d-sem-1-count-the-tool-surface">D-SEM-1 Count the tool surface</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> At <code>x3d_mcp@b4efcd3</code> count the tools and prompts the server registers; block numpy and count again; repeat at <code>13121b6</code>.</li>
+<li><strong>Verify:</strong> <code>len(asyncio.run(server.mcp.list_tools()))</code> and <code>list_prompts()</code> after <code>import server</code> with <code>PYTHONPATH=src</code>; set <code>sys.modules['numpy'] = None</code> before the import for the second count; <code>git archive 13121b6 src</code> for the base.</li>
+<li><strong>Answer:</strong> 53 tools and 5 prompts; 51 and 5 without numpy (the two splat tools need it); 48 and 4 at <code>13121b6</code>. New: <code>scene_to_rdf</code>, <code>sparql_scene</code>, <code>shacl_validate</code>, <code>rdf_infer</code>, <code>ontology_vs_gate</code>, prompt <code>semantic_audit</code>.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code> and <code>x3d_mcp fork 13121b6</code>, Python 3.13.18, in-memory <code>list_tools</code>.</li>
+</ul>
+<h3 id="d-sem-2-count-the-ontology">D-SEM-2 Count the ontology</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> For the bundled 4.1 ontology state triples, classes, properties with a domain, those with several, the largest domain count, the domains of <code>x3do:DEF</code>, and the <code>owl:disjointWith</code> count.</li>
+<li><strong>Verify:</strong> load <code>src/validation/schemas/X3dOntology4.1.ttl</code> (sha256 starts 057f1ba083a6) with rdflib; <code>Counter(s for s, _ in g.subject_objects(RDFS.domain))</code> gives the domain counts per property.</li>
+<li><strong>Answer:</strong> 18,108 triples, 364 classes, 901 properties with a domain, 294 with several, largest 355; <code>x3do:DEF</code> has 337; 0 disjointness axioms.</li>
+<li><strong>Checked:</strong> 2026-11-14 rdflib 7.6.0, <code>X3dOntology4.1.ttl</code> as bundled at <code>x3d_mcp fork b4efcd3</code>.</li>
+</ul>
+<h3 id="d-sem-3-strip-the-doctype">D-SEM-3 Strip the DOCTYPE</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Run <code>d3.py</code>. Name the predicates that appear only without DTD defaults and say why a query for <code>x3do:hasGeometry</code> returns nothing on the stripped graph. Repeat with <code>Altar.x3d</code> and <code>SwitchOrder.x3d</code>.</li>
+<li><strong>Verify:</strong> <code>PYTHONPATH=src python3 d3.py</code>.</li>
+<li><strong>Answer:</strong> faithful <code>[]</code>; stripped <code>['hasBackground', 'hasGroup', 'hasImageTexture', 'hasSphere', 'hasText', 'hasTransform', 'hasViewpoint', 'hasWorldInfo']</code>. With no <code>containerField</code> default the field is named after the element (<code>hasSphere</code>), so the ontology's <code>hasGeometry</code> never matches.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code> converter, ontology 4.1 (an emulation, not a Saxon run).</li>
+</ul>
+<h3 id="d-sem-4-one-query-two-ontologies">D-SEM-4 One query, two ontologies</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> On <code>tests/fixtures/scene_rdf/faulted/HelloWorldFaulted.x3d</code> run query Q8 (section 5) once with <code>ontology_version=&quot;4.0&quot;</code> and once with <code>&quot;4.1&quot;</code>. Explain the two counts and say which row is the real fault.</li>
+<li><strong>Verify:</strong> <code>sw.sparql(sw.convert(xml), Q8, ontology_version=v)[&quot;rows&quot;]</code> with <code>from x3d_utils import semantic_web as sw</code>.</li>
+<li><strong>Answer:</strong> 6 with 4.0, 1 with 4.1 (<code>Transform_2_3_2 hasGeometry Box_2_3_2_1</code>, the Box in a Transform's <code>geometry</code> field). The 4.0 file lists fewer <code>rdfs:domain</code> classes for <code>hasChildren</code>, <code>hasGeometry</code>, <code>hasCoord</code>, so 5 legal fields look illegal.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code>, rdflib 7.6.0.</li>
+</ul>
+<h3 id="d-sem-5-a-part-that-floats">D-SEM-5 A part that floats</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Save section 7's scene and shape as <code>shelf.x3d</code> and <code>parts.ttl</code>; run <code>d5.py</code>. Predict, then check, the three runs. Then find a scene the shape passes that a person would call wrong.</li>
+<li><strong>Verify:</strong> from that folder, <code>PYTHONPATH=&lt;checkout&gt;/src python3 d5.py</code>.</li>
+<li><strong>Answer:</strong> base: <code>Book</code> sunk, <code>Lamp</code> floating, nothing for Mug and Table. Mug at y 1.35: <code>Mug</code> floating (gap 0.10) as a third result. Table turned 90 degrees, mug at x 1.5 (now off it): still only Book and Lamp, a false negative, because the shape reads translation and size and ignores rotation and scale. A fix composes rotation and scale into the extents.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code>, pyshacl 0.40.2.</li>
+</ul>
+<h3 id="d-sem-6-break-it-with-reasoning">D-SEM-6 Break it with reasoning</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Call <code>sw.shacl(sg, inference=...)</code> with <code>&quot;none&quot;</code> and <code>&quot;rdfs&quot;</code> (set <code>X3D_MCP_SPARQL_TIMEOUT=120</code> first) on <code>HelloWorld.x3d</code> and <code>faulted/HelloWorldFaulted.x3d</code>. Which of the six faults are visible with rdfs, and what in the answer shows the reasoner is at fault?</li>
+<li><strong>Verify:</strong> print <code>r[&quot;counts&quot;]</code> and the <code>check_id</code> of each result; about 35 s in all.</li>
+<li><strong>Answer:</strong> clean 0, then 2,185 (2,180 V <code>field-not-in-domain</code>, 5 W <code>shape-no-geometry</code>); faulted 6, then 2,236. Under rdfs <code>use-type-mismatch</code> and <code>no-viewpoint</code> are gone, <code>colour-out-of-range</code> and <code>route-missing-from-node</code> remain, the Box fault hides among 2,229 look-alikes. The <code>warnings</code> text names the cause.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code>, pyshacl 0.40.2, owlrl 7.6.2, 35.6 s.</li>
+</ul>
+<h3 id="d-sem-7-set-semantics-and-a-silent-ignore">D-SEM-7 Set semantics and a silent ignore</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Run <code>d7.py</code>. Which colours does each of the three shapes flag, and which flag is wrong or missing?</li>
+<li><strong>Verify:</strong> <code>python3 d7.py</code> with pyshacl 0.40.2.</li>
+<li><strong>Answer:</strong> naive <code>minCount 3</code>: <code>short</code> (right) and <code>white</code> (wrong, its value set is <code>{1}</code>); SPARQL arity: <code>short</code> only; <code>sh:minListLength 3</code>: nothing, <code>conforms=True</code>, a false green in this engine version.</li>
+<li><strong>Checked:</strong> 2026-11-14 pyshacl 0.40.2, rdflib 7.6.0.</li>
+</ul>
+<h3 id="d-sem-8-what-rdf-forgets">D-SEM-8 What RDF forgets</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Run <code>d8.py</code>. Which layer notices USE before DEF? Why do the last two lines differ?</li>
+<li><strong>Verify:</strong> <code>PYTHONPATH=src python3 d8.py</code>.</li>
+<li><strong>Answer:</strong> both orders give <code>shacl conforms: True</code>; only <code>USE then DEF</code> gives <code>['use-before-def']</code> from <code>validate_semantic</code>. The query returns <code>[4, 1]</code> plain and <code>[1, 1]</code> with <code>DISTINCT</code>: the joined graph repeats rows for multi-step paths.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code>, rdflib 7.6.0, pyshacl 0.40.2.</li>
+</ul>
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li><strong>The session was scripted. <span class="g C" title="Confirmed">C</span></strong> No LLM issued the calls in section 9; inputs and outputs are real. Nothing here measures whether a model does better with these tools.</li>
+<li><strong>The DOCTYPE strip is an emulation. <span class="g C" title="Confirmed">C</span></strong> I emptied the converter's DTD tables; <code>X3dToTurtle.xslt</code> was not run. That a Saxon run on a stripped copy gives the same 8 names comes from a private note <strong><span class="g S" title="Suspected">S</span></strong>, carried, not re-checked. The converter is graph-isomorphic to 10 Saxon goldens, not text-identical.</li>
+<li><strong>Contact shape scope. <span class="g C" title="Confirmed">C</span></strong> Axis-aligned Box and Sphere, top-level Transform with one Shape, no rotation or scale, floor under the lowest part, tolerance chosen by hand <strong><span class="g S" title="Suspected">S</span></strong>. It misses a rotated table (D-SEM-5) and cannot know a lamp is meant to hang.</li>
+<li><strong>One SHACL engine. <span class="g C" title="Confirmed">C</span></strong> All shape results are pyshacl 0.40.2; divergence elsewhere is not measured.</li>
+<li><strong>Inference on two scenes, two releases. <span class="g C" title="Confirmed">C</span></strong> HelloWorld read against 4.0 (it is 3.3) and LabScene41 against 4.1; counts shift with release and DEF status. <code>inference=&quot;owlrl&quot;</code> through <code>shacl_validate</code> hit the 20 s deadline; I did not raise it.</li>
+<li><strong>Duplicate rows reproduced, not root-caused. <span class="g L" title="Likely">L</span></strong> rdflib internals not read.</li>
+<li><strong><code>ontology_vs_gate</code> XSD numbers rest on a shipped table plus live probes. <span class="g C" title="Confirmed">C</span></strong> <code>verified-containment.json</code> was read, not regenerated.</li>
+<li><strong>No render, no GPU; tools called in memory, not over a transport. <span class="g C" title="Confirmed">C</span></strong></li>
+<li><strong>Source conflicts.</strong> (1) Ontology 4.1: 18,108 triples in the bundled file (re-derived) against 18,121 in the older x3d.onto data copy named in <a href="../x3d.onto/MASTERCLASS.html">the x3d.onto masterclass</a>; both right for their own file. (2) False violations under rdfs: 2,185 here against about 1,749 in a private note using a seven-shape variant; the code and this run support 2,185. (3) A Box in &quot;62 slots&quot; (bare <code>X3DNode</code> range kept) against 12 parents (<code>node_parents</code>); section 3 states the rule. (4) <code>containerField</code> defaults 235 (3.3) and 268 (4.1) here against 258 and 293 in a private note with no stated rule <strong><span class="g S" title="Suspected">S</span></strong>. (5) Older docs saying the fork cannot query a user scene describe <code>13121b6</code>, before PR #17.</li>
+<li><strong>Not published:</strong> the lab page (section 11). <strong>Not covered:</strong> CONSTRUCT and SPARQL update (the guard refuses them), ShEx, JSON-LD for X3D JSON.</li>
+</ul>
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-SEM-1</td>
+<td>tools, prompts at b4efcd3</td>
+<td>53 tools, 5 prompts, 1 resource, 1 template; 51 tools without numpy</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, in-memory <code>list_tools</code></td>
+<td>x3d_mcp@b4efcd3:src/server.py</td>
+</tr>
+<tr>
+<td>N-SEM-2</td>
+<td>tools, prompts at the PR base</td>
+<td>48 tools, 4 prompts</td>
+<td>C</td>
+<td><code>x3d_mcp fork 13121b6</code></td>
+<td>x3d_mcp@13121b6:src/server.py</td>
+</tr>
+<tr>
+<td>N-SEM-3</td>
+<td>converter vs Saxon goldens</td>
+<td>graph-isomorphic 10 of 10; text-identical 0 of 10</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, rdflib 7.6.0</td>
+<td>x3d_mcp@b4efcd3:tests/fixtures/scene_rdf/</td>
+</tr>
+<tr>
+<td>N-SEM-4</td>
+<td>ontology 4.1 as bundled</td>
+<td>18,108 triples, 364 classes, 337 object and 727 datatype properties, sha256 057f1ba083a6</td>
+<td>C</td>
+<td>rdflib 7.6.0</td>
+<td>x3d_mcp@b4efcd3:src/validation/schemas/X3dOntology4.1.ttl</td>
+</tr>
+<tr>
+<td>N-SEM-5</td>
+<td>domain pooling, 4.1 (4.0)</td>
+<td>901 (877) properties with a domain, 294 (296) with several, max 355 (347), <code>DEF</code> 337 (329)</td>
+<td>C</td>
+<td>rdflib 7.6.0</td>
+<td>same files</td>
+</tr>
+<tr>
+<td>N-SEM-6</td>
+<td>axioms that could reject a node</td>
+<td>0 <code>owl:disjointWith</code>, 0 <code>owl:Restriction</code>, both releases</td>
+<td>C</td>
+<td>rdflib 7.6.0</td>
+<td>same files</td>
+</tr>
+<tr>
+<td>N-SEM-7</td>
+<td>containerField defaults</td>
+<td>235 of 252 (3.3), 261 of 278 (4.0), 268 of 285 (4.1) elements</td>
+<td>C</td>
+<td>converter tables sha256 1a5f3229a7ee</td>
+<td>x3d_mcp@b4efcd3:src/validation/schemas/X3dToTurtle-tables.json</td>
+</tr>
+<tr>
+<td>N-SEM-8</td>
+<td>positional IRI churn</td>
+<td>42 to 43 individuals; 34 kept, 8 renamed; 5 of 5 DEF-named kept</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>one NavigationInfo inserted into HelloWorld</td>
+</tr>
+<tr>
+<td>N-SEM-9</td>
+<td>Box: map vs gate vs XSD</td>
+<td>map 12 parents (10 concrete); gate 10; both 9; XSD on gate pairs A 5, R 3, I 2</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>X3DUOM 4.1</code>, <code>X3D XSD 4.1</code></td>
+<td><code>ontology_vs_gate(&quot;Box&quot;)</code></td>
+</tr>
+<tr>
+<td>N-SEM-10</td>
+<td>ImageTexture: map vs gate vs XSD</td>
+<td>map 85 rows, 62 parents (55 concrete); gate 36 pairs, 14 parents; both 12; XSD gate A 31, R 1, I 4; map-only R 42, I 2</td>
+<td>C</td>
+<td>same</td>
+<td><code>ontology_vs_gate(&quot;ImageTexture&quot;)</code></td>
+</tr>
+<tr>
+<td>N-SEM-11</td>
+<td><code>subclass</code> inference</td>
+<td>HelloWorld +81 triples, types 3 / 3 / 8, 688 ms; LabScene41 +72, 3 / 4 / 6, 46 ms</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code> <code>rdf_infer</code></td>
+<td>scratch run, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-SEM-12</td>
+<td>RDFS and OWL-RL closure</td>
+<td>RDFS +17,985 (HelloWorld, 4.9 s), +18,620 (LabScene41); OWL-RL +32,510 and +33,394, about 15 s</td>
+<td>C</td>
+<td>owlrl 7.6.2</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-SEM-13</td>
+<td>DEF effect on type count (RDFS)</td>
+<td>DEF'd Transform 343, DEF-less Group 51, Scene 46; Box plus Transform node under OWL-RL: 14 types, 0 <code>owl:Nothing</code></td>
+<td>C</td>
+<td>owlrl 7.6.2</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-SEM-14</td>
+<td><code>x3d-core</code> shapes</td>
+<td>9 node shapes, 11 property shapes, 12 check ids, 5 <code>sh:agentInstruction</code>; slice 1,734 triples</td>
+<td>C</td>
+<td>rdflib, pyshacl 0.40.2</td>
+<td>x3d_mcp@b4efcd3:src/validation/schemas/shapes/x3d-core.shacl.ttl</td>
+</tr>
+<tr>
+<td>N-SEM-15</td>
+<td>shapes on fixtures, no inference</td>
+<td>7 clean: 0 V, 3 W (S4); Faulted 4 V + 2 W; BoxChild 1 V; LabScene41Faulted 3 V</td>
+<td>C</td>
+<td>pyshacl 0.40.2</td>
+<td>x3d_mcp@b4efcd3:tests/fixtures/scene_rdf/</td>
+</tr>
+<tr>
+<td>N-SEM-16</td>
+<td>false alarm with <code>inference=&quot;rdfs&quot;</code></td>
+<td>clean HelloWorld 2,185 results (2,180 V, 5 W), 17.3 s; faulted 2,236; 2 of 6 faults gone</td>
+<td>C</td>
+<td>pyshacl 0.40.2, owlrl 7.6.2</td>
+<td>D-SEM-6</td>
+</tr>
+<tr>
+<td>N-SEM-17</td>
+<td>contact shape on ShelfCase</td>
+<td>Lamp floating 0.85, Book sunk -0.2; XSD valid, <code>validate_semantic</code> 0 errors, <code>x3d-core</code> 0 results; LabScene41 Orb floating 1.00</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, pyshacl 0.40.2</td>
+<td>section 7</td>
+</tr>
+<tr>
+<td>N-SEM-18</td>
+<td>arity shapes on 3 colours</td>
+<td>naive minCount flags 2 (white wrongly); SPARQL arity 1; <code>sh:minListLength</code> 0</td>
+<td>C</td>
+<td>pyshacl 0.40.2</td>
+<td>D-SEM-7</td>
+</tr>
+<tr>
+<td>N-SEM-19</td>
+<td>legality query by release</td>
+<td>6 rows (4.0), 1 row (4.1) on HelloWorldFaulted</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>D-SEM-4</td>
+</tr>
+<tr>
+<td>N-SEM-20</td>
+<td>duplicate rows, joined graph</td>
+<td>4 plain, 1 with DISTINCT or without the ontology</td>
+<td>C</td>
+<td>rdflib 7.6.0</td>
+<td>D-SEM-8</td>
+</tr>
+<tr>
+<td>N-SEM-21</td>
+<td>tool caps</td>
+<td>300,000 triples; 120,000 inline characters; 20,000 query characters; 20 s; 20,000 rows; 500 per page; 8 graphs; 256,000 shape characters; 120 XSD documents</td>
+<td>C</td>
+<td>read, not run</td>
+<td>x3d_mcp@b4efcd3:src/x3d_utils/{semantic_web,ontology_guard}.py</td>
+</tr>
+<tr>
+<td>N-SEM-22</td>
+<td>session fault matrix</td>
+<td>colour seen by 3 of 4 layers, USE-before-DEF 1, ROUTE 2, floating and sunk 1</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>section 9</td>
+</tr>
+<tr>
+<td>N-SEM-23</td>
+<td>claim ledger tamper test</td>
+<td>3 records verify; one changed character fails at index 0</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td><code>claim_append</code>, <code>claims_verify</code></td>
+</tr>
+<tr>
+<td>N-SEM-24</td>
+<td>the lab page</td>
+<td>not yet published; no ontology-lab page at the pinned commit</td>
+<td>C</td>
+<td><code>x3d.demo@d10b457</code> directory read</td>
+<td>x3d.demo@d10b457:docs/demos/</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<ul>
+<li><code>x3d_mcp@b4efcd3</code> (merge of PR #17, 2026-11-13): <code>src/tools/semantic_web.py</code>, <code>src/x3d_utils/{semantic_web,scene_rdf,ontology_guard,xpath_mini}.py</code>, <code>src/validation/schemas/</code> (both ontologies, converter tables, <code>shapes/x3d-core.shacl.ttl</code>), <code>src/server.py</code>, <code>docs/semantic-web-tools.md</code>, <code>tests/test_semantic_web_tools.py</code>, <code>tests/fixtures/scene_rdf/*</code> (7 scenes, 3 faulted, goldens, manifest). The five Consortium example scenes in the fixtures keep the licence notice in that directory. Base comparison at <code>13121b6</code>.</li>
+<li><code>x3d.docs@f172f67</code>: <code>docs/x3d.onto/MASTERCLASS.md</code> (read, not re-derived). <code>x3d.demo@d10b457</code>: directory listing only.</li>
+<li>Re-run on 2026-11-14 in a scratch virtualenv: tool counts at two commits, ontology statistics, the converter isomorphism check, the emulated DOCTYPE strip, Q2 to Q11, <code>ontology_vs_gate</code> for four nodes, all SHACL runs, the inference profiles, the contact shape, the arity shapes, the duplicate probes, the scripted session, the guard probes and the PR's tests.</li>
+<li>Private working notes were pointers only. A figure from them is re-derived above or graded <strong><span class="g S" title="Suspected">S</span></strong> with &quot;carried from a private note, not re-checked&quot;. They are not linked.</li>
+<li>Siblings: <a href="01-the-tether.html">01 The tether</a>, <a href="02-loom-laws.html">02 Loom laws</a>, <a href="03-validator-and-gates.html">03 The validator and the gates</a>, <a href="04-mcp-for-agents.html">04 MCP for agents</a>, <a href="06-xite-the-oracle.html">06 X_ITE, the oracle</a>.</li>
+</ul>
+<div class="pn"><a href="04-mcp-for-agents.html">&larr; 04-mcp-for-agents</a><a href="06-xite-the-oracle.html">06-xite-the-oracle &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

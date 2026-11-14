@@ -1,0 +1,1351 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>09. Castle Game Engine as an X3D host · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a class="cur" href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="09-castle-engine.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/09-castle-engine.md">GitHub</a></div><h1>09. Castle Game Engine as an X3D host</h1>
+<details class="toc"><summary>On this page (26 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-what-castle-is-and-what-x3d-is-inside-it">2. What Castle is, and what X3D is inside it</a><a class="l2" href="#3-loader-and-saver-inventory-21-and-7-counted">3. Loader and saver inventory: 21 and 7, counted</a><a class="l2" href="#4-node-coverage-eleven-groups-99-registrations-three-states">4. Node coverage: eleven groups, 99 registrations, three states</a><a class="l2" href="#5-event-model-traps">5. Event model traps</a><a class="l2" href="#6-rendering-architecture-and-the-light-model-difference">6. Rendering architecture and the light-model difference</a><a class="l2" href="#7-the-quality-leg-how-close-does-each-renderer-get-to-a-path-traced-image">7. The quality leg: how close does each renderer get to a path-traced image?</a><a class="l2" href="#8-our-own-glb-exporter-shape-tree-to-glb">8. Our own glb exporter: shape tree to glb</a><a class="l2" href="#9-reproducibility-pinned-bundle-one-image-one-smoke-test">9. Reproducibility: pinned bundle, one image, one smoke test</a><a class="l2" href="#10-the-gap-list-and-what-became-of-it">10. The gap list and what became of it</a><a class="l2" href="#11-the-critics-verdict-and-what-it-forbids">11. The critic&#x27;s verdict, and what it forbids</a><a class="l2" href="#12-what-to-copy-from-castle-and-what-to-distrust">12. What to copy from Castle, and what to distrust</a><a class="l2" href="#13-re-run-kit">13. Re-run kit</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-cas-1-count-the-parse-only-nodes-and-name-the-denominator">D-CAS-1 Count the parse-only nodes and name the denominator</a><a class="l3" href="#d-cas-2-count-loaders-and-savers-without-trusting-a-number">D-CAS-2 Count loaders and savers without trusting a number</a><a class="l3" href="#d-cas-3-re-derive-the-headline-flip-and-what-it-hides">D-CAS-3 Re-derive the headline FLIP and what it hides</a><a class="l3" href="#d-cas-4-validate-two-exporter-glbs">D-CAS-4 Validate two exporter glbs</a><a class="l3" href="#d-cas-5-break-the-spot-cone-rule">D-CAS-5 Break the spot-cone rule</a><a class="l3" href="#d-cas-6-a-valid-scene-the-validator-cannot-warn-about">D-CAS-6 A valid scene the validator cannot warn about</a><a class="l3" href="#d-cas-7-design-the-timesensor-origin-fixture">D-CAS-7 Design the TimeSensor origin fixture</a><a class="l3" href="#d-cas-8-attenuation-at-3-m-and-at-05-m">D-CAS-8 Attenuation at 3 m and at 0.5 m</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> Castle is a native Pascal engine whose internal model is the X3D node graph, which makes it the best-mapped host we examined for seam knowledge and traps; nothing measured here shows it leading on node coverage, conformance, fidelity or standard-setting, and the one comparator we ran (X_ITE) is ahead on fidelity and, at the name rung, on node coverage. <strong><span class="g C" title="Confirmed">C</span></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>CAS</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="01-the-tether.html">01 The tether</a> for the loop; <a href="03-validator-and-gates.html">03 The validator and the gates</a> for what a validator can and cannot see; <a href="06-xite-the-oracle.html">06 X_ITE, the reference renderer</a> for the comparator</td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>(1) say what X3D is inside Castle and what it is not; (2) count loaders, savers and parse-only nodes with a script and name the denominator; (3) state three event-model traps and the light-model difference with the line that causes each; (4) read a Castle fidelity number with its rig, its reference and its blind spots; (5) say which sentences about Castle are allowed and which the evidence forbids</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td>x3d.castle@d70e00c:{README.md, docs/*.md, docker/, castle-convert/x3dcastleexport.pas, castle-render/castle_render.dpr, tools/, tests/phase3_check.py, results/}; castle-engine@48ce617:src/scene/{x3d/{castleinternalnodesunsupported.pas, x3dnodes_standard_time.inc, x3dnodes_standard_navigation.inc, castlefields_misctypes.inc}, load/{x3dload.pas, x3dloadinternalgltf.pas, pasgltf/CastlePasGLTF.pas}, glsl/source/, castlescenecore.pas}, tests/code/testcases/testx3dnodes.pas</td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td><code>castle-engine@48ce617</code> (public master, 2026-11-10, read through a sparse checkout, not built); Castle 7.0-alpha.3 snapshot, FPC 3.2.2, Mesa llvmpipe for every carried render number; <code>Khronos glTF-Validator 2.0.0-dev.3.10</code>; <code>X_ITE 16.7.1</code> (npm dist read for class names, not run here; the carried rig numbers ran it in Chromium 153.0.8010.12, SwiftShader); <code>x3d_mcp fork b4efcd3</code>; Python 3.13.18; Node 22.23.4; <code>x3d.castle@d70e00c</code></td>
+</tr>
+</tbody>
+</table>
+<p>Everything tagged &quot;run 2026-11-14&quot; was run in a software-only container (4 vCPU, no GPU). Other render numbers are carried from the receipts under <code>x3d.castle@d70e00c:results/</code>, re-derived from their JSON where I say so. The Castle source I could read is public master <code>castle-engine@48ce617</code>; the renders ran on a 7.0-alpha.3 snapshot bundle with no <code>.git</code>, so the two are the same tree only by timing (snapshot built 2026-11-12, last master commit 2026-11-10) <strong><span class="g L" title="Likely">L</span></strong>.</p>
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text">  files (x3d x3dv wrl glb gltf obj stl ply dae 3ds md3 ifc spine tmx ...)    21 registrations
+      v  URL funnel + MIME-keyed registry (RegisterModelFormat)                7 with OnSave
+  X3D NODE GRAPH   data: fields, ROUTEs, PROTO expanded, Inline loaded; 43 change classes
+      |  (Castle-only nodes leak in: Skin, Effect, ScreenEffect, GeneratedShadowMap)
+      v
+  TCastleScene  (= TCastleTransform, a member of the engine tree, which is NOT X3D)
+      v  ChangedAll / change classes
+  SHAPE TREE   the evaluated scene: geometry + world matrix + lights + LOD/Switch wrappers
+      |--&gt; renderer: GLSL from plugs, one program per feature hash (llvmpipe here)
+      |--&gt; octrees, ray picking, physics colliders
+      '--&gt; OUR exporter (x3d-castle-convert): shape tree -&gt; glb      70 of 70 validator-clean
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>layer</th>
+<th>what it holds</th>
+<th>is it X3D</th>
+<th>what we measured or read</th>
+<th>instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>file formats</td>
+<td>21 registered loaders, 7 savers</td>
+<td>partly (3 of the 7 savers write X3D or VRML)</td>
+<td>counted by script, section 3</td>
+<td><code>castle-engine@48ce617</code></td>
+</tr>
+<tr>
+<td>node graph</td>
+<td>the content of one asset</td>
+<td>yes, natively; even a glb becomes X3D nodes</td>
+<td>11 groups parse-only, section 4</td>
+<td><code>castle-engine@48ce617</code></td>
+</tr>
+<tr>
+<td>engine tree</td>
+<td>the world: transforms, viewport, camera, components</td>
+<td>no; persistence is JSON design files</td>
+<td>read, section 2</td>
+<td>field-guide map, <span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>shape tree</td>
+<td>the evaluated, flattened scene</td>
+<td>derived from the graph</td>
+<td>our exporter reads it, section 8</td>
+<td><code>x3d.castle@d70e00c</code></td>
+</tr>
+<tr>
+<td>renderer</td>
+<td>GLSL composed from plugs</td>
+<td>n/a</td>
+<td>quality leg, section 7</td>
+<td>llvmpipe, carried</td>
+</tr>
+</tbody>
+</table>
+<p><strong>In scope:</strong> what Castle taught us about hosting X3D: loader and node inventory, event and light traps, the quality leg, our glb exporter, reproduction, the gap list, the critic's verdict, rules to copy or distrust. <strong>Out of scope:</strong> Castle's game-engine features, the 7.x line beyond the snapshot, and any peer engine (none was opened; section 11).</p>
+<p><strong>Read next:</strong> deeper, <code>x3d.castle@d70e00c:docs/exporter.md</code> and <code>docs/quality-leg.md</code> (this chapter re-derives their headline numbers); wider, <a href="08-babylon-bridge.html">08 The Babylon bridge</a> for the other independent reader, and <a href="10-blender-pipeline.html">10 The Blender pipeline</a> for the add-on whose reading of a file is the reference in section 7.</p>
+<h2 id="2-what-castle-is-and-what-x3d-is-inside-it">2. What Castle is, and what X3D is inside it</h2>
+<p>Castle is an Object Pascal engine that compiles every model format into one intermediate representation, an X3D node graph, then runs and draws that graph: a compiler front end plus a runtime <strong><span class="g L" title="Likely">L</span></strong> (field-guide readers; I re-read the registry and the unsupported-node unit at master, sections 3 and 4).</p>
+<table>
+<thead>
+<tr>
+<th>fact</th>
+<th>consequence for hosting X3D</th>
+<th>grade</th>
+<th>source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TCastleSceneCore</code> is a <code>TCastleTransform</code>; the world is the engine tree, saved as JSON design files</td>
+<td>a Viewpoint, Background or Fog in an X3D file reaches the viewport only through the deprecated <code>MainScene</code> path</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>field-guide map; <code>x3d.castle@d70e00c:castle-render/castle_render.dpr:713</code> says our harness uses <code>MainScene</code>, <code>UseHeadlight</code>, <code>AutoCamera</code>, all deprecated</td>
+</tr>
+<tr>
+<td>nodes are data, shapes are the evaluated scene</td>
+<td>the node walk and the shape walk can disagree (LOD, below)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dnodes_standard_navigation.inc:607-616</code> against <code>x3dcastleexport.pas:1494-1507</code></td>
+</tr>
+<tr>
+<td>unknown classic-encoding nodes are skipped to the matching brace; a top-level read error warns once and stops the file</td>
+<td>a classic file can load half its shapes and report success</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dnodes_x3dunknownnode.inc:56-90</code>; <code>x3dnodes_encoding_classic.inc:569-573</code></td>
+</tr>
+<tr>
+<td>Castle-only nodes share the graph with standard ones</td>
+<td>saving or exporting can leak <code>Skin</code>, <code>Effect</code>, <code>ScreenEffect</code>, <code>keyValueQuaternions</code></td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>field-guide map (extension ledger)</td>
+</tr>
+<tr>
+<td><code>ProcessEvents</code> defaults to false</td>
+<td>a still render never runs a ROUTE unless the harness turns events on</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>castlescenecore.pas:2336-2337</code>; <code>castle_render.dpr:830</code> sets it true</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-text">  one file, three readers, three answers to &quot;which LOD child is drawn?&quot;
+   node walk  (DirectEnumerateActive)  -&gt; child 0, always (&quot;always use the best LOD version&quot;)
+   shape walk (TShapeTreeLOD.Level)    -&gt; chosen from the camera distance, while rendering
+   our exporter (UpdateLods)           -&gt; sets Level once from the bound Viewpoint
+</code></pre>
+<p>A census or checker that enumerates nodes and a renderer that enumerates shapes disagree on any scene with <code>LOD</code> <strong><span class="g C" title="Confirmed">C</span></strong> for the two code paths (read; the disagreement itself was not run).</p>
+<h2 id="3-loader-and-saver-inventory-21-and-7-counted">3. Loader and saver inventory: 21 and 7, counted</h2>
+<p>Method <strong><span class="g C" title="Confirmed">C</span></strong>, run 2026-11-14 on <code>castle-engine@48ce617</code>: every <code>ModelFormat := TModelFormat.Create; ... RegisterModelFormat(ModelFormat)</code> block under <code>src/</code>, minus the example in the doc comment of <code>x3dload.pas</code>; a saver assigns <code>ModelFormat.OnSave</code>. <code>RegisterModelFormat</code> refuses a duplicate MIME type, an empty MIME list or filter name, and an extension without its leading dot (<code>x3dload.pas:813-840</code>).</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>format</th>
+<th>extensions</th>
+<th>saver</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 to 3</td>
+<td>X3D XML; X3D classic; VRML</td>
+<td><code>.x3d .x3dz .x3d.gz</code>; <code>.x3dv .x3dvz .x3dv.gz</code>; <code>.wrl .wrl.gz .wrz</code></td>
+<td>yes, yes, yes (VRML writes classic)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Inventor</td>
+<td><code>.iv</code></td>
+<td>no</td>
+</tr>
+<tr>
+<td>5, 6</td>
+<td>glTF binary, glTF JSON</td>
+<td><code>.glb</code>, <code>.gltf</code></td>
+<td>yes, yes (the stock writer, section 8)</td>
+</tr>
+<tr>
+<td>7, 8</td>
+<td>STL, IFC</td>
+<td><code>.stl</code>, <code>.ifc .ifcjson</code></td>
+<td>yes, yes</td>
+</tr>
+<tr>
+<td>9 to 17</td>
+<td>OBJ, PLY, Collada, 3DS, MD3, Videoscape, Spine, Tiled TMX, images</td>
+<td>one or two each</td>
+<td>no</td>
+</tr>
+<tr>
+<td>18 to 21</td>
+<td>Cocos2d plist, Castle and Starling sprite sheets, Castle animation frames</td>
+<td><code>.plist</code>, <code>.castle-sprite-sheet</code>, <code>.starling-xml</code>, <code>.castle-anim-frames .kanim</code></td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<p>Reading rules <strong><span class="g C" title="Confirmed">C</span></strong>: 21 and 7 are <em>registrations</em>, not working conversions. The whole-file X3D write-then-read test upstream has both calls commented out (<code>tests/code/testcases/testx3dnodes.pas:392-393</code>), so no suite there round-trips an X3D file. There is no X3D JSON or binary encoding. Breadth is a statement about inputs.</p>
+<h2 id="4-node-coverage-eleven-groups-99-registrations-three-states">4. Node coverage: eleven groups, 99 registrations, three states</h2>
+<p>One internal unit holds X3D nodes Castle parses, keeps and saves but does not run; its header says &quot;we can perfectly read and write them in X3D, but nothing more&quot; (<code>castleinternalnodesunsupported.pas:16-25</code>) <strong><span class="g C" title="Confirmed">C</span></strong>. Run 2026-11-14 (<code>xite_names.py</code>, section 13) on <code>castle-engine@48ce617</code> and the <code>x_ite@16.7.1</code> npm dist:</p>
+<table>
+<thead>
+<tr>
+<th>group</th>
+<th style="text-align:right">Castle registrations</th>
+<th style="text-align:right">same-named non-abstract class in X_ITE 16.7.1</th>
+<th>the misses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Geospatial, DIS, Layering, Layout, Picking, ParticleSystems, VolumeRendering</td>
+<td style="text-align:right">11, 6, 3, 5, 5, 10, 13</td>
+<td style="text-align:right">all</td>
+<td>none</td>
+</tr>
+<tr>
+<td>RigidBodyPhysics, Followers</td>
+<td style="text-align:right">14, 10</td>
+<td style="text-align:right">all</td>
+<td>none</td>
+</tr>
+<tr>
+<td>TextureProjector</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">2</td>
+<td><code>AbstractTextureProjector</code> (abstract, registered anyway)</td>
+</tr>
+<tr>
+<td>SoundX3D4</td>
+<td style="text-align:right">19</td>
+<td style="text-align:right">18</td>
+<td>Castle <code>Oscillator</code>; X_ITE <code>OscillatorSource</code> (spec spelling not checked)</td>
+</tr>
+<tr>
+<td><strong>total, 11 groups</strong></td>
+<td style="text-align:right"><strong>99</strong></td>
+<td style="text-align:right"><strong>97</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The older figures (&quot;98 concrete&quot;, &quot;98 of 328&quot;, &quot;/332&quot;, &quot;/265&quot;) are five denominators for one fact. Here: entries in the 11 <code>RegisterNodeClasses([...])</code> lists, one abstract, so 98 concrete. The whole tree has 333 names in 43 calls (VRML 1.0 <code>_1</code> classes and Castle-only nodes included, so not a count of X3D 4.0 nodes) <strong><span class="g C" title="Confirmed">C</span></strong>.</li>
+<li>X_ITE 16.7.1 has 292 non-abstract classes by <code>getStaticProperties</code> (not reconciled with the 294 of <a href="06-xite-the-oracle.html">chapter 06</a>, a marker count on 16.7.0). <strong>Name presence is the weakest rung</strong>: not &quot;creates&quot;, not &quot;draws&quot;. Behaviour in X_ITE was not tested <strong><span class="g S" title="Suspected">S</span></strong>.</li>
+<li>The critic's pre-registered refutation test for &quot;Castle leads on node coverage&quot; was: X_ITE implements more than half of the 11 groups. At the name rung it carries 11 of 11, so the sentence fails there; how well those nodes behave stays open.</li>
+<li>The reverse: X_ITE has 33 names Castle does not register, among them <code>GaussianSplats</code>, <code>GaussianSplatsShape</code> and 13 <code>*MaterialExtension</code> classes. Castle fails on <code>GaussianSplats</code> at load (<code>Unknown X3D node type</code>, <a href="#10-the-gap-list-and-what-became-of-it">gap 1</a>).</li>
+<li>&quot;Parse-only&quot; is not &quot;does nothing&quot;: the nodes enter the graph with their fields, so conversion and editing tools work. Some groups have a Castle-native replacement (physics, particles). More inert nodes sit inside &quot;supported&quot; components (<code>TransformSensor</code>, <code>Spline</code>, <code>Squad</code>, parts of NURBS) <strong><span class="g L" title="Likely">L</span></strong>; nobody counted behaviour node by node.</li>
+</ul>
+<pre><code class="language-text">  three states of support, and what each hides
+   absent      unknown node: body dropped, one warning, a classic file may stop  GaussianSplats
+   parse-only  in the graph, saved back, no behaviour                    99 registrations
+   behaves     drawn, simulated or wired                                 the rest; depth unmeasured
+  the loader does not say which state a node is in; only the unit holding the class does.
+  A host receipt must list the nodes used, by state.
+</code></pre>
+<h2 id="5-event-model-traps">5. Event model traps</h2>
+<table>
+<thead>
+<tr>
+<th>trap</th>
+<th>what the code says</th>
+<th>grade</th>
+<th>do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ProcessEvents</code> off by default</td>
+<td><code>property ProcessEvents ... default false</code>; &quot;If false, this all doesn't work, which makes the scene static&quot; (<code>castlescenecore.pas:2336-2337</code>). Viewers and the editor turn it on</td>
+<td><span class="g C" title="Confirmed">C</span> code; viewers <span class="g L" title="Likely">L</span></td>
+<td>set it explicitly and record it</td>
+</tr>
+<tr>
+<td>a TimeSensor first ticking exactly at <code>startTime</code> emits nothing</td>
+<td><code>SetElapsedTime</code> sends only if <code>Value &lt;&gt; FElapsedTime</code> (<code>x3dnodes_standard_time.inc:333-337</code>); <code>fraction_changed</code> and <code>time</code> are sent only from <code>EventElapsedTimeReceive</code> (<code>:768-785</code>); a later <code>Fraction = 0</code> is corrected to 1 (<code>:776</code>)</td>
+<td><span class="g C" title="Confirmed">C</span> read, not run</td>
+<td>treat frame 0 as unverified; build D-CAS-7</td>
+</tr>
+<tr>
+<td>LOD shows child 0 in the node walk</td>
+<td><code>DirectEnumerateActive</code> returns <code>FdChildren[0]</code> (<code>x3dnodes_standard_navigation.inc:607-616</code>)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>use the shape tree's level</td>
+</tr>
+<tr>
+<td>a node cannot serve two scenes; start, stop and pause edits re-enter <code>SetTime</code></td>
+<td>field-guide trap list (<code>castlescenecore.pas:4839</code> is <code>HandleChangeTimeStopStart</code>)</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>deep-copy; a trace recorder must catch those entries</td>
+</tr>
+<tr>
+<td>no test guards any of it</td>
+<td>no match for <code>NextEventTime</code>, <code>PlusTicks</code>, <code>elapsedTime</code> or <code>fraction_changed</code> under <code>tests/code</code></td>
+<td><span class="g C" title="Confirmed">C</span> grep, 2026-11-14</td>
+<td>put event-order fixtures in the host witness</td>
+</tr>
+</tbody>
+</table>
+<p>Who owns the TimeSensor origin behaviour is unresolved (the code comment cites a game-restart case): do not call it a spec trap before the spec's initial-time rule is quoted <strong><span class="g S" title="Suspected">S</span></strong>. Our exporter's <code>--events-at=T</code> sets <code>ProcessEvents := true</code>, calls <code>Scene.SetTime(T)</code> and reads node fields (<code>x3dcastleexport.pas:2342-2348</code>); a value driving a shader uniform is not reached, and Castle's time starts at 0 where a page clock does not <strong><span class="g C" title="Confirmed">C</span></strong> read.</p>
+<h2 id="6-rendering-architecture-and-the-light-model-difference">6. Rendering architecture and the light-model difference</h2>
+<p>The renderer splices named plugs into fixed GLSL templates and keys programs by a hash of the feature set; the plug idea is Castle-only, not in X3D 4.0 <strong><span class="g L" title="Likely">L</span></strong>.</p>
+<pre><code class="language-text">  shape -&gt; TShader state (lights, fog, textures, effects) -&gt; feature hash (sum/xor of primes)
+        -&gt; hit: no GLSL text built       miss: LinkProgram builds GLSL from plugs
+        -&gt; fragment: material, add_light per light, ambient, emissive, tone map, fog
+  one GLSL source targets legacy GL, GL 3.1 core, GLES 3, WebGL2; a #version header is added
+  unless the source starts with one      &lt;- gap 2 lives here
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>fact</th>
+<th>grade</th>
+<th>source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phong and Physical models each have an <code>add_light.glsl</code>; both divide by <code>max(1.0, a.x + a.y*d + a.z*d*d)</code> and cut at <code>radius</code></td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>castle-engine@48ce617:src/scene/glsl/source/lighting_model_phong/add_light.glsl:118-123</code>, <code>lighting_model_physical/add_light.glsl:123-128</code></td>
+</tr>
+<tr>
+<td>the glTF importer writes <code>Attenuation := (0, 0, 1)</code> on every glTF point and spot light, commenting that plain X3D defaults to none and would be &quot;incredibly bright&quot;</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dloadinternalgltf.pas:738-751</code> (TODO for <code>range</code>)</td>
+</tr>
+<tr>
+<td>X3D files loaded directly get no such change: one PhysicalMaterial draws differently from an <code>.x3d</code> and a <code>.glb</code></td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>the two reads above</td>
+</tr>
+<tr>
+<td>three authoring contracts: X3D nodes (intensity 1, attenuation <code>1 0 0</code>), glTF loader (<code>0 0 1</code>), Castle light components (<code>0 0 1</code>, intensity 100)</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>field-guide map; component defaults not re-read</td>
+</tr>
+<tr>
+<td>no exposure setting: <code>u_Exposure</code> is commented out</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>src/scene/glsl/source/tone_mapping.fs:21,114</code></td>
+</tr>
+<tr>
+<td>a still render needs the engine's update step before any shadow map exists</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>gap row 17</td>
+</tr>
+</tbody>
+</table>
+<p>Worked example, arithmetic on the shader formula <strong><span class="g C" title="Confirmed">C</span></strong>: attenuation <code>1 0 0</code> gives <code>1/max(1, 1) = 1</code> at every distance; <code>0 0 1</code> at 3 m gives <code>1/max(1, 9) = 1/9</code>, so the first is 9 times brighter. At 0.5 m both give 1 (the <code>max(1, ...)</code> floor), so an &quot;attenuation 0 0 1&quot; adapter does not make Castle inverse-square for lights closer than 1 unit. Whether X3D 4.0 (clauses 17.2.2.3, 17.2.2.6) demands the first or the second for a PhysicalMaterial <strong>was not quoted verbatim by anyone yet</strong> <strong><span class="g S" title="Suspected">S</span></strong>. &quot;Castle is wrong here&quot; is unsupported; &quot;Castle differs from X_ITE and the reference, in this one line&quot; is supported.</p>
+<h2 id="7-the-quality-leg-how-close-does-each-renderer-get-to-a-path-traced-image">7. The quality leg: how close does each renderer get to a path-traced image?</h2>
+<p>Rig, <strong><span class="g C" title="Confirmed">C</span></strong> from <code>x3d.castle@d70e00c:results/quality/public/results.json</code> (<code>run_quality.py v1</code>, 2026-11-13): Blender 5.3.0 Cycles reference, 256 spp, no denoise, ideal point lights; x3d-blender-io add-on commit <code>603ca7a</code> imports the file; <code>X_ITE 16.7.1</code> and Babylon.js 9.32.0 in Chromium 153.0.8010.12 on SwiftShader through the fidelity rig; Castle 7.0-alpha.3 on Mesa llvmpipe; 512 x 512, no GPU. Metric: mean FLIP (flip-evaluator 1.7), lower is closer. 15 public scenes; &quot;core 11&quot; drops four where the reference itself is wrong (<code>annotation-standard</code>, <code>nurbs-weights</code>, <code>quaternion-xyzw</code>, <code>p2-point-classic</code>).</p>
+<p>Re-derived with <code>core11.py</code> on 2026-11-14 (equal to the repository's table):</p>
+<table>
+<thead>
+<tr>
+<th>leg</th>
+<th style="text-align:right">mean FLIP, all 15</th>
+<th style="text-align:right">core 11</th>
+<th>independent of the reference's reading?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>X_ITE 16.7.1 on the X3D file</td>
+<td style="text-align:right">0.0748</td>
+<td style="text-align:right">0.0457</td>
+<td>partly: add-on light units are calibrated to X_ITE</td>
+</tr>
+<tr>
+<td>Babylon on the add-on's glb</td>
+<td style="text-align:right">0.0516</td>
+<td style="text-align:right">0.0485</td>
+<td>no, shares the add-on front end</td>
+</tr>
+<tr>
+<td>Babylon on our Castle glb</td>
+<td style="text-align:right">0.0658</td>
+<td style="text-align:right">0.0491</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Castle native (<code>castle-render</code>, defaults)</td>
+<td style="text-align:right">0.1321</td>
+<td style="text-align:right">0.1149</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Castle SSAA 4x plus Gouraud (<code>castle_all</code>, chosen on these scenes)</td>
+<td style="text-align:right">0.1289</td>
+<td style="text-align:right">0.1146</td>
+<td>in-sample choice</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Castle native differs from the reference by +0.069 on core 11 and beats X_ITE on 4 of 11 scenes. On the other seven core scenes the means are 0.0406 against 0.0386.</li>
+<li>The gap is the light model: <code>materials-world</code> plus <code>lights-after</code> carry 77.0% of the all-15 gap (0.770). <code>p1-point-physical</code> goes 0.0546 to 0.0059 with attenuation <code>0 0 1</code> (X_ITE 0.0053): the gap closes. <code>p4-point-quadratic-physical</code> goes 0.0446 to 0.0237 against X_ITE 0.0085: 58% closes, the rest is unexplained. &quot;Most of the gap is the light model&quot; is true for p1 and barely for p4.</li>
+<li>Say &quot;differs&quot;, not &quot;behind&quot;: the reference is Cycles on the add-on's reading, and the Castle side reads the field as written <strong><span class="g S" title="Suspected">S</span></strong> pending the spec clause.</li>
+<li>Castle's switches are worth less than the gap. Change in mean FLIP against native, re-derived over 15 scenes: SSAA 4x -0.0027, SSAA 2x -0.0018, MSAA 4x -0.0003, anisotropy 16 -0.0001, Gouraud -0.0004; shadow maps +0.0040 (9 scenes, file-literal reference); SSAO +0.0065; SSR +0.0002; tone maps +0.0228 to +0.0352; colour-space overrides +0.0443 and +0.1118; PBR mapping of classic Material +0.0079; environment light +0.0437. The reported -0.0106 for shadow maps against an all-lights-cast reference was not re-derived.</li>
+<li>The reference rewards omission: the add-on drops <code>NurbsCurve</code> and flattens a gradient Background; on <code>quaternion-xyzw</code> (<code>GaussianSplats</code>) a near-empty frame scores 0.1548 against X_ITE's correct 0.1962.</li>
+<li>Defensible reading <strong><span class="g L" title="Likely">L</span></strong>: a fast (about 0.5 s a frame here, against 3 to 6 s for the browser legs and 47 s for the reference), scriptable second reader of X3D that can be driven headless; not shown to be the quality renderer. n = 15, no GPU, one reference. The X_ITE side is in <a href="06-xite-the-oracle.html">chapter 06</a>, the add-on side in <a href="10-blender-pipeline.html">chapter 10</a>.</li>
+</ul>
+<h2 id="8-our-own-glb-exporter-shape-tree-to-glb">8. Our own glb exporter: shape tree to glb</h2>
+<p><code>x3d-castle-convert</code> (<code>x3d.castle@d70e00c:castle-convert/x3dcastleexport.pas</code>, 2,412 lines by <code>wc -l</code>; the README says &quot;about 1,700&quot; and <code>docs/exporter.md</code> &quot;about 2,500&quot;, both stale <strong><span class="g C" title="Confirmed">C</span></strong>) links against Castle's public units and walks the <strong>shape tree</strong>, taking each shape's <code>TShape.GeometryArrays</code>, the buffers Castle uploads to the GPU. What Castle draws is what ends up in the file. The stock writer (<code>SaveGLTF</code>) walks the node graph by hand and would have to re-implement every feature Castle resolves for rendering.</p>
+<pre><code class="language-text">  x3d file -&gt; node graph -&gt; Scene.Load -&gt; shape tree --UpdateLods(Viewpoint)   [LOD: one level]
+                                              |       --events-at=T           [opt-in: one frame]
+                                              v
+   per shape: world matrix + GeometryArrays -&gt; POSITION NORMAL TEXCOORD_n COLOR_0 TANGENT
+   per scene: Viewpoint -&gt; camera; lights -&gt; KHR_lights_punctual; headlight -&gt; directional light
+                                              v  OUT.glb + OUT.glb.export.json (counts, warnings)
+   gates: glTF-Validator (0 errors, 0 warnings) -&gt; census (what survived) -&gt; rig (how it looks)
+</code></pre>
+<p>Stock writer against the shape-tree exporter over the 70 unique x3d.demo scenes, re-derived from <code>results/scout-70/</code> and <code>results/phase3/gate70-default/</code> <strong><span class="g C" title="Confirmed">C</span></strong>:</p>
+<table>
+<thead>
+<tr>
+<th>measure</th>
+<th style="text-align:right">stock writer</th>
+<th style="text-align:right">exporter, phase 3 default</th>
+<th>instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>glbs failing the validator</td>
+<td style="text-align:right">24 (14,379 errors)</td>
+<td style="text-align:right">0 errors, 0 warnings, 70 clean (77 INFO)</td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code></td>
+</tr>
+<tr>
+<td>lit scenes keeping their lights</td>
+<td style="text-align:right">0 of 43</td>
+<td style="text-align:right">41 of 43</td>
+<td><code>census_compare.py</code> receipts</td>
+</tr>
+<tr>
+<td>cameras kept</td>
+<td style="text-align:right">0 of 55</td>
+<td style="text-align:right">55 of 55</td>
+<td>same</td>
+</tr>
+<tr>
+<td>textures, vertex colours, lines, points</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">11/17, 26/27, 14/17, 10/11</td>
+<td>same (the other 6 textured scenes use shader-driven data)</td>
+</tr>
+<tr>
+<td>meshes written</td>
+<td style="text-align:right">2,497 (phantom copies of the previous mesh for shapes with none)</td>
+<td style="text-align:right">1,946</td>
+<td>census <code>meshes_engine</code>, <code>meshes_new</code></td>
+</tr>
+<tr>
+<td>animation</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0 of 21 (not covered)</td>
+<td>same</td>
+</tr>
+</tbody>
+</table>
+<p>Rules that cost measurements. The rules are <strong><span class="g C" title="Confirmed">C</span></strong>, read at the cited lines; the pixel numbers are the repository's recorded results, <strong><span class="g L" title="Likely">L</span></strong>:</p>
+<table>
+<thead>
+<tr>
+<th>X3D</th>
+<th>glTF</th>
+<th>rule and measurement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>classic <code>Material</code></td>
+<td>metallic-roughness plus <code>KHR_materials_specular</code></td>
+<td>black <code>specularColor</code> (the X3D default) becomes <code>specularFactor 0</code>: <code>lod-control</code> 0.1 with the extension, 4.6 without. A coloured one becomes <code>linear(color)/0.04</code>, capped by <code>--specular-max-f0</code> (default 0.5); uncapped, Babylon 9.32 turned a gold cube teal</td>
+</tr>
+<tr>
+<td><code>PhysicalMaterial</code>, only <code>baseColor</code></td>
+<td>kept</td>
+<td>PasGLTF's <code>GetEmpty</code> ignores <code>baseColorFactor</code> (<code>CastlePasGLTF.pas:3459-3465</code>), so roughness 0.9999 forces the block</td>
+</tr>
+<tr>
+<td>lights</td>
+<td><code>KHR_lights_punctual</code>, units converted</td>
+<td>physical <code>i * attenuation(d)</code>; classic <code>level(i * attenuation(d)) * d^2</code>; the rule of the x3d-blender-io importer, so both paths agree</td>
+</tr>
+<tr>
+<td>spot <code>beamWidth &gt;= cutOffAngle</code></td>
+<td>inner &lt; outer, clamped</td>
+<td>unclamped, the validator reports <code>KHR_LIGHTS_PUNCTUAL_LIGHT_SPOT_ANGLES</code> (drill D-CAS-5)</td>
+</tr>
+<tr>
+<td>colours</td>
+<td>linear</td>
+<td><code>--colour-space=as-is</code> moves <code>village</code> from 3.5 to 48.8 against X_ITE</td>
+</tr>
+<tr>
+<td>texture wrap</td>
+<td>exporter writes <code>samplers</code></td>
+<td>PasGLTF writes <code>wrapT</code> under the key <code>wrapS</code> (<code>CastlePasGLTF.pas:5585-5590</code>, master); exporter side <code>x3dcastleexport.pas:2267-2294</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fidelity, re-derived.</strong> Rig: x3d-blender-io <code>tools/fidelity_rig</code>, X_ITE 16.7.1 against Babylon.js 9.32.0 drawing each glb, Chromium 153.0.8010.12, SwiftShader, 512 x 512, mean absolute pixel difference 0 to 255, 21 scenes where every column exists, no GPU. From <code>results/phase3/rig-gate-summary.json</code> (3 repeats, per-scene median) and <code>results/rig-exporter/results.json</code> <strong><span class="g C" title="Confirmed">C</span></strong>:</p>
+<table>
+<thead>
+<tr>
+<th>run</th>
+<th>variant</th>
+<th style="text-align:right">mean</th>
+<th style="text-align:right">median</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>phase 2 binary, phase 3 gate</td>
+<td><code>self</code> (glb carries camera and headlight)</td>
+<td style="text-align:right">7.53</td>
+<td style="text-align:right">1.05</td>
+</tr>
+<tr>
+<td>phase 3 default</td>
+<td><code>self</code></td>
+<td style="text-align:right">7.80</td>
+<td style="text-align:right">3.40</td>
+</tr>
+<tr>
+<td>phase 2 binary / phase 3 default</td>
+<td><code>rigcam</code> (rig adds the headlight)</td>
+<td style="text-align:right">7.96 / 7.95</td>
+<td style="text-align:right">2.24 / 2.24</td>
+</tr>
+<tr>
+<td>phase 2 receipt (published &quot;7.8, median 3.5&quot;)</td>
+<td><code>rigcam</code></td>
+<td style="text-align:right">7.80</td>
+<td style="text-align:right">0.88</td>
+</tr>
+<tr>
+<td>phase 2 receipt</td>
+<td>add-on glb / Castle stock glb / <code>naive</code> (<code>as-is</code>, <code>light-scale=1</code>)</td>
+<td style="text-align:right">9.22 / 17.62 / 11.42</td>
+<td style="text-align:right">3.56 / 14.09 / 6.10</td>
+</tr>
+</tbody>
+</table>
+<p>The exporter sits level with, and a little under, the add-on's glb on this rig (7.8 against 9.2) and well under the stock writer (17.6); &quot;level&quot; is the honest word, not &quot;better&quot;, because n = 21 and the median is unstable. The published &quot;3.5&quot; is not reproducible from its own receipt (0.88), nor is the stock median 17.1 (14.09 there). In the phase 3 <code>self</code> run four scenes (<code>lights-before</code> 61.92, <code>quaternion-xyzw</code> 21.27, <code>annotation-standard</code> 17.94, <code>nurbs-weights</code> 15.70) carry 71% of the sum; without <code>lights-before</code> the mean is 5.10, and 10 of 21 scenes are under 1.0. The causes are partly known (Text skipped, <code>GaussianSplats</code>, NURBS) and partly not (<code>lights-before</code> was not investigated <strong><span class="g S" title="Suspected">S</span></strong>). Animated scenes land on another phase each run (<code>villagers</code> 1.33, 0.52, 1.05 on one byte-identical glb), and four runs of the same 21 scenes gave medians 0.58 (0.25 specular cap), 0.88, 1.05 and 3.40. Report the median with its range or drop it. Phase 3 changed what the glb carries, not the pixel number: every deterministic scene moved by at most 0.01.</p>
+<p>Where the new code shows, on fixtures (<code>results/phase3/rig-fixtures-summary.json</code>, 2 repeats) <strong><span class="g C" title="Confirmed">C</span></strong> read: <code>texture-properties</code> 9.68 to 0.34; <code>texcoord-sets</code> 32.06 to 2.87; <code>alpha-modes</code> 5.06 to 1.92; <code>light-extras</code> 6.84 to 4.44; <code>switch-hidden</code> 2.26 to 0.94. Opt-in <code>--text-atlas</code> and <code>habsburg-timeline</code> get <strong>worse</strong> (6.90 to 9.41; 8.67 to 9.46) while labels appear: X_ITE draws crisp type, the glb carries a bitmap atlas, and a pixel metric prefers a missing label to a blurry one, so the flags stay off by default. Gate: 18 of 18 fixtures pass on the phase 3 binary against 4 of 18 on phase 2 (<code>fixtures.json</code>, <code>fixtures-baseline.json</code>, each also validated); README and <code>docs/reproduce.md</code> still say 17.</p>
+<p><strong>Not covered</strong> (<code>docs/exporter.md</code>, read): animation (<code>--events-at</code> writes one frame), skinning, shaders, Billboard, <code>GaussianSplats</code>, cube and 3D textures, <code>global=false</code> scoping of a <code>DirectionalLight</code>, drawn Background and Fog, image-based lighting (<code>EXT_lights_image_based</code> is unknown to the validator), <code>Text</code> without <code>--text-atlas</code>. Not measured: a physical GPU, any viewer but Babylon.js for these glbs, Unreal.</p>
+<h2 id="9-reproducibility-pinned-bundle-one-image-one-smoke-test">9. Reproducibility: pinned bundle, one image, one smoke test</h2>
+<table>
+<thead>
+<tr>
+<th>thing</th>
+<th>value</th>
+<th>grade</th>
+<th>instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>engine</td>
+<td>Castle 7.0-alpha.3 snapshot, linux-x86_64 bundle, FPC 3.2.2 inside it</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>docs/reproduce.md</code>, <code>docker/Dockerfile</code></td>
+</tr>
+<tr>
+<td>pin</td>
+<td>bundle SHA-256 <code>4b8935a4d111...</code> checked with <code>sha256sum -c</code> after download; a replaced snapshot fails the build</td>
+<td><span class="g C" title="Confirmed">C</span> read</td>
+<td><code>docker/Dockerfile:25-28</code></td>
+</tr>
+<tr>
+<td>image and smoke test</td>
+<td><code>ubuntu:24.04</code>, bundle, exporter and <code>castle-render</code> built at image time, Xvfb plus llvmpipe; <code>smoke.sh</code> validates, exports a cube, takes a viewer screenshot, calls <code>castle-render</code></td>
+<td><span class="g C" title="Confirmed">C</span> read</td>
+<td><code>docker/Dockerfile</code>, <code>docker/smoke.sh</code></td>
+</tr>
+<tr>
+<td>CI</td>
+<td>the <code>docker</code> workflow ran twice on the public repository, both <code>success</code> including the smoke-test step: <code>80fd146</code> (8 min 32 s) and <code>b7cfff9</code> (2 min 50 s, cached)</td>
+<td><span class="g C" title="Confirmed">C</span> <code>gh run view</code>, 2026-11-14</td>
+<td>GitHub Actions</td>
+</tr>
+<tr>
+<td>times</td>
+<td>exporter 33 s cold, 2 s warm; 47 s with the bundle's FPC; quality run about 40 min on 4 shared vCPUs</td>
+<td><span class="g L" title="Likely">L</span> carried</td>
+<td><code>docs/reproduce.md</code>, <code>docker/README.md</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>docker/README.md</code> still says the image &quot;has not been built yet&quot;; the CI runs supersede that <strong><span class="g C" title="Confirmed">C</span></strong>. The image has no GPU, so real MSAA, driver shader compiles and timings are untested.</p>
+<p><strong>The 5.3.0 string.</strong> <code>docs/reproduce.md</code> lists <code>castle-model-viewer / castle-model-converter 5.3.0</code> beside engine 7.0-alpha.3. Reviewers found the banner &quot;7.0-alpha.3.snapshot&quot; inside both binaries plus a bare <code>5.3.0</code>, so 5.3.0 is most likely the tool's own version, not an old engine <strong><span class="g L" title="Likely">L</span></strong> (strings only; binaries not executed, their source is not in the bundle). Do not write &quot;Castle is 5.3.0&quot;, and do not attribute <code>--validate</code> or <code>--identify</code> behaviour to 7.0-alpha.3.</p>
+<h2 id="10-the-gap-list-and-what-became-of-it">10. The gap list and what became of it</h2>
+<p><code>x3d.castle@d70e00c:docs/castle-gaps.md</code> has 20 rows: 19 Confirmed, 1 Likely (row 17), graded by the repository. I re-checked rows 19 and 20 at source and the exporter-side results. My classification of the 20 rows (a judgment, <strong><span class="g L" title="Likely">L</span></strong>):</p>
+<table>
+<thead>
+<tr>
+<th>kind</th>
+<th>rows</th>
+<th>meaning for a host</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>defect, reproduced</td>
+<td>2 (<code>#version</code> in a ComposedShader), 4 (<code>GeoViewpoint</code> raises <code>EAbstractError</code>), 8 to 11 (stock glb writer), 19, 20 (PasGLTF)</td>
+<td>a file can be valid and still fail here</td>
+</tr>
+<tr>
+<td>missing feature</td>
+<td>1 (<code>GaussianSplats</code>), 3 and 15 (WebP), 5 (<code>GeoElevationGrid</code>, <code>GeoLOD</code>), 13 (Text arrives as untextured quads)</td>
+<td>route around it, or say the host cannot judge it</td>
+</tr>
+<tr>
+<td>contract difference</td>
+<td>6 (camera and clear colour defaults), 12 (<code>ElevationGrid</code> without <code>height</code>), 16 (single <code>groundColor</code>), 18 (light attenuation)</td>
+<td>differs from X_ITE; neither shown wrong</td>
+</tr>
+<tr>
+<td>harness or method</td>
+<td>7 (<code>--anti-alias</code> no-op under Xvfb), 14 (a url in x3d.demo), 17 (a still render needs the update step)</td>
+<td>not a Castle finding</td>
+</tr>
+</tbody>
+</table>
+<p>Burn-down: 12 of 20 have a workaround in our tooling (rows 3, 4, 6, 8, 9, 10, 11, 13, 15, 17, 19, 20); 8 do not (1, 2, 5, 7, 12, 14, 16, 18). The adapter that would close row 18 was proposed and <strong>not built</strong>. No row has been reported to the Castle project (the README says so); rows 12, 16 and 18 are not claims of Castle bugs while the spec text is unquoted.</p>
+<p>Row 2 matters most for the thesis. This scene is valid X3D 4.0, carries a shader the host cannot compile, and the validator says nothing (drill D-CAS-6):</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;X3D profile=&quot;Immersive&quot; version=&quot;4.0&quot;&gt;
+  &lt;head&gt;&lt;component name=&quot;Shaders&quot; level=&quot;1&quot;/&gt;&lt;/head&gt;
+  &lt;Scene&gt;
+    &lt;Shape&gt;
+      &lt;Appearance&gt;
+        &lt;ComposedShader language=&quot;GLSL&quot;&gt;
+          &lt;ShaderPart type=&quot;VERTEX&quot;&gt;#version 300 es
+in vec3 position;
+void main() { gl_Position = vec4(position, 1.0); }&lt;/ShaderPart&gt;
+          &lt;ShaderPart type=&quot;FRAGMENT&quot;&gt;#version 300 es
+precision mediump float;
+out vec4 c;
+void main() { c = vec4(1.0, 0.5, 0.0, 1.0); }&lt;/ShaderPart&gt;
+        &lt;/ComposedShader&gt;
+      &lt;/Appearance&gt;
+      &lt;Box/&gt;
+    &lt;/Shape&gt;
+  &lt;/Scene&gt;
+&lt;/X3D&gt;
+</code></pre>
+<p>Castle inserts feature <code>#define</code> lines at the start of the user's source, above the <code>#version</code> line, and the GLSL compiler rejects the program; the shape draws with the fallback shader (row 2, reproduced there on a 12-line scene and an unmodified x3d.demo scene; I did not run Castle). Rows 19 and 20 are still present at master <code>48ce617</code>: <code>CastlePasGLTF.pas:5589</code> writes <code>fWrapT</code> under <code>'wrapS'</code>, and <code>GetEmpty</code> omits <code>baseColorFactor</code> <strong><span class="g C" title="Confirmed">C</span></strong>.</p>
+<h2 id="11-the-critics-verdict-and-what-it-forbids">11. The critic's verdict, and what it forbids</h2>
+<p>The field-guide process had skeptics check 279 claims; about half needed a fix (counts in N-CAS-28, carried <strong><span class="g S" title="Suspected">S</span></strong>). A critic then opened the source for the eight most suspicious statements. Where a lens chapter and the errata disagree, the errata win. Sentences, with the evidence for each status:</p>
+<table>
+<thead>
+<tr>
+<th>sentence</th>
+<th>status</th>
+<th>why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&quot;Castle leads the X3D space&quot;</td>
+<td><strong>forbidden</strong></td>
+<td>n = 1 native X3D engine examined; X_ITE, the only X3D comparator run, was ahead on 7 of 11 core scenes <span class="g C" title="Confirmed">C</span> and carries 11 of 11 of Castle's parse-only groups at the name rung <span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>&quot;Castle has the broadest node coverage&quot;</td>
+<td><strong>forbidden</strong></td>
+<td>11 groups parse-only; LOD returns child 0 in the node walk <span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>&quot;Castle is the conformance reference&quot;</td>
+<td><strong>forbidden</strong></td>
+<td>tolerant loader, no event-timing test and a commented-out round-trip test <span class="g C" title="Confirmed">C</span>; no validator in the tree and CI jobs run with <code>--no-window-create</code> <span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>&quot;Castle is behind on fidelity&quot;</td>
+<td><strong>forbidden as worded</strong></td>
+<td>write &quot;differs from the reference by +0.069 FLIP on core 11, cause traced to attenuation handling&quot;</td>
+</tr>
+<tr>
+<td>&quot;Castle follows X_ITE&quot; or the reverse</td>
+<td><strong>forbidden</strong></td>
+<td>influence untested; write &quot;agree&quot;. Castle's source uses &quot;follow&quot; in three behaviour or naming decisions and one pointer (<code>x3dloadinternalply.pas:896</code>, <code>castleuriutils.pas:1235-1236</code>, <code>castleviewport_autonavigation.inc:285-290</code>) <span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>&quot;glTF is Castle's native format&quot;</td>
+<td><strong>forbidden</strong></td>
+<td>every format compiles to X3D; the world format is JSON; say &quot;glTF is the best-travelled importer&quot; <span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>&quot;no peer exists&quot;</td>
+<td><strong>forbidden</strong></td>
+<td>FreeWRL, Xj3D, X3DOM, InstantReality, Octaga, Cobweb were never opened</td>
+</tr>
+<tr>
+<td>&quot;the deepest X3D-as-substrate design in the one codebase we read, with unusually honest seam documentation; not benchmarked against other X3D engines&quot;</td>
+<td><strong>allowed</strong></td>
+<td>the critic's sentence; the honesty (&quot;for now&quot;, the inert-unit header) is also a map of what is missing</td>
+</tr>
+<tr>
+<td>&quot;a fast, scriptable second reader of X3D, drivable headless&quot;</td>
+<td><strong>allowed</strong></td>
+<td>0.5 s a frame on llvmpipe, carried <strong><span class="g L" title="Likely">L</span></strong></td>
+</tr>
+</tbody>
+</table>
+<p>What would change the verdict, written before the data: a three-state node matrix over X3D 4.1 for Castle and X_ITE read from source (section 4 is its first, weakest column); two or more peer engines run on the same TimeSensor and ROUTE fixtures; a quoted X3D 4.0 clause for physical-light attenuation; adoption and cadence data (none collected; one maintainer holds about 97% of file headers, <strong><span class="g L" title="Likely">L</span></strong> from a grep). Until then &quot;leads&quot; has n = 1.</p>
+<h2 id="12-what-to-copy-from-castle-and-what-to-distrust">12. What to copy from Castle, and what to distrust</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>rule</th>
+<th>kind</th>
+<th>grade</th>
+<th>evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Key a host registry by MIME; refuse duplicates and empty fields; record what each host can decode</td>
+<td>copy</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>RegisterModelFormat</code> raises on all three (<code>x3dload.pas:813-840</code>)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Judge a load by warnings plus a shape census against the declared count</td>
+<td>copy</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>a classic read error stops the file after one warning (<code>x3dnodes_encoding_classic.inc:569-573</code>)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Keep a three-state support table per host and list nodes used by state in every receipt</td>
+<td>copy</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>only the 11-group unit marks inertness; section 4</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Export from the evaluated shape tree, not by walking nodes</td>
+<td>copy</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>stock: 24 of 70 invalid, 0 of 43 lit scenes keep lights; shape tree: 0 invalid, 41 of 43</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Put the invalidation or support class in the node table and generate from it; fail on a missing class</td>
+<td>copy</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>43 change classes counted here; the default class dominates, so require an explicit one</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Turn warnings into data (<code>OnWarning</code> listeners) and fail selected tests on a warning</td>
+<td>copy</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>castle-render</code> stores <code>Category: Message</code> lines</td>
+</tr>
+<tr>
+<td>7</td>
+<td>State what is unfinished where it is unfinished</td>
+<td>copy</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>castleinternalnodesunsupported.pas:16-25</code>; a TODO-heavy file is also a gap map, so count them</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Pin the engine by hash, not URL, and run a smoke test in CI</td>
+<td>copy</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>docker/Dockerfile:25-28</code>, two green CI runs</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Do not take the engine's docs as ground truth</td>
+<td>distrust</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>status table lists 8 of the 11 parse-only groups; plug appendix stale (field-guide map)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Do not use its node table as a validator</td>
+<td>distrust</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>hand-pasted, ranges are free text, 410 headers include abstract and non-X3D types</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Do not copy tolerant loading as the default of a grammar check</td>
+<td>distrust</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>out-of-range input is repaired with a warning, so a witness sees the repaired value</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Do not read a Castle brightness number without its light contract</td>
+<td>distrust</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>one PhysicalMaterial draws differently from <code>.x3d</code> and <code>.glb</code>; section 6</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Do not treat a Castle-only node or field as portable</td>
+<td>distrust</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>Skin</code>, <code>Effect</code>, <code>ScreenEffect</code>, <code>keyValueQuaternions</code>, <code>interpolation=STEP</code></td>
+</tr>
+<tr>
+<td>14</td>
+<td>Do not treat the stock glTF writer as an exporter</td>
+<td>distrust</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>gap rows 8 to 11, 19, 20; section 8</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Do not rely on the deprecated <code>MainScene</code> path surviving 7.0 final</td>
+<td>distrust</td>
+<td><span class="g S" title="Suspected">S</span></td>
+<td>our harness needs it for Viewpoint, Background, Fog; keep a canary scene</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Do not reuse its text, generated files, shaders or test data before a licence check</td>
+<td>distrust</td>
+<td><span class="g S" title="Suspected">S</span></td>
+<td>core LGPL 2 or later with a static-linking exception, examples BSD-3, editor GPL, per-directory data licences; the node-DSL tool's licence was read two ways, so read <code>COPYING.md</code> first</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13-re-run-kit">13. Re-run kit</h2>
+<p>Scripts behind the &quot;run 2026-11-14&quot; claims; they read and never write. <code>xite_names.py</code> also does the Castle-only count (D-CAS-1) when its second argument is omitted.</p>
+<pre><code class="language-python"># xite_names.py  usage: python3 xite_names.py castle-engine/src/scene/x3d [node_modules/x_ite/dist]
+import re, glob, sys
+cdir = sys.argv[1]; xdir = sys.argv[2] if len(sys.argv) &gt; 2 else None
+u = open(cdir + '/castleinternalnodesunsupported.pas').read()
+files = [f for f in dict.fromkeys(re.findall(r'\{\$I ((?:auto_generated_node_helpers/)?x3dnodes_\w+\.inc)\}',
+         u.split('\nimplementation')[1])) if 'enums' not in f]
+xite = set()
+if xdir:
+    for f in [xdir + '/x_ite.js'] + glob.glob(xdir + '/assets/components/*Component.js'):
+        for m in re.finditer(r'getStaticProperties \(&quot;(\w+)&quot;, &quot;(\w+)&quot;, (\d+)', open(f).read()):
+            if not m.group(1).startswith('X3D'): xite.add(m.group(1))
+tot = hit = 0
+for f in files:
+    m = re.search(r'RegisterNodeClasses\(\[(.*?)\]\)', open(cdir + '/' + f).read(), re.S)
+    ns = [re.sub(r'^T|Node$', '', x.strip()) for x in m.group(1).split(',') if x.strip()]
+    h = [n for n in ns if n in xite]; tot += len(ns); hit += len(h)
+    print(f.split('/')[-1], len(ns), len(h), sorted(set(ns) - xite) if xdir else '')
+print(len(files), 'groups,', tot, 'registrations,', hit, 'names present in X_ITE', len(xite) or '(not asked)')
+</code></pre>
+<pre><code class="language-python"># formats.py  usage: python3 formats.py castle-engine/src
+import re, glob, sys
+rows = []
+for p in glob.glob(sys.argv[1] + '/**/*.pas', recursive=True):
+    if p.endswith('x3dload.pas'): continue          # its only block is a doc-comment example
+    s = open(p, errors='ignore').read()
+    for m in re.finditer(r'ModelFormat := TModelFormat\.Create;(.*?)RegisterModelFormat\(ModelFormat\)', s, re.S):
+        rows.append((p.split('/')[-1], re.search(r'^\s*ModelFormat\.OnSave\s*:=', m.group(1), re.M) is not None))
+print(len(rows), 'registrations;', sum(r[1] for r in rows), 'with OnSave')
+</code></pre>
+<pre><code class="language-python"># core11.py  usage: python3 core11.py x3d.castle/results/quality/public/results.json
+import json, sys, statistics as st
+d = json.load(open(sys.argv[1]))['scenes']
+excl = {'annotation-standard', 'nurbs-weights', 'quaternion-xyzw', 'p2-point-classic'}
+core = [s for s in d if s not in excl]
+F = lambda s, l: d[s]['legs'][l]['vs_ref']['flip_mean']
+for l in ['xite', 'babylon_addon', 'babylon_castle', 'castle_native', 'castle_all']:
+    print(l, round(st.mean(F(s, l) for s in d), 4), round(st.mean(F(s, l) for s in core), 4))
+print('castle_native beats xite on', sum(F(s, 'castle_native') &lt; F(s, 'xite') for s in core), 'of', len(core))
+</code></pre>
+<pre><code class="language-bash">git clone --depth 1 --filter=blob:none --sparse https://github.com/castle-engine/castle-engine.git
+git -C castle-engine sparse-checkout set src/scene tests/code     # master moves; this chapter read 48ce617
+npm i x_ite@16.7.1 gltf-validator@2.0.0-dev.3.10
+</code></pre>
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule (imperative, at most 30 words)</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-CAS-1</td>
+<td>Judge a Castle load by its warnings and a shape census against the declared count; never by &quot;it loaded&quot; or an exit code.</td>
+<td>C</td>
+<td>classic reader warns once and skips the rest of the file</td>
+<td><code>castle-engine@48ce617:x3dnodes_encoding_classic.inc:569-573</code></td>
+</tr>
+<tr>
+<td>H-CAS-2</td>
+<td>Quote node coverage by rung and definition (registered, parse-only, name present in a peer, behaves); never a bare &quot;98 of 328&quot;.</td>
+<td>C</td>
+<td>99 registrations, 98 concrete, five denominators in circulation</td>
+<td><code>castle-engine@48ce617</code>; <code>x_ite@16.7.1</code> dist</td>
+</tr>
+<tr>
+<td>H-CAS-3</td>
+<td>Treat name presence in a peer as the weakest rung; do not turn 97 of 99 into &quot;X_ITE implements them&quot;.</td>
+<td>C</td>
+<td>the scan reads class names, not behaviour</td>
+<td><code>x_ite@16.7.1</code> dist</td>
+</tr>
+<tr>
+<td>H-CAS-4</td>
+<td>Name the light contract (X3D attenuation, glTF loader <code>0 0 1</code>, Castle components) in every Castle brightness number.</td>
+<td>C</td>
+<td>the glTF loader writes <code>(0,0,1)</code>; X3D files get no adjustment</td>
+<td><code>castle-engine@48ce617:x3dloadinternalgltf.pas:751</code></td>
+</tr>
+<tr>
+<td>H-CAS-5</td>
+<td>Write &quot;differs from the reference by F, cause traced to X&quot;, not &quot;behind&quot;; the reference is a reading of the file, not truth.</td>
+<td>C</td>
+<td>add-on drops NurbsCurve, flattens Background, applies 1/d^2</td>
+<td><code>x3d.castle@d70e00c:results/quality/public/results.json</code></td>
+</tr>
+<tr>
+<td>H-CAS-6</td>
+<td>Set <code>ProcessEvents</code> explicitly in a harness and record it; a still render never runs a ROUTE by default.</td>
+<td>C</td>
+<td><code>default false</code></td>
+<td><code>castle-engine@48ce617:castlescenecore.pas:2337</code></td>
+</tr>
+<tr>
+<td>H-CAS-7</td>
+<td>Do not rely on frame 0 of a TimeSensor at exactly <code>startTime</code>; step past the origin or build the fixture.</td>
+<td>S</td>
+<td>code read gives no event on that tick; not run</td>
+<td><code>castle-engine@48ce617:x3dnodes_standard_time.inc:333-337,768-785</code></td>
+</tr>
+<tr>
+<td>H-CAS-8</td>
+<td>Take LOD from the shape tree for anything that must match a viewer; the node walk always returns child 0.</td>
+<td>C</td>
+<td><code>DirectEnumerateActive</code></td>
+<td><code>castle-engine@48ce617:x3dnodes_standard_navigation.inc:607-616</code></td>
+</tr>
+<tr>
+<td>H-CAS-9</td>
+<td>Export from the shape tree; gate every exporter change on the validator, a census and the rig, per flag combination.</td>
+<td>C</td>
+<td>70 of 70 clean, also with flags on</td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code></td>
+</tr>
+<tr>
+<td>H-CAS-10</td>
+<td>Report a rig median with its range or drop it; four runs of one 21-scene set gave 0.58, 0.88, 1.05 and 3.40.</td>
+<td>C</td>
+<td>receipts re-read</td>
+<td><code>x3d.castle@d70e00c:results/phase3/</code></td>
+</tr>
+<tr>
+<td>H-CAS-11</td>
+<td>Do not rank legs by FLIP where the reference omits content; FLIP rewards the shared omission.</td>
+<td>C</td>
+<td><code>quaternion-xyzw</code>: near-empty 0.1548 beats the correct 0.1962</td>
+<td><code>x3d.castle@d70e00c:docs/quality-leg.md</code></td>
+</tr>
+<tr>
+<td>H-CAS-12</td>
+<td>Validate shaders against the host, not only the XSD: a valid ComposedShader with <code>#version</code> can fail on Castle.</td>
+<td>L</td>
+<td>validator clean on the snippet; Castle failure from the gap list, not run</td>
+<td><code>x3d_mcp fork b4efcd3</code>; <code>docs/castle-gaps.md</code> row 2</td>
+</tr>
+<tr>
+<td>H-CAS-13</td>
+<td>Write &quot;agree&quot; for measured agreement of two engines; never &quot;follows&quot; without a dated source.</td>
+<td>C</td>
+<td>influence direction untested</td>
+<td><code>castle-engine@48ce617</code>; critic's errata</td>
+</tr>
+<tr>
+<td>H-CAS-14</td>
+<td>Pin an engine by archive hash and count a green CI smoke test as the proof of reproducibility, not a README sentence.</td>
+<td>C</td>
+<td>README says not built; two CI runs succeeded</td>
+<td><code>gh run view</code>; <code>docker/Dockerfile</code></td>
+</tr>
+<tr>
+<td>H-CAS-15</td>
+<td>Re-derive a carried count and say how it was counted; &quot;21 and 7&quot; are registrations, not working conversions.</td>
+<td>C</td>
+<td>round-trip test commented out</td>
+<td><code>tests/code/testcases/testx3dnodes.pas:392-393</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="drills">Drills</h2>
+<h3 id="d-cas-1-count-the-parse-only-nodes-and-name-the-denominator">D-CAS-1 Count the parse-only nodes and name the denominator</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Sparse-check out <code>castle-engine</code> and run <code>xite_names.py</code> with one argument. Report groups, registrations, and the abstract class.</li>
+<li><strong>Verify:</strong> <code>python3 xite_names.py castle-engine/src/scene/x3d</code></li>
+<li><strong>Answer:</strong> 11 groups, 99 registrations (Geospatial 11, DIS 6, Layering 3, Layout 5, RigidBodyPhysics 14, Picking 5, Followers 10, ParticleSystems 10, TextureProjector 3, SoundX3D4 19, VolumeRendering 13); <code>AbstractTextureProjector</code> is abstract, so 98 concrete.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>castle-engine@48ce617</code>, Python 3.13.18</li>
+</ul>
+<h3 id="d-cas-2-count-loaders-and-savers-without-trusting-a-number">D-CAS-2 Count loaders and savers without trusting a number</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Run <code>formats.py</code>; name the 7 savers; say why &quot;7 savers&quot; is not &quot;7 working exporters&quot;, citing one test line.</li>
+<li><strong>Verify:</strong> <code>python3 formats.py castle-engine/src</code></li>
+<li><strong>Answer:</strong> 21 registrations, 7 with <code>OnSave</code>: X3D XML, X3D classic, VRML (writes classic), glb, gltf, STL, IFC. The whole-file X3D write-read test has both calls commented out (<code>testx3dnodes.pas:392-393</code>); the glb writer failed 24 of 70 scenes.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>castle-engine@48ce617</code>, Python 3.13.18</li>
+</ul>
+<h3 id="d-cas-3-re-derive-the-headline-flip-and-what-it-hides">D-CAS-3 Re-derive the headline FLIP and what it hides</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Run <code>core11.py</code>. Report the core-11 means for X_ITE and Castle native, the scenes Castle wins, and the share of the all-15 Castle-minus-X_ITE FLIP gap carried by <code>materials-world</code> plus <code>lights-after</code>.</li>
+<li><strong>Verify:</strong> <code>python3 core11.py x3d.castle/results/quality/public/results.json</code>; share = sum of those two scenes' (castle_native minus xite) <code>vs_ref.flip_mean</code> over the sum for all 15.</li>
+<li><strong>Answer:</strong> X_ITE 0.0457, Castle native 0.1149, Castle wins 4 of 11, share 0.770. Add that the reference is Cycles on the add-on's reading of the file.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d.castle@d70e00c</code> receipt, Python 3.13.18</li>
+</ul>
+<h3 id="d-cas-4-validate-two-exporter-glbs">D-CAS-4 Validate two exporter glbs</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> <code>npm i gltf-validator@2.0.0-dev.3.10</code>, run <code>tools/gltf_validate.mjs</code> on <code>results/exporter-70/sample-glb/*.glb</code>; report counts and generator.</li>
+<li><strong>Verify:</strong> <code>node gltf_validate.mjs out.json sample-glb/*.glb</code></li>
+<li><strong>Answer:</strong> both <code>E=0 W=0 I=0</code>, generator &quot;x3d-castle-convert (Castle Game Engine shape-tree exporter)&quot;, 38,588 and 24,292 bytes. Structure only, not looks.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, Node 22.23.4</li>
+</ul>
+<h3 id="d-cas-5-break-the-spot-cone-rule">D-CAS-5 Break the spot-cone rule</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> In the <code>lights-before</code> sample glb (a directional and a point light) add a third light of type <code>spot</code> with <code>innerConeAngle 0.9</code>, <code>outerConeAngle 0.5</code> to <code>KHR_lights_punctual</code>, rewrite the JSON chunk (pad to 4 bytes), validate; then find the exporter line that prevents it and say what X3D allows that glTF does not.</li>
+<li><strong>Verify:</strong> the validator run; <code>grep -n &quot;innerConeAngle&quot; castle-convert/x3dcastleexport.pas</code></li>
+<li><strong>Answer:</strong> <code>E=1 W=0 I=1</code>, <code>KHR_LIGHTS_PUNCTUAL_LIGHT_SPOT_ANGLES @ /extensions/KHR_lights_punctual/lights/2/spot/outerConeAngle</code>. The exporter writes the inner angle just inside the cone (<code>x3dcastleexport.pas:1896-1903</code>); X3D lets <code>beamWidth</code> reach <code>cutOffAngle</code> (&quot;no falloff inside the cone&quot;), glTF does not.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, Python 3.13.18</li>
+</ul>
+<h3 id="d-cas-6-a-valid-scene-the-validator-cannot-warn-about">D-CAS-6 A valid scene the validator cannot warn about</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Save the section 10 document as <code>shader.x3d</code>, run the fork's <code>validate_xml</code> and <code>semantic_diagnostics</code> on it, then specify the one-rule checker that catches it for a Castle target.</li>
+<li><strong>Verify:</strong> in an <code>x3d_mcp</code> checkout: <code>PYTHONPATH=src python3 -c &quot;from validation.validate import validate_xml; from validation import semantic; x=open('shader.x3d').read(); print(validate_xml(x)['valid']); print(semantic.semantic_diagnostics(x))&quot;</code></li>
+<li><strong>Answer:</strong> <code>True</code>, schema 4.0, no errors; one INFO (<code>no-viewpoint</code>) and nothing on <code>#version</code>. The checker: any <code>ShaderPart</code> text starting with <code>#version</code> is a Castle trap (gap row 2). Castle's failure was read from the gap list, not run.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code> (validator half only)</li>
+</ul>
+<h3 id="d-cas-7-design-the-timesensor-origin-fixture">D-CAS-7 Design the TimeSensor origin fixture</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Write a scene with a <code>TimeSensor</code> (<code>startTime 0</code>, <code>cycleInterval 4</code>, <code>loop TRUE</code>) routed through a <code>PositionInterpolator</code> to a <code>Transform</code>. Predict the translation at the first frame for Castle (from <code>x3dnodes_standard_time.inc</code>) and for the spec; name the settings that decide it.</li>
+<li><strong>Verify:</strong> run it in <code>castle-render</code> at <code>--time 0</code> and <code>0.001</code>, and in X_ITE; compare.</li>
+<li><strong>Answer:</strong> from the code read, no <code>elapsedTime</code> or <code>fraction_changed</code> is sent on a first tick at exactly <code>startTime</code>, so the Transform keeps its authored translation; one frame later a <code>Fraction</code> of 0 is corrected to 1. Settings: <code>ProcessEvents</code>, the time of the first <code>SetTime</code>, and <code>0</code> against <code>0.001</code>. The spec's initial-time rule must be quoted before calling it a Castle quirk.</li>
+<li><strong>Checked:</strong> not run</li>
+</ul>
+<h3 id="d-cas-8-attenuation-at-3-m-and-at-05-m">D-CAS-8 Attenuation at 3 m and at 0.5 m</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> From <code>add_light.glsl</code> (physical, lines 123-128) compute the factor for attenuation <code>1 0 0</code> and <code>0 0 1</code> at 0.5, 1, 3 and 10; say where the &quot;attenuation 0 0 1&quot; adapter fails to give inverse square.</li>
+<li><strong>Verify:</strong> <code>python3 -c &quot;print([(d, 1/max(1,d*d)) for d in (0.5,1,3,10)])&quot;</code></li>
+<li><strong>Answer:</strong> <code>1 0 0</code> gives 1 everywhere; <code>0 0 1</code> gives 1, 1, 0.111, 0.01. At 3 m the first is 9 times brighter. At 0.5 m and 1 m they agree because of the <code>max(1, ...)</code> floor.</li>
+<li><strong>Checked:</strong> 2026-11-14 Python 3.13.18 (arithmetic on the formula read at <code>castle-engine@48ce617</code>)</li>
+</ul>
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li><strong>I did not run Castle.</strong> Every render number is carried from <code>x3d.castle@d70e00c:results/</code> and re-derived from its JSON where the text says so; the event traps and the <code>#version</code> failure are code reads or carried results <strong><span class="g C" title="Confirmed">C</span> for the read, <span class="g S" title="Suspected">S</span> for the behaviour</strong>.</li>
+<li><strong>Source and snapshot may differ.</strong> I read public master <code>castle-engine@48ce617</code>; renders ran on a 7.0-alpha.3 snapshot bundle with no <code>.git</code>. Same tree by timing only <strong><span class="g L" title="Likely">L</span></strong>.</li>
+<li><strong>Name presence is not support.</strong> 97 of 99 is a string-registration count in the <code>x_ite@16.7.1</code> npm dist; X_ITE was not run on those nodes <strong><span class="g S" title="Suspected">S</span></strong> for behaviour. The 292 and chapter 06's 294 use different definitions and were not reconciled.</li>
+<li><strong>Spec text unquoted.</strong> Whether X3D 4.0 clauses 17.2.2.3 and 17.2.2.6 require inverse-square falloff for a PhysicalMaterial is not settled; &quot;bug&quot; is unsupported, &quot;differs&quot; is supported <strong><span class="g S" title="Suspected">S</span></strong>.</li>
+<li><strong>One reference, 15 scenes, no GPU.</strong> All FLIP and pixel numbers come from software GL (llvmpipe, SwiftShader); a GPU could change timings and MSAA, not a light model <strong><span class="g L" title="Likely">L</span></strong>.</li>
+<li><strong>Stale numbers in the repository</strong>, recorded and not edited: &quot;about 1,700&quot; and &quot;about 2,500&quot; lines against 2,412; &quot;17 fixtures&quot; against 18; &quot;not yet built&quot; against two green CI runs; published medians 3.5 and 17.1 against 0.88 and 14.09 in the same receipt <strong><span class="g C" title="Confirmed">C</span></strong>.</li>
+<li><strong>Conflict: tool version.</strong> <code>docs/reproduce.md</code> lists 5.3.0 for viewer and converter; the binaries carry a 7.0-alpha.3 banner; unresolved without running them <strong><span class="g L" title="Likely">L</span></strong>.</li>
+<li><strong>Not covered:</strong> peer engines, texturing, Text, HAnim and Sound semantics, the Script node, load time and memory, adoption and cadence, whole-file round trips, licence granularity.</li>
+<li><strong>The field-guide process corrected about half of its own claims.</strong> I preferred its errata and re-derived what I could; its counts (279 checked, 127 confirmed, 133 corrected, 13 refuted, 6 unverifiable) are carried from a private note <strong><span class="g S" title="Suspected">S</span></strong>.</li>
+<li><strong>The refutation test of section 4 reads one definition of &quot;implements&quot;.</strong> A behaviour-fixture definition could move the result either way.</li>
+</ul>
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-CAS-1</td>
+<td>registered model formats; of them with <code>OnSave</code></td>
+<td>21; 7</td>
+<td>C</td>
+<td><code>formats.py</code>, 2026-11-14</td>
+<td><code>castle-engine@48ce617:src/</code></td>
+</tr>
+<tr>
+<td>N-CAS-2</td>
+<td>parse-only groups; registrations in them (one abstract)</td>
+<td>11; 99</td>
+<td>C</td>
+<td><code>xite_names.py</code></td>
+<td><code>castle-engine@48ce617:src/scene/x3d/castleinternalnodesunsupported.pas</code></td>
+</tr>
+<tr>
+<td>N-CAS-3</td>
+<td>parse-only names with a same-named non-abstract class in X_ITE</td>
+<td>97 of 99</td>
+<td>C</td>
+<td><code>xite_names.py</code>, <code>x_ite@16.7.1</code> npm dist</td>
+<td><code>x_ite@16.7.1:dist/x_ite.js</code>, <code>dist/assets/components/</code></td>
+</tr>
+<tr>
+<td>N-CAS-4</td>
+<td>non-abstract classes found in X_ITE by <code>getStaticProperties</code></td>
+<td>292</td>
+<td>C</td>
+<td><code>xite_names.py</code></td>
+<td><code>x_ite@16.7.1:dist/</code></td>
+</tr>
+<tr>
+<td>N-CAS-5</td>
+<td>names and <code>RegisterNodeClasses</code> calls in the whole tree</td>
+<td>333; 43</td>
+<td>C</td>
+<td>inline Python</td>
+<td><code>castle-engine@48ce617:src/</code></td>
+</tr>
+<tr>
+<td>N-CAS-6</td>
+<td>change classes in <code>TX3DChange</code>; spec files; generated helper files</td>
+<td>43; 42; 409</td>
+<td>C</td>
+<td>inline Python, <code>ls</code></td>
+<td><code>castle-engine@48ce617:src/scene/x3d/castlefields_misctypes.inc</code>, <code>tools/internal/x3d-nodes-to-pascal/</code></td>
+</tr>
+<tr>
+<td>N-CAS-7</td>
+<td>mean FLIP, core 11: X_ITE, Babylon add-on glb, Babylon Castle glb, Castle native, Castle all</td>
+<td>0.0457, 0.0485, 0.0491, 0.1149, 0.1146</td>
+<td>C</td>
+<td><code>core11.py</code>; FLIP 1.7, Cycles 256 spp, 512 px</td>
+<td><code>x3d.castle@d70e00c:results/quality/public/results.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-8</td>
+<td>mean FLIP, all 15, same five legs</td>
+<td>0.0748, 0.0516, 0.0658, 0.1321, 0.1289</td>
+<td>C</td>
+<td><code>core11.py</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-CAS-9</td>
+<td>core scenes where Castle native beats X_ITE; means on the other 7 core scenes</td>
+<td>4 of 11; 0.0406 against 0.0386</td>
+<td>C</td>
+<td><code>core11.py</code>, inline Python</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-CAS-10</td>
+<td>share of the all-15 Castle-minus-X_ITE gap in <code>materials-world</code> plus <code>lights-after</code></td>
+<td>0.770</td>
+<td>C</td>
+<td>inline Python</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-CAS-11</td>
+<td><code>p1</code> Castle FLIP before and after attenuation <code>0 0 1</code>; X_ITE</td>
+<td>0.0546, 0.0059; 0.0053</td>
+<td>C</td>
+<td>receipt read</td>
+<td><code>docs/quality-leg.md</code> section 3</td>
+</tr>
+<tr>
+<td>N-CAS-12</td>
+<td><code>p4</code> Castle FLIP before and after; X_ITE; share of the gap closed</td>
+<td>0.0446, 0.0237; 0.0085; 58%</td>
+<td>C</td>
+<td>receipt read, arithmetic</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-CAS-13</td>
+<td>mean FLIP change of the best single Castle switch (SSAA 4x)</td>
+<td>-0.0027</td>
+<td>C</td>
+<td>inline Python, 15 scenes</td>
+<td><code>results.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-14</td>
+<td>stock writer glbs failing the validator; errors</td>
+<td>24 of 70; 14,379</td>
+<td>C</td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, receipt</td>
+<td><code>results/scout-70/stock-writer-gltf-validate.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-15</td>
+<td>exporter glbs with 0 errors and 0 warnings; INFO notes</td>
+<td>70 of 70; 77</td>
+<td>C</td>
+<td>same validator, receipt</td>
+<td><code>results/phase3/gate70-default/gltf-validate.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-16</td>
+<td>exporter census: lights, cameras, textures, vertex colours, lines, points, animation</td>
+<td>41/43, 55/55, 11/17, 26/27, 14/17, 10/11, 0/21</td>
+<td>C</td>
+<td><code>census_compare.py</code> receipt</td>
+<td><code>results/phase3/gate70-default/census.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-17</td>
+<td>rig, 21 scenes, phase 3 <code>self</code>: mean; median</td>
+<td>7.80; 3.40</td>
+<td>C</td>
+<td>X_ITE 16.7.1 vs Babylon 9.32.0, Chromium 153.0.8010.12, SwiftShader, 512 px</td>
+<td><code>results/phase3/rig-gate-summary.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-18</td>
+<td>same rig, phase 2 binary <code>self</code>: mean; median</td>
+<td>7.53; 1.05</td>
+<td>C</td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-CAS-19</td>
+<td>phase 2 receipt means: exporter <code>rigcam</code>, add-on glb, stock glb</td>
+<td>7.80, 9.22, 17.62</td>
+<td>C</td>
+<td>same rig</td>
+<td><code>results/rig-exporter/results.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-20</td>
+<td>share of the 21-scene sum carried by the four largest scenes</td>
+<td>71%</td>
+<td>C</td>
+<td>inline Python</td>
+<td><code>rig-gate-summary.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-21</td>
+<td>fixtures passing: phase 3 binary; phase 2 binary</td>
+<td>18 of 18; 4 of 18</td>
+<td>C</td>
+<td><code>phase3_check.py</code> receipts</td>
+<td><code>results/phase3/fixtures.json</code>, <code>fixtures-baseline.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-22</td>
+<td>gap rows: total; Confirmed; Likely</td>
+<td>20; 19; 1</td>
+<td>C</td>
+<td>row count</td>
+<td><code>docs/castle-gaps.md</code></td>
+</tr>
+<tr>
+<td>N-CAS-23</td>
+<td>docker workflow runs, both success</td>
+<td>2 (8 min 32 s; 2 min 50 s)</td>
+<td>C</td>
+<td><code>gh run view</code>, 2026-11-14</td>
+<td><code>hagopjay/x3d.castle</code> Actions</td>
+</tr>
+<tr>
+<td>N-CAS-24</td>
+<td><code>#version</code> ComposedShader snippet through the validator</td>
+<td>valid, 0 errors, 1 INFO</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>drill D-CAS-6</td>
+</tr>
+<tr>
+<td>N-CAS-25</td>
+<td>mutated glb, inner cone above outer</td>
+<td>E=1 W=0 I=1</td>
+<td>C</td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code></td>
+<td>drill D-CAS-5</td>
+</tr>
+<tr>
+<td>N-CAS-26</td>
+<td>physical light factor at 3 m, attenuation <code>1 0 0</code> against <code>0 0 1</code></td>
+<td>1 against 0.111 (9x)</td>
+<td>C</td>
+<td>arithmetic on <code>add_light.glsl</code></td>
+<td><code>castle-engine@48ce617:src/scene/glsl/source/lighting_model_physical/add_light.glsl:123-128</code></td>
+</tr>
+<tr>
+<td>N-CAS-27</td>
+<td>specular cap 0.25 against 0.5, rig mean; median</td>
+<td>7.45 against 7.80; 0.58 against 3.40</td>
+<td>C</td>
+<td>rig, 3 repeats, Babylon 9.32 only; receipt re-read</td>
+<td><code>results/phase3/rig-specular-cap025-summary.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-28</td>
+<td>field-guide claims checked; split</td>
+<td>279 = 127 + 133 + 13 + 6</td>
+<td>S</td>
+<td>carried from a private note</td>
+<td>not linkable</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<ul>
+<li><code>x3d.castle@d70e00c</code> (public): <code>README.md</code>, <code>docs/*.md</code>, <code>docker/</code>, <code>castle-convert/</code>, <code>castle-render/castle_render.dpr</code>, <code>tools/</code>, <code>tests/phase3_check.py</code>, receipts under <code>results/</code>. Read 2026-11-14.</li>
+<li><code>castle-engine@48ce617</code> (public master, 2026-11-10; sparse checkout of <code>src/scene</code>, <code>src/files</code>, <code>tests/code</code>, <code>tools/internal/x3d-nodes-to-pascal</code>): the files in the meta table. Read, not built.</li>
+<li><code>x_ite@16.7.1</code> npm <code>dist/</code> (class registrations only, not run); <code>x3d_mcp@b4efcd3</code> (drill D-CAS-6); Khronos glTF-Validator 2.0.0-dev.3.10 from npm.</li>
+<li>A private field-guide process (mapper, skeptic, lens and critic passes over Castle 7.0-alpha.3) and the phase 3 hand-off notes were read as leads; their figures are <span class="g L" title="Likely">L</span> or <span class="g S" title="Suspected">S</span> unless re-derived above, and the verdict wording of section 11 is the critic's, tightened to what the re-derivations support. They are not linked here.</li>
+<li>Gaps: no Castle binary was run; the bundle has no <code>.git</code>; nothing has been sent to the Castle project; no pass quoted the X3D 4.0 attenuation text.</li>
+<li>Siblings: <a href="01-the-tether.html">01 The tether</a>, <a href="02-loom-laws.html">02 The Loom laws</a>, <a href="03-validator-and-gates.html">03 The validator and the gates</a>, <a href="04-mcp-for-agents.html">04 MCP for agents</a>, <a href="06-xite-the-oracle.html">06 X_ITE</a>, <a href="07-xray.html">07 x3d.xray</a>, <a href="08-babylon-bridge.html">08 The Babylon bridge</a>, <a href="10-blender-pipeline.html">10 The Blender pipeline</a>, <a href="11-gltf-usd-khronos.html">11 glTF, USD, Khronos</a>.</li>
+</ul>
+<div class="pn"><a href="08-babylon-bridge.html">&larr; 08-babylon-bridge</a><a href="10-blender-pipeline.html">10-blender-pipeline &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

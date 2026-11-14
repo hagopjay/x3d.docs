@@ -1,0 +1,1451 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>02. The Loom laws · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a class="cur" href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="02-loom-laws.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/02-loom-laws.md">GitHub</a></div><h1>02. The Loom laws</h1>
+<details class="toc"><summary>On this page (29 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-the-laws-by-theme">2. The laws, by theme</a><a class="l3" href="#a-make-it-again-keep-every-layer">A. Make it again, keep every layer</a><a class="l3" href="#b-witness-design-how-to-build-an-instrument-that-can-be-trusted">B. Witness design: how to build an instrument that can be trusted</a><a class="l3" href="#c-gates-and-evidence-integrity">C. Gates and evidence integrity</a><a class="l3" href="#d-claims-grades-and-scope">D. Claims, grades and scope</a><a class="l3" href="#e-the-learning-loop">E. The learning loop</a><a class="l3" href="#f-budget-truth-and-release">F. Budget, truth and release</a><a class="l3" href="#g-science-and-numerics">G. Science and numerics</a><a class="l3" href="#h-runtime-page-and-host">H. Runtime, page and host</a><a class="l3" href="#i-one-master-many-bodies">I. One master, many bodies</a><a class="l3" href="#j-stepped-physics">J. Stepped physics</a><a class="l2" href="#3-the-failure-mode-catalogue-160-rows-in-11-classes">3. The failure-mode catalogue: 160 rows in 11 classes</a><a class="l2" href="#4-the-playbook-patterns">4. The playbook patterns</a><a class="l2" href="#5-the-loop-roles-gates-and-rubrics-in-compact-form">5. The loop, roles, gates and rubrics in compact form</a><a class="l2" href="#6-pre-flight-checklist-one-page-derived-from-the-laws">6. Pre-flight checklist (one page, derived from the laws)</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-law-1-which-law-and-which-failures-came-with-pr-41">D-LAW-1 Which law and which failures came with PR #41</a><a class="l3" href="#d-law-2-re-derive-the-counts">D-LAW-2 Re-derive the counts</a><a class="l3" href="#d-law-3-run-the-kits-self-test">D-LAW-3 Run the kit&#x27;s self-test</a><a class="l3" href="#d-law-4-weaken-a-gate-and-watch-the-suite-fail">D-LAW-4 Weaken a gate and watch the suite fail</a><a class="l3" href="#d-law-5-let-the-physics-witness-judge-the-real-records">D-LAW-5 Let the physics witness judge the real records</a><a class="l3" href="#d-law-6-find-the-profile-that-cannot-accept-a-new-run">D-LAW-6 Find the profile that cannot accept a new run</a><a class="l3" href="#d-law-7-classify-then-verify-the-catalogue">D-LAW-7 Classify, then verify the catalogue</a><a class="l3" href="#d-law-8-apply-the-checklist-to-a-described-project">D-LAW-8 Apply the checklist to a described project</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> the Loom is 44 numbered laws and 160 numbered failure modes, each paid for by a recorded failure; this chapter indexes them by number so you can find the law that forbids a mistake, the incident that created it, and the check that catches it. <strong><span class="g L" title="Likely">L</span></strong> (the counts are <strong><span class="g C" title="Confirmed">C</span></strong>, parsed from the file)</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>LAW</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="01-the-tether.html">01 the tether</a> (the loop and the pin rule)</td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>(1) cite a law or a failure mode by its stable number; (2) name the check that catches a violation, or say that none exists; (3) find the class of a surprise in the 160-row catalogue and its three costliest members; (4) pick the playbook pattern for a science or physics study; (5) run the one-page pre-flight checklist on a new project</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code> (sections 3, 4, 6, 7, 8), <code>LESSONS-v1.0.md</code>, <code>LEARNINGS-from-patches.md</code>, <code>GLOSSARY.md</code>, <code>SCIENCE-PLAYBOOK.md</code>, <code>PHYSICS-PLAYBOOK.md</code>, <code>REVIEW-loom2.md</code>, <code>REVIEW-scientific.md</code>, <code>SOURCES.md</code>, <code>SWEEP-REPORT.json</code>, <code>kit/loomkit/*.py</code>, <code>kit/tests/test_gates.py</code>, <code>kit/profiles/*.json</code>; teardown <code>x3d.docs@f172f67:docs/x3d.loom/MASTERCLASS.md</code> (linked, not repeated)</td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td><code>x3d.loom@162ab18</code> (loomkit, Python 3.13.18), <code>x3d_mcp fork b4efcd3</code>, <code>X_ITE 16.7.0</code>, <code>Chromium 153 (Chrome for Testing 153.0.8010.12), SwiftShader</code>, <code>git</code> on <code>x3d.loom@162ab18</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text"> step   0 card     1 kickoff    2 weave     3 witness    4 gate      5 stump     6 judge
+ laws   15 34      33 4 11 12   1 4 31 32   2 3 26 27    17 18 19    19 44       6 39 40
+          |           |           |           |            |           |           |
+          v           v           v           v            v           v           v
+        pins,      trap list,  generator,  many blind-  candidate   mutants and  flags,
+        &quot;better&quot;   budget      one clock   spot-split   hash, -O    controls     no scores
+
+ step   7 receipt   8 debrief   9 fold-back    10 handoff     any red: fix the card or the
+ laws   14 35 24    5 34        20 7 8 44      16 10 13       generator, weave again (law 1);
+                                                              the red run stays in history (28)
+
+ where the numbers live:
+   LOOM-v1.md section 3 = laws 1..44          section 8 = failure modes 1..160
+   SCIENCE-PLAYBOOK.md  = patterns A..I       PHYSICS-PLAYBOOK.md = patterns 1..19, laws 41..44
+   LEARNINGS-from-patches.md = rules R1..R33  kit/loomkit = the stable diagnostic codes
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>item</th>
+<th>what it is</th>
+<th>count</th>
+<th>how the count was obtained</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>laws</td>
+<td>numbered, one failure each; append-only</td>
+<td>44</td>
+<td>rows of section 3 of <code>LOOM-v1.md</code>, ids 1..44 contiguous</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>failure modes</td>
+<td>numbered traps with a fix</td>
+<td>160</td>
+<td>rows of section 8, ids 1..160 contiguous</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>witnesses</td>
+<td>Grammar to Score, plus 3b page traps and 3c physics</td>
+<td>13 rows</td>
+<td>section 6.1 table</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>acceptance profiles</td>
+<td><code>loom.profile/1</code> files</td>
+<td>20 files, 11 rows in section 6.2</td>
+<td><code>kit/profiles/*.json</code>; table rows</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>stable codes</td>
+<td>raising diagnostics in loomkit</td>
+<td><code>accept</code> 15 distinct, physics 18, science 27</td>
+<td><code>accept.py</code>, <code>physics.py</code> docstring, <code>sci.py</code></td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+</tbody>
+</table>
+<p>In scope: the numbered rules and how to find and check them. Out of scope: the AST teardown of the repository (<a href="../x3d.loom/MASTERCLASS.html">the x3d.loom masterclass</a>), the validator (<a href="03-validator-and-gates.html">03</a>), the physics bridges in depth (<a href="13-physics.html">13</a>).</p>
+<p><strong>How the count grew</strong> (re-derived from <code>git show &lt;commit&gt;:LOOM-v1.md</code> at each commit) <strong><span class="g C" title="Confirmed">C</span></strong>:</p>
+<table>
+<thead>
+<tr>
+<th>commit</th>
+<th>date</th>
+<th>change</th>
+<th>laws</th>
+<th>failure modes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0244784</code></td>
+<td>2026-11-05</td>
+<td>v1.0 public snapshot</td>
+<td>35</td>
+<td>92</td>
+</tr>
+<tr>
+<td><code>849fc7e</code></td>
+<td>2026-11-05</td>
+<td>Mashtots2 fold-in</td>
+<td>36</td>
+<td>101</td>
+</tr>
+<tr>
+<td><code>9ef7a19</code></td>
+<td>2026-11-05</td>
+<td>snapshot 4, Manifold of Emotion</td>
+<td>37</td>
+<td>108</td>
+</tr>
+<tr>
+<td><code>511de0e</code></td>
+<td>2026-11-07</td>
+<td>two rebuilds by another model</td>
+<td>40</td>
+<td>123</td>
+</tr>
+<tr>
+<td><code>2f52728</code></td>
+<td>2026-11-13</td>
+<td>PhysX and MuJoCo bridges: physics witness, laws 41 to 43</td>
+<td>43</td>
+<td>147</td>
+</tr>
+<tr>
+<td><code>babba96</code></td>
+<td>2026-11-13</td>
+<td>Ten Minute Physics fold-back (PR #41, merged as <code>c782ea1</code>): law 44, failure modes 148 to 160, playbook patterns 11 to 19</td>
+<td>44</td>
+<td>160</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Read next:</strong> deeper, <a href="03-validator-and-gates.html">03 validator and gates</a> (the checks behind laws 2, 8, 15); wider, <a href="13-physics.html">13 physics</a> (laws 41 to 44 at work).</p>
+<h2 id="2-the-laws-by-theme">2. The laws, by theme</h2>
+<p>Each row: the law's number and exact headline (<code>LOOM-v1.md</code> section 3), the incident that created it, the typical violation, and the check that catches it. <code>code:</code> names a stable diagnostic or rule in loomkit or a witness; <code>process:</code> means review, a practice or a project's own gate, with no mechanical check in the kit. Evidence is carried from <code>LOOM-v1.md</code> with its own grade (&quot;src C&quot; is the source's Confirmed; in this base a carried row is <span class="g L" title="Likely">L</span> at most). &quot;Re-run&quot; marks what was executed for this chapter on 2026-11-14.</p>
+<p>The laws are grade <span class="g L" title="Likely">L</span> as a set: each generalises C-graded incidents. Laws 43 and 44 are scoped to physics profiles first (decision of 13 Nov); if either proves wrong it is marked a false positive in the table, not deleted.</p>
+<h3 id="a-make-it-again-keep-every-layer">A. Make it again, keep every layer</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>law</th>
+<th>evidence</th>
+<th>typical violation</th>
+<th>check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Generator, not file.</strong> Fix the card or the generator, then weave again</td>
+<td>Dynasty Loom v3: 87 of 87 files rebuilt byte for byte (src C); a hand edit on the Data City run gave <code>STALE_WITNESS</code> (src C)</td>
+<td>hand-editing a generated .x3d</td>
+<td>code: rebuild and compare sha256; <code>STALE_WITNESS</code> (<code>accept.py</code>), re-run in <a href="01-the-tether.html">01</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>If you can't make it again, you don't know what it is.</strong> Declare every input, the date included</td>
+<td>a clock moved 3 days and the rebuild differed (fm 10); set order changed bytes (fm 36)</td>
+<td><code>datetime.now()</code> in a generator; unsorted sets</td>
+<td>process: rebuild with <code>SOURCE_DATE_EPOCH</code> moved, compare bytes (fm 10, 36, 40)</td>
+</tr>
+<tr>
+<td>14</td>
+<td><strong>Add layers, never replace.</strong> Version everything</td>
+<td>every Loomsong version kept its predecessor's receipt (src C)</td>
+<td>overwriting a demo or a receipt</td>
+<td>code: <code>RECEIPT_EXISTS</code> (<code>receipt.py</code>); the <code>prev</code> field</td>
+</tr>
+</tbody>
+</table>
+<h3 id="b-witness-design-how-to-build-an-instrument-that-can-be-trusted">B. Witness design: how to build an instrument that can be trusted</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>law</th>
+<th>evidence</th>
+<th>typical violation</th>
+<th>check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td><strong>Valid is not visible.</strong> Grammar passing starts the inspection, never ends it</td>
+<td>3 of 3 pocket worlds valid and white (src C); here 17.52% vs 0.00% non-background pixels, both valid (re-run, <span class="g C" title="Confirmed">C</span>)</td>
+<td>shipping on &quot;0 errors&quot;</td>
+<td>code: an Eyes witness with a pixel floor (<a href="01-the-tether.html">01</a> section 5)</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Many witnesses, blind spots that don't overlap</strong></td>
+<td>labels vanished only under the host policy (fm 6, src C)</td>
+<td>one clever test for all</td>
+<td>code: the profile's required set: <code>MISSING_WITNESS</code>, <code>EMPTY_PROFILE</code></td>
+</tr>
+<tr>
+<td>19</td>
+<td><strong>A control must fail for the intended reason.</strong> One stable diagnostic per negative control; a crash is <code>error</code>, not a catch</td>
+<td>IndexError mistaken for rejection (src L); Break-the-Loom requires the exact diagnostic (src C)</td>
+<td>&quot;some failure happened&quot; counted as a catch</td>
+<td>code: <code>expect()</code> in <code>kit/tests/test_gates.py</code> raises <code>WRONG_DIAGNOSTIC</code> or <code>SURVIVING_CONTROL</code>; exit 2 for an instrument crash</td>
+</tr>
+<tr>
+<td>25</td>
+<td><strong>Independent witnesses need independent assumptions</strong></td>
+<td>shader and CPU probe agreed on a wrong L/(N-1) spacing (fm 54, src C as reported)</td>
+<td>a second implementation that shares the coordinate convention</td>
+<td>process: list the shared assumptions beside the witness</td>
+</tr>
+<tr>
+<td>26</td>
+<td><strong>Suspect the witness first.</strong> The same value across unrelated inputs, or no change when the cause changes, means it measures something else</td>
+<td>a wrong-view capture read as a GPU bug; a check returned 0.31 cells in every case (fm 64, 70, src C)</td>
+<td>debugging the subject before the instrument</td>
+<td>process: vary the cause and watch the number; signal floor (fm 65)</td>
+</tr>
+<tr>
+<td>27</td>
+<td><strong>Like with like.</strong> Same window, state and conditions; state the witness exactly where the construction allows</td>
+<td>pitch check red twice on correct audio, 31% (fm 79, src C)</td>
+<td>a windowed estimate against a point value</td>
+<td>process: an exact statement (zero crossings) plus a negative control</td>
+</tr>
+<tr>
+<td>36</td>
+<td><strong>A pass names what it saw.</strong> A witness reports an inventory of what it read</td>
+<td>page traps passed six .js files with 0 field callbacks seen (fm 93, src C)</td>
+<td>a clean result over nothing relevant</td>
+<td>code: <code>seen</code> counts in <code>kit/loom pagetraps</code>; <code>PHYS_NO_RUNS</code>; <code>EMPTY_CANDIDATE</code></td>
+</tr>
+<tr>
+<td>44</td>
+<td><strong>A check is shown able to fail, and a number is not Confirmed until a second reader has tried to break it</strong></td>
+<td>the energy check read 1.33e-15 with the buggy rule, 2.0e-15 fixed, 0 with no collisions (fm 148); 125 claims, 25 negative findings survived (src C)</td>
+<td>a self-graded Confirmed; a mutation control that changes nothing (fm 157: 2 of 11)</td>
+<td>code: <code>PHYS_CONTROL_SURVIVED</code>; 14 of 14 mutations of the real record caught (re-run, <span class="g C" title="Confirmed">C</span>); limits-commit check is not in the kit</td>
+</tr>
+</tbody>
+</table>
+<h3 id="c-gates-and-evidence-integrity">C. Gates and evidence integrity</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>law</th>
+<th>evidence</th>
+<th>typical violation</th>
+<th>check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td><strong>Gates are fixed like code</strong>: tests on both sides and a corpus re-run</td>
+<td>glsl-int-literal: 62 findings over 859 files, all one false line (src C)</td>
+<td>silencing a noisy rule</td>
+<td>code: 15 trap rules and 8 page-trap rules each pass a clean and catch a failing fixture (re-run, <span class="g C" title="Confirmed">C</span>)</td>
+</tr>
+<tr>
+<td>17</td>
+<td><strong>Evidence is bound to the exact candidate</strong>, test code included</td>
+<td>Study 01 packaged a changed shader against a stale browser pass (src C)</td>
+<td>packaging changed code with an old pass</td>
+<td>code: <code>STALE_WITNESS</code>, <code>CANDIDATE_CHANGED_DURING_WITNESS</code>, <code>EVIDENCE_DRIFT</code>, <code>DEVELOPMENT_WITNESS</code></td>
+</tr>
+<tr>
+<td>18</td>
+<td><strong>A gate is code that cannot be switched off.</strong> Raising predicates, never <code>assert</code>; tested under <code>python -O</code></td>
+<td>Red Score packaged under <code>-O</code>; IfcOpenShell asserts forced a refusal (src C)</td>
+<td><code>assert</code> as the gate</td>
+<td>code: <code>need()</code> in <code>core.py</code>; the suite runs in both modes, 82 controls each (re-run, <span class="g C" title="Confirmed">C</span>)</td>
+</tr>
+<tr>
+<td>24</td>
+<td><strong>Open what you hash.</strong> Decode every payload and archive before its hash enters a receipt</td>
+<td>Living Archive zip truncated yet receipted; a re-hashed truncated PNG passes the shipped audit (src C)</td>
+<td>a receipt that certifies broken bytes</td>
+<td>code: <code>SCI_PUBLICATION_UNDECODABLE</code>; <code>unzip -t</code>; <code>kit/examples/salvage_zip.py</code></td>
+</tr>
+<tr>
+<td>35</td>
+<td><strong>A signature proves a key, not an author</strong></td>
+<td>the demo seal was forgeable from its own source (src L)</td>
+<td>an HMAC key in the source or the envelope</td>
+<td>code: receipts carry <code>signed=false</code>; <code>verify-receipt</code> says only &quot;intact&quot;; forgery re-run in <a href="01-the-tether.html">01</a> section 9</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d-claims-grades-and-scope">D. Claims, grades and scope</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>law</th>
+<th>evidence</th>
+<th>typical violation</th>
+<th>check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td><strong>Say how sure you are.</strong> C, L or S on every claim, with its instrument</td>
+<td>&quot;upstream is broken&quot; split into C and L (src C/L)</td>
+<td>upgrading a grade in translation</td>
+<td>code: <code>UNMEASURED_REQUIRED_WITNESS</code> (a pass graded S), <code>UNKNOWN_GRADE</code> (<code>core.py</code>)</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Models speak in S.</strong> Judges flag, never grade</td>
+<td>re-judging a frame moved the score by sd 0.12 to 0.25; a black still scored 2.33 (src C)</td>
+<td>a model sentence entering the record as fact</td>
+<td>code: <code>PICTURE_GRADING</code>, <code>MODEL_TRUTH_PROMOTION</code>, <code>STALE_PICTURE_REVIEW</code> (<code>picture.py</code>)</td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>Unknown is not zero; no witness, no tie</strong></td>
+<td>Data City null semantics (fm 33, src C)</td>
+<td><code>COALESCE(missing, 0)</code></td>
+<td>process: the project's truth gate; the fold-back kit's profile contract is not in loomkit</td>
+</tr>
+<tr>
+<td>15</td>
+<td><strong>Name the instrument behind every number</strong></td>
+<td>&quot;7 to 10 of 10 repairs&quot; holds at upstream 74da0ec, 3 to 6 at 020221e (src C); 15.0% became 14.1% with one script (re-run, <span class="g C" title="Confirmed">C</span>)</td>
+<td>unpinned verdicts; software-GL frame rates</td>
+<td>code: the witness record's <code>instrument</code> field; the fork witness names its commit</td>
+</tr>
+<tr>
+<td>34</td>
+<td><strong>Every result states its scope and its reproduction level</strong> (L2 isolation, L3 real browser, L4 comparative)</td>
+<td>the X_ITE teardown's F01 and F02 records; &quot;physics CPU only&quot; (src L)</td>
+<td>a pass with unstated reach</td>
+<td>code: <code>limitations</code> in witness records and receipts; process: the debrief's &quot;what a pass does not establish&quot;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="e-the-learning-loop">E. The learning loop</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>law</th>
+<th>evidence</th>
+<th>typical violation</th>
+<th>check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>7</td>
+<td><strong>Every mistake pays rent once</strong>: incident, fact, rule with tests, fork check, upstream</td>
+<td>shader-raw-source: white sphere to gate rule in a day (fm 1, src C)</td>
+<td>fixing a trap in one project only</td>
+<td>code: a trap rule with two-sided tests (<code>traps.py</code>); process: the FACTS entry</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>The metric will be attacked.</strong> Close escape hatches before optimising</td>
+<td>67 of 67 optimised valid scenes declared Full (src L); hard prompts 84% plain, 30% with Full barred</td>
+<td>rewarding &quot;valid&quot; alone</td>
+<td>process: re-score with the escape hatch barred (x3d.onto lawful metric; read, not run)</td>
+</tr>
+<tr>
+<td>20</td>
+<td><strong>Fold back small, with the counterexample</strong>: additions-only, minimal failing fixture, scope, blind spots</td>
+<td>all five project patches share the shape (src C)</td>
+<td>grand universal rules; browser facts promoted to X3D prohibitions</td>
+<td>code: <code>kit/loom foldback</code> (apply check, additions-only, smoke normal and <code>-O</code> in an empty repo)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="f-budget-truth-and-release">F. Budget, truth and release</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>law</th>
+<th>evidence</th>
+<th>typical violation</th>
+<th>check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td><strong>Truth gates when the world is real</strong></td>
+<td>20 errors and 26 warnings in shipped family data (src C)</td>
+<td>an invented person, face or date</td>
+<td>process: a per-project truth witness (<code>kit/loom command --name truth</code>)</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>Ask once, cache forever.</strong> Every paid call keyed by prompt hash and capped</td>
+<td>portrait cache: 2 calls per person (src C)</td>
+<td>re-requesting the same picture</td>
+<td>process: separate duplicate-key and over-cap fixtures (fm 31); receipts list <code>model_calls</code> with a cached flag</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>Budget is a witness.</strong> Two or three agents at a time; partial results on disk</td>
+<td>22 parallel agents exhausted the allowance (fm 41, src C)</td>
+<td>wide fan-outs</td>
+<td>process: at most 3 agents</td>
+</tr>
+<tr>
+<td>16</td>
+<td><strong>Nothing leaves without &quot;send&quot;.</strong> Public pages pass a leak sweep first</td>
+<td>33 upstream PRs drafted, 0 sent (src C); <code>SWEEP-REPORT.json</code>: status pass, 67 replacements, residue empty</td>
+<td>outbound PRs, emails or pushes on assumption</td>
+<td>code: <code>kit/loom sweep</code> raises <code>LEAK_RESIDUE</code> if a forbidden pattern survives</td>
+</tr>
+</tbody>
+</table>
+<h3 id="g-science-and-numerics">G. Science and numerics</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>law</th>
+<th>evidence</th>
+<th>typical violation</th>
+<th>check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>21</td>
+<td><strong>Invariants admit; they do not confirm intent</strong></td>
+<td>reversed vortex circulation conserved every invariant (fm 51, src C as reported)</td>
+<td>accepting a simulation because energy is conserved</td>
+<td>process: a separate event witness (topology, morphology)</td>
+</tr>
+<tr>
+<td>22</td>
+<td><strong>Certify the space, not the number</strong></td>
+<td>good eigenvalues, non-orthogonal degenerate modes (fm 52)</td>
+<td>animating an arbitrary basis vector as &quot;the mode&quot;</td>
+<td>process: an orthogonality or subspace witness; <code>SCI_REQUIRED_WITNESS_MISSING</code> enforces the kind's list</td>
+</tr>
+<tr>
+<td>23</td>
+<td><strong>Display precision is part of the scientific budget</strong></td>
+<td>8-bit moved the early zero-isosurface; 16-bit fixed it (fm 53)</td>
+<td>relabelling clipped values</td>
+<td>code: <code>SCI_DISPLAY_QUANTIZATION</code>, <code>SCI_DISPLAY_CLIPPING</code></td>
+</tr>
+<tr>
+<td>28</td>
+<td><strong>Explore the worst case before declaring a limit; then fix the instrument, not the threshold</strong></td>
+<td>3s normalization 8.2e-4 after limits set on easy orbitals (fm 76)</td>
+<td>limits set on easy cases, widened afterwards</td>
+<td>code: <code>PHYS_LIMIT_WIDENED</code> (physics); process: limits in the builder docstring with exploration numbers</td>
+</tr>
+<tr>
+<td>29</td>
+<td><strong>One cause at a time</strong></td>
+<td>a fast ring blamed on the boundary was the periodic images, with the correction's sign wrong (fm 86, 87)</td>
+<td>a correction for an untested cause</td>
+<td>process: change one variable; grade a fitted correction L</td>
+</tr>
+<tr>
+<td>30</td>
+<td><strong>Nothing transfers across dimension or geometry unmeasured</strong></td>
+<td>a 2D seed died in 3D; labyrinths became sheets (fm 67 to 69, 82)</td>
+<td>a borrowed 2D recipe or regime name</td>
+<td>process: every name in a caption is a measured claim, threshold declared first</td>
+</tr>
+</tbody>
+</table>
+<h3 id="h-runtime-page-and-host">H. Runtime, page and host</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>law</th>
+<th>evidence</th>
+<th>typical violation</th>
+<th>check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>31</td>
+<td><strong>One clock, one owner</strong></td>
+<td>picture and audio 0.8 to 1.5 s apart until the audio drove the picture (fm 80)</td>
+<td>two clocks &quot;started together&quot;</td>
+<td>code: page trap <code>xite-browser-currenttime</code>; process: the evidence compares the clocks</td>
+</tr>
+<tr>
+<td>32</td>
+<td><strong>The runtime's contracts are part of the build</strong></td>
+<td>one escaping callback froze all routing in X_ITE 16.5.1 (fm 88, 94, src C)</td>
+<td>unguarded field callbacks; navigation before the scene exists</td>
+<td>code: page traps <code>xite-callback-unguarded</code>, <code>nav-before-scene</code>, <code>loadurl-unbudgeted</code>, <code>window-global-shadow</code></td>
+</tr>
+<tr>
+<td>33</td>
+<td><strong>Read your own checklist</strong></td>
+<td>the clock trap was in the kickoff and was hit anyway (fm 72)</td>
+<td>rediscovering a recorded trap</td>
+<td>process: the first-reply check and <code>kit/templates/KICKOFF-PRE.md</code></td>
+</tr>
+<tr>
+<td>40</td>
+<td><strong>A fallback must say so</strong></td>
+<td>a reviewer judged a procedural stand-in; X_ITE drew black under the host policy (fm 116, 122)</td>
+<td>a page that looks finished on a stand-in</td>
+<td>code: <code>PHYS_LOSS_UNREPORTED</code>; process: the Host witness on a strict policy copy</td>
+</tr>
+</tbody>
+</table>
+<h3 id="i-one-master-many-bodies">I. One master, many bodies</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>law</th>
+<th>evidence</th>
+<th>typical violation</th>
+<th>check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>37</td>
+<td><strong>An artefact that claims to stand alone is tested alone</strong></td>
+<td>a saved moment drew opaque sheets without its page; fixed, SSIM 0.9987 against the live frame (fm 103)</td>
+<td>testing an export only inside the app</td>
+<td>process: load it alone and compare with the live view</td>
+</tr>
+<tr>
+<td>38</td>
+<td><strong>One master, many renderers.</strong> A second renderer reads the validated X3D itself</td>
+<td>both rebuilds drew from converted copies; merged build reads 48 of 48 ROUTEs, cloth mask IoU 0.976 to 0.992 (fm 115, 123)</td>
+<td>a second renderer fed from a drifting export; a pixel hash across renderers</td>
+<td>process: same sha256, a coverage manifest, a shape witness per beat</td>
+</tr>
+<tr>
+<td>39</td>
+<td><strong>A look may add, never assert</strong></td>
+<td>clipping went 88.4% to 0% by changing the light values, not the tone curve (fm 114)</td>
+<td>unlabelled generated detail; clipping hidden by tone mapping</td>
+<td>process: an ART mark on pixels and filenames; a 1x switch; a <code>toneMapping NONE</code> reference view</td>
+</tr>
+</tbody>
+</table>
+<h3 id="j-stepped-physics">J. Stepped physics</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>law</th>
+<th>evidence</th>
+<th>typical violation</th>
+<th>check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>41</td>
+<td><strong>A replaced engine is shown off, in every host that has it, and its leaks are listed</strong></td>
+<td>X_ITE's Bullet stepped once after <code>loadURL()</code> (y 0.32 to 0.319974, fm 127)</td>
+<td>taking &quot;disabled&quot; for &quot;off&quot;</td>
+<td>code: <code>PHYS_TAKEOVER_UNPROVEN</code></td>
+</tr>
+<tr>
+<td>42</td>
+<td><strong>Determinism is claimed per step and per host</strong></td>
+<td>1918 steps recorded in Chromium, 969 in Firefox, 0 differing hashes in 4 hosts (fm 128, 129; one machine)</td>
+<td>a final-state hash; a claim from one place</td>
+<td>code: <code>PHYS_HASH_DRIFT</code>, <code>PHYS_REPLAY_MISSING</code>, <code>PHYS_REPLAY_STEPS</code>, <code>PHYS_ENGINE_DRIFT</code>, <code>PHYS_TRACE_TAMPERED</code></td>
+</tr>
+<tr>
+<td>43</td>
+<td><strong>A tolerance is written before the run; an excursion is a waiver, not a pass</strong></td>
+<td>3 of 33 smoke tests failed under load and were accepted as 3 waivers; ragdoll overshoot 0.43 against 0.2 rad (fm 133, 137)</td>
+<td>loosening a threshold to turn red green</td>
+<td>code: <code>PHYS_LIMIT_WIDENED</code>, <code>PHYS_FALSE_GREEN</code>, <code>PHYS_WAIVER_INCOMPLETE</code>, <code>PHYS_WAIVERS_OVER_CAP</code>; cap 3 passes and cap 0 fails on the real records (re-run, <span class="g C" title="Confirmed">C</span>)</td>
+</tr>
+</tbody>
+</table>
+<p>Law 44 is listed under B, its theme being witness design; it shares the physics scope with 41 to 43. Count of the <code>check</code> column by this chapter's reading <strong><span class="g L" title="Likely">L</span></strong>: 27 laws begin <code>code:</code> and 17 begin <code>process:</code> (4, 9, 10, 11, 12, 13, 21, 22, 25, 26, 27, 29, 30, 33, 37, 38, 39); drill D-LAW-2 recounts them from this file. A <code>code:</code> entry sometimes names only a record field that makes a check possible (laws 15 and 34), not a decision gate.</p>
+<h2 id="3-the-failure-mode-catalogue-160-rows-in-11-classes">3. The failure-mode catalogue: 160 rows in 11 classes</h2>
+<p>The failure modes are numbered 1 to 160 in <code>LOOM-v1.md</code> section 8 (the ids are the stable reference; cite &quot;failure mode 88&quot;, never a paraphrase). The classes below are this chapter's grouping, not a Loom id: <span class="g L" title="Likely">L</span>, and each failure mode sits in exactly one class (drill D-LAW-7 verifies that the lists below cover 1 to 160 once). The top three per class are chosen by cost (the loss recorded) and by recurrence.</p>
+<table>
+<thead>
+<tr>
+<th>class</th>
+<th>name</th>
+<th>n</th>
+<th>ids</th>
+<th>top 3 (number, what happened, the fix)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>K1</td>
+<td>the witness measured the wrong thing or the wrong state</td>
+<td>23</td>
+<td>11, 19, 20, 24, 25, 26, 28, 29, 30, 37, 40, 48, 64, 65, 70, 79, 85, 95, 105, 108, 142, 149, 152</td>
+<td><strong>64</strong> a capture of the wrong view mode was read as a GPU bug: the page reports the view it drew and the witness rejects a mismatch. <strong>70</strong> one check returned the same value in every case at 8 and 16 bits: split it, one cause per witness. <strong>79</strong> a windowed estimate against a point value gave 31% &quot;error&quot; on correct audio: like with like, state the witness exactly</td>
+</tr>
+<tr>
+<td>K2</td>
+<td>gates and controls that cannot fail</td>
+<td>15</td>
+<td>13, 14, 15, 55, 66, 81, 92, 93, 96, 97, 148, 150, 151, 157, 160</td>
+<td><strong>13</strong> <code>python -O</code> strips asserts so a red gate packages (recurred as 55): raising predicates, test both modes. <strong>148</strong> a check passed for the wrong implementation (1.33e-15 buggy, 2.0e-15 fixed, 0 none): run the wrong twin. <strong>93</strong> a witness passed having read nothing relevant: report <code>seen</code></td>
+</tr>
+<tr>
+<td>K3</td>
+<td>evidence binding, freshness, provenance, claim scope</td>
+<td>12</td>
+<td>12, 21, 46, 47, 56, 74, 90, 98, 99, 123, 155, 156</td>
+<td><strong>12</strong> an old browser pass authorised changed code: bind to the candidate digest, tests included. <strong>46</strong> a receipt hashed a truncated zip: open before hashing. <strong>98</strong> a shipped result file was older than the code (148 recorded, 150 run): name the code hash, re-run on receipt</td>
+</tr>
+<tr>
+<td>K4</td>
+<td>valid is not visible; XSD, standard and runtime disagree</td>
+<td>13</td>
+<td>1, 2, 3, 4, 8, 9, 27, 57, 73, 91, 102, 103, 141</td>
+<td><strong>1</strong> raw GLSL in a <code>ShaderPart</code> is read as a URL and draws white: <code>data:x-shader/x-fragment,</code> prefix, trap <code>shader-raw-source</code>. <strong>91</strong> 17 of 91 &quot;valid&quot; scenes rendered blank and 10 invalid ones drew: keep grammar, meaning and eyes separate. <strong>141</strong> the XSD passed while the semantic validator found 5 errors per scene: run both</td>
+</tr>
+<tr>
+<td>K5</td>
+<td>runtime, page and host contracts</td>
+<td>22</td>
+<td>6, 7, 49, 61, 72, 77, 78, 80, 84, 88, 89, 94, 101, 104, 113, 116, 117, 118, 122, 128, 130, 144</td>
+<td><strong>88</strong> one exception in a field callback freezes every route (recurred as 94): guard every callback, probe with a deliberate throw. <strong>72</strong> <code>Browser.currentTime</code> does not exist and the trap was already in the kickoff: <code>getCurrentTime()</code>, read the list. <strong>116</strong> X_ITE drew black under the hosted policy because its stylesheet was blocked: inline it, test under the policy</td>
+</tr>
+<tr>
+<td>K6</td>
+<td>reproducibility and build hygiene</td>
+<td>11</td>
+<td>10, 16, 36, 43, 44, 45, 58, 60, 75, 83, 139</td>
+<td><strong>10</strong> the build date leaked into output: <code>SOURCE_DATE_EPOCH</code>, rebuild with the clock moved. <strong>44</strong> a cross-platform rebuild differed in PNG bytes and last-bit floats: compare decoded content, claim byte identity only on the original platform. <strong>58</strong> <code>python -I</code> dropped the builder's directory a second time after 43: launch with <code>-E -s</code></td>
+</tr>
+<tr>
+<td>K7</td>
+<td>science and numerics</td>
+<td>20</td>
+<td>50, 51, 52, 53, 54, 59, 62, 63, 67, 68, 69, 71, 76, 82, 86, 87, 153, 154, 158, 159</td>
+<td><strong>51</strong> invariants held while the event went the wrong way: a witness of the promised event. <strong>76</strong> the limit was set on easy orbitals and 3s broke it: worst case first, then refine. <strong>86</strong> a plausible cause was tested and rejected (periodic images were the cause): one change at a time</td>
+</tr>
+<tr>
+<td>K8</td>
+<td>physics engines and stepped simulation</td>
+<td>14</td>
+<td>124, 125, 126, 127, 129, 131, 132, 133, 134, 135, 136, 137, 138, 140</td>
+<td><strong>124</strong> a stepped engine judged against the continuum answer looked wrong by 1/2 g h t (0.0204 m): use the scheme's own discrete solution (1.5e-6 m). <strong>127</strong> &quot;disabled&quot; was taken for &quot;off&quot;: a takeover proof per host. <strong>133</strong> smoke tests failed under load with no record of who accepted them: waivers with owner, date and a cap</td>
+</tr>
+<tr>
+<td>K9</td>
+<td>rendering, look and multi-renderer parity</td>
+<td>14</td>
+<td>5, 17, 18, 22, 23, 106, 109, 110, 111, 112, 114, 115, 119, 120</td>
+<td><strong>115</strong> cloth outline overlap fell to 0.855 and 0.778 with identical geometry (translucency blends in different spaces): compare shapes with translucent parts hidden (0.99), never pixels across renderers. <strong>109</strong> HSV against RGB colour interpolation: densify keys, trap <code>color-keys-sparse</code>. <strong>114</strong> tone mapping crushed darks and ACES hid clipped cloth: a <code>NONE</code> reference view, fix the light (88.4% to 0%)</td>
+</tr>
+<tr>
+<td>K10</td>
+<td>data identity and truth</td>
+<td>6</td>
+<td>32, 33, 34, 35, 38, 39</td>
+<td><strong>33</strong> a missing value became zero: null end to end. <strong>32</strong> a count passed while identity was wrong: match identities. <strong>38</strong> a load &quot;ended cleanly&quot; at 88.6% of a table: rename the output only after counts reconcile</td>
+</tr>
+<tr>
+<td>K11</td>
+<td>process, budget and governance</td>
+<td>10</td>
+<td>31, 41, 42, 100, 107, 121, 143, 145, 146, 147</td>
+<td><strong>41</strong> 22 parallel agents exhausted the allowance: at most 3. <strong>146</strong> a fold-back was assumed while two threads built bridges with no PR: the last step of a thread is its PR, numbered from upstream's tip that day. <strong>121</strong> an X_ITE bug was reported that was ours (shared Coordinate): a minimal repro before any upstream claim</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-text">  failure modes per class (each # is one failure mode; 160 in all)
+  K1  witness measured the wrong thing        23 #######################
+  K5  runtime, page and host contracts        22 ######################
+  K7  science and numerics                    20 ####################
+  K2  gates and controls that cannot fail     15 ###############
+  K8  physics engines, stepped simulation     14 ##############
+  K9  rendering, look, renderer parity        14 ##############
+  K4  valid is not visible; XSD vs runtime    13 #############
+  K3  evidence binding, provenance, scope     12 ############
+  K6  reproducibility, build hygiene          11 ###########
+  K11 process, budget, governance             10 ##########
+  K10 data identity and truth                  6 ######
+</code></pre>
+<p>Failure modes that record their own recurrence (regex <code>recurred|second time|A repeat|second occurrence|second delivery|hit twice</code> over section 8, two false hits removed by hand) <strong><span class="g C" title="Confirmed">C</span></strong>: 55 (repeats 13), 58 (repeats 43), 72 (repeats a trap its own kickoff listed), 73 (repeats 57), 94 (repeats 88), 107 (twice in one night), 128 (hit twice). Seven of 160: the traps that came back were the ones kept only in prose.</p>
+<p>How a surprise is looked up: grep <code>LOOM-v1.md</code> for the symptom word, read the row's fix, then read the law named in the fix; if no row matches, the surprise is a candidate failure mode: write the symptom, the cause, the fix and the test, and number it from upstream's tip (fm 146, 147).</p>
+<h2 id="4-the-playbook-patterns">4. The playbook patterns</h2>
+<p>Two playbooks turn the laws into reusable patterns. Science: nine patterns A to I (<code>SCIENCE-PLAYBOOK.md</code> section 2). Physics: nineteen numbered patterns (<code>PHYSICS-PLAYBOOK.md</code> section 3; patterns 11 to 19 came with law 44).</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>pattern</th>
+<th>proof recorded</th>
+<th>laws, failure modes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S-A</td>
+<td>exact references even when the problem is &quot;solved&quot;: closed forms, dispersion, exact discrete identities</td>
+<td>order 2.05; 2.5e-5 raw, 5e-9 after Richardson</td>
+<td>19, 28; 76</td>
+</tr>
+<tr>
+<td>S-B</td>
+<td>convergence: observed order, Richardson, a finer check grid</td>
+<td>abs(p - expected) within 0.05 to 0.1</td>
+<td>28; 76</td>
+</tr>
+<tr>
+<td>S-C</td>
+<td>invariants admit, events confirm</td>
+<td>vortex direction, Turing morphology</td>
+<td>21; 51</td>
+</tr>
+<tr>
+<td>S-D</td>
+<td>every regime name in a caption is a measured claim</td>
+<td>&quot;spots&quot;, &quot;reconnection&quot; with thresholds</td>
+<td>30; 69</td>
+</tr>
+<tr>
+<td>S-E</td>
+<td>controls that must fail: flipped capture, signal floor, a bug kept as a switch</td>
+<td>MSAA black screen 61.4 to 3.9</td>
+<td>19; 65, 66, 97</td>
+</tr>
+<tr>
+<td>S-F</td>
+<td>the display chain is part of the science: quantisation, clipping counted</td>
+<td>8-bit to 16-bit per case</td>
+<td>23; 53, 71</td>
+</tr>
+<tr>
+<td>S-G</td>
+<td>cross-implementation witnesses; shared code is a shared assumption</td>
+<td>mesh counts exact, volume 1e-6</td>
+<td>25; 54</td>
+</tr>
+<tr>
+<td>S-H</td>
+<td>reproducibility: bitwise-reproducible kernels, seeds in the manifest</td>
+<td>prefix rerun bit for bit</td>
+<td>4; 10</td>
+</tr>
+<tr>
+<td>S-I</td>
+<td>units: nominal conversions stated as nominal</td>
+<td>Lyman-alpha units check</td>
+<td>34</td>
+</tr>
+<tr>
+<td>P-1</td>
+<td>the scheme's own answer is the reference</td>
+<td>1.5e-6 m against 0.0204 m continuum gap</td>
+<td>19, 28; 124</td>
+</tr>
+<tr>
+<td>P-2</td>
+<td>the analytic ladder, limits declared in the SPEC first</td>
+<td>pendulum 1.4e-5 relative</td>
+<td>28; 125, 126</td>
+</tr>
+<tr>
+<td>P-3</td>
+<td>hash every step, replay in every host</td>
+<td>1918 steps, 0 differing hashes in 4 hosts</td>
+<td>42; 128, 129</td>
+</tr>
+<tr>
+<td>P-4</td>
+<td>compare the reader's model with the Node model, in the browser</td>
+<td>36 bodies, 0 differences</td>
+<td>26; 129, 134</td>
+</tr>
+<tr>
+<td>P-5</td>
+<td>the takeover proof: old engine 0 events in 120 frames, leaks listed</td>
+<td>3 browsers</td>
+<td>41; 127</td>
+</tr>
+<tr>
+<td>P-6</td>
+<td>tolerance, then waiver; a self-check that misses is logged, not tuned</td>
+<td>3 waivers; 34% Gravitron</td>
+<td>43; 133, 137</td>
+</tr>
+<tr>
+<td>P-7</td>
+<td>controls that must fail, run on the real records</td>
+<td>14 of 14 caught</td>
+<td>19, 44</td>
+</tr>
+<tr>
+<td>P-8</td>
+<td>derived scores get a hand-checkable unit test</td>
+<td>619 against 636 by hand (-3%)</td>
+<td>44; 136, 138</td>
+</tr>
+<tr>
+<td>P-9</td>
+<td>a build check is not a model check</td>
+<td>native vs WASM 6e-16 rad</td>
+<td>25; 142</td>
+</tr>
+<tr>
+<td>P-10</td>
+<td>a threat model with measured gaps</td>
+<td>16 defences hold, 3 gaps</td>
+<td>145</td>
+</tr>
+<tr>
+<td>P-11</td>
+<td>every check ships its wrong twin</td>
+<td>1.33e-15 / 2.0e-15 / 0</td>
+<td>44; 148, 151</td>
+</tr>
+<tr>
+<td>P-12</td>
+<td>read each quantity where nothing has just enforced it</td>
+<td>2.4e-2 pre-projection vs 2e-16 after</td>
+<td>44; 149, 152</td>
+</tr>
+<tr>
+<td>P-13</td>
+<td>commit the limits first; the runner refuses to start if they differ</td>
+<td>limits file sha256 in every record</td>
+<td>43, 44; 156</td>
+</tr>
+<tr>
+<td>P-14</td>
+<td>a second reader breaks the numbers before they are Confirmed</td>
+<td>125 checked, 25 survived, 0 false alarms</td>
+<td>44</td>
+</tr>
+<tr>
+<td>P-15</td>
+<td>an explanation is a claim with its own test</td>
+<td>checkerboard mode 0.7082, not 0.83</td>
+<td>29; 153, 154</td>
+</tr>
+<tr>
+<td>P-16</td>
+<td>orders are slopes read at an end time; energy is not position</td>
+<td>Euler order 2.0 at 2 pi, 1.0 at T = 1</td>
+<td>159</td>
+</tr>
+<tr>
+<td>P-17</td>
+<td>a spatial structure is checked by set equality, cost counted</td>
+<td>905 pairs missed by the wrong sort</td>
+<td>160</td>
+</tr>
+<tr>
+<td>P-18</td>
+<td>count caught controls; make each control change something</td>
+<td>9 of 11, then 11 of 11</td>
+<td>19, 44; 157</td>
+</tr>
+<tr>
+<td>P-19</td>
+<td>keep falsified predictions in the notes, out of the witness</td>
+<td>2 cloth rules falsified</td>
+<td>158</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-the-loop-roles-gates-and-rubrics-in-compact-form">5. The loop, roles, gates and rubrics in compact form</h2>
+<p><strong>The ten steps</strong> (<code>LOOM-v1.md</code> section 4); a red witness at any step returns to the card or the generator, never to the artifact.</p>
+<table>
+<thead>
+<tr>
+<th>step</th>
+<th>does</th>
+<th>artefact</th>
+<th>stable codes or checks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 card</td>
+<td>source of truth <code>repo@commit</code>, a measurable &quot;better&quot;, must-not-change</td>
+<td>card file</td>
+<td>none: process</td>
+</tr>
+<tr>
+<td>1 kickoff</td>
+<td>paste PRE: target, tool pins, trap list, generator first, guardrails, witness plan, outputs</td>
+<td><code>kit/templates/KICKOFF-PRE.md</code></td>
+<td>first-reply check</td>
+</tr>
+<tr>
+<td>2 weave</td>
+<td>generator emits files and a manifest</td>
+<td><code>build-manifest.json</code></td>
+<td><code>SOURCE_DATE_EPOCH</code>, declared inputs</td>
+</tr>
+<tr>
+<td>3 witness</td>
+<td>cheapest first: Grammar, Meaning, Traps, then browser and human</td>
+<td><code>loom.witness/1</code> records</td>
+<td><code>CANDIDATE_CHANGED_DURING_WITNESS</code></td>
+</tr>
+<tr>
+<td>4 gate</td>
+<td>the profile's closed set of current witnesses</td>
+<td>acceptance summary</td>
+<td><code>MISSING_WITNESS</code>, <code>STALE_WITNESS</code>, <code>WITNESS_NOT_PASS</code>, <code>UNMEASURED_REQUIRED_WITNESS</code>, <code>COVERAGE_REQUIRED</code>, <code>EVIDENCE_DRIFT</code></td>
+</tr>
+<tr>
+<td>5 stump</td>
+<td>single-fault mutants with repaired controls; rubrics for models</td>
+<td>mutant matrix</td>
+<td><code>SURVIVING_CONTROL</code></td>
+</tr>
+<tr>
+<td>6 judge</td>
+<td>the human's eye is the judge of record; model judges flag only</td>
+<td><code>loom.picture-review/1</code></td>
+<td><code>PICTURE_GRADING</code>, <code>MODEL_TRUTH_PROMOTION</code></td>
+</tr>
+<tr>
+<td>7 receipt</td>
+<td><code>loom.receipt/1</code>, unsigned, refuses to overwrite</td>
+<td><code>receipts/&lt;artifact&gt;.json</code></td>
+<td><code>RECEIPT_EXISTS</code></td>
+</tr>
+<tr>
+<td>8 debrief</td>
+<td>scope, witness inventory with boundaries, incidents with maturity</td>
+<td><code>DEBRIEF-FORM.md</code></td>
+<td>none</td>
+</tr>
+<tr>
+<td>9 fold-back</td>
+<td>additions-only patch with counterexamples; PR numbered from upstream's tip</td>
+<td><code>tools/&lt;name&gt;/</code></td>
+<td><code>kit/loom foldback</code></td>
+</tr>
+<tr>
+<td>10 handoff</td>
+<td>paste POST: the done-when; a missing item means not done</td>
+<td><code>HANDOFF-POST.md</code></td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Roles.</strong> The human: curator (decides what is woven), judge of record, the &quot;send&quot; and the &quot;yes&quot; before anything public, paid or deleted. Models: builder (writes S, acts only through generators and witnesses, at most 3 at once), judge (flags only), optimiser (offline, on a yes, metric closed first).</p>
+<p><strong>Witnesses</strong> (13 rows, section 6.1): Grammar, Meaning, Traps, 3b Page traps, 3c Physics, Behaviour, Eyes, Host, Receipts, Truth, Budget, Ear, Score. Each row names what it is blind to; that is why there are many (law 3).</p>
+<p><strong>Statuses and labels.</strong> Status: <code>pass</code>, <code>fail</code>, <code>error</code>, <code>not_run</code>, <code>not_applicable</code>, <code>deferred</code> (a second axis, apart from grade). Grade: C (a named tool ran), L (read or reasoned), S (suspected; anything a model wrote). Labels, never grades: Synthetic (fixtures, seeded mutants) and Authored (a value chosen by design, shown beside its measured counterpart). Exit codes of <code>kit/loom</code>: 0 accepted, 1 a contract violation with a stable code, 2 an instrument or input error.</p>
+<p><strong>Acceptance order</strong> (<code>accept.py</code>, 15 distinct codes):</p>
+<pre><code class="language-text">  accept(): the first broken contract stops the check, in this order
+  profile  PROFILE_SCHEMA &gt; EMPTY_PROFILE &gt; PROFILE_WITNESS_NAME &gt; PROFILE_DUPLICATE_WITNESS
+  record   MISSING_WITNESS &gt; MALFORMED_WITNESS &gt; WITNESS_SCHEMA &gt; WRONG_WITNESS_NAME
+  fresh    STALE_WITNESS (law 17) &gt; DEVELOPMENT_WITNESS
+  verdict  WITNESS_NOT_PASS &gt; STATUS_NEEDS_REASON &gt; UNMEASURED_REQUIRED_WITNESS (pass = C)
+  reach    COVERAGE_REQUIRED (law 36) &gt; EVIDENCE_DRIFT (evidence files re-hashed)
+  then     the receipt may be written (law 14); exit 0 accepted, 1 violation, 2 instrument error
+</code></pre>
+<p><strong>Thresholds belong to a profile</strong> (section 6.3; a few that gate): eyes nonblank: mean luminance above 2/255, over 2% of the region above 5/255, under 15% above 250/255; effect presence: unchanged-frame control under 0.001/255; camera motion under 4 units/s and 20 deg/s; judge noise: differences under 0.2 are noise. Hard boundaries need just-inside and just-outside fixtures.</p>
+<p><strong>Stumping rubric rules</strong> (for prompts that test models, section 6.4): each criterion ends &quot;If ..., this item fails&quot;; 80% or more of the points on criteria worth 14 to 25; files and naming at 5% or less; every quote appears word for word in the brief and every expected number is recomputed; version traps name the version, never the new API.</p>
+<h2 id="6-pre-flight-checklist-one-page-derived-from-the-laws">6. Pre-flight checklist (one page, derived from the laws)</h2>
+<p>Tick each line or write why not. The number in brackets is the law; &quot;fm&quot; is a failure mode.</p>
+<p><strong>Before building</strong></p>
+<ul>
+<li>[ ] Card names the source of truth as <code>repo@commit</code>, a measurable &quot;better&quot; and what must not change [15, 34]</li>
+<li>[ ] Pins written: validator commit, X_ITE version, browser build and rig, Blender build; every number will carry them [15]</li>
+<li>[ ] Trap list read and said in the first reply [33]; the profile picked, required witnesses and visible-not-run both listed [3, 34]</li>
+<li>[ ] Limits written now, worst-case exploration numbers beside them, limits file committed [28, 43, 44]</li>
+<li>[ ] Exact references named (closed form, or the scheme's own discrete solution); if none, the card says &quot;self-consistency only&quot; [19, 21]</li>
+<li>[ ] Inputs declared: seed, date, versions, file order [4]; at most 3 agents, caps and cache keys [11, 12]</li>
+</ul>
+<p><strong>While building</strong></p>
+<ul>
+<li>[ ] A generator emits every file; no hand edits; sorted keys [1, 4]</li>
+<li>[ ] Page code: guarded field callbacks, <code>getCurrentTime()</code>, navigation after the scene, budgeted world loads, no window-name globals, one clock owner [31, 32]</li>
+<li>[ ] Every X3D passes Grammar and Meaning, components declared [2, 32; fm 73, 141]</li>
+<li>[ ] Model output enters as S and is labelled; a fallback announces itself [6, 40]</li>
+<li>[ ] One variable at a time; red runs kept in history [28, 29]</li>
+</ul>
+<p><strong>Before accepting</strong></p>
+<ul>
+<li>[ ] Witnesses cheapest first, each record bound to the candidate hash with test code in it [17]</li>
+<li>[ ] Each witness has a control that must fail for its own code, and the gate passes under <code>python -O</code> [18, 19, 44]</li>
+<li>[ ] Each pass says what it saw: files, callbacks, runs, frames [36]</li>
+<li>[ ] Eyes has a pixel floor and a control that bites (asymmetric view, flipped capture) [2, 26; fm 65, 66]</li>
+<li>[ ] The artefact is tested alone, and a second renderer reads the same master by sha256 [37, 38]</li>
+<li>[ ] Physics: a hash per step in every named host, the takeover shown off, a loss report, waivers capped [40, 41, 42, 43]</li>
+<li>[ ] Archives, images and JSON are opened before they are hashed [24]; shared assumptions listed [25]</li>
+</ul>
+<p><strong>Before delivering</strong></p>
+<ul>
+<li>[ ] Receipt written only after acceptance, unsigned and saying so, unrun witnesses visible [14, 35]</li>
+<li>[ ] Scope and reproduction level stated; every claim graded C, L or S with its instrument [5, 15, 34]</li>
+<li>[ ] Real-world content passed a truth gate; unknown is not zero [10, 13]</li>
+<li>[ ] Leak sweep run; nothing leaves without &quot;send&quot; [16]</li>
+</ul>
+<p><strong>After</strong></p>
+<ul>
+<li>[ ] Debrief filled; lessons folded back as an additions-only patch with the counterexample [20]</li>
+<li>[ ] New rules have tests on both sides and a corpus re-run [7, 8]; numbered from upstream's tip that day [fm 146, 147]</li>
+</ul>
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-LAW-1</td>
+<td>Cite laws and failure modes by number; the numbers are the stable ids, never a paraphrase.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>ids 1..44 and 1..160 contiguous (N-LAW-1, N-LAW-2)</td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code></td>
+</tr>
+<tr>
+<td>H-LAW-2</td>
+<td>Number a new law or failure mode from upstream's tip on the day of the PR, not from a local copy.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>failure modes 146 and 147 record two sibling threads that did not</td>
+<td><code>x3d.loom@162ab18</code> git history</td>
+</tr>
+<tr>
+<td>H-LAW-3</td>
+<td>Ship every witness with a control that must fail for its own diagnostic; a surviving control fails the suite.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>weakened copy raised <code>SURVIVING_CONTROL: STALE_WITNESS</code> (D-LAW-4)</td>
+<td>loomkit <code>test_gates.py</code></td>
+</tr>
+<tr>
+<td>H-LAW-4</td>
+<td>Write gates as raising predicates and run the whole suite under <code>python -O</code>.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>82 controls caught in both modes (N-LAW-7); <code>assert</code> is stripped under <code>-O</code> (D-LAW-4)</td>
+<td>loomkit, Python 3.13.18</td>
+</tr>
+<tr>
+<td>H-LAW-5</td>
+<td>Pin a coverage count in a profile knowingly: adding a rule to a witness rejects every profile that pinned the old count.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>15 profiles pin 11 trap rules, the kit has 15, <code>COVERAGE_REQUIRED traps.rules</code> (D-LAW-6)</td>
+<td><code>x3d.loom@162ab18:kit/profiles</code></td>
+</tr>
+<tr>
+<td>H-LAW-6</td>
+<td>Read the <code>seen</code> inventory of every pass; a pass over zero relevant items judged nothing.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>failure mode 93: 6 files, 0 callbacks; <code>PHYS_NO_RUNS</code></td>
+<td>read, <code>pagetraps.py</code></td>
+</tr>
+<tr>
+<td>H-LAW-7</td>
+<td>Declare limits before the run and commit the file; record an excursion as a waiver with an owner and a date.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>cap 3 passes, cap 0 raises <code>PHYS_WAIVERS_OVER_CAP</code> on the real PhysX records (D-LAW-5)</td>
+<td>loomkit physics witness</td>
+</tr>
+<tr>
+<td>H-LAW-8</td>
+<td>Do not widen a law beyond its stated scope; laws 43 and 44 are physics-first and reversible.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>scope sentences in <code>LOOM-v1.md</code> laws 43 and 44</td>
+<td>read</td>
+</tr>
+<tr>
+<td>H-LAW-9</td>
+<td>Look the symptom up in the failure-mode catalogue before debugging a witness; seven entries record a recurrence.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>recurrence regex over section 8 (N-LAW-14)</td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code></td>
+</tr>
+<tr>
+<td>H-LAW-10</td>
+<td>Judge a stepped engine against the scheme's own discrete solution and report the continuum gap as a known number.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>1.5e-6 m against a 0.0204 m gap (fm 124); the witness was re-run, the engine was not</td>
+<td><code>PHYSICS-PLAYBOOK.md</code>, read</td>
+</tr>
+<tr>
+<td>H-LAW-11</td>
+<td>Re-derive counts from tables, not from prose summaries; summaries drift.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>the three stale counts in section &quot;Honest limits&quot; (N-LAW-16 to N-LAW-18)</td>
+<td><code>x3d.loom@162ab18</code></td>
+</tr>
+<tr>
+<td>H-LAW-12</td>
+<td>Fold a lesson back as an additions-only patch that carries its minimal failing fixture.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>five of five project patches share the shape (law 20)</td>
+<td><code>LEARNINGS-from-patches.md</code>, read</td>
+</tr>
+<tr>
+<td>H-LAW-13</td>
+<td>Run the pre-flight checklist at the start and again before acceptance; a skipped line needs a written reason.</td>
+<td><span class="g S" title="Suspected">S</span></td>
+<td>derived from the laws; not yet measured as a practice</td>
+<td>design rule</td>
+</tr>
+<tr>
+<td>H-LAW-14</td>
+<td>Treat a second reader's recomputation as the step that makes a number Confirmed.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>law 44: 125 claims, 25 negative findings survived a second skeptical agent</td>
+<td><code>PHYSICS-PLAYBOOK.md</code>, read</td>
+</tr>
+</tbody>
+</table>
+<h2 id="drills">Drills</h2>
+<h3 id="d-law-1-which-law-and-which-failures-came-with-pr-41">D-LAW-1 Which law and which failures came with PR #41</h3>
+<ul>
+<li><strong>Level:</strong> L1 (look it up)</li>
+<li><strong>Task:</strong> Find the commit that added law 44, which failure modes and playbook patterns arrived with it, and the merge that carried it into main.</li>
+<li><strong>Verify:</strong> <code>git log --format='%h %s' -- LOOM-v1.md</code> and <code>git show --stat babba96</code> in a checkout of <code>hagopjay/x3d.loom</code>.</li>
+<li><strong>Answer:</strong> <code>babba96</code> &quot;Fold back the Ten Minute Physics ports: law 44, failure modes 148-160, playbook patterns 11-19, x3d.physics/ten-minute-physics&quot; (13 files, 1,069 insertions), merged by <code>c782ea1</code> (PR #41). Section 1 of this chapter gives the count at each commit.</li>
+<li><strong>Checked:</strong> 2026-11-14, <code>git</code> on <code>x3d.loom@162ab18</code></li>
+</ul>
+<h3 id="d-law-2-re-derive-the-counts">D-LAW-2 Re-derive the counts</h3>
+<ul>
+<li><strong>Level:</strong> L2 (run a tool and compare)</li>
+<li><strong>Task:</strong> From <code>LOOM-v1.md</code> and from this chapter, count the laws, the failure modes, and the <code>code:</code> and <code>process:</code> checks.</li>
+<li><strong>Verify:</strong> run in a checkout of <code>x3d.loom</code> with this chapter saved as <code>02-loom-laws.md</code>:</li>
+</ul>
+<pre><code class="language-python">import re
+t = open(&quot;LOOM-v1.md&quot;, encoding=&quot;utf-8&quot;).read().split(&quot;\n&quot;)
+def rows(a, b):
+    i = next(k for k, l in enumerate(t) if l.startswith(a)); j = next(k for k, l in enumerate(t) if l.startswith(b))
+    return [int(m.group(1)) for l in t[i:j] if (m := re.match(r&quot;\| (\d+) \|&quot;, l))]
+laws, fms = rows(&quot;## 3. The laws&quot;, &quot;## 4. The loop&quot;), rows(&quot;## 8. Known failure modes&quot;, &quot;## 9. Planned&quot;)
+print(len(laws), laws == list(range(1, 45)), len(fms), fms == list(range(1, 161)))
+doc = open(&quot;02-loom-laws.md&quot;, encoding=&quot;utf-8&quot;).read()
+cells = re.findall(r&quot;^\| (\d+) \| \*\*.*\| (code|process):&quot;, doc, re.M)
+print(len(cells), sum(c == &quot;code&quot; for _, c in cells), sum(c == &quot;process&quot; for _, c in cells))
+</code></pre>
+<ul>
+<li><strong>Answer:</strong> <code>44 True 160 True</code>, then <code>44 27 17</code>.</li>
+<li><strong>Checked:</strong> 2026-11-14, <code>x3d.loom@162ab18</code>, Python 3.13.18 (the second line is run against this file as published)</li>
+</ul>
+<h3 id="d-law-3-run-the-kits-self-test">D-LAW-3 Run the kit's self-test</h3>
+<ul>
+<li><strong>Level:</strong> L2 (run a tool and compare)</li>
+<li><strong>Task:</strong> Run the two-mode self-test and read the counts; compare them with the figures that older documents quote.</li>
+<li><strong>Verify:</strong> <code>python3 -I kit/tests/test_gates.py</code> (it writes <code>kit/tests/last-run.json</code>; run it in a copy).</li>
+<li><strong>Answer:</strong> both modes print <code>82 negative controls caught with the intended code; 15 trap rules, 8 page-trap rules and 10 page forms ... pass their clean fixture and catch their failing one</code>. <code>LOOM-v1.md</code> section 7.4 says 41 controls and 11 rules (3 to 4 Nov), <code>LESSONS-v1.0.md</code> says 44 and 6 page rules (5 Nov); the code is the newer source.</li>
+<li><strong>Checked:</strong> 2026-11-14, <code>x3d.loom@162ab18</code> loomkit, Python 3.13.18, normal and <code>-O</code></li>
+</ul>
+<h3 id="d-law-4-weaken-a-gate-and-watch-the-suite-fail">D-LAW-4 Weaken a gate and watch the suite fail</h3>
+<ul>
+<li><strong>Level:</strong> L3 (break it, fix it, extend it)</li>
+<li><strong>Task:</strong> In a copy of <code>kit/</code>, delete the <code>STALE_WITNESS</code> predicate from <code>kit/loomkit/accept.py</code> (the line <code>need(record.get(&quot;subject_sha256&quot;) == subject[&quot;sha256&quot;], &quot;STALE_WITNESS&quot;, name)</code>), run the self-test, then show what <code>assert</code> does under <code>-O</code>.</li>
+<li><strong>Verify:</strong> <code>python3 -I kit/tests/test_gates.py</code>; <code>python3 -c &quot;assert 1 == 2&quot;</code> against <code>python3 -O -c &quot;assert 1 == 2; print('passed')&quot;</code>.</li>
+<li><strong>Answer:</strong> the suite stops with <code>RuntimeError: SURVIVING_CONTROL: STALE_WITNESS</code> (the control for law 17 now passes, so it fails the suite). The <code>assert</code> raises normally and is skipped under <code>-O</code>, which is why law 18 forbids it as a gate.</li>
+<li><strong>Checked:</strong> 2026-11-14, <code>x3d.loom@162ab18</code> loomkit in a scratch copy, Python 3.13.18</li>
+</ul>
+<h3 id="d-law-5-let-the-physics-witness-judge-the-real-records">D-LAW-5 Let the physics witness judge the real records</h3>
+<ul>
+<li><strong>Level:</strong> L2 (run a tool and compare)</li>
+<li><strong>Task:</strong> Run <code>kit/loom physics</code> on the two PhysX records at a waiver cap of 3 and of 0, then run the 14 mutation controls.</li>
+<li><strong>Verify:</strong> from a copy of <code>x3d.loom</code> (so evidence is written outside the repo): <code>kit/loom physics x3d.physics --evidence EV --runs 'runs/*.physics.json' --hosts chromium,firefox,webkit,node --max-waivers 3 --require-takeover</code>, the same with <code>--max-waivers 0</code>, and <code>python3 -I x3d.physics/tools/physx_controls.py</code>.</li>
+<li><strong>Answer:</strong> cap 3: <code>pass</code>. Cap 0: <code>fail</code>, reason <code>PHYS_WAIVERS_OVER_CAP: physx-bridge/grand-cascade/recorded-in-chromium: 3 waivers, the profile allows 0</code>. Controls: <code>14 controls on the real record, 14 caught with the intended code</code>. The Chromium record has 1918 steps and replays in 5 hosts with 0 mismatches; the Firefox record 969 steps. All on one machine.</li>
+<li><strong>Checked:</strong> 2026-11-14, <code>x3d.loom@162ab18</code> loomkit physics witness on <code>x3d.physics/runs</code>, Python 3.13.18</li>
+</ul>
+<h3 id="d-law-6-find-the-profile-that-cannot-accept-a-new-run">D-LAW-6 Find the profile that cannot accept a new run</h3>
+<ul>
+<li><strong>Level:</strong> L3 (break it, fix it, extend it)</li>
+<li><strong>Task:</strong> Run <code>kit/loom traps</code> on any scene folder, write the other four witnesses of <code>x3d-static/v1</code> with the coverage the profile asks for (<code>grammar</code> and <code>meaning</code> with 2 files, <code>truth</code>, <code>foldback</code>), and call <code>accept</code> with <code>kit/profiles/x3d-static.json</code>. Then list which profiles pin which trap-rule count and propose a fix.</li>
+<li><strong>Verify:</strong> <code>kit/loom accept</code>; a loop over <code>kit/profiles/*.json</code> printing each <code>required</code> entry's <code>coverage.rules</code>.</li>
+<li><strong>Answer:</strong> <code>COVERAGE_REQUIRED</code> with detail <code>traps.rules</code>: the witness records 15 rules and the profile pins 11. 15 of the 17 profiles with a <code>traps</code> entry pin 11; only <code>x3d-physics</code> and <code>x3d-physics-physx</code> pin 15. By design this is the coverage rule (R7) working; the consequence is that a rule added to the kit invalidates old profiles until their pins are raised in a versioned change. Extension: copy the profile, set <code>rules</code> to 15, accept.</li>
+<li><strong>Checked:</strong> 2026-11-14, <code>x3d.loom@162ab18</code> loomkit, <code>kit/profiles/x3d-static.json</code>, Python 3.13.18</li>
+</ul>
+<h3 id="d-law-7-classify-then-verify-the-catalogue">D-LAW-7 Classify, then verify the catalogue</h3>
+<ul>
+<li><strong>Level:</strong> L1 (look it up)</li>
+<li><strong>Task:</strong> Assign failure modes 1, 17, 49, 93, 124, 143 and 154 to a class K1 to K11 and name the law that explains each. Then check that the class table in section 3 covers 1 to 160 exactly once.</li>
+<li><strong>Verify:</strong> the class table; this script, run with <code>02-loom-laws.md</code> in the current folder:</li>
+</ul>
+<pre><code class="language-python">import re
+doc = open(&quot;02-loom-laws.md&quot;, encoding=&quot;utf-8&quot;).read()
+ids, ns = [], 0
+for m in re.finditer(r&quot;^\| (K\d+) \| [^|]+ \| (\d+) \| ([0-9, ]+) \|&quot;, doc, re.M):
+    got = [int(x) for x in m.group(3).split(&quot;,&quot;)]
+    ns += int(m.group(2)); ids += got
+    assert len(got) == int(m.group(2)), m.group(1)
+print(ns, len(ids), sorted(ids) == list(range(1, 161)))
+</code></pre>
+<ul>
+<li><strong>Answer:</strong> the closest law is a judgement: 1 is K4 (law 2); 17 is K9 (no numbered law; rule R16 of <code>LEARNINGS-from-patches.md</code>, declare coordinate spaces); 49 is K5 (law 32, the runtime's contracts); 93 is K2 (law 36); 124 is K8 (pattern P-1, law 19); 143 is K11 (no numbered law; the nearest is 16, release); 154 is K7 (law 44 and pattern P-15). The script prints <code>160 160 True</code>.</li>
+<li><strong>Checked:</strong> 2026-11-14, the K-table of this chapter, Python 3.13.18 (the script only; the classification is a judgement)</li>
+</ul>
+<h3 id="d-law-8-apply-the-checklist-to-a-described-project">D-LAW-8 Apply the checklist to a described project</h3>
+<ul>
+<li><strong>Level:</strong> L1 (look it up)</li>
+<li><strong>Task:</strong> A thread builds a browser demo of a spring-mass system on X_ITE. It hand-edits the generated .x3d to fix a colour, ships a browser pass recorded last week, reports &quot;deterministic&quot; after one Chrome replay, and plans to widen the energy limit from 1e-3 to 1e-2 because one case went red. List the laws it violates and the failure modes that match.</li>
+<li><strong>Verify:</strong> section 2 and the checklist in section 6.</li>
+<li><strong>Answer:</strong> law 1 (hand edit; <code>STALE_WITNESS</code> would follow), law 17 (a week-old pass; fm 12), law 42 (one host, not per step; fm 128, 129), laws 28 and 43 (widening a limit; fm 133, <code>PHYS_LIMIT_WIDENED</code>). Also law 34 if no scope is stated.</li>
+<li><strong>Checked:</strong> not run</li>
+</ul>
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li>The laws, patterns and failure modes were <strong>read</strong>, with the counts re-derived by script; the incidents behind them were not re-run. Their measuring documents (project debriefs and other private source documents) are not public, so evidence cells are carried at <span class="g L" title="Likely">L</span> at most.</li>
+<li>Re-run here: the kit self-test (82 controls, both modes), the physics witness on the two real records (cap 3 and cap 0, 14 of 14 controls), a weakened gate (<code>SURVIVING_CONTROL</code>), the profile coverage mismatch, and the git history counts. Not run: any browser witness of the Loom's own studies, the science witness on a real bank, Babylon and the x3d.STEM repository (not in this base).</li>
+<li>The grouping of laws into themes A to J and failure modes into classes K1 to K11 is this chapter's judgement <span class="g L" title="Likely">L</span>; the numbers are the Loom's. The <code>code:</code> and <code>process:</code> split is this chapter's reading of the check column <span class="g L" title="Likely">L</span>.</li>
+<li>Counts in older prose disagree with the tables (grade <span class="g C" title="Confirmed">C</span> that they disagree; the tables and code win): <code>LESSONS-v1.0.md</code> says 43 laws and 147 failure modes (the file's tables say 44 and 160); <code>README.md</code> says &quot;14 places sources disagree&quot; (<code>SOURCES.md</code> section 2 has 16 rows), &quot;25 reusable rules&quot; (<code>LEARNINGS-from-patches.md</code> section 6 has 33, R1 to R33) and &quot;ten witness patterns&quot; for physics (the playbook has 19); <code>LOOM-v1.md</code> section 7.4 says 41 negative controls and 11 trap rules (the kit runs 82 and 15); section 6.1 says 6 page-trap rules (the kit has 8).</li>
+<li>Profiles pin trap coverage at 11 for 15 of 17 profiles with a trap entry while the kit has 15 rules; the old profiles cannot accept a fresh traps witness (D-LAW-6). This is the coverage rule working, and it is also a maintenance gap <span class="g L" title="Likely">L</span>.</li>
+<li>Laws 43 and 44 are scoped to physics profiles and are open to being marked false positives. The limits-commit check of law 44 and failure mode 156 is not implemented in the kit (<code>PHYSICS-PLAYBOOK.md</code> section 9 says so).</li>
+<li>The ranking &quot;top 3 per class&quot; is by recorded cost and recurrence, a judgement, not a measurement.</li>
+<li>Seventeen laws (4, 9, 10, 11, 12, 13, 21, 22, 25, 26, 27, 29, 30, 33, 37, 38, 39) have no mechanical check in the kit; a reader who wants one has to build it, and the kit's <code>code:</code> entries for laws 15, 31, 34 and 35 are partial.</li>
+<li>Decision text in <code>LOOM-v1.md</code> section 11 and owner statements are not reproduced; only the resulting rules are.</li>
+</ul>
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-LAW-1</td>
+<td>laws in <code>LOOM-v1.md</code> section 3, ids contiguous</td>
+<td>44</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>python parse of the table, <code>x3d.loom@162ab18</code></td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code></td>
+</tr>
+<tr>
+<td>N-LAW-2</td>
+<td>failure modes in section 8, ids contiguous</td>
+<td>160</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>python parse of the table, <code>x3d.loom@162ab18</code></td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code></td>
+</tr>
+<tr>
+<td>N-LAW-3</td>
+<td>witness rows in section 6.1</td>
+<td>13</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>python parse, <code>x3d.loom@162ab18</code></td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code></td>
+</tr>
+<tr>
+<td>N-LAW-4</td>
+<td>profile files and profile rows in section 6.2</td>
+<td>20 files, 11 rows</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>count, <code>x3d.loom@162ab18</code></td>
+<td><code>x3d.loom@162ab18:kit/profiles/</code></td>
+</tr>
+<tr>
+<td>N-LAW-5</td>
+<td>laws and failure modes at the first public snapshot</td>
+<td>35 and 92</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>git show 0244784:LOOM-v1.md</code>, python parse</td>
+<td><code>x3d.loom@0244784:LOOM-v1.md</code></td>
+</tr>
+<tr>
+<td>N-LAW-6</td>
+<td>laws and failure modes added by commit <code>babba96</code> (PR #41)</td>
+<td>law 44; failure modes 148 to 160 (13)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>git show --stat babba96</code></td>
+<td><code>x3d.loom@babba96:LOOM-v1.md</code></td>
+</tr>
+<tr>
+<td>N-LAW-7</td>
+<td>negative controls caught, each mode</td>
+<td>82 (normal and <code>-O</code>)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>loomkit <code>test_gates.py</code>, Python 3.13.18</td>
+<td><code>x3d.loom@162ab18:kit/tests/test_gates.py</code></td>
+</tr>
+<tr>
+<td>N-LAW-8</td>
+<td>trap rules, page-trap rules, page forms, two-sided</td>
+<td>15, 8, 10</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>loomkit self-test</td>
+<td><code>x3d.loom@162ab18:kit/loomkit/traps.py</code>, <code>pagetraps.py</code></td>
+</tr>
+<tr>
+<td>N-LAW-9</td>
+<td>physics diagnostic codes and tests</td>
+<td>18 codes; 30 physics tests</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>physics.py</code> docstring; <code>last-run.json</code></td>
+<td><code>x3d.loom@162ab18:kit/loomkit/physics.py</code></td>
+</tr>
+<tr>
+<td>N-LAW-10</td>
+<td>physics witness on the two real records</td>
+<td>cap 3 pass; cap 0 <code>PHYS_WAIVERS_OVER_CAP</code></td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>loomkit physics, <code>x3d.physics/runs</code></td>
+<td><code>x3d.loom@162ab18:x3d.physics/runs/</code></td>
+</tr>
+<tr>
+<td>N-LAW-11</td>
+<td>mutation controls on the real record</td>
+<td>14 of 14 caught</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>physx_controls.py</code></td>
+<td><code>x3d.loom@162ab18:x3d.physics/tools/physx_controls.py</code></td>
+</tr>
+<tr>
+<td>N-LAW-12</td>
+<td>steps recorded and replay hosts, Chromium and Firefox records</td>
+<td>1918 and 969 steps; 5 replays each, 0 mismatches</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>loomkit physics, one machine</td>
+<td><code>x3d.loom@162ab18:x3d.physics/runs/</code></td>
+</tr>
+<tr>
+<td>N-LAW-13</td>
+<td>profiles with a <code>traps</code> entry pinning 11 and 15 rules</td>
+<td>15 pin 11; 2 pin 15; the kit has 15</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>python over <code>kit/profiles/*.json</code></td>
+<td><code>x3d.loom@162ab18:kit/profiles/</code></td>
+</tr>
+<tr>
+<td>N-LAW-14</td>
+<td>failure modes that record a recurrence</td>
+<td>7 (55, 58, 72, 73, 94, 107, 128)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>regex over section 8, 2 false hits removed</td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code></td>
+</tr>
+<tr>
+<td>N-LAW-15</td>
+<td>failure-mode classes in this chapter, ids covered once</td>
+<td>11 classes, 160 ids</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>D-LAW-7 script</td>
+<td>this chapter, section 3</td>
+</tr>
+<tr>
+<td>N-LAW-16</td>
+<td>disagreement rows in <code>SOURCES.md</code> section 2</td>
+<td>16 (README says 14)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>count</td>
+<td><code>x3d.loom@162ab18:SOURCES.md</code></td>
+</tr>
+<tr>
+<td>N-LAW-17</td>
+<td>rules R1 to R33 in <code>LEARNINGS-from-patches.md</code> section 6</td>
+<td>33 (README says 25)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>count</td>
+<td><code>x3d.loom@162ab18:LEARNINGS-from-patches.md</code></td>
+</tr>
+<tr>
+<td>N-LAW-18</td>
+<td>physics playbook witness patterns</td>
+<td>19 (README says ten)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>count</td>
+<td><code>x3d.loom@162ab18:PHYSICS-PLAYBOOK.md</code></td>
+</tr>
+<tr>
+<td>N-LAW-19</td>
+<td>leak sweep of the public snapshot</td>
+<td>status pass, 67 replacements, residue empty</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>as recorded, not re-run</td>
+<td><code>x3d.loom@162ab18:SWEEP-REPORT.json</code></td>
+</tr>
+<tr>
+<td>N-LAW-20</td>
+<td>laws whose check column starts <code>code:</code> and <code>process:</code></td>
+<td>27 and 17</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>D-LAW-2 script (judgement of the column)</td>
+<td>this chapter, section 2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<ul>
+<li><code>x3d.loom@162ab18</code> (main, 2026-11-13): <code>LOOM-v1.md</code> sections 1 to 8 read, parsed and, at 8 commits, re-parsed from git; <code>LESSONS-v1.0.md</code>, <code>LEARNINGS-from-patches.md</code>, <code>GLOSSARY.md</code>, <code>SCIENCE-PLAYBOOK.md</code>, <code>PHYSICS-PLAYBOOK.md</code>, <code>REVIEW-loom2.md</code>, <code>REVIEW-scientific.md</code>, <code>SOURCES.md</code>, <code>SWEEP-REPORT.json</code> read; <code>kit/loomkit/</code> read; <code>kit/tests/test_gates.py</code> and the physics witness run on scratch copies. The checkout was not modified.</li>
+<li><code>x3d.docs@f172f67:docs/x3d.loom/MASTERCLASS.md</code>: the measured AST teardown (eight sub-projects that share a method, not a library); linked, not repeated.</li>
+<li>Date read and run: 2026-11-14. Private working notes on the loop and the grand review were treated as starting points only; every number used here was re-derived from the public files above or is carried and marked <span class="g L" title="Likely">L</span>. Gaps in private sources are not linked.</li>
+<li>Siblings: <a href="01-the-tether.html">01 the tether</a>, <a href="03-validator-and-gates.html">03 validator and gates</a>, <a href="06-xite-the-oracle.html">06 X_ITE the oracle</a>, <a href="13-physics.html">13 physics</a>.</li>
+</ul>
+<div class="pn"><a href="01-the-tether.html">&larr; 01-the-tether</a><a href="03-validator-and-gates.html">03-validator-and-gates &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

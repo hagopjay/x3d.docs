@@ -1,0 +1,1393 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Appendix D. Heuristics ledger · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a class="cur" href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="D-heuristics-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/D-heuristics-ledger.md">GitHub</a></div><h1>Appendix D. Heuristics ledger</h1>
+<p>Merged from the <em>Heuristics</em> table of every chapter. Edit the chapter, not this file.</p>
+<!-- BEGIN GENERATED -->
+<p><strong>169 heuristics.</strong> Grades: <span class="g C" title="Confirmed">C</span> 126 · <span class="g L" title="Likely">L</span> 36 · <span class="g S" title="Suspected">S</span> 7. Retired rules are struck through in their chapter, never deleted.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Ch</th>
+<th>Rule</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-TH-1</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>Score a pipeline on the five questions before proposing a loop; under 3 gets a log table, and Q2 = 0 gets a ledger.</td>
+<td><span class="g S" title="Suspected">S</span></td>
+<td>section 3; X3D 5 of 5, other families unmeasured</td>
+<td>design rule; X3D legs <span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>H-TH-2</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>Build the exact oracle first; a repair loop with no exact oracle repairs toward a guess.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>LOOM-v1 law 15; model-free hints repair 96.5% (N-TH-4)</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-TH-3</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>Run a render check even when the validator passes; &quot;valid&quot; does not say &quot;visible&quot;.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>17.52% vs 0.00% non-background pixels, both valid (N-TH-1, N-TH-2)</td>
+<td><code>X_ITE 16.7.0</code>, Chromium 153, SwiftShader</td>
+</tr>
+<tr>
+<td>H-TH-4</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>Re-validate after every applied hint and treat hints as proposals.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>one error, two hints; one fix, valid (D-TH-3)</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-TH-5</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>Quote every repair rate with the validator commit, the seed and the library versions.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>15.0% became 14.1% with the same script (N-TH-5, N-TH-6)</td>
+<td><code>x3d_mcp fork 535fdac</code> and <code>b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-TH-6</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>Report detection on injected faults and false alarms on controls together, with denominators.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>13 of 13 injected, 0 of 24 controls flagged (N-TH-8, N-TH-10)</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-TH-7</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>List the fault classes you did not inject; the first one you add may score zero.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>a floating part passes 0 of 14 (N-TH-9)</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-TH-8</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>Measure the model-free baseline before crediting a model with a repair gain.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>hints alone repair 521 of 540 (N-TH-4); the model gain carried at <span class="g L" title="Likely">L</span> (N-TH-14)</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-TH-9</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>Treat a scene that became valid by repair as unreviewed; diff it against the card or seed.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>the seed returned exactly in 268 of 540; 15 by deleting an element (N-TH-7)</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-TH-10</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>Keep the ledger inside the file, and never call a hash chain proof of authorship.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>a re-stamped forgery verifies (D-TH-6)</td>
+<td>chain sketch, section 9</td>
+</tr>
+<tr>
+<td>H-TH-11</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>Bind every pass to the candidate hash, tests included, so an edit makes old passes stale.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>STALE_WITNESS</code> after adding a scene (D-TH-5)</td>
+<td><code>x3d.loom@162ab18</code> loomkit</td>
+</tr>
+<tr>
+<td>H-TH-12</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>Name an acceptor and write waivers with an owner and a date; a green row nobody owns is not a tether leg.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>LOOM-v1 laws 6, 16, 43</td>
+<td>read, not run</td>
+</tr>
+<tr>
+<td>H-TH-13</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>State the tether line with its scope: structure and behaviour are held, appearance needs a browser and an eye.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>LOOM-v1 section 1</td>
+<td>read</td>
+</tr>
+<tr>
+<td>H-TH-14</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>Do not copy the X3D score to another family; write it <span class="g S" title="Suspected">S</span> until one pipeline there has been measured.</td>
+<td><span class="g S" title="Suspected">S</span></td>
+<td>section 3 table</td>
+<td>design rule</td>
+</tr>
+<tr>
+<td>H-LAW-1</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>Cite laws and failure modes by number; the numbers are the stable ids, never a paraphrase.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>ids 1..44 and 1..160 contiguous (N-LAW-1, N-LAW-2)</td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code></td>
+</tr>
+<tr>
+<td>H-LAW-2</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>Number a new law or failure mode from upstream's tip on the day of the PR, not from a local copy.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>failure modes 146 and 147 record two sibling threads that did not</td>
+<td><code>x3d.loom@162ab18</code> git history</td>
+</tr>
+<tr>
+<td>H-LAW-3</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>Ship every witness with a control that must fail for its own diagnostic; a surviving control fails the suite.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>weakened copy raised <code>SURVIVING_CONTROL: STALE_WITNESS</code> (D-LAW-4)</td>
+<td>loomkit <code>test_gates.py</code></td>
+</tr>
+<tr>
+<td>H-LAW-4</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>Write gates as raising predicates and run the whole suite under <code>python -O</code>.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>82 controls caught in both modes (N-LAW-7); <code>assert</code> is stripped under <code>-O</code> (D-LAW-4)</td>
+<td>loomkit, Python 3.13.18</td>
+</tr>
+<tr>
+<td>H-LAW-5</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>Pin a coverage count in a profile knowingly: adding a rule to a witness rejects every profile that pinned the old count.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>15 profiles pin 11 trap rules, the kit has 15, <code>COVERAGE_REQUIRED traps.rules</code> (D-LAW-6)</td>
+<td><code>x3d.loom@162ab18:kit/profiles</code></td>
+</tr>
+<tr>
+<td>H-LAW-6</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>Read the <code>seen</code> inventory of every pass; a pass over zero relevant items judged nothing.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>failure mode 93: 6 files, 0 callbacks; <code>PHYS_NO_RUNS</code></td>
+<td>read, <code>pagetraps.py</code></td>
+</tr>
+<tr>
+<td>H-LAW-7</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>Declare limits before the run and commit the file; record an excursion as a waiver with an owner and a date.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>cap 3 passes, cap 0 raises <code>PHYS_WAIVERS_OVER_CAP</code> on the real PhysX records (D-LAW-5)</td>
+<td>loomkit physics witness</td>
+</tr>
+<tr>
+<td>H-LAW-8</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>Do not widen a law beyond its stated scope; laws 43 and 44 are physics-first and reversible.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>scope sentences in <code>LOOM-v1.md</code> laws 43 and 44</td>
+<td>read</td>
+</tr>
+<tr>
+<td>H-LAW-9</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>Look the symptom up in the failure-mode catalogue before debugging a witness; seven entries record a recurrence.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>recurrence regex over section 8 (N-LAW-14)</td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code></td>
+</tr>
+<tr>
+<td>H-LAW-10</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>Judge a stepped engine against the scheme's own discrete solution and report the continuum gap as a known number.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>1.5e-6 m against a 0.0204 m gap (fm 124); the witness was re-run, the engine was not</td>
+<td><code>PHYSICS-PLAYBOOK.md</code>, read</td>
+</tr>
+<tr>
+<td>H-LAW-11</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>Re-derive counts from tables, not from prose summaries; summaries drift.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>the three stale counts in section &quot;Honest limits&quot; (N-LAW-16 to N-LAW-18)</td>
+<td><code>x3d.loom@162ab18</code></td>
+</tr>
+<tr>
+<td>H-LAW-12</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>Fold a lesson back as an additions-only patch that carries its minimal failing fixture.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>five of five project patches share the shape (law 20)</td>
+<td><code>LEARNINGS-from-patches.md</code>, read</td>
+</tr>
+<tr>
+<td>H-LAW-13</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>Run the pre-flight checklist at the start and again before acceptance; a skipped line needs a written reason.</td>
+<td><span class="g S" title="Suspected">S</span></td>
+<td>derived from the laws; not yet measured as a practice</td>
+<td>design rule</td>
+</tr>
+<tr>
+<td>H-LAW-14</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>Treat a second reader's recomputation as the step that makes a number Confirmed.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>law 44: 125 claims, 25 negative findings survived a second skeptical agent</td>
+<td><code>PHYSICS-PLAYBOOK.md</code>, read</td>
+</tr>
+<tr>
+<td>H-VAL-1</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>Never write &quot;valid&quot; alone; write validator commit, schema version and the call that ran. A verdict without both cannot be re-run.</td>
+<td>C</td>
+<td>s10 is valid at base 74da0ec and invalid at b4efcd3 for the same bytes</td>
+<td><code>x3d_mcp fork b4efcd3</code> vs <code>x3d_mcp upstream 74da0ec</code></td>
+</tr>
+<tr>
+<td>H-VAL-2</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>Run the semantic layer after the XSD, always. XSD-valid is not gate-clean.</td>
+<td>C</td>
+<td>8 of 15 faulty scenes pass the XSD; 6 of those 8 carry a semantic error</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.0</code></td>
+</tr>
+<tr>
+<td>H-VAL-3</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>Read <code>checked</code> before <code>valid</code>. <code>valid: false, checked: false</code> means no verdict, not a failure.</td>
+<td>C</td>
+<td>11,700,036-byte start tag returned <code>not-checkable-at-this-size</code></td>
+<td><code>x3d_mcp fork b4efcd3</code>, libxml2 2.14.6</td>
+</tr>
+<tr>
+<td>H-VAL-4</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>After any automatic repair, read <code>applied</code>; a loop that reports valid by deleting a node has lost content.</td>
+<td>C</td>
+<td>s10 and s11 end valid by <code>remove_element</code>; 15 of 540 eval cases</td>
+<td><code>x3d_mcp fork b4efcd3</code> <code>exact_fix_hints(apply=true)</code></td>
+</tr>
+<tr>
+<td>H-VAL-5</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>Do not read <code>repair_x3d</code> <code>remaining</code> as clean; re-run <code>validate_semantic</code> on the repaired text.</td>
+<td>C</td>
+<td>s05 and s08: <code>schema_valid: true</code> while a semantic error stands</td>
+<td><code>x3d_mcp fork b4efcd3</code> <code>repair_x3d</code></td>
+</tr>
+<tr>
+<td>H-VAL-6</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>Declare the version in every file; an undeclared version is judged as 4.1, a declared 3.x as 4.0.</td>
+<td>C</td>
+<td><code>resolve_xsd_version</code> table; s10</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.0</code>, <code>X3D XSD 4.1</code></td>
+</tr>
+<tr>
+<td>H-VAL-7</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>Treat X_ITE-only nodes as an extension profile; never let a repair delete them to reach &quot;valid&quot;.</td>
+<td>C</td>
+<td>s11 BlendMode: unfixable in <code>repair_x3d</code>, deleted by the hint loop</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>X3DUOM 4.1</code>, <code>X3DUOM 4.0</code></td>
+</tr>
+<tr>
+<td>H-VAL-8</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>Pin the commit, and diff the validator code between pins before re-scoring: identical code means identical verdicts.</td>
+<td>C</td>
+<td><code>src/validation</code> identical across 788041c, 327c5c4, 13121b6; <code>.py</code> identical to b4efcd3</td>
+<td><code>x3d_mcp fork b4efcd3</code> (git diff)</td>
+</tr>
+<tr>
+<td>H-VAL-9</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>Keep two instruments with different blind spots on the same candidate; one agreeing and one disagreeing gate is information.</td>
+<td>C</td>
+<td>loomkit trap and fork semantic both caught s05; only the XSD caught s02</td>
+<td>loomkit <code>162ab18</code>, <code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-VAL-10</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>Run a new rule over every scene you have before landing it; a legitimate idiom will trigger a first draft.</td>
+<td>C</td>
+<td>invisible-material hit a deliberate hit-area <code>Box</code> in 1 of 14 scenes</td>
+<td><code>x3d_mcp fork b4efcd3</code> scratch patch</td>
+</tr>
+<tr>
+<td>H-VAL-11</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>Read the status of a gate witness, not the process exit code; a failing producer can exit 0.</td>
+<td>C</td>
+<td><code>loomkit traps</code> printed <code>status: fail</code> with exit 0; <code>accept</code> exited 1</td>
+<td>loomkit <code>162ab18</code></td>
+</tr>
+<tr>
+<td>H-VAL-12</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>Count rules with a stated definition (ids, sites, functions); a bare &quot;62 rules&quot; is not comparable.</td>
+<td>C</td>
+<td>51 ids, 61 sites, 24 functions, 72 across layers at one commit</td>
+<td><code>x3d_mcp fork b4efcd3</code> (ast)</td>
+</tr>
+<tr>
+<td>H-MCP-1</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>Count tools on the transport you will ship; the same code lists 53 tools on stdio, 47 on HTTP without a blob token.</td>
+<td>C</td>
+<td><code>list_tools()</code> under three environments</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>mcp</code> 1.30.0</td>
+</tr>
+<tr>
+<td>H-MCP-2</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>Budget <code>tools/list</code> before the first call: 64,426 B for 53 tools, 36,351 B more than the base. Trim by transport if context is scarce.</td>
+<td>C</td>
+<td><code>list_tools()</code> serialised compact</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>x3d_mcp upstream 74da0ec</code></td>
+</tr>
+<tr>
+<td>H-MCP-3</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>Never paste a document over about 100 KB; name it with <code>path=</code> or <code>blob_id=</code>. Over HTTP, over 4 MiB, the name is the only way.</td>
+<td>C</td>
+<td>17,494,418 B inline against 10,756 B at 4,000 nodes</td>
+<td><code>x3d_mcp fork b4efcd3</code>; <code>mcp</code> 1.30.0 <code>transport_security.py</code></td>
+</tr>
+<tr>
+<td>H-MCP-4</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>Ask for <code>return_mode=&quot;blob&quot;</code> when the edited document is not needed back, and <code>summary</code> for a verdict, then check how large the summary is.</td>
+<td>C</td>
+<td>semantic summary 47,537 B on 40,000 info findings</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-MCP-5</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>Parse every reply as a possible error object; read <code>valid</code> and <code>checked</code> together, and <code>applied</code> after any automatic fix.</td>
+<td>C</td>
+<td><code>not-checkable-at-this-size</code>; s10 and s11 valid by deletion</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-MCP-6</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>Run a stdio server as a user whose readable text, JSON and XML files you would show the model; <code>path=</code> and <code>blob_put(path=)</code> read them.</td>
+<td>C</td>
+<td>probe: <code>.txt</code> stored and readable, <code>.cfg</code> refused</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-MCP-7</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>Over HTTP set a blob token of 32 or more characters, or expect 47 tools and no store.</td>
+<td>C</td>
+<td>env matrix; start-up error without token</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-MCP-8</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>Put the guard in the tool, parse before executing, and have the refusal name the setting that moves it.</td>
+<td>C</td>
+<td>SPARQL refused on the parsed algebra; each message names its variable</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-MCP-9</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>Treat a claim ledger as tamper-evident, not signed; keep the head hash somewhere the writer cannot reach.</td>
+<td>C</td>
+<td>edit and first-record drop detected; fresh forged chain verifies</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-MCP-10</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>Keep ontology and SHACL answers out of validity claims; cite them as meaning, and the validators as the gate.</td>
+<td>C</td>
+<td>server instructions; <code>ontology_vs_gate</code></td>
+<td><code>x3d_mcp fork b4efcd3</code> (read)</td>
+</tr>
+<tr>
+<td>H-MCP-11</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>When you claim an agent benefit, name the model, the prompt set, the validator commit and the arm without the tool. Otherwise write &quot;not measured&quot;.</td>
+<td>S</td>
+<td>the repo's hint-loop heading; no paired run exists</td>
+<td><code>x3d_mcp fork b4efcd3</code> docs</td>
+</tr>
+<tr>
+<td>H-MCP-12</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>Call tools through a harness before wiring a client: you get bytes and wall time per call, and no model to blame.</td>
+<td>C</td>
+<td>the 19-call transcript</td>
+<td><code>x3d_mcp fork b4efcd3</code>, Python 3.13.18</td>
+</tr>
+<tr>
+<td>H-SEM-1</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>Write &quot;the ontology proposes, shapes dispose, validators gate&quot;; never let an ontology answer stand as a validity verdict. Check placement with <code>ontology_vs_gate</code> and the XSD.</td>
+<td>C</td>
+<td>ImageTexture: 62 map parents, 14 gate; XSD rejects 42 of 44 tested map-only pairs</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>X3DUOM 4.1</code>, <code>X3D XSD 4.1</code></td>
+</tr>
+<tr>
+<td>H-SEM-2</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>Run <code>shacl_validate</code> with <code>inference=&quot;none&quot;</code>. For class membership use <code>rdf_infer</code> profile <code>subclass</code> or <code>rdfs:subClassOf*</code>.</td>
+<td>C</td>
+<td>clean HelloWorld 0 results, 2,185 with rdfs</td>
+<td><code>x3d_mcp fork b4efcd3</code>, pyshacl 0.40.2, owlrl 7.6.2</td>
+</tr>
+<tr>
+<td>H-SEM-3</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>Convert with the DTD defaults of the document's version; count <code>has&lt;Element&gt;</code> predicates the ontology does not declare, and read a non-zero count as missing defaults.</td>
+<td>C</td>
+<td>HelloWorld: 0 faithful, 8 with the tables emptied</td>
+<td><code>x3d_mcp fork b4efcd3</code> converter tables</td>
+</tr>
+<tr>
+<td>H-SEM-4</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>Join on DEF names or the identifier meta, never on positional IRIs such as <code>Shape_2_4_2</code>.</td>
+<td>C</td>
+<td>8 of 42 individuals renamed by one inserted node; DEF-named 5 of 5 kept</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-SEM-5</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>Keep document-order rules in XML checks: USE before DEF is invisible to SPARQL and SHACL, and <code>children</code> is a set in the graph.</td>
+<td>C</td>
+<td>both orders give the same graph; only <code>validate_semantic</code> reports it</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-SEM-6</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>Count list members with SPARQL over <code>rdf:rest*</code>, not <code>sh:minCount</code>: SHACL counts distinct values, so white <code>( 1 1 1 )</code> fails a naive arity shape.</td>
+<td>C</td>
+<td>naive shape flags white and <code>( 1 1 )</code>; SPARQL flags only <code>( 1 1 )</code></td>
+<td>pyshacl 0.40.2</td>
+</tr>
+<tr>
+<td>H-SEM-7</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>Give every new constraint a known-bad input before trusting a pass; an engine may ignore a feature silently.</td>
+<td>C</td>
+<td><code>sh:minListLength 3</code> on <code>( 1 1 )</code> gave <code>conforms=True</code></td>
+<td>pyshacl 0.40.2</td>
+</tr>
+<tr>
+<td>H-SEM-8</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>After XSD, semantic and core shapes pass, add a contact shape for floating and sunk parts as a Warning with a stated tolerance and scope.</td>
+<td>C</td>
+<td>lamp 0.85 above, book 0.2 sunk, both passed every other layer</td>
+<td><code>x3d_mcp fork b4efcd3</code>, pyshacl 0.40.2</td>
+</tr>
+<tr>
+<td>H-SEM-9</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>Record each verdict with <code>claim_append</code>, passing the <code>instrument</code> the tool returned; then run <code>claims_verify</code>.</td>
+<td>C</td>
+<td>3 chained records; one changed character fails at index 0</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-SEM-10</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>Look up before you judge: when the XSD, X3DUOM, a DEF table or a shape answers exactly, call it; reserve judgment for what no oracle covers, and grade it.</td>
+<td>L</td>
+<td>3 of 4 session faults had an exact tool; no tool saw all four</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-SEM-11</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>Name, in every report, the layer that caught each problem; a fault one layer sees is why the others exist.</td>
+<td>C</td>
+<td>lamp and book seen by 1 of 4 layers, colour by 3 of 4</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-XIT-1</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>Name the X_ITE patch and the sha256 of <code>x_ite.min.js</code> in every render claim; do not assume one repository uses one patch.</td>
+<td>C</td>
+<td>20 vendored copies in 4 patches in one repo; 16.x median gap 5.7 days (N-XIT-9, N-XIT-17)</td>
+<td><code>x3d.demo@d10b457</code>; npm 10.9.9</td>
+</tr>
+<tr>
+<td>H-XIT-2</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>Quote coverage by rung (registered, <code>createNode</code>, parses in a versioned file, draws); never &quot;supports the standard&quot;.</td>
+<td>C</td>
+<td>294 registered, 266 of 267 create, 3 of 7 scenes in section 7 lost something</td>
+<td><code>X_ITE 16.7.0</code>, Chromium 153</td>
+</tr>
+<tr>
+<td>H-XIT-3</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>Sample the last frame after the draw settles and check the canvas size; never the maximum over early frames or a host-element screenshot alone.</td>
+<td>C</td>
+<td>blank scene reads 1.0000 on its first two frames and on a hidden canvas</td>
+<td><code>X_ITE 16.7.0</code>, SwiftShader</td>
+</tr>
+<tr>
+<td>H-XIT-4</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>Before publishing a hosted page, run it under the host's policy; adopt the stylesheet into the shadow root and unhide the surface.</td>
+<td>C</td>
+<td>canvas 0 x 0 under a stylesheet-blocking policy; 0.1752 with the fix</td>
+<td><code>X_ITE 16.5.1</code>, <code>16.7.0</code></td>
+</tr>
+<tr>
+<td>H-XIT-5</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>Start every field-callback body with <code>try</code>; one escaping exception stops the route it ran on.</td>
+<td>C</td>
+<td>0 events in 3 s against 28 to 31 per 500 ms</td>
+<td><code>X_ITE 16.5.1</code>, <code>16.7.0</code>, <code>16.7.1</code></td>
+</tr>
+<tr>
+<td>H-XIT-6</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>Silence effect shapes for picking with <code>Shape.pointerEvents = false</code> by SAI after load; never write the attribute in a file that must validate.</td>
+<td>C</td>
+<td>0 hits to 1 hit; XSD 4.0 and 4.1 reject the attribute</td>
+<td><code>X_ITE 16.7.0</code>; <code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-XIT-7</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>Validate before you render; treat a drawn scene as unvalidated until the rungs agree.</td>
+<td>C</td>
+<td>5 of 5 invalid or inconsistent scenes drew 0.1752</td>
+<td><code>X_ITE 16.7.0</code>; <code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-XIT-8</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>Keep X_ITE extension nodes (<code>BlendMode</code>, <code>DepthMode</code>, material extensions) out of files that must pass the XSD; use them only in files labelled as X_ITE-targeted.</td>
+<td>C</td>
+<td><code>BlendMode</code> needs <code>&lt;component name=&quot;X_ITE&quot;&gt;</code>; XSD rejects both</td>
+<td><code>X_ITE 16.7.0</code>; <code>X3D XSD 4.0</code></td>
+</tr>
+<tr>
+<td>H-XIT-9</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>In a parity harness fix the variables first: opaque geometry, <code>ToneMapping NONE</code>, <code>TELEPORT</code> transitions, frozen time, same canvas size; compare translucent parts separately.</td>
+<td>L</td>
+<td>Loom failure modes 84, 109, 114, 115 (read, not re-run)</td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code></td>
+</tr>
+<tr>
+<td>H-XIT-10</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>Give every world load a time budget and report non-settlement as an error.</td>
+<td>L</td>
+<td>rule <code>loadurl-unbudgeted</code>; the hang itself is <span class="g S" title="Suspected">S</span></td>
+<td><code>x3d.loom@162ab18:kit/loomkit/pagetraps.py</code></td>
+</tr>
+<tr>
+<td>H-XIT-11</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>Re-derive a carried count before quoting it, and say which definition counted it.</td>
+<td>C</td>
+<td>292 and 26 (teardown) against 294 and 28 (this scan); 98,369 against 123,417 lines</td>
+<td>marker scan of <code>x_ite@16.7.0</code></td>
+</tr>
+<tr>
+<td>H-XIT-12</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>Before reading a node file, check where the component's behaviour lives (H7); for 83% of <code>GaussianSplats</code> it is not in the node.</td>
+<td>C</td>
+<td>shares re-derived within one point on 8 components</td>
+<td>marker scan of <code>x_ite@16.7.0</code></td>
+</tr>
+<tr>
+<td>H-XRY-1</td>
+<td><a href="07-xray.html">07</a></td>
+<td>Declare the family of looks before reading the data, hold m fixed, and count every extra look in m.</td>
+<td>C</td>
+<td>same p, q 0.0130 at m = 13 and 0.0510 at m = 51</td>
+<td><code>x3d.xray@8fa6845</code>, <code>stats.bh_q</code></td>
+</tr>
+<tr>
+<td>H-XRY-2</td>
+<td><a href="07-xray.html">07</a></td>
+<td>Say that a Confirmed can be a false positive, and quote 4 of 150 with its seeds and generator.</td>
+<td>C</td>
+<td>4 of 150 noise histories earned one (2.67%), recomputed</td>
+<td><code>x3d.xray@8fa6845</code>, <code>examples/eda_1_signal_and_noise.py --calibrate</code></td>
+</tr>
+<tr>
+<td>H-XRY-3</td>
+<td><a href="07-xray.html">07</a></td>
+<td>Make an unrun check fail the grade: no stratum, no halves, fewer than 3 forks means Likely at most.</td>
+<td>C</td>
+<td>Simpson example: q 0.0060 and effect -589/1000 graded L</td>
+<td><code>x3d.xray@8fa6845</code>, <code>looks.grade</code></td>
+</tr>
+<tr>
+<td>H-XRY-4</td>
+<td><a href="07-xray.html">07</a></td>
+<td>Use exact integer arithmetic and a published generator where two implementations must agree byte for byte.</td>
+<td>C</td>
+<td>SplitMix64 reference words match; JS twin parity: 16 and 37 tests pass</td>
+<td><code>x3d.xray@8fa6845</code>, <code>stats.SplitMix64</code></td>
+</tr>
+<tr>
+<td>H-XRY-5</td>
+<td><a href="07-xray.html">07</a></td>
+<td>Give the independent reader no imports from the producer, and pin raw stored values in tests, not only agreement.</td>
+<td>C</td>
+<td>shared sign mistake: 42 of 43 gallery tests stay green, the raw pin fails</td>
+<td><code>x3d.xray@8fa6845</code>, scratch copy</td>
+</tr>
+<tr>
+<td>H-XRY-6</td>
+<td><a href="07-xray.html">07</a></td>
+<td>Report &quot;not run&quot; with its reason and draw the unmeasured as fog, never as zero.</td>
+<td>C</td>
+<td>thin repo: 12 of 12 looks not run, reason stored</td>
+<td><code>x3d.xray@8fa6845</code> on <code>x3d.castle@d70e00c</code></td>
+</tr>
+<tr>
+<td>H-XRY-7</td>
+<td><a href="07-xray.html">07</a></td>
+<td>Read churn together with size: on a repo where files are written once, a hot roof marks a large result file.</td>
+<td>C</td>
+<td>274 of 283 text files have churn equal to size</td>
+<td>same</td>
+</tr>
+<tr>
+<td>H-XRY-8</td>
+<td><a href="07-xray.html">07</a></td>
+<td>Gate on the semantic rung as well as the XSD; a missing <code>containerField</code> passes the schema and fails the semantic rule.</td>
+<td>C</td>
+<td>0 XSD errors and 90 <code>containerfield-unknown</code> on the stripped scene</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.0</code></td>
+</tr>
+<tr>
+<td>H-XRY-9</td>
+<td><a href="07-xray.html">07</a></td>
+<td>Make a question impossible to re-roll: seed from the content, cap comparisons, print the denominator.</td>
+<td>L</td>
+<td><code>compare</code> seeds from value lists in digest order, caps at 30, prints m; read in the README and <code>tools.js</code>, example 3 ran</td>
+<td><code>x3d.xray@8fa6845</code></td>
+</tr>
+<tr>
+<td>H-XRY-10</td>
+<td><a href="07-xray.html">07</a></td>
+<td>Refuse over budget instead of thinning: cap permutations times draws and say so.</td>
+<td>C</td>
+<td><code>WORK_CAP</code> 10,000,000, ad hoc cap 4,000,000, <code>M</code> clamped to 199..999</td>
+<td><code>x3d.xray@8fa6845:x3dray/looks.py</code>, <code>stats.py</code> (read)</td>
+</tr>
+<tr>
+<td>H-XRY-11</td>
+<td><a href="07-xray.html">07</a></td>
+<td>Treat a hash chain of looks as bookkeeping, not authentication, and state what it cannot prove.</td>
+<td>L</td>
+<td>README: the chain does not prove a look was computed, shown or read, or who took it</td>
+<td><code>x3d.xray@8fa6845:README.md</code> (read)</td>
+</tr>
+<tr>
+<td>H-XRY-12</td>
+<td><a href="07-xray.html">07</a></td>
+<td>Treat a local red as a question about the rig before the code: 27 failures shared one cause.</td>
+<td>C</td>
+<td>all 27 in the locator group; Git 2.43.0 rejects <code>--no-lazy-fetch</code></td>
+<td><code>x3d.xray@8fa6845</code>, Git 2.43.0</td>
+</tr>
+<tr>
+<td>H-BAB-1</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Give every node count its denominator and definition: page-bundle census, tracker headline or bridged-without-gap. Never subtract across definitions.</td>
+<td>C</td>
+<td>68, 75, 186 and 41 all describe one codebase (N-BAB-2 to N-BAB-5)</td>
+<td><code>census.js</code>, <code>driver.py status</code>, <code>x3d.loom@162ab18</code></td>
+</tr>
+<tr>
+<td>H-BAB-2</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Treat <code>bridged</code> as one fixture passing in two engines at 320 x 240, and read the node's gap note before quoting it.</td>
+<td>C</td>
+<td>70 of the 111 kit modules are <code>gap</code>; the assessment separates recognised, passing and correct</td>
+<td><code>NODES.json</code>, <code>ASSESSMENT-2026-11-08.md</code></td>
+</tr>
+<tr>
+<td>H-BAB-3</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Write the PSNR window (whole frame, crop or mask) beside every dB figure.</td>
+<td>C</td>
+<td>same two frames: 39.30 dB whole, 41.90 cropped</td>
+<td>numpy PSNR, 960 x 540 (D-BAB-4)</td>
+</tr>
+<tr>
+<td>H-BAB-4</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Do not accept or reject a node on dB; use the bounds written in its test spec and look at the picture.</td>
+<td>C</td>
+<td>11.73 dB with verdict PASS; 40.03 dB with a drawn colour 3 to 4 times dimmer</td>
+<td><code>BATCH-23.md</code>, <code>BATCH-26.md</code>, X_ITE 16.6.0</td>
+</tr>
+<tr>
+<td>H-BAB-5</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Pin time in both renderers before comparing an animated scene, or label the figure &quot;not a parity figure&quot;.</td>
+<td>L</td>
+<td>Gobbler 3 and Demiurge receipts say so; Odyssey and KANSEI pin</td>
+<td><code>runs/webgpu-*/GAPS.md</code>, SwiftShader</td>
+</tr>
+<tr>
+<td>H-BAB-6</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Key a shader port by FNV-1a of the whitespace-collapsed GLSL; on a miss draw the Material and say so; make the builder refuse an unported shader.</td>
+<td>C</td>
+<td>whitespace edit keeps the key, one constant changes the fragment half; 6 of 13 builders refuse</td>
+<td>Python port of the page hash (D-BAB-3)</td>
+</tr>
+<tr>
+<td>H-BAB-7</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>When a port looks wrong, check tier A of the trap table before touching light: winding, colour space, light scope, USE identity, emissive texture.</td>
+<td>L</td>
+<td>the playbooks' own advice; the tier order is our judgement <span class="g S" title="Suspected">S</span></td>
+<td>playbooks v1 to v4</td>
+</tr>
+<tr>
+<td>H-BAB-8</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>On every public WebGPU page show the adapter, which request answered and, when null, the flag tip with its safety cost.</td>
+<td>L</td>
+<td>one gen-9 laptop got no adapter until the flag was set</td>
+<td>playbook v1; <code>docs/index.html</code></td>
+</tr>
+<tr>
+<td>H-BAB-9</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Make no speed claim without a named real GPU, driver, three runs and a receipt that fits the schema.</td>
+<td>C</td>
+<td>0 timing receipts for any bridge body; 1 file in <code>bench/receipts/</code></td>
+<td><code>ls</code>, <code>BENCHMARK.md</code> section 9</td>
+</tr>
+<tr>
+<td>H-BAB-10</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Where a playbook line and the code disagree, the code wins; record both and correct the playbook by a new version.</td>
+<td>C</td>
+<td>v1 and v2 say &quot;convert authored sRGB&quot;; <code>body.js</code> line 303 assigns the colour as authored</td>
+<td><code>brain/body.js</code> read</td>
+</tr>
+<tr>
+<td>H-CAS-1</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>Judge a Castle load by its warnings and a shape census against the declared count; never by &quot;it loaded&quot; or an exit code.</td>
+<td>C</td>
+<td>classic reader warns once and skips the rest of the file</td>
+<td><code>castle-engine@48ce617:x3dnodes_encoding_classic.inc:569-573</code></td>
+</tr>
+<tr>
+<td>H-CAS-2</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>Quote node coverage by rung and definition (registered, parse-only, name present in a peer, behaves); never a bare &quot;98 of 328&quot;.</td>
+<td>C</td>
+<td>99 registrations, 98 concrete, five denominators in circulation</td>
+<td><code>castle-engine@48ce617</code>; <code>x_ite@16.7.1</code> dist</td>
+</tr>
+<tr>
+<td>H-CAS-3</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>Treat name presence in a peer as the weakest rung; do not turn 97 of 99 into &quot;X_ITE implements them&quot;.</td>
+<td>C</td>
+<td>the scan reads class names, not behaviour</td>
+<td><code>x_ite@16.7.1</code> dist</td>
+</tr>
+<tr>
+<td>H-CAS-4</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>Name the light contract (X3D attenuation, glTF loader <code>0 0 1</code>, Castle components) in every Castle brightness number.</td>
+<td>C</td>
+<td>the glTF loader writes <code>(0,0,1)</code>; X3D files get no adjustment</td>
+<td><code>castle-engine@48ce617:x3dloadinternalgltf.pas:751</code></td>
+</tr>
+<tr>
+<td>H-CAS-5</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>Write &quot;differs from the reference by F, cause traced to X&quot;, not &quot;behind&quot;; the reference is a reading of the file, not truth.</td>
+<td>C</td>
+<td>add-on drops NurbsCurve, flattens Background, applies 1/d^2</td>
+<td><code>x3d.castle@d70e00c:results/quality/public/results.json</code></td>
+</tr>
+<tr>
+<td>H-CAS-6</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>Set <code>ProcessEvents</code> explicitly in a harness and record it; a still render never runs a ROUTE by default.</td>
+<td>C</td>
+<td><code>default false</code></td>
+<td><code>castle-engine@48ce617:castlescenecore.pas:2337</code></td>
+</tr>
+<tr>
+<td>H-CAS-7</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>Do not rely on frame 0 of a TimeSensor at exactly <code>startTime</code>; step past the origin or build the fixture.</td>
+<td>S</td>
+<td>code read gives no event on that tick; not run</td>
+<td><code>castle-engine@48ce617:x3dnodes_standard_time.inc:333-337,768-785</code></td>
+</tr>
+<tr>
+<td>H-CAS-8</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>Take LOD from the shape tree for anything that must match a viewer; the node walk always returns child 0.</td>
+<td>C</td>
+<td><code>DirectEnumerateActive</code></td>
+<td><code>castle-engine@48ce617:x3dnodes_standard_navigation.inc:607-616</code></td>
+</tr>
+<tr>
+<td>H-CAS-9</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>Export from the shape tree; gate every exporter change on the validator, a census and the rig, per flag combination.</td>
+<td>C</td>
+<td>70 of 70 clean, also with flags on</td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code></td>
+</tr>
+<tr>
+<td>H-CAS-10</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>Report a rig median with its range or drop it; four runs of one 21-scene set gave 0.58, 0.88, 1.05 and 3.40.</td>
+<td>C</td>
+<td>receipts re-read</td>
+<td><code>x3d.castle@d70e00c:results/phase3/</code></td>
+</tr>
+<tr>
+<td>H-CAS-11</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>Do not rank legs by FLIP where the reference omits content; FLIP rewards the shared omission.</td>
+<td>C</td>
+<td><code>quaternion-xyzw</code>: near-empty 0.1548 beats the correct 0.1962</td>
+<td><code>x3d.castle@d70e00c:docs/quality-leg.md</code></td>
+</tr>
+<tr>
+<td>H-CAS-12</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>Validate shaders against the host, not only the XSD: a valid ComposedShader with <code>#version</code> can fail on Castle.</td>
+<td>L</td>
+<td>validator clean on the snippet; Castle failure from the gap list, not run</td>
+<td><code>x3d_mcp fork b4efcd3</code>; <code>docs/castle-gaps.md</code> row 2</td>
+</tr>
+<tr>
+<td>H-CAS-13</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>Write &quot;agree&quot; for measured agreement of two engines; never &quot;follows&quot; without a dated source.</td>
+<td>C</td>
+<td>influence direction untested</td>
+<td><code>castle-engine@48ce617</code>; critic's errata</td>
+</tr>
+<tr>
+<td>H-CAS-14</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>Pin an engine by archive hash and count a green CI smoke test as the proof of reproducibility, not a README sentence.</td>
+<td>C</td>
+<td>README says not built; two CI runs succeeded</td>
+<td><code>gh run view</code>; <code>docker/Dockerfile</code></td>
+</tr>
+<tr>
+<td>H-CAS-15</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>Re-derive a carried count and say how it was counted; &quot;21 and 7&quot; are registrations, not working conversions.</td>
+<td>C</td>
+<td>round-trip test commented out</td>
+<td><code>tests/code/testcases/testx3dnodes.pas:392-393</code></td>
+</tr>
+<tr>
+<td>H-BLE-1</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>Never score an importer by whether its re-export validates; validate the source, then score fidelity against the source's render.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>a 3-error source re-exported with 0 errors while two of three defects lost their data (section 9)</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>bpy 5.3.0</code></td>
+</tr>
+<tr>
+<td>H-BLE-2</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>Quote the rule next to every coverage number; a count without its counting rule is not comparable.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>54 written by the teardown against 46 by a naive literal scan, same checkout family</td>
+<td><code>X3DUOM 4.1</code>, <code>x3d-blender-io@ab99988</code></td>
+</tr>
+<tr>
+<td>H-BLE-3</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>Treat a centre-patch match as proof of the fit's anchor only; read <code>geometry_delta</code> across the whole scene.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>p2 centre 204 against 203 yet <code>geometry_delta</code> 47.07</td>
+<td><code>X_ITE 16.7.1</code>, <code>Babylon.js 9.32.0</code>, Chrome 153 SwiftShader</td>
+</tr>
+<tr>
+<td>H-BLE-4</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>Import classic X3D colours as sRGB and write PhysicalMaterial colours linear; choose per material model, not per file.</td>
+<td><strong><span class="g L" title="Likely">L</span></strong></td>
+<td>README: X_ITE reads classic colours as display values, physical as linear; round-trip tests pass</td>
+<td><code>X_ITE 16.7.1</code> (README), <code>bpy 5.3.0</code> tests</td>
+</tr>
+<tr>
+<td>H-BLE-5</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>Pick Light Units BLENDER for a scene that starts in Blender and X_ITE for a scene that starts in an X3D file.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>Babylon.js centre patches 30, 27, 120, 30 under BLENDER units against 74, 203, 203, 56 under X_ITE units, where X_ITE draws 74, 204, 204, 57</td>
+<td>rig re-run, <code>bpy 5.3.0</code></td>
+</tr>
+<tr>
+<td>H-BLE-6</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>Pin the rig's renderer versions and re-measure the probes before moving a pin.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>Babylon.js latest 9.36.0 against the pinned 9.32.0 on 2026-11-14</td>
+<td><code>npm view</code>, rig <code>package.json</code></td>
+</tr>
+<tr>
+<td>H-BLE-7</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>Clamp every colour that comes from a formula or a float attribute to [0, 1] before export, then gate.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>channel 1.0059 fails the XSD pattern; baked raw channels reach 1.9151</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>bpy 5.3.0</code> Cycles CPU</td>
+</tr>
+<tr>
+<td>H-BLE-8</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>Run the loss audit on the source scene before export; after the round trip it is empty.</td>
+<td><strong><span class="g S" title="Suspected">S</span></strong></td>
+<td>carried from a private verifier note</td>
+<td>not re-run</td>
+</tr>
+<tr>
+<td>H-BLE-9</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>A valid glb proves structure only; check it is not empty and list the extensions the validator did not know.</td>
+<td><strong><span class="g L" title="Likely">L</span></strong></td>
+<td>rig README: unknown extensions are INFO only; <code>extensionsNotValidated</code> lists them</td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code></td>
+</tr>
+<tr>
+<td>H-BLE-10</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>Compare counts from the run, not the AST: the AST gave 336 test functions, the run gave 335.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>one helper <code>test_the_validator_loads</code> is not reported by the runner</td>
+<td><code>bpy 5.3.0</code>, unittest</td>
+</tr>
+<tr>
+<td>H-BLE-11</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>When a document and the code disagree (194 against 195 cases; &quot;3.3&quot; against <code>version=&quot;3.0&quot;</code>), cite the code and demote the document to Suspected.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>suite run 195; export header 3.0</td>
+<td><code>bpy 5.3.0</code>, <code>x3d-blender-io@ab99988</code></td>
+</tr>
+<tr>
+<td>H-BLE-12</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>Map survey tags to grades by rule: [V] to Likely, [R] and [I] to Suspected, Confirmed only after reproduction with a named instrument.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>the knowledge base states and applies the rule; sections 10 and 11 apply it</td>
+<td>knowledge base v1 (read)</td>
+</tr>
+<tr>
+<td>H-BLE-13</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>Re-probe a &quot;future feature&quot; the day its wheel ships: a release build settles enum values, operators and missing exports in minutes.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>POINTS</code> not <code>POINT</code>; <code>ply_export</code> wrote 0 vertices; <code>spz_import</code> only</td>
+<td><code>bpy 5.3.0</code></td>
+</tr>
+<tr>
+<td>H-GLT-1</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>Never read &quot;0 errors&quot; from the Khronos validator as &quot;the scene survived&quot;; also check triangles, draw calls and node counts against the X3D.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>48-byte empty glb exits 0</td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, run 2026-11-14</td>
+</tr>
+<tr>
+<td>H-GLT-2</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>Print <code>extensionsNotValidated</code> next to every pass; a required extension the validator does not know passes at INFO.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>reqext.glb</code> passes, wrapper prints <code>NOT VALIDATED ... REQUIRED</code></td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, run 2026-11-14</td>
+</tr>
+<tr>
+<td>H-GLT-3</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>Treat ROUTE, Script, sensors, PROTO, NURBS, particles, GLSL and physics as expected losses and list them in the manifest, never as &quot;not supported yet&quot; silence.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>carriers table, read</td>
+<td><code>x3d-blender-io@ab99988</code></td>
+</tr>
+<tr>
+<td>H-GLT-4</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>Set <code>frame_start = 0</code> before import; do not use <code>export_anim_slide_to_zero</code> to fix animation timing.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>first sample 0.041667 s versus 0.0 s; flag ignored without force sampling</td>
+<td><code>bpy 5.3.0</code> receipts, read</td>
+</tr>
+<tr>
+<td>H-GLT-5</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>Carry the DEF through <code>export_extras=True</code> in node, mesh and material extras; names alone are not the DEF.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>Blender suffixes duplicates (<code>BoxShape.001</code>); Transform DEFs are lost in flat import</td>
+<td><code>x3d-blender-io@ab99988</code> release notes, read</td>
+</tr>
+<tr>
+<td>H-GLT-6</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>Keep the per-scene manifest beside the glb: x3d sha256, add-on revision, Blender version, glb sha256, validator summary.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>manifest.py</code> schema v1, deterministic</td>
+<td><code>x3d-blender-io@ab99988</code></td>
+</tr>
+<tr>
+<td>H-GLT-7</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>For scenes with hundreds of repeated shapes, turn on Group instances; verify node, triangle and draw-call counts do not change except nodes.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>1,721 to 10 nodes, triangles 2,064 both</td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, run 2026-11-14</td>
+</tr>
+<tr>
+<td>H-GLT-8</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>Read ratification from the registry file, not from a digest; give the fetch date and the file hash.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>27 ratified entries on 2026-11-14</td>
+<td>Khronos registry, sha256 prefix <code>32868b162d85</code></td>
+</tr>
+<tr>
+<td>H-GLT-9</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>Treat a scale outside 1e-6 to 1e6 in a parent chain as a bug in waiting; the glb exporter inverts parent matrices in float32.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>1.057e-16 became 1e8</td>
+<td><code>bpy 5.3.0</code> receipts, read</td>
+</tr>
+<tr>
+<td>H-GLT-10</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>Render to compare in one browser at one size with both engines pinned; compare the geometry mask, not only the whole frame.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>rig README: <code>mean_abs_delta</code> versus <code>geometry_delta</code></td>
+<td><code>X_ITE 16.7.1</code>, <code>Babylon.js 9.32.0</code>, Chromium 153, SwiftShader (carried)</td>
+</tr>
+<tr>
+<td>H-GLT-11</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>A USD hop is a flatten in both directions; never use it as a correctness test.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>digests agree; none run here</td>
+<td>read, not run</td>
+</tr>
+<tr>
+<td>H-UNR-1</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>Convert UE to X3D with one mirror: point <code>(x, z, y)/100</code>, rotation <code>P R P</code>; check determinants before trusting any converter.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>det P = -1, det of <code>P R P</code> = +1 on four triples</td>
+<td>Python, run 2026-11-14</td>
+</tr>
+<tr>
+<td>H-UNR-2</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>Decide winding by a numeric normal test in the engine's convention; never reverse indices by assumption, and never hide a guess behind <code>solid='false'</code>.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>a mirror flips the sign of a cross product</td>
+<td>Python, run 2026-11-14</td>
+</tr>
+<tr>
+<td>H-UNR-3</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>Convert a horizontal field of view to X3D's minimum-angle <code>fieldOfView</code> with <code>2 atan(tan(h/2)/aspect)</code>.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>58 degrees at 16:9 gives 34.63 degrees</td>
+<td>Python, run 2026-11-14</td>
+</tr>
+<tr>
+<td>H-UNR-4</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>Write &quot;read, not run&quot; next to any claim about Unreal until gate G0 passes on a named machine.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>no Unreal install in this base</td>
+<td>none</td>
+</tr>
+<tr>
+<td>H-UNR-5</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>Compare engines only under one tone mapper, one exposure, one camera, one resolution and one environment light, all recorded.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>Khronos render-fidelity method; rig holds these for X_ITE and Babylon</td>
+<td>rig README, read</td>
+</tr>
+<tr>
+<td>H-UNR-6</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>Report a perceptual metric together with the image pair and its fixed settings; a PSNR alone is a rumour.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>offset of 3 gives 38.6 dB, noise sigma 5 gives 34.3 dB</td>
+<td>numpy, run 2026-11-14</td>
+</tr>
+<tr>
+<td>H-UNR-7</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>Log an Unreal frame that looks better than X_ITE as an intended difference; treat X_ITE as the answer key for translation, not quality.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>Lumen and Nanite are outside X3D's light model</td>
+<td>digest, <span class="g S" title="Suspected">S</span> for Unreal specifics</td>
+</tr>
+<tr>
+<td>H-UNR-8</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>Count instances from three places (X3D, glb JSON, engine) and require agreement before claiming instancing works.</td>
+<td><span class="g C" title="Confirmed">C</span> for the first two</td>
+<td>1,719 / 1,721 nodes / 10 nodes</td>
+<td>grep and JSON parse, run 2026-11-14</td>
+</tr>
+<tr>
+<td>H-UNR-9</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>Do not infer that an instanced glb works in a second engine from a first: the validator cannot read <code>EXT_mesh_gpu_instancing</code>.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>NOT VALIDATED</code> line</td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, run 2026-11-14</td>
+</tr>
+<tr>
+<td>H-UNR-10</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>Treat behaviour as a separate tier: no glb import gives ROUTEs; tier 4 needs software that does not exist.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>no importer found; ROUTE count in glb is 0</td>
+<td>read; JSON parse</td>
+</tr>
+<tr>
+<td>H-UNR-11</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>Keep a calibration constant for X3D lights in Unreal as an explicit manifest field, not a hidden multiplier.</td>
+<td><span class="g S" title="Suspected">S</span></td>
+<td>design expectation</td>
+<td>none</td>
+</tr>
+<tr>
+<td>H-PHY-1</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Use the scheme's own discrete solution as the exact reference for a stepped engine, and report the continuum gap as a known number.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>PhysX free fall 1.5e-6 m from discrete, 0.0204 m from continuum; D-PHY-2 reproduces both</td>
+<td><code>x3d.loom@162ab18</code> <code>p1-analytic.json</code>; numpy 2.5.3</td>
+</tr>
+<tr>
+<td>H-PHY-2</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Run every new check against a known-wrong implementation before trusting it; if the wrong one passes, the check says nothing.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>KE 0.5 for fixed, buggy and no collisions (D-PHY-4); law 44</td>
+<td>numpy 2.5.3; ERRATA-v1-v4</td>
+</tr>
+<tr>
+<td>H-PHY-3</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Add an oblique collision case; a head-on axis-aligned test makes every dot product exact and passes a wrong normal.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>19 of 300 oblique pairs differed per step; failure mode 151</td>
+<td>ERRATA-v1-v4 (reviewer), read</td>
+</tr>
+<tr>
+<td>H-PHY-4</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Read constraint residuals before the projection that enforces them, or name the state read.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>bead 7.3e-3 pre-projection at 1 substep (D-PHY-3); review 2.4e-2</td>
+<td>numpy 2.5.3; ERRATA-v1-v4</td>
+</tr>
+<tr>
+<td>H-PHY-5</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Fit a convergence order at two end times, neither only a multiple of the period.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>symplectic Euler 1.00 at T = 1, 2.00 at T = 2 pi (D-PHY-5)</td>
+<td>numpy 2.5.3</td>
+</tr>
+<tr>
+<td>H-PHY-6</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Report energy error and position error as two numbers; bounded energy does not bound phase.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Verlet 0.74 % energy, 0.61 off position; RK4 0.0022 off</td>
+<td><code>x3d.demo@d10b457</code> v6 receipt, read</td>
+</tr>
+<tr>
+<td>H-PHY-7</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Know the CFL number of a grid scheme and its cause before tuning anything else.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>0.72 reaches 1e59 on 28 x 28 within 400 steps, 0.7071 stays 4.6e-3 (D-PHY-6)</td>
+<td>numpy 2.5.3</td>
+</tr>
+<tr>
+<td>H-PHY-8</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Step at a fixed dt with an accumulator; never let the render rate set the physics step.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>X_ITE Bullet moving-average dt; jitter changes trajectory (D-PHY-7); bridge fixed 1/240 s</td>
+<td><code>physx-bridge/SPEC.md</code>; numpy 2.5.3</td>
+</tr>
+<tr>
+<td>H-PHY-9</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Hash every step, replay in every named host, and name the first differing step; a final-state hash alone cannot localise.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>1918 and 969 steps, 0 differing hashes in 4 hosts</td>
+<td><code>kit/loom physics</code> on <code>x3d.physics/runs</code></td>
+</tr>
+<tr>
+<td>H-PHY-10</td>
+<td><a href="13-physics.html">13</a></td>
+<td>When page code replaces a runtime's engine, prove the old one is off in each host and list its leaks.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Bullet off in 3 browsers; <code>loadURL()</code> leaks one step</td>
+<td><code>evidence/p1-enabled-probe-*.json</code>, read</td>
+</tr>
+<tr>
+<td>H-PHY-11</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Commit the limits file before the run and let the runner refuse a changed file; <code>limit</code> and <code>declared_limit</code> from one run prove nothing.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>failure mode 156; v6 limits commit <code>01bb9dd</code></td>
+<td><code>x3d.demo@d10b457</code> receipt</td>
+</tr>
+<tr>
+<td>H-PHY-12</td>
+<td><a href="13-physics.html">13</a></td>
+<td>A mutation control must change the record; count caught of total and distrust a control whose reference limit is 0.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>9 of 11 became 11 of 11</td>
+<td>v6 receipt</td>
+</tr>
+<tr>
+<td>H-PHY-14</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Treat a second engine as a model check, not a build check, and compute the chaos horizon before blaming a method.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>MuJoCo against RK4 1.3e-7 m over 3 s; horizon 8.9 s at 1e-9</td>
+<td>ERRATA-v1-v4, read</td>
+</tr>
+<tr>
+<td>H-PHY-15</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Run the schema check and the semantic check; the XSD accepts routes and containerFields the semantic rules reject.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>MuJoCo bridge: 9 of 9 XSD-valid, 9 of 9 semantic failures before fix</td>
+<td><code>x3d_mcp fork fa0b389</code> as recorded in GATE-0</td>
+</tr>
+<tr>
+<td>H-MET-1</td>
+<td><a href="14-methods.html">14</a></td>
+<td>Write the predicted answer before running a drill; a correct prediction teaches less than a wrong one.</td>
+<td>L</td>
+<td>method argument; no trial run</td>
+<td>none (design rule)</td>
+</tr>
+<tr>
+<td>H-MET-2</td>
+<td><a href="14-methods.html">14</a></td>
+<td>Seed one failure at a time into a valid scene, so the diagnostic maps to one cause.</td>
+<td>L</td>
+<td>practice in chapters 02 and 03</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-MET-3</td>
+<td><a href="14-methods.html">14</a></td>
+<td>Demote on contradiction: record both numbers and the pins, never overwrite.</td>
+<td>L</td>
+<td><a href="AUTHORING.html">AUTHORING</a> section 6</td>
+<td>none (policy)</td>
+</tr>
+<tr>
+<td>H-MET-4</td>
+<td><a href="14-methods.html">14</a></td>
+<td>Give a heuristic a falsifier (a result that would refute it) or leave it out of the ledger.</td>
+<td>L</td>
+<td><a href="D-heuristics-ledger.html">D</a> construction</td>
+<td><code>check_learn.py</code> structure only</td>
+</tr>
+<tr>
+<td>H-MET-5</td>
+<td><a href="14-methods.html">14</a></td>
+<td>Run the drill before trusting its answer key; mark <code>Checked</code> honestly.</td>
+<td>C</td>
+<td>89 of 97 drills carry a run record at this commit</td>
+<td><code>build_learn.py</code>, this commit</td>
+</tr>
+<tr>
+<td>H-MET-6</td>
+<td><a href="14-methods.html">14</a></td>
+<td>Prefer the lowest grade the evidence allows; a copied number is <span class="g L" title="Likely">L</span> at best.</td>
+<td>L</td>
+<td>grade mix below</td>
+<td>Appendix C count</td>
+</tr>
+<tr>
+<td>H-MET-7</td>
+<td><a href="14-methods.html">14</a></td>
+<td>Cut a failing scene to the smallest file that still fails before reporting it.</td>
+<td>L</td>
+<td>practice in chapter 03</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-MET-8</td>
+<td><a href="14-methods.html">14</a></td>
+<td>Two independent readings agree only if tests pin a raw value; compare against stored values, not only each other.</td>
+<td>C</td>
+<td>chapter 07 gallery lesson</td>
+<td><code>x3d.xray@8fa6845</code></td>
+</tr>
+</tbody>
+</table>
+<!-- END GENERATED -->
+<div class="pn"><a href="C-numbers-ledger.html">&larr; C-numbers-ledger</a><a href="E-drills.html">E-drills &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

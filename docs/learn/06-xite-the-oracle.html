@@ -1,0 +1,1308 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>06. X_ITE, the reference renderer · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a class="cur" href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="06-xite-the-oracle.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/06-xite-the-oracle.md">GitHub</a></div><h1>06. X_ITE, the reference renderer</h1>
+<details class="toc"><summary>On this page (31 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-what-x_ite-is-and-what-was-measured-about-it">2. What X_ITE is, and what was measured about it</a><a class="l2" href="#3-coverage-266-of-267-counted-three-ways">3. Coverage: 266 of 267, counted three ways</a><a class="l2" href="#4-driving-x_ite">4. Driving X_ITE</a><a class="l3" href="#41-calls-whose-shape-is-a-trap">4.1 Calls whose shape is a trap</a><a class="l3" href="#42-events-and-the-one-exception-freeze">4.2 Events and the one-exception freeze</a><a class="l3" href="#43-picking">4.3 Picking</a><a class="l3" href="#44-splats">4.4 Splats</a><a class="l2" href="#5-writing-and-reading-an-honest-render-claim">5. Writing and reading an honest render claim</a><a class="l3" href="#51-three-samplers-that-lie">5.1 Three samplers that lie</a><a class="l3" href="#52-writing-the-claim">5.2 Writing the claim</a><a class="l2" href="#6-the-traps-that-cost-the-most">6. The traps that cost the most</a><a class="l3" href="#61-the-hosted-page-black-draw">6.1 The hosted-page black draw</a><a class="l2" href="#7-where-x_ite-is-not-the-truth">7. Where X_ITE is not the truth</a><a class="l3" href="#71-extensions-and-renderer-choices-that-are-not-in-the-standard">7.1 Extensions and renderer choices that are not in the standard</a><a class="l2" href="#8-versions-and-what-changed-between-them">8. Versions, and what changed between them</a><a class="l2" href="#9-the-learning-heuristics-and-the-curriculum">9. The learning heuristics and the curriculum</a><a class="l3" href="#91-the-curriculum-as-four-tracks">9.1 The curriculum as four tracks</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-xit-1-count-the-coverage-three-ways">D-XIT-1 Count the coverage three ways</a><a class="l3" href="#d-xit-2-catch-the-sampler-that-lies">D-XIT-2 Catch the sampler that lies</a><a class="l3" href="#d-xit-3-reproduce-the-hosted-page-black-draw-and-fix-it">D-XIT-3 Reproduce the hosted-page black draw and fix it</a><a class="l3" href="#d-xit-4-break-picking-with-a-faint-shape-then-fix-it">D-XIT-4 Break picking with a faint shape, then fix it</a><a class="l3" href="#d-xit-5-five-scenes-the-renderer-accepts-and-the-validator-does-not">D-XIT-5 Five scenes the renderer accepts and the validator does not</a><a class="l3" href="#d-xit-6-freeze-a-route-with-one-exception">D-XIT-6 Freeze a route with one exception</a><a class="l3" href="#d-xit-7-re-derive-h7-the-locus-of-behaviour">D-XIT-7 Re-derive H7, the locus of behaviour</a><a class="l3" href="#d-xit-8-count-the-patches-a-repository-ships">D-XIT-8 Count the patches a repository ships</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> X_ITE is the second program that tells you what a scene draws and what its events do, and it is a good oracle only when you name its patch, its browser and its options, drive it with guarded code, and remember that it is a renderer with its own extensions, not a validator. <strong><span class="g C" title="Confirmed">C</span></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>XIT</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="01-the-tether.html">01 The tether</a> for the loop; <a href="03-validator-and-gates.html">03 The validator and the gates</a> for what runs before the renderer</td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>(1) say what &quot;X_ITE supports 266 of 267 nodes&quot; means and re-count it; (2) drive X_ITE by DOM and SAI, read events, and pick; (3) write a render claim that a stranger can re-run, and spot the three samplers that lie; (4) reproduce the hosted-page black draw and its fix; (5) build a parity harness with X_ITE as the reference and list where it is not the truth</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td>x_ite npm tarballs 16.4.3, 16.5.0, 16.5.1, 16.6.0, 16.6.1, 16.7.0, 16.7.1 (unpacked, <code>dist/</code> read, executed in Chromium); x3d.docs@f172f67:docs/x_ite/MASTERCLASS.md, docs/tools-shared/xite_<em>.py, docs/vendor/x_ite/; x3d.loom@162ab18:LOOM-v1.md, kit/loomkit/pagetraps.py, x3d.webgpu/STATE.md, x3d.webgpu/BENCHMARK.md; x3d.demo@d10b457:docs/demos/</em>/*/x_ite.min.js; x3d_mcp@b4efcd3:src/validation/</td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td><code>X_ITE 16.7.0</code> (and six other patches, named per row), <code>Chromium 153 (Chrome for Testing 153.0.8010.12), SwiftShader</code>, Playwright 1.63.0, Node 22.23.4; <code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.0</code> (sha256 0509fa5bd601), <code>X3D XSD 4.1</code> (sha256 1a7935caa7e6), <code>X3DUOM 4.1</code> (sha256 4fc10e8e15c0); lxml 6.1.3; Python 3.13.18; npm 10.9.9; software GL only, no GPU</td>
+</tr>
+</tbody>
+</table>
+<p>Rig for every number marked <strong><span class="g C" title="Confirmed">C</span></strong> below unless a row says otherwise: the unmodified npm tarball of the named X_ITE patch, served over loopback http, loaded in headless Chromium 153 (Chrome for Testing 153.0.8010.12) with <code>--use-gl=angle --use-angle=swiftshader</code>, a 320 x 240 <code>&lt;x3d-canvas&gt;</code>, run on 2026-11-14. <code>X_ITE 16.7.0</code> is the patch the repository vendors: <code>x_ite.min.js</code> there is byte-identical to the npm tarball (sha256 <code>b7df063e8cb1</code>, 1,306,961 B) and so is <code>x_ite.css</code> (sha256 <code>e8af335cd9e4</code>) <span class="g C" title="Confirmed">C</span>. The source repositories were read-only; every script and result lived in a scratch folder.</p>
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text">  scene.x3d (text: DEF/USE, ROUTE, fields)
+      |
+      |   validator rungs R0-R5 (chapter 03): legal? consistent? repaired?
+      v
+  +-----------------------------------------------------------------------------+
+  |  X_ITE   one npm package, one JavaScript bundle, WebGL2 only                |
+  |                                                                             |
+  |   parse    XML, VRML, JSON, GLB, glTF, OBJ, PLY, STL, SVG   -&gt; scene graph    |
+  |   run      ROUTEs, TimeSensor, interpolators, Script, physics -&gt; events      |
+  |   draw     shadow pass, main pass (MSAA), OIT, tone map       -&gt; pixels       |
+  |   pick     GPU picking buffer                                 -&gt; sensor events|
+  +-----------------------------------------------------------------------------+
+      |               |                 |                    |
+      v               v                 v                    v
+   pixels         event counts      field values        console text
+   (rung R6)      (callbacks)       (SAI reads)         &quot;Unknown node type ...&quot;
+      |
+      v
+  a render claim = scene hash + X_ITE patch + browser + GL backend + options + metric
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>question</th>
+<th>who answers it</th>
+<th>X_ITE's role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>is the file legal XML, XSD and spec-consistent</td>
+<td>validator, rungs R0 to R5</td>
+<td>none: X_ITE parsed and drew all 5 invalid or inconsistent scenes of section 7</td>
+</tr>
+<tr>
+<td>does the file draw something</td>
+<td>X_ITE plus a pixel metric</td>
+<td>the only rung that sees &quot;blank&quot;</td>
+</tr>
+<tr>
+<td>do events flow, does a sensor fire</td>
+<td>X_ITE plus callbacks</td>
+<td>the runtime that executes ROUTEs and picking</td>
+</tr>
+<tr>
+<td>is the picture correct (colour, light, blend)</td>
+<td>a person, or a second renderer</td>
+<td>a reference with extensions, not the standard</td>
+</tr>
+<tr>
+<td>is the claim reproducible</td>
+<td>the claim itself</td>
+<td>it must name patch, rig and options</td>
+</tr>
+</tbody>
+</table>
+<p><strong>In scope:</strong> X_ITE as a program you drive and measure (patch, nodes, API, picking, splats, events), how to write and read a render claim, the two traps that waste the most time (hosted-page black draw, sampler lies), X_ITE as the reference arm of a parity harness, and where it is not the truth. <strong>Out of scope:</strong> the AST teardown (<a href="../x_ite/MASTERCLASS.html">the X_ITE masterclass</a>, linked, not repeated), the Babylon port (<a href="08-babylon-bridge.html">08</a>), glTF and USD (<a href="11-gltf-usd-khronos.html">11</a>), physics (<a href="13-physics.html">13</a>).</p>
+<p><strong>Read next:</strong> deeper, <a href="../x_ite/MASTERCLASS.html">the X_ITE masterclass</a> (module-level anatomy and the 32-step reading curriculum); wider, <a href="07-xray.html">07 x3d.xray</a> for a method that turns a code base into a gated scene, with X_ITE as its viewer.</p>
+<h2 id="2-what-x_ite-is-and-what-was-measured-about-it">2. What X_ITE is, and what was measured about it</h2>
+<p>X_ITE is a JavaScript X3D browser published to npm as <code>x_ite</code> by one maintainer account, under the MIT licence. The teardown in the masterclass read the code of one patch and said so: it did not read commit history, maintainers or release cadence. The rows below separate what each source measured.</p>
+<table>
+<thead>
+<tr>
+<th>property</th>
+<th>value</th>
+<th>grade</th>
+<th>instrument</th>
+<th>source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>graphics API</td>
+<td>WebGL2 only: 1 <code>getContext (&quot;webgl2&quot;)</code> line, 0 hits for &quot;webgpu&quot; or &quot;navigator.gpu&quot; in <code>x_ite.js</code> plus the component bundles</td>
+<td>C</td>
+<td><code>X_ITE 16.7.0</code>, grep over unminified <code>dist/</code></td>
+<td>npm tarball <code>x_ite@16.7.0</code></td>
+</tr>
+<tr>
+<td>npm maintainers</td>
+<td>1</td>
+<td>C</td>
+<td>npm 10.9.9, <code>npm view x_ite maintainers</code>, 2026-11-14</td>
+<td>npm registry</td>
+</tr>
+<tr>
+<td>npm versions, all time</td>
+<td>306 (first 4.0.2 on 2017-08-29, latest 16.7.1 on 2026-11-08)</td>
+<td>C</td>
+<td>npm 10.9.9, <code>npm view x_ite time</code></td>
+<td>npm registry</td>
+</tr>
+<tr>
+<td>16.x line</td>
+<td>23 releases from 2026-07-27 (16.0.0) to 2026-11-08 (16.7.1); gaps median 5.7 days, mean 4.7, max 12.9</td>
+<td>C</td>
+<td>same</td>
+<td>npm registry</td>
+</tr>
+<tr>
+<td>releases in the 365 days to 2026-11-14</td>
+<td>68</td>
+<td>C</td>
+<td>same</td>
+<td>npm registry</td>
+</tr>
+<tr>
+<td>size</td>
+<td><code>x_ite.min.js</code> 1,306,961 B; 280,795 B at <code>gzip -9</code>; <code>assets/components</code> 9,800,769 B</td>
+<td>C</td>
+<td><code>wc</code>, <code>gzip -9</code> on the tarball</td>
+<td><code>x_ite@16.7.0</code></td>
+</tr>
+<tr>
+<td>registered components</td>
+<td>39</td>
+<td>C</td>
+<td><code>browser.supportedComponents.length</code> in Chromium 153</td>
+<td><code>X_ITE 16.4.3</code>, <code>16.5.1</code>, <code>16.6.1</code>, <code>16.7.0</code>, <code>16.7.1</code>: 39 on all five</td>
+</tr>
+<tr>
+<td>source modules (webpack markers)</td>
+<td>752 in 24 bundles, 730 of them X_ITE's own <code>src/</code></td>
+<td>C</td>
+<td>marker scan of <code>dist/x_ite.js</code> and 23 component bundles</td>
+<td><code>X_ITE 16.4.3</code> to <code>16.7.0</code> (752 on every patch, 730 own); 762 and 732 on <code>16.7.1</code></td>
+</tr>
+<tr>
+<td>the teardown's anatomy (98,369 lines, 5,940 functions, 194 field-exact nodes)</td>
+<td>as stated</td>
+<td>L</td>
+<td>read in the masterclass; its data files are not in the public repo, so not re-run</td>
+<td>x3d.docs@f172f67:docs/x_ite/MASTERCLASS.md</td>
+</tr>
+</tbody>
+</table>
+<p>Read the cadence rows as a risk statement, not a verdict: a patch that is 5.7 days old in the median means a claim about &quot;X_ITE&quot; without a patch number is stale within a week (section 8). Whether the author is one person in practice is not measured here; the registry lists one maintainer.</p>
+<h2 id="3-coverage-266-of-267-counted-three-ways">3. Coverage: 266 of 267, counted three ways</h2>
+<p>&quot;X_ITE implements the standard&quot; is three different counts. Each rung below is a different instrument and a different number; quote the rung with the number.</p>
+<pre><code class="language-text">  rung 1  a module exists and registers a name           294 names   (static scan, 16.7.0)
+  rung 2  scene.createNode (name) succeeds at runtime    266 of 267  X3DUOM 4.1 concrete nodes
+  rung 3  the node parses from XML in a versioned file   section 7 (BlendMode, GaussianSplats)
+  rung 4  the node draws or behaves as the spec says     not measured per node here
+  rung 5  the node is the same as in the other browser   not measured here (chapters 08, 09)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>count</th>
+<th>value</th>
+<th>grade</th>
+<th>instrument</th>
+<th>note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>X3DUOM 4.1 concrete nodes</td>
+<td>267</td>
+<td>C</td>
+<td><code>X3DUOM 4.1</code> (sha256 4fc10e8e15c0), ElementTree over <code>ConcreteNodes</code></td>
+<td>the denominator</td>
+</tr>
+<tr>
+<td><code>createNode</code> succeeds</td>
+<td>266</td>
+<td>C</td>
+<td><code>X_ITE 16.7.0</code>, Chromium 153, after <code>loadComponents (getProfile (&quot;Full&quot;))</code></td>
+<td>same 266 on 16.4.3, 16.5.1, 16.6.1, 16.7.0 and 16.7.1</td>
+</tr>
+<tr>
+<td>the one that fails</td>
+<td><code>ProtoInstance</code> (&quot;Unknown node type&quot;)</td>
+<td>C</td>
+<td>same</td>
+<td>it is syntax, not a node class: X_ITE implements it in its execution layer</td>
+</tr>
+<tr>
+<td>names registered (<code>getStaticProperties</code>)</td>
+<td>294 at 16.7.0, 295 at 16.7.1</td>
+<td>C</td>
+<td>regex over unminified <code>dist/</code></td>
+<td>the masterclass counts 292 concrete node modules, 26 of them X_ITE-only; this scan counts 28 not in X3DUOM 4.1, because it also counts <code>X3DBBoxNode</code>, <code>X3DImportedNodeInstance</code> and <code>X3DPrototypeInstance</code>; the two definitions are not reconciled</td>
+</tr>
+<tr>
+<td>names in X3DUOM 4.1</td>
+<td>266 of 294</td>
+<td>C</td>
+<td>set intersection</td>
+<td>the other 28 are X_ITE-only</td>
+</tr>
+<tr>
+<td>spec deltas by field</td>
+<td>194 nodes field-exact, 43 add fields, 29 differ, 1 has no module</td>
+<td>L</td>
+<td>the masterclass (<code>xite_nodes.py</code>, regex over rebuilt source)</td>
+<td>read, not re-run</td>
+</tr>
+</tbody>
+</table>
+<p>The 28 X_ITE-only names at 16.7.0 are four families (13 + 6 + 6 + 3): glTF material extensions (<code>SheenMaterialExtension</code>, <code>ClearcoatMaterialExtension</code> and 11 more), the Annotation family (6), rendering state (<code>BlendMode</code>, <code>DepthMode</code>, <code>InstancedShape</code>, <code>ImageTextureAtlas</code>, <code>SpecularGlossinessMaterial</code>, <code>GaussianSplatsShape</code>) and internal bases (<code>X3DBBoxNode</code>, <code>X3DImportedNodeInstance</code>, <code>X3DPrototypeInstance</code>). 16.7.1 adds <code>BehaviorEngine</code>.</p>
+<p><strong>What &quot;supported&quot; hides.</strong> A registered name can still be a stub. The field guide behind the masterclass recorded 13 silent stubs on 16.4.3 and 16.5.0 (6 DIS, <code>MotorJoint</code>, <code>UniversalJoint</code>, 3 shader containers, 2 Stream audio nodes), read from <code>x3d.webgpu/STATE.md</code> as a carried figure: grade <strong><span class="g L" title="Likely">L</span></strong>, not re-run here on 16.7.0. And &quot;the component is registered&quot; is not &quot;the component level is enforced&quot;: a scene that names a profile it does not satisfy still loads (section 7).</p>
+<h2 id="4-driving-x_ite">4. Driving X_ITE</h2>
+<p>X_ITE exposes the same browser through three doors. The first two are the ones page code uses.</p>
+<table>
+<thead>
+<tr>
+<th>door</th>
+<th>entry</th>
+<th>what you do there</th>
+<th>verified here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DOM</td>
+<td><code>&lt;x3d-canvas src=&quot;scene.x3d&quot;&gt;</code>; attributes <code>splashScreen</code>, <code>contextMenu</code>, <code>notifications</code>, <code>timings</code></td>
+<td>declarative: let the page load the world</td>
+<td>attributes set to <code>&quot;false&quot;</code> in every harness here; the canvas has a shadow root and an inner <code>&lt;canvas&gt;</code> <span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>SAI</td>
+<td><code>X3D.getBrowser ()</code>, then <code>createX3DFromString</code>, <code>replaceWorld</code>, <code>loadURL (new X3D.MFString (url))</code>, <code>scene.getNamedNode (&quot;DEF&quot;)</code>, <code>field.addFieldCallback (key, fn)</code></td>
+<td>imperative: read, write, listen</td>
+<td>all of them used on 5 patches <span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>X3D tree</td>
+<td><code>scene.rootNodes</code>, <code>scene.routes</code>, <code>browser.supportedComponents</code>, <code>browser.getBrowserOption (name)</code>, <code>browser.getRenderingProperty (name)</code></td>
+<td>inspect and configure</td>
+<td>read on 5 patches <span class="g C" title="Confirmed">C</span></td>
+</tr>
+</tbody>
+</table>
+<p>A minimal driven page, copyable (serve it over http; <code>x_ite.min.js</code> loads its CSS, components and fonts relative to its own URL):</p>
+<pre><code class="language-html">&lt;!doctype html&gt;&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;script src=&quot;vendor/x_ite/x_ite.min.js&quot;&gt;&lt;/script&gt;
+&lt;x3d-canvas id=&quot;c&quot; style=&quot;width:320px;height:240px&quot;
+            splashScreen=&quot;false&quot; contextMenu=&quot;false&quot; notifications=&quot;false&quot; timings=&quot;false&quot;&gt;&lt;/x3d-canvas&gt;
+&lt;script type=&quot;module&quot;&gt;
+  const b = X3D.getBrowser ();
+  const scene = await b.createX3DFromString (`&lt;?xml version=&quot;1.0&quot;?&gt;
+    &lt;X3D profile=&quot;Interchange&quot; version=&quot;4.0&quot;&gt;&lt;Scene&gt;
+      &lt;Viewpoint position=&quot;0 0 6&quot;/&gt;
+      &lt;Shape&gt;&lt;Appearance&gt;&lt;Material emissiveColor=&quot;1 0.2 0.1&quot;/&gt;&lt;/Appearance&gt;&lt;Box size=&quot;2 2 2&quot;/&gt;&lt;/Shape&gt;
+    &lt;/Scene&gt;&lt;/X3D&gt;`);
+  await b.replaceWorld (scene);
+&lt;/script&gt;
+</code></pre>
+<h3 id="41-calls-whose-shape-is-a-trap">4.1 Calls whose shape is a trap</h3>
+<table>
+<thead>
+<tr>
+<th>call</th>
+<th>what is true on 16.5.1 and 16.7.x</th>
+<th>grade</th>
+<th>instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>field.addFieldCallback (key, fn)</code></td>
+<td>the key is the first argument; a callback registered with a fresh key coexists with others</td>
+<td>C</td>
+<td><code>X_ITE 16.7.0</code>, <code>16.5.1</code>, <code>16.4.3</code>, section 4.4 test</td>
+</tr>
+<tr>
+<td><code>browser.currentTime</code></td>
+<td><code>undefined</code>; use <code>browser.getCurrentTime ()</code> (a function)</td>
+<td>C</td>
+<td><code>X_ITE 16.5.1</code>, <code>16.7.0</code>, <code>16.7.1</code>, <code>typeof</code> probe</td>
+</tr>
+<tr>
+<td><code>getField (name)</code></td>
+<td>present at runtime (<code>typeof</code> is <code>function</code>) and absent from <code>x_ite.d.ts</code>; a private note calls it deprecated</td>
+<td>C for present and untyped, S for &quot;deprecated&quot;</td>
+<td><code>X_ITE 16.7.0</code>, <code>typeof</code> probe and grep of the typings</td>
+</tr>
+<tr>
+<td>frame-end event</td>
+<td><code>browser.finishEvents ()</code> returns the field; <code>browser.endEvents</code> is <code>undefined</code> on 16.4.3 to 16.7.1</td>
+<td>C</td>
+<td><code>typeof</code> probe on 16.4.3, 16.5.1, 16.6.1, 16.7.0, 16.7.1</td>
+</tr>
+<tr>
+<td>clock for a <code>TimeSensor</code> <code>startTime</code></td>
+<td>page code must own time, because <code>Browser.currentTime</code> is not there to read</td>
+<td>C for the missing property, L for the rule (Loom lessons)</td>
+<td>as above</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-events-and-the-one-exception-freeze">4.2 Events and the one-exception freeze</h3>
+<p>X_ITE runs field callbacks inside its routing pass. One exception that escapes a callback stops the route it was on. Measured on a <code>TimeSensor</code> looping at 1 s feeding a <code>ScalarInterpolator</code>, with callback A on the sensor and callback B counting the interpolator's <code>value_changed</code>:</p>
+<table>
+<thead>
+<tr>
+<th>case</th>
+<th>B events per 500 ms over 3 s</th>
+<th>A calls</th>
+<th>page errors</th>
+<th>patch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A guarded (try/catch inside)</td>
+<td>28 to 31 in every window</td>
+<td>180 to 183</td>
+<td>0</td>
+<td><code>16.5.1</code>, <code>16.7.0</code>, <code>16.7.1</code></td>
+</tr>
+<tr>
+<td>A throws on its first call</td>
+<td>0 in every window</td>
+<td>1</td>
+<td>1</td>
+<td><code>16.5.1</code>, <code>16.7.0</code>, <code>16.7.1</code></td>
+</tr>
+</tbody>
+</table>
+<p>Grade <strong><span class="g C" title="Confirmed">C</span></strong>; instrument <code>X_ITE 16.5.1</code>, <code>16.7.0</code>, <code>16.7.1</code> in Chromium 153, SwiftShader, 2026-11-14 (method in D-XIT-6). The rule is in the kit as <code>xite-callback-unguarded</code>: the callback body must start with <code>try</code> (<code>x3d.loom@162ab18:kit/loomkit/pagetraps.py</code>). The loom recorded the same freeze on 16.5.1 as failure mode 88 and asked for the check to be re-run when a fixture patch is pinned; this is that re-run on 16.7.0 and 16.7.1: the behaviour is unchanged.</p>
+<h3 id="43-picking">4.3 Picking</h3>
+<p>Picking is on the GPU. A shape with <code>pointerEvents</code> true is pickable, however faint, and it hides a sensor's shape behind it.</p>
+<pre><code class="language-xml">&lt;Transform&gt;&lt;TouchSensor DEF=&quot;TS&quot;/&gt;
+  &lt;Shape DEF=&quot;TARGET&quot;&gt;&lt;Appearance&gt;&lt;Material emissiveColor=&quot;1 0.2 0.1&quot;/&gt;&lt;/Appearance&gt;&lt;Box size=&quot;2 2 2&quot;/&gt;&lt;/Shape&gt;&lt;/Transform&gt;
+&lt;Transform translation=&quot;0 0 1.5&quot;&gt;
+  &lt;Shape DEF=&quot;HALO&quot;&gt;&lt;Appearance&gt;&lt;Material emissiveColor=&quot;1 1 1&quot; transparency=&quot;0.9&quot;/&gt;&lt;/Appearance&gt;&lt;Box size=&quot;1 1 0.1&quot;/&gt;&lt;/Shape&gt;&lt;/Transform&gt;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>step</th>
+<th><code>isOver</code> events</th>
+<th><code>touchTime</code> events</th>
+<th>patch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>click the box centre, halo pickable (default <code>pointerEvents</code> true)</td>
+<td>0</td>
+<td>0</td>
+<td><code>16.4.3</code>, <code>16.5.1</code>, <code>16.7.0</code></td>
+</tr>
+<tr>
+<td>set <code>HALO.pointerEvents = false</code> by SAI, click again</td>
+<td>1</td>
+<td>1</td>
+<td><code>16.4.3</code>, <code>16.5.1</code>, <code>16.7.0</code></td>
+</tr>
+</tbody>
+</table>
+<p>Grade <strong><span class="g C" title="Confirmed">C</span></strong> (method in D-XIT-4). Two consequences. First, <code>Shape.pointerEvents</code> is an X_ITE field, not a standard one: <code>x3d_mcp fork b4efcd3</code> rejects <code>&lt;Shape pointerEvents='false'&gt;</code> under both XSD 4.0 and XSD 4.1 (&quot;attribute 'pointerEvents' is not allowed&quot;) and <code>X3DUOM 4.1</code> lists 14 fields for <code>Shape</code>, none of them <code>pointerEvents</code> <span class="g C" title="Confirmed">C</span>. The only 4.1 element with a <code>pointerEvents</code> attribute is <code>GaussianSplats</code>. A private note said the opposite for <code>Shape</code>; the schemas and the validator say it is an extension, so set it by SAI after load and name the shape by DEF. Second, a private note says a <code>TouchSensor</code> needs <code>PointingDeviceSensor</code> level 1 declared on strict hosts; the harness used profile <code>Full</code>, so that point is <strong><span class="g S" title="Suspected">S</span></strong>, not re-tested.</p>
+<p>Viewpoint changes glide for one second by default (Loom failure mode 84): set <code>NavigationInfo.transitionType</code> to <code>TELEPORT</code> before a still or a pick test (<code>x3d.loom@162ab18:LOOM-v1.md</code>, read, not re-run). A picture or a pick taken inside the glide reads the old pose.</p>
+<h3 id="44-splats">4.4 Splats</h3>
+<p>X_ITE 16.7.0 has two ways in. A <code>GaussianSplats</code> node carries its data in fields (<code>positions</code>, <code>opacities</code>, and the rest), and the GLB parser handles the <code>KHR_gaussian_splatting</code> extension (<code>x_ite.js</code> lines 42247 and 42266 in the unminified <code>16.7.0</code> bundle) [C, read]. Sorting runs in a module Worker created from a blob URL (<code>new Blob ([content], { type: &quot;text/javascript&quot; })</code> in <code>GaussianSplatsComponent.js</code>) whose body imports <code>mkkellogg-sort.worker.js</code> (1,798 B) next to a 2,093 B WebAssembly sorter; a strict host therefore needs <code>worker-src blob:</code>, <code>'wasm-unsafe-eval'</code> and the library path reachable [L: read in the component source, not tested under a policy]. Node defaults differ from the spec (<code>pointerEvents</code> and <code>castShadow</code> false on the node, true on <code>GaussianSplatsShape</code>; <strong><span class="g L" title="Likely">L</span></strong>, <code>x3d.loom@162ab18:x3d.webgpu/STATE.md</code>).</p>
+<p><strong>The loading hang (public-safe part).</strong> A private note from a 16.5.0 build says <code>loadURL</code> can hang when a splat node is frustum-culled before its first sort. This chapter could not confirm the mechanism: the component source at 16.4.3, 16.5.0 and 16.7.0 contains no load-count call (0 matches for <code>LoadCount</code>, <code>loadState</code>, <code>setLoadState</code> in <code>GaussianSplatsComponent.js</code>), and no hang test was run. Grade <strong><span class="g S" title="Suspected">S</span></strong>, carried from a private note, not re-checked, and <code>STATE.md</code> in the loom repo grades it &quot;S for 16.7.0&quot; too. The defensive rule stands on its own and is <span class="g C" title="Confirmed">C</span> as a rule of the kit: give every world load a time budget and treat non-settlement as an error (<code>loadurl-unbudgeted</code>).</p>
+<h2 id="5-writing-and-reading-an-honest-render-claim">5. Writing and reading an honest render claim</h2>
+<p>A render claim has six parts. Drop any one and the claim cannot be re-run.</p>
+<pre><code class="language-text">  claim = ( scene sha256 , X_ITE patch + file sha256 , browser build , GL backend ,
+            options set or left default , metric with its reference and threshold )
+
+  &quot;drew&quot;   : fraction of pixels differing from the Background colour, 1.7520e-1, &gt; floor 1e-2
+  NOT      : &quot;it rendered fine&quot;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>part</th>
+<th>what to record</th>
+<th>how</th>
+<th>example from this chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>scene</td>
+<td>sha256 of the exact bytes, plus the profile and version attributes</td>
+<td><code>sha256sum</code></td>
+<td>the five scenes of section 7 are in D-XIT-5</td>
+</tr>
+<tr>
+<td>X_ITE patch</td>
+<td>the npm version and the sha256 of <code>x_ite.min.js</code></td>
+<td><code>X3D.getBrowser ().version</code>; <code>sha256sum</code></td>
+<td><code>16.7.0</code>, <code>b7df063e8cb1</code></td>
+</tr>
+<tr>
+<td>browser</td>
+<td>name and full build</td>
+<td><code>navigator.userAgent</code>, or the launcher's version call</td>
+<td>Chrome for Testing 153.0.8010.12</td>
+</tr>
+<tr>
+<td>GL backend</td>
+<td><code>SwiftShader</code> or the named GPU and driver</td>
+<td>launch flags; <code>getRenderingProperty</code></td>
+<td>SwiftShader; <code>MaxLights</code> 8, <code>MaxTextureSize</code> 8192, <code>TextureUnits</code> 64, <code>MaxSamples</code> 4</td>
+</tr>
+<tr>
+<td>options</td>
+<td>every <code>getBrowserOption</code> that affects colour</td>
+<td>read after load</td>
+<td><code>ColorSpace LINEAR_WHEN_PHYSICAL_MATERIAL</code>, <code>ToneMapping NONE</code>, <code>DisplayColorSpace SRGB</code>, <code>Exposure 1</code>, <code>Multisampling 4</code>, <code>OrderIndependentTransparency false</code></td>
+</tr>
+<tr>
+<td>metric</td>
+<td>what is compared with what, over how many frames, with what floor</td>
+<td>write it down before the run</td>
+<td>non-background fraction against the declared Background, last frame after settle, floor 1%</td>
+</tr>
+</tbody>
+</table>
+<p>The defaults above were identical on 16.4.3, 16.5.1, 16.6.1, 16.7.0 and 16.7.1 <span class="g C" title="Confirmed">C</span>, which is itself a result: a claim made on 16.5.1 about colour is not invalidated by 16.7.1 on these options. It is invalidated by a scene that sets its own <code>ToneMapping</code>.</p>
+<h3 id="51-three-samplers-that-lie">5.1 Three samplers that lie</h3>
+<p>A frame sampler is code that decides &quot;drew&quot; or &quot;blank&quot;. Three variants fail on a scene whose Background is not black. Setup: three scenes with a mid-grey Background <code>0.2 0.2 0.2</code> (51/255): one box in view (<code>visible</code>), one shape with no geometry (<code>blank</code>), one box 40 m behind the camera (<code>offcamera</code>). Frame log from <code>finishEvents</code>, with the fraction of pixels more than 24/765 away from (51, 51, 51):</p>
+<table>
+<thead>
+<tr>
+<th>scene</th>
+<th>frames in the first 2.5 s</th>
+<th>first two frames</th>
+<th>later frames</th>
+<th>screenshot, 3 s later</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>visible</code></td>
+<td>7 (last at 311 ms)</td>
+<td>1.0000, 1.0000</td>
+<td>0.1752 on every one</td>
+<td>0.1752</td>
+</tr>
+<tr>
+<td><code>blank</code></td>
+<td>6 or 7 (last at about 121 to 130 ms)</td>
+<td>1.0000, 1.0000</td>
+<td>0.0000 on every one</td>
+<td>0.0000</td>
+</tr>
+<tr>
+<td><code>offcamera</code></td>
+<td>6 (last at about 125 to 147 ms)</td>
+<td>1.0000, 1.0000</td>
+<td>0.0000 on every one</td>
+<td>0.0000</td>
+</tr>
+</tbody>
+</table>
+<p>Grade <strong><span class="g C" title="Confirmed">C</span></strong>, <code>X_ITE 16.7.0</code>, Chromium 153, SwiftShader, 320 x 240 (method in D-XIT-2); the same pattern on 16.4.3, 16.5.1, 16.6.1 and 16.7.1, where the late-frame fractions are 0.1752 and 0.0000 on all five patches.</p>
+<table>
+<thead>
+<tr>
+<th>sampler</th>
+<th>reads</th>
+<th>verdict on <code>blank</code></th>
+<th>why it fails</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>maximum over the first N frames</td>
+<td>1.0000</td>
+<td>&quot;drew&quot; (wrong)</td>
+<td>the first two frames are cleared to black, which differs from the grey Background by 100%</td>
+</tr>
+<tr>
+<td>a single sample at a fixed delay</td>
+<td>depends on the delay</td>
+<td>right or wrong by timing</td>
+<td>on-demand rendering: the frame count and times vary per patch and per run</td>
+</tr>
+<tr>
+<td>non-background fraction of a screenshot of the host element</td>
+<td>1.0000 if the element is hidden</td>
+<td>&quot;drew&quot; (wrong)</td>
+<td>in the hosted-page trap of section 6 the canvas is 0 x 0 and the clip is the white page, not the scene</td>
+</tr>
+<tr>
+<td>last frame after settle, with the canvas size checked</td>
+<td>0.0000</td>
+<td>&quot;blank&quot; (right)</td>
+<td>the rule the harness uses</td>
+</tr>
+</tbody>
+</table>
+<p>So the honest sampler is: register the frame watcher before the load, discard frames until the draw has settled (two consecutive frames within a stated tolerance, or a fixed number of frames), read the last frame, and require the canvas to be non-empty. The private note said the same in other words: &quot;no frame&quot; is a timing artefact, and the first frames after <code>replaceWorld</code> can be stale; the fraction-against-Background formulation here adds the explicit failure of the maximum rule.</p>
+<p><strong>Frame counts are not stable facts.</strong> A private note recorded about 4 frames for an empty scene and about 64 for a drawing one on 16.5.0; here a one-box scene gave 5 to 7 frames in 2.5 s either way. Quote a frame count only with the scene, rig and patch, and never a frame rate from software GL.</p>
+<h3 id="52-writing-the-claim">5.2 Writing the claim</h3>
+<p>A claim that passes the template:</p>
+<blockquote>
+<p>Scene <code>visible.x3d</code> (sha256 prefix recorded in the receipt) drew 17.52% non-background pixels at 320 x 240 on <code>X_ITE 16.7.0</code> (<code>x_ite.min.js</code> sha256 <code>b7df063e8cb1</code>), Chrome for Testing 153.0.8010.12, SwiftShader, default browser options, last frame after settle, against Background 0.2 0.2 0.2, floor 1%. Not measured: colour correctness, frame rate, other browsers.</p>
+</blockquote>
+<p>A claim that fails it: &quot;renders fine in X_ITE&quot;. It names no patch, no rig, no metric and no floor.</p>
+<p>The weak forms fail by omission: &quot;X_ITE draws it&quot; names no patch, rig or metric; &quot;drew on X_ITE 16.7.0&quot; lacks browser, backend, options and metric; &quot;17.5% non-background on X_ITE 16.7.0, Chromium 153 SwiftShader&quot; lacks the scene hash, options and floor.</p>
+<h2 id="6-the-traps-that-cost-the-most">6. The traps that cost the most</h2>
+<h3 id="61-the-hosted-page-black-draw">6.1 The hosted-page black draw</h3>
+<p>Symptom: the page script runs, buttons work, the 3D view is black or empty. Cause (read at <code>x_ite.js</code> lines 54801 to 54822 in <code>16.7.0</code>): X_ITE creates a <code>&lt;link rel=&quot;stylesheet&quot;&gt;</code> in its shadow root, with a <code>crossOrigin</code> of &quot;anonymous&quot; and, in production builds, an <code>integrity</code> attribute, and it sets <code>.x_ite-private-browser</code> to <code>display: none</code> until that link loads. If the page's content-security policy blocks stylesheets from the host that serves <code>x_ite.css</code>, the <code>onerror</code> handler rejects, nothing ever unhides the surface, and the inner canvas stays 1 x 1.</p>
+<pre><code class="language-text">   page CSP:  style-src  fonts.googleapis.com  'unsafe-inline'      (no 'self', no CDN)
+        |
+        v
+   &lt;link rel=stylesheet href=&quot;.../x_ite.css&quot;&gt;  --blocked--&gt;  onerror -&gt; promise rejects
+        |                                                       |
+        |  .x_ite-private-browser { display:none }  &lt;-----------+   never reset
+        v
+   canvas 1 x 1 px, CSS box 0 x 0, host element renders as an empty box
+</code></pre>
+<p>Reproduced under an emulated policy (<code>default-src 'none'; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval'; style-src https://fonts.googleapis.com 'unsafe-inline'; connect-src 'self'; img-src 'self' data: blob:; font-src https://fonts.gstatic.com; worker-src blob:</code>):</p>
+<table>
+<thead>
+<tr>
+<th>case</th>
+<th><code>.x_ite-private-browser</code> display</th>
+<th>canvas (CSS px / drawing buffer)</th>
+<th>non-background fraction</th>
+<th>patch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>no policy</td>
+<td>block</td>
+<td>320 x 240 / 320 x 240</td>
+<td>0.1752</td>
+<td><code>16.5.1</code>, <code>16.7.0</code></td>
+</tr>
+<tr>
+<td>policy, stylesheet blocked</td>
+<td>none</td>
+<td>0 x 0 / 1 x 1</td>
+<td>1.0000 (white page, see 5.1)</td>
+<td><code>16.5.1</code>, <code>16.7.0</code></td>
+</tr>
+<tr>
+<td>policy, with the fix below</td>
+<td>block</td>
+<td>320 x 240 / 320 x 240</td>
+<td>0.1752</td>
+<td><code>16.5.1</code>, <code>16.7.0</code></td>
+</tr>
+</tbody>
+</table>
+<p>Grade <strong><span class="g C" title="Confirmed">C</span></strong> (D-XIT-3). The fix, public and mechanical: read the stylesheet text into the page (a <code>&lt;script type=&quot;text/x-css&quot;&gt;</code> block is permitted by many policies; strip <code>@font-face</code> and <code>url(...)</code>), adopt it into the canvas's shadow root with <code>new CSSStyleSheet ().replaceSync (css)</code> and <code>shadowRoot.adoptedStyleSheets</code>, then set <code>.x_ite-private-browser</code> <code>style.display = &quot;&quot;</code>. Doing this once, before the world loads, was enough in this test; a private note says to repeat it for a few seconds and after each <code>loadURL</code>, which this chapter did not test <strong><span class="g S" title="Suspected">S</span></strong>. The same trap is recorded in the Loom as failure mode 116 on 16.5.1 (&quot;X_ITE drew black on a hosted page: the policy blocked its CDN stylesheet&quot;), with the same fix. Related: a strict policy also blocks the PT Sans interface fonts (a console message, harmless for the canvas), and X_ITE needs <code>'unsafe-eval'</code> for its <code>new Function</code> sites and <code>'wasm-unsafe-eval'</code> for its three WASM modules; a loose scan of <code>dist/</code> found 12 <code>new Function</code> lines where <code>STATE.md</code> counts 9 under a stricter regex, so quote neither as an audit.</p>
+<p>Two more traps from the same family are read in <code>x3d.loom@162ab18:LOOM-v1.md</code>, not re-run: a host that refuses <code>.x3d</code> as a served extension (serve <code>application/xml</code>, strip a DOCTYPE the host refuses, re-validate the stripped copy), and a hidden pane or tab, where X_ITE does not start because animation frames are throttled (failure mode 101).</p>
+<p>Two more traps are covered earlier: stale and early frames (section 5.1; swap in an empty world or use a fresh page per scene) and a callback that throws (section 4.2). Both, and <code>xite-browser-currenttime</code>, <code>nav-before-scene</code>, <code>window-global-shadow</code>, <code>js-syntax</code> and <code>loadurl-unbudgeted</code>, are static rules in <code>kit/loomkit/pagetraps.py</code>; run them before a browser is started.</p>
+<h2 id="7-where-x_ite-is-not-the-truth">7. Where X_ITE is not the truth</h2>
+<p>X_ITE is a renderer with its own extensions and its own tolerances. A scene that draws in X_ITE can be invalid, inconsistent or non-portable. Five scenes, each parsed and drawn by <code>X_ITE 16.7.0</code> and judged by <code>x3d_mcp fork b4efcd3</code> in the same run:</p>
+<table>
+<thead>
+<tr>
+<th>scene</th>
+<th>X_ITE 16.7.0</th>
+<th><code>x3d_mcp fork b4efcd3</code></th>
+<th>what it shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>profile=&quot;Core&quot;</code> that uses <code>Viewpoint</code>, <code>Shape</code>, <code>Box</code></td>
+<td>parses, draws 0.1752, no warning</td>
+<td>XSD valid; semantic layer <code>profile-component</code> errors (3 shown)</td>
+<td>the browser does not enforce profile or component levels</td>
+</tr>
+<tr>
+<td><code>GaussianSplats</code> in a <code>version=&quot;4.0&quot;</code> file</td>
+<td>logs &quot;Unknown node type 'GaussianSplats'&quot;, the rest draws (0.1752)</td>
+<td>XSD 4.0 invalid (&quot;not expected&quot;)</td>
+<td>X_ITE gates a 4.1 node by file version</td>
+</tr>
+<tr>
+<td>the same node in <code>version=&quot;4.1&quot;</code></td>
+<td>parses, 3 root nodes</td>
+<td>XSD 4.1 valid</td>
+<td>version attribute, not content, decides</td>
+</tr>
+<tr>
+<td>ROUTE written before the DEF it names</td>
+<td>warns &quot;Unknown named or imported node 'T'&quot;, <code>scene.routes.length</code> 0, the scene draws (0.1752)</td>
+<td>semantic <code>route-before-def</code> error (2)</td>
+<td>the browser drops the ROUTE silently; the animation never runs</td>
+</tr>
+<tr>
+<td>same ROUTE after the DEFs</td>
+<td><code>scene.routes.length</code> 1</td>
+<td>clean</td>
+<td>order matters to X_ITE, not to the XSD</td>
+</tr>
+<tr>
+<td><code>BlendMode</code> in <code>Appearance</code>, no component line</td>
+<td>logs &quot;Unknown node type 'BlendMode' ... insufficient component/profile statements&quot;, the node is dropped, draws (0.1752)</td>
+<td>XSD invalid (&quot;not expected&quot;)</td>
+<td>an extension node needs its component</td>
+</tr>
+<tr>
+<td><code>BlendMode</code> with <code>&lt;component name=&quot;X_ITE&quot; level=&quot;1&quot;/&gt;</code></td>
+<td>parses, no log, 2 root nodes</td>
+<td>XSD invalid twice: the element, and the component name <code>X_ITE</code> is not in the 4.0 enumeration</td>
+<td>extension content cannot pass the standard schema</td>
+</tr>
+</tbody>
+</table>
+<p>Grade <strong><span class="g C" title="Confirmed">C</span></strong> (D-XIT-5). Reading it: the draw metric reads 0.1752 on all seven rows; five of them are invalid or inconsistent, and in three of those five something was dropped without a failure (a <code>GaussianSplats</code> node in a 4.0 file, a <code>BlendMode</code> node without its component, a ROUTE before its DEF). The validator rungs and the renderer answer different questions, and neither can replace the other. This is the reason the tether has both (<a href="01-the-tether.html">01 The tether</a>) and why the ROUTE-before-DEF rule exists in the fork (<a href="03-validator-and-gates.html">03 The validator and the gates</a>).</p>
+<h3 id="71-extensions-and-renderer-choices-that-are-not-in-the-standard">7.1 Extensions and renderer choices that are not in the standard</h3>
+<table>
+<thead>
+<tr>
+<th>item</th>
+<th>in X_ITE</th>
+<th>in the standard</th>
+<th>grade</th>
+<th>instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Shape.pointerEvents</code></td>
+<td>field, default true</td>
+<td>not in <code>X3DUOM 4.1</code> <code>Shape</code>; XSD 4.0 and 4.1 reject the attribute</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>; <code>X3DUOM 4.1</code></td>
+</tr>
+<tr>
+<td><code>Appearance.blendMode</code>, <code>depthMode</code></td>
+<td>fields; <code>BlendMode</code>, <code>DepthMode</code> nodes in component <code>X_ITE</code></td>
+<td>absent from X3DUOM 4.1; X_ITE ships its own <code>dist/X3DUOM.xml</code>, an extension of the 4.0 model with 32 <code>ConcreteNode</code> entries (<code>STATE.md</code> counts 17 of them as new)</td>
+<td>C</td>
+<td><code>X_ITE 16.7.0</code> <code>dist/X3DUOM.xml</code>; section 7</td>
+</tr>
+<tr>
+<td>light model</td>
+<td>shadow fields on six light nodes (<code>shadowBias</code>, <code>shadowColor</code>, <code>shadowMapSize</code>); a light at intensity 0 is dropped but its ambient term is not (Loom failure mode 110)</td>
+<td>spec lights have no shadow fields</td>
+<td>L for the 110 row (read, not re-run); C for the added fields (masterclass H3 table, read)</td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code>; masterclass</td>
+</tr>
+<tr>
+<td>transparency blending</td>
+<td>translucency blended in display space; a three.js reader blends in linear (Loom failure mode 115: outline overlap 0.855 and 0.778 with identical geometry)</td>
+<td>the spec's lighting model is silent on the colour space of blending</td>
+<td>L</td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code>, read, not re-run</td>
+</tr>
+<tr>
+<td>colour management</td>
+<td><code>ColorSpace</code> default <code>LINEAR_WHEN_PHYSICAL_MATERIAL</code>, <code>DisplayColorSpace</code> <code>SRGB</code>, <code>ToneMapping</code> <code>NONE</code>, <code>Exposure</code> 1; options include 3 ACES variants and <code>KHR_PBR_NEUTRAL</code></td>
+<td>the standard does not define a tone-map or display colour space option</td>
+<td>C for defaults on 5 patches</td>
+<td><code>X_ITE 16.4.3</code> to <code>16.7.1</code>, <code>getBrowserOption</code></td>
+</tr>
+</tbody>
+</table>
+<p>The first row is the cleanest worked example of the thesis. An AI that &quot;fixes&quot; a picking problem by writing <code>pointerEvents='false'</code> into the file makes the file invalid; the validator names the attribute, the rung that sees a wrong attribute is not the renderer. The right fix is in the page: name the shape by DEF and set the field after load.</p>
+<h2 id="8-versions-and-what-changed-between-them">8. Versions, and what changed between them</h2>
+<p>Every number in this table is <strong><span class="g C" title="Confirmed">C</span></strong>, <code>x_ite</code> npm tarballs unpacked and run in Chromium 153, SwiftShader, 2026-11-14.</p>
+<table>
+<thead>
+<tr>
+<th>patch</th>
+<th>npm date</th>
+<th><code>x_ite.min.js</code> B</th>
+<th>modules</th>
+<th>node names</th>
+<th><code>createNode</code> of 267</th>
+<th>changes read from the module and name sets</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16.4.3</td>
+<td>2026-10-05</td>
+<td>1,306,369</td>
+<td>752</td>
+<td>294</td>
+<td>266</td>
+<td>baseline</td>
+</tr>
+<tr>
+<td>16.5.0</td>
+<td>2026-10-11</td>
+<td>1,305,750</td>
+<td>752</td>
+<td>294</td>
+<td>not run</td>
+<td><code>X3DImportedNodeProxy</code> replaced by <code>X3DImportedNodeInstance</code></td>
+</tr>
+<tr>
+<td>16.5.1</td>
+<td>2026-10-13</td>
+<td>1,306,526</td>
+<td>752</td>
+<td>294</td>
+<td>266</td>
+<td>none in names or modules</td>
+</tr>
+<tr>
+<td>16.6.0</td>
+<td>2026-10-21</td>
+<td>1,306,147</td>
+<td>752</td>
+<td>294</td>
+<td>not run</td>
+<td>none</td>
+</tr>
+<tr>
+<td>16.6.1</td>
+<td>2026-10-27</td>
+<td>1,306,129</td>
+<td>752</td>
+<td>294</td>
+<td>266</td>
+<td>none</td>
+</tr>
+<tr>
+<td>16.7.0</td>
+<td>2026-10-31</td>
+<td>1,306,961</td>
+<td>752</td>
+<td>294</td>
+<td>266</td>
+<td><code>GLB2Parser</code> renamed <code>GLBParser</code></td>
+</tr>
+<tr>
+<td>16.7.1</td>
+<td>2026-11-08</td>
+<td>1,310,785</td>
+<td>762</td>
+<td>295</td>
+<td>266</td>
+<td>+10 modules: <code>BehaviorEngine</code> node, <code>GLTFPointerAliases</code>, the Khronos glTF interactivity engine and <code>gl-matrix</code> as bundled dependencies</td>
+</tr>
+</tbody>
+</table>
+<p>Across all seven patches: 39 components, the same browser option defaults (section 5), the same 0.1752 and 0.0000 on the draw test, the same picking and callback behaviour on the three patches tried. In the 34 days from 16.4.3 (2026-10-05) to 16.7.1 (2026-11-08) the registry lists 6 further releases, and the measured surface moved by two renames (one node class, one parser) and one addition (10 modules, 1 node). The practical lesson is the converse of the cadence number: churn at the API and defaults level is low in this window, but a pinned patch still has to be named because the bundle changes every release.</p>
+<p><strong>Vendored patches in the public repositories are not one version.</strong> <code>x3d.demo@d10b457</code> carries 20 vendored <code>x_ite.min.js</code> files: 1 at 16.4.3, 13 at 16.5.1, 5 at 16.6.0 and 1 at 16.7.0 (from each file's banner), and 29 HTML pages reference it <span class="g C" title="Confirmed">C</span>; &quot;renders in X_ITE&quot; there is four programs. <code>x3d_mcp@b4efcd3</code> pins <code>npm install x_ite@16.4.3</code> in its README, <code>x3d.xray@8fa6845</code> vendors 16.7.0, and the Loom's lessons file lists 16.5.0, 16.5.1, 16.6.1 and 16.7.0 across deliveries with the instruction to pin one and re-run the callback-freeze test on it (<code>x3d.loom@162ab18:LESSONS-v1.0.md</code>, line 149). The masterclass header says 16.7.0 and that lessons file says 16.6.1 for the same teardown; module counts are equal on both (752 and 730), so the anatomy holds for either.</p>
+<h2 id="9-the-learning-heuristics-and-the-curriculum">9. The learning heuristics and the curriculum</h2>
+<p>The masterclass turns X_ITE's structure into eight heuristics (H1 to H8) and a 32-step reading path, generated by <code>tools-shared/xite_learn.py</code> from an AST of the rebuilt source: each webpack bundle keeps <code>;// ./src/&lt;path&gt;</code> markers, and splitting there gives back the module tree. This chapter re-ran the split on seven patches and re-derived H7; the other inputs live in data files that are not in the public repository, so they are read, not re-run.</p>
+<table>
+<thead>
+<tr>
+<th>heuristic</th>
+<th>what it ranks</th>
+<th>how it is computed</th>
+<th>one value from the teardown</th>
+<th>re-derived here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H1 keystone</td>
+<td>modules everything leans on, short</td>
+<td>PageRank over module-use edges divided by square root of lines</td>
+<td><code>Namespace</code>: 721 dependents, 19 lines</td>
+<td>not re-run; marker scan gives 16 code lines and 25 raw lines for <code>Namespace.js</code></td>
+</tr>
+<tr>
+<td>H2 leverage</td>
+<td>abstract types unlocking most concrete nodes per 100 lines</td>
+<td>concrete descendants / lines of the abstract module</td>
+<td><code>X3DAppearanceChildNode</code>: 30 nodes, 19 lines, 150 per 100</td>
+<td>not re-run</td>
+</tr>
+<tr>
+<td>H3 spec deltas</td>
+<td>where the renderer knows more than the spec</td>
+<td>field-by-field difference to X3DUOM 4.1</td>
+<td>most added: <code>shadowBias</code> (6), <code>shadowColor</code> (6), <code>shadowMapSize</code> (6), <code>tangent</code> (5)</td>
+<td><code>Appearance</code> has <code>blendMode</code> and <code>depthMode</code> in its module: yes</td>
+</tr>
+<tr>
+<td>H4 surprise, H5 twins, H6 temperament</td>
+<td>machinery behind few fields (<code>StaticGroup</code>: 6 fields, 830 lines); nodes built alike (<code>PointLight</code>, <code>SpotLight</code>); data, event-driven, engine or sensor (192, 43, 30, 25)</td>
+<td>log-log residual, Jaccard at least 0.8, event-field share</td>
+<td>as stated</td>
+<td>not re-run</td>
+</tr>
+<tr>
+<td>H7 locus</td>
+<td>where a component's behaviour lives</td>
+<td>lines in <code>Components/&lt;C&gt;</code> vs <code>Browser/&lt;C&gt;</code></td>
+<td><code>GaussianSplats</code> 83% in the browser machinery</td>
+<td>yes, within one point (below)</td>
+</tr>
+</tbody>
+</table>
+<p>H7 re-derived on the unminified <code>16.7.0</code> bundles (share of lines in <code>Browser/&lt;C&gt;</code> over nodes plus browser, raw marker-to-marker lines and code lines with blanks and comments removed; teardown value last):</p>
+<table>
+<thead>
+<tr>
+<th>component</th>
+<th>node lines (raw / code)</th>
+<th>browser lines (raw / code)</th>
+<th>share raw / code</th>
+<th>teardown</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WebXR</td>
+<td>0 / 0</td>
+<td>679 / 472</td>
+<td>100% / 100%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>GaussianSplats</td>
+<td>163 / 115</td>
+<td>792 / 561</td>
+<td>83% / 83%</td>
+<td>83%</td>
+</tr>
+<tr>
+<td>Text</td>
+<td>555 / 390</td>
+<td>1,169 / 876</td>
+<td>68% / 69%</td>
+<td>68%</td>
+</tr>
+<tr>
+<td>Texturing3D</td>
+<td>1,166 / 896</td>
+<td>1,496 / 1,217</td>
+<td>56% / 58%</td>
+<td>58%</td>
+</tr>
+<tr>
+<td>Navigation</td>
+<td>2,148 / 1,677</td>
+<td>2,922 / 2,099</td>
+<td>58% / 56%</td>
+<td>56%</td>
+</tr>
+<tr>
+<td>Shape</td>
+<td>2,720 / 2,155</td>
+<td>218 / 170</td>
+<td>7% / 7%</td>
+<td>7%</td>
+</tr>
+<tr>
+<td>RigidBodyPhysics</td>
+<td>3,261 / 2,493</td>
+<td>20 / 15</td>
+<td>1% / 1%</td>
+<td>1%</td>
+</tr>
+<tr>
+<td>HAnim</td>
+<td>2,243 / 1,680</td>
+<td>0 / 0</td>
+<td>0% / 0%</td>
+<td>0%</td>
+</tr>
+</tbody>
+</table>
+<p>Grade <strong><span class="g C" title="Confirmed">C</span></strong> for the shares (D-XIT-7); the absolute line counts differ from the teardown's because the definitions of a line differ (for example <code>X3DNode.js</code>: 1,528 raw, 1,185 code here, 1,235 in the masterclass), so quote shares, not line counts, across the two.</p>
+<h3 id="91-the-curriculum-as-four-tracks">9.1 The curriculum as four tracks</h3>
+<p>The 32 steps are four tracks of eight. Use the track to decide how to read; the full list with links is in section 3 of the masterclass.</p>
+<p>The 32 steps are four tracks of eight: steps 1 to 8 keystone (<code>Namespace</code>, <code>Fields</code>, <code>FieldDefinitionArray</code>, <code>X3DFieldDefinition</code>, <code>Algorithm</code>, <code>X3DCast</code>, <code>X3DConstants</code>, <code>X3DNode</code>), 9 to 16 abstract types by leverage (<code>X3DAppearanceChildNode</code> first), 17 to 24 quick wins by your usage per line read (<code>WorldInfo</code>, <code>MetadataString</code>, <code>Normal</code>, <code>Coordinate</code>...), 25 to 32 deep dives where code outgrows fields (<code>ParticleSystem</code>, <code>Appearance</code>, <code>Extrusion</code>, <code>StaticGroup</code>, <code>IndexedFaceSet</code>, <code>NavigationInfo</code>, <code>CollidableShape</code>, <code>HAnimHumanoid</code>).</p>
+<p>The track order is the lesson: read the 8 shared modules first (together 1,652 lines by the masterclass's counts, 1,235 of them <code>X3DNode</code>), because every node file is written in their vocabulary; then the abstracts that unlock many nodes; then what your own files use; then the big machines. For the X3D author who is not studying the code, the same data gives a different use: H3 is the list of fields you can set only by SAI or only in X_ITE, and H7 says which component's behaviour you cannot learn from its node file.</p>
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule (imperative)</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-XIT-1</td>
+<td>Name the X_ITE patch and the sha256 of <code>x_ite.min.js</code> in every render claim; do not assume one repository uses one patch.</td>
+<td>C</td>
+<td>20 vendored copies in 4 patches in one repo; 16.x median gap 5.7 days (N-XIT-9, N-XIT-17)</td>
+<td><code>x3d.demo@d10b457</code>; npm 10.9.9</td>
+</tr>
+<tr>
+<td>H-XIT-2</td>
+<td>Quote coverage by rung (registered, <code>createNode</code>, parses in a versioned file, draws); never &quot;supports the standard&quot;.</td>
+<td>C</td>
+<td>294 registered, 266 of 267 create, 3 of 7 scenes in section 7 lost something</td>
+<td><code>X_ITE 16.7.0</code>, Chromium 153</td>
+</tr>
+<tr>
+<td>H-XIT-3</td>
+<td>Sample the last frame after the draw settles and check the canvas size; never the maximum over early frames or a host-element screenshot alone.</td>
+<td>C</td>
+<td>blank scene reads 1.0000 on its first two frames and on a hidden canvas</td>
+<td><code>X_ITE 16.7.0</code>, SwiftShader</td>
+</tr>
+<tr>
+<td>H-XIT-4</td>
+<td>Before publishing a hosted page, run it under the host's policy; adopt the stylesheet into the shadow root and unhide the surface.</td>
+<td>C</td>
+<td>canvas 0 x 0 under a stylesheet-blocking policy; 0.1752 with the fix</td>
+<td><code>X_ITE 16.5.1</code>, <code>16.7.0</code></td>
+</tr>
+<tr>
+<td>H-XIT-5</td>
+<td>Start every field-callback body with <code>try</code>; one escaping exception stops the route it ran on.</td>
+<td>C</td>
+<td>0 events in 3 s against 28 to 31 per 500 ms</td>
+<td><code>X_ITE 16.5.1</code>, <code>16.7.0</code>, <code>16.7.1</code></td>
+</tr>
+<tr>
+<td>H-XIT-6</td>
+<td>Silence effect shapes for picking with <code>Shape.pointerEvents = false</code> by SAI after load; never write the attribute in a file that must validate.</td>
+<td>C</td>
+<td>0 hits to 1 hit; XSD 4.0 and 4.1 reject the attribute</td>
+<td><code>X_ITE 16.7.0</code>; <code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-XIT-7</td>
+<td>Validate before you render; treat a drawn scene as unvalidated until the rungs agree.</td>
+<td>C</td>
+<td>5 of 5 invalid or inconsistent scenes drew 0.1752</td>
+<td><code>X_ITE 16.7.0</code>; <code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-XIT-8</td>
+<td>Keep X_ITE extension nodes (<code>BlendMode</code>, <code>DepthMode</code>, material extensions) out of files that must pass the XSD; use them only in files labelled as X_ITE-targeted.</td>
+<td>C</td>
+<td><code>BlendMode</code> needs <code>&lt;component name=&quot;X_ITE&quot;&gt;</code>; XSD rejects both</td>
+<td><code>X_ITE 16.7.0</code>; <code>X3D XSD 4.0</code></td>
+</tr>
+<tr>
+<td>H-XIT-9</td>
+<td>In a parity harness fix the variables first: opaque geometry, <code>ToneMapping NONE</code>, <code>TELEPORT</code> transitions, frozen time, same canvas size; compare translucent parts separately.</td>
+<td>L</td>
+<td>Loom failure modes 84, 109, 114, 115 (read, not re-run)</td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code></td>
+</tr>
+<tr>
+<td>H-XIT-10</td>
+<td>Give every world load a time budget and report non-settlement as an error.</td>
+<td>L</td>
+<td>rule <code>loadurl-unbudgeted</code>; the hang itself is <span class="g S" title="Suspected">S</span></td>
+<td><code>x3d.loom@162ab18:kit/loomkit/pagetraps.py</code></td>
+</tr>
+<tr>
+<td>H-XIT-11</td>
+<td>Re-derive a carried count before quoting it, and say which definition counted it.</td>
+<td>C</td>
+<td>292 and 26 (teardown) against 294 and 28 (this scan); 98,369 against 123,417 lines</td>
+<td>marker scan of <code>x_ite@16.7.0</code></td>
+</tr>
+<tr>
+<td>H-XIT-12</td>
+<td>Before reading a node file, check where the component's behaviour lives (H7); for 83% of <code>GaussianSplats</code> it is not in the node.</td>
+<td>C</td>
+<td>shares re-derived within one point on 8 components</td>
+<td>marker scan of <code>x_ite@16.7.0</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="drills">Drills</h2>
+<h3 id="d-xit-1-count-the-coverage-three-ways">D-XIT-1 Count the coverage three ways</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Unpack <code>x_ite@16.7.0</code>. Count (a) names registered through <code>getStaticProperties</code>, (b) X3DUOM 4.1 concrete nodes, (c) the intersection, (d) the names not in X3DUOM. Then, in a browser, count how many of the 267 names <code>scene.createNode</code> accepts after <code>loadComponents (getProfile (&quot;Full&quot;))</code>.</li>
+<li><strong>Verify:</strong> <code>mkdir t &amp;&amp; cd t &amp;&amp; npm pack x_ite@16.7.0 &amp;&amp; tar xzf x_ite-16.7.0.tgz</code>, then:</li>
+</ul>
+<pre><code class="language-python">import re, glob, xml.etree.ElementTree as ET
+ST = re.compile(r'getStaticProperties \(&quot;(\w+)&quot;,\s*&quot;(\w+)&quot;,\s*(\d+),')
+files = ['package/dist/x_ite.js'] + [f for f in glob.glob('package/dist/assets/components/*.js') if not f.endswith('.min.js')]
+names = set()
+for f in files:
+    names |= {m.group(1) for m in ST.finditer(open(f, encoding='utf-8').read())}
+uom = ET.parse('X3dUnifiedObjectModel-4.1.xml').getroot()          # from x3d_mcp src/validation/schemas
+concrete = {n.get('name') for n in uom.find('ConcreteNodes')}
+print(len(names), len(concrete), len(names &amp; concrete), len(names - concrete), sorted(concrete - names))
+</code></pre>
+<ul>
+<li><strong>Answer:</strong> <code>294 267 266 28 ['ProtoInstance']</code>. In the browser, <code>createNode</code> succeeds for 266 and fails only for <code>ProtoInstance</code>; the count is the same on 16.4.3, 16.5.1, 16.6.1, 16.7.0 and 16.7.1.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>X_ITE 16.7.0</code> (static scan) and <code>X_ITE 16.4.3</code>, <code>16.5.1</code>, <code>16.6.1</code>, <code>16.7.0</code>, <code>16.7.1</code> (<code>createNode</code>), <code>X3DUOM 4.1</code>, Chromium 153, SwiftShader</li>
+</ul>
+<h3 id="d-xit-2-catch-the-sampler-that-lies">D-XIT-2 Catch the sampler that lies</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Load three scenes with <code>Background skyColor=&quot;0.2 0.2 0.2&quot;</code> (a visible 2 m box at <code>Viewpoint position=&quot;0 0 6&quot;</code>; a <code>Shape</code> with no geometry; the box translated 40 m behind the camera). For each, register a <code>finishEvents</code> watcher before the load, log the non-background fraction per frame (reference 51/255 grey, tolerance 24/765), and take a screenshot 2.5 s later. Report the maximum, the last frame and the screenshot.</li>
+<li><strong>Verify:</strong> the watcher (register before <code>replaceWorld</code>):</li>
+</ul>
+<pre><code class="language-js">const b = X3D.getBrowser (), gl = document.getElementById (&quot;c&quot;).shadowRoot.querySelector (&quot;canvas&quot;);
+const tmp = document.createElement (&quot;canvas&quot;), ctx = tmp.getContext (&quot;2d&quot;, { willReadFrequently: true }), frames = [];
+b.finishEvents ().addFieldCallback (&quot;watch&quot;, () =&gt; { try {
+  tmp.width = gl.width; tmp.height = gl.height; ctx.drawImage (gl, 0, 0);
+  const d = ctx.getImageData (0, 0, tmp.width, tmp.height).data; let diff = 0;
+  for (let i = 0; i &lt; d.length; i += 4) if (Math.abs (d[i]-51) + Math.abs (d[i+1]-51) + Math.abs (d[i+2]-51) &gt; 24) diff++;
+  frames.push (+(diff / (d.length / 4)).toFixed (4)); } catch (e) {} });
+await b.replaceWorld (await b.createX3DFromString (xml));
+</code></pre>
+<ul>
+<li><strong>Answer:</strong> all three scenes start with frames of 1.0000 (cleared black against a grey Background). Then <code>visible</code> settles at 0.1752 (screenshot 0.1752); <code>blank</code> and <code>offcamera</code> settle at 0.0000 (screenshot 0.0000). A maximum-over-early-frames rule reads 1.0000 for all three, so it calls the blank scenes drawn. Frame counts were 5 to 7 in 2.5 s.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>X_ITE 16.4.3</code>, <code>16.5.1</code>, <code>16.6.1</code>, <code>16.7.0</code>, <code>16.7.1</code>, Chromium 153, SwiftShader, 320 x 240</li>
+</ul>
+<h3 id="d-xit-3-reproduce-the-hosted-page-black-draw-and-fix-it">D-XIT-3 Reproduce the hosted-page black draw and fix it</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Serve a page that loads <code>x_ite.min.js</code> with this header on the HTML only: <code>Content-Security-Policy: default-src 'none'; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval'; style-src https://fonts.googleapis.com 'unsafe-inline'; connect-src 'self'; img-src 'self' data: blob:; font-src https://fonts.gstatic.com; worker-src blob:</code>. Load the <code>visible</code> scene and read <code>.x_ite-private-browser</code> display, the inner canvas size and a page screenshot. Then add the fix (inline CSS text without <code>@font-face</code> and <code>url()</code>, <code>adoptedStyleSheets</code>, unhide) and repeat.</li>
+<li><strong>Verify:</strong> <code>getComputedStyle (shadowRoot.querySelector (&quot;.x_ite-private-browser&quot;)).display</code>; <code>shadowRoot.querySelector (&quot;canvas&quot;).width</code>; the fraction of non-grey pixels in the clip. Do not use an element screenshot of <code>x3d-canvas</code>: it waits for an element that is never visible.</li>
+<li><strong>Answer:</strong> no policy: <code>block</code>, 320 x 240, 0.1752. Policy: <code>none</code>, canvas 0 x 0 CSS and 1 x 1 drawing buffer, fraction 1.0000 (a white page, not a drawing). Policy plus fix: <code>block</code>, 320 x 240, 0.1752. Same on 16.5.1 and 16.7.0. Extension (not run here): add the origin that serves <code>x_ite.css</code> to <code>style-src</code> and confirm that the failure disappears without the fix.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>X_ITE 16.5.1</code>, <code>16.7.0</code>, Chromium 153, SwiftShader, emulated policy above (the real host's policy was not available)</li>
+</ul>
+<h3 id="d-xit-4-break-picking-with-a-faint-shape-then-fix-it">D-XIT-4 Break picking with a faint shape, then fix it</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Load the section 4.3 scene (a box with a <code>TouchSensor</code>, a 90% transparent slab 1.5 m in front). Register <code>addFieldCallback</code> on <code>isOver</code> and <code>touchTime</code>, move the mouse over the box centre, press and release. Then set <code>HALO.pointerEvents = false</code> by SAI and repeat. Last, validate <code>&lt;Shape pointerEvents='false'&gt;</code> with a validator and say what it reports.</li>
+<li><strong>Verify:</strong> Playwright <code>page.mouse.move</code>, <code>down</code>, <code>up</code> with 600 ms waits; <code>x3d_mcp fork b4efcd3</code> <code>validate_xml</code> on a two-line scene for XSD 4.0 and 4.1.</li>
+<li><strong>Answer:</strong> first click: 0 <code>isOver</code> and 0 <code>touchTime</code> events. After the SAI write: 1 and 1. The validator reports &quot;Element 'Shape', attribute 'pointerEvents': The attribute 'pointerEvents' is not allowed&quot; under both 4.0 and 4.1, so the field can only be set from code.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>X_ITE 16.4.3</code>, <code>16.5.1</code>, <code>16.7.0</code>; <code>x3d_mcp fork b4efcd3</code>; Chromium 153, SwiftShader</li>
+</ul>
+<h3 id="d-xit-5-five-scenes-the-renderer-accepts-and-the-validator-does-not">D-XIT-5 Five scenes the renderer accepts and the validator does not</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Build the seven scenes of section 7. Load each in X_ITE (parse result, <code>scene.routes.length</code>, drawn fraction) and run each through <code>validate_xml</code> and <code>semantic_diagnostics</code>.</li>
+<li><strong>Verify:</strong> <code>from validation.validate import validate_xml</code> and <code>from validation.semantic import semantic_diagnostics</code> from <code>x3d_mcp@b4efcd3:src</code>, on the same strings.</li>
+<li><strong>Answer:</strong> X_ITE draws 0.1752 on all seven. The validator accepts two (<code>GaussianSplats</code> in 4.1, ROUTE after DEF) and reports five problems: <code>profile-component</code> errors for Core; XSD &quot;not expected&quot; for <code>GaussianSplats</code> in 4.0; <code>route-before-def</code> (2 errors) with X_ITE's <code>routes.length</code> 0 against 1 for the fixed scene; XSD &quot;not expected&quot; for <code>BlendMode</code>; and for the declared variant two XSD errors (the element, and <code>X_ITE</code> outside the component enumeration).</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>X_ITE 16.7.0</code>, <code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.0</code> and <code>4.1</code>, lxml 6.1.3, Chromium 153, SwiftShader</li>
+</ul>
+<h3 id="d-xit-6-freeze-a-route-with-one-exception">D-XIT-6 Freeze a route with one exception</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Scene: <code>TimeSensor DEF=&quot;T&quot; loop=&quot;true&quot; cycleInterval=&quot;1&quot;</code> ROUTEd <code>fraction_changed</code> to a <code>ScalarInterpolator DEF=&quot;I&quot; key=&quot;0 1&quot; keyValue=&quot;0 1&quot;</code>. Add callback A on <code>T.fraction_changed</code> and callback B on <code>I.value_changed</code> (B counts per 500 ms window for 3 s). Run once with A guarded by try/catch and once with A throwing on its first call. Then write the one-line rule that would have caught the throwing A before the browser started.</li>
+<li><strong>Verify:</strong> <code>T.addFieldCallback (&quot;A&quot;, &quot;fraction_changed&quot;, () =&gt; { throw new Error (&quot;boom&quot;); })</code> against the guarded form; the static rule is <code>xite-callback-unguarded</code> in <code>x3d.loom@162ab18:kit/loomkit/pagetraps.py</code>.</li>
+<li><strong>Answer:</strong> guarded: B gets 28 to 31 events per window, A about 180 calls. Throwing: B gets 0 in every window, A is called once, one page error. Rule: a callback body must start with <code>try</code>. The same on 16.5.1, 16.7.0 and 16.7.1.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>X_ITE 16.5.1</code>, <code>16.7.0</code>, <code>16.7.1</code>, Chromium 153, SwiftShader</li>
+</ul>
+<h3 id="d-xit-7-re-derive-h7-the-locus-of-behaviour">D-XIT-7 Re-derive H7, the locus of behaviour</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> From the unminified bundles of <code>x_ite@16.7.0</code>, split each bundle at lines matching <code>^;// \./((?:src|node_modules)/\S+)\s*$</code>, keep modules under <code>src/x_ite/Components/&lt;C&gt;/</code> and <code>src/x_ite/Browser/&lt;C&gt;/</code>, sum lines per component, and compute the browser share. Compare with the masterclass table for <code>WebXR</code>, <code>GaussianSplats</code>, <code>Text</code>, <code>RigidBodyPhysics</code>, <code>HAnim</code>.</li>
+<li><strong>Verify:</strong> the masterclass H7 table in <code>x3d.docs@f172f67:docs/x_ite/MASTERCLASS.md</code>. Also report the module count (752 on 24 bundles, 730 own).</li>
+<li><strong>Answer:</strong> shares 100%, 83%, 68%, 1%, 0% (raw and code-line counts agree within 2 points on all eight rows of section 9); module counts 752 and 730. Absolute lines differ from the teardown (<code>X3DNode.js</code> 1,528 raw and 1,185 code against 1,235), so compare shares only.</li>
+<li><strong>Checked:</strong> 2026-11-14 marker scan of <code>x_ite@16.7.0</code>, <code>16.6.1</code>, <code>16.7.1</code> (module counts 752, 752, 762), Python 3.13.18</li>
+</ul>
+<h3 id="d-xit-8-count-the-patches-a-repository-ships">D-XIT-8 Count the patches a repository ships</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> In a checkout of <code>x3d.demo</code>, list every vendored <code>x_ite.min.js</code> and count by version banner; count the HTML pages that reference it.</li>
+<li><strong>Verify:</strong> <code>find docs -name x_ite.min.js | while read f; do head -c 40 &quot;$f&quot; | grep -o 'X_ITE v[0-9.]*'; done | sort | uniq -c</code>, then <code>grep -rl x_ite.min.js --include='*.html' docs | wc -l</code>.</li>
+<li><strong>Answer:</strong> <code>1 X_ITE v16.4.3</code>, <code>13 X_ITE v16.5.1</code>, <code>5 X_ITE v16.6.0</code>, <code>1 X_ITE v16.7.0</code> (20 files); 29 pages.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d.demo@d10b457</code>, shell</li>
+</ul>
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li><strong>Software GL only, Chromium only.</strong> Every pixel number is SwiftShader in Chrome for Testing 153.0.8010.12; real-GPU edges, Firefox and Safari were not measured. The only real-GPU figure in the sources is carried: 59.7 fps median, Intel UHD 620, 16.5.1, vsync-capped (<code>x3d.loom@162ab18:x3d.webgpu/STATE.md</code>), <strong><span class="g L" title="Likely">L</span></strong>.</li>
+<li><strong>Correctness was not measured.</strong> &quot;Drew&quot; means a non-background fraction. Colour, lighting, shadows, blending, text, textures, KTX2, audio, WebXR, Script nodes and physics were not exercised here.</li>
+<li><strong>The teardown's analysis is carried, not re-run.</strong> The AST data (<code>xite/data/*.json</code>) that <code>xite_nodes.py</code>, <code>xite_ast.py</code> and <code>xite_learn.py</code> read is not in the public repository, and those scripts hold paths to a local checkout, so they cannot run as shipped. Re-derived here: module counts, the name scan, H7, version diffs. Carried <span class="g L" title="Likely">L</span>: the teardown's line and function counts, field conformance, H1 to H6 and H8.</li>
+<li><strong>Sources disagree.</strong> Registered names: 292 concrete modules and 26 X_ITE-only (masterclass) against 294 and 28 (this scan, different definition). Teardown version: 16.7.0 (masterclass header, <code>xite_learn.py</code> docstring) against 16.6.1 (Loom lessons); module counts are equal on both, so the anatomy holds for either. <code>new Function</code> sites: 12 (loose regex here) against 9 (<code>STATE.md</code>). <code>Shape.pointerEvents</code> in 4.1: a private note says yes, <code>X3DUOM 4.1</code> and both XSDs say no; the schemas win. Frame counts: private note 4 and 64 on 16.5.0, here 5 to 7. Lines: 123,417 raw lines here against 98,369 (teardown <code>loc</code>).</li>
+<li><strong>Carried from private notes, not re-checked <span class="g S" title="Suspected">S</span>:</strong> the splat loading hang, the <code>TouchSensor</code> component requirement, <code>getField</code> deprecation, <code>endEvents</code> on 16.4.1, the repeat timing of style adoption. The hosted-page policy was an emulation of one described in a private note; the real host may differ.</li>
+<li><strong>Cadence is a registry fact, not a forecast;</strong> &quot;one maintainer&quot; is the registry's list.</li>
+<li><strong>Only five patches were run in a browser</strong> (16.4.3, 16.5.1, 16.6.1, 16.7.0, 16.7.1); 16.5.0 and 16.6.0 were scanned, not run.</li>
+</ul>
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-XIT-1</td>
+<td>X3DUOM 4.1 concrete nodes</td>
+<td>267</td>
+<td>C</td>
+<td><code>X3DUOM 4.1</code> (sha256 4fc10e8e15c0), ElementTree</td>
+<td>x3d_mcp@b4efcd3:src/validation/schemas/X3dUnifiedObjectModel-4.1.xml</td>
+</tr>
+<tr>
+<td>N-XIT-2</td>
+<td>nodes X_ITE can <code>createNode</code></td>
+<td>266 of 267 (<code>ProtoInstance</code> fails); same on 5 patches</td>
+<td>C</td>
+<td><code>X_ITE 16.7.0</code> (and 16.4.3, 16.5.1, 16.6.1, 16.7.1), Chromium 153, SwiftShader</td>
+<td>scratch run, 2026-11-14 (D-XIT-1)</td>
+</tr>
+<tr>
+<td>N-XIT-3</td>
+<td>registered node names</td>
+<td>294 at 16.7.0; 295 at 16.7.1; 266 in X3DUOM 4.1, 28 not</td>
+<td>C</td>
+<td>regex over unminified <code>dist/</code></td>
+<td>npm tarball <code>x_ite@16.7.0</code> (D-XIT-1)</td>
+</tr>
+<tr>
+<td>N-XIT-4</td>
+<td>supported components</td>
+<td>39 on 5 patches</td>
+<td>C</td>
+<td><code>X_ITE 16.7.0</code>, <code>browser.supportedComponents</code></td>
+<td>scratch run, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-XIT-5</td>
+<td>webpack modules, own sources</td>
+<td>752 in 24 bundles, 730 own (16.4.3 to 16.7.0); 762 and 732 at 16.7.1</td>
+<td>C</td>
+<td>marker scan, <code>X_ITE 16.7.0</code></td>
+<td>npm tarballs (D-XIT-7)</td>
+</tr>
+<tr>
+<td>N-XIT-6</td>
+<td><code>x_ite.min.js</code> size</td>
+<td>1,306,961 B raw; 280,795 B at <code>gzip -9</code>; sha256 prefix b7df063e8cb1; byte-identical to the vendored copy</td>
+<td>C</td>
+<td><code>wc</code>, <code>gzip -9</code>, <code>sha256sum</code></td>
+<td>x3d.docs@f172f67:docs/vendor/x_ite/x_ite.min.js</td>
+</tr>
+<tr>
+<td>N-XIT-7</td>
+<td>WebGL2 only</td>
+<td>1 <code>getContext (&quot;webgl2&quot;)</code> line; 0 hits for webgpu</td>
+<td>C</td>
+<td>grep, <code>X_ITE 16.7.0</code></td>
+<td>npm tarball <code>x_ite@16.7.0</code></td>
+</tr>
+<tr>
+<td>N-XIT-9</td>
+<td>release cadence, 16.x</td>
+<td>23 releases, 2026-07-27 to 2026-11-08, median gap 5.7 d, 68 in 365 d</td>
+<td>C</td>
+<td>npm 10.9.9 <code>npm view x_ite time</code></td>
+<td>npm registry, read 2026-11-14</td>
+</tr>
+<tr>
+<td>N-XIT-10</td>
+<td>npm versions and maintainers</td>
+<td>306 versions; 1 maintainer; latest 16.7.1</td>
+<td>C</td>
+<td>npm 10.9.9</td>
+<td>npm registry, read 2026-11-14</td>
+</tr>
+<tr>
+<td>N-XIT-11</td>
+<td>draw test, visible box</td>
+<td>0.1752 on 5 patches</td>
+<td>C</td>
+<td><code>X_ITE 16.4.3</code> to <code>16.7.1</code>, Chromium 153, SwiftShader, 320 x 240</td>
+<td>scratch run (D-XIT-2)</td>
+</tr>
+<tr>
+<td>N-XIT-12</td>
+<td>draw test, blank and off-camera</td>
+<td>0.0000 on 5 patches; first two frames 1.0000</td>
+<td>C</td>
+<td>same</td>
+<td>scratch run (D-XIT-2)</td>
+</tr>
+<tr>
+<td>N-XIT-14</td>
+<td>picking with a pickable faint shape</td>
+<td>0 events; 1 event after <code>pointerEvents = false</code></td>
+<td>C</td>
+<td><code>X_ITE 16.4.3</code>, <code>16.5.1</code>, <code>16.7.0</code></td>
+<td>scratch run (D-XIT-4)</td>
+</tr>
+<tr>
+<td>N-XIT-15</td>
+<td>hosted-page policy trap</td>
+<td>canvas 0 x 0 CSS, 1 x 1 buffer; 0.1752 with the fix</td>
+<td>C</td>
+<td><code>X_ITE 16.5.1</code>, <code>16.7.0</code>, emulated policy</td>
+<td>scratch run (D-XIT-3)</td>
+</tr>
+<tr>
+<td>N-XIT-16</td>
+<td>callback freeze</td>
+<td>B events per 500 ms: 28 to 31 guarded, 0 throwing</td>
+<td>C</td>
+<td><code>X_ITE 16.5.1</code>, <code>16.7.0</code>, <code>16.7.1</code></td>
+<td>scratch run (D-XIT-6)</td>
+</tr>
+<tr>
+<td>N-XIT-17</td>
+<td>vendored patches in <code>x3d.demo</code></td>
+<td>20 files: 1 x 16.4.3, 13 x 16.5.1, 5 x 16.6.0, 1 x 16.7.0; 29 pages</td>
+<td>C</td>
+<td>shell over banners</td>
+<td>x3d.demo@d10b457:docs/demos (D-XIT-8)</td>
+</tr>
+<tr>
+<td>N-XIT-18</td>
+<td>renderer vs validator, seven scenes</td>
+<td>all draw 0.1752; 5 invalid or inconsistent; 3 dropped something silently</td>
+<td>C</td>
+<td><code>X_ITE 16.7.0</code>; <code>x3d_mcp fork b4efcd3</code></td>
+<td>scratch run (D-XIT-5)</td>
+</tr>
+<tr>
+<td>N-XIT-19</td>
+<td>browser option defaults</td>
+<td><code>ColorSpace LINEAR_WHEN_PHYSICAL_MATERIAL</code>, <code>ToneMapping NONE</code>, <code>DisplayColorSpace SRGB</code>, <code>Exposure 1</code>, <code>Multisampling 4</code>, <code>OrderIndependentTransparency false</code>, <code>MaximumFrameRate 80</code></td>
+<td>C</td>
+<td><code>X_ITE 16.4.3</code> to <code>16.7.1</code>, <code>getBrowserOption</code></td>
+<td>scratch run, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-XIT-21</td>
+<td>version diff 16.4.3 to 16.7.1</td>
+<td>2 renames, +10 modules and +1 node at 16.7.1; defaults unchanged</td>
+<td>C</td>
+<td>marker and name scan</td>
+<td>npm tarballs (section 8)</td>
+</tr>
+<tr>
+<td>N-XIT-22</td>
+<td>locus shares (H7)</td>
+<td><code>WebXR</code> 100%, <code>GaussianSplats</code> 83%, <code>Text</code> 68%, <code>RigidBodyPhysics</code> 1%, <code>HAnim</code> 0%</td>
+<td>C</td>
+<td>marker scan, <code>X_ITE 16.7.0</code></td>
+<td>npm tarball (D-XIT-7)</td>
+</tr>
+<tr>
+<td>N-XIT-23</td>
+<td>teardown anatomy</td>
+<td>98,369 lines, 730 modules, 5,940 functions; 194 / 43 / 29 / 1 field conformance</td>
+<td>L</td>
+<td>read, not re-run</td>
+<td>x3d.docs@f172f67:docs/x_ite/MASTERCLASS.md</td>
+</tr>
+<tr>
+<td>N-XIT-24</td>
+<td>curriculum</td>
+<td>32 steps in 4 tracks of 8</td>
+<td>C</td>
+<td>read in the exact file</td>
+<td>x3d.docs@f172f67:docs/x_ite/MASTERCLASS.md</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<ul>
+<li>npm tarballs of <code>x_ite</code> 16.4.3, 16.5.0, 16.5.1, 16.6.0, 16.6.1, 16.7.0 and 16.7.1 (unpacked in a scratch folder, never installed), read on 2026-11-14: <code>dist/x_ite.js</code>, <code>dist/assets/components/*.js</code>, <code>dist/x_ite.d.ts</code>, <code>dist/X3DUOM.xml</code>, and executed in Chromium through Playwright 1.63.0. The vendored <code>x3d.docs@f172f67:docs/vendor/x_ite/x_ite.min.js</code> and <code>x_ite.css</code> are byte-identical to the 16.7.0 tarball.</li>
+<li><code>x3d.docs@f172f67</code>: <code>docs/x_ite/MASTERCLASS.md</code> and <code>docs/tools-shared/xite_{split,ast,nodes,learn,scenes,doc}.py</code> (read; not run, data files absent).</li>
+<li><code>x3d.loom@162ab18</code>: <code>LOOM-v1.md</code> (failure modes 84, 88, 101, 109 to 111, 114 to 116, 118, 127, 140), <code>LESSONS-v1.0.md</code>, <code>kit/loomkit/pagetraps.py</code>, <code>x3d.webgpu/STATE.md</code>, <code>x3d.webgpu/BENCHMARK.md</code> (read, not run).</li>
+<li><code>x3d.demo@d10b457</code>, <code>x3d_mcp@b4efcd3</code> (<code>README.md</code>, <code>src/validation/</code>), <code>x3d.xray@8fa6845</code> (<code>README.md</code>, the vendored patch statement).</li>
+<li>Private-source gap: private notes about the hosted-page trap, picking, splat loading and the earlier field guide were used as pointers only. Each figure that appears here was re-derived above, or is graded <span class="g S" title="Suspected">S</span> or <span class="g L" title="Likely">L</span> where it was not. No private document, link or identifier is reproduced.</li>
+<li>Siblings: <a href="01-the-tether.html">01 The tether</a>, <a href="03-validator-and-gates.html">03 The validator and the gates</a>, <a href="04-mcp-for-agents.html">04 MCP for agents</a>, <a href="07-xray.html">07 x3d.xray</a>, <a href="08-babylon-bridge.html">08 Babylon bridge</a>, <a href="13-physics.html">13 Physics</a>.</li>
+</ul>
+<div class="pn"><a href="05-semantic-layer.html">&larr; 05-semantic-layer</a><a href="07-xray.html">07-xray &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

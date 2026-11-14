@@ -1,0 +1,1433 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>08. The Babylon bridge · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a class="cur" href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="08-babylon-bridge.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/08-babylon-bridge.md">GitHub</a></div><h1>08. The Babylon bridge</h1>
+<details class="toc"><summary>On this page (22 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-why-a-second-renderer-and-why-the-file-stays-the-master">2. Why: a second renderer, and why the file stays the master</a><a class="l2" href="#3-architecture-the-reader-is-the-brain-babylon-is-the-body">3. Architecture: the reader is the brain, Babylon is the body</a><a class="l2" href="#4-node-coverage-recounted-at-x3dloom162ab18">4. Node coverage, recounted at x3d.loom@162ab18</a><a class="l2" href="#5-the-playbook-merged-50-traps-ranked">5. The playbook, merged: 50 traps, ranked</a><a class="l2" href="#6-the-parity-method-psnr-against-x_ite-on-a-software-gpu">6. The parity method: PSNR against X_ITE on a software GPU</a><a class="l2" href="#7-the-ports-and-what-each-taught">7. The ports and what each taught</a><a class="l2" href="#8-a-look-may-add-never-assert-a-fallback-must-say-so">8. A look may add, never assert; a fallback must say so</a><a class="l2" href="#9-shader-porting-hash-keyed-glsl-to-hand-written-wgsl">9. Shader porting: hash-keyed GLSL to hand-written WGSL</a><a class="l2" href="#10-the-adapter-and-blocklist-trap">10. The adapter and blocklist trap</a><a class="l2" href="#11-porting-a-new-demo-sixteen-steps-append-only">11. Porting a new demo: sixteen steps, append-only</a><a class="l2" href="#12-no-speed-claim-exists-and-what-one-would-take">12. No speed claim exists, and what one would take</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-bab-1-recount-the-bridges-coverage">D-BAB-1 Recount the bridge&#x27;s coverage</a><a class="l3" href="#d-bab-2-re-derive-the-primers-68">D-BAB-2 Re-derive the primer&#x27;s 68</a><a class="l3" href="#d-bab-3-break-a-shader-key-then-predict-which-half-moves">D-BAB-3 Break a shader key, then predict which half moves</a><a class="l3" href="#d-bab-4-move-a-psnr-by-changing-its-window">D-BAB-4 Move a PSNR by changing its window</a><a class="l3" href="#d-bab-5-census-a-corpus-before-you-promise-a-port">D-BAB-5 Census a corpus before you promise a port</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> one X3D file is the master, our own reader runs its events, and Babylon on WebGPU only paints the result; every picture is a claim against X_ITE on a named rig, every fallback says so on screen, and nothing about speed has been measured. <strong><span class="g C" title="Confirmed">C</span></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>BAB</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="01-the-tether.html">01 The tether</a> for the loop; <a href="06-xite-the-oracle.html">06 X_ITE, the reference renderer</a> for the reference arm and its patch rules; <a href="02-loom-laws.html">02 Loom laws</a> for laws 38 to 40</td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>(1) recount the bridge's node coverage and name the denominator; (2) read the 50-trap playbook by tier; (3) measure and read a PSNR against X_ITE without over-reading it; (4) port a shader by hash and prove a miss falls back; (5) follow the append-only procedure for a new demo</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td>x3d.loom@162ab18:x3d.webgpu/{STATE,PATHS,BABYLON,BENCHMARK,SPEC}.md, the four BABYLON-BRIDGE-PLAYBOOK files, bridge/, demo/src/, runs/webgpu-*/; x3d.demo@d10b457:{CHANGELOG.md,docs/index.html}; x3d.docs@f172f67:docs/vendor/x_ite/x_ite.min.js</td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td><code>x3d.loom@162ab18</code>, <code>X_ITE 16.7.0</code> (grep only), <code>X_ITE 16.4.3</code> to <code>16.6.0</code> per receipt row, <code>Babylon 9.32.0</code>, <code>Chromium 153.0.8010.12 (Chrome for Testing), SwiftShader</code>, Node 22.23.4, Python 3 (numpy 2.5.3, Pillow 12.3.0, lxml), <code>xmllint</code>, <code>x3d_mcp fork b4efcd3</code> and <code>X3DUOM 4.0</code> through the bridge driver; software GL only</td>
+</tr>
+</tbody>
+</table>
+<p>Rig for every <strong><span class="g C" title="Confirmed">C</span></strong> below that this chapter re-ran (2026-11-14): read-only checkouts, scratch copies for anything that writes, Node 22.23.4, Python with <code>-I</code>, no network, no GPU. A number read from a recorded run is named by receipt path and graded <strong><span class="g L" title="Likely">L</span></strong> unless a drill re-derived it.</p>
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text">  scene.x3d   the master: validated first (chapters 01, 03), never edited to please a renderer
+      |
+      +------------------------+---------------------------------+
+      v                        v                                 v
+  X3D validator          X_ITE 16.x (WebGL2)            OUR READER = the brain
+  XSD + semantic rules   reference body                 reader.js  parse, DEF/USE, ROUTE
+  (chapter 03)           draws pixels A                 kit.js + nodes/*.js  event nodes
+                              |                         sai.js  X3D.getBrowser() shim
+                              |                                |  node tree + events
+                              |                                v
+                              |                   BABYLON 9.32.0 = the body (WebGPU)
+                              |                   body.js  body-cam.js  body-br.js
+                              |                   wgsl.js  FNV-1a(GLSL) -&gt; hand WGSL
+                              |                                |
+                              |                                v
+                              +-------&gt; compare &lt;----------- pixels B
+                                           |
+                                           v
+                                 RECEIPT.md (rig, versions) + GAPS.md (each gap graded)
+</code></pre>
+<p>Sections: 2 why a second renderer; 3 architecture; 4 node coverage recounted; 5 the 50-trap playbook; 6 the parity method; 7 the ports; 8 laws 39 and 40 in code; 9 shader porting; 10 the adapter trap; 11 a 16-step port procedure; 12 why there is no speed claim.</p>
+<p><strong>In scope:</strong> the bridge as built in <code>x3d.loom@162ab18:x3d.webgpu/</code>, its tracker and playbook, and how to measure it. <strong>Out of scope:</strong> X_ITE internals (<a href="06-xite-the-oracle.html">06</a>, <a href="../x_ite/MASTERCLASS.html">the X_ITE masterclass</a>); the Loom's AST teardown (<a href="../x3d.loom/MASTERCLASS.html">the loom masterclass</a>); Castle on its own renderer (<a href="09-castle-engine.html">09</a>); glTF export as a route (<a href="11-gltf-usd-khronos.html">11</a>); physics (<a href="13-physics.html">13</a>). <strong>No speed claim appears here.</strong> No receipt in the repository holds a timing from a real GPU for any Babylon or WebGPU body (section 12).</p>
+<p><strong>Read next:</strong> deeper, <a href="06-xite-the-oracle.html">06 X_ITE, the reference renderer</a> for the arm every number here is measured against; wider, <a href="07-xray.html">07 x3d.xray</a> for a second consumer of the same &quot;scene as the master, viewer as a witness&quot; idea.</p>
+<h2 id="2-why-a-second-renderer-and-why-the-file-stays-the-master">2. Why: a second renderer, and why the file stays the master</h2>
+<table>
+<thead>
+<tr>
+<th>fact</th>
+<th>value</th>
+<th>grade</th>
+<th>instrument</th>
+<th>source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>X_ITE draws through WebGL2 only</td>
+<td>0 hits for &quot;webgpu&quot;, 0 for &quot;navigator.gpu&quot;, 1 <code>getContext(&quot;webgl2&quot;</code> in <code>x_ite.min.js</code> 16.7.0 (sha256 prefix b7df063e8cb1)</td>
+<td>C</td>
+<td>grep over the vendored bundle, <code>X_ITE 16.7.0</code></td>
+<td>x3d.docs@f172f67:docs/vendor/x_ite/x_ite.min.js (re-run: <code>grep -o -i webgpu</code> on the file, counted)</td>
+</tr>
+<tr>
+<td>X3D cannot name a WebGPU shader</td>
+<td>4.1 draft lists Cg, GLSL, HLSL; VERTEX and FRAGMENT parts only; <code>WGSL</code> and <code>COMPUTE</code> need a standards proposal (gate G5)</td>
+<td>L</td>
+<td>read in README.md and SPEC.md</td>
+<td>x3d.loom@162ab18:x3d.webgpu/README.md</td>
+</tr>
+<tr>
+<td>scored options A to G</td>
+<td>F (hybrid: X_ITE stays truth, showpieces on a runtime plus WebGPU body) 30 of 35; all others 19 to 25</td>
+<td>L</td>
+<td>the scorecard is a judgement; every effort figure is <span class="g S" title="Suspected">S</span></td>
+<td>x3d.loom@162ab18:x3d.webgpu/PATHS.md</td>
+</tr>
+<tr>
+<td>why not export to glTF and use any engine</td>
+<td>glTF drops ROUTEs, Script and shader nodes; the validator checks the source while the viewer would see a derived file (only option B fails the tether test outright)</td>
+<td>L</td>
+<td>PATHS.md section 2, BABYLON.md section 2.2</td>
+<td>x3d.loom@162ab18:x3d.webgpu/PATHS.md</td>
+</tr>
+</tbody>
+</table>
+<p>The design that follows is F on a Babylon body (path G): X_ITE stays the oracle and the validator's target, and the bridge renders showpieces, each gated by a measured comparison against X_ITE. This is <a href="02-loom-laws.html">Loom law 38</a>, one master, many renderers: a renderer that disagrees is a finding about the reader or the body, never a reason to edit the scene.</p>
+<p>Babylon is the default body because, among the engines surveyed, it alone has a path from GLSL to WGSL <span class="g L" title="Likely">L</span>. The bridge never used that path: <code>grep -rli 'glslang\|twgsl'</code> over <code>demo/src</code>, <code>bridge/src</code> and <code>runs/webgpu-*</code> returns 0 files [C, 2026-11-14]; it hand-ports shaders (section 9). Gate G2 (do the Collider's GLSL programs compile through glslang plus twgsl and match X_ITE?) is listed in <code>x3d.webgpu/README.md</code> and has no receipt: <code>bench/receipts/</code> holds one file, the G1 adapter probe [C, <code>ls</code>].</p>
+<h2 id="3-architecture-the-reader-is-the-brain-babylon-is-the-body">3. Architecture: the reader is the brain, Babylon is the body</h2>
+<p>The reader holds time, ROUTEs, sensors and the SAI; Babylon objects are disposable views of the node tree; a page written for X_ITE keeps calling <code>X3D.getBrowser()</code> and a shim answers.</p>
+<pre><code class="language-text">  page app.js (unchanged)           one frame
+        |  X3D.getBrowser()...
+        v
+  +----------+  fields   +--------------------------+  changed(node, field)  +-------------+
+  | sai.js   | --------&gt; | reader.js  node tree     | ---------------------&gt; | body.js     |
+  | shim     | &lt;-------- | emit / drain events      | &lt;--------------------- | Babylon     |
+  +----------+ callbacks | DEF/USE = shared objects |  picks, camera, time   | meshes,     |
+                         | ROUTEs, TimeSensor       |                        | materials,  |
+  kit.js: BR.node(name, spec), one file per node     |                        | lights,     |
+  (field table from X3DUOM; receive/tick/build)      |                        | cameras     |
+                         +--------------------------+                        +-------------+
+                  ComposedShader GLSL -&gt; whitespace collapse -&gt; FNV-1a -&gt; wgsl.js table
+                  hit: hand-ported WGSL.  miss: Material fallback + notice on screen
+</code></pre>
+<p>Files, with <code>wc -c</code> sizes <span class="g C" title="Confirmed">C</span> (<code>x3d.loom@162ab18:x3d.webgpu/</code>): <code>demo/src/brain/reader.js</code> 30,896 B (parse, typed fields, DEF/USE, ROUTE cascade, TimeSensor, interpolators); <code>body.js</code> 33,752 (node tree to Babylon: groups, shapes, lights, PBR, lines, text, clip planes); <code>body-cam.js</code> 13,540 (viewpoints, orbit, picking, frame loop); <code>sai.js</code> 21,911 (<code>getNamedNode</code>, <code>createNode</code>, <code>addRoute</code>, <code>replaceWorld</code>, callbacks); <code>wgsl.js</code> 12,111 (hash-keyed ports); <code>shared/adapter.js</code> 1,097 and <code>shared/timing.js</code> 11,928 (section 10, section 12); <code>bridge/src/kit.js</code> 31,928 (<code>BR.node(name, spec)</code>: field table, <code>receive</code>, <code>tick</code>, <code>init</code>, <code>build</code>, <code>geometry</code>, <code>changed</code>); <code>bridge/src/body-br.js</code> 55,254 (the Babylon side of the kit; nodes without a <code>build</code> stay silent); <code>bridge/src/fidelity.js</code> 6,439 (preflight report); <code>bridge/src/nodes/*.js</code> 115 files, one per node.</p>
+<p>A kit node is small: <code>BooleanToggle</code> is one <code>BR.node</code> call with a field table and one <code>receive</code>; its test spec is <code>set</code>, <code>event</code>, <code>expect</code> steps run in our reader and in X_ITE through the SAI both speak. On a scratch copy, <code>node --test tools/*.test.js</code> passed 33 of 33 and <code>python3 tools/driver.py check BooleanToggle --no-xite</code> printed <code>PASS BooleanToggle xsd:ok ours:pass 9/9 xite:skipped</code> [C, 2026-11-14]; <code>--no-xite</code> is exploratory and cannot close a batch.</p>
+<p>What exists is not what the spec describes: <code>SPEC.md</code> and <code>BABYLON.md</code> describe a TypeScript runtime generated from X3DUOM 4.1 and registered as a Babylon <code>SceneLoader</code> plugin, with a Script sandbox and a load receipt; what runs is plain JavaScript (the demo README says &quot;working demos, not the runtime the spec describes&quot;). The spec's M1 parity rule (mean absolute difference at most 4/255, luma within 0.01 against X_ITE 16.7.0) has been applied to no port [C: every receipt uses PSNR, MAD or silhouette overlap].</p>
+<h2 id="4-node-coverage-recounted-at-x3dloom162ab18">4. Node coverage, recounted at x3d.loom@162ab18</h2>
+<p>The primer v2 of 8 November said <strong>68 of 260</strong> X3D 4.0 node types. The tracker at <code>162ab18</code> says <strong>186 of 260</strong>: <code>python3 tools/driver.py status</code> prints <code>reader knows 186/260 | base 75 blocked 1 bridged 41 claimed 8 gap 70 todo 65</code>. Both are right about different things, and the difference is the lesson.</p>
+<p>Census commands: D-BAB-1 (<code>node tools/census.js ../demo/src</code>, today) and D-BAB-2 (the same on <code>git archive 60824ce</code>); all re-run 2026-11-14.</p>
+<table>
+<thead>
+<tr>
+<th>denominator</th>
+<th>count</th>
+<th>share of 260</th>
+<th>what it measures</th>
+<th>grade</th>
+<th>instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>concrete nodes in the tracker</td>
+<td>260</td>
+<td>100%</td>
+<td><code>X3dUnifiedObjectModel-4.0.xml</code>; includes <code>ProtoInstance</code> syntax</td>
+<td>C</td>
+<td><code>X3DUOM 4.0</code> via <code>NODES.json</code> meta</td>
+</tr>
+<tr>
+<td>page-bundle census, 8 Nov (60824ce)</td>
+<td>68 (72 defs)</td>
+<td>26.2%</td>
+<td>types with a field table in at least one Babylon page</td>
+<td>C</td>
+<td><code>census.js</code>, re-run on <code>git archive 60824ce</code></td>
+</tr>
+<tr>
+<td>same census, today</td>
+<td>75 (79 defs)</td>
+<td>28.8%</td>
+<td>adds Inline, LOD, ProximitySensor, four HAnim names from the Demiurge and Dynasty parts</td>
+<td>C</td>
+<td><code>census.js</code>, 162ab18</td>
+</tr>
+<tr>
+<td>same census plus the hall extension</td>
+<td>83 (87 defs)</td>
+<td>31.9%</td>
+<td>adds the 8 nodes marked <code>claimed</code></td>
+<td>C</td>
+<td><code>census.js</code> with <code>hall/reader-ext-hl.js</code></td>
+</tr>
+<tr>
+<td>tracker headline &quot;reader knows&quot;</td>
+<td>186</td>
+<td>71.5%</td>
+<td><code>base</code> 75 + kit modules 111 (41 <code>bridged</code>, 70 <code>gap</code>)</td>
+<td>C</td>
+<td><code>driver.py status</code></td>
+</tr>
+<tr>
+<td>bridged without a logged gap</td>
+<td>41</td>
+<td>15.8%</td>
+<td>fixture validates against the 4.0 XSD, test passes in our reader and X_ITE</td>
+<td>C</td>
+<td><code>driver.py status</code></td>
+</tr>
+<tr>
+<td>still <code>todo</code></td>
+<td>65</td>
+<td>25.0%</td>
+<td>NURBS 13, VolumeRendering 13, RigidBodyPhysics 13 (+1 blocked), Geospatial 11, DIS 6, Picking 5, HAnim 2, TextureProjection 2</td>
+<td>C</td>
+<td><code>NODES.json</code></td>
+</tr>
+</tbody>
+</table>
+<p>The delta since the primer, like for like <span class="g C" title="Confirmed">C</span>:</p>
+<table>
+<thead>
+<tr>
+<th>step</th>
+<th>change</th>
+<th>cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>68 to 75 on the page-bundle census</td>
+<td>+7</td>
+<td>Demiurge (Inline, LOD, ProximitySensor, four HAnim types) and Dynasty added reader parts</td>
+</tr>
+<tr>
+<td>75 to 186 on the tracker headline</td>
+<td>+111</td>
+<td>kit modules written batch by batch: 41 <code>bridged</code>, 70 <code>gap</code></td>
+</tr>
+<tr>
+<td>68 to 186, the naive subtraction</td>
+<td>+118</td>
+<td>mixes two definitions; the tracker did not exist at 60824ce (first commit <code>db725e8</code>, 8 Nov, after the primer's tree)</td>
+</tr>
+<tr>
+<td>175 (batch 20, 9 Nov) to 186 (batch 26, 13 Nov)</td>
+<td>+11 net</td>
+<td>batches 21 to 26 filled 30 tracker slots (17 <code>bridged</code>, 13 <code>gap</code>), so 19 of them added no name; the batch-21 commit message says five <code>gap</code> nodes moved to <code>bridged</code> [C, <code>git show e6c3f9a</code>]</td>
+</tr>
+</tbody>
+</table>
+<p>Batches 21 to 26 arrived through PRs #43 (batch 21), #44 (22, 23) and #45 (24, 25, 26) on 13 Nov. The headline printed in each <code>BATCH-NN.md</code> is a snapshot of a mutable tracker and is not monotonic:</p>
+<table>
+<thead>
+<tr>
+<th>batch</th>
+<th>nodes</th>
+<th>bridged / gap</th>
+<th>headline after</th>
+<th>PSNR range, dB (320 x 240)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>21</td>
+<td>five fan, strip and quad sets</td>
+<td>5 / 0</td>
+<td>175</td>
+<td>32.71 to 34.91 (5 rows)</td>
+</tr>
+<tr>
+<td>22</td>
+<td>StaticGroup, Texturing3D coordinate nodes</td>
+<td>3 / 2</td>
+<td>179</td>
+<td>33.85 to 36.63 (6 rows)</td>
+</tr>
+<tr>
+<td>23</td>
+<td>CADAssembly, CADFace; three particle emitters and models</td>
+<td>2 / 3</td>
+<td>184</td>
+<td>11.73 to 38.03 (11 rows)</td>
+</tr>
+<tr>
+<td>24</td>
+<td>FillProperties, TwoSidedMaterial, TextureCoordinateGenerator, two 3D textures</td>
+<td>0 / 5</td>
+<td>184</td>
+<td>16.62 to 32.13 (5 rows)</td>
+</tr>
+<tr>
+<td>25</td>
+<td>four 2D geometries; LineSet</td>
+<td>4 / 1</td>
+<td>181</td>
+<td>26.35 to 35.86 (5 rows)</td>
+</tr>
+<tr>
+<td>26</td>
+<td>CADLayer, CADPart, Polyline2D; CoordinateDouble, Polypoint2D</td>
+<td>3 / 2</td>
+<td>186</td>
+<td>28.35 to 40.03 (10 rows)</td>
+</tr>
+</tbody>
+</table>
+<p>The dip at batch 25 (184 to 181) is consistent with <code>driver.py reopen</code>, which returns worked-on nodes to <code>wip</code> before they are re-checked [L, docstring read; the batch-25 reopen list was not traced]. All 42 visual rows together: PSNR 11.73 to 40.03, median 35.92 [C, parsed from <code>BATCH-21..26.md</code>]. Read those with section 6: a node can PASS with 11.73 dB.</p>
+<p>What is missing (<code>NODES.json</code>) <span class="g C" title="Confirmed">C</span>: NURBS 13 and VolumeRendering 13 are all <code>todo</code>; RigidBodyPhysics has 13 <code>todo</code> and 1 <code>blocked</code>; Geospatial 11, DIS 6 and Picking 5 are <code>todo</code>; Sound has 19 of 21 nodes at <code>gap</code> (the Analyser note says nothing is wired into the analyser yet; not checked for the other 18); Shaders 5 of 8 and Layout 5 of 5 are <code>gap</code>.</p>
+<p><strong>Three claims hide behind one count.</strong> &quot;Reader knows&quot; means a field table exists; it does not mean the node passes a fixture or that the picture is right. The repository's own assessment of the tracker at <code>6b3cb76</code> says recognising, passing a field test and drawing correctly &quot;are different achievements&quot;, that the canonical test bundle registered 180 names at the 175 headline, and that the tracker is &quot;not a rendering conformance percentage&quot; [L, read, not re-run]. <code>bridged</code> is the strongest word in the tracker and still means one fixture in two engines at 320 x 240.</p>
+<p>A name-level census of the 111 parseable demo scenes (86 base-only, 22 needing a <code>gap</code>, <code>todo</code> or <code>claimed</code> node, 1 with unknown names) is drill D-BAB-5; &quot;base&quot; is the union of six reader parts, not what any one page loads.</p>
+<h2 id="5-the-playbook-merged-50-traps-ranked">5. The playbook, merged: 50 traps, ranked</h2>
+<p>The playbook is four files in <code>x3d.loom@162ab18:x3d.webgpu/</code>, each a new file that leaves the earlier ones unchanged: <code>BABYLON-BRIDGE-PLAYBOOK.md</code> v1 (7 Nov, 11,796 B: laws, ports #1 to #3, adapter pitfall, publishing), <code>-v2.md</code> (8 Nov, 9,044 B: a trap table by area from ports #3 to #9 and the Odyssey port), <code>-v3.md</code> (7,005 B: Demiurge and Dynasty) and <code>-v4.md</code> (1,304 B: the Hall, eight lines) [C, <code>wc -c</code>]. Merged and de-duplicated here: <strong>50 traps (T01 to T44 in the table, T45 to T50 beside it); 13 first appear in v1, 19 in v2, 13 in v3, 5 in v4</strong> [C, counted from the table below by script].</p>
+<p>Ranking rubric (ours, <strong><span class="g S" title="Suspected">S</span></strong>: no incidence data exists): tier <strong>A</strong> is silent on the default path or hit by two or more ports (the picture is plausible, wrong and unlogged); <strong>B</strong> is silent but scene-specific; <strong>C</strong> is loud (an error, a blank page) or tooling; <strong>W</strong> is a WGSL porting rule. Inside a tier: ports hit, then how silent. When a port &quot;looks wrong&quot;, read tier A first: the playbook's advice is to find the symptom before touching lighting, because most of the cost was convention, not physics. The &quot;check&quot; column is a grep I ran at <code>162ab18</code> over <code>demo/src/</code> (a file present means the fix exists in some page, not in every body); &quot;read&quot; means no check was made.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>tier</th>
+<th>from; port</th>
+<th>symptom and cause</th>
+<th>fix</th>
+<th>check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T01</td>
+<td>A</td>
+<td>v1, v2; Brain, Odyssey</td>
+<td>PBR looks cool and inside-out; X3D counter-clockwise is the front face</td>
+<td><code>sideOrientation = CounterClockWise</code>; <code>null</code> on MeshBuilder primitives, which the flag turns inside out</td>
+<td>grep: 3 files</td>
+</tr>
+<tr>
+<td>T02</td>
+<td>A</td>
+<td>v1, v2; Brain</td>
+<td>PhysicalMaterial colours are already linear: converting again made cortex too dark</td>
+<td>assign <code>baseColor</code> to <code>albedoColor</code> as authored; v1 and v2 say &quot;convert authored sRGB&quot; (conflict C1)</td>
+<td><code>body.js</code> line 303</td>
+</tr>
+<tr>
+<td>T03</td>
+<td>A</td>
+<td>v2; Odyssey</td>
+<td>scene too bright, 8-light cap hit: 59 of 60 lights have <code>global=false</code>, Babylon lights everything</td>
+<td><code>includedOnlyMeshes</code> = meshes under the light's parent group, applied after the world builds and on change; a shape sees at most 6</td>
+<td>grep: odyssey-ext.js</td>
+</tr>
+<tr>
+<td>T04</td>
+<td>A</td>
+<td>v2; Odyssey</td>
+<td>a USE is a placement: state keyed by node id is overwritten by the second placement (74 lights for 62 placements)</td>
+<td>state per Babylon object; the shared body still keys <code>rec</code> by id (assessment P1, open at 6b3cb76)</td>
+<td>assessment; not re-checked</td>
+</tr>
+<tr>
+<td>T05</td>
+<td>A</td>
+<td>v2; Odyssey</td>
+<td>corridor floods pink: Babylon adds an emissive texture to the emissive colour, X3D multiplies</td>
+<td>texture in <code>diffuseTexture</code>, colour in <code>emissiveColor</code></td>
+<td>read</td>
+</tr>
+<tr>
+<td>T06</td>
+<td>A</td>
+<td>v2, bridge README; Manifold</td>
+<td><code>events.emit</code> queued ROUTEs but never ran <code>addFieldCallback</code>: nothing animates; two wrappers fire callbacks twice</td>
+<td>run callbacks from one emit hook (<code>R.hooks.cb</code>)</td>
+<td>README findings</td>
+</tr>
+<tr>
+<td>T07</td>
+<td>A</td>
+<td>v2; Manifold</td>
+<td>first frames washed out: final image processing converts linear to gamma, display-referred shaders already did</td>
+<td><code>imageProcessing.fromLinearSpace = false</code></td>
+<td>grep: body-manifold.js</td>
+</tr>
+<tr>
+<td>T08</td>
+<td>A</td>
+<td>v1, v2, v3; Brain, Dynasty</td>
+<td>glow sprites draw over glass: <code>alphaIndex</code> defaults to MAX_VALUE</td>
+<td>explicit <code>alphaIndex</code> on every non-glass mesh; blended shapes in document order</td>
+<td>grep: 7 files</td>
+</tr>
+<tr>
+<td>T09</td>
+<td>A</td>
+<td>v4; Hall</td>
+<td>a textured unlit shape ignores its PNG alpha (glows, shafts, halos drawn opaque)</td>
+<td><code>hasAlpha</code>, alpha from diffuse, sorted blend, depth write off; JPEGs stay opaque</td>
+<td>grep: 4 files</td>
+</tr>
+<tr>
+<td>T10</td>
+<td>A</td>
+<td>v3; Dynasty</td>
+<td>additive glow layers draw black glass: <code>BlendMode</code> (ONE, ONE) ignored</td>
+<td>(ONE, ONE) to <code>ALPHA_ONEONE</code>, (SRC_ALPHA, ONE) to <code>ALPHA_ADD</code>, else default plus a note; re-apply on assignment</td>
+<td>grep: 2 files</td>
+</tr>
+<tr>
+<td>T11</td>
+<td>A</td>
+<td>v3; Demiurge</td>
+<td>a looping <code>TimeSensor</code> with <code>startTime 0</code> runs from 1970: <code>elapsedTime</code> 1.8e9, a shader loses every digit</td>
+<td>start it when the world activates; X_ITE counts from activation</td>
+<td>read</td>
+</tr>
+<tr>
+<td>T12</td>
+<td>A</td>
+<td>v2, v4; Odyssey, Hall</td>
+<td>seeking a TimeSensor twice at one timestamp lands once; a paused film stays frozen</td>
+<td><code>events.begin(ts + 1e-6)</code>; disable, wait two frames, set start, resume and pause times, enable; clear pause on disable</td>
+<td>grep: odyssey (2 files)</td>
+</tr>
+<tr>
+<td>T13</td>
+<td>A</td>
+<td>v3; Demiurge</td>
+<td>near plane 0.3 cuts the Earth and village out (1 m is 0.0004 units)</td>
+<td>honour <code>nearDistance</code> and <code>farDistance</code>; re-apply when they change</td>
+<td>grep: body-dm.js</td>
+</tr>
+<tr>
+<td>T14</td>
+<td>A</td>
+<td>v3; Demiurge, Dynasty</td>
+<td>X_ITE's logarithmic depth has no Babylon counterpart; shaders that wrote <code>gl_FragDepth</code> mis-sort</td>
+<td><code>engine.useReverseDepthBuffer = true</code> (<code>?rz=0</code> off); write plain projected depth <code>c.z / c.w</code></td>
+<td>grep: 4 boot files</td>
+</tr>
+<tr>
+<td>T15</td>
+<td>B</td>
+<td>v1, v2</td>
+<td>billboards face the wrong way in a right-handed scene</td>
+<td>orient each frame in the body (+Z at the eye)</td>
+<td><code>body.js</code> 78 to 95</td>
+</tr>
+<tr>
+<td>T16</td>
+<td>B</td>
+<td>v1, v2</td>
+<td>unlit text and lines draw black</td>
+<td><code>emissiveColor</code>; a line set with no <code>Color</code> uses the Material's</td>
+<td>grep: 6 files</td>
+</tr>
+<tr>
+<td>T17</td>
+<td>B</td>
+<td>v1</td>
+<td>a clip plane clips the whole scene</td>
+<td><code>material.clipPlane</code>, not <code>scene.clipPlane</code></td>
+<td>grep: body-cam.js</td>
+</tr>
+<tr>
+<td>T18</td>
+<td>B</td>
+<td>v1</td>
+<td>torso failed to load: <code>Matrix.FromQuaternion</code> on a Transform with <code>center</code> or <code>scaleOrientation</code></td>
+<td><code>toRotationMatrix</code>; shear is dropped (assessment P1)</td>
+<td>grep: body.js</td>
+</tr>
+<tr>
+<td>T19</td>
+<td>B</td>
+<td>v1</td>
+<td>viewpoint inside a rotated Transform; zoom divides by zero at the rotation centre</td>
+<td>apply the parent rotation; clamp distance</td>
+<td>read</td>
+</tr>
+<tr>
+<td>T20</td>
+<td>B</td>
+<td>v2</td>
+<td>coplanar textured glow panel and floor z-fight</td>
+<td><code>zOffset 4</code>, <code>zOffsetUnits 8</code> on the panel</td>
+<td>grep: 2 files</td>
+</tr>
+<tr>
+<td>T21</td>
+<td>B</td>
+<td>v2</td>
+<td>metals dark and speckled; packed maps wrong</td>
+<td><code>enableSpecularAntiAliasing</code>, an environment floor; roughness G, metallic B, data textures <code>gammaSpace=false</code>, <code>invertNormalY=true</code></td>
+<td>grep: 3 files</td>
+</tr>
+<tr>
+<td>T22</td>
+<td>B</td>
+<td>v2</td>
+<td>cube map with <code>noMipmap = true</code> raises WebGPU mip errors</td>
+<td><code>noMipmap = false</code></td>
+<td>read</td>
+</tr>
+<tr>
+<td>T23</td>
+<td>B</td>
+<td>v2</td>
+<td>a mesh whose first <code>setVerticesData</code> call is a custom attribute drops it</td>
+<td>set the position first</td>
+<td>read</td>
+</tr>
+<tr>
+<td>T24</td>
+<td>B</td>
+<td>v2</td>
+<td>blended glow sorts differently from X_ITE</td>
+<td>feed <code>bboxCenter</code> to <code>mesh.setBoundingInfo</code></td>
+<td>grep: body-gob.js</td>
+</tr>
+<tr>
+<td>T25</td>
+<td>B</td>
+<td>v2</td>
+<td><code>geometryData</code> and <code>babylonGeometry</code> shared one cache key: the second rebuild drew 0 vertices</td>
+<td>suffix the key with the colour variant; dispose both</td>
+<td>read</td>
+</tr>
+<tr>
+<td>T26</td>
+<td>B</td>
+<td>v2</td>
+<td><code>Background</code> sky gradient drawn sRGB-encoded by Babylon, almost black by headless X_ITE</td>
+<td>logged as a gap, not tuned</td>
+<td>GAPS.md</td>
+</tr>
+<tr>
+<td>T27</td>
+<td>B</td>
+<td>v3</td>
+<td>two views on two engines: the shim holds one browser and one body</td>
+<td>second custom element <code>x3d-babylon</code> chosen when an adapter answers; the other view stays on X_ITE</td>
+<td>grep: boot-dl.js</td>
+</tr>
+<tr>
+<td>T28</td>
+<td>B</td>
+<td>v3</td>
+<td>bare <code>Appearance</code> with no Material and a per-face <code>Color</code> drew black on black</td>
+<td>route through an unlit vertex-colour program, opaque</td>
+<td>read</td>
+</tr>
+<tr>
+<td>T29</td>
+<td>B</td>
+<td>v3</td>
+<td><code>Inline</code>, <code>ProximitySensor</code>, <code>IMPORT</code>/<code>EXPORT</code> have no Babylon counterpart</td>
+<td>fetch and adopt on <code>load</code>; box-test the eye in the sensor frame; answer <code>getImportedNode</code> from <code>getNamedNode</code></td>
+<td>grep: 3 files</td>
+</tr>
+<tr>
+<td>T30</td>
+<td>B</td>
+<td>v3</td>
+<td><code>alphaMode AUTO</code> and a proxy sphere paint glow over an opaque core</td>
+<td>AUTO is opaque for programs that write alpha 1; write <code>fragDepth</code>, depth write off on the blended material</td>
+<td>grep: wgsl-dl.js</td>
+</tr>
+<tr>
+<td>T31</td>
+<td>B</td>
+<td>v3</td>
+<td>a page that probes the engine (<code>getComponent</code>, <code>createNode(&quot;BlendMode&quot;)</code>) picks its path from your shim's answer</td>
+<td>list the probes; test both answers and every look</td>
+<td>read</td>
+</tr>
+<tr>
+<td>T32</td>
+<td>B</td>
+<td>v3</td>
+<td>a textured UnlitMaterial at full opacity: 14 portrait plates showed at once</td>
+<td>carry the material, <code>opacity = 1 - transparency</code>, re-apply on change</td>
+<td>read</td>
+</tr>
+<tr>
+<td>T33</td>
+<td>B</td>
+<td>v4</td>
+<td><code>Extrusion</code>, <code>Disk2D</code>, <code>Rectangle2D</code> have no Babylon node</td>
+<td>convert to IndexedFaceSet at parse time; update buffers in place for animation</td>
+<td>hall/reader-ext-hl.js</td>
+</tr>
+<tr>
+<td>T34</td>
+<td>C</td>
+<td>v1</td>
+<td><code>BlendMode</code> and <code>DepthMode</code> are X_ITE-only; the 4.0 XSD rejects them, and <code>ParticleSystem</code> with physics</td>
+<td>say so in the validation line; 4 names sit outside the 4.0 list</td>
+<td>NODES.json meta</td>
+</tr>
+<tr>
+<td>T35</td>
+<td>C</td>
+<td>v2</td>
+<td>loading Babylon replaces <code>window.X3D</code>; the X_ITE engine stops</td>
+<td>restore it after the bundle loads; engines switch both ways</td>
+<td>grep: 6 files</td>
+</tr>
+<tr>
+<td>T36</td>
+<td>C</td>
+<td>v2, v3</td>
+<td>WGSL compile errors arrive as console warnings; a <code>*/</code> inside a block comment of a concatenated bundle ends it</td>
+<td>the harness listens to warnings; <code>node --check</code> the bundle (only build-hall.py does)</td>
+<td>grep: 1 of 13</td>
+</tr>
+<tr>
+<td>T37</td>
+<td>C</td>
+<td>v2</td>
+<td>first frame shows half-built pipelines; a slowed rAF ages time-driven code</td>
+<td><code>scene.whenReadyAsync()</code>; pass <code>maxDt</code></td>
+<td>grep: 3 files</td>
+</tr>
+<tr>
+<td>T38</td>
+<td>C</td>
+<td>v4</td>
+<td>more than 16 vertex outputs: each shadow-mapped light costs two</td>
+<td>count shadow lights per mesh before choosing cascades</td>
+<td>read</td>
+</tr>
+<tr>
+<td>T39</td>
+<td>C</td>
+<td>v4, v2</td>
+<td>brightness gap blamed on the light unit: <code>lightScale 0.75</code> moved luma 4 percent</td>
+<td>measure the unit first; glTF punctual units kept a hall within 1 grey level</td>
+<td>Hall RECEIPT</td>
+</tr>
+<tr>
+<td>T40</td>
+<td>W</td>
+<td>v1, v2, v4</td>
+<td>no <code>gl_PointSize</code>, no wide lines</td>
+<td>camera-facing quads with a <code>corner</code> attribute (<code>corner * (s / viewport.zw) * w</code>); ribbons for lines</td>
+<td>grep: wgsl-point.js</td>
+</tr>
+<tr>
+<td>T41</td>
+<td>W</td>
+<td>v2, v3</td>
+<td><code>pow(x, 2.)</code> of a negative; <code>smoothstep(a, b, x)</code> with a &gt; b; <code>select(false, true, c)</code> order</td>
+<td><code>x * x</code>; write the clamp formula; re-derive every <code>select()</code></td>
+<td>read</td>
+</tr>
+<tr>
+<td>T42</td>
+<td>W</td>
+<td>v3</td>
+<td>no <code>inverse()</code>, no matrix/scalar divide, no implicit int-float mix, no <code>uniform float u[32]</code></td>
+<td>cofactor <code>inv3</code>; <code>f32(i)</code>; eight <code>vec4f</code> <code>u0..u7</code> and <code>uAt(i)</code></td>
+<td>read</td>
+</tr>
+<tr>
+<td>T43</td>
+<td>W</td>
+<td>v3</td>
+<td>window y runs down: <code>cross(dFdx, dFdy)</code> flips, dither mirrors; derivatives must precede <code>discard</code></td>
+<td><code>cross(dpdy, dpdx)</code>; accept the mirrored pattern; compute <code>fwidth</code> first</td>
+<td>Demiurge G8</td>
+</tr>
+<tr>
+<td>T44</td>
+<td>W</td>
+<td>v3</td>
+<td>look constants differ per theme, code does not: hash keys need one port per theme</td>
+<td>key by ComposedShader DEF; read <code>const</code> lines from the scene's GLSL</td>
+<td><code>DL_BY_DEF</code></td>
+</tr>
+</tbody>
+</table>
+<p>Six more traps live in other sections and keep their numbers here:</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>tier</th>
+<th>from</th>
+<th>trap and where it lives</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T45</td>
+<td>B</td>
+<td>v2</td>
+<td>263k-number MF arrays through the SAI: non-copying <code>fieldView</code>, typed <code>MFVec4f</code> and <code>MFFloat</code> parse (Manifold)</td>
+</tr>
+<tr>
+<td>T46</td>
+<td>C</td>
+<td>v1</td>
+<td>no adapter on some Windows laptops: section 10</td>
+</tr>
+<tr>
+<td>T47</td>
+<td>C</td>
+<td>v1</td>
+<td>edited GLSL falls back to no shader (X3D 31.2.2): section 9</td>
+</tr>
+<tr>
+<td>T48</td>
+<td>C</td>
+<td>v1</td>
+<td>the tone-map choice changes the picture: section 8</td>
+</tr>
+<tr>
+<td>T49</td>
+<td>C</td>
+<td>v4</td>
+<td><code>loadURL</code> takes an MFString; fixed page chrome over a canvas needs a <code>ResizeObserver</code> (Hall)</td>
+</tr>
+<tr>
+<td>T50</td>
+<td>C</td>
+<td>v2, v3</td>
+<td>a hidden canvas keeps rendering (skip when <code>getClientRects().length === 0</code>); a headless click on an auto-hidden control needs a mouse move first</td>
+</tr>
+</tbody>
+</table>
+<p>Carried, in no playbook version [L unless marked]: Babylon mixes fog after tone mapping, X_ITE in linear, so pass a display-space fog colour <span class="g S" title="Suspected">S</span>; <code>VertexData.ComputeNormals</code> assumes left-handed, so pass <code>{ useRightHandedSystem: true }</code> (grep: 7 files); PCF shadows drew nothing and <code>usePoissonSampling</code> did (<code>drift/drift-ext.js</code> line 319); GL depth bias is twice too strong in WebGPU (<code>z -= (k / 2) * w</code>); a flat varying comes from the first vertex in WebGPU, the last in GL (Gobbler 3 gap G7).</p>
+<h2 id="6-the-parity-method-psnr-against-x_ite-on-a-software-gpu">6. The parity method: PSNR against X_ITE on a software GPU</h2>
+<p>The measurement is a witness, not a score: same file, two renderers, a number that says where to look.</p>
+<ol>
+<li>Same scene file (record its sha256), Viewpoint, canvas size and Switch settings, in X_ITE (name the patch: 16.4.3, 16.5.1 or 16.6.0 appear in the receipts) and in the bridge page (<code>Babylon 9.32.0</code>), &quot;As authored&quot; only.</li>
+<li>Headless Chromium 153 on SwiftShader cannot present a WebGPU swap chain (every pipeline reports &quot;Instance dropped&quot;). <code>stub-swapchain.py</code> replaces <code>canvas.getContext('webgpu')</code> with an object whose <code>getCurrentTexture()</code> returns an offscreen texture; the page reads it back (<code>__demo.capture</code>, <code>__snap</code>).</li>
+<li>Slow <code>requestAnimationFrame</code> (600 ms splat viewers, 1.2 s brain) or frames pile up and the read-back waits over ten minutes.</li>
+<li>Pin time: seek both renderers (Odyssey), use the page's freeze, or compare the scene hash instead of pixels for scenes that grow (<code>scenes.sha256</code> for the HEP events).</li>
+<li>PSNR on 8-bit RGB, <code>10 * log10(255^2 / MSE)</code>, with the mean absolute difference; state whole frame, crop or mask. Layers that differ by construction (tracts, slice planes, labels) score low: say so, do not tune to the metric.</li>
+<li>Write <code>RECEIPT.md</code> (rig, versions, scripts) and <code>GAPS.md</code> (each line graded). The bridge's visual rig adds bounds to a test spec (<code>iou</code> silhouette overlap, <code>mad</code>, <code>fg</code> mean colour of drawn pixels, <code>cover</code>, <code>bbox</code>, <code>count</code>); a shot where neither engine drew anything fails unless <code>empty</code> is true.</li>
+</ol>
+<p>A worked number (D-BAB-4, re-run): the two committed facade frames, 960 x 540, X_ITE 16.4.3 against our own-runtime page.</p>
+<table>
+<thead>
+<tr>
+<th>window</th>
+<th>PSNR</th>
+<th>MAE of 255</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>whole frame</td>
+<td>39.30 dB</td>
+<td>0.84</td>
+</tr>
+<tr>
+<td>bottom 40 rows cropped (the receipt's caption crop)</td>
+<td>41.90 dB</td>
+<td>0.79</td>
+</tr>
+</tbody>
+</table>
+<p>The receipt's 41.9 dB and 0.79 are re-derived; the same frames differ by 2.6 dB between the whole frame and one crop. A PSNR without its window is not comparable with another PSNR.</p>
+<pre><code class="language-text">  dB   what the rows are                                   rows (reference X_ITE patch)
+  50 +  shaders ported term for term, no lens or bloom     Pantheon splats 50.17, 51.01 (16.4.3)
+  49 +                                                      Manifold 49.34, 48.47 (16.5.1)
+  42 +  one generated view                                  facade 41.90, re-derived (16.4.3)
+  35 +  lit meshes, glass, layers                           brain 33.03 all; 35.11 glass to
+     |                                                      30.26 torso (16.6.0)
+  30 +  &quot;same picture, small shading differences&quot;           Dynasty 29.0 to 37.8 (16.5.1)
+  25 +  &quot;same scene, detail differs&quot;                        KANSEI 24.36 to 32.46; Chirp 24.87
+     |                                                      to 25.36; Odyssey 25.5 to 30.7
+  21 +  thin things: ribbons, labels, slice planes          brain tracts 22.51, labels 21.53
+  17 +  method: clocks, pose, background                    Hall 17.5 to 25.3; Gobbler 3 14.60
+     |                                                      to 19.66; Cloud 19.24 whole frame
+   7 +  &quot;means little&quot; in the receipt's own words           Demiurge 7.18 to 13.26 (16.5.1)
+</code></pre>
+<p>Rows are read from <code>runs/webgpu-*/RECEIPT.md</code> and <code>GAPS.md</code> at <code>x3d.loom@162ab18</code> <strong><span class="g L" title="Likely">L</span></strong>; rig in each: Chromium 153.0.8010.12, SwiftShader, stubbed swap chain (Odyssey names &quot;headless Chromium&quot; without a version). The tiers are ours; the receipts say only that 30 dB or more is &quot;the same picture with small shading and edge differences&quot; and 24 to 29 dB the same scene differing in detail.</p>
+<p><strong>What the ladder cannot say:</strong></p>
+<table>
+<thead>
+<tr>
+<th>it cannot say</th>
+<th>evidence</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>that a bright number is a faithful picture</td>
+<td><code>Polypoint2D</code>: iou 1, 40.03 dB, drawn pixels' mean colour [202, 162, 41] in ours and [64, 51, 13] in X_ITE: a few small squares on black move PSNR little (<code>BATCH-26.md</code>, X_ITE 16.6.0, 320 x 240)</td>
+<td>C (read)</td>
+</tr>
+<tr>
+<td>that a low number is a wrong picture</td>
+<td><code>ExplosionEmitter</code>: iou 0.05, 11.73 dB, verdict PASS: particle age differs on a CPU raster, so extent is compared with a wide bound (<code>BATCH-23.md</code>)</td>
+<td>C (read)</td>
+</tr>
+<tr>
+<td>that the window is the same</td>
+<td>Cloud 19.24 dB whole frame, 21.01 with background excluded; facade 39.30 against 41.90</td>
+<td>C</td>
+</tr>
+<tr>
+<td>that the clocks agree</td>
+<td>Gobbler 3 captured the engines at different instants; its gap G4 says PSNR &quot;is not a parity figure&quot;; Demiurge G4: 7 to 13 dB &quot;means little&quot;; Dynasty night Crown 18.8 and Wide 22.1 &quot;probably pose drift&quot; <span class="g S" title="Suspected">S</span>. Odyssey and KANSEI pin time (seek; sim hash equal in 6 of 6 views); the Hall's receipt says its film clock agrees; for the other receipts the clock is not stated</td>
+<td>C (read)</td>
+</tr>
+<tr>
+<td>that it holds on a real GPU or within a tolerance</td>
+<td>all rows are SwiftShader; the spec's profiles (<code>parity/look</code> 4/255 and luma 0.01; SSIM 0.95 and PSNR 30 for the benchmark) are proposals and calibration (X_ITE against itself on two GPUs, TBD-13) is not done</td>
+<td>C</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-the-ports-and-what-each-taught">7. The ports and what each taught</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>port, PR (merge)</th>
+<th>headline parity (reference, size)</th>
+<th>what it taught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Pantheon splats, #11 (7 Nov), own runtime</td>
+<td>50.17, 51.01 dB (16.4.3, 960 x 540)</td>
+<td>the stub swap chain; GPU bitonic sort; X_ITE's splat shader ported line by line</td>
+</tr>
+<tr>
+<td>2</td>
+<td>HEP events and facade, #12 (7 Nov)</td>
+<td>facade 41.9 dB (16.4.3); events by scene hash</td>
+<td>event scenes grow: compare hashes; 140,000 splats pad to 262,144 (171 dispatches)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Neural Canvas, #13 (7 Nov)</td>
+<td>33.03 all; 21.53 to 35.11 per layer (16.6.0, 640 x 360)</td>
+<td>winding, <code>alphaIndex</code>, billboards, clip planes, 4 shader keys</td>
+</tr>
+<tr>
+<td>4</td>
+<td>adapter retry, #14 (7 Nov)</td>
+<td>none</td>
+<td>harmless, not the cure for the blocklist (section 10)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>KANSEI, #17 (7 Nov)</td>
+<td>24.36 to 32.46 masked (16.5.1, 640 x 360)</td>
+<td>fog order, right-handed normals, shadows; keep the simulation out of the renderer</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Manifold, #19 (7 Nov)</td>
+<td>49.34, 48.47 (16.5.1, 640 x 360)</td>
+<td>emit callbacks, <code>fromLinearSpace</code>, attribute order, big arrays; 7 keys</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Chirp and Cloud, #21 (7 Nov)</td>
+<td>24.87 to 25.36; 19.24 to 19.40 whole, 21.01 to 24.96 masked (16.5.1, 1100 x 700)</td>
+<td>unlit HDR vertex colour, the geometry cache key, <code>Background</code> sky; re-run earlier pages after editing shared files</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Gobbler 3, #22 (7 Nov)</td>
+<td>14.60 to 19.66 (16.5.1, 640 x 360)</td>
+<td>depth bias, flat varyings, point quads; clocks not locked; 6 keys</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Material Odyssey, #23 (8 Nov)</td>
+<td>25.5 to 30.7 as authored; 18.4 to 28.2 look on (16.4.3, 1280 x 536)</td>
+<td>light scope, USE audit, emissive texture, seeking; no new node type needed</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Gobbler Demiurge, #24 (8 Nov)</td>
+<td>7.18 to 13.26 (16.5.1, 960 x 540)</td>
+<td><code>startTime 0</code>, pause, near and far, reversed depth; 4 keys</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Dynasty Loom, #25; Library Hall, #27 (8 Nov)</td>
+<td>29.0 to 37.8; 17.5 to 25.3 (16.5.1)</td>
+<td>two engines on one page, <code>BlendMode</code>, <code>IMPORT</code>/<code>EXPORT</code>; the Hall has no shader (&quot;the first all-standard-node page&quot;, v4)</td>
+</tr>
+</tbody>
+</table>
+<p><span class="g L" title="Likely">L</span> for every parity cell (read in the named receipts, not re-run except the facade).</p>
+<h2 id="8-a-look-may-add-never-assert-a-fallback-must-say-so">8. A look may add, never assert; a fallback must say so</h2>
+<p>Both rules are <a href="02-loom-laws.html">Loom laws</a> (39 and 40), kept on this track as code habits.</p>
+<table>
+<thead>
+<tr>
+<th>rule</th>
+<th>mechanism and evidence</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a look decorates and can be switched off</td>
+<td>Odyssey: switch <code>OD.on</code>, Look button (key L), <code>?look=0</code>; Chirp and Cloud: a pill and <code>?look=0</code>. Recipe: generated cube environment, <code>DefaultRenderingPipeline</code> (MSAA 4, bloom, grain, vignette, neutral tone map), camera dust, up to three spot shadow generators. Odyssey look off 25.5 to 30.7 dB, on 18.4 to 28.2 dB (16.4.3): the look adds reflections, bloom, shadows, grain and dust by design and is &quot;not a target&quot;</td>
+<td>L (playbook v2 section 2, receipt)</td>
+</tr>
+<tr>
+<td>a default can assert</td>
+<td>Collider: Neutral tone map at exposure 1.65 turned towers pink-white (13.9% near-white crown pixels against 1.2% for per-channel exp at 1.35), found by counting pixels on a purpose-built region, not by PSNR</td>
+<td>L (playbook v1 4.2)</td>
+</tr>
+<tr>
+<td>a miss, a gap or a software adapter must show</td>
+<td>a hash miss draws the Material; 6 of 13 builders refuse an unported shader; <code>scene.getFidelityReport()</code> keeps recognition, known gaps and unverified fidelity apart (&quot;no report is a conformance certificate&quot;, <code>bridge/README.md</code>); <code>adapter.js</code> and <code>timing.js</code> name the adapter and label SwiftShader, WARP and llvmpipe &quot;these numbers do not count&quot;</td>
+<td>C (read, grep)</td>
+</tr>
+<tr>
+<td>unknown nodes should not vanish silently</td>
+<td>the reader tallies unknown tags; on screen only in the manifold and Gobbler 3 pages, a console line elsewhere (2 of 7 pages at 8 Nov)</td>
+<td>S (primer, carried)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="9-shader-porting-hash-keyed-glsl-to-hand-written-wgsl">9. Shader porting: hash-keyed GLSL to hand-written WGSL</h2>
+<pre><code class="language-text">  &lt;ComposedShader DEF=..&gt;  ShaderPart VERTEX url=&quot;data:..,GLSL&quot;   ShaderPart FRAGMENT url=..
+        |  decode the data URL (base64 or percent), keep the text after the first comma
+        v
+  collapse each run of whitespace to one space, trim:     s.replace(/\s+/g, ' ').trim()
+        v
+  FNV-1a, 32-bit:  h = 0x811c9dc5;  per UTF-16 unit  h ^= c;  h = imul(h, 0x01000193) &gt;&gt;&gt; 0
+        v
+  key = hex8(vertex) + '-' + hex8(fragment)          e.g.  1bc84a9f-b6fcc411  (collision flash)
+        v
+  table lookup:  hit  -&gt; hand-ported WGSL with its uniform names
+                 miss -&gt; Material fallback and a notice on screen (law 40); never a guess
+</code></pre>
+<p>Worked example, the five Collider programs (D-BAB-3: an independent Python port of the same hash over <code>demo/collider.x3d</code>, equal to the <code>key:</code> fields in <code>collider-v2.html</code>) <strong><span class="g C" title="Confirmed">C</span></strong>:</p>
+<table>
+<thead>
+<tr>
+<th>DEF</th>
+<th>role</th>
+<th>key (vertex-fragment)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>trkShader2</code></td>
+<td>tracks</td>
+<td><code>da010848-2732de59</code></td>
+</tr>
+<tr>
+<td><code>twrShader2</code></td>
+<td>calorimeter towers</td>
+<td><code>e899d3ba-71ea799c</code></td>
+</tr>
+<tr>
+<td><code>shellShader2</code></td>
+<td>detector shells</td>
+<td><code>2318d20e-451c1b62</code></td>
+</tr>
+<tr>
+<td><code>flashShader2</code></td>
+<td>collision flash</td>
+<td><code>1bc84a9f-b6fcc411</code></td>
+</tr>
+<tr>
+<td><code>hazeShader2</code></td>
+<td>backdrop haze</td>
+<td><code>07e052cf-7ecaed2f</code></td>
+</tr>
+</tbody>
+</table>
+<p>Extra spaces inside the flash fragment leave the key unchanged; changing one constant (<code>12.0</code> to <code>12.5</code>) moves only the fragment half, to <code>1bc84a9f-bd1839be</code>, and the program misses. That is the feature: the page cannot claim to render code it did not run.</p>
+<p>Counts at <code>162ab18</code> [C, grep <code>'[0-9a-f]{8}-[0-9a-f]{8}'</code> over 9 files of <code>demo/src</code>]: 26 distinct hash keys (Collider 5, brain 4, manifold 7, Gobbler 3 6, Demiurge 4); the primer's 22 on 8 Nov is 5 + 4 + 7 + 6, before Demiurge. Dynasty keys 6 programs (<code>sky</code>, <code>ring</code>, <code>seedcore</code>, <code>seedglow</code>, <code>fiber</code>, <code>shell</code>) by ComposedShader DEF, because its two looks differ only in <code>const</code> look constants read out of the scene's own GLSL (<code>dynasty/wgsl-dl.js</code>, <code>DL_BY_DEF</code>). The Hall's builder refuses any ComposedShader.</p>
+<p>The WGSL rules that cost time are T40 to T44 in section 5. Review rule from the Gobbler port: one author writes the WGSL term for term and a second re-derives every constant, operator and <code>select()</code> argument order; that review found one real defect [L, carried]. WGSL compile errors surface as console warnings, so a harness must listen to them (T36).</p>
+<h2 id="10-the-adapter-and-blocklist-trap">10. The adapter and blocklist trap</h2>
+<table>
+<thead>
+<tr>
+<th>observation</th>
+<th>detail</th>
+<th>source</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>symptom</td>
+<td>&quot;requestAdapter() returned no adapter&quot; or &quot;WebGPU not available&quot; on one Windows laptop (Intel gen-9 integrated GPU, UHD 620 class, Chrome 156); plain and <code>high-performance</code> requests both null</td>
+<td>playbook v1 section 4.1</td>
+<td>L (read; no Windows here)</td>
+</tr>
+<tr>
+<td>cause</td>
+<td><code>chrome://gpu</code> Dawn Info lists the adapter only on the D3D11 backend, blocklisted (&quot;D3D11 backend not fully implemented&quot;, crbug.com/41479539); the only other adapter, the CPU Basic Render Driver, is blocklisted too</td>
+<td>same; <code>x3d.demo@d10b457:docs/index.html</code> repeats it</td>
+<td>L</td>
+</tr>
+<tr>
+<td>a wrong theory</td>
+<td>&quot;the viewer asked only for <code>high-performance</code>&quot;: <code>shared/adapter.js</code> now retries plain, caller options, low-power, fallback adapter and records the winner in <code>window.__adapterVia</code>; harmless, not the cure</td>
+<td>playbook v1; <code>adapter.js</code></td>
+<td>C (read)</td>
+</tr>
+<tr>
+<td>the fix that worked</td>
+<td><code>chrome://flags/#enable-unsafe-webgpu</code> set to Enabled, relaunch. The demo page warns it &quot;switches off Chrome's safety check for WebGPU on that GPU, so use it for these demos only&quot;. A Mac with a normal Metal adapter was fine; Edge is another route</td>
+<td>playbook v1; <code>docs/index.html</code></td>
+<td>L</td>
+</tr>
+<tr>
+<td>a source conflict</td>
+<td><code>STATE.md</code> 4.2 records a probe on this hardware (7 Nov) that got a hardware adapter without the flag and says Chromium's default blocklist patterns hold only Qualcomm and <code>*:*:PowerVR*25.1*</code>; the playbook says the same hardware later returned null and the browser state had differed. Cause unknown</td>
+<td><code>STATE.md</code>, playbook v1</td>
+<td>L; neither re-run</td>
+</tr>
+</tbody>
+</table>
+<p>A page must show the tip when <code>requestAdapter()</code> is null, and which adapter and request answered (law 40). Diagnose in order: a probe page over http or <code>file://</code>, never <code>about:blank</code> where <code>navigator.gpu</code> is absent (<code>bench/webgpu-probe.html</code>); <code>chrome://gpu</code>, Dawn Info, &quot;Blocklisted&quot;; the flag, knowing what it disables; another browser or machine. In this sandbox the only adapter is SwiftShader's fallback, with <code>--enable-unsafe-webgpu</code> [L, <code>STATE.md</code> section 5].</p>
+<h2 id="11-porting-a-new-demo-sixteen-steps-append-only">11. Porting a new demo: sixteen steps, append-only</h2>
+<p><code>x3d.demo</code> keeps every version: <code>docs/versions/vN/index.html</code> is a frozen snapshot, <code>docs/index.html</code> the newest copy, demos live at <code>docs/demos/&lt;name&gt;/vN/</code>; &quot;nothing is overwritten; a change makes a new version&quot; (<code>x3d.demo@d10b457:CHANGELOG.md</code>). Of the 13 <code>build*.py</code>, 5 enforce a new output folder in code (<code>grep -l -i &quot;refusing to overwrite\|never overwrite\|must be new&quot; build*.py</code>: demiurge, dynasty, hall, manifold, odyssey), 6 refuse an unported shader (<code>grep -l &quot;no WGSL port\|carries a ComposedShader&quot; build*.py</code>) and 1 runs <code>node --check</code> on the bundle (hall) <span class="g C" title="Confirmed">C</span>.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>step</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>validate the scene, record its sha256; the file is the master (law 38)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>census its node names against <code>NODES.json</code>; list every non-<code>base</code> node and every ComposedShader</td>
+</tr>
+<tr>
+<td>3</td>
+<td>copy the carrier: <code>reader.js</code>, <code>body.js</code>, <code>body-cam.js</code>, <code>sai.js</code>, <code>wgsl.js</code>, <code>boot.js</code>, <code>adapter.js</code>, <code>timing.js</code>; add <code>kit.js</code>, <code>nodes/*.js</code>, <code>body-br.js</code> only if the scene needs kit nodes (builders omit the kit by default)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>pin Babylon to one exact version from a CDN with a subresource-integrity hash (9.32.0 so far)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>hash every shader, write the ports, make the builder refuse an unported one</td>
+</tr>
+<tr>
+<td>6</td>
+<td>run the demo's own <code>app.js</code> unchanged against the SAI shim; a patch is a finding</td>
+</tr>
+<tr>
+<td>7</td>
+<td>match X_ITE as authored first; add looks after, switchable, with <code>?look=0</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td>read <code>global</code> on every light and scope the non-global ones; audit USE for state keyed by node id; check the light unit before blaming it (T03, T04, T39)</td>
+</tr>
+<tr>
+<td>9</td>
+<td>put fallbacks on screen: shader miss, unknown nodes, adapter name, the flag tip</td>
+</tr>
+<tr>
+<td>10</td>
+<td>build into a <strong>new</strong> folder; <code>node --check</code> the bundle</td>
+</tr>
+<tr>
+<td>11</td>
+<td>measure: stub swap chain, slowed rAF, pinned time, As authored, window named, per layer</td>
+</tr>
+<tr>
+<td>12</td>
+<td>write <code>runs/&lt;name&gt;-&lt;date&gt;/RECEIPT.md</code> (rig, versions, scripts) and <code>GAPS.md</code> (each line graded); list audio, Timing and a real-GPU pass as open</td>
+</tr>
+<tr>
+<td>13</td>
+<td>leak sweep on the served bytes: model and vendor names, cloud ids, cost figures, private links, unpublished material, keys, embedded metadata</td>
+</tr>
+<tr>
+<td>14</td>
+<td>publish to <code>docs/demos/&lt;name&gt;/v1/</code> (vN+1 for a revision), add <code>docs/versions/vN</code>, copy it to <code>docs/index.html</code>, add a CHANGELOG line and a <code>SOURCES.md</code> row with byte hashes</td>
+</tr>
+<tr>
+<td>15</td>
+<td>say on the page what it is: renderer and version, &quot;correctness evidence, no timings&quot;, the flag tip</td>
+</tr>
+<tr>
+<td>16</td>
+<td>if you edited a shared file, re-run the earlier pages' smoke tests; open a PR; verify the live URL after Pages builds</td>
+</tr>
+</tbody>
+</table>
+<h2 id="12-no-speed-claim-exists-and-what-one-would-take">12. No speed claim exists, and what one would take</h2>
+<ul>
+<li>No receipt holds a WebGPU or Babylon timing from a real GPU: <code>bench/receipts/</code> has one file, the G1 adapter probe; the timing test I read (<code>runs/webgpu-drift-20261107</code>) feeds synthetic timestamps to the panel [C, <code>ls</code>, receipt read].</li>
+<li>The Timing panel is opt-in: 2 s warm-up, 20 s window, p50, p95, p99, adapter and canvas recorded, software adapters labelled; 7 of 13 builders include it [C, <code>shared/timing.js</code>, grep].</li>
+<li>The decision rule (<code>BENCHMARK.md</code> section 9, <strong><span class="g L" title="Likely">L</span></strong>): Go only if parity holds (SSIM 0.95, PSNR 30), p95 is at most 0.70 of arm A in all 3 runs, at most 0.85 of the engine's own WebGL2 arm, with no 10% regression; otherwise No-go or Inconclusive. Gate G0 (consent to use a named real GPU for metrics) is open.</li>
+<li>The only real-GPU number in the sources is an X_ITE frame rate on one machine, vsync-capped: a ceiling check, not a comparison (<a href="06-xite-the-oracle.html">06</a>, <code>STATE.md</code>) [L, carried].</li>
+</ul>
+<p>A timing claim needs a named GPU and driver, vsync off, three runs and their spread, the same scene on the X_ITE arm and on the engine's WebGL2 arm, and a receipt that fits <code>bench/receipt.schema.json</code>. Until then this chapter says nothing about &quot;faster&quot;, &quot;lighter&quot; or &quot;smoother&quot;, and neither should a page.</p>
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule (imperative, at most 30 words)</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-BAB-1</td>
+<td>Give every node count its denominator and definition: page-bundle census, tracker headline or bridged-without-gap. Never subtract across definitions.</td>
+<td>C</td>
+<td>68, 75, 186 and 41 all describe one codebase (N-BAB-2 to N-BAB-5)</td>
+<td><code>census.js</code>, <code>driver.py status</code>, <code>x3d.loom@162ab18</code></td>
+</tr>
+<tr>
+<td>H-BAB-2</td>
+<td>Treat <code>bridged</code> as one fixture passing in two engines at 320 x 240, and read the node's gap note before quoting it.</td>
+<td>C</td>
+<td>70 of the 111 kit modules are <code>gap</code>; the assessment separates recognised, passing and correct</td>
+<td><code>NODES.json</code>, <code>ASSESSMENT-2026-11-08.md</code></td>
+</tr>
+<tr>
+<td>H-BAB-3</td>
+<td>Write the PSNR window (whole frame, crop or mask) beside every dB figure.</td>
+<td>C</td>
+<td>same two frames: 39.30 dB whole, 41.90 cropped</td>
+<td>numpy PSNR, 960 x 540 (D-BAB-4)</td>
+</tr>
+<tr>
+<td>H-BAB-4</td>
+<td>Do not accept or reject a node on dB; use the bounds written in its test spec and look at the picture.</td>
+<td>C</td>
+<td>11.73 dB with verdict PASS; 40.03 dB with a drawn colour 3 to 4 times dimmer</td>
+<td><code>BATCH-23.md</code>, <code>BATCH-26.md</code>, X_ITE 16.6.0</td>
+</tr>
+<tr>
+<td>H-BAB-5</td>
+<td>Pin time in both renderers before comparing an animated scene, or label the figure &quot;not a parity figure&quot;.</td>
+<td>L</td>
+<td>Gobbler 3 and Demiurge receipts say so; Odyssey and KANSEI pin</td>
+<td><code>runs/webgpu-*/GAPS.md</code>, SwiftShader</td>
+</tr>
+<tr>
+<td>H-BAB-6</td>
+<td>Key a shader port by FNV-1a of the whitespace-collapsed GLSL; on a miss draw the Material and say so; make the builder refuse an unported shader.</td>
+<td>C</td>
+<td>whitespace edit keeps the key, one constant changes the fragment half; 6 of 13 builders refuse</td>
+<td>Python port of the page hash (D-BAB-3)</td>
+</tr>
+<tr>
+<td>H-BAB-7</td>
+<td>When a port looks wrong, check tier A of the trap table before touching light: winding, colour space, light scope, USE identity, emissive texture.</td>
+<td>L</td>
+<td>the playbooks' own advice; the tier order is our judgement <span class="g S" title="Suspected">S</span></td>
+<td>playbooks v1 to v4</td>
+</tr>
+<tr>
+<td>H-BAB-8</td>
+<td>On every public WebGPU page show the adapter, which request answered and, when null, the flag tip with its safety cost.</td>
+<td>L</td>
+<td>one gen-9 laptop got no adapter until the flag was set</td>
+<td>playbook v1; <code>docs/index.html</code></td>
+</tr>
+<tr>
+<td>H-BAB-9</td>
+<td>Make no speed claim without a named real GPU, driver, three runs and a receipt that fits the schema.</td>
+<td>C</td>
+<td>0 timing receipts for any bridge body; 1 file in <code>bench/receipts/</code></td>
+<td><code>ls</code>, <code>BENCHMARK.md</code> section 9</td>
+</tr>
+<tr>
+<td>H-BAB-10</td>
+<td>Where a playbook line and the code disagree, the code wins; record both and correct the playbook by a new version.</td>
+<td>C</td>
+<td>v1 and v2 say &quot;convert authored sRGB&quot;; <code>body.js</code> line 303 assigns the colour as authored</td>
+<td><code>brain/body.js</code> read</td>
+</tr>
+</tbody>
+</table>
+<h2 id="drills">Drills</h2>
+<h3 id="d-bab-1-recount-the-bridges-coverage">D-BAB-1 Recount the bridge's coverage</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> From <code>x3d.loom@162ab18:x3d.webgpu/bridge</code>, print the tracker totals, then count node names in the six reader parts and say how many of them are in the 260.</li>
+<li><strong>Verify:</strong> <code>python3 tools/driver.py status</code>; <code>node tools/census.js ../demo/src &gt; c.json</code>; then <code>python3 -I -c &quot;import json;c=set(json.load(open('c.json'))['defs']);n=json.load(open('NODES.json'))['nodes'];print(len(c),len([x for x in c if x in n]))&quot;</code></li>
+<li><strong>Answer:</strong> <code>reader knows 186/260 | base 75 blocked 1 bridged 41 claimed 8 gap 70 todo 65</code>; census prints <code>79 75</code> (4 defs outside the 4.0 list: <code>BlendMode</code>, <code>DepthMode</code>, <code>EnvironmentLight</code>, <code>GaussianSplats</code>). 186 = 75 + 41 + 70.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d.loom@162ab18</code>, Node 22.23.4, Python 3</li>
+</ul>
+<h3 id="d-bab-2-re-derive-the-primers-68">D-BAB-2 Re-derive the primer's 68</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Reproduce the primer's &quot;68 of 260&quot; from the tree it cites, then list what the same census gains by today.</li>
+<li><strong>Verify:</strong> <code>git archive 60824ce x3d.webgpu/demo/src | tar -x -C OLD</code>; <code>node tools/census.js OLD/x3d.webgpu/demo/src</code>; repeat on the current tree and diff the <code>defs</code>.</li>
+<li><strong>Answer:</strong> 72 defs, 68 in the 4.0 list, against 79 and 75 today. Added: <code>HAnimHumanoid</code>, <code>HAnimJoint</code>, <code>HAnimSegment</code>, <code>HAnimSite</code>, <code>Inline</code>, <code>LOD</code>, <code>ProximitySensor</code>; none removed. The tracker did not exist at 60824ce, so 68 to 186 is not like for like.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d.loom@162ab18</code> and <code>60824ce</code>, Node 22.23.4</li>
+</ul>
+<h3 id="d-bab-3-break-a-shader-key-then-predict-which-half-moves">D-BAB-3 Break a shader key, then predict which half moves</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Compute the keys of the five ComposedShaders in <code>x3d.webgpu/demo/collider.x3d</code> with an independent implementation and compare them with the <code>key:</code> fields in <code>collider-v2.html</code>. Then (a) add runs of spaces inside <code>flashShader2</code>'s fragment and (b) change <code>u_phase * 12.0</code> to <code>u_phase * 12.5</code>; predict both keys first.</li>
+<li><strong>Verify:</strong></li>
+</ul>
+<pre><code class="language-python">import re, sys, urllib.parse
+from lxml import etree
+def fnv(s):
+    h = 0x811c9dc5
+    for c in s: h = ((h ^ ord(c)) * 0x01000193) &amp; 0xffffffff
+    return '%08x' % h
+n = lambda s: re.sub(r'\s+', ' ', s).strip()
+def src(u):
+    b = re.match(r'\s*&quot;?(data:[^&quot;]*)&quot;?\s*$', u, re.S).group(1).split(',', 1)[1]
+    return urllib.parse.unquote(b) if re.search(r'%[0-9a-fA-F]{2}', b) else b
+for cs in etree.parse(sys.argv[1]).iter('ComposedShader'):
+    if cs.get('DEF'):                        # USE copies carry no parts
+        p = {x.get('type').upper(): src(x.get('url')) for x in cs.iter('ShaderPart')}
+        print(cs.get('DEF'), fnv(n(p['VERTEX'])) + '-' + fnv(n(p['FRAGMENT'])))
+</code></pre>
+<ul>
+<li><strong>Answer:</strong> the five keys equal the table in section 9. (a) leaves <code>1bc84a9f-b6fcc411</code> unchanged; (b) gives <code>1bc84a9f-bd1839be</code>: only the fragment half moves and the page would miss the port and fall back.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d.loom@162ab18</code>, Python 3 with lxml, scratch copies of the scene</li>
+</ul>
+<h3 id="d-bab-4-move-a-psnr-by-changing-its-window">D-BAB-4 Move a PSNR by changing its window</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Compute PSNR and mean absolute error between the two committed facade frames, whole and with the bottom 40 rows cropped, and say which the receipt used.</li>
+<li><strong>Verify:</strong> <code>runs/webgpu-quick-wins-20261107/frame-facade-webgpu.png</code> and <code>frame-facade-xite16.4.3.png</code> (960 x 540); <code>psnr = 10*np.log10(255**2 / ((a-b)**2).mean())</code> on RGB floats, over <code>[:540]</code> and <code>[:500]</code>.</li>
+<li><strong>Answer:</strong> whole frame 39.30 dB (MAE 0.84); bottom 40 rows cropped 41.90 dB (MAE 0.79), the receipt's 41.9 and 0.79. A 2.6 dB spread from the window alone.</li>
+<li><strong>Checked:</strong> 2026-11-14 numpy 2.5.3, Pillow 12.3.0, <code>x3d.loom@162ab18</code></li>
+</ul>
+<h3 id="d-bab-5-census-a-corpus-before-you-promise-a-port">D-BAB-5 Census a corpus before you promise a port</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> For every <code>.x3d</code> under <code>x3d.demo@d10b457:docs/demos</code>, list node names, classify each by <code>NODES.json</code> status and report how many scenes need only <code>base</code> names. Then say why &quot;base&quot; is not a promise that a given page can load the scene.</li>
+<li><strong>Verify:</strong> parse each file with lxml, skip <code>X3D head Scene ROUTE field meta component unit IS connect fieldValue Proto* IMPORT EXPORT</code>, treat <code>BlendMode DepthMode EnvironmentLight GaussianSplats</code> as extension names, look the rest up in <code>NODES.json</code>.</li>
+<li><strong>Answer:</strong> 111 files parse (the two <code>facade.x3d</code> do not); 86 use only <code>base</code> or extension names, 22 use at least one <code>gap</code>, <code>todo</code> or <code>claimed</code> node (CoordinateInterpolator 9, LineSet 8, PointProperties 6, Geo nodes 2 each), 1 uses unknown names. &quot;Base&quot; is the union of six reader parts: a page loads only its own bundle, and each page's census must be run on its own <code>PARTS</code> list (the hall extension alone adds 8).</li>
+<li><strong>Checked:</strong> 2026-11-14 lxml, <code>x3d.demo@d10b457</code>, <code>x3d.loom@162ab18</code></li>
+</ul>
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li><strong>Software GL only, Chromium only <span class="g C" title="Confirmed">C</span>.</strong> Every pixel number is SwiftShader in Chrome for Testing 153.0.8010.12; no real GPU, Firefox or Safari. Babylon 9.32.0 is a snapshot; 9.33.0 to 9.35.0 (per the primer) were not run <span class="g L" title="Likely">L</span>.</li>
+<li><strong>Per-port dB figures are read, not re-run <span class="g L" title="Likely">L</span>.</strong> Re-run here: the facade frames, the census counts, the hash keys, the greps, the 33 tests. The 42 visual rows of batches 21 to 26 were parsed from the batch reports, not regenerated (that needs X_ITE 16.6.0 and a browser).</li>
+<li><strong>Sources disagree.</strong> C1: playbooks v1 and v2 say to convert authored sRGB; <code>brain/body.js</code> line 303 assigns the colour as authored; the code is the evidence and no later playbook version corrects the sentence. C2: &quot;42 of 260&quot; (playbook v1), 62, 68 and 186 count different readers; the primer explains 42 as 44 table entries minus 2 X_ITE-only names [L, carried]. C3: the blocklist, <code>STATE.md</code> against the playbook (section 10). C4: the primer's &quot;55 traps&quot; is its own symptom table; the 50 here merge the four playbook files; they are not the same list. C5: the primer's 22 hash keys against 26 today. C6: batch headlines are non-monotonic (184, 184, 181, 186); the dip's cause is inferred <span class="g L" title="Likely">L</span>.</li>
+<li><strong>Open defects were read at <code>6b3cb76</code>, not re-checked at <code>162ab18</code> <span class="g L" title="Likely">L</span>:</strong> shared-node occurrence bookkeeping, dropped shear, IndexedFaceSet normals, ignored <code>head/unit</code>, ColorRGBA alpha. They bound what &quot;bridged&quot; means.</li>
+<li><strong>Behaviour was never compared <span class="g L" title="Likely">L</span>.</strong> No event traces, pointer tapes or audio pass; fixtures compare ROUTE chains in two engines, not whole pages. The noise floor of X_ITE against itself (TBD-13) is unmeasured, so no dB threshold here is a standard.</li>
+<li><strong>Carried, not re-checked <span class="g S" title="Suspected">S</span>:</strong> law-40 coverage by page, the Gobbler review defect, all effort figures in <code>PATHS.md</code> and <code>BABYLON.md</code> (person-weeks are guesses), the 1,396 <code>gl.*</code> call sites. Private run logs, device owners' details and unpublished material are left out on purpose.</li>
+</ul>
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-BAB-1</td>
+<td>concrete nodes in the bridge tracker</td>
+<td>260</td>
+<td>C</td>
+<td><code>X3DUOM 4.0</code> via <code>NODES.json</code></td>
+<td>x3d.loom@162ab18:x3d.webgpu/bridge/NODES.json</td>
+</tr>
+<tr>
+<td>N-BAB-2</td>
+<td>tracker headline &quot;reader knows&quot;</td>
+<td>186 of 260 (71.5%): base 75, gap 70, bridged 41; claimed 8, blocked 1, todo 65</td>
+<td>C</td>
+<td><code>driver.py status</code>, <code>x3d.loom@162ab18</code></td>
+<td>x3d.loom@162ab18:x3d.webgpu/bridge/tools/driver.py (D-BAB-1)</td>
+</tr>
+<tr>
+<td>N-BAB-3</td>
+<td>page-bundle census, 8 Nov tree</td>
+<td>68 of 260 (72 defs)</td>
+<td>C</td>
+<td><code>census.js</code> on <code>git archive 60824ce</code></td>
+<td>x3d.loom@60824ce:x3d.webgpu/demo/src (D-BAB-2)</td>
+</tr>
+<tr>
+<td>N-BAB-4</td>
+<td>page-bundle census, today</td>
+<td>75 of 260 (79 defs); 83 (87) with the hall extension</td>
+<td>C</td>
+<td><code>census.js</code>, 162ab18</td>
+<td>x3d.loom@162ab18:x3d.webgpu/bridge/tools/census.js</td>
+</tr>
+<tr>
+<td>N-BAB-5</td>
+<td>bridged without a logged gap</td>
+<td>41 of 260 (15.8%)</td>
+<td>C</td>
+<td><code>driver.py status</code></td>
+<td>x3d.loom@162ab18:x3d.webgpu/bridge/NODES.json</td>
+</tr>
+<tr>
+<td>N-BAB-6</td>
+<td>batch headlines 20 to 26</td>
+<td>175, 175, 179, 184, 184, 181, 186</td>
+<td>L</td>
+<td>read in <code>BATCH-NN.md</code></td>
+<td>x3d.loom@162ab18:x3d.webgpu/bridge/BATCH-20.md to BATCH-26.md</td>
+</tr>
+<tr>
+<td>N-BAB-7</td>
+<td>slots filled by batches 21 to 26</td>
+<td>30: 17 bridged, 13 gap; PRs #43 to #45</td>
+<td>C</td>
+<td><code>NODES.json</code>, merge log</td>
+<td>x3d.loom@162ab18:x3d.webgpu/bridge/NODES.json</td>
+</tr>
+<tr>
+<td>N-BAB-8</td>
+<td>visual compare rows, batches 21 to 26</td>
+<td>42 rows; PSNR 11.73 to 40.03, median 35.92</td>
+<td>C</td>
+<td>parsed from the reports; X_ITE 16.6.0, 320 x 240, SwiftShader</td>
+<td>x3d.loom@162ab18:x3d.webgpu/bridge/BATCH-21.md to BATCH-26.md</td>
+</tr>
+<tr>
+<td>N-BAB-9</td>
+<td>X_ITE 16.7.0 WebGPU strings</td>
+<td>0 &quot;webgpu&quot;, 0 <code>navigator.gpu</code>, 1 <code>getContext(&quot;webgl2&quot;</code></td>
+<td>C</td>
+<td>grep, <code>x_ite.min.js</code> sha256 prefix b7df063e8cb1</td>
+<td>x3d.docs@f172f67:docs/vendor/x_ite/x_ite.min.js (grep, section 2)</td>
+</tr>
+<tr>
+<td>N-BAB-10</td>
+<td>merged traps</td>
+<td>50: first seen v1 13, v2 19, v3 13, v4 5; tiers A 14, B 20, C 11, W 5</td>
+<td>C (count), S (ranking)</td>
+<td>script over the section 5 table</td>
+<td>this chapter, section 5</td>
+</tr>
+<tr>
+<td>N-BAB-11</td>
+<td>distinct hash-keyed shader programs</td>
+<td>26 (Collider 5, brain 4, manifold 7, Gobbler 3 6, Demiurge 4); 22 on 8 Nov; 6 more keyed by DEF in Dynasty</td>
+<td>C</td>
+<td>grep of <code>'[0-9a-f]{8}-[0-9a-f]{8}'</code></td>
+<td>x3d.loom@162ab18:x3d.webgpu/demo/src</td>
+</tr>
+<tr>
+<td>N-BAB-12</td>
+<td>facade PSNR by window</td>
+<td>39.30 dB whole; 41.90 dB bottom 40 rows cropped; MAE 0.84 and 0.79</td>
+<td>C</td>
+<td>numpy, Pillow, 960 x 540, X_ITE 16.4.3 reference</td>
+<td>x3d.loom@162ab18:runs/webgpu-quick-wins-20261107/ (D-BAB-4)</td>
+</tr>
+<tr>
+<td>N-BAB-13</td>
+<td>Pantheon splats; Manifold</td>
+<td>50.17 and 51.01 dB; 49.34 and 48.47 dB</td>
+<td>L</td>
+<td><code>X_ITE 16.4.3</code> (960 x 540); <code>X_ITE 16.5.1</code> (640 x 360); SwiftShader</td>
+<td>x3d.loom@162ab18:runs/webgpu-{pantheon-splats,manifold}-2026110*/RECEIPT.md</td>
+</tr>
+<tr>
+<td>N-BAB-14</td>
+<td>brain, Babylon 9.32.0</td>
+<td>33.03 all; 35.11 glass to 21.53 labels; torso 30.26</td>
+<td>L</td>
+<td><code>X_ITE 16.6.0</code>, 640 x 360, SwiftShader</td>
+<td>x3d.loom@162ab18:runs/webgpu-brain-20261107/RECEIPT.md</td>
+</tr>
+<tr>
+<td>N-BAB-15</td>
+<td>KANSEI, masked</td>
+<td>24.36 to 32.46 over 6 views; sim hash equal in 6 of 6</td>
+<td>L</td>
+<td><code>X_ITE 16.5.1</code>, 640 x 360, SwiftShader</td>
+<td>x3d.loom@162ab18:runs/webgpu-drift-20261107/RECEIPT.md</td>
+</tr>
+<tr>
+<td>N-BAB-16</td>
+<td>Material Odyssey</td>
+<td>25.5 to 30.7 as authored (6 film times); 18.4 to 28.2 look on</td>
+<td>L</td>
+<td><code>X_ITE 16.4.3</code>, 1280 x 536, SwiftShader</td>
+<td>x3d.loom@162ab18:runs/webgpu-odyssey-20261108/RECEIPT.md</td>
+</tr>
+<tr>
+<td>N-BAB-17</td>
+<td>Chirp; Cloud; Gobbler 3; Demiurge; Dynasty; Hall</td>
+<td>24.87 to 25.36; 19.24 to 19.40 (21.01 to 24.96 masked); 14.60 to 19.66; 7.18 to 13.26; 29.0 to 37.8; 17.5 to 25.3 dB</td>
+<td>L</td>
+<td><code>X_ITE 16.5.1</code>, SwiftShader</td>
+<td>x3d.loom@162ab18:runs/webgpu-{chirp,cloud,gobbler,demiurge,dynasty,hall}-*/</td>
+</tr>
+<tr>
+<td>N-BAB-18</td>
+<td>corpus name census</td>
+<td>111 files: 86 base-only, 22 need gap or todo or claimed, 1 unknown</td>
+<td>C</td>
+<td>lxml, <code>NODES.json</code></td>
+<td>x3d.demo@d10b457:docs/demos (D-BAB-5)</td>
+</tr>
+<tr>
+<td>N-BAB-19</td>
+<td>real-GPU timing receipts for any bridge body</td>
+<td>0; <code>bench/receipts/</code> holds 1 file (the G1 adapter probe)</td>
+<td>C</td>
+<td><code>ls</code></td>
+<td>x3d.loom@162ab18:x3d.webgpu/bench/receipts/</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<ul>
+<li><code>x3d.loom@162ab18</code> (read 2026-11-14): <code>x3d.webgpu/{README,STATE,PATHS,BABYLON,BENCHMARK,SPEC}.md</code>, the four playbook files, <code>bridge/</code> (tracker, assessment, batches 01 to 26, tools, src, fixtures, receipts), <code>demo/src/</code>, <code>runs/webgpu-*/</code>. Re-run: census, driver status, tests, hash keys, greps. <code>x3d.loom@60824ce</code> extracted with <code>git archive</code> (D-BAB-2).</li>
+<li><code>x3d.demo@d10b457</code>: <code>CHANGELOG.md</code> (append-only rule), <code>docs/index.html</code> (blocklist text), <code>docs/demos/SOURCES.md</code>, every <code>.x3d</code> for D-BAB-5. <code>x3d.docs@f172f67</code>: <code>docs/vendor/x_ite/x_ite.min.js</code> (grep, section 2); chapters <a href="06-xite-the-oracle.html">06</a> and <a href="02-loom-laws.html">02</a>; <a href="../x3d.loom/MASTERCLASS.html">the Loom masterclass</a> for the AST view of the same repository, not duplicated here.</li>
+<li>Private-source gap: a private primer of 8 November and private notes on each port were pointers only. Figures here were re-derived from the repository or read from a named receipt; the rest are graded <span class="g S" title="Suspected">S</span> or <span class="g L" title="Likely">L</span> and labelled carried. No private document, link, identifier or chat wording is reproduced.</li>
+<li>Siblings: <a href="01-the-tether.html">01</a>, <a href="03-validator-and-gates.html">03</a>, <a href="04-mcp-for-agents.html">04</a>, <a href="07-xray.html">07</a>, <a href="09-castle-engine.html">09</a>, <a href="11-gltf-usd-khronos.html">11</a>, <a href="13-physics.html">13</a>.</li>
+</ul>
+<div class="pn"><a href="07-xray.html">&larr; 07-xray</a><a href="09-castle-engine.html">09-castle-engine &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>
