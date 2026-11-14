@@ -20,7 +20,7 @@ blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;backgr
 details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
 .foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a class="cur" href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="13-physics.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/13-physics.md">GitHub</a></div><h1>13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</h1>
-<details class="toc"><summary>On this page (29 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-rigidbodyphysics-in-plain-terms">2. RigidBodyPhysics in plain terms</a><a class="l2" href="#3-the-physx-bridge">3. The PhysX bridge</a><a class="l3" href="#31-what-runs-where">3.1 What runs where</a><a class="l3" href="#32-the-contract-x3d-physx01-in-one-table">3.2 The contract x3d-physx/0.1 in one table</a><a class="l3" href="#33-mapping-the-parts-that-surprise">3.3 Mapping, the parts that surprise</a><a class="l3" href="#34-the-analytic-ladder-law-19-measured-in-node-on-physx-512">3.4 The analytic ladder (law 19), measured in Node on PhysX 5.12</a><a class="l3" href="#35-gates-in-the-order-the-witness-applies-them">3.5 Gates, in the order the witness applies them</a><a class="l3" href="#36-what-the-recorded-runs-say-read-and-re-judged-by-the-witness">3.6 What the recorded runs say (read, and re-judged by the witness)</a><a class="l3" href="#37-the-ragdoll">3.7 The ragdoll</a><a class="l2" href="#4-the-mujoco-bridge">4. The MuJoCo bridge</a><a class="l3" href="#41-contract-x3d-mujoco01-physical-profile-contact-arm1">4.1 Contract x3d-mujoco/0.1, physical profile contact-arm/1</a><a class="l3" href="#42-gate-0-2026-11-06-apple-m3-node-24222-verdict-passed-with-conditions">4.2 Gate 0 (2026-11-06, Apple M3, Node 24.22.2): verdict &quot;passed with conditions&quot;</a><a class="l3" href="#43-threat-model">4.3 Threat model</a><a class="l2" href="#5-why-valid-is-not-stable-and-the-physics-of-the-check">5. Why &quot;valid&quot; is not &quot;stable&quot;, and the physics of the check</a><a class="l3" href="#51-fixed-step-against-variable-step">5.1 Fixed step against variable step</a><a class="l3" href="#52-solver-iterations-and-substeps">5.2 Solver iterations and substeps</a><a class="l3" href="#d-phy-2-the-exact-reference-for-a-stepped-scheme">D-PHY-2 The exact reference for a stepped scheme</a><a class="l3" href="#d-phy-3-xpbd-bead-on-a-wire-substeps-against-residual-and-energy">D-PHY-3 XPBD bead on a wire: substeps against residual and energy</a><a class="l3" href="#d-phy-4-a-check-that-cannot-fail-the-wrong-twin">D-PHY-4 A check that cannot fail: the wrong twin</a><a class="l3" href="#d-phy-5-order-of-a-method-depends-on-where-you-measure">D-PHY-5 Order of a method depends on where you measure</a><a class="l3" href="#d-phy-6-the-cfl-limit-is-a-stability-limit-not-outrunning-a-cell">D-PHY-6 The CFL limit is a stability limit, not &quot;outrunning a cell&quot;</a><a class="l3" href="#d-phy-7-fixed-against-variable-step">D-PHY-7 Fixed against variable step</a><a class="l3" href="#d-phy-8-re-judge-the-physx-run-records-and-attack-them">D-PHY-8 Re-judge the PhysX run records and attack them</a><a class="l3" href="#d-phy-9-count-the-mujoco-threat-checks-yourself">D-PHY-9 Count the MuJoCo threat checks yourself</a><a class="l3" href="#d-phy-10-the-ports-are-baked-not-simulated-by-x3d">D-PHY-10 The ports are baked, not simulated by X3D</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<details class="toc"><summary>On this page (30 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-rigidbodyphysics-in-plain-terms">2. RigidBodyPhysics in plain terms</a><a class="l2" href="#3-the-physx-bridge">3. The PhysX bridge</a><a class="l3" href="#31-what-runs-where">3.1 What runs where</a><a class="l3" href="#32-the-contract-x3d-physx01-in-one-table">3.2 The contract x3d-physx/0.1 in one table</a><a class="l3" href="#33-mapping-the-parts-that-surprise">3.3 Mapping, the parts that surprise</a><a class="l3" href="#34-the-analytic-ladder-law-19-measured-in-node-on-physx-512">3.4 The analytic ladder (law 19), measured in Node on PhysX 5.12</a><a class="l3" href="#35-gates-in-the-order-the-witness-applies-them">3.5 Gates, in the order the witness applies them</a><a class="l3" href="#36-what-the-recorded-runs-say-read-and-re-judged-by-the-witness">3.6 What the recorded runs say (read, and re-judged by the witness)</a><a class="l3" href="#37-the-ragdoll">3.7 The ragdoll</a><a class="l2" href="#4-the-mujoco-bridge">4. The MuJoCo bridge</a><a class="l3" href="#41-contract-x3d-mujoco01-physical-profile-contact-arm1">4.1 Contract x3d-mujoco/0.1, physical profile contact-arm/1</a><a class="l3" href="#42-gate-0-2026-11-06-apple-m3-node-24222-verdict-passed-with-conditions">4.2 Gate 0 (2026-11-06, Apple M3, Node 24.22.2): verdict &quot;passed with conditions&quot;</a><a class="l3" href="#43-threat-model">4.3 Threat model</a><a class="l2" href="#5-why-valid-is-not-stable-and-the-physics-of-the-check">5. Why &quot;valid&quot; is not &quot;stable&quot;, and the physics of the check</a><a class="l3" href="#51-fixed-step-against-variable-step">5.1 Fixed step against variable step</a><a class="l3" href="#52-solver-iterations-and-substeps">5.2 Solver iterations and substeps</a><a class="l3" href="#d-phy-2-the-exact-reference-for-a-stepped-scheme">D-PHY-2 The exact reference for a stepped scheme</a><a class="l3" href="#d-phy-3-xpbd-bead-on-a-wire-substeps-against-residual-and-energy">D-PHY-3 XPBD bead on a wire: substeps against residual and energy</a><a class="l3" href="#d-phy-4-a-check-that-cannot-fail-the-wrong-twin">D-PHY-4 A check that cannot fail: the wrong twin</a><a class="l3" href="#d-phy-5-order-of-a-method-depends-on-where-you-measure">D-PHY-5 Order of a method depends on where you measure</a><a class="l3" href="#d-phy-6-the-cfl-limit-is-a-stability-limit-not-outrunning-a-cell">D-PHY-6 The CFL limit is a stability limit, not &quot;outrunning a cell&quot;</a><a class="l3" href="#d-phy-7-fixed-against-variable-step">D-PHY-7 Fixed against variable step</a><a class="l3" href="#d-phy-8-re-judge-the-physx-run-records-and-attack-them">D-PHY-8 Re-judge the PhysX run records and attack them</a><a class="l3" href="#d-phy-9-count-the-mujoco-threat-checks-yourself">D-PHY-9 Count the MuJoCo threat checks yourself</a><a class="l3" href="#d-phy-10-the-ports-are-baked-not-simulated-by-x3d">D-PHY-10 The ports are baked, not simulated by X3D</a><a class="l3" href="#d-phy-11-find-the-four-x_ite-contact-rules-in-the-source">D-PHY-11 Find the four X_ITE contact rules in the source</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
 <blockquote>
 <p><strong>Say it:</strong> A valid X3D physics scene says nothing about whether the simulation is stable, deterministic or right; the physics analogue of the validator is a run record whose hashes replay, whose references are exact, and whose controls are shown able to fail. <strong><span class="g C" title="Confirmed">C</span></strong></p>
 </blockquote>
@@ -759,6 +759,47 @@ Energy conservation is a check only against the right reference. For a stepped s
 
 ---
 
+## 9. The Babylon bridge's own engine, and what X_ITE's Bullet does that the spec does not say
+
+The Babylon bridge (`x3d.loom` `x3d.webgpu/bridge`) reached the rigid body group at tracker batch 37 (x3d.loom PR #56): RigidBodyCollection, RigidBody, CollidableShape, CollidableOffset and CollisionCollection. These five were chosen because they are the nodes the platformer levels, the PhysX scenes and the marble machine all share (RigidBodyCollection and RigidBody each appear in 31 files of the Loom repos, CollidableShape in 27, the joints in 13 to 22). **[C]** (`grep -rl` over the repos at the time of the batch, counted by the batch's author.)
+
+### 9.1 Why a small engine of our own
+
+| option | cost | chosen? |
+|---|---|---|
+| Babylon's Havok plugin | a binary the page has to fetch; the pages run under tight network rules | no |
+| the PhysX 5 bridge (section 3) | a worker and its own build; right for a finished demo | no |
+| about 230 lines of JavaScript in `RigidBodyCollection.js` | no download, repeatable, every behaviour explainable and testable against X_ITE | yes |
+
+### 9.2 What the engine does
+
+| part | choice | why |
+|---|---|---|
+| time | fixed 1/240 s slices up to the clock, catch-up capped at 0.5 s | repeatable; small steps keep contacts stable; a stalled tab cannot spiral (H-PHY-8) |
+| integrator | symplectic (semi-implicit) Euler | bounded energy error for the same cost (section 5) |
+| contacts | sphere-sphere, sphere-box (closest point), box-box by the separating axis test over 15 axes with corner contacts | a box on a floor gets four points and does not rock |
+| solver | sequential impulses, `iterations` passes (default 10), pushes only, Coulomb friction limited to mu times the normal impulse | the standard small-engine choice |
+| mass | inertia from the shapes (box and sphere formulas, parallel-axis to the body origin); the `inertia` field is ignored | X_ITE's Bullet derives it from the shapes too |
+| output | `position`, `orientation`, `linearVelocity`, `angularVelocity` raised as events | a ROUTE to a Transform is all it takes |
+
+### 9.3 Five things X_ITE's Bullet does (measured at 16.6.0, source read at 16.7.0)
+
+| # | behaviour | measured effect | how it was found |
+|---|---|---|---|
+| 1 | every body gets friction 0.5 and Bullet multiplies the two bodies' values | default contact friction 0.25; a box thrown at 4 m/s slides 3.06 to 3.27 m where mu 0.5 gives v squared over 2 mu g = 1.63 m | slide test, two runs |
+| 2 | `frictionCoefficients` is read only if `appliedParameters` contains `FRICTION_COEFFICIENT_2` (underscore); the 4.0 XSD and the spec write `FRICTION_COEFFICIENT-2` (hyphen) | a valid scene never gets its friction in X_ITE | component source |
+| 3 | restitution is set from the body's own speed at configuration time, so a fixed wall (speed 0) gets 0, and Bullet multiplies the two | nothing bounces off a fixed body unless `minBounceSpeed` is 0; with 0, a ball returned at 3.2 to 4 m/s from 4 | wall test, component source |
+| 4 | the translation and rotation of a CollidableOffset or CollidableShape reach the physics only in `eventsProcessed`, after the node first receives an event | a sphere offset 1 m below its body rested the body at 0.5 m in X_ITE, 1.5 m in the bridge | offset test, component source |
+| 5 | the step follows measured frame time; the collider's `collidables` list is not used for collision | results differ in the third digit between runs | repeated runs, component source |
+
+Instruments: x3d.loom PR #56 fixtures (`RigidBodyCollection`, `RigidBody`, `CollisionCollection`, `CollidableShape`, `CollidableOffset`) run in our reader and in X_ITE 16.6.0 (WebGL2, Chromium 153.0.8010.12, SwiftShader), Babylon 9.32.0; where X_ITE differs the fixture checks each engine against its own value. **[C]** The 16.7.0 source lines (`setFriction(.5)`, `FRICTION_COEFFICIENT_2`, speed against `_minBounceSpeed`, `eventsProcessed`) were read in `docs/vendor/x_ite/assets/components/RigidBodyPhysicsComponent.min.js`; behaviour at 16.7.0 was not run. **[L]**
+
+### 9.4 How the tests keep honest
+
+With collisions switched off the ball fell to y = -10.9 and two equal spheres passed through each other (velocities +2 and -2 instead of swapped), so the head-on pair test, the rest heights and the force rate (2 N on 1 kg gives 2 m/s each second) are real checks (H-PHY-2, H-PHY-3). Because Bullet's step varies, tests use ranges, never exact trajectories.
+
+---
+
 ## Heuristics
 
 | ID | Rule (imperative, at most 30 words) | Grade | Evidence | Instrument |
@@ -777,6 +818,11 @@ Energy conservation is a check only against the right reference. For a stepped s
 | H-PHY-12 | A mutation control must change the record; count caught of total and distrust a control whose reference limit is 0. | [C] | 9 of 11 became 11 of 11 | v6 receipt |
 | H-PHY-14 | Treat a second engine as a model check, not a build check, and compute the chaos horizon before blaming a method. | [C] | MuJoCo against RK4 1.3e-7 m over 3 s; horizon 8.9 s at 1e-9 | ERRATA-v1-v4, read |
 | H-PHY-15 | Run the schema check and the semantic check; the XSD accepts routes and containerFields the semantic rules reject. | [C] | MuJoCo bridge: 9 of 9 XSD-valid, 9 of 9 semantic failures before fix | `x3d_mcp fork fa0b389` as recorded in GATE-0 |
+| H-PHY-16 | Read the engine's contact parameters from its source before you compare a bridge to it; Bullet multiplies friction and restitution of the two bodies, so one value hides in the product. | [C] | default friction 0.25 against 0.5; slide 3.06 to 3.27 m against 1.63 m | x3d.loom PR #56 fixtures; X_ITE 16.6.0, Chromium 153, SwiftShader; source read at 16.7.0 |
+| H-PHY-17 | Write `appliedParameters` in the spelling the engine reads and check what it does with the spec's; X_ITE reads `FRICTION_COEFFICIENT_2`, the XSD says `FRICTION_COEFFICIENT-2`. | [C] | one underscore, one hyphen | `RigidBodyPhysicsComponent.min.js` 16.7.0, read |
+| H-PHY-18 | For a bounce test against a wall or floor set `minBounceSpeed` to 0 in X_ITE; a fixed body has speed 0, so the default 0.1 gives it restitution 0. | [C] | ball returned at 3.2 to 4 m/s only with 0 | x3d.loom PR #56 `CollisionCollection` fixture; X_ITE 16.6.0 |
+| H-PHY-19 | Do not trust a CollidableOffset or CollidableShape translation in X_ITE until the node has received an event; test where the body rests. | [C] | rest height 0.5 m in X_ITE against 1.5 m expected | x3d.loom PR #56 `CollidableOffset` fixture; X_ITE 16.6.0 |
+| H-PHY-20 | When two engines differ by design, check each against its own written value and log the gap; never loosen a tolerance until both pass. | [L] | five nodes, four per-engine values | x3d.loom PR #56 fixtures |
 
 ---
 
@@ -970,9 +1016,18 @@ grep -c Interpolator docs/demos/ten-minute-physics/v6/23-sweep-and-prune.x3d
 <li><strong>Answer:</strong> 17 scenes; 0 files with RigidBody or Script; <code>grep -c</code> counts matching lines: 200. A script-free scene cannot step anything; the numbers come from the generators in <code>witness-scripts/</code>. (<code>grep -c</code> counts lines, not occurrences; the scene is one element per line in this file.)</li>
 <li><strong>Checked:</strong> <code>2026-11-14 x3d.demo@d10b457 grep</code>: 17; 0; 200.</li>
 </ul>
+<h3 id="d-phy-11-find-the-four-x_ite-contact-rules-in-the-source">D-PHY-11 Find the four X_ITE contact rules in the source</h3>
+<ul>
+<li><strong>Level:</strong> L2 (run a tool and compare)</li>
+<li><strong>Task:</strong> In the vendored <code>docs/vendor/x_ite/assets/components/RigidBodyPhysicsComponent.min.js</code>, find (a) the default friction set on every body, (b) the spelling of the friction parameter it recognises, (c) the test that decides a body's restitution, (d) where a collidable's translation reaches the physics. Say what each means for a scene that follows the spec.</li>
+<li><strong>Verify:</strong> <code>grep -o 'setFriction([^)]*)' F</code>, <code>grep -o 'FRICTION_COEFFICIENT_2' F | wc -l</code>, <code>grep -o 'getLinearVelocity().length()&gt;=t._minBounceSpeed' F</code>, <code>grep -o 'eventsProcessed(){this.matrix.setTransform' F</code>, with F the file above.</li>
+<li><strong>Answer:</strong> (a) <code>setFriction(.5)</code> for every body, then <code>setFriction(t._frictionCoefficients.x)</code> only when the parameter is applied; (b) <code>FRICTION_COEFFICIENT_2</code> with an underscore, appearing twice, never the spec's hyphen form; (c) restitution is the bounce only when the body's own linear speed is at least <code>minBounceSpeed</code>, otherwise 0, so a fixed body gets 0; (d) in <code>eventsProcessed</code>, after the node first receives an event.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>grep</code> over X_ITE 16.7.0 (read, behaviour not run)</li>
+</ul>
 <hr />
 <h2 id="honest-limits">Honest limits</h2>
 <ul>
+<li><strong><span class="g C" title="Confirmed">C</span> The X_ITE Bullet measurements are 16.6.0 on a software GPU in headless Chromium 153.</strong> The 16.7.0 file shows the same code for friction, restitution and <code>eventsProcessed</code>; its behaviour was not run. Bullet's variable step means a distance such as 3.06 to 3.27 m is a range, not a constant. The bridge's own engine has no sleeping, no joints yet, and collides boxes and spheres exactly (cylinders and cones as spheres).</li>
 <li><strong><span class="g C" title="Confirmed">C</span> One machine.</strong> Every replay in the bridge records ran on one Apple-silicon Mac; &quot;deterministic across hosts&quot; means across Chromium, Firefox 146, WebKit 26 and Node 24 on it, not across machines or CPUs (README, &quot;Not shown&quot;; PLAYBOOK section 5, <code>visible_not_run: cross-machine</code>).</li>
 <li><strong><span class="g C" title="Confirmed">C</span> PhysX and MuJoCo were not run for this chapter.</strong> All engine numbers (analytic ladder, 1918 and 969 steps, Gate 0 counts) are read from evidence files and receipts. What was re-run: the witness over the records (it reads hashes), 14 controls, 82 kit controls, the threat count, the numpy drills.</li>
 <li><strong><span class="g C" title="Confirmed">C</span> The ragdoll and MuJoCo have no run record.</strong> The witness cannot judge them; their gaps (0.43 rad against 0.2; 2.97 against 2.22 rad/s) are logged and not tuned.</li>
@@ -1147,6 +1202,46 @@ grep -c Interpolator docs/demos/ten-minute-physics/v6/23-sweep-and-prune.x3d
 <td><span class="g L" title="Likely">L</span></td>
 <td>read, <code>ten-minute-physics/ERRATA-v1-v4.md</code></td>
 <td>law 44 row</td>
+</tr>
+<tr>
+<td>N-PHY-20</td>
+<td>Default contact friction in X_ITE (two bodies at 0.5, multiplied)</td>
+<td>0.25</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>x3d.loom PR #56, X_ITE 16.6.0, Chromium 153, SwiftShader</td>
+<td>section 9.3</td>
+</tr>
+<tr>
+<td>N-PHY-21</td>
+<td>Box thrown at 4 m/s, slide distance in X_ITE and in the bridge</td>
+<td>3.06 to 3.27 m and 1.63 m</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same rig</td>
+<td>section 9.3</td>
+</tr>
+<tr>
+<td>N-PHY-22</td>
+<td>Ball at 4 m/s against a fixed wall, bounce 1, minBounceSpeed 0, speed after</td>
+<td>3.2 to 4 m/s in X_ITE; 3.99 in the bridge</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same rig</td>
+<td>section 9.3</td>
+</tr>
+<tr>
+<td>N-PHY-23</td>
+<td>Body rest height with a sphere offset 1 m below the origin</td>
+<td>0.5 m in X_ITE, 1.5 m in the bridge</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same rig</td>
+<td>section 9.3</td>
+</tr>
+<tr>
+<td>N-PHY-24</td>
+<td>Files using RigidBodyCollection, RigidBody, CollidableShape</td>
+<td>31, 31, 27</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>grep -rl</code> by the batch author over the Loom repos, not re-run here</td>
+<td>section 9</td>
 </tr>
 </tbody>
 </table>

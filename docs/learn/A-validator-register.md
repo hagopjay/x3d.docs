@@ -3,7 +3,7 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-208 distinct instrument strings across the numbers registers.
+210 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
@@ -16,6 +16,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `build_learn.py at this commit` | 4 | 14 | C:4 |
 | `rdflib 7.6.0` | 4 | 05 | C:4 |
 | `read, not re-run` | 4 | 06, 07 | L:4 |
+| `same rig` | 4 | 09, 13 | C:4 |
 | `Python 3, 2026-11-14` | 3 | 12 | C:3 |
 | `count` | 3 | 02 | C:3 |
 | `inline Python` | 3 | 09 | C:3 |
@@ -104,6 +105,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `grep -c '<ROUTE' and JSON parse, 2026-11-14` | 1 | 11 | C:1 |
 | `grep -lE, x3d.demo@d10b457` | 1 | 13 | C:1 |
 | `grep -o '<Transform ', 2026-11-14` | 1 | 12 | C:1 |
+| `grep -rl by the batch author over the Loom repos, not re-run here` | 1 | 13 | L:1 |
 | `grep of '[0-9a-f]{8}-[0-9a-f]{8}'` | 1 | 08 | C:1 |
 | `grep, 2026-11-14` | 1 | 12 | C:1 |
 | `grep, X_ITE 16.7.0` | 1 | 06 | C:1 |
@@ -161,7 +163,6 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `row count` | 1 | 09 | C:1 |
 | `rule in section 3` | 1 | 10 | C:1 |
 | `run of an X3D33 export` | 1 | 10 | C:1 |
-| `same rig` | 1 | 09 | C:1 |
 | `same validator, receipt` | 1 | 09 | C:1 |
 | `same, seed 7` | 1 | 07 | C:1 |
 | `scratch copy of x3d_mcp fork b4efcd3` | 1 | 03 | C:1 |
@@ -187,6 +188,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `wc, gzip -9, sha256sum` | 1 | 06 | C:1 |
 | `x3d-blender-io@ab99988 catalogue` | 1 | 03 | C:1 |
 | `x3d.demo@d10b457 directory read` | 1 | 05 | C:1 |
+| `x3d.loom PR #56, X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 13 | C:1 |
 | `x3d.loom@162ab18 kit/loom physics` | 1 | 13 | C:1 |
 | `x3d.loom@162ab18 kit/tests/test_gates.py` | 1 | 13 | C:1 |
 | `x3d.loom@162ab18 physx_controls.py` | 1 | 13 | C:1 |

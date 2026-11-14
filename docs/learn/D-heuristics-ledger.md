@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**169 heuristics.** Grades: [C] 126 · [L] 36 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**174 heuristics.** Grades: [C] 130 · [L] 37 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -168,6 +168,11 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-PHY-12 | [13](13-physics.md) | A mutation control must change the record; count caught of total and distrust a control whose reference limit is 0. | [C] | 9 of 11 became 11 of 11 | v6 receipt |
 | H-PHY-14 | [13](13-physics.md) | Treat a second engine as a model check, not a build check, and compute the chaos horizon before blaming a method. | [C] | MuJoCo against RK4 1.3e-7 m over 3 s; horizon 8.9 s at 1e-9 | ERRATA-v1-v4, read |
 | H-PHY-15 | [13](13-physics.md) | Run the schema check and the semantic check; the XSD accepts routes and containerFields the semantic rules reject. | [C] | MuJoCo bridge: 9 of 9 XSD-valid, 9 of 9 semantic failures before fix | `x3d_mcp fork fa0b389` as recorded in GATE-0 |
+| H-PHY-16 | [13](13-physics.md) | Read the engine's contact parameters from its source before you compare a bridge to it; Bullet multiplies friction and restitution of the two bodies, so one value hides in the product. | [C] | default friction 0.25 against 0.5; slide 3.06 to 3.27 m against 1.63 m | x3d.loom PR #56 fixtures; X_ITE 16.6.0, Chromium 153, SwiftShader; source read at 16.7.0 |
+| H-PHY-17 | [13](13-physics.md) | Write `appliedParameters` in the spelling the engine reads and check what it does with the spec's; X_ITE reads `FRICTION_COEFFICIENT_2`, the XSD says `FRICTION_COEFFICIENT-2`. | [C] | one underscore, one hyphen | `RigidBodyPhysicsComponent.min.js` 16.7.0, read |
+| H-PHY-18 | [13](13-physics.md) | For a bounce test against a wall or floor set `minBounceSpeed` to 0 in X_ITE; a fixed body has speed 0, so the default 0.1 gives it restitution 0. | [C] | ball returned at 3.2 to 4 m/s only with 0 | x3d.loom PR #56 `CollisionCollection` fixture; X_ITE 16.6.0 |
+| H-PHY-19 | [13](13-physics.md) | Do not trust a CollidableOffset or CollidableShape translation in X_ITE until the node has received an event; test where the body rests. | [C] | rest height 0.5 m in X_ITE against 1.5 m expected | x3d.loom PR #56 `CollidableOffset` fixture; X_ITE 16.6.0 |
+| H-PHY-20 | [13](13-physics.md) | When two engines differ by design, check each against its own written value and log the gap; never loosen a tolerance until both pass. | [L] | five nodes, four per-engine values | x3d.loom PR #56 fixtures |
 | H-MET-1 | [14](14-methods.md) | Write the predicted answer before running a drill; a correct prediction teaches less than a wrong one. | L | method argument; no trial run | none (design rule) |
 | H-MET-2 | [14](14-methods.md) | Seed one failure at a time into a valid scene, so the diagnostic maps to one cause. | L | practice in chapters 02 and 03 | `x3d_mcp fork b4efcd3` |
 | H-MET-3 | [14](14-methods.md) | Demote on contradiction: record both numbers and the pins, never overwrite. | L | [AUTHORING](AUTHORING.md) section 6 | none (policy) |
