@@ -1,0 +1,1280 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a class="cur" href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="10-blender-pipeline.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/10-blender-pipeline.md">GitHub</a></div><h1>10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</h1>
+<details class="toc"><summary>On this page (28 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-two-exporters-and-one-importer-wearing-one-operator">2. Two exporters and one importer wearing one operator</a><a class="l2" href="#3-node-coverage-growth-39-to-54-written-42-to-68-read">3. Node coverage growth: 39 to 54 written, 42 to 68 read</a><a class="l2" href="#4-the-colour-space-decision">4. The colour-space decision</a><a class="l2" href="#5-the-light-units-decision">5. The light-units decision</a><a class="l2" href="#6-the-fidelity-rig">6. The fidelity rig</a><a class="l2" href="#7-tests-conformance-and-how-to-re-run-them">7. Tests, conformance, and how to re-run them</a><a class="l2" href="#8-the-bake-stage-light-travels-with-the-file">8. The bake stage: light travels with the file</a><a class="l2" href="#9-the-round-trip-principle-score-fidelity-not-validity">9. The round-trip principle: score fidelity, not validity</a><a class="l2" href="#10-the-blender-scientific-visualisation-knowledge-base">10. The Blender scientific-visualisation knowledge base</a><a class="l3" href="#splats-the-part-the-add-on-is-closest-to">Splats: the part the add-on is closest to</a><a class="l2" href="#11-corrections-and-what-changed-under-a-re-check">11. Corrections, and what changed under a re-check</a><a class="l2" href="#12-the-flywheel-bridges-ranked">12. The flywheel bridges, ranked</a><a class="l2" href="#13-the-ecosystem-watch-routine">13. The ecosystem-watch routine</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-ble-1-which-version-does-an-exported-file-claim">D-BLE-1 Which version does an exported file claim?</a><a class="l3" href="#d-ble-2-reproduce-the-colour-trap">D-BLE-2 Reproduce the colour trap</a><a class="l3" href="#d-ble-3-count-the-tests-two-ways">D-BLE-3 Count the tests two ways</a><a class="l3" href="#d-ble-4-a-matching-centre-a-failing-scene">D-BLE-4 A matching centre, a failing scene</a><a class="l3" href="#d-ble-5-is-a-re-export-evidence-of-a-good-importer">D-BLE-5 Is a re-export evidence of a good importer?</a><a class="l3" href="#d-ble-6-splat-bytes-from-the-writer">D-BLE-6 Splat bytes, from the writer</a><a class="l3" href="#d-ble-7-can-blender-53-export-a-splat">D-BLE-7 Can Blender 5.3 export a splat?</a><a class="l3" href="#d-ble-8-grade-a-survey-claim">D-BLE-8 Grade a Survey claim</a><a class="l3" href="#d-ble-9-a-toy-bake-gated">D-BLE-9 A toy bake, gated</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> Blender is where a scene is modelled, lit and baked, and the add-on is the door it leaves through; every exit can be gated by a validator and a second renderer, a re-export is valid even when the source was not, so what you score is fidelity, with each number tied to a named rig. <strong><span class="g C" title="Confirmed">C</span></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>BLE</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="01-the-tether.html">01 The tether</a> for the loop; <a href="03-validator-and-gates.html">03 Validator and gates</a> for <code>validate_xml</code>; <a href="06-xite-the-oracle.html">06 X_ITE, the reference renderer</a> for the reference arm; <a href="08-babylon-bridge.html">08 The Babylon bridge</a> for the second renderer</td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>(1) place a feature in the add-on's two exporters and one importer; (2) choose Colour Space and Light Units and predict what X_ITE, Babylon.js and Blender each draw; (3) read a fidelity-rig result and say what <code>geometry_delta</code> does and does not prove; (4) run the tests and conformance suite from a pip-installed <code>bpy</code>; (5) bake light into X3D vertex colours and gate it; (6) grade a sci-vis survey claim</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td>x3d-blender-io@ab99988:{README.md, release_notes.md, source/, tests/, tools/fidelity_rig/README.md, .github/}; x3d.docs@f172f67:docs/x3d-blender-io/MASTERCLASS.md; x3d_mcp@b4efcd3:src/validation/; the bake-stage skill text; private sci-vis and ecosystem notes (leads)</td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td><code>bpy 5.3.0</code> (pip wheel, Python 3.13.18, CPU only); <code>x3d_mcp fork b4efcd3</code>; <code>X3D XSD 4.0</code> and <code>X3D XSD 4.1</code> through the fork; <code>X3DUOM 4.1</code>; <code>X_ITE 16.7.1</code> and <code>Babylon.js 9.32.0</code> on <code>Chrome for Testing 153.0.8010.12, SwiftShader</code>; <code>Khronos glTF-Validator 2.0.0-dev.3.10</code>; <code>x3d-blender-io@ab99988</code>; software GL, no GPU</td>
+</tr>
+</tbody>
+</table>
+<p>Rig for every <strong><span class="g C" title="Confirmed">C</span></strong> here: read-only checkout of <code>x3d-blender-io@ab99988</code>, scratch copies for anything that writes, a venv with <code>bpy 5.3.0</code> and <code>x3d 4.0.65.8</code>, no network except <code>pip</code> and <code>npm</code>, no GPU, no paid service, all on 2026-11-14. Figures copied from a README or note and not re-run are <strong><span class="g L" title="Likely">L</span></strong> or <strong><span class="g S" title="Suspected">S</span></strong> and say so.</p>
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text">  Blender scene (bpy 5.x)
+    meshes, materials, lights,         Cycles bake            export_scene.x3d
+    armatures, shape keys, splats ───► (vertex colours) ───►  ├ X3D 3.3 legacy writer
+                                                              ├ X3D 4.0 IR writer (PBR, HAnim,
+  X3D file (any validity)                                     │  Inline, morph)
+    legacy tree parser + IR parser     import_scene.x3d       └ X3D 4.1 draft (GaussianSplats)
+    Colour Space, Light Units    ◄──── &quot;as X_ITE draws it&quot;
+                                                   gates
+                           1 x3d_mcp fork: XSD + semantic    3 glb ► Babylon.js 9.32.0
+                           2 X_ITE 16.7.1 draws the X3D      4 Khronos glTF-Validator
+  score = fidelity against X_ITE, never &quot;the re-export is valid&quot;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>in scope</th>
+<th>out of scope here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>architecture, node coverage, the sRGB and X_ITE-light-units defaults</td>
+<td>the AST teardown: <a href="../x3d-blender-io/MASTERCLASS.html">the x3d-blender-io masterclass</a></td>
+</tr>
+<tr>
+<td>fidelity rig, tests, conformance suite, how to re-run them</td>
+<td>glTF/USD/Khronos rules (<code>11-gltf-usd-khronos.md</code>), Unreal (<code>12-unreal-tier1.md</code>), physics (<code>13-physics.md</code>)</td>
+</tr>
+<tr>
+<td>bake recipe, round-trip principle, sci-vis knowledge base, bridges, ecosystem watch</td>
+<td>Castle as a render target: <a href="09-castle-engine.html">09 Castle Engine</a></td>
+</tr>
+</tbody>
+</table>
+<p>Read next: deeper, <a href="06-xite-the-oracle.html">06 X_ITE, the reference renderer</a> (the thing every default below is fitted to); wider, <a href="08-babylon-bridge.html">08 The Babylon bridge</a> (the second renderer the glb leg is drawn in).</p>
+<h2 id="2-two-exporters-and-one-importer-wearing-one-operator">2. Two exporters and one importer wearing one operator</h2>
+<p>The add-on (<code>io_scene_x3d</code>, extension id <code>x3d_blender_io</code>) is a fork of Blender's community X3D/VRML2 extension. Upstream stops at X3D 3.x with a legacy <code>Material</code>; the fork adds an intermediate-representation (IR) writer for X3D 4.x and a large amount of importer work. What could be re-counted at <code>x3d-blender-io@ab99988</code>:</p>
+<table>
+<thead>
+<tr>
+<th>piece</th>
+<th>what it is</th>
+<th>where</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>legacy writer (X3D 3.3 option)</td>
+<td><code>fw('%s&lt;Shape' % ident)</code> string writer; also the router that calls <code>extract</code></td>
+<td><code>source/export_x3d.py</code>, 1,985 lines</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong> (<code>wc -l</code>)</td>
+</tr>
+<tr>
+<td>IR writer (4.0, 4.1 draft)</td>
+<td>Blender to <code>extract.py</code> to <code>ir.py</code> dataclasses (no <code>bpy</code>) to <code>emit_x3d40.py</code> to <code>validate.py</code></td>
+<td>1,374 and 886 lines</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>importer</td>
+<td>one dominant legacy parser plus builders; the IR parser serves Inline assets only</td>
+<td><code>source/import_x3d.py</code>, 7,340 of 16,753 lines in <code>source/*.py</code></td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>bridges</td>
+<td><code>splat_io.py</code>, <code>splat_native.py</code>, <code>bridge_gltf.py</code>, <code>viewpoint_fov.py</code>, <code>geospatial.py</code>, <code>matrix_safety.py</code></td>
+<td><code>source/</code></td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong> (read)</td>
+</tr>
+</tbody>
+</table>
+<p>What the 4.0 export writes, with the PR from the masterclass table (<strong><span class="g L" title="Likely">L</span></strong> for PR numbers): Principled BSDF to <code>PhysicalMaterial</code> plus five glTF-style texture slots (emission-only to <code>UnlitMaterial</code>); hierarchy, lights, cameras, text and sampled animation to <code>Transform</code>, three light nodes, <code>Viewpoint</code>, <code>TimeSensor</code> with interpolators and ROUTEs; HAnim 2.0 both ways (#2, #4); the Inline bridge for x3d, glb, ply and splat assets (#5); X3D 4.1 <code>GaussianSplats</code> from a splat mesh or a Blender 5.3 native PointCloud (#5, #10; 4.0 degrades to a coloured <code>PointSet</code>); fold morph, shape keys to <code>CoordinateInterpolator</code> and back (#22); and, after #38, an unedited imported Box, Sphere, Cylinder or Cone exports as that node (<code>x3d_primitive</code> plus a vertex checksum).</p>
+<p><strong>A provenance trap. <span class="g C" title="Confirmed">C</span></strong> <code>source/blender_manifest.toml</code> says version <code>2.6.4</code>; <code>source/__init__.py</code> <code>bl_info</code> says <code>(2, 6, 1)</code>; the exporter writes <code>&lt;meta name=&quot;generator&quot; content=&quot;X3D Blender I/O v2.6.1&quot;&gt;</code>. A file's provenance string names a version that is not the manifest's (drill D-BLE-1).</p>
+<h2 id="3-node-coverage-growth-39-to-54-written-42-to-68-read">3. Node coverage growth: 39 to 54 written, 42 to 68 read</h2>
+<p>The teardown reports, for the fork's first commit <code>7f8c0fb</code> against <code>e071a61</code>: nodes written 39 to <strong>54</strong>, read 42 to <strong>68</strong>, written and read 26 to <strong>43</strong>, components touched 14 to <strong>20</strong> of 37, out of the 267 concrete nodes of X3DUOM 4.1. <strong><span class="g L" title="Likely">L</span></strong>: the number comes from a document whose method (string literals plus per-module role rules, graded by evidence strength) has no public script in this repo.</p>
+<p>I re-derived a <strong>lower bound</strong> with a naive rule to show how much the method matters. <strong><span class="g C" title="Confirmed">C</span></strong>, <code>x3d-blender-io@ab99988</code>, <code>X3DUOM 4.1</code> from <code>x3d_mcp@b4efcd3</code>: written = an XML tag literal <code>&lt;Name</code> in <code>emit_x3d40.py</code>, <code>export_x3d.py</code>, <code>extract.py</code>, <code>export_pipeline.py</code>, <code>material.py</code>; read = a string literal equal to a node name in the seven importer and bridge modules.</p>
+<table>
+<thead>
+<tr>
+<th>count</th>
+<th>teardown (<code>e071a61</code>)</th>
+<th>naive scan (<code>ab99988</code>)</th>
+<th>why they differ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>concrete nodes in X3DUOM 4.1</td>
+<td>267</td>
+<td>267</td>
+<td>same denominator <strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>written</td>
+<td>54</td>
+<td>46</td>
+<td>tags built from f-strings or constants (five <code>Metadata*</code> nodes, <code>Switch</code>) are missed by an exact match</td>
+</tr>
+<tr>
+<td>read</td>
+<td>68</td>
+<td>65</td>
+<td>names that appear only in a collection or a ROUTE field name are credited by the teardown</td>
+</tr>
+<tr>
+<td>both</td>
+<td>43</td>
+<td>38</td>
+<td>follows</td>
+</tr>
+</tbody>
+</table>
+<p>The teardown is not contradicted (a naive rule is a lower bound 8 and 3 below it) and not reproduced. Treat 54 and 68 as the best available count, <strong><span class="g L" title="Likely">L</span></strong>, and quote the rule beside any coverage number.</p>
+<p>Where the growth shows (teardown, <strong><span class="g L" title="Likely">L</span></strong>): Core metadata 1 to 7 written (PR #16), Geometry2D 0 to 8 read (#17, #26), Geospatial 0 to 3 read (#35), Interpolation 0 to 3 written, HAnim 0 to 2 both ways, <code>GaussianSplats</code> and <code>Inline</code> 0 to 1. 17 of 37 components are untouched, among them RigidBodyPhysics, NURBS, Followers, ParticleSystems and VolumeRendering.</p>
+<p>One finding changes how you test: the importer animates by ROUTE <strong>field names</strong> (<code>value_changed</code> to <code>set_translation</code>, <code>set_rotation</code>, <code>set_scale</code>), not by node type, so a spline interpolator routed to a Transform imports as linear keys with no warning. <strong><span class="g L" title="Likely">L</span></strong> (teardown, AST read, not executed; not re-checked at <code>ab99988</code>).</p>
+<h2 id="4-the-colour-space-decision">4. The colour-space decision</h2>
+<p><strong>What the renderers disagree on. <span class="g C" title="Confirmed">C</span></strong> (README measurement, <code>X_ITE 16.7.1</code>, headless Chrome 153, SwiftShader; the add-on's own probes re-run in section 6 confirm the lighting half):</p>
+<table>
+<thead>
+<tr>
+<th>colour in the file</th>
+<th>X_ITE reads it as</th>
+<th>Blender and glTF read it as</th>
+<th>consequence of copying the number</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Material</code>, <code>TwoSidedMaterial</code>, <code>UnlitMaterial</code> colour</td>
+<td>display (sRGB) values: 0.5 draws 128</td>
+<td>linear</td>
+<td>copied as is, a classic scene is drawn too bright in Blender and Babylon.js</td>
+</tr>
+<tr>
+<td>a <code>Color</code> node under those materials</td>
+<td>display, in place of the material colour</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PhysicalMaterial</code> colours</td>
+<td>linear (the glTF way): <code>baseColor</code> 0.5 under a light of 1 draws 110, <code>emissiveColor</code> 0.5 draws 187</td>
+<td>linear</td>
+<td>no conversion needed</td>
+</tr>
+<tr>
+<td>a <code>Color</code> node under <code>PhysicalMaterial</code></td>
+<td>a linear factor on <code>baseColor</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>The README adds that Castle Game Engine drew the same 128, 186 and 108 to 110, so two independent X3D engines agree on the split. <strong><span class="g L" title="Likely">L</span></strong> (a README line; Castle not run here; see <a href="09-castle-engine.html">09 Castle Engine</a>).</p>
+<p><strong>Decision, PR #30 (merged 2026-11-12): sRGB is the default.</strong> Import and export both: <code>AUTO</code> reads the scene's stored <code>x3d_color_space</code>, then the environment variable <code>BLENDER_X3D_COLOR_SPACE</code>, then <code>SRGB</code>. Why that choice and not <code>AS_IS</code>: the default import now draws a classic scene the way X_ITE and Castle draw it; the cost is that Blender's numbers differ from the file's, so the export has to convert back. The export option closes the loop (PR #29): under <code>SRGB</code> the 3.3 writer sRGB-encodes a Material's <code>diffuseColor</code>, <code>specularColor</code>, <code>emissiveColor</code>; the 4.0 writer sRGB-encodes an <code>UnlitMaterial</code>'s <code>emissiveColor</code>; <code>PhysicalMaterial</code> colours are always written linear. <strong><span class="g C" title="Confirmed">C</span></strong> as a statement of the code's documented behaviour (README, <code>source/__init__.py</code> enum <code>color_space</code> read); the numeric round-trip is covered by <code>tests/test_colour_round_trip_bpy.py</code>, which passed in the run in section 7.</p>
+<p>Worked example (release notes, <strong><span class="g L" title="Likely">L</span></strong>): a classic light <code>color='1 0.5 0.2'</code> read as sRGB becomes Blender <code>1 0.214 0.0331</code>; the 3.3 writer writes it back as <code>1 0.5 0.2</code>; the 4.0 writer writes the linear <code>1 0.214041 0.033105</code>, because its <code>PhysicalMaterial</code>s are lit linearly in X_ITE. Same light, two correct file values: that is why the option is per writer.</p>
+<p>Two colour traps worth a heuristic each:</p>
+<table>
+<thead>
+<tr>
+<th>trap</th>
+<th>symptom</th>
+<th>fix</th>
+<th>instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>float colour attribute channel just over 1</td>
+<td><code>ColorRGBA</code> pattern facet fails the XSD (a molecular-nodes palette wrote a red of 1.000169)</td>
+<td>clamp to [0, 1] on export (the 4.0 writer now does)</td>
+<td><code>x3d_mcp fork b4efcd3</code> message &quot;attribute 'color': [facet 'pattern']&quot; (reproduced, drill D-BLE-2)</td>
+</tr>
+<tr>
+<td>per-vertex <code>Color</code> converted twice</td>
+<td>0.5 came in as 0.04, not 0.21</td>
+<td>convert once (release notes, <strong><span class="g L" title="Likely">L</span></strong>)</td>
+<td>release_notes.md</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-the-light-units-decision">5. The light-units decision</h2>
+<p>X3D gives a light an <code>intensity</code>, not watts. X_ITE 16.7.1 lights a <code>PhysicalMaterial</code> the glTF way (1/d² falloff times the X3D <code>attenuation</code>, colour over pi, linear space) and a classic <code>Material</code> the old way (only <code>attenuation</code>, so the default <code>1 0 0</code> never falls off, display space). Blender, glTF viewers and Babylon.js light everything the first way. The import option <code>light_units</code> picks the mapping:</p>
+<table>
+<thead>
+<tr>
+<th><code>light_units</code></th>
+<th>DirectionalLight</th>
+<th>PointLight, SpotLight</th>
+<th>when <code>AUTO</code> picks it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BLENDER</code></td>
+<td><code>i</code> lux</td>
+<td><code>1.75 i / 4 pi</code> = 0.139 <code>i</code> (the glTF COMPAT candela, Blender watts = 4 pi cd)</td>
+<td>colour space <code>AS_IS</code></td>
+</tr>
+<tr>
+<td><code>X_ITE</code>, physical scene</td>
+<td><code>i</code></td>
+<td><code>i · att(d / s) · s²</code> (exact at every distance for <code>attenuation 1 0 0</code>)</td>
+<td>colour space <code>SRGB</code> (the default)</td>
+</tr>
+<tr>
+<td><code>X_ITE</code>, classic scene</td>
+<td><code>f · i</code></td>
+<td><code>f · i · att(d / s) · d² / w(d)</code>, <code>f</code> fitted</td>
+<td>same</td>
+</tr>
+</tbody>
+</table>
+<p><code>s</code> is the light's own frame (file unit times Transform scales); <code>d</code> is the light's reference distance, the median distance to the shapes it reaches; <code>w(d) = clamp(1 - (d/r)^4, 0, 1)²</code> is the range window Babylon.js 9.32.0 applies to a glTF <code>range</code>. <strong><span class="g L" title="Likely">L</span></strong> for the formulas (README), <strong><span class="g C" title="Confirmed">C</span></strong> that the option and the three enum values exist (<code>source/__init__.py</code>, <code>light_units</code> EnumProperty).</p>
+<p><strong>The classic-light fit.</strong> A classic scene has no exact glTF match: X_ITE shades <code>emissiveColor + diffuseColor · L</code> in display space with no falloff, a glTF viewer adds linear light falling as 1/d². So the import casts a 64 by 64 ray grid over the first Viewpoint's view, compares X_ITE's <code>min(e + b · L, 1)</code> with <code>srgb(min(E + B · lux / pi, 1))</code> per channel, and picks each light's factor <code>f</code> to minimise the mean difference. What it cannot copy (README, <strong><span class="g L" title="Likely">L</span></strong>): falloff away from the fitted distances, display-space Lambert on oblique light (a 0.8 grey at 58 degrees from a classic point light: 109 in X_ITE, 167 in Babylon.js), the sRGB toe below albedo 0.04, X_ITE's <code>shadows</code>, classic specular highlights.</p>
+<p>The price (README): a round trip that <strong>starts in Blender</strong> keeps its light energies only with <code>light_units = BLENDER</code>.</p>
+<h2 id="6-the-fidelity-rig">6. The fidelity rig</h2>
+<p><code>tools/fidelity_rig</code> runs a scene through the add-on to a glb (Blender 5.3, COMPAT light units, renderable objects only, cameras, lights, loose edges and points), then draws X_ITE on the X3D and Babylon.js on the glb in the same headless Chromium at 512 by 512, from the X3D's first Viewpoint.</p>
+<pre><code class="language-text">   scene.x3d ──► Blender leg (bpy 5.3.0): import ──► glTF export ──► scene.glb
+        │                                                              │
+        │                                                  Khronos glTF-Validator 2.0.0-dev.3.10
+        │                                                  (0-error gate; manifest with sha256)
+        ▼                                                              ▼
+   X_ITE 16.7.1  ──► xite.png                              Babylon.js 9.32.0 ──► babylon.png
+        │                                                      + magenta/green clear ──► mask
+        └───────────────► mean |delta| (0..255) ◄─────────────────┘
+   mean_abs_delta   whole frame (background included)
+   geometry_delta   only where the glb draws geometry (mask)
+   patches          5x5 means at listed pixels (probe scenes)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>output</th>
+<th>meaning</th>
+<th>what it does not mean</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mean_abs_delta</code></td>
+<td>mean absolute pixel difference over the whole 512 by 512 frame, 0..255</td>
+<td>diluted by background: p1 shows 0.07 while its geometry delta is 0.24</td>
+</tr>
+<tr>
+<td><code>geometry_delta</code></td>
+<td>the same, only where the glb has geometry</td>
+<td>not a perceptual metric; a flat shift and a wrong shape can score alike</td>
+</tr>
+<tr>
+<td><code>patches</code></td>
+<td>X_ITE and Babylon.js 5 by 5 means at chosen pixels</td>
+<td>three pixels per probe; not an image comparison</td>
+</tr>
+<tr>
+<td><code>validator_ok</code></td>
+<td>the glb passed <code>gltf-validator</code> with 0 errors</td>
+<td>a valid glb can be empty, look wrong, or use an extension an engine ignores (the rig README says so)</td>
+</tr>
+<tr>
+<td>manifest</td>
+<td><code>x3d-blender-io.glb-manifest/v1</code>: x3d sha256, add-on revision, Blender version, options, glb sha256, validator summary</td>
+<td>provenance, not correctness</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Re-run, 2026-11-14. <span class="g C" title="Confirmed">C</span></strong> <code>x3d-blender-io@ab99988</code>, <code>bpy 5.3.0</code>, <code>X_ITE 16.7.1</code>, <code>Babylon.js 9.32.0</code>, <code>Chrome for Testing 153.0.8010.12, SwiftShader</code>, <code>gltf-validator 2.0.0-dev.3.10</code>. The rig's own <code>package.json</code> pins and its probe set were used; the only change was pointing the rig copy's launcher at the installed Chrome for Testing 153 binary (the Playwright browser download was not used). Centre patch (pixel 256, 256), X_ITE / Babylon.js, in 0..255:</p>
+<table>
+<thead>
+<tr>
+<th>probe</th>
+<th>X_ITE</th>
+<th>light units BLENDER</th>
+<th>light units X_ITE</th>
+<th><code>geometry_delta</code>, X_ITE units</th>
+<th>README value (centre)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>p1 PhysicalMaterial, PointLight 1</td>
+<td>74</td>
+<td>30</td>
+<td>74</td>
+<td>0.24</td>
+<td>74 / 30 / 74</td>
+</tr>
+<tr>
+<td>p2 classic Material, PointLight 1</td>
+<td>204</td>
+<td>27</td>
+<td>203</td>
+<td>47.07</td>
+<td>204 / 27 / 203</td>
+</tr>
+<tr>
+<td>p3 classic Material, DirectionalLight 1</td>
+<td>204</td>
+<td>120</td>
+<td>203</td>
+<td>1.5</td>
+<td>204 / 120 / 203</td>
+</tr>
+<tr>
+<td>p4 PhysicalMaterial, PointLight 1, attenuation <code>1 0 0.2</code></td>
+<td>57</td>
+<td>30</td>
+<td>56</td>
+<td>3.37</td>
+<td>57 / 30 / 56</td>
+</tr>
+<tr>
+<td>p5 PhysicalMaterial, DirectionalLight 0.3</td>
+<td>78</td>
+<td>78</td>
+<td>78</td>
+<td>0.2</td>
+<td>78 / 78 / 78</td>
+</tr>
+</tbody>
+</table>
+<p>All five centre-patch cells reproduce the README's table to the integer. The more important number is the one the README table does not print: p2's <code>geometry_delta</code> is <strong>47.07</strong> even though its centre patch matches (204 against 203). The left box of p2 reads 109 in X_ITE and 167 in Babylon.js, the right box 190 and 97: the fit anchors the light at one reference distance, and the other two boxes are at 1.8 m and 4.2 m. A centre-patch match proves the fit's anchor, not the scene. That is the sharpest practical lesson of the rig. All five glbs passed the validator gate with 0 errors and 0 warnings (3 infos each).</p>
+<p>Pin drift, <strong><span class="g C" title="Confirmed">C</span></strong> 2026-11-14 (<code>npm view</code>): <code>x_ite</code> latest 16.7.1 equals the rig pin; <code>babylonjs</code> latest is 9.36.0, the rig pins 9.32.0. Re-measure the probes before moving a pin.</p>
+<p>The README also records, <strong><span class="g L" title="Likely">L</span></strong> (read, not re-run): nine x3d.demo scenes with lights improved from Blender units to X_ITE units on <code>geometry_delta</code> (25.3 against 40.5 for a 151-Material constellation, 13.7 against 37.3 for a materials shelf); two Blender-lab scenes of 89,568 and 93,682 triangles scored 3.32 and 3.48 with 0 validator errors; of 34 repo scenes, 33 export a glb, all with 0 errors and 0 warnings.</p>
+<p>Two bugs the rig found (README, <strong><span class="g L" title="Likely">L</span></strong>): the glTF exporter writes <code>frame / fps</code>, so with factory frame 1 a glb's animation ran 1/24 s late (the rig sets <code>frame_start = 0</code>); and object names are not the DEF (Blender suffixes duplicates), so the importer tags <code>x3d_def</code>, <code>x3d_def_path</code>, <code>x3d_use</code> into the glb's <code>extras</code>.</p>
+<h2 id="7-tests-conformance-and-how-to-re-run-them">7. Tests, conformance, and how to re-run them</h2>
+<p><strong>The unit and bpy tests. <span class="g C" title="Confirmed">C</span></strong> <code>x3d-blender-io@ab99988</code>, Python <code>ast</code> over <code>tests/test_*.py</code>: <strong>336</strong> <code>test_*</code> functions in <strong>35</strong> files, of which <strong>274</strong> are in 30 <code>*_bpy.py</code> files (need <code>bpy</code>) and 62 in five plain files. Running <code>.github/scripts/run_tests_in_blender.py</code> (which skips <code>*_bpy*</code> modules when <code>import bpy</code> fails): <strong>62 tests, OK</strong> with no <code>bpy</code>. With <code>bpy 5.3.0</code> installed: <strong>335 tests ran, OK, skipped 10</strong>; the ten skips are all <code>test_glb_validator_bpy</code> (the Node package <code>gltf-validator</code> was not installed). With <code>npm install gltf-validator@2.0.0-dev.3.10</code> and <code>GLTF_VALIDATOR_DIR</code> pointing at it, with <code>GLTF_VALIDATOR_REQUIRED=1</code>: <strong>10 of 10 pass</strong>. So 335 ran and 335 pass, 0 skipped, with the validator present. The AST count is one higher than the run count: the one function the runner does not report is <code>test_the_validator_loads</code> (the teardown inferred such an off-by-one for PRs from #33 on; the name is now found).</p>
+<p><strong>The export conformance suite. <span class="g C" title="Confirmed">C</span></strong> <code>tests/suite/x3d_test_suite.py</code> builds one Blender scene and three exports (<code>main</code>, <code>crease</code>, <code>x41</code>); <code>tests/suite/validate_x3d_export.py</code> checks the file. Re-run on <code>bpy 5.3.0</code> (5 s):</p>
+<table>
+<thead>
+<tr>
+<th>result line</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cases</td>
+<td>195 = 148 CORE + 21 FIDELITY + 26 ROADMAP (matches <code>tests/suite/README.md</code>)</td>
+</tr>
+<tr>
+<td>CORE</td>
+<td>148 of 148 pass</td>
+</tr>
+<tr>
+<td>ROADMAP</td>
+<td>21 MISSING (expected gaps), 5 NEW (implemented since the roadmap was written)</td>
+</tr>
+<tr>
+<td>FIDELITY</td>
+<td>19 WARN, 2 PASS</td>
+</tr>
+<tr>
+<td>the three exports through <code>x3d_mcp fork b4efcd3</code> <code>validate_xml</code></td>
+<td><code>x3d_suite_main.x3d</code> (7,010,591 bytes) valid on 4.0; <code>x3d_suite_crease.x3d</code> (4,911,800 bytes) valid on 4.0; <code>x3d_suite_x41.x3d</code> (4,617,408 bytes) valid on 4.1; 0 errors each</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Where sources disagree. <span class="g C" title="Confirmed">C</span></strong> The teardown says 194 cases; the suite README, the CI step name and the run say 195. The code wins; the teardown's AST parse of case sites is stale by one. CI runs the suite on Blender 5.1.2 and the wheel job on Python 3.11; this chapter's <code>bpy 5.3.0</code> is outside that matrix (workflow read, <strong><span class="g L" title="Likely">L</span></strong>).</p>
+<p><strong>How to reproduce (free, CPU only).</strong></p>
+<pre><code class="language-bash"># 1. venv with the bpy wheel (427.5 MB) and the Web3D x3d package
+python3 -m venv /tmp/ble &amp;&amp; /tmp/ble/bin/pip install bpy==5.3.0 x3d numpy pillow
+
+# 2. unit and bpy tests, from a checkout (the runner skips *_bpy* without bpy)
+cd x3d-blender-io
+PYTHONDONTWRITEBYTECODE=1 /tmp/ble/bin/python -B .github/scripts/run_tests_in_blender.py | tail -4
+#   expect: Ran 335 tests ... OK (skipped=10)   (skips are the glTF-validator tests)
+
+# 3. un-skip the glb tests with the pinned validator
+mkdir /tmp/gv &amp;&amp; (cd /tmp/gv &amp;&amp; npm install gltf-validator@2.0.0-dev.3.10)
+cd tests &amp;&amp; GLTF_VALIDATOR_DIR=/tmp/gv/node_modules/gltf-validator GLTF_VALIDATOR_REQUIRED=1 \
+  /tmp/ble/bin/python -B -m unittest test_glb_validator_bpy      # expect: Ran 10 tests ... OK
+
+# 4. the conformance suite
+cd .. &amp;&amp; /tmp/ble/bin/python -B tests/suite/x3d_test_suite.py -- --out /tmp/suite --repo &quot;$PWD&quot; --export
+python3 -B tests/suite/validate_x3d_export.py /tmp/suite --html /tmp/suite/report.html | tail -4
+#   expect: CORE conformance: 148/148 passed | NEW features detected: 5
+
+# 5. the fidelity rig probes (needs Node, npm install in tools/fidelity_rig, and a Chromium 153)
+cd tools/fidelity_rig &amp;&amp; npm install &amp;&amp; BPY_PYTHON=/tmp/ble/bin/python python3 compare.py after ../../source probes.json
+</code></pre>
+<p>Run Python with <code>-B</code> so a read-only checkout stays clean (<code>find . -name __pycache__</code> is the check).</p>
+<h2 id="8-the-bake-stage-light-travels-with-the-file">8. The bake stage: light travels with the file</h2>
+<p>Light is computed once in Blender and carried by X3D as one colour per face corner, so the page draws baked meshes unlit with no per-frame lighting. Use it for static lit geometry; use a small shader for anything that must follow the view (a rim, a glint); a mover cannot use a baked direction. The recipe is a Loom skill (<code>loom-blender-bake-stage</code>); below is its procedure, with grades by what I re-ran.</p>
+<table>
+<thead>
+<tr>
+<th>step</th>
+<th>what</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>model in bmesh, merge into few meshes, store face albedo in a corner attribute <code>Alb</code></td>
+<td><strong><span class="g L" title="Likely">L</span></strong> skill text</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Cycles CPU, denoise off, indirect clamp 4.0, fixed seed; skill: 384 samples (96 preview); my re-run: <strong>16</strong></td>
+<td><strong><span class="g L" title="Likely">L</span></strong>; re-run <strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>one sun, azimuth 220, elevation 55, colour (1, 0.85, 0.62), strength 5, disc 6 degrees; sky 0.25 (probe the sky against the key, do not guess)</td>
+<td><strong><span class="g L" title="Likely">L</span></strong>; re-run used the same sun and sky</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>render.bake.target = 'VERTEX_COLORS'</code>, DIFFUSE, direct and indirect on, colour pass off: the bake holds light only</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td>finish in Python: exposure so the 70th-percentile corner is 1.0; floor the light at (0.05, 0.07, 0.12); times linear albedo; sRGB curve; shoulder from 0.8</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>6</td>
+<td>export X3D 4.0; strip <code>PhysicalMaterial</code>, <code>Background</code>, <code>NavigationInfo</code>; 3 decimals; an all-opaque <code>ColorRGBA</code> becomes <code>Color</code></td>
+<td><strong><span class="g L" title="Likely">L</span></strong>; strips not run</td>
+</tr>
+<tr>
+<td>7</td>
+<td>gate: validator (XSD, semantic, profile), then X_ITE with the console open</td>
+<td>validator <strong><span class="g C" title="Confirmed">C</span></strong>; X_ITE not opened for the toy</td>
+</tr>
+<tr>
+<td>8</td>
+<td>frames at the stops; a black frame is retaken, never scored</td>
+<td><strong><span class="g L" title="Likely">L</span></strong></td>
+</tr>
+<tr>
+<td>9</td>
+<td>receipt: Blender version, exporter commit, script and file sha256, bake settings, light percentiles; editing the script, even a comment, breaks the pinned sha256</td>
+<td><strong><span class="g L" title="Likely">L</span></strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>A re-run at toy scale. <span class="g C" title="Confirmed">C</span></strong> <code>bpy 5.3.0</code>, Cycles CPU, 16 samples, an 8 by 8 ground grid plus a 1.5 m box in one mesh (280 face corners), the sun above, flat sky 0.25. Cycles baked to a <code>FLOAT_COLOR</code> corner attribute (<code>FINISHED</code>). Raw channels ran from <strong>0.0</strong> to <strong>1.9151</strong> (raw light exceeds 1: the trap). The 70th-percentile corner luminance was 1.3212, so exposure was <strong>0.7569</strong>; after floor, sRGB curve and shoulder the largest channel was <strong>0.9696</strong>. The add-on exported 9,356 bytes with one <code>ColorRGBA</code> and no <code>Color</code>; the fork validator said <strong>valid, 0 errors</strong>; the whole run took 0.7 s. One channel set to 1.0059 (the value that sank an Earth export) gave 1 error: <code>Element 'ColorRGBA', attribute 'color': [facet 'pattern']</code>. At large scale the skill reports the fork's message can blame a size limit instead, so bisect the array (<strong><span class="g L" title="Likely">L</span></strong>, not reproduced: the toy file is 9 KB).</p>
+<p>Other traps, all <strong><span class="g S" title="Suspected">S</span></strong> (carried from the skill text; the receipt behind the village numbers is not public): per-corner colour splits vertices on (vertex, uv, colour, normal), so DEF/USE stops helping, and a village-scale scene went from 26 KB to 330 KB gzipped, about half from lost sharing and half from added geometry (load it lazily behind an Inline); <code>DepthMode</code> and <code>BlendMode</code> are X_ITE-only and refused unless an X_ITE component is declared; X_ITE draws transparent shapes after opaque ones with depth writes off, so a translucent shell around the camera hides the scene; GLSL ES 3.00 needs a decimal point on float literals; a ROUTE written before its nodes is dropped by X_ITE and passed by the validator; call <code>index_update</code> before assigning vertex-group weights; software GL shows black first frames.</p>
+<p>The receipt is this stage's accountability object: it names the script, Blender and exporter commit behind the file, and shows when the script changed.</p>
+<h2 id="9-the-round-trip-principle-score-fidelity-not-validity">9. The round-trip principle: score fidelity, not validity</h2>
+<p>The exporter writes what Blender holds and never sees the source's mistakes, so a re-export is valid even when the source was not: &quot;the round trip validates&quot; says nothing about the source and little about the importer.</p>
+<pre><code class="language-text">   source.x3d  (3 XSD errors)                     re-export.x3d  (0 errors)
+   ┌───────────────────────────────────┐          ┌───────────────────────────────────┐
+   │ Material diffuseColor=&quot;2.5 .5 .1&quot; │ import   │ PhysicalMaterial baseColor        │
+   │ &lt;Box size=... bogusField=&quot;oops&quot;/&gt; │ ───────► │   &quot;1.000000 0.214041 0.010023&quot;    │
+   │ &lt;Box/&gt; directly under a Transform │ Blender  │ &lt;Box size=&quot;1 1 1&quot; solid=&quot;false&quot;/&gt; │
+   └───────────────────────────────────┘ export   │ (second Box gone)                 │
+          validator: invalid                       └───────────────────────────────────┘
+                                                          validator: valid
+</code></pre>
+<p><strong>Run. <span class="g C" title="Confirmed">C</span></strong> <code>x3d-blender-io@ab99988</code>, <code>bpy 5.3.0</code>, <code>x3d_mcp fork b4efcd3</code> (<code>validate_xml</code>): the source above is invalid (3 errors: the colour pattern, the unknown attribute, the misplaced <code>Box</code>). The add-on imported it (<code>FINISHED</code>, one object, <code>T</code>) and exported X3D 4.0 (<code>FINISHED</code>); the re-export is <strong>valid, 0 errors</strong>. What changed, read from the output: the colour 2.5 was clamped to 1 and the others converted (<code>0.5</code> to <code>0.214041</code>, <code>0.1</code> to <code>0.010023</code>), the classic <code>Material</code> became a <code>PhysicalMaterial</code>, the unknown attribute vanished, and the <code>Box</code> that was outside any <code>Shape</code> was dropped (both operators still returned <code>FINISHED</code>). A validity score would have read &quot;3 errors to 0&quot;, a gain; the fidelity reading is &quot;two of three defects destroyed information, one repaired structure&quot;.</p>
+<p>So validate the source, score the round trip by fidelity against the source's render (the rig's <code>geometry_delta</code>, or a value-level loss ledger), and never cite &quot;the re-export validates&quot; for the importer. Its own defence is a must-not-raise test on mutated sources (bridge B07, section 12).</p>
+<h2 id="10-the-blender-scientific-visualisation-knowledge-base">10. The Blender scientific-visualisation knowledge base</h2>
+<p>The knowledge base was built on 2026-10-24 from a six-part research survey (&quot;the Survey&quot;, written by an earlier Claude session on 2026-10-15 to 18) and versioned: v1, then a v1.1 addendum beside it that overrides items instead of editing them. It is a <strong>set of leads with grades</strong>, not a measurement set. Its value here is the grading rule and the list of hands-on tests it leaves open.</p>
+<table>
+<thead>
+<tr>
+<th>Survey tag</th>
+<th>meaning in the Survey</th>
+<th>grade here</th>
+<th>why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[V]</td>
+<td>read in a primary document</td>
+<td><strong>Likely</strong></td>
+<td>someone else read it; we did not reproduce it</td>
+</tr>
+<tr>
+<td>[R]</td>
+<td>secondary or trade press</td>
+<td><strong>Suspected</strong></td>
+<td>not read at source</td>
+</tr>
+<tr>
+<td>[I]</td>
+<td>inference</td>
+<td><strong>Suspected</strong></td>
+<td>reasoning, not observation</td>
+</tr>
+<tr>
+<td>none yet</td>
+<td></td>
+<td><strong>Confirmed</strong></td>
+<td>only after reproduction with a named validator, X_ITE patch and Blender build</td>
+</tr>
+</tbody>
+</table>
+<p>The knowledge base states &quot;nothing below is Confirmed yet&quot; on the day it was written. <strong><span class="g C" title="Confirmed">C</span></strong> as a statement of its rule; section 11 re-checks some of its facts.</p>
+<p><strong>Thesis.</strong> Capture and generation got cheap; trust (lighting, measurement, validation, provenance) is the scarce part. In the Survey's lane comparison the Blender agent lane runs arbitrary Python with no guard, the X3D lane has a validator between model and scene. <strong><span class="g L" title="Likely">L</span></strong> (the Survey's; the <code>x3d_mcp</code> side is measured in <a href="03-validator-and-gates.html">03</a> and <a href="04-mcp-for-agents.html">04</a>). The failures differ: the Blender lane produces valid-looking but wrong colour or scale; the X3D lane produces schema-valid but untrue scenes (units, mapping), which a semantic layer can still catch (<a href="05-semantic-layer.html">05</a>).</p>
+<p><strong>Engine facts that matter (Survey, Likely unless noted).</strong> Colour management is the largest hidden error class: use the Standard view transform when colour encodes a value (AgX tone-maps) and tag data images Non-Color. Numbers narrow at Blender's border (32-bit float against Python's 64-bit; <strong><span class="g S" title="Suspected">S</span></strong>, one forum thread): centre and scale before import. The add-on's answer is measured: <code>source/matrix_safety.py</code> exists because a Transform scale of 1.057e-16 underflowed Blender's float32 inverse (PR #37, <strong><span class="g L" title="Likely">L</span></strong>). X3D has no atoms, bonds or interactions; per-point data rides in <code>Color</code>/<code>ColorRGBA</code> or <code>Metadata*</code>. The Survey's tool tiers (Molecular Nodes, Microscopy Nodes, Bioxel Nodes, SciBlend as tier A) are <strong><span class="g S" title="Suspected">S</span></strong> and stale in weeks.</p>
+<p>One overlap: the release notes record a Molecular Nodes 520.2.0 pLDDT palette writing a red of 1.000169, invalidating 9,756 and 17,326 channels on two AlphaFold models under <code>x3d_mcp fork 13121b68e6d9</code>; the 4.0 writer now clamps to [0, 1]. <strong><span class="g L" title="Likely">L</span></strong> (models not in the repo).</p>
+<h3 id="splats-the-part-the-add-on-is-closest-to">Splats: the part the add-on is closest to</h3>
+<p>The Survey's size arithmetic was <strong>re-derived from the add-on's PLY writer. <span class="g C" title="Confirmed">C</span></strong> <code>source/splat_io.write_ply</code>, <code>x3d-blender-io@ab99988</code>, 1,000 synthetic splats per degree, bytes after <code>end_header</code> divided by N:</p>
+<table>
+<thead>
+<tr>
+<th>SH degree</th>
+<th>floats per splat</th>
+<th>measured bytes per splat</th>
+<th>Survey</th>
+<th>10 million splats</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>17</td>
+<td><strong>68.0</strong></td>
+<td>68</td>
+<td>680 MB</td>
+</tr>
+<tr>
+<td>1</td>
+<td>26</td>
+<td><strong>104.0</strong></td>
+<td>104</td>
+<td>1.04 GB</td>
+</tr>
+<tr>
+<td>2</td>
+<td>41</td>
+<td><strong>164.0</strong></td>
+<td>164</td>
+<td>1.64 GB</td>
+</tr>
+<tr>
+<td>3</td>
+<td>62</td>
+<td><strong>248.0</strong></td>
+<td>248</td>
+<td>2.48 GB</td>
+</tr>
+</tbody>
+</table>
+<p>The layout is the reference 3DGS PLY (three normal floats included); each degree read back at the same degree. <strong><span class="g C" title="Confirmed">C</span></strong></p>
+<table>
+<thead>
+<tr>
+<th>quantity</th>
+<th>X3D 4.1 <code>GaussianSplats</code></th>
+<th>Blender 5.3 PointCloud</th>
+<th>glTF <code>KHR_gaussian_splatting</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>position, scale</td>
+<td><code>positions</code>, <code>scales</code> (linear)</td>
+<td><code>position</code>, <code>scale</code> float3 linear</td>
+<td><code>POSITION</code>, <code>...:SCALE</code></td>
+</tr>
+<tr>
+<td>rotation</td>
+<td><code>orientations</code> as x y z w</td>
+<td><code>rotation</code> quaternion (w x y z)</td>
+<td><code>...:ROTATION</code></td>
+</tr>
+<tr>
+<td>opacity, SH DC</td>
+<td><code>opacities</code>, <code>sphericalHarmonicsDegree0Coef0</code></td>
+<td><code>radiance:base</code> (xyz = DC, w = opacity)</td>
+<td><code>...:OPACITY</code>, <code>..._SH_DEGREE_0_COEF_0</code></td>
+</tr>
+<tr>
+<td>SH higher</td>
+<td><code>sphericalHarmonicsDegree{d}Coef{c}</code></td>
+<td><code>radiance:sh_{i}</code>, i = 0..14</td>
+<td><code>..._SH_DEGREE_{d}_COEF_{c}</code></td>
+</tr>
+</tbody>
+</table>
+<p>Crosswalk <strong><span class="g L" title="Likely">L</span></strong> (ecosystem map; the add-on's <code>splat_native.py</code> implements the Blender column). The quaternion order is a standing trap: the draft node text does not state it, the add-on writes <code>x y z w</code>, X_ITE 16.4.3 reads <code>x y z w</code>, and the same data written <code>w x y z</code> renders as streaks (README, <strong><span class="g L" title="Likely">L</span></strong>).</p>
+<h2 id="11-corrections-and-what-changed-under-a-re-check">11. Corrections, and what changed under a re-check</h2>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>claim as written</th>
+<th>state, and my re-check 2026-11-14</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td>the Survey says Blender's X3D is 3.3 with no PBR; the add-on writes 4.0 PhysicalMaterial, animation, HAnim, Inline, morph, a 4.1 splats fixture</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong> for the add-on's side (sections 2, 7). For upstream the code disagrees with both sources: the legacy writer, option label &quot;X3D 3.3&quot;, writes <code>&lt;X3D version=&quot;3.0&quot;&gt;</code> and the 3.0 DTD (<code>source/export_x3d.py</code> lines 342 to 343, confirmed by running an X3D33 export). The Survey's &quot;3.3&quot; is <strong><span class="g S" title="Suspected">S</span></strong></td>
+</tr>
+<tr>
+<td>C2, C3, C4</td>
+<td>static-meshes text corrected later; how SciBlend reads X3D unknown; version register unverified</td>
+<td>open or not re-checked, <strong><span class="g S" title="Suspected">S</span></strong>; versions below re-checked where cheap</td>
+</tr>
+<tr>
+<td>C5, C6</td>
+<td>trade-press [V] tags downgraded to Suspected; the Survey ran no hands-on tests</td>
+<td>the rule is the point; this chapter produces some Confirmed rows</td>
+</tr>
+<tr>
+<td>U1</td>
+<td>native splats upgraded from Suspected to Likely (Blender git, 2026-10-11)</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong> on a release build, below</td>
+</tr>
+<tr>
+<td>U2</td>
+<td>the add-on exports native 5.3 splats to X3D 4.1 and imports them</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong>: the native-splat tests in <code>tests/test_roundtrip_bpy.py</code> ran in the 335-test pass, <code>bpy 5.3.0</code></td>
+</tr>
+<tr>
+<td>U3</td>
+<td>extension id <code>x3d_blender_io</code>, no clash with upstream <code>web3d_x3d_vrml2_format</code></td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong> <code>source/blender_manifest.toml</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>What <code>bpy 5.3.0</code> (a release build) says. <span class="g C" title="Confirmed">C</span></strong>, probed 2026-11-14:</p>
+<table>
+<thead>
+<tr>
+<th>question</th>
+<th>answer</th>
+<th>against the source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>native splat type?</td>
+<td><code>PointCloud.type</code> enum is <code>['POINTS', 'GAUSSIAN_SPLAT']</code></td>
+<td>confirms U1; the ecosystem map wrote <code>POINT</code> (<strong><span class="g S" title="Suspected">S</span></strong> loser)</td>
+</tr>
+<tr>
+<td>import?</td>
+<td><code>bpy.ops.wm.spz_import</code> and <code>wm.ply_import</code> exist</td>
+<td>confirms</td>
+</tr>
+<tr>
+<td>export?</td>
+<td>no operator named for <code>splat</code>, <code>spz</code> or <code>gaussian</code> except <code>spz_import</code> (and the unrelated <code>graph.gaussian_smooth</code>); <code>wm.ply_export</code> on a native splat exported <strong>0 vertices</strong> (156 bytes, <code>element vertex 0</code>)</td>
+<td>turns &quot;no export&quot; from a note into a run</td>
+</tr>
+<tr>
+<td>X3D in core?</td>
+<td>no <code>import_scene.x3d</code> or <code>export_scene.x3d</code> without the add-on; <code>import_scene.gltf</code> and <code>export_scene.gltf</code> exist</td>
+<td>confirms the extension model</td>
+</tr>
+<tr>
+<td>is 5.3 out?</td>
+<td>map said &quot;scheduled 2026-11-10&quot;; PyPI has <code>bpy 5.3.0</code>, <code>version_cycle</code> <code>release</code>, newest in <code>pip index versions bpy</code></td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong> a release wheel exists</td>
+</tr>
+</tbody>
+</table>
+<p>Consequence: X3D 4.1 <code>GaussianSplats</code> is the only route this base found that carries a Blender 5.3 native splat out of Blender. <strong><span class="g C" title="Confirmed">C</span></strong> that 5.3.0's PLY export wrote none; <strong><span class="g L" title="Likely">L</span></strong> that no other route exists (add-ons and Geometry Nodes workflows were not searched).</p>
+<p>The Survey's eight hands-on tests, state today: (1) science-fixture round trip, partial (colour and metadata round trips are tested; no volume-grid fixture in the repo, <strong><span class="g L" title="Likely">L</span></strong>); (2) Standard against AgX render, not run; (3) 32-bit precision, partly answered by <code>tests/test_import_extreme_scale_bpy.py</code> (ran, passed, <strong><span class="g C" title="Confirmed">C</span></strong>); (4) PLY to X3D to Blender, sizes <strong><span class="g C" title="Confirmed">C</span></strong> above, error figures not re-measured; (5) pLDDT bands, not run; (6) agent A/B, not run (bridge B18); (7) glTF to a second runtime, done by the rig (section 6); (8) largest structure load, not run.</p>
+<h2 id="12-the-flywheel-bridges-ranked">12. The flywheel bridges, ranked</h2>
+<p>A later study (2026-10-25) ranked 18 bridges between the Blender lane, the X3D validator and the rest of the project; a verifier pass then re-read each. It is a lesson in grading before it is a roadmap: of 13 bridges first graded Confirmed, <strong>12 came out Likely</strong> and one stayed Confirmed (B17); one Likely fell to Suspected (B16). <strong><span class="g S" title="Suspected">S</span></strong> for all of it: carried from a private note, no bridge's inputs re-run, several in private repositories.</p>
+<table>
+<thead>
+<tr>
+<th>rank</th>
+<th>bridge (direction, effort)</th>
+<th>grade after verification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>B01 splat round-trip fixture ladder, synthetic S0 to S3 and real R1 to R5, with an expected-loss table (both, M)</td>
+<td>Likely</td>
+</tr>
+<tr>
+<td>2</td>
+<td>B02 validator <code>huge_tree</code> handling plus an honest &quot;not checkable at this size&quot; verdict (to X3D, S)</td>
+<td>Likely; duplicates an open board item</td>
+</tr>
+<tr>
+<td>3</td>
+<td>B03 exporter option: maximum bytes per <code>GaussianSplats</code> node (to X3D, M)</td>
+<td>Likely</td>
+</tr>
+<tr>
+<td>4</td>
+<td>B04 importer value-correctness pack: double colour decode, X3DUOM defaults, unlit EOTF (to Blender, M)</td>
+<td>Likely</td>
+</tr>
+<tr>
+<td>5</td>
+<td>B05 Blender-script guard: preflight, export, validator gate, loss audit, ledger row (to Blender, M)</td>
+<td>Likely; only two rules coded, &quot;3 of 5 caught&quot; needs a flag</td>
+</tr>
+<tr>
+<td>6</td>
+<td>B06 numeric look-parity chart (both, S)</td>
+<td>Likely</td>
+</tr>
+<tr>
+<td>7</td>
+<td>B07 importer must-not-raise suite from mutated sources (to Blender, S)</td>
+<td>Likely</td>
+</tr>
+<tr>
+<td>8</td>
+<td>B08 renderer-independent splat oracle plus an X_ITE ordering ladder (to Blender, M)</td>
+<td>Likely</td>
+</tr>
+<tr>
+<td>9</td>
+<td>B09 twelve sci-vis semantic checks for the validator (to X3D, S)</td>
+<td>Likely</td>
+</tr>
+<tr>
+<td>10</td>
+<td>B10 sci-vis fixture factory plus exporter metadata and units gaps (to X3D, M)</td>
+<td>Likely</td>
+</tr>
+<tr>
+<td>11</td>
+<td>B11 round-trip tiers A to D with a value-level loss ledger (both, M)</td>
+<td>Likely</td>
+</tr>
+<tr>
+<td>12</td>
+<td>B12 provenance chain for Blender renders, plus export-side leak fixes (to X3D, M)</td>
+<td>Likely</td>
+</tr>
+<tr>
+<td>13</td>
+<td>B13 Blender 5.3 readiness: native-splat probe, CI leg, watch refresh (to Blender, S)</td>
+<td>Suspected; partly answered by section 11</td>
+</tr>
+<tr>
+<td>14</td>
+<td>B14 orchestration skeleton calling existing scripts (both, M)</td>
+<td>Suspected</td>
+</tr>
+<tr>
+<td>15</td>
+<td>B15 three-way oracle metric plus sci-vis attacker families (both, L)</td>
+<td>Likely</td>
+</tr>
+<tr>
+<td>16</td>
+<td>B16 SPZ import path and sidecar for Blender 5.2 LTS (both, M)</td>
+<td>Suspected; 5.3 imports SPZ natively</td>
+</tr>
+<tr>
+<td>17</td>
+<td>B17 licence passport on Blender exports (both, S)</td>
+<td>Confirmed</td>
+</tr>
+<tr>
+<td>18</td>
+<td>B18 Blender-agent against <code>x3d_mcp</code> A/B, scored on fidelity (both, L)</td>
+<td>Suspected</td>
+</tr>
+</tbody>
+</table>
+<p>The ranking orders by value over effort, not readiness. B05 and B07 are the ones this chapter's measurements make concrete (section 9: validity is the wrong score; the importer is the only defence against a bad source). B13 and B16 shrank the day Blender 5.3.0 shipped. B05's best idea: run the loss audit on the source scene before export, because after a round trip it is empty.</p>
+<h2 id="13-the-ecosystem-watch-routine">13. The ecosystem-watch routine</h2>
+<p>A routine fires daily at 13:51 UTC in three steps. (1) <code>watch.py</code>, stdlib only, about 8 s: <code>git ls-remote</code> tags and heads on <code>blender/blender</code>, shallow commit-only fetches of nine repos with a keyword filter, PyPI JSON (<code>bpy</code>, <code>x3d</code>, <code>mcp-for-blender</code>) and npm JSON (<code>x_ite</code>, <code>splat-transform</code>, <code>spark</code>), diffed against <code>state.json</code> into an append-only <code>LEDGER.md</code> plus a JSON digest. (2) A web pass of at most six searches, only for hosts curl cannot reach (the extension index, Blender's own forge, release notes, Khronos news, the x3d-ecosystem list). (3) Each change is judged against the ranked map and reported in one short digest, or not at all. A quiet day produces no message. <strong><span class="g L" title="Likely">L</span></strong> (routine and script read; not run).</p>
+<p>The map scores each item Impact (1 to 5) times Timing (1 to 3) over Effort (1 to 3), timing 3 meaning &quot;act before 5.3 ships&quot;. Top of the first edition (2026-10-11), scores are the author's judgement <strong><span class="g L" title="Likely">L</span></strong>:</p>
+<table>
+<thead>
+<tr>
+<th>rank</th>
+<th>item</th>
+<th>score</th>
+<th>state</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>native <code>GAUSSIAN_SPLAT</code> PointCloud export and import</td>
+<td>15</td>
+<td>done in PR #10; type, import and missing export <strong><span class="g C" title="Confirmed">C</span></strong> on <code>bpy 5.3.0</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>extension id collision with upstream</td>
+<td>12</td>
+<td>done in PR #10: <code>x3d_blender_io</code> <strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>KHR_gaussian_splatting</code> import in Blender's glTF add-on</td>
+<td>12</td>
+<td>in the 5.3 branch (git, per the note); not re-run</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Blender Lab official MCP server</td>
+<td>10</td>
+<td>web-sourced, <strong><span class="g S" title="Suspected">S</span></strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td>X_ITE pin bump</td>
+<td>9</td>
+<td>rig pin and npm latest both 16.7.1 <strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>8</td>
+<td>bpy 5.3 wheel in CI</td>
+<td>6</td>
+<td>wheel exists; CI matrix tops out at 5.2.2 (teardown, <strong><span class="g L" title="Likely">L</span></strong>); the standing open item</td>
+</tr>
+</tbody>
+</table>
+<p>Today's probes, <strong><span class="g C" title="Confirmed">C</span></strong> 2026-11-14: <code>bpy</code> newest 5.3.0 (then 5.2.4, 5.2.3, 5.2.2); <code>x3d</code> 4.0.65.8 (ledger baseline 4.0.65.7); <code>x_ite</code> 16.7.1; <code>babylonjs</code> 9.36.0 against the rig's 9.32.0. Four values moved since the first ledger entry. The ledger's evidence levels are worth copying: <code>git</code> (strongest), <code>pkg</code>, <code>web</code> (secondary), <code>inferred</code>; unreachable hosts are named so a blocked probe is not read as &quot;no change&quot;.</p>
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule (imperative, at most 30 words)</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-BLE-1</td>
+<td>Never score an importer by whether its re-export validates; validate the source, then score fidelity against the source's render.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>a 3-error source re-exported with 0 errors while two of three defects lost their data (section 9)</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>bpy 5.3.0</code></td>
+</tr>
+<tr>
+<td>H-BLE-2</td>
+<td>Quote the rule next to every coverage number; a count without its counting rule is not comparable.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>54 written by the teardown against 46 by a naive literal scan, same checkout family</td>
+<td><code>X3DUOM 4.1</code>, <code>x3d-blender-io@ab99988</code></td>
+</tr>
+<tr>
+<td>H-BLE-3</td>
+<td>Treat a centre-patch match as proof of the fit's anchor only; read <code>geometry_delta</code> across the whole scene.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>p2 centre 204 against 203 yet <code>geometry_delta</code> 47.07</td>
+<td><code>X_ITE 16.7.1</code>, <code>Babylon.js 9.32.0</code>, Chrome 153 SwiftShader</td>
+</tr>
+<tr>
+<td>H-BLE-4</td>
+<td>Import classic X3D colours as sRGB and write PhysicalMaterial colours linear; choose per material model, not per file.</td>
+<td><strong><span class="g L" title="Likely">L</span></strong></td>
+<td>README: X_ITE reads classic colours as display values, physical as linear; round-trip tests pass</td>
+<td><code>X_ITE 16.7.1</code> (README), <code>bpy 5.3.0</code> tests</td>
+</tr>
+<tr>
+<td>H-BLE-5</td>
+<td>Pick Light Units BLENDER for a scene that starts in Blender and X_ITE for a scene that starts in an X3D file.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>Babylon.js centre patches 30, 27, 120, 30 under BLENDER units against 74, 203, 203, 56 under X_ITE units, where X_ITE draws 74, 204, 204, 57</td>
+<td>rig re-run, <code>bpy 5.3.0</code></td>
+</tr>
+<tr>
+<td>H-BLE-6</td>
+<td>Pin the rig's renderer versions and re-measure the probes before moving a pin.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>Babylon.js latest 9.36.0 against the pinned 9.32.0 on 2026-11-14</td>
+<td><code>npm view</code>, rig <code>package.json</code></td>
+</tr>
+<tr>
+<td>H-BLE-7</td>
+<td>Clamp every colour that comes from a formula or a float attribute to [0, 1] before export, then gate.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>channel 1.0059 fails the XSD pattern; baked raw channels reach 1.9151</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>bpy 5.3.0</code> Cycles CPU</td>
+</tr>
+<tr>
+<td>H-BLE-8</td>
+<td>Run the loss audit on the source scene before export; after the round trip it is empty.</td>
+<td><strong><span class="g S" title="Suspected">S</span></strong></td>
+<td>carried from a private verifier note</td>
+<td>not re-run</td>
+</tr>
+<tr>
+<td>H-BLE-9</td>
+<td>A valid glb proves structure only; check it is not empty and list the extensions the validator did not know.</td>
+<td><strong><span class="g L" title="Likely">L</span></strong></td>
+<td>rig README: unknown extensions are INFO only; <code>extensionsNotValidated</code> lists them</td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code></td>
+</tr>
+<tr>
+<td>H-BLE-10</td>
+<td>Compare counts from the run, not the AST: the AST gave 336 test functions, the run gave 335.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>one helper <code>test_the_validator_loads</code> is not reported by the runner</td>
+<td><code>bpy 5.3.0</code>, unittest</td>
+</tr>
+<tr>
+<td>H-BLE-11</td>
+<td>When a document and the code disagree (194 against 195 cases; &quot;3.3&quot; against <code>version=&quot;3.0&quot;</code>), cite the code and demote the document to Suspected.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>suite run 195; export header 3.0</td>
+<td><code>bpy 5.3.0</code>, <code>x3d-blender-io@ab99988</code></td>
+</tr>
+<tr>
+<td>H-BLE-12</td>
+<td>Map survey tags to grades by rule: [V] to Likely, [R] and [I] to Suspected, Confirmed only after reproduction with a named instrument.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>the knowledge base states and applies the rule; sections 10 and 11 apply it</td>
+<td>knowledge base v1 (read)</td>
+</tr>
+<tr>
+<td>H-BLE-13</td>
+<td>Re-probe a &quot;future feature&quot; the day its wheel ships: a release build settles enum values, operators and missing exports in minutes.</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>POINTS</code> not <code>POINT</code>; <code>ply_export</code> wrote 0 vertices; <code>spz_import</code> only</td>
+<td><code>bpy 5.3.0</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="drills">Drills</h2>
+<h3 id="d-ble-1-which-version-does-an-exported-file-claim">D-BLE-1 Which version does an exported file claim?</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Export a scene as X3D 4.0 and compare the <code>generator</code> meta with the manifest version.</li>
+<li><strong>Verify:</strong> <code>grep -n '^version' source/blender_manifest.toml</code>; <code>grep -n '&quot;version&quot;' source/__init__.py</code>; <code>grep generator out.x3d</code>.</li>
+<li><strong>Answer:</strong> manifest <code>2.6.4</code>; <code>bl_info</code> <code>(2, 6, 1)</code>; the file says <code>X3D Blender I/O v2.6.1</code>.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>bpy 5.3.0</code>, <code>x3d-blender-io@ab99988</code>.</li>
+</ul>
+<h3 id="d-ble-2-reproduce-the-colour-trap">D-BLE-2 Reproduce the colour trap</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Push one <code>ColorRGBA</code> channel to 1.0059, validate before and after, then say why no renderer would have shown it.</li>
+<li><strong>Verify:</strong> <code>validate_xml</code> from <code>x3d_mcp@b4efcd3</code> (<code>sys.path.insert(0, 'src')</code>, <code>from validation.validate import validate_xml</code>).</li>
+<li><strong>Answer:</strong> clean file 0 errors; edited file 1 error, <code>Element 'ColorRGBA', attribute 'color': [facet 'pattern']</code> naming the value. Renderers clamp or ignore it.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code>, <code>bpy 5.3.0</code>.</li>
+</ul>
+<h3 id="d-ble-3-count-the-tests-two-ways">D-BLE-3 Count the tests two ways</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Count <code>test_*</code> functions with <code>ast</code>; run the runner without and with <code>bpy</code>; explain each difference.</li>
+<li><strong>Verify:</strong> <code>python3 -B .github/scripts/run_tests_in_blender.py | tail -4</code>; for the glb tests set <code>GLTF_VALIDATOR_DIR</code> and <code>GLTF_VALIDATOR_REQUIRED=1</code>.</li>
+<li><strong>Answer:</strong> AST 336 in 35 files (274 bpy in 30, 62 plain). No <code>bpy</code>: 62 OK. With <code>bpy</code>: 335 ran, OK, 10 skipped (<code>test_glb_validator_bpy</code>); with the validator those 10 pass. The gap of one is <code>test_the_validator_loads</code>.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>bpy 5.3.0</code>, <code>gltf-validator 2.0.0-dev.3.10</code>.</li>
+</ul>
+<h3 id="d-ble-4-a-matching-centre-a-failing-scene">D-BLE-4 A matching centre, a failing scene</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Run the five probes with Light Units <code>X_ITE</code> and with <code>BLENDER</code>. For p2 read the three patches and <code>geometry_delta</code>; say which number to trust.</li>
+<li><strong>Verify:</strong> <code>compare.py LABEL ../../source probes.json</code>, then <code>out/LABEL/results.json</code>.</li>
+<li><strong>Answer:</strong> centre, X_ITE / Babylon.js, X_ITE units: 74/74, 204/203, 204/203, 57/56, 78/78; BLENDER units: 74/30, 204/27, 204/120, 57/30, 78/78. p2 <code>geometry_delta</code> 47.07 (left box 109 against 167, right 190 against 97): trust <code>geometry_delta</code>.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>X_ITE 16.7.1</code>, <code>Babylon.js 9.32.0</code>, Chrome for Testing 153.0.8010.12 SwiftShader, <code>bpy 5.3.0</code>.</li>
+</ul>
+<h3 id="d-ble-5-is-a-re-export-evidence-of-a-good-importer">D-BLE-5 Is a re-export evidence of a good importer?</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Take an X3D with a colour of 2.5, an unknown attribute and a Box outside any Shape. Validate, import, export as 4.0, validate, and list what information changed.</li>
+<li><strong>Verify:</strong> <code>validate_xml</code> on both files; read the re-export.</li>
+<li><strong>Answer:</strong> source 3 errors, re-export 0. Changed: colour clamped then converted (<code>0.214041</code>, <code>0.010023</code>), <code>Material</code> became <code>PhysicalMaterial</code>, the attribute and the stray Box gone.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code>, <code>bpy 5.3.0</code>.</li>
+</ul>
+<h3 id="d-ble-6-splat-bytes-from-the-writer">D-BLE-6 Splat bytes, from the writer</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Write 1,000 synthetic splats at SH degree 0 to 3 with <code>splat_io.write_ply</code>; compute bytes per splat after the header.</li>
+<li><strong>Verify:</strong> <code>python3 -B</code> with <code>sys.path.insert(0, 'source')</code>, <code>from ir import IRGaussianSplats</code>, <code>import splat_io</code>.</li>
+<li><strong>Answer:</strong> 68.0, 104.0, 164.0, 248.0 bytes (17, 26, 41, 62 floats); each reads back at its degree; 10 million at degree 3 is 2.48 GB.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d-blender-io@ab99988</code>, Python 3.13.18.</li>
+</ul>
+<h3 id="d-ble-7-can-blender-53-export-a-splat">D-BLE-7 Can Blender 5.3 export a splat?</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Build a native splat with <code>splat_native.build_native_splat_pointcloud</code>, select it, call <code>bpy.ops.wm.ply_export</code>; list operators named for <code>splat</code>, <code>spz</code> or <code>gaussian</code>.</li>
+<li><strong>Verify:</strong> <code>bpy 5.3.0</code>; <code>dir(bpy.ops.&lt;module&gt;)</code> over all modules.</li>
+<li><strong>Answer:</strong> type <code>GAUSSIAN_SPLAT</code>; the PLY is 156 bytes with <code>element vertex 0</code>; operators: <code>wm.spz_import</code> and the unrelated <code>graph.gaussian_smooth</code>. Extension: export with <code>export_scene.x3d</code>, <code>x3d_version='X3D41'</code> and validate on 4.1.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>bpy 5.3.0</code> (PLY export and operator list ran; the 4.1 export is covered by the test pass, not re-run here).</li>
+</ul>
+<h3 id="d-ble-8-grade-a-survey-claim">D-BLE-8 Grade a Survey claim</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> The Survey tags &quot;X_ITE 16.6.0 reads splat PLY, SPZ and SOG&quot; with [V]. Give the grade, what Confirmed needs, and the instrument string.</li>
+<li><strong>Verify:</strong> the grading map in section 10; the instrument rule in AUTHORING section 2.</li>
+<li><strong>Answer:</strong> <strong>Likely</strong>. Confirmed needs a run: load an SPZ and a SOG in <code>X_ITE 16.6.0</code> or 16.7.1 on a named rig. A later study contradicted it without a source line; neither is Confirmed.</li>
+<li><strong>Checked:</strong> not run</li>
+</ul>
+<h3 id="d-ble-9-a-toy-bake-gated">D-BLE-9 A toy bake, gated</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Bake Cycles DIFFUSE (direct plus indirect) to a corner <code>FLOAT_COLOR</code> attribute on a grid plus a box, apply the finish steps, export X3D 4.0, validate. Report raw maximum, exposure and final maximum; then set a channel to 1.0059 and re-validate.</li>
+<li><strong>Verify:</strong> <code>scene.render.bake.target = 'VERTEX_COLORS'</code>, <code>bpy.ops.object.bake(type='DIFFUSE')</code>; <code>validate_xml</code>.</li>
+<li><strong>Answer:</strong> 280 corners at 16 samples: raw maximum 1.9151, exposure 0.7569, final maximum 0.9696, 9,356 bytes, valid; the 1.0059 edit fails the colour pattern. Write the receipt this toy run skipped: Blender version, script and file sha256, percentile.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>bpy 5.3.0</code>, <code>x3d_mcp fork b4efcd3</code>.</li>
+</ul>
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> Everything was run at <code>x3d-blender-io@ab99988</code> on <code>bpy 5.3.0</code>, Python 3.13.18. CI uses Blender 4.5.14, 5.1.2, 5.2.2 and a Python 3.11 wheel job; none of those was run here.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> The rig re-run launched the installed Chrome for Testing 153.0.8010.12 in a scratch copy instead of Playwright's own download. Numbers matched the README to the integer, but its browser path was not literally followed. Only the five probes were run; the 34-scene sweep, nine x3d.demo scenes and two Blender-lab scenes are README figures, <strong><span class="g L" title="Likely">L</span></strong>.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> X_ITE was not opened on the toy bake or the conformance exports; only the validator gated them. Valid is not &quot;looks right&quot;.</li>
+<li><strong><span class="g S" title="Suspected">S</span></strong> Bake-stage traps beyond the colour clamp, the village numbers, the bridges, the tool tiers and ecosystem versions before 2026-11-14 are carried from private notes and the skill text; several bridges refer to private repositories, so their inputs cannot be re-run from public files.</li>
+<li><strong><span class="g L" title="Likely">L</span></strong> Node coverage 54 and 68 is the teardown's; my naive scan gives 46 and 65. The teardown's CI figures (33 successes, 5 cancelled, 0 failed in 38 pushes) were not re-fetched.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> RigidBodyPhysics is among the 17 untouched components; a physics scene from another tool would not survive an import here (teardown inference, not run); see <code>13-physics.md</code>.</li>
+<li><strong><span class="g S" title="Suspected">S</span></strong> Sources that disagree, code wins: 194 against 195 cases (code 195); <code>POINT</code> against <code>POINTS</code> (bpy <code>POINTS</code>); upstream &quot;X3D 3.3&quot; against a written 3.0 header (code 3.0); <code>bl_info</code> 2.6.1 against manifest 2.6.4 (both in the checkout, unresolved).</li>
+<li><strong>Not shown:</strong> a Castle, Unreal or path-traced leg (chapters 09 and 12). Unpublished scenes and upstream reports not yet public are left out on purpose.</li>
+</ul>
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-BLE-1</td>
+<td><code>test_*</code> functions (AST)</td>
+<td>336 in 35 files (274 in 30 bpy files)</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>Python 3.13.18 <code>ast</code></td>
+<td>x3d-blender-io@ab99988:tests/</td>
+</tr>
+<tr>
+<td>N-BLE-2</td>
+<td>tests run without <code>bpy</code></td>
+<td>62, OK</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>unittest runner</td>
+<td>x3d-blender-io@ab99988:.github/scripts/run_tests_in_blender.py</td>
+</tr>
+<tr>
+<td>N-BLE-3</td>
+<td>tests run with <code>bpy</code></td>
+<td>335 ran, OK, 10 skipped (glb validator absent)</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>bpy 5.3.0</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-BLE-4</td>
+<td>glb-validator tests with the validator present</td>
+<td>10 of 10 pass</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>gltf-validator 2.0.0-dev.3.10</code>, <code>bpy 5.3.0</code></td>
+<td>x3d-blender-io@ab99988:tests/test_glb_validator_bpy.py</td>
+</tr>
+<tr>
+<td>N-BLE-5</td>
+<td>conformance cases</td>
+<td>195 = 148 CORE + 21 FIDELITY + 26 ROADMAP</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>tests/suite/x3d_test_suite.py</code> on <code>bpy 5.3.0</code></td>
+<td>x3d-blender-io@ab99988:tests/suite/README.md</td>
+</tr>
+<tr>
+<td>N-BLE-6</td>
+<td>CORE pass, ROADMAP, FIDELITY</td>
+<td>148/148; 21 MISSING + 5 NEW; 19 WARN + 2 PASS</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>validate_x3d_export.py</code>, <code>bpy 5.3.0</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-BLE-7</td>
+<td>suite exports valid</td>
+<td>main 7,010,591 B (4.0), crease 4,911,800 B (4.0), x41 4,617,408 B (4.1), 0 errors</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-BLE-8</td>
+<td>concrete nodes in X3DUOM 4.1</td>
+<td>267</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>XML count of <code>ConcreteNode</code></td>
+<td>x3d_mcp@b4efcd3:src/validation/schemas/X3dUnifiedObjectModel-4.1.xml</td>
+</tr>
+<tr>
+<td>N-BLE-9</td>
+<td>nodes written / read, teardown</td>
+<td>54 / 68 (base 39 / 42), both 43</td>
+<td><strong><span class="g L" title="Likely">L</span></strong></td>
+<td>teardown method, not reproduced</td>
+<td>x3d.docs@f172f67:docs/x3d-blender-io/MASTERCLASS.md</td>
+</tr>
+<tr>
+<td>N-BLE-10</td>
+<td>nodes written / read, naive literal scan</td>
+<td>46 / 65, both 38</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>rule in section 3</td>
+<td>x3d-blender-io@ab99988:source/</td>
+</tr>
+<tr>
+<td>N-BLE-11</td>
+<td>probe centre patch, X_ITE units (X_ITE / Babylon.js)</td>
+<td>74/74, 204/203, 204/203, 57/56, 78/78</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>X_ITE 16.7.1</code>, <code>Babylon.js 9.32.0</code>, Chrome 153 SwiftShader</td>
+<td>x3d-blender-io@ab99988:tools/fidelity_rig/probes.json</td>
+</tr>
+<tr>
+<td>N-BLE-12</td>
+<td>probe centre patch, BLENDER units (Babylon.js)</td>
+<td>30, 27, 120, 30, 78</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-BLE-13</td>
+<td>p2 <code>geometry_delta</code></td>
+<td>47.07 (centre 204 against 203)</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-BLE-14</td>
+<td>glb validator on the five probe glbs</td>
+<td>0 errors, 0 warnings, 3 infos each</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code></td>
+<td>x3d-blender-io@ab99988:tools/fidelity_rig/validate_glb.mjs</td>
+</tr>
+<tr>
+<td>N-BLE-15</td>
+<td>PLY bytes per splat, SH 0 to 3</td>
+<td>68, 104, 164, 248</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>splat_io.write_ply</code>, 1,000 splats</td>
+<td>x3d-blender-io@ab99988:source/splat_io.py</td>
+</tr>
+<tr>
+<td>N-BLE-16</td>
+<td>toy bake: raw max, exposure, final max, bytes</td>
+<td>1.9151, 0.7569, 0.9696, 9,356 B (280 corners)</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>bpy 5.3.0</code> Cycles CPU 16 spp, <code>x3d_mcp fork b4efcd3</code></td>
+<td>(scratch script; reproduced by D-BLE-9)</td>
+</tr>
+<tr>
+<td>N-BLE-17</td>
+<td>add-on version strings</td>
+<td>manifest 2.6.4; <code>bl_info</code> 2.6.1; generator meta v2.6.1</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>grep</code>, export header</td>
+<td>x3d-blender-io@ab99988:source/blender_manifest.toml, source/<strong>init</strong>.py</td>
+</tr>
+<tr>
+<td>N-BLE-18</td>
+<td>legacy exporter header</td>
+<td><code>&lt;X3D version=&quot;3.0&quot;&gt;</code> for the option labelled &quot;X3D 3.3&quot;</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>run of an X3D33 export</td>
+<td>x3d-blender-io@ab99988:source/export_x3d.py:342</td>
+</tr>
+<tr>
+<td>N-BLE-19</td>
+<td>native splat type values</td>
+<td><code>['POINTS', 'GAUSSIAN_SPLAT']</code>; <code>wm.ply_export</code> of a splat: 0 vertices, 156 B</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>bpy 5.3.0</code></td>
+<td>probe (D-BLE-7)</td>
+</tr>
+<tr>
+<td>N-BLE-20</td>
+<td>npm and PyPI latest on 2026-11-14</td>
+<td>bpy 5.3.0; x3d 4.0.65.8; x_ite 16.7.1; babylonjs 9.36.0 (rig pins 9.32.0)</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>pip index versions</code>, <code>npm view</code></td>
+<td>registries</td>
+</tr>
+<tr>
+<td>N-BLE-21</td>
+<td>source size</td>
+<td>16,753 lines in <code>source/*.py</code>; <code>import_x3d.py</code> 7,340; <code>export_x3d.py</code> 1,985</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>wc -l</code></td>
+<td>x3d-blender-io@ab99988:source/</td>
+</tr>
+<tr>
+<td>N-BLE-22</td>
+<td>demo scenes, Blender units to X_ITE units, <code>geometry_delta</code></td>
+<td>40.5 to 25.3 (ontology constellation), 37.3 to 13.7 (materials shelf)</td>
+<td><strong><span class="g L" title="Likely">L</span></strong></td>
+<td>rig on nine scenes, README</td>
+<td>x3d-blender-io@ab99988:README.md</td>
+</tr>
+<tr>
+<td>N-BLE-23</td>
+<td>baked village file growth</td>
+<td>26 KB to 330 KB gzipped</td>
+<td><strong><span class="g S" title="Suspected">S</span></strong></td>
+<td>carried from the bake-stage skill text</td>
+<td>skill text, receipt not public</td>
+</tr>
+<tr>
+<td>N-BLE-24</td>
+<td>bridges first graded Confirmed that verified lower</td>
+<td>12 of 13</td>
+<td><strong><span class="g S" title="Suspected">S</span></strong></td>
+<td>verifier pass in a private note</td>
+<td>carried, not re-checked</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<ul>
+<li><strong>Repos read:</strong> <code>x3d-blender-io@ab99988</code> (merge of PR #39, manifest 2.6.4) read and run; <code>x3d_mcp@b4efcd3</code> for <code>validate_xml</code> and X3DUOM 4.1; <code>x3d.docs@f172f67</code> for <a href="../x3d-blender-io/MASTERCLASS.html">the x3d-blender-io masterclass</a>, measured at <code>e071a61</code> on 2026-11-13.</li>
+<li><strong>Run 2026-11-14:</strong> venv with <code>bpy 5.3.0</code> (427.5 MB wheel, Python 3.13.18) and <code>x3d 4.0.65.8</code>; Node 22 with <code>gltf-validator 2.0.0-dev.3.10</code>, <code>x_ite 16.7.1</code>, <code>babylonjs 9.32.0</code>; Chrome for Testing 153.0.8010.12 with SwiftShader; no GPU, no paid service.</li>
+<li><strong>Private leads, re-derived or graded <span class="g S" title="Suspected">S</span>:</strong> the sci-vis knowledge base (v1, v1.1), the flywheel study, the upstream-state study, the ecosystem map, ledger and routine, the bake-stage skill. Not linked; figures are re-derived above or marked carried.</li>
+<li><strong>Siblings:</strong> <a href="01-the-tether.html">01 The tether</a>, <a href="03-validator-and-gates.html">03 Validator and gates</a>, <a href="04-mcp-for-agents.html">04 MCP for agents</a>, <a href="05-semantic-layer.html">05 The semantic layer</a>, <a href="06-xite-the-oracle.html">06 X_ITE, the reference renderer</a>, <a href="07-xray.html">07 X-ray</a>, <a href="08-babylon-bridge.html">08 The Babylon bridge</a>, <a href="09-castle-engine.html">09 Castle Engine</a>; later chapters <code>11-gltf-usd-khronos.md</code>, <code>12-unreal-tier1.md</code>, <code>13-physics.md</code> as plain names until they exist.</li>
+</ul>
+<div class="pn"><a href="09-castle-engine.html">&larr; 09-castle-engine</a><a href="11-gltf-usd-khronos.html">11-gltf-usd-khronos &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

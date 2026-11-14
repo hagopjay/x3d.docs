@@ -1,0 +1,1218 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>07. x3d.xray, the X-ray method · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a class="cur" href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="07-xray.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/07-xray.md">GitHub</a></div><h1>07. x3d.xray, the X-ray method</h1>
+<details class="toc"><summary>On this page (29 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-what-each-pass-found">2. What each pass found</a><a class="l2" href="#3-the-data-rules">3. The data rules</a><a class="l2" href="#4-the-eda-statistics">4. The EDA statistics</a><a class="l3" href="#41-the-declared-family">4.1 The declared family</a><a class="l3" href="#42-the-grade-function-in-order">4.2 The grade function, in order</a><a class="l3" href="#43-the-arithmetic-re-derived">4.3 The arithmetic, re-derived</a><a class="l3" href="#44-what-the-examples-show">4.4 What the examples show</a><a class="l3" href="#45-what-the-statistics-do-not-claim">4.5 What the statistics do not claim</a><a class="l2" href="#5-javascript-inference-recompute-and-compare">5. JavaScript inference: recompute and compare</a><a class="l2" href="#6-the-3d-look-gallery-and-the-independent-reader-lesson">6. The 3D look gallery and the independent-reader lesson</a><a class="l2" href="#7-the-code-city-and-what-a-thin-repository-looks-like">7. The code city, and what a thin repository looks like</a><a class="l2" href="#8-the-scene-the-gates-and-a-fixed-defect">8. The scene, the gates and a fixed defect</a><a class="l3" href="#81-the-eight-gates">8.1 The eight gates</a><a class="l3" href="#82-the-metadatastring-containerfield-defect">8.2 The MetadataString containerField defect</a><a class="l2" href="#9-running-it-free">9. Running it free</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-xry-1-recompute-the-noise-calibration">D-XRY-1 Recompute the noise calibration</a><a class="l3" href="#d-xry-2-the-price-of-looking-by-hand-and-by-code">D-XRY-2 The price of looking, by hand and by code</a><a class="l3" href="#d-xry-3-pin-the-generator-and-the-add-one-limit">D-XRY-3 Pin the generator and the add-one limit</a><a class="l3" href="#d-xry-4-run-the-method-on-a-thin-public-repository">D-XRY-4 Run the method on a thin public repository</a><a class="l3" href="#d-xry-5-reproduce-the-containerfield-defect-and-see-which-rung-catches-it">D-XRY-5 Reproduce the containerField defect and see which rung catches it</a><a class="l3" href="#d-xry-6-make-the-producer-and-the-reader-agree-on-a-bug">D-XRY-6 Make the producer and the reader agree on a bug</a><a class="l3" href="#d-xry-7-run-the-synthetic-pipeline-and-read-the-gate-verdicts">D-XRY-7 Run the synthetic pipeline and read the gate verdicts</a><a class="l3" href="#d-xry-8-classify-five-looks-by-the-grade-function">D-XRY-8 Classify five looks by the grade function</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> x3d.xray turns the git history of a family of repositories into one X3D scene whose every number is computed by code, graded by checks declared before the data is read, and re-derived by a second reader; on a repository too thin to grade, its honest output is &quot;not run&quot;. <strong><span class="g C" title="Confirmed">C</span></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>XRY</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="01-the-tether.html">01 The tether</a> for the loop; <a href="03-validator-and-gates.html">03 The validator and the gates</a> for the rungs the gates call; <a href="06-xite-the-oracle.html">06 X_ITE, the reference renderer</a> for the viewer</td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>(1) name the eleven stages and say which involve a model; (2) read an EDA ledger and say what Confirmed does and does not mean, with the 4-of-150 noise figure; (3) recompute the q arithmetic and the generator by hand; (4) explain why a producer and its independent reader can agree on a bug and what pins it; (5) run the pipeline and the examples without paid services and say what a thin repository produces</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td>x3d.xray@8fa6845:README.md, x3dray/{looks,stats,eda,gallery,gallerycheck,compiler,harvest,gates}.py, x3dray/web/tools.js, examples/, tests/, experiments/smoke_synthetic_pipeline.py, docs/development-pass-{1,2,3}.html, specs/, families/; x3d.castle@d70e00c (public history only); x3d_mcp@b4efcd3:src/validation/</td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td><code>x3d.xray@8fa6845</code>; <code>x3d_mcp fork b4efcd3</code>; <code>X3D XSD 4.0</code> (sha256 0509fa5bd601); lxml 6.1.3; Python 3.13.18; Git 2.43.0; Node 22.23.4; <code>X_ITE 16.7.0</code> (vendored by the page, not run for the page itself); software only (4 vCPU Intel Xeon 2.30 GHz, no GPU)</td>
+</tr>
+</tbody>
+</table>
+<p>Rig for every number marked <strong><span class="g C" title="Confirmed">C</span></strong>: a read-only checkout of <code>x3d.xray@8fa6845</code> (Merge pull request 11, 2026-11-13), Python 3.13.18, Git 2.43.0, run on 2026-11-14. Anything that wrote files wrote them to a scratch folder. The repository is public (<code>github.com/hagopjay/x3d.xray</code>).</p>
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text">  git clones of a family     (public repos itemised; private repos: counts and times only)
+      |
+      v  harvest   -&gt; dataset.json, ties.json       no model; identities hashed
+      v  curated   -&gt; curated.json (optional)       hand-graded ties imported, addresses scrubbed
+      v  structure -&gt; concepts.json, bridges.json   formal concepts, betweenness; no model
+      v  eda       -&gt; eda.json                      audit, profiles, 12 declared looks, flags
+      v  profile   -&gt; profile.json                  signals, each with its numbers
+      v  self      -&gt; self.json                     the tool describes itself (module sha256)
+      v  spec      -&gt; spec.rendered.json            prose by a model, every digit a {slot}
+      v  build     -&gt; xray.x3d + layout.json        the scene: helix, constellation, city, looks
+      v  page      -&gt; index.html, bundle.json       an Artifact-shaped folder, vendored X_ITE
+      v  gate      -&gt; gates.json                    xsd loom fact privacy witness scene tools live
+      v  receipt   -&gt; receipt.json                  one sha256: inputs, modules, outputs, verdicts
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>stage</th>
+<th>command</th>
+<th>model involved</th>
+<th>what it can refuse</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>harvest</td>
+<td><code>python3 -m x3dray harvest --family F --root DIR --data DIR</code></td>
+<td>no</td>
+<td>an unknown repo name (nearest names offered); nothing is guessed</td>
+</tr>
+<tr>
+<td>structure</td>
+<td><code>... structure --data DIR</code></td>
+<td>no</td>
+<td>n/a; sets aside merges, private commits and mass edits (over 15 files) and says how many</td>
+</tr>
+<tr>
+<td>eda</td>
+<td><code>... eda --data DIR</code></td>
+<td>no</td>
+<td>a dataset it cannot count (time beyond plus or minus 8.64e12 s, negative line counts): one <code>eda:</code> line, nothing written</td>
+</tr>
+<tr>
+<td>spec</td>
+<td><code>... spec --data DIR --spec S</code></td>
+<td>yes: the prose is written by a model</td>
+<td>any digit outside a slot; any slot that does not resolve</td>
+</tr>
+<tr>
+<td>build</td>
+<td><code>... build --data DIR --out DIR</code></td>
+<td>no</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>gate</td>
+<td><code>... gate --data DIR --out DIR [--onto D --fork D]</code></td>
+<td>no</td>
+<td>see section 8</td>
+</tr>
+<tr>
+<td>receipt</td>
+<td><code>... receipt --data DIR --out DIR</code></td>
+<td>no</td>
+<td>n/a</td>
+</tr>
+</tbody>
+</table>
+<p>Only the <code>spec</code> stage and the Ask panel at run time involve a model, and &quot;prose by Claude, numbers by code&quot; is the contract: the model writes sentences around <code>{slot}</code> placeholders, code fills the slots from <code>profile.json</code>, and the fact gate fails any digit that is not in a slot (<code>x3d.xray@8fa6845:README.md</code>, &quot;AI-native, and aware of itself&quot;).</p>
+<p><strong>In scope:</strong> the method (stages, rules, statistics, the gallery, the gates), what each development pass found, how to run it free, and what a thin repository produces. <strong>Out of scope:</strong> the private previews built from the method, and any named person's history. This chapter runs the tool on public histories only.</p>
+<p><strong>Read next:</strong> deeper, <code>x3d.xray@8fa6845:x3dray/looks.py</code> (the declared family and the grade function, 852 lines); wider, <a href="03-validator-and-gates.html">03 The validator and the gates</a> for the rungs that the <code>gate</code> stage calls.</p>
+<h2 id="2-what-each-pass-found">2. What each pass found</h2>
+<p>The repository records three development passes as self-contained pages under <code>docs/</code>, then the EDA stage, the in-browser recompute and the look gallery as features. The pass numbers below are read from those pages and the README <strong><span class="g L" title="Likely">L</span></strong> (the pages record their own runs; they were not re-run at their original commits). The last row is this chapter's own run.</p>
+<table>
+<thead>
+<tr>
+<th>pass</th>
+<th>version and date</th>
+<th>tests recorded</th>
+<th>what it found</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0.2.0.dev1, 2026-11-12</td>
+<td>178 Python, 10 DOM checks</td>
+<td>the passage-point routine asked &quot;if I remove this vertex, are these repositories still connected&quot; for every vertex and pair; replacing it with a biconnected-block index (build once, reuse) cut the 121-node analysis plus verifier from 10.14 s to 0.63 s (16.08x), with identical output hashes at 21, 41, 81 and 121 nodes. The old routine stayed as the independent oracle</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0.3.0.dev1, 2026-11-12</td>
+<td>312 Python, 14 DOM checks</td>
+<td>a scene checker that does not import the compiler: 13 audit cases (a baseline, 10 deliberate violations rejected, an equivalent nested-transform scene accepted, a scope probe accepted); a short acyclic DEF/USE graph can expand exponentially, so the checker shares a 250,000-visit budget</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0.4.0.dev1, 2026-11-12</td>
+<td>442 Python, 23 DOM checks</td>
+<td>immutable witnesses (full commit and blob ids, byte spans, raw SHA-256) so a moving HEAD cannot retarget evidence; two clocks (observed-by and valid-at); scale runs at 10, 100 and 1,000 entities; a fixed-ring layout gave 7,936 overlapping glyph pairs at 1,000 entities, adaptive rings gave 0 (closest gap -0.56493 to +0.34968 world units), and the page says zero overlaps is not legible labels</td>
+</tr>
+<tr>
+<td>EDA and recompute</td>
+<td>features, README</td>
+<td>857 run at 8fa6845</td>
+<td>a declared family of 12 looks, an exact-integer kernel, a JavaScript twin that recomputes the stored ledger byte for byte (sections 4 and 5)</td>
+</tr>
+<tr>
+<td>this run</td>
+<td><code>x3d.xray@8fa6845</code>, 2026-11-14</td>
+<td>857 ran: 810 passed, 3 failed, 24 errored, 20 skipped</td>
+<td>all 27 failures and errors sit in the immutable-locator group (<code>test_locators</code>, <code>test_ties.ImmutableTieTests</code>, <code>test_continuum</code> and <code>test_prooflab</code> set-up); Git 2.43.0 answers <code>unknown option: --no-lazy-fetch</code>, the flag those tests need <span class="g C" title="Confirmed">C</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong><span class="g C" title="Confirmed">C</span></strong> for the last row: instrument <code>x3d.xray@8fa6845</code>, Git 2.43.0, Python 3.13.18, <code>python3 -m unittest discover -s tests</code>, 295.5 s. The README says the locator workflow needs &quot;Git with <code>--no-lazy-fetch</code> support&quot;. A newer Git would be expected to clear the 27; that expectation is <strong><span class="g L" title="Likely">L</span></strong>, not run.</p>
+<h2 id="3-the-data-rules">3. The data rules</h2>
+<p>Six rules in the README decide what the tool will say. Each is enforced by a gate or a test, not by style.</p>
+<table>
+<thead>
+<tr>
+<th>rule</th>
+<th>what it means in the data</th>
+<th>enforced by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>one vocabulary</td>
+<td>every repo name resolves through the family file; an unknown name is refused with the nearest names</td>
+<td><code>harvest</code>; <code>tests/test_spec_contract.py</code></td>
+</tr>
+<tr>
+<td>unknown is not zero</td>
+<td>a coverage ledger says how much history and tree was measured; the unmeasured is fog in the city, never an empty lot</td>
+<td><code>profile</code>; the scene</td>
+</tr>
+<tr>
+<td>no witness, no tie</td>
+<td>every tie carries evidence (paths, lines, hashes, stated lineage), graded C, L or S; the scene may not draw a tie the data lacks</td>
+<td>witness gate</td>
+</tr>
+<tr>
+<td>set aside, then counted</td>
+<td>the file lattice and co-change graph leave out merges (git lists no paths for them), private commits and mass edits of more than 15 files; every answer says how many it left out</td>
+<td><code>structure</code>; <code>stats.MASS_FILES = 15</code></td>
+</tr>
+<tr>
+<td>no recorded session link is not no link</td>
+<td>only commits with a session trailer can link two repos through a session; the absence of a chain is reported as such</td>
+<td><code>bridges.json</code></td>
+</tr>
+<tr>
+<td>viewpoints are claims</td>
+<td>a Viewpoint is named by the claim it backs, not by where the camera stands</td>
+<td><code>compiler.py</code></td>
+</tr>
+</tbody>
+</table>
+<p>Ties use the same three grades as this knowledge base: C (read in the exact code or file), L (read in a source it trusts), S (a guess). The mapping is the point of the tool's name in the family: &quot;name the instrument behind every number&quot; (<a href="01-the-tether.html">01 The tether</a>) is implemented as a witness on every drawn tie.</p>
+<h2 id="4-the-eda-statistics">4. The EDA statistics</h2>
+<p><code>python3 -m x3dray eda</code> is &quot;quasi-exploratory&quot;: what may be looked at is declared before the data is read, and what is found is graded by how well it survives declared checks. A grade is a robustness check over declared variations, never a probability.</p>
+<pre><code class="language-text">  commit rows (time, repo, class you|ai|bot, lines, files, merge flag, ...)
+        |
+        |  pair = the two author classes with the most non-merge commits, each &gt;= 20
+        v
+  12 declared looks  (m = 12 whatever the data)
+        |
+        v   effect size, integer arithmetic only
+  Cliff's delta counts (lines, files, gap_s)  |  total variation (hour4, weekday, repo)
+        |        floor: |delta| &gt;= 147/1000    |      floor: TV &gt;= 1/10
+        v
+  add-one label-permutation count  k of M shuffles at least as extreme
+        |   p = (k+1)/(M+1);  SplitMix64 stream seeded from sha256 of the look's label
+        |   M = clamp (10,000,000 / W, 199, 999);  surprising when p &lt;= 1/20
+        v
+  Benjamini-Hochberg q over the family  (m = 12 plus every look asked)
+        |        q &lt;= 1/10 to survive, q &lt;= 1/20 for Confirmed
+        v
+  robustness checks:  4 forks | leave-one-repo-out | per-repo strata | interleaved-week halves
+        |
+        v
+  first matching rule gives the grade  C | L | S | none, with a stored reason
+</code></pre>
+<h3 id="41-the-declared-family">4.1 The declared family</h3>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>kind</th>
+<th>measure</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>contrast:lines</code></td>
+<td>contrast</td>
+<td>lines changed per commit</td>
+<td>pair A against pair B</td>
+</tr>
+<tr>
+<td><code>contrast:files</code></td>
+<td>contrast</td>
+<td>files changed per commit</td>
+<td>same</td>
+</tr>
+<tr>
+<td><code>contrast:gap_s</code></td>
+<td>contrast</td>
+<td>quiet seconds before a commit</td>
+<td>same</td>
+</tr>
+<tr>
+<td><code>contrast:hour4</code></td>
+<td>contrast</td>
+<td>UTC four-hour block</td>
+<td>total variation</td>
+</tr>
+<tr>
+<td><code>contrast:weekday</code></td>
+<td>contrast</td>
+<td>UTC weekday</td>
+<td>total variation</td>
+</tr>
+<tr>
+<td><code>contrast:repo</code></td>
+<td>contrast</td>
+<td>which repo the commit is in</td>
+<td>total variation; never above Likely</td>
+</tr>
+<tr>
+<td><code>drift:first:{lines,hour4,weekday}</code></td>
+<td>drift</td>
+<td>later half against earlier half of the first class's commits</td>
+<td>3 looks</td>
+</tr>
+<tr>
+<td><code>drift:second:{lines,hour4,weekday}</code></td>
+<td>drift</td>
+<td>same for the second class</td>
+<td>3 looks</td>
+</tr>
+</tbody>
+</table>
+<p>Count: 6 contrasts and 6 drifts, <code>M_DECLARED = 12</code>, manifest sha256 prefix <code>a5fce6ec4bade0c8</code> (thresholds included) <strong><span class="g C" title="Confirmed">C</span></strong>, instrument <code>x3d.xray@8fa6845</code> (<code>looks.M_DECLARED</code>, <code>looks.manifest_sha256</code>). A look that cannot run enters the correction with p = 1 and says why it did not run.</p>
+<h3 id="42-the-grade-function-in-order">4.2 The grade function, in order</h3>
+<p><code>looks.grade</code> is a pure function over stored fields; the first rule that matches wins.</p>
+<table>
+<thead>
+<tr>
+<th>order</th>
+<th>condition</th>
+<th>grade</th>
+<th>stored reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>the look did not run</td>
+<td>none</td>
+<td><code>not_run</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>effect below the floor</td>
+<td>none</td>
+<td><code>effect_below_floor</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>add-one count above 1/20</td>
+<td>none</td>
+<td><code>not_surprising</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>q above 1/10</td>
+<td>S</td>
+<td><code>not_surviving_BH</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>an opposite effect in any repo stratum</td>
+<td>S</td>
+<td><code>contrary_effect_in_a_repo</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>q above 1/20</td>
+<td>L</td>
+<td><code>q_above_confirm_level</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>no repo holds 20 commits of each group</td>
+<td>L</td>
+<td><code>no_stratum_with_both_groups</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td>halves not evaluable or not replicating</td>
+<td>L</td>
+<td><code>halves_not_evaluable</code>, <code>not_replicated_in_halves</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td>fewer than 3 distinct forks evaluable, or they disagree</td>
+<td>L</td>
+<td><code>fewer_than_3_distinct_forks_evaluable</code>, <code>fork_disagreement</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td>fewer than 3 leave-one-repo-out runs, or they disagree</td>
+<td>L</td>
+<td><code>leave_one_repo_out_unavailable</code>, <code>leave_one_repo_out_disagreement</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td>everything above passes at q at most 1/20</td>
+<td>C</td>
+<td><code>all_checks_pass</code></td>
+</tr>
+</tbody>
+</table>
+<p>The four forks are <code>all</code>, <code>no_merge</code>, <code>default_branch</code> and <code>no_mass</code> (commits touching at most 15 files); forks holding exactly the same commits count once. Source: <code>x3d.xray@8fa6845:x3dray/looks.py</code> lines 309 to 349 and <code>stats.py</code> lines 23 and 24. <strong><span class="g C" title="Confirmed">C</span></strong>, read in the exact code.</p>
+<h3 id="43-the-arithmetic-re-derived">4.3 The arithmetic, re-derived</h3>
+<p>Everything is integer or <code>Fraction</code>; there is no float in <code>eda.json</code>, and the file is byte-identical across runs.</p>
+<table>
+<thead>
+<tr>
+<th>item</th>
+<th>value</th>
+<th>grade</th>
+<th>instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SplitMix64, seed 0, first word</td>
+<td>16294208416658607535 = 0xE220A8397B1DCDAF</td>
+<td>C</td>
+<td><code>x3dray.stats.SplitMix64</code> (matches the published reference word)</td>
+</tr>
+<tr>
+<td>SplitMix64, seed 1234567, first two words</td>
+<td>6457827717110365317, 3203168211198807973</td>
+<td>C</td>
+<td>same</td>
+</tr>
+<tr>
+<td>add-one p for 1 shuffle at least as extreme in 999</td>
+<td>2/1000 (shown as 0.0020)</td>
+<td>C</td>
+<td><code>fractions.Fraction</code>; the examples print 0.0020</td>
+</tr>
+<tr>
+<td>largest count that still passes &quot;p at most 1/20&quot; at M = 999</td>
+<td>k = 49 (<code>20*(k+1) &lt;= 1000</code>)</td>
+<td>C</td>
+<td>arithmetic on <code>looks.THRESHOLDS[&quot;ALPHA&quot;]</code></td>
+</tr>
+<tr>
+<td>BH q for two looks at p = 2/1000, family m = 12</td>
+<td>3/250 = 0.0120</td>
+<td>C</td>
+<td><code>stats.bh_q</code></td>
+</tr>
+<tr>
+<td>same, m = 13</td>
+<td>13/1000 = 0.0130</td>
+<td>C</td>
+<td><code>stats.bh_q</code></td>
+</tr>
+<tr>
+<td>same, m = 51</td>
+<td>51/1000 = 0.0510</td>
+<td>C</td>
+<td><code>stats.bh_q</code></td>
+</tr>
+</tbody>
+</table>
+<p>The last three rows are the &quot;price of looking&quot;: the formula is <code>q_i = min(q_{i+1}, m * p_i / i)</code>, so with two looks at the same p, q = m * 0.002 / 2, and every extra look anyone takes raises m. At m = 51 the same p gives q = 0.0510, which does not clear 1/20. <code>examples/eda_3_the_price_of_looking.py</code> prints exactly this table (0 other looks: m = 13, q 0.0130; 38 other looks: m = 51, q 0.0510, &quot;does not clear&quot;) and it ran here <strong><span class="g C" title="Confirmed">C</span></strong>.</p>
+<h3 id="44-what-the-examples-show">4.4 What the examples show</h3>
+<p>All three run offline on seeded synthetic data and are run as tests in CI. Output below is from this run (<code>x3d.xray@8fa6845</code>, Python 3.13.18).</p>
+<table>
+<thead>
+<tr>
+<th>example</th>
+<th>setup</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>eda_1_signal_and_noise.py</code>, planted</td>
+<td>one author class writes commits 5x smaller in a narrower band of hours (seed 7, 4 repos x 150 commits)</td>
+<td><code>contrast:lines</code> C (effect 647/1000, q 0.0060) and <code>contrast:hour4</code> C (380/1000, q 0.0060); ledger C 2, L 0, S 0, none 10</td>
+</tr>
+<tr>
+<td><code>eda_1_signal_and_noise.py</code>, noise</td>
+<td>nothing planted, 3 repos x 120 commits, seeds 1028 to 1033</td>
+<td>5 of 6 seeds earn no Confirmed; seed 1031 earns one: <code>contrast:hour4</code> effect 195/1000, q 0.0280, while its other flagged looks are L (<code>fork_disagreement</code>) and S (<code>contrary_effect_in_a_repo</code>)</td>
+</tr>
+<tr>
+<td>calibration</td>
+<td>150 pure-noise histories, seeds 1000 to 1149, <code>--calibrate</code></td>
+<td><strong>4 of 150</strong> earned at least one Confirmed (2.67%), recomputed in this run</td>
+</tr>
+<tr>
+<td><code>eda_2_simpsons_paradox.py</code></td>
+<td>the author class follows the repo (4 repos x 150 commits)</td>
+<td><code>contrast:lines</code> effect -589/1000, q 0.0060 is L (<code>no_stratum_with_both_groups</code>), <code>contrast:repo</code> is L (<code>leave_one_repo_out_unavailable</code>); nothing Confirmed, because the strata check could not run</td>
+</tr>
+<tr>
+<td><code>eda_3_the_price_of_looking.py</code></td>
+<td>the same p, more looks before it</td>
+<td>q rises from 0.0130 (m = 13) to 0.0510 (m = 51)</td>
+</tr>
+</tbody>
+</table>
+<p>Grade <strong><span class="g C" title="Confirmed">C</span></strong> for each row: instrument <code>x3d.xray@8fa6845</code>, examples run 2026-11-14 (the calibration with <code>--calibrate</code>, about 6 minutes on 4 vCPU). Read the calibration row as the honest limit on the word &quot;Confirmed&quot;: about one pure-noise history in 37 earns it, so a Confirmed look can be a false positive and the page must say so. The 4-of-150 figure is a property of these seeds and this synthetic generator; it is not a general false-positive rate.</p>
+<h3 id="45-what-the-statistics-do-not-claim">4.5 What the statistics do not claim</h3>
+<ul>
+<li>Commits are treated as exchangeable under the permutation null; they are not (they cluster in sessions).</li>
+<li>Benjamini-Hochberg assumes independent or positively dependent looks; these share commits, so q is &quot;indicative&quot; (<code>looks.BH_NOTE</code>).</li>
+<li>Times are UTC author times. Renames are not followed. Lines changed come from <code>git numstat</code>, so vendored and generated files count in full. Squashed or rebased history hides who did the work.</li>
+<li>Slices and <code>compare</code> calls are never graded: the robustness checks exist only for the 12 declared looks.</li>
+<li>A pattern that survives is &quot;not causal, not predictive&quot; (<code>looks.SAY_AT_MOST[&quot;C&quot;]</code>).</li>
+</ul>
+<h2 id="5-javascript-inference-recompute-and-compare">5. JavaScript inference: recompute and compare</h2>
+<p>The page and the MCP server share one tool set (<code>x3dray/web/tools.js</code>; 11 tools shared, 1 MCP-only, 4 page-only, from <code>python3 -m x3dray tools</code> <strong><span class="g C" title="Confirmed">C</span></strong>). Two of its <code>eda</code> topics matter for accountability.</p>
+<table>
+<thead>
+<tr>
+<th>topic</th>
+<th>what it does</th>
+<th>refusals</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>recompute</code></td>
+<td>runs the 12 declared looks again in the browser from the bundle's commit rows with a JavaScript twin (synchronous SHA-256, SplitMix64 on two 32-bit halves, exact integer Cliff and total-variation counts, the add-one null, BH, the grade rule), compares the canonical text with the stored section byte for byte, answers <code>match: true</code> with both digests or names the differing paths</td>
+<td>checks known answers first (SHA-256 of &quot;abc&quot;, published SplitMix64 words, the manifest hash); refuses before drawing if the permutations exceed 25 million draws or the rows break the <code>stats.py</code> row contract</td>
+</tr>
+<tr>
+<td><code>compare</code></td>
+<td>asks whether slice A differs from slice B on one of six measures; returns the effect, an exact add-one count and a BH q over every look asked plus the 12 declared, with that denominator printed</td>
+<td>refuses a group under 20 commits or a bill above 4 million draws instead of thinning; at most 30 distinct comparisons per tool set; always <code>grade: null</code></td>
+</tr>
+</tbody>
+</table>
+<p>Design points worth copying. The seed for <code>compare</code> comes from the two groups' value lists in digest order, so asking B against A, or spelling a filter differently, is the same question with the same stream: a question cannot be re-rolled for a better p. The count of looks restarts from 12 on a reload, and the answer says so (<code>counted_in</code>). Python stays the specification: <code>tests/test_eda_infer.py</code> and <code>tests/test_eda_js_parity.py</code> hold the two in agreement on ties, huge values, no author pair and a 24,000-commit bundle; both modules ran in the full suite here and passed <strong><span class="g C" title="Confirmed">C</span></strong> (810 of 857 passing, the 27 failures being the locator group of section 2).</p>
+<p><code>take_look</code> is one more event in the investigation hash chain: it records that a look was taken (declared, a slice, a row query or a comparison) so that a reload continues the count. The README states what this does not prove: that the look was computed, shown or read, who took it, or that nothing else was looked at, so the counts are a lower bound and the chain is integrity bookkeeping, not authentication.</p>
+<h2 id="6-the-3d-look-gallery-and-the-independent-reader-lesson">6. The 3D look gallery and the independent-reader lesson</h2>
+<p>The scene's Looks view draws the 12 declared looks as small multiples, one panel each in declared order (6 contrasts on the first row, 6 drifts below). A panel has a slab coloured by grade (hollow when the look did not run), three bars (effect, the share of shuffles at least as extreme, and q, each 6/1000 of a unit per permille), four cubes (forks, leave-one-repo-out, repo strata, halves: pass, fail, or hollow when the check could not run) and a label with the stored sentence. A bar of zero is not drawn: absence is the zero, and only a hollow slab means &quot;not run&quot;.</p>
+<pre><code class="language-text">   producer                              independent reader
+   x3dray/gallery.py                     x3dray/gallerycheck.py
+   (writes the XML from stored           imports: json, re, xml.etree, decimal only
+    integers: bar = |permille| * 0.006)  (no compiler, no producer, no eda/looks/stats)
+        |                                      |
+        |   xray.x3d  ---------------------&gt;   re-derives panel list, grid, bar heights,
+        |                                       colours, check cubes, text from bundle.eda
+        |                                       tolerance 0.0011 against a resolution 0.006
+        v                                      v
+   they agree  ==  the XML matches the stored numbers      NOT  ==  the stored numbers are right
+</code></pre>
+<p>The reader refuses a missing, extra, duplicated, reordered or moved panel, a changed size, colour, hollowness or digit, anything unregistered inside the layer, DEF/USE sharing, a second layer and a marker outside it. It does not check the rest of the scene outside the layer, the camera, rendered text size or pixels.</p>
+<p><strong>The lesson.</strong> A signed Cliff's delta is negative when the second class has the larger values; the bar must be its magnitude, in the other colour. A producer and a reader written from the same reading of the data can both drop the sign and agree. The file <code>gallery.py</code> line 103 and <code>gallerycheck.py</code> line 120 each compute <code>abs (permille)</code>; the test at <code>tests/test_gallery.py</code> line 78 pins the raw stored value (<code>permille &lt; 0</code>) and the expected bar and colour. Experiment on a scratch copy, both modules edited to <code>max (0, permille)</code> (a negative effect drawn as no bar):</p>
+<table>
+<thead>
+<tr>
+<th>state</th>
+<th>tests in <code>tests/test_gallery.py</code></th>
+<th>failing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>unmodified <code>x3d.xray@8fa6845</code></td>
+<td>43 run, 43 pass</td>
+<td>none</td>
+</tr>
+<tr>
+<td>shared mistake in producer and reader</td>
+<td>43 run, 42 pass</td>
+<td>exactly one: <code>test_a_negative_cliff_effect_is_a_bar_of_its_magnitude_in_the_other_colour</code></td>
+</tr>
+</tbody>
+</table>
+<p>Grade <strong><span class="g C" title="Confirmed">C</span></strong>, instrument <code>x3d.xray@8fa6845</code> and a scratch copy of <code>x3dray/</code>, <code>tests/</code> and <code>experiments/</code>, Python 3.13.18, 27 s per run (D-XRY-6). The independent reader, the gate that runs it on the real compile path and 41 other tests all stay green with the shared mistake: independence only helps if tests also pin raw stored values (a negative effect, a distance), not just producer-against-reader agreement. That the mistake happened once in the real build before the pin was added is carried from a private note (<strong><span class="g S" title="Suspected">S</span></strong>, not re-checked); the experiment above does not depend on it.</p>
+<h2 id="7-the-code-city-and-what-a-thin-repository-looks-like">7. The code city, and what a thin repository looks like</h2>
+<p>The code city draws one district per repo at its tip and one building per file. The rules are in <code>x3dray/compiler.py</code> (lines 847 to 896, <strong><span class="g C" title="Confirmed">C</span></strong> read):</p>
+<table>
+<thead>
+<tr>
+<th>element</th>
+<th>rule</th>
+<th>consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>district side</td>
+<td><code>2.0 + 0.9 * log2 (1 + files / 40)</code>; a repo with no measured tree gets 1.6 and a darker plate</td>
+<td>size says how many files, not how good they are</td>
+</tr>
+<tr>
+<td>buildings</td>
+<td>the top 64 files by lines, ordered by kind then lines</td>
+<td>64 is a cap: the rest of the repo is not drawn</td>
+</tr>
+<tr>
+<td>building height</td>
+<td><code>0.06 + 0.42 * log2 (1 + lines / 25)</code></td>
+<td>logarithmic: a 10x file is about 1.4 units taller, not 10x</td>
+</tr>
+<tr>
+<td>hot roof</td>
+<td>churn at or above <code>max (1000, 90th-percentile churn of the drawn files)</code>; roof height <code>0.05 + 0.05 * log10 (churn)</code></td>
+<td>a roof means total lines changed, whatever the cause</td>
+</tr>
+<tr>
+<td>unmeasured</td>
+<td>colour <code>#7f93a3</code>, drawn as fog, never as an empty lot</td>
+<td>unknown is not zero</td>
+</tr>
+</tbody>
+</table>
+<p>A <strong>thin repository</strong> is one with too few commits for the statistics and too little history for churn to mean rework. To see what the method says, this chapter ran the real stages (<code>harvest</code>, <code>structure</code>, <code>eda</code>, <code>profile</code>) on one public repository, <code>x3d.castle@d70e00c</code>, as a one-repo family (the run is D-XRY-4; no private preview was used or described):</p>
+<table>
+<thead>
+<tr>
+<th>measure</th>
+<th>value</th>
+<th>grade</th>
+<th>instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>commits, active days, author classes</td>
+<td>10 commits, 1 active day (2026-11-13), classes ai 9 and you 1</td>
+<td>C</td>
+<td><code>x3d.xray@8fa6845</code> <code>harvest</code> on <code>x3d.castle@d70e00c</code></td>
+</tr>
+<tr>
+<td>tip tree</td>
+<td>363 files, 12,218,378 B, 78,637 text lines; <code>data</code> 142 files and 62,892 lines, <code>code</code> 15 files and 3,495 lines, <code>media</code> 80 files</td>
+<td>C</td>
+<td>same, <code>dataset.json</code></td>
+</tr>
+<tr>
+<td>concentration</td>
+<td>the top 64 files hold 79.2% of the text lines (62,306 of 78,637)</td>
+<td>C</td>
+<td>same</td>
+</tr>
+<tr>
+<td>churn against size</td>
+<td>274 of 283 text files (96.8%) have churn equal to size; 349 of 363 files were touched by exactly one commit</td>
+<td>C</td>
+<td>same; <code>git log</code> per file</td>
+</tr>
+<tr>
+<td>hottest roofs</td>
+<td><code>results.json</code> 19,849 lines churned, <code>matrix.json</code> 4,146, then a Pascal exporter unit at 2,622</td>
+<td>C</td>
+<td>same</td>
+</tr>
+<tr>
+<td>file lattice</td>
+<td>1 concept over 15 files, 0 area rules: the other files arrive in commits of more than 15 files and are set aside</td>
+<td>C</td>
+<td><code>structure</code></td>
+</tr>
+<tr>
+<td>EDA</td>
+<td>12 declared looks, 0 evaluated, 12 not run, reason &quot;fewer than two author classes have 20 or more commits outside merges&quot;</td>
+<td>C</td>
+<td><code>eda</code>; <code>looks.PAIR_REASON</code></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-text">   thin repo (10 commits, 1 day)            what each stage may honestly say
+   -------------------------------          ------------------------------------------------
+   harvest     10 commits, 363 files        counts and the tree: measured
+   structure   15 files in the lattice      &quot;set aside 348 files in mass edits&quot;: say so
+   eda         pair needs 20+ per class     12 looks &quot;not run&quot; with the reason; no grade
+   city        top 64 files = 79% of lines  hot roofs = big recorded results, not rework
+   profile     23 signals computed          README: small populations report &quot;unavailable&quot;
+</code></pre>
+<p>What this teaches. First, churn equals size when every file is written once; a hot roof on a one-commit file marks a large recorded result file (here JSON data), not rework, and reading it as rework is the mistake. Second, &quot;not run&quot; is a result: the ledger shows 12 of 12 not run, not 12 findings of &quot;no effect&quot;. Third, the record is a function of the commit count: more commits and a second author class with 20 or more commits are what let the looks run, and nothing in the tool will pretend otherwise.</p>
+<h2 id="8-the-scene-the-gates-and-a-fixed-defect">8. The scene, the gates and a fixed defect</h2>
+<p>The scene is X3D 4.0, profile Immersive. The synthetic fixture build of this chapter (2 repos, 16 commits) produced <code>xray.x3d</code> of 125,302 B with 98 labels, 2 repo nodes, 12 buildings and 3 days.</p>
+<h3 id="81-the-eight-gates">8.1 The eight gates</h3>
+<table>
+<thead>
+<tr>
+<th>gate</th>
+<th>checks</th>
+<th>ran here</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>xsd</td>
+<td>the scene against the X3D 4.0 schema</td>
+<td>yes, <code>x3d_mcp fork b4efcd3</code> <code>validate_xml</code> (not the repo's <code>xmllint</code> path)</td>
+<td>valid, 0 errors; semantic layer 0 errors, 7 warnings (2 <code>empty-group</code>, 5 <code>naming-convention</code>), 145 info (<code>unused-def</code>)</td>
+</tr>
+<tr>
+<td>loom</td>
+<td>the Loom gate of <code>x3d.onto</code> on the scene</td>
+<td>no (needs an <code>x3d.onto</code> clone)</td>
+<td>not run</td>
+</tr>
+<tr>
+<td>fact</td>
+<td>no digit outside a slot, every slot resolves, every claim backed</td>
+<td>yes (smoke pipeline)</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>privacy</td>
+<td>no address, session URL or secret-shaped string in any written file; no private repo itemised</td>
+<td>yes (smoke pipeline)</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>witness</td>
+<td>no tie without evidence; concepts, bridges and <code>eda</code> recomputed from the dataset must match</td>
+<td>yes (smoke pipeline)</td>
+<td>pass</td>
+</tr>
+<tr>
+<td>scene</td>
+<td>an independent XML reader compares the declared geometry, identity, witnesses and grade colours with the plan</td>
+<td>partly (unit tests)</td>
+<td>not run on the smoke scene</td>
+</tr>
+<tr>
+<td>tools</td>
+<td>every tool runs within the 32 KB result limit; the MCP server answers</td>
+<td>no (family-specific fixtures)</td>
+<td>not run</td>
+</tr>
+<tr>
+<td>live</td>
+<td>Chromium under a strict content policy: the scene loads and draws every label, a click opens a card, Ask runs against a stand-in</td>
+<td>no</td>
+<td>not run</td>
+</tr>
+</tbody>
+</table>
+<p>The smoke pipeline (<code>experiments/smoke_synthetic_pipeline.py</code>, synthetic Git fixtures, no model) reports <code>ok: true</code> and <code>release_ready: false</code>: three gates ran and passed, XSD, Loom, tools and live were skipped, and a skipped gate counts as incomplete for release (<code>gate --release</code>). <strong><span class="g C" title="Confirmed">C</span></strong>, instrument <code>x3d.xray@8fa6845</code>, source head recorded as <code>8fa6845a3f1b</code>, <code>X_ITE 16.7.0</code> dist from the npm tarball, 2026-11-14. The page that ships with the scene vendors X_ITE; for the black-draw trap on hosted pages see <a href="06-xite-the-oracle.html">06 X_ITE, the reference renderer</a>.</p>
+<h3 id="82-the-metadatastring-containerfield-defect">8.2 The <code>MetadataString</code> containerField defect</h3>
+<p>The scene tags semantic metadata with <code>MetadataString</code> nodes. In X3D 4.0 the default <code>containerField</code> of <code>MetadataString</code> is <code>value</code>, so inside a <code>Transform</code> or <code>Shape</code> a validator reports <code>containerfield-unknown</code> unless the attribute says <code>metadata</code>.</p>
+<table>
+<thead>
+<tr>
+<th>question</th>
+<th>answer at <code>x3d.xray@8fa6845</code></th>
+<th>grade</th>
+<th>evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>does the defect still stand?</td>
+<td>no: both emitters write <code>containerField='metadata'</code></td>
+<td>C</td>
+<td><code>x3dray/compiler.py</code> line 91 and <code>x3dray/gallery.py</code> line 67</td>
+</tr>
+<tr>
+<td>is it pinned by tests?</td>
+<td>yes, twice</td>
+<td>C</td>
+<td><code>tests/test_gallery.py</code> line 51 (<code>test_every_metadata_string_names_its_container_field</code>), <code>tests/test_scene_plan.py</code> line 37</td>
+</tr>
+<tr>
+<td>where was it found?</td>
+<td>by a validator pass over a generated build with an earlier fork commit</td>
+<td>L</td>
+<td>the comment at <code>tests/test_gallery.py</code> line 52 names <code>x3d_mcp fork 13121b6</code>; the fix history is not in this checkout (one commit visible), so the date of the fix is not established</td>
+</tr>
+<tr>
+<td>does the current scene pass?</td>
+<td>90 of 90 <code>MetadataString</code> carry <code>containerField='metadata'</code>; XSD 4.0 valid; 0 <code>containerfield-unknown</code></td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code> on the smoke scene</td>
+</tr>
+<tr>
+<td>what does the old defect look like?</td>
+<td>remove the attribute from all 90: XSD 4.0 still reports 0 errors, the semantic layer reports 90 <code>containerfield-unknown</code> errors</td>
+<td>C</td>
+<td>same scene, attribute stripped by a one-line regex (D-XRY-5)</td>
+</tr>
+</tbody>
+</table>
+<p>The last row is the useful part. The schema rung cannot see this defect at all; only the fork's semantic rung can, which is the ladder argument of <a href="03-validator-and-gates.html">03 The validator and the gates</a> in a single measured example. A pipeline that gated only on XSD would have shipped it.</p>
+<h2 id="9-running-it-free">9. Running it free</h2>
+<table>
+<thead>
+<tr>
+<th>need</th>
+<th>free</th>
+<th>what this chapter ran</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python 3.10+, git, Node 18+</td>
+<td>yes</td>
+<td>Python 3.13.18, Git 2.43.0, Node 22.23.4</td>
+</tr>
+<tr>
+<td>unit tests</td>
+<td>yes: <code>python3 -m unittest discover -s tests</code> (about 5 minutes)</td>
+<td>857 ran, 810 passed, 27 failed or errored on Git 2.43.0 (section 2)</td>
+</tr>
+<tr>
+<td>examples</td>
+<td>yes: <code>python3 examples/eda_N_*.py</code>; <code>--calibrate</code> on example 1 takes about 6 minutes</td>
+<td>all three; calibration recomputed</td>
+</tr>
+<tr>
+<td>synthetic pipeline</td>
+<td>yes: <code>python3 experiments/smoke_synthetic_pipeline.py --xite DIST --font TTF --output-json OUT</code></td>
+<td>passed; <code>X_ITE 16.7.0</code> dist from the npm tarball, a system TTF font</td>
+</tr>
+<tr>
+<td>a real family</td>
+<td>yes, on public repos: a family JSON listing repos, identities (hashed) and vocabulary, then <code>harvest</code>, <code>structure</code>, <code>eda</code>, <code>profile</code></td>
+<td>a one-repo family on a public repo (D-XRY-4)</td>
+</tr>
+<tr>
+<td>XSD gate</td>
+<td>needs <code>xmllint</code> in the repo's path</td>
+<td>covered here by <code>x3d_mcp fork b4efcd3</code> and lxml</td>
+</tr>
+<tr>
+<td>Loom gate</td>
+<td>needs a clone of <code>x3d.onto</code></td>
+<td>not run</td>
+</tr>
+<tr>
+<td>live gate</td>
+<td>needs Playwright with Chromium</td>
+<td>not run for this tool; the X_ITE harness of chapter 06 shows the pattern</td>
+</tr>
+<tr>
+<td>the model for <code>spec</code> and Ask</td>
+<td>a model; not run</td>
+<td>the spec stage was exercised only through the smoke pipeline's fixture spec</td>
+</tr>
+</tbody>
+</table>
+<p>Commands, in the order the README gives them (a family file, a root folder holding the clones, a scratch data folder):</p>
+<pre><code class="language-bash">python3 -m x3dray harvest   --family families/F.json --root ROOT --data data/F
+python3 -m x3dray structure --data data/F
+python3 -m x3dray eda       --data data/F
+python3 -m x3dray profile   --data data/F
+python3 -m x3dray tools     # the tool set the page and MCP share
+</code></pre>
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule (imperative)</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-XRY-1</td>
+<td>Declare the family of looks before reading the data, hold m fixed, and count every extra look in m.</td>
+<td>C</td>
+<td>same p, q 0.0130 at m = 13 and 0.0510 at m = 51</td>
+<td><code>x3d.xray@8fa6845</code>, <code>stats.bh_q</code></td>
+</tr>
+<tr>
+<td>H-XRY-2</td>
+<td>Say that a Confirmed can be a false positive, and quote 4 of 150 with its seeds and generator.</td>
+<td>C</td>
+<td>4 of 150 noise histories earned one (2.67%), recomputed</td>
+<td><code>x3d.xray@8fa6845</code>, <code>examples/eda_1_signal_and_noise.py --calibrate</code></td>
+</tr>
+<tr>
+<td>H-XRY-3</td>
+<td>Make an unrun check fail the grade: no stratum, no halves, fewer than 3 forks means Likely at most.</td>
+<td>C</td>
+<td>Simpson example: q 0.0060 and effect -589/1000 graded L</td>
+<td><code>x3d.xray@8fa6845</code>, <code>looks.grade</code></td>
+</tr>
+<tr>
+<td>H-XRY-4</td>
+<td>Use exact integer arithmetic and a published generator where two implementations must agree byte for byte.</td>
+<td>C</td>
+<td>SplitMix64 reference words match; JS twin parity: 16 and 37 tests pass</td>
+<td><code>x3d.xray@8fa6845</code>, <code>stats.SplitMix64</code></td>
+</tr>
+<tr>
+<td>H-XRY-5</td>
+<td>Give the independent reader no imports from the producer, and pin raw stored values in tests, not only agreement.</td>
+<td>C</td>
+<td>shared sign mistake: 42 of 43 gallery tests stay green, the raw pin fails</td>
+<td><code>x3d.xray@8fa6845</code>, scratch copy</td>
+</tr>
+<tr>
+<td>H-XRY-6</td>
+<td>Report &quot;not run&quot; with its reason and draw the unmeasured as fog, never as zero.</td>
+<td>C</td>
+<td>thin repo: 12 of 12 looks not run, reason stored</td>
+<td><code>x3d.xray@8fa6845</code> on <code>x3d.castle@d70e00c</code></td>
+</tr>
+<tr>
+<td>H-XRY-7</td>
+<td>Read churn together with size: on a repo where files are written once, a hot roof marks a large result file.</td>
+<td>C</td>
+<td>274 of 283 text files have churn equal to size</td>
+<td>same</td>
+</tr>
+<tr>
+<td>H-XRY-8</td>
+<td>Gate on the semantic rung as well as the XSD; a missing <code>containerField</code> passes the schema and fails the semantic rule.</td>
+<td>C</td>
+<td>0 XSD errors and 90 <code>containerfield-unknown</code> on the stripped scene</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.0</code></td>
+</tr>
+<tr>
+<td>H-XRY-9</td>
+<td>Make a question impossible to re-roll: seed from the content, cap comparisons, print the denominator.</td>
+<td>L</td>
+<td><code>compare</code> seeds from value lists in digest order, caps at 30, prints m; read in the README and <code>tools.js</code>, example 3 ran</td>
+<td><code>x3d.xray@8fa6845</code></td>
+</tr>
+<tr>
+<td>H-XRY-10</td>
+<td>Refuse over budget instead of thinning: cap permutations times draws and say so.</td>
+<td>C</td>
+<td><code>WORK_CAP</code> 10,000,000, ad hoc cap 4,000,000, <code>M</code> clamped to 199..999</td>
+<td><code>x3d.xray@8fa6845:x3dray/looks.py</code>, <code>stats.py</code> (read)</td>
+</tr>
+<tr>
+<td>H-XRY-11</td>
+<td>Treat a hash chain of looks as bookkeeping, not authentication, and state what it cannot prove.</td>
+<td>L</td>
+<td>README: the chain does not prove a look was computed, shown or read, or who took it</td>
+<td><code>x3d.xray@8fa6845:README.md</code> (read)</td>
+</tr>
+<tr>
+<td>H-XRY-12</td>
+<td>Treat a local red as a question about the rig before the code: 27 failures shared one cause.</td>
+<td>C</td>
+<td>all 27 in the locator group; Git 2.43.0 rejects <code>--no-lazy-fetch</code></td>
+<td><code>x3d.xray@8fa6845</code>, Git 2.43.0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="drills">Drills</h2>
+<h3 id="d-xry-1-recompute-the-noise-calibration">D-XRY-1 Recompute the noise calibration</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Run <code>examples/eda_1_signal_and_noise.py</code> and then with <code>--calibrate</code>. Report the planted ledger, which noise seed earns a Confirmed and the calibration count, and say what the number does and does not license.</li>
+<li><strong>Verify:</strong> <code>python3 examples/eda_1_signal_and_noise.py --calibrate</code> from the repository root (about 6 minutes).</li>
+<li><strong>Answer:</strong> planted: <code>contrast:lines</code> and <code>contrast:hour4</code> are C (q 0.0060), ledger C 2, L 0, S 0, none 10. Noise: seed 1031 earns a Confirmed (<code>contrast:hour4</code>, 195/1000, q 0.0280); the other five seeds earn none. Calibration: 4 of 150 histories (seeds 1000 to 1149) earn at least one Confirmed, 2.67%. It licenses &quot;a Confirmed can occur on noise&quot;; it does not give a false-positive rate for real data.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d.xray@8fa6845</code>, Python 3.13.18</li>
+</ul>
+<h3 id="d-xry-2-the-price-of-looking-by-hand-and-by-code">D-XRY-2 The price of looking, by hand and by code</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> Two looks have add-one p = 2/1000. Compute q for each with the BH formula <code>q_i = min (q_{i+1}, m * p_i / i)</code> at m = 12, 13 and 51, then check with <code>stats.bh_q</code>.</li>
+<li><strong>Verify:</strong> <code>from fractions import Fraction as F; from x3dray import stats; stats.bh_q ([(&quot;a&quot;, F (2, 1000)), (&quot;b&quot;, F (2, 1000))], 13)</code>.</li>
+<li><strong>Answer:</strong> q = m * 0.002 / 2 = 0.0120, 0.0130, 0.0510. Only the first two clear 1/20; at m = 51 the look is no longer Confirmed even though p did not move.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d.xray@8fa6845</code>, Python 3.13.18</li>
+</ul>
+<h3 id="d-xry-3-pin-the-generator-and-the-add-one-limit">D-XRY-3 Pin the generator and the add-one limit</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Print the first three words of <code>SplitMix64 (0)</code> and the first two of <code>SplitMix64 (1234567)</code>. Then find the largest permutation count k that still satisfies &quot;p at most 1/20&quot; for M = 999.</li>
+<li><strong>Verify:</strong> <code>from x3dray import stats; r = stats.SplitMix64 (0); [r.next_u64 () for _ in range (3)]</code>; the limit from <code>20 * (k + 1) &lt;= 1 * (999 + 1)</code>.</li>
+<li><strong>Answer:</strong> seed 0: 16294208416658607535, 7960286522194355700, 487617019471545679 (the first is 0xE220A8397B1DCDAF); seed 1234567: 6457827717110365317, 3203168211198807973. The limit is k = 49, so 50 or more as-extreme shuffles out of 999 give &quot;not surprising&quot;.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d.xray@8fa6845</code>, Python 3.13.18</li>
+</ul>
+<h3 id="d-xry-4-run-the-method-on-a-thin-public-repository">D-XRY-4 Run the method on a thin public repository</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Copy <code>families/hagopjay-x3d.json</code>, set <code>lineage</code> to <code>[]</code>, <code>vocabulary</code> to <code>{}</code> and <code>repos</code> to one public repo (<code>{&quot;name&quot;: &quot;x3d.castle&quot;, &quot;dir&quot;: &quot;hagopjay/x3d.castle&quot;, &quot;kind&quot;: &quot;own&quot;, &quot;visibility&quot;: &quot;public&quot;, &quot;role&quot;: &quot;exporter&quot;, &quot;aliases&quot;: [&quot;x3d.castle&quot;]}</code>). Put a symlink to a checkout under <code>ROOT/hagopjay/</code>. Run <code>harvest</code>, <code>structure</code>, <code>eda</code>, <code>profile</code>. Report commits, the EDA ledger and the file-lattice size.</li>
+<li><strong>Verify:</strong> the one-line output of each stage, then <code>eda.json</code> <code>looks.ledger</code> and <code>looks.pair_reason</code>.</li>
+<li><strong>Answer:</strong> at <code>x3d.castle@d70e00c</code>: <code>harvest: 1 repos, 10 commits, 0 tie pairs</code>; <code>structure: 1 concepts over 15 files, 0 area rules</code>; <code>eda: 10 commits, 12 declared looks (0 Confirmed, 0 Likely, 0 Suspected, 0 without a grade, 12 not run)</code>; <code>profile: 23 signals</code>.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d.xray@8fa6845</code>, <code>x3d.castle@d70e00c</code>, Git 2.43.0</li>
+</ul>
+<h3 id="d-xry-5-reproduce-the-containerfield-defect-and-see-which-rung-catches-it">D-XRY-5 Reproduce the containerField defect and see which rung catches it</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Build the synthetic scene with <code>experiments/smoke_synthetic_pipeline.py</code> (keep <code>xray.x3d</code>). Validate it with the fork's <code>validate_xml</code> and <code>semantic_diagnostics</code>, count the <code>MetadataString</code> nodes with <code>containerField='metadata'</code>, then remove the attribute (<code>re.sub (r&quot; containerField='metadata'&quot;, &quot;&quot;, xml)</code>) and validate again.</li>
+<li><strong>Verify:</strong> <code>from validation.validate import validate_xml; from validation.semantic import semantic_diagnostics</code> from <code>x3d_mcp@b4efcd3:src</code>.</li>
+<li><strong>Answer:</strong> original: XSD 4.0 valid, 0 errors; 90 of 90 <code>MetadataString</code> tagged; semantic layer 0 errors, 7 warnings, 145 info. Stripped: XSD 4.0 still valid with 0 errors; semantic layer 90 <code>containerfield-unknown</code> errors. Only the semantic rung sees it.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.0</code>, lxml 6.1.3, <code>x3d.xray@8fa6845</code></li>
+</ul>
+<h3 id="d-xry-6-make-the-producer-and-the-reader-agree-on-a-bug">D-XRY-6 Make the producer and the reader agree on a bug</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Copy <code>x3dray/</code>, <code>tests/</code> and <code>experiments/</code> to a scratch folder. In <code>x3dray/gallery.py</code> line 103 and <code>x3dray/gallerycheck.py</code> line 120, replace <code>abs (int (... &quot;permille&quot; ...))</code> by <code>max (0, int (...))</code> (a negative effect becomes no bar). Run <code>python3 -m unittest discover -s tests -p test_gallery.py</code> before and after. Name the failing test and say what it pins.</li>
+<li><strong>Verify:</strong> the unittest summary of each run.</li>
+<li><strong>Answer:</strong> before: 43 run, OK. After: 43 run, 1 failure, <code>test_a_negative_cliff_effect_is_a_bar_of_its_magnitude_in_the_other_colour</code>; it asserts the raw stored permille is negative and that the bar has the magnitude in the other colour. The 42 tests that compare producer with reader stay green.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d.xray@8fa6845</code> (scratch copy), Python 3.13.18</li>
+</ul>
+<h3 id="d-xry-7-run-the-synthetic-pipeline-and-read-the-gate-verdicts">D-XRY-7 Run the synthetic pipeline and read the gate verdicts</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Run <code>experiments/smoke_synthetic_pipeline.py</code> with a vendored X_ITE <code>dist</code> folder and a TTF. Read <code>ok</code>, <code>release_ready</code>, each gate and the <code>not_run</code> list. Explain why <code>ok</code> is true and <code>release_ready</code> is false.</li>
+<li><strong>Verify:</strong> the <code>--output-json</code> file.</li>
+<li><strong>Answer:</strong> <code>ok: true</code>, <code>release_ready: false</code>; gates <code>fact</code>, <code>privacy</code>, <code>witness</code> pass; <code>xsd</code>, <code>loom</code>, <code>tools</code>, <code>live</code> skip; the page has 37 files and 6,295,152 B, 16 commits harvested, <code>receipt_covered_served_assets</code> 38 of 39 served (the receipt excludes its own bytes by design). A skipped gate is incomplete for release.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d.xray@8fa6845</code>, <code>X_ITE 16.7.0</code> dist, Python 3.13.18</li>
+</ul>
+<h3 id="d-xry-8-classify-five-looks-by-the-grade-function">D-XRY-8 Classify five looks by the grade function</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> Using section 4.2, grade: (a) effect 120/1000, Cliff floor 147/1000; (b) q 0.07, no opposite effect; (c) q 0.03, all checks pass, no repo holds 20 commits of each group; (d) q 0.03, 4 forks agree, 3 leave-one-repo-out agree, halves replicate, a stratum holds both groups; (e) q 0.03, but one repo shows the opposite effect.</li>
+<li><strong>Verify:</strong> <code>looks.grade</code> over the stored fields of a look.</li>
+<li><strong>Answer:</strong> (a) none, <code>effect_below_floor</code>; (b) L, <code>q_above_confirm_level</code> (q above 1/20 and at most 1/10); (c) L, <code>no_stratum_with_both_groups</code>; (d) C, <code>all_checks_pass</code>; (e) S, <code>contrary_effect_in_a_repo</code>.</li>
+<li><strong>Checked:</strong> not run (read at <code>x3d.xray@8fa6845:x3dray/looks.py</code> lines 309 to 349)</li>
+</ul>
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li><strong>Synthetic and public only.</strong> The noise figures, the examples and the pipeline run use seeded synthetic data; the only real history read is the public <code>x3d.castle</code> repository. No claim is made about any person's real work habits. The 4-of-150 figure belongs to those seeds and that generator <strong><span class="g C" title="Confirmed">C</span></strong>.</li>
+<li><strong>The pass pages are read, not re-run <span class="g L" title="Likely">L</span>.</strong> The test counts (178, 312, 442), the 10.14 s to 0.63 s benchmark, the scale table and the 7,936 overlaps come from <code>docs/development-pass-*.html</code>; the benchmark JSON in <code>experiments/</code> was not re-run.</li>
+<li><strong>Gates not run:</strong> <code>loom</code> (needs <code>x3d.onto</code>), <code>tools</code> and <code>live</code> (family-specific fixtures, Playwright page), the family-specific self-tests, the Ask panel against a real runtime, and any rendering of the scene in a browser. &quot;Valid and gated&quot; does not mean &quot;looks right&quot;.</li>
+<li><strong>27 of 857 tests did not pass here</strong> on Git 2.43.0, all in the locator group; the cause (<code>--no-lazy-fetch</code> unsupported) is observed <span class="g C" title="Confirmed">C</span>, and that a newer Git clears them is <strong><span class="g L" title="Likely">L</span></strong>, not run.</li>
+<li><strong>The statistics are indicative, not inferential.</strong> Exchangeability fails (commits cluster in sessions), BH assumes independence or positive dependence, times are UTC, renames are not followed, squashed history hides authorship.</li>
+<li><strong>The thin-repo run is one repository at one commit</strong> (<code>x3d.castle@d70e00c</code>); the repository is active, so its numbers will move.</li>
+<li><strong>Fix history unknown.</strong> The checkout shows one commit, so when the <code>containerField</code> fix landed is not established; only its current state and its tests are.</li>
+<li><strong>The independent-reader story</strong> (that the real build once drew a negative effect as no bar) is carried from a private note <strong><span class="g S" title="Suspected">S</span></strong>; the experiment of D-XRY-6 reproduces the mechanism, not the incident.</li>
+<li><strong>Counts are per commit.</strong> The pass pages record 178, 312 and 442 tests at their own versions; this run counts 857 at the current commit. These are different commits, not a conflict, and none of the earlier figures was re-derived.</li>
+</ul>
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-XRY-1</td>
+<td>declared looks</td>
+<td>12 (6 contrasts, 6 drifts); manifest sha256 prefix a5fce6ec4bade0c8</td>
+<td>C</td>
+<td><code>x3d.xray@8fa6845</code></td>
+<td>x3d.xray@8fa6845:x3dray/looks.py</td>
+</tr>
+<tr>
+<td>N-XRY-2</td>
+<td>thresholds</td>
+<td>Cliff floor 147/1000, TV floor 1/10, alpha 1/20, q survive 1/10, q Confirmed 1/20, MIN_SIDE 20, M 199..999, WORK_CAP 10,000,000</td>
+<td>C</td>
+<td>read in code</td>
+<td>x3d.xray@8fa6845:x3dray/looks.py</td>
+</tr>
+<tr>
+<td>N-XRY-3</td>
+<td>noise calibration</td>
+<td>4 of 150 pure-noise histories earn a Confirmed (2.67%)</td>
+<td>C</td>
+<td><code>examples/eda_1_signal_and_noise.py --calibrate</code>, seeds 1000 to 1149</td>
+<td>x3d.xray@8fa6845:examples/</td>
+</tr>
+<tr>
+<td>N-XRY-4</td>
+<td>planted signal</td>
+<td>2 C looks (effect 647/1000 and 380/1000, q 0.0060)</td>
+<td>C</td>
+<td>same, seed 7</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-XRY-5</td>
+<td>price of looking</td>
+<td>q 0.0130 at m = 13; 0.0510 at m = 51; 0.0120 at m = 12</td>
+<td>C</td>
+<td><code>stats.bh_q</code></td>
+<td>x3d.xray@8fa6845:x3dray/stats.py</td>
+</tr>
+<tr>
+<td>N-XRY-6</td>
+<td>SplitMix64 seed 0 first word</td>
+<td>16294208416658607535 (0xE220A8397B1DCDAF)</td>
+<td>C</td>
+<td><code>stats.SplitMix64</code></td>
+<td>x3d.xray@8fa6845:x3dray/stats.py</td>
+</tr>
+<tr>
+<td>N-XRY-7</td>
+<td>largest passing permutation count at M = 999</td>
+<td>49</td>
+<td>C</td>
+<td>arithmetic on <code>ALPHA</code></td>
+<td>x3d.xray@8fa6845:x3dray/looks.py</td>
+</tr>
+<tr>
+<td>N-XRY-8</td>
+<td>test suite</td>
+<td>857 ran, 810 passed, 3 failed, 24 errored, 20 skipped, 295.5 s</td>
+<td>C</td>
+<td><code>unittest discover</code>, Git 2.43.0, Python 3.13.18</td>
+<td>x3d.xray@8fa6845:tests/</td>
+</tr>
+<tr>
+<td>N-XRY-9</td>
+<td>JS twin and inference tests</td>
+<td>37 and 16 tests pass</td>
+<td>C</td>
+<td><code>test_eda_infer</code>, <code>test_eda_js_parity</code>, Node 22.23.4</td>
+<td>x3d.xray@8fa6845:tests/</td>
+</tr>
+<tr>
+<td>N-XRY-10</td>
+<td>gallery suite</td>
+<td>43 pass; 42 pass with a shared sign mistake</td>
+<td>C</td>
+<td>scratch copy, Python 3.13.18</td>
+<td>x3d.xray@8fa6845:tests/test_gallery.py</td>
+</tr>
+<tr>
+<td>N-XRY-11</td>
+<td>tool set</td>
+<td>11 shared, 1 MCP-only, 4 page-only</td>
+<td>C</td>
+<td><code>python3 -m x3dray tools</code></td>
+<td>x3d.xray@8fa6845:x3dray/web/tools.js</td>
+</tr>
+<tr>
+<td>N-XRY-12</td>
+<td>repository size</td>
+<td>12,844 Python lines in <code>x3dray/</code>, 4,842 JavaScript lines in the web folders, 44 test files, 875 <code>def test_</code> lines</td>
+<td>C</td>
+<td><code>wc -l</code>, grep</td>
+<td>x3d.xray@8fa6845</td>
+</tr>
+<tr>
+<td>N-XRY-13</td>
+<td>synthetic scene</td>
+<td><code>xray.x3d</code> 125,302 B, 98 labels, 12 buildings, 16 commits; XSD 4.0 valid</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, lxml 6.1.3</td>
+<td>experiments/smoke_synthetic_pipeline.py run</td>
+</tr>
+<tr>
+<td>N-XRY-14</td>
+<td>semantic findings on that scene</td>
+<td>0 errors, 7 warnings, 145 info</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-XRY-15</td>
+<td><code>MetadataString</code> tagged</td>
+<td>90 of 90; stripped: 90 <code>containerfield-unknown</code>, XSD errors 0</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>same (D-XRY-5)</td>
+</tr>
+<tr>
+<td>N-XRY-16</td>
+<td>smoke pipeline</td>
+<td><code>ok</code> true, <code>release_ready</code> false; 3 gates pass, 4 skipped; page 37 files, 6,295,152 B</td>
+<td>C</td>
+<td><code>x3d.xray@8fa6845</code></td>
+<td>smoke JSON, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-XRY-17</td>
+<td>thin repo: history</td>
+<td>10 commits, 1 day, ai 9 and you 1, 363 files</td>
+<td>C</td>
+<td><code>x3d.xray@8fa6845</code> on <code>x3d.castle@d70e00c</code></td>
+<td>D-XRY-4</td>
+</tr>
+<tr>
+<td>N-XRY-18</td>
+<td>thin repo: tree</td>
+<td>12,218,378 B, 78,637 text lines; top 64 files 79.2% of lines</td>
+<td>C</td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-XRY-19</td>
+<td>thin repo: churn</td>
+<td>274 of 283 text files churn equals size; 349 of 363 files in one commit</td>
+<td>C</td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-XRY-20</td>
+<td>thin repo: EDA</td>
+<td>12 looks, 0 evaluated; lattice 1 concept over 15 files</td>
+<td>C</td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-XRY-21</td>
+<td>pass 1 benchmark</td>
+<td>121 nodes: 10.14 s to 0.63 s (16.08x), outputs hash-equal</td>
+<td>L</td>
+<td>read, not re-run</td>
+<td>x3d.xray@8fa6845:docs/development-pass-1.html</td>
+</tr>
+<tr>
+<td>N-XRY-22</td>
+<td>pass tests</td>
+<td>178, 312 and 442 Python tests at passes 1, 2, 3</td>
+<td>L</td>
+<td>read, not re-run</td>
+<td>x3d.xray@8fa6845:docs/development-pass-{1,2,3}.html</td>
+</tr>
+<tr>
+<td>N-XRY-23</td>
+<td>pass 3 layout repair</td>
+<td>7,936 overlapping glyph pairs to 0 at 1,000 entities</td>
+<td>L</td>
+<td>read, not re-run</td>
+<td>x3d.xray@8fa6845:docs/development-pass-3.html</td>
+</tr>
+<tr>
+<td>N-XRY-24</td>
+<td>limits of the calibration</td>
+<td>4 of 150 is for these seeds and this generator</td>
+<td>C</td>
+<td><code>examples/eda_1_signal_and_noise.py</code></td>
+<td>x3d.xray@8fa6845:examples/</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<ul>
+<li><code>x3d.xray@8fa6845</code> (Merge pull request 11, 2026-11-13; shallow checkout, one commit visible): <code>README.md</code>, <code>x3dray/{looks,stats,eda,gallery,gallerycheck,compiler,harvest,gates}.py</code>, <code>x3dray/web/tools.js</code>, <code>examples/</code>, <code>tests/</code>, <code>experiments/smoke_synthetic_pipeline.py</code>, <code>families/hagopjay-x3d.json</code>, <code>docs/development-pass-{1,2,3}.html</code>. Public repository: <code>github.com/hagopjay/x3d.xray</code>.</li>
+<li><code>x3d.castle@d70e00c</code> (public history, read through the tool's own <code>harvest</code>), <code>x3d_mcp@b4efcd3</code> (<code>src/validation/validate.py</code>, <code>semantic.py</code>, the bundled XSD 4.0 and 4.1).</li>
+<li>Re-run on 2026-11-14 in a scratch folder, repositories untouched: the full unit suite, the three examples and the calibration, the stats probes, the synthetic pipeline, the one-repo run, the validator run on the generated scene (original and stripped), the shared-mistake experiment on a copy.</li>
+<li>Not re-run: the development-pass benchmarks and test counts, the gates <code>loom</code>, <code>tools</code> and <code>live</code>, the Ask panel, any model call.</li>
+<li>Private-source gap: private notes on the x-ray's state, a private preview and the independent-reader incident were pointers only; no private artefact, link or preview is described here, and what a private preview contains is not stated.</li>
+<li>Siblings: <a href="01-the-tether.html">01 The tether</a>, <a href="03-validator-and-gates.html">03 The validator and the gates</a>, <a href="06-xite-the-oracle.html">06 X_ITE, the reference renderer</a>, <a href="10-blender-pipeline.html">10 Blender pipeline</a>.</li>
+</ul>
+<div class="pn"><a href="06-xite-the-oracle.html">&larr; 06-xite-the-oracle</a><a href="08-babylon-bridge.html">08-babylon-bridge &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

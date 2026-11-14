@@ -1,0 +1,1435 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>03. The validator and the gates · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a class="cur" href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="03-validator-and-gates.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/03-validator-and-gates.md">GitHub</a></div><h1>03. The validator and the gates</h1>
+<details class="toc"><summary>On this page (24 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-the-rungs-in-code">2. The rungs in code</a><a class="l2" href="#3-rule-families-and-their-counts">3. Rule families and their counts</a><a class="l2" href="#4-what-each-rung-catches-and-misses-sixteen-scenes-true-outputs">4. What each rung catches and misses: sixteen scenes, true outputs</a><a class="l2" href="#5-exact-fix-hints-real-outputs">5. Exact-fix hints: real outputs</a><a class="l2" href="#6-valid-to-which-schema">6. Valid to WHICH schema</a><a class="l2" href="#7-the-gates">7. The gates</a><a class="l3" href="#71-loomkit-witnesses-accept-receipt">7.1 loomkit: witnesses, accept, receipt</a><a class="l3" href="#72-the-x3d-blender-io-conformance-suite">7.2 The x3d-blender-io conformance suite</a><a class="l2" href="#8-the-pin-rule-and-the-validator-register">8. The pin rule and the validator register</a><a class="l2" href="#9-blind-spots-ranked">9. Blind spots, ranked</a><a class="l2" href="#10-how-to-write-a-new-rule">10. How to write a new rule</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-val-1-count-the-rules-two-ways">D-VAL-1 Count the rules two ways</a><a class="l3" href="#d-val-2-walk-a-scene-up-the-ladder">D-VAL-2 Walk a scene up the ladder</a><a class="l3" href="#d-val-3-same-bytes-two-schemas">D-VAL-3 Same bytes, two schemas</a><a class="l3" href="#d-val-4-add-a-rule-then-break-it">D-VAL-4 Add a rule, then break it</a><a class="l3" href="#d-val-5-a-gate-that-rejects-accepts-and-goes-stale">D-VAL-5 A gate that rejects, accepts and goes stale</a><a class="l3" href="#d-val-6-the-conformance-suite-without-blender">D-VAL-6 The conformance suite, without Blender</a><a class="l3" href="#d-val-7-what-not-checkable-looks-like">D-VAL-7 What &quot;not checkable&quot; looks like</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> A validator is a ladder, not a verdict: every rung names what it checked, the rungs below the renderer cannot see &quot;looks right&quot;, and a verdict without a commit and a schema version is a rumour. <strong><span class="g C" title="Confirmed">C</span></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>VAL</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="01-the-tether.html">01 The tether</a> for why a file must carry its own checks; <a href="02-loom-laws.html">02 Loom laws</a> for the witness vocabulary</td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>run every rung of the x3d_mcp validator on a scene and say which rung fired; read an exact-fix hint and judge whether to apply it; say which schema (&quot;4.0&quot;, &quot;4.1&quot;, X3DUOM, X_ITE extension) a &quot;valid&quot; was valid against; run and read a loomkit witness and an accept decision; add a new semantic rule with a test; write a validator pin line that a stranger can re-run</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td>x3d_mcp@b4efcd3:src/validation/<em>.py, src/tools/validate_tool.py, docs/EXACT-FIX-HINTS.md; x3d.loom@162ab18:kit/loomkit/</em>.py, kit/tests/test_gates.py, runs/*/evidence/grammar.json; x3d-blender-io@ab99988:tests/suite/, docs/test-suite/</td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td><code>x3d_mcp fork b4efcd3</code>; <code>x3d_mcp upstream 74da0ec</code>; <code>X3D XSD 4.0</code> (sha256 0509fa5bd601), <code>X3D XSD 4.1</code> (sha256 1a7935caa7e6); <code>X3DUOM 4.1</code> (sha256 4fc10e8e15c0); lxml 6.1.3 over libxml2 2.14.6; Python 3.13.18; software only (4 vCPU Intel Xeon 2.30 GHz, no GPU)</td>
+</tr>
+</tbody>
+</table>
+<p>Rig for every number marked <strong><span class="g C" title="Confirmed">C</span></strong> below: a fresh virtualenv with the repo's pinned dependencies (<code>mcp</code> 1.30.0, <code>x3d</code> 4.0.65.8, <code>lxml</code> 6.1.3, <code>xmlschema</code> 4.3.2, <code>rdflib</code> 7.6.0, <code>pyshacl</code> 0.40.2, <code>pytest</code> 9.2.0), run on 2026-11-14 against a checkout of <code>x3d_mcp@b4efcd3</code>. The sources were read-only; scratch copies and patches lived outside the repos.</p>
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text"> scene text (XML)
+   |
+ R0  well-formed XML?              lxml parse                  &quot;XML parse error: ...&quot;
+   v
+ R1  which schema?                 resolve_xsd_version         note when a schema is substituted
+   v                                4.0 | 4.1 | 3.x -&gt; 4.0 | none or unknown -&gt; 4.1
+ R2  XSD content model and types   XMLSchema, libxml2 2.14.6   &quot;Element 'Box': not expected&quot;
+   v                                one error per parent; the engine can give up on long lists
+ R3  semantic rules (51 ids)       semantic_diagnostics        error | warning | info
+   v    DEF/USE ROUTE containerField counts indices colours HAnim physics splats
+ R4  exact-fix hints (19 rules)    validate_xml_with_hints     {rule, suggested_fix, confidence}
+   v    10 edit ops; one hint per error the layer understands
+ R5  apply and re-check            repair_x3d, exact_fix_hints(apply=true), autofix_x3d
+   v    &quot;valid_after&quot; is a gate verdict, not an intent verdict
+ R6  does it draw something?       render_image (Playwright + X_ITE)  read, not run here
+   v    blank-frame detection; the only rung that can see &quot;looks wrong&quot;
+ R7  conformance and gate scripts  loomkit witnesses -&gt; accept -&gt; receipt; blender-io; pytest
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>rung</th>
+<th>instrument (string to quote)</th>
+<th>answers</th>
+<th>cannot answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R0</td>
+<td>lxml 6.1.3 / libxml2 2.14.6</td>
+<td>is this text XML at all</td>
+<td>anything about X3D</td>
+</tr>
+<tr>
+<td>R1</td>
+<td><code>x3d_mcp fork b4efcd3</code> <code>validate.resolve_xsd_version</code></td>
+<td>which bundled XSD judges this file</td>
+<td>whether the author meant that version</td>
+</tr>
+<tr>
+<td>R2</td>
+<td><code>X3D XSD 4.0</code> / <code>X3D XSD 4.1</code> via libxml2</td>
+<td>element order, attribute names, enumerations, number patterns</td>
+<td>cross-references (DEF/USE, ROUTE), counts, anything the XSD cannot say</td>
+</tr>
+<tr>
+<td>R3</td>
+<td><code>x3d_mcp fork b4efcd3</code> <code>semantic.py</code></td>
+<td>the spec rules a schema language cannot express, plus renderer-dropped constructs (ROUTE before DEF)</td>
+<td>whether the scene is placed, lit, in view</td>
+</tr>
+<tr>
+<td>R4</td>
+<td><code>x3d_mcp fork b4efcd3</code> <code>hints.py</code> + <code>verified-containment.json</code></td>
+<td>where a misplaced node may go; what the legal value is</td>
+<td>intent: the hint is mechanical, the author's intent is not in the file</td>
+</tr>
+<tr>
+<td>R5</td>
+<td>same</td>
+<td>whether the scene passes R2+R3 after the edits</td>
+<td>whether the edits kept the content you wanted</td>
+</tr>
+<tr>
+<td>R6</td>
+<td><code>X_ITE 16.4.3</code> (pinned by the repo README), Chromium</td>
+<td>a frame with something in it</td>
+<td>correctness of what is drawn; needs a browser</td>
+</tr>
+<tr>
+<td>R7</td>
+<td>loomkit, blender-io suite, pytest</td>
+<td>a repeatable accept or reject, bound to a candidate hash</td>
+<td>anything outside the checks it is configured with</td>
+</tr>
+</tbody>
+</table>
+<p><strong>In scope:</strong> the validator package of the x3d_mcp fork at <code>b4efcd3</code>, the exact-fix layer, and the two gate systems that call it or sit beside it (loomkit and the x3d-blender-io conformance suite). <strong>Out of scope:</strong> the MCP tool surface, transfer layer and guards (see <a href="04-mcp-for-agents.html">04 MCP for agents</a>); ontology and SHACL checks (see <a href="05-semantic-layer.html">05 Semantic layer</a>); X_ITE's own runtime behaviour (see <a href="06-xite-the-oracle.html">06 X_ITE, the oracle</a>).</p>
+<p><strong>Read next:</strong> deeper, the rule code itself, <code>x3d_mcp@b4efcd3:src/validation/semantic.py</code> and the AST teardown in <a href="../x3d_mcp/MASTERCLASS.html">the x3d_mcp masterclass</a>; wider, <a href="04-mcp-for-agents.html">04 MCP for agents</a> for how a model calls these rungs.</p>
+<h2 id="2-the-rungs-in-code">2. The rungs in code</h2>
+<p>All entry points are plain Python functions. The MCP tools in <code>src/tools/validate_tool.py</code> wrap them (<code>validate_x3d</code>, <code>validate_semantic</code>, <code>autofix_x3d</code>, <code>repair_x3d</code>, <code>exact_fix_hints</code>, <code>validate_current_scene</code>).</p>
+<table>
+<thead>
+<tr>
+<th>function</th>
+<th>file</th>
+<th>returns</th>
+<th>note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>validate_xml(xml, version=None)</code></td>
+<td><code>src/validation/validate.py</code></td>
+<td><code>{valid, errors, schema_version, notes?}</code></td>
+<td><code>version</code> overrides the document's own attribute</td>
+</tr>
+<tr>
+<td><code>validate_xml_with_hints(xml, version=None)</code></td>
+<td>same</td>
+<td>the above plus <code>hints</code></td>
+<td>one hint per XSD error the layer understands, keyed by <code>error_index</code></td>
+</tr>
+<tr>
+<td><code>semantic_diagnostics(xml)</code></td>
+<td><code>src/validation/semantic.py</code></td>
+<td><code>list[Diagnostic(level, check, message, node_tag, def_name)]</code></td>
+<td>raises <code>XMLSyntaxError</code> or <code>NoSceneError</code>; runs <code>_check_profile_components</code> first, then 23 functions in <code>_ALL_CHECKS</code></td>
+</tr>
+<tr>
+<td><code>validate_semantic(xml)</code></td>
+<td>same</td>
+<td>markdown report</td>
+<td>the report the MCP tool returns by default</td>
+</tr>
+<tr>
+<td><code>gate(xml)</code></td>
+<td><code>src/validation/hints.py</code></td>
+<td><code>{valid, stage, errors, hints}</code></td>
+<td>XSD first; semantic error-level checks only once the XSD passes</td>
+</tr>
+<tr>
+<td><code>repair_with_hints(xml)</code></td>
+<td>same</td>
+<td><code>{fixed, valid, applied, remaining_errors}</code></td>
+<td>applies hints one at a time and re-checks after each</td>
+</tr>
+<tr>
+<td><code>repair_x3d(xml)</code></td>
+<td><code>src/validation/repair.py</code></td>
+<td><code>{fixed, changes, unfixable, remaining}</code></td>
+<td>version, profile, component, DEF order, containerField, doctype, xsi namespace</td>
+</tr>
+<tr>
+<td><code>validate_json(text)</code></td>
+<td><code>src/validation/validate.py</code></td>
+<td><code>{valid, errors}</code></td>
+<td>checks X3D JSON against the 4.0 JSON Schema only</td>
+</tr>
+</tbody>
+</table>
+<p>The ladder is a <strong>two-stage gate</strong>, not a sum of all findings. <code>gate()</code> reports XSD errors and stops; it reports semantic errors only when the XSD passed. A scene with a Box in a Transform therefore shows one stage-<code>xsd</code> error through <code>gate()</code> while <code>semantic_diagnostics()</code> on the same text also reports <code>containerfield-unknown</code>.</p>
+<p>Timing, <strong><span class="g C" title="Confirmed">C</span></strong> on <code>x3d_mcp fork b4efcd3</code>, CPU only, Python 3.13.18: the first call into each XSD pays a compile of <strong>1,456 ms (4.0)</strong> and <strong>1,547 ms (4.1)</strong>; after that, repeat calls on a 12-line scene took a median of <strong>0.022 ms</strong> (<code>validate_xml</code>), <strong>0.314 ms</strong> (<code>semantic_diagnostics</code>) and <strong>0.371 ms</strong> (<code>gate</code>) over 300 runs each. The first semantic call took about 49 ms (it loads X3DUOM). Repeat-call medians flatter the validator (caches are warm); the cold figure is the one a one-shot CLI pays.</p>
+<h2 id="3-rule-families-and-their-counts">3. Rule families and their counts</h2>
+<p>A &quot;rule&quot; is ambiguous. This chapter counts one definition and names it.</p>
+<table>
+<thead>
+<tr>
+<th>definition</th>
+<th>count at <code>b4efcd3</code></th>
+<th>count at <code>74da0ec</code></th>
+<th>how counted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>distinct rule ids reported by <code>semantic.py</code></td>
+<td><strong>51</strong></td>
+<td><strong>19</strong></td>
+<td>Python <code>ast</code> over <code>Diagnostic(level, check, ...)</code> calls, the helper closures <code>add</code>, <code>err</code>, <code>report</code>, <code>check</code>, and the two f-string ids <code>hanim-joint-name</code>, <code>hanim-segment-name</code></td>
+</tr>
+<tr>
+<td>check functions run by <code>semantic_diagnostics</code></td>
+<td><strong>24</strong> (23 in <code>_ALL_CHECKS</code> plus <code>_check_profile_components</code>)</td>
+<td>10</td>
+<td>read from <code>_ALL_CHECKS</code></td>
+</tr>
+<tr>
+<td><code>Diagnostic(...)</code> and <code>report(...)</code> call sites in <code>semantic.py</code></td>
+<td>61 (the <code>add</code>, <code>err</code> and <code>check</code> helpers feed 7 more ids)</td>
+<td>24</td>
+<td>AST</td>
+</tr>
+<tr>
+<td>ids only in <code>validation/splat_arrays.py</code></td>
+<td>2 (<code>splat-array-syntax</code>, <code>splat-values-unchecked</code>)</td>
+<td>n/a</td>
+<td>AST over <code>Finding(level, check, ...)</code></td>
+</tr>
+<tr>
+<td>ids only in <code>transfer/inspect_splats.py</code></td>
+<td>19</td>
+<td>n/a</td>
+<td>AST over <code>note(level, id, ...)</code>; this is a file-inspection verdict, not a scene rule</td>
+</tr>
+<tr>
+<td>union of the three</td>
+<td><strong>72</strong></td>
+<td>n/a</td>
+<td>set union</td>
+</tr>
+<tr>
+<td>hint rule ids in <code>hints.py</code></td>
+<td><strong>19</strong> literal ids, 10 edit ops</td>
+<td>n/a</td>
+<td>regex and AST over <code>rule=</code> and <code>&quot;rule&quot;:</code></td>
+</tr>
+</tbody>
+</table>
+<p>The 19 at base and 10 check functions match the teardown; the teardown's &quot;62&quot; at <code>13121b6</code> cannot be reproduced under any single definition above (51 + 2 + 10 inspector ids is 63; the closest I can build). I count 51 for the scene validator and treat the 62 as a differently defined number. The validator code is byte-identical between <code>13121b6</code> and <code>b4efcd3</code> (<code>git diff --quiet</code> over <code>semantic.py</code>, <code>validate.py</code>, <code>hints.py</code>, <code>repair.py</code>), so the definition, not the commit, explains the gap. <strong><span class="g C" title="Confirmed">C</span></strong> for 51 and 19; the 62 stays <strong><span class="g L" title="Likely">L</span></strong> (stated in <a href="../x3d_mcp/MASTERCLASS.html">the masterclass</a>, definition not recoverable).</p>
+<table>
+<thead>
+<tr>
+<th>family</th>
+<th>ids at <code>b4efcd3</code> (51 total)</th>
+<th>n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>route</td>
+<td><code>route-before-def</code>, <code>route-invalid-from-field</code>, <code>route-invalid-to-field</code>, <code>route-missing-from-node</code>, <code>route-missing-to-node</code>, <code>route-never-fires</code>, <code>route-out-of-scope</code>, <code>route-type-mismatch</code>, <code>route-wrong-access-type</code></td>
+<td>9</td>
+</tr>
+<tr>
+<td>DEF/USE</td>
+<td><code>duplicate-def</code>, <code>unused-def</code>, <code>use-before-def</code>, <code>use-undefined-def</code></td>
+<td>4</td>
+</tr>
+<tr>
+<td>containerField</td>
+<td><code>containerfield-not-node</code>, <code>containerfield-type-mismatch</code>, <code>containerfield-unknown</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td>counts, indices, order</td>
+<td><code>array-count</code>, <code>array-count-extra</code>, <code>index-out-of-range</code>, <code>lod-range-order</code>, <code>tuple-count</code>, <code>interpolator-key-length</code>, <code>interpolator-key-order</code></td>
+<td>7</td>
+</tr>
+<tr>
+<td>spec values</td>
+<td><code>colour-out-of-range</code>, <code>cycle-interval-zero</code>, <code>enum-invalid</code>, <code>rotation-zero-axis</code>, <code>value-out-of-range</code></td>
+<td>5</td>
+</tr>
+<tr>
+<td>shape, structure</td>
+<td><code>shape-no-appearance</code>, <code>shape-no-geometry</code>, <code>empty-group</code>, <code>no-viewpoint</code></td>
+<td>4</td>
+</tr>
+<tr>
+<td>naming</td>
+<td><code>naming-convention</code>, <code>hanim-joint-name</code>, <code>hanim-segment-name</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td>profile</td>
+<td><code>profile-component</code>, <code>profile-component-fix</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td>proto</td>
+<td><code>proto-undeclared</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td>physics</td>
+<td><code>physics-joint-body</code>, <code>physics-joint-cross-collection</code>, <code>physics-mass</code>, <code>physics-non-finite</code>, <code>physics-not-in-collection</code>, <code>physics-zero-axis</code></td>
+<td>6</td>
+</tr>
+<tr>
+<td>splat</td>
+<td><code>splat-array-length</code>, <code>splat-no-color</code>, <code>splat-opacity-space</code>, <code>splat-quaternion-norm</code>, <code>splat-quaternion-order</code>, <code>splat-scale-space</code>, <code>splat-sh-partial</code></td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<p>The counts are <strong><span class="g C" title="Confirmed">C</span></strong>; which PR added which rule is in the <a href="../x3d_mcp/MASTERCLASS.html">teardown</a> PR table (<strong><span class="g L" title="Likely">L</span></strong>). Levels: only <code>error</code> blocks <code>gate()</code>. <code>unused-def</code>, <code>no-viewpoint</code>, <code>shape-no-appearance</code> and <code>profile-component-fix</code> are info-level in the code I read; <code>hanim-*-name</code> is warning-level for a recognisable wrong name and info-level for the &quot;other names&quot; summary on a segment.</p>
+<p>The rule families are a record of incidents (a ROUTE the XSD accepts but X_ITE drops; a colour written 0..255; a splat in the wrong order), which is why <a href="02-loom-laws.html">chapter 02</a> says every law is paid for.</p>
+<h2 id="4-what-each-rung-catches-and-misses-sixteen-scenes-true-outputs">4. What each rung catches and misses: sixteen scenes, true outputs</h2>
+<p>One control and fifteen single-fault scenes, written to a scratch folder and run through the ladder on <code>x3d_mcp fork b4efcd3</code> (2026-11-14). The base column is <code>x3d_mcp upstream 74da0ec</code> (semantic errors counted from its markdown report; its single bundled XSD is 4.1). Every scene is declared <code>version=&quot;4.0&quot;</code> unless the row says otherwise. Error text is trimmed, not edited.</p>
+<table>
+<thead>
+<tr>
+<th>scene</th>
+<th>fault</th>
+<th>R2 XSD</th>
+<th>R3 semantic</th>
+<th>R4 hint</th>
+<th>base 74da0ec</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>s00</td>
+<td>control: spinning box, Interactive, 2 ROUTEs</td>
+<td>valid</td>
+<td>0 diagnostics</td>
+<td>none</td>
+<td>0 / 0</td>
+</tr>
+<tr>
+<td>s01</td>
+<td>closing tag missing</td>
+<td>R0 stops: <code>XML parse error: Opening and ending tag mismatch: Shape line 4 and Transform, line 4, column 112</code></td>
+<td>skipped</td>
+<td>none</td>
+<td>same</td>
+</tr>
+<tr>
+<td>s02</td>
+<td><code>&lt;Box/&gt;</code> moved out of its Shape into the Transform</td>
+<td><code>Element 'Box': This element is not expected. Expected is one of ( ROUTE, ExternProtoDeclare, ProtoDeclare, IMPORT, EXPORT, Background, ColorInterpolator, CoordinateInterpolator, DirectionalLight, Group ).</code></td>
+<td><code>containerfield-unknown</code> error, <code>shape-no-geometry</code> warning</td>
+<td><code>wrong-parent</code>, <code>move</code> into the sibling Shape, confidence <code>choice</code></td>
+<td>1 error, 1 warning</td>
+</tr>
+<tr>
+<td>s03</td>
+<td><code>diffuseColor=&quot;0 102 255&quot;</code></td>
+<td>pattern facet error naming the value</td>
+<td><code>colour-out-of-range</code> error: &quot;divide by 255 if the values were written as 0..255&quot;</td>
+<td><code>set_attribute diffuseColor=&quot;0 0.4 1&quot;</code>, <code>choice</code></td>
+<td>XSD only, 0 semantic</td>
+</tr>
+<tr>
+<td>s04</td>
+<td><code>roughness</code> on <code>Material</code></td>
+<td><code>attribute 'roughness' is not allowed</code></td>
+<td>none (stage stops at XSD)</td>
+<td><code>unknown-attribute</code>: &quot;remove it. (PhysicalMaterial has a field 'roughness')&quot;</td>
+<td>XSD only</td>
+</tr>
+<tr>
+<td>s05</td>
+<td>both ROUTEs placed before the nodes they name</td>
+<td><strong>valid</strong></td>
+<td>2 <code>route-before-def</code> errors</td>
+<td><code>move</code> each ROUTE to the end of Scene, confidence <code>exact</code></td>
+<td><strong>0 errors</strong></td>
+</tr>
+<tr>
+<td>s06</td>
+<td><code>USE=&quot;Mat&quot;</code> before <code>DEF=&quot;Mat&quot;</code></td>
+<td>valid</td>
+<td><code>use-before-def</code> error</td>
+<td><code>swap_def_use</code>, <code>exact</code></td>
+<td>1 error</td>
+</tr>
+<tr>
+<td>s07</td>
+<td>SFRotation routed into <code>set_translation</code></td>
+<td>valid</td>
+<td><code>route-type-mismatch</code> error</td>
+<td><code>route-field</code>: &quot;Use toField='set_rotation'&quot;</td>
+<td>1 error</td>
+</tr>
+<tr>
+<td>s08</td>
+<td><code>coordIndex</code> uses 5, Coordinate has 4 points</td>
+<td><strong>valid</strong></td>
+<td><code>index-out-of-range</code> error</td>
+<td><strong>none</strong></td>
+<td><strong>0 errors</strong></td>
+</tr>
+<tr>
+<td>s09</td>
+<td>profile Interchange plus <code>PhysicalMaterial</code></td>
+<td><strong>valid</strong></td>
+<td><code>profile-component</code> error plus info with the fix</td>
+<td><code>add_components Shape level 2</code>, <code>exact</code></td>
+<td><strong>0 errors</strong></td>
+</tr>
+<tr>
+<td>s10</td>
+<td><code>version=&quot;4.0&quot;</code> with <code>GaussianSplats</code></td>
+<td>invalid under 4.0 with a note naming 4.1; <strong>valid when forced to 4.1</strong></td>
+<td><code>profile-component</code> error</td>
+<td><code>unknown-node</code> -&gt; <code>remove_element</code> (see section 5)</td>
+<td><strong>valid</strong> (single 4.1 XSD)</td>
+</tr>
+<tr>
+<td>s11</td>
+<td><code>BlendMode</code> (an X_ITE node) under <code>Appearance</code>, declared 4.1</td>
+<td><code>Element 'BlendMode': This element is not expected.</code></td>
+<td>none</td>
+<td><code>unknown-node</code> -&gt; <code>remove_element</code></td>
+<td>XSD invalid, 0 semantic</td>
+</tr>
+<tr>
+<td>s12</td>
+<td>Box 0.001 wide, 1,000,000 units away, <code>transparency=&quot;1&quot;</code></td>
+<td><strong>valid</strong></td>
+<td><strong>0 diagnostics</strong></td>
+<td>none</td>
+<td>0 / 0</td>
+</tr>
+<tr>
+<td>s13</td>
+<td>two nodes share <code>DEF=&quot;Spinner&quot;</code></td>
+<td><code>'Spinner' is not a valid value of the atomic type 'xs:ID'</code></td>
+<td><code>duplicate-def</code> plus 2 cascade errors</td>
+<td><code>bad-value</code>, <code>suggested_fix</code> is null</td>
+<td>3 errors</td>
+</tr>
+<tr>
+<td>s14</td>
+<td><code>fromField=&quot;fraction_change&quot;</code> (typo)</td>
+<td>valid</td>
+<td><code>route-invalid-from-field</code> error</td>
+<td><code>route-field</code>: &quot;Use 'fraction_changed'&quot;, <code>exact</code></td>
+<td>1 error</td>
+</tr>
+<tr>
+<td>s15</td>
+<td>HAnim joint named <code>l_wrist</code> (a 1.x alias)</td>
+<td>valid</td>
+<td>2 <code>hanim-joint-name</code> warnings, 3 info</td>
+<td>none</td>
+<td>0 / 0</td>
+</tr>
+</tbody>
+</table>
+<p>Counts of this corpus, <strong><span class="g C" title="Confirmed">C</span></strong>: 15 faulty scenes; 8 pass the XSD; 6 of those 8 carry a semantic error; the remaining 2 (s12, s15) pass the gate completely (s15 with warnings). Four scenes the fork base accepted outright (s05, s08, s09, s10) are rejected at <code>b4efcd3</code>; s03 gains a semantic error on top of the XSD error the base already gave; s15 gains two warnings.</p>
+<pre><code class="language-text"> first rung to say &quot;no&quot;  (x = fires, w = warning only, - = fires but offers no fix)
+                                                       R0   R2   R3   hint
+ s01 unclosed tag ................................      x
+ s02 Box in Transform ............................           x    x     x
+ s03 colour 0..255 ...............................           x    x     x
+ s04 PBR field on Material .......................           x          x
+ s05 ROUTE before DEF ............................                x     x
+ s06 USE before DEF ..............................                x     x
+ s07 ROUTE type mismatch .........................                x     x
+ s08 coordIndex past the end .....................                x     -
+ s09 profile lacks Shape level 2 .................                x     x
+ s10 4.1 node in a 4.0 file ......................           x    x     x  (hint deletes node)
+ s11 X_ITE-only node .............................           x          x  (hint deletes node)
+ s12 invisible and far away ...................... no rung fires; only a render or an eye can
+ s13 duplicate DEF ...............................           x    x     -
+ s14 ROUTE field typo ............................                x     x
+ s15 HAnim 1.x joint name ........................                w
+</code></pre>
+<p><strong>Valid is not visible:</strong> s12 passes R2, R3 and R4 with zero diagnostics and draws nothing a person can see; only R6 or a human can say so. <strong>Valid is not placed:</strong> a Box 1,000,000 units away is as legal as one at the origin; no rung compares positions with a viewpoint. <strong>Valid to WHICH schema</strong> is section 6.</p>
+<p><code>s15</code> shows that a gate can pass a scene whose joint names no animation tool will bind. Warnings are information, not blockers, unless a profile says otherwise.</p>
+<h2 id="5-exact-fix-hints-real-outputs">5. Exact-fix hints: real outputs</h2>
+<p>The XSD says what is wrong (&quot;Element 'Box': This element is not expected&quot;). A hint says where the Box may go and the edit that puts it there (<code>src/validation/hints.py</code>, 1,127 lines; it draws on X3DUOM <code>acceptableNodeTypes</code>, a 154 KB table of placements the XSD itself accepted, and the XSD message text). One hint, verbatim from <code>gate()</code> on scene s05 (ROUTE before DEF):</p>
+<pre><code class="language-json">{&quot;source&quot;: &quot;semantic&quot;, &quot;check&quot;: &quot;route-before-def&quot;, &quot;rule&quot;: &quot;route-before-def&quot;,
+ &quot;node&quot;: &quot;ROUTE&quot;, &quot;path&quot;: &quot;/X3D/Scene/ROUTE[1]&quot;, &quot;line&quot;: 5, &quot;field&quot;: &quot;fromNode&quot;,
+ &quot;message&quot;: &quot;ROUTE comes before DEF='Clock'. Move it to the end of Scene, after the nodes it names.&quot;,
+ &quot;suggested_fix&quot;: {&quot;op&quot;: &quot;move&quot;, &quot;path&quot;: &quot;/X3D/Scene/ROUTE[1]&quot;, &quot;to_path&quot;: &quot;/X3D/Scene&quot;},
+ &quot;confidence&quot;: &quot;exact&quot;, &quot;error_index&quot;: 0}
+</code></pre>
+<p><code>suggested_fix.op</code> is one of 10 operations: <code>set_attribute</code>, <code>remove_attribute</code>, <code>rename_attribute</code>, <code>rename_element</code>, <code>move</code>, <code>wrap</code>, <code>remove_element</code>, <code>insert_element</code>, <code>add_components</code>, <code>swap_def_use</code>. <code>confidence</code> took two values in my run: <code>exact</code> (one legal answer) and <code>choice</code> (several legal answers, one picked). Six more (<strong><span class="g C" title="Confirmed">C</span></strong>, <code>x3d_mcp fork b4efcd3</code>):</p>
+<table>
+<thead>
+<tr>
+<th>scene</th>
+<th>rule</th>
+<th>message (verbatim, trimmed)</th>
+<th>op</th>
+<th>confidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>s02</td>
+<td><code>wrong-parent</code></td>
+<td>Transform has no field that takes a Box. Move it into the sibling <code>&lt;Shape&gt;</code> (field geometry).</td>
+<td><code>move</code></td>
+<td>choice</td>
+</tr>
+<tr>
+<td>s03</td>
+<td><code>colour-out-of-range</code></td>
+<td>the values look like 0..255, so they were divided by 255. Use diffuseColor='0 0.4 1'.</td>
+<td><code>set_attribute</code></td>
+<td>choice</td>
+</tr>
+<tr>
+<td>s04</td>
+<td><code>unknown-attribute</code></td>
+<td>Material has no field 'roughness'; remove it. (PhysicalMaterial has a field 'roughness')</td>
+<td><code>remove_attribute</code></td>
+<td>choice</td>
+</tr>
+<tr>
+<td>s06</td>
+<td><code>use-before-def</code></td>
+<td>Swap them: put the DEF node where the first USE is, and a USE where the DEF was.</td>
+<td><code>swap_def_use</code></td>
+<td>exact</td>
+</tr>
+<tr>
+<td>s09</td>
+<td><code>profile-component</code></td>
+<td>Add <code>&lt;component name='Shape' level='2'/&gt;</code> to <code>&lt;head&gt;</code>.</td>
+<td><code>add_components</code></td>
+<td>exact</td>
+</tr>
+<tr>
+<td>s14</td>
+<td><code>route-field</code></td>
+<td>fromField='fraction_change' is not a usable output field of TimeSensor. Use 'fraction_changed'.</td>
+<td><code>set_attribute</code></td>
+<td>exact</td>
+</tr>
+</tbody>
+</table>
+<p>The s04 hint removes the field and names the node that owns it. Whether you wanted <code>PhysicalMaterial</code> is intent, and intent is not in the file.</p>
+<p><strong>The apply loop</strong> (<code>exact_fix_hints(apply=true)</code>, Python <code>repair_with_hints</code>) applies hints one at a time and re-checks after each. Over the sixteen scenes, <strong><span class="g C" title="Confirmed">C</span></strong>:</p>
+<table>
+<thead>
+<tr>
+<th>outcome</th>
+<th>scenes</th>
+<th>n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>already passes the gate</td>
+<td>s00, s12, s15</td>
+<td>3</td>
+</tr>
+<tr>
+<td>invalid, ends valid by a non-destructive edit</td>
+<td>s02, s03, s04, s05, s06, s07, s09, s14</td>
+<td>8</td>
+</tr>
+<tr>
+<td>invalid, ends valid <strong>because an element was deleted</strong></td>
+<td>s10 (GaussianSplats), s11 (BlendMode)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>invalid, loop cannot fix</td>
+<td>s01 (not XML), s08 (no hint for an index error), s13 (<code>suggested_fix</code> is null)</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>For s10 the right repair is in <code>repair_x3d</code>: it raised <code>version</code> 4.0 to 4.1 and added <code>&lt;component name='GaussianSplats' level='1'/&gt;</code>. For s11 <code>repair_x3d</code> refuses (<code>unfixable: not an X3D node in any bundled X3DUOM</code>). <strong>A loop that reports <code>valid_after: true</code> has told you nothing about what was lost until you read <code>applied</code>.</strong> And <code>repair_x3d</code> has its own gap, <strong><span class="g C" title="Confirmed">C</span></strong>:</p>
+<table>
+<thead>
+<tr>
+<th>scene</th>
+<th><code>repair_x3d</code> changes</th>
+<th><code>remaining</code> says</th>
+<th><code>validate_semantic</code> still says</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>s05 ROUTE before DEF</td>
+<td>none</td>
+<td><code>schema_valid: true, profile_ok: true</code></td>
+<td>2 <code>route-before-def</code> errors</td>
+</tr>
+<tr>
+<td>s08 index past the end</td>
+<td>none</td>
+<td><code>schema_valid: true, profile_ok: true</code></td>
+<td>1 <code>index-out-of-range</code> error</td>
+</tr>
+</tbody>
+</table>
+<p><code>remaining</code> re-validates the XSD and the profile only. Run the semantic layer on the repaired text.</p>
+<p><strong>The author's evaluation, re-run.</strong> <code>evaluation/exact_fix_eval.py</code> mutates seed scenes with 12 fault classes (seed 20261029, 45 cases per class) and calls no model. I re-ran it at <code>b4efcd3</code> in a scratch checkout (11 s; 24 seeds, 10,294 sites, 540 cases, 577 errors):</p>
+<table>
+<thead>
+<tr>
+<th>measure</th>
+<th>repo doc (PR #14 time)</th>
+<th>re-run at <code>b4efcd3</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>errors with a <code>suggested_fix</code></td>
+<td>552 / 570 (96.8%)</td>
+<td>558 / 577 (96.7%)</td>
+</tr>
+<tr>
+<td>valid after <code>repair_x3d</code> alone</td>
+<td>81 / 540 (15.0%)</td>
+<td>76 / 540 (14.1%)</td>
+</tr>
+<tr>
+<td>valid after <code>repair_x3d</code>, then the hint loop</td>
+<td>523 / 540 (96.9%)</td>
+<td>522 / 540 (96.7%)</td>
+</tr>
+<tr>
+<td>valid only because an element was removed</td>
+<td>12 / 540 (2.2%)</td>
+<td>15 / 540 (2.8%)</td>
+</tr>
+<tr>
+<td>loop returns the seed exactly</td>
+<td>257 / 540 (47.6%)</td>
+<td>268 / 540 (49.6%)</td>
+</tr>
+</tbody>
+</table>
+<p>The columns differ by one seed scene (24 here, 25 in the doc) and by rules PR #15 added later. The mutation classes and the hint rules share one author; the doc says so, and my re-run uses the same script, so both measure the faults the hints were designed for. By class, <code>missing-required</code> is the weak one (60.0% of errors get a fix: <code>meta</code> and <code>component</code> values carry intent) and <code>wrong-field</code> restores the seed 0.0% of the time (it writes an explicit <code>containerField</code> where the seed relied on the default: equivalent, not byte-equal). <strong><span class="g C" title="Confirmed">C</span></strong> for the re-run, <strong><span class="g L" title="Likely">L</span></strong> for the doc column.</p>
+<h2 id="6-valid-to-which-schema">6. Valid to WHICH schema</h2>
+<p>&quot;Valid&quot; without a schema name is not a claim. The validator knows five vocabularies, and they disagree at the edges.</p>
+<table>
+<thead>
+<tr>
+<th>vocabulary</th>
+<th>bundled file (sha256 prefix)</th>
+<th>what it knows</th>
+<th>used by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>X3D XSD 4.0</code></td>
+<td><code>x3d-4.0.xsd</code> (0509fa5bd601)</td>
+<td>ratified 4.0 elements and attributes</td>
+<td>R2 for <code>version=&quot;4.0&quot;</code> and for any 3.x</td>
+</tr>
+<tr>
+<td><code>X3D XSD 4.1</code></td>
+<td><code>x3d-4.1.xsd</code> (1a7935caa7e6)</td>
+<td>the 4.1 draft; default when no version</td>
+<td>R2 for 4.1, none, unknown</td>
+</tr>
+<tr>
+<td><code>X3DUOM 4.0</code> / <code>4.1</code></td>
+<td><code>X3dUnifiedObjectModel-*.xml</code> (7e426a238656, 4fc10e8e15c0)</td>
+<td>260 / 267 concrete nodes with field types, defaults, <code>acceptableNodeTypes</code></td>
+<td>R3 field lookups, R4 hints, <code>describe_node</code></td>
+</tr>
+<tr>
+<td>JSON Schema 4.0</td>
+<td><code>x3d-4.0-JSONSchema.json</code> (cb265672c4b6)</td>
+<td>X3D JSON encoding, 4.0 only</td>
+<td><code>validate_json</code></td>
+</tr>
+<tr>
+<td>X3D Ontology 4.0 / 4.1</td>
+<td><code>X3dOntology4.*.ttl</code></td>
+<td>classes and properties for RDF, SHACL</td>
+<td>the semantic-web tools (chapter 05)</td>
+</tr>
+</tbody>
+</table>
+<p>Counted from the files, <strong><span class="g C" title="Confirmed">C</span></strong>: X3DUOM 4.1 has seven concrete nodes that X3DUOM 4.0 lacks (<code>EnvironmentLight</code>, <code>FontLibrary</code>, <code>GaussianSplats</code>, <code>HAnimPose</code>, <code>InlineGeometry</code>, <code>RenderedTexture</code>, <code>Tangent</code>) and none the other way. The XSD pair differs by the same names (plus one local element); <code>EnvironmentLight</code> appears as an element name in both XSD files, yet a <code>version=&quot;4.0&quot;</code> scene containing it fails (note: &quot;Node 'EnvironmentLight' is not in X3D 4.0; it was added in X3D 4.1&quot;) and passes when forced to 4.1. The XSD file and X3DUOM 4.0 therefore disagree about that node; the validator follows X3DUOM for its version note and the XSD for the verdict. The cause of the XSD side I did not chase (<strong><span class="g S" title="Suspected">S</span></strong>).</p>
+<p>How the version attribute picks the schema (<code>validate.resolve_xsd_version</code>), <strong><span class="g C" title="Confirmed">C</span></strong>:</p>
+<table>
+<thead>
+<tr>
+<th>declared</th>
+<th>schema used</th>
+<th>note returned</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>4.0</code></td>
+<td>4.0</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>4.1</code></td>
+<td>4.1</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>3.0</code> to <code>3.3</code></td>
+<td>4.0</td>
+<td>&quot;X3D 3.3 has no bundled schema; validated against X3D 4.0, of which X3D 3.3 is a subset.&quot;</td>
+</tr>
+<tr>
+<td>missing</td>
+<td>4.1</td>
+<td>&quot;No version attribute; validated against X3D 4.1.&quot;</td>
+</tr>
+<tr>
+<td>anything else (<code>9.9</code>)</td>
+<td>4.1</td>
+<td>&quot;Unknown version '9.9'; validated against X3D 4.1.&quot;</td>
+</tr>
+<tr>
+<td><code>validate_xml(text, version=&quot;4.1&quot;)</code></td>
+<td>4.1, whatever the file says</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p>At the fork base <code>74da0ec</code> there was one XSD, 4.1, for every file: s10 (a 4.1-only node in a file that declares 4.0) came back <strong>valid</strong>. At <code>b4efcd3</code> it is invalid under 4.0 and valid when forced to 4.1. That is the same scene giving two verdicts, and both were &quot;valid XSD&quot; claims until a version and a commit were attached.</p>
+<p><strong>X_ITE extensions.</strong> <a href="../x_ite/MASTERCLASS.html">The X_ITE masterclass</a> counts 26 X_ITE-only node types, among them <code>BlendMode</code>, <code>DepthMode</code>, <code>InstancedShape</code> and <code>SpecularGlossinessMaterial</code> (read, <strong><span class="g L" title="Likely">L</span></strong>). A membership scan found none of the four in either bundled XSD or X3DUOM, and <code>BlendMode</code> in neither <code>Web3dExtensions*.xsd</code> nor the 4.1 ontology (<strong><span class="g C" title="Confirmed">C</span></strong>, regex over the files). Scene s11: XSD invalid, <code>repair_x3d</code> unfixable, the hint loop &quot;fixes&quot; it by deleting the node. A scene using an X_ITE extension is X_ITE-valid, not X3D-valid; say which, and do not let a repair tool delete it.</p>
+<p><strong>JSON.</strong> <code>validate_json</code> uses the 4.0 JSON Schema: <code>@version</code> accepts only 3.0 to 3.3 and 4.0, so a 4.1 document is rejected with <code>X3D/@version: '4.1' is not one of ['3.0', '3.1', '3.2', '3.3', '4.0']</code> (<strong><span class="g C" title="Confirmed">C</span></strong>; my fixture also lacked the required <code>encoding</code> key, which the same run reports, so read only the version line as the finding).</p>
+<p><strong>Oversize.</strong> <code>valid: false</code> is not always &quot;invalid&quot;. An 11,700,036-byte <code>GaussianSplats</code> start tag returned in 1,763 ms with:</p>
+<pre><code class="language-json">{&quot;valid&quot;: false, &quot;checked&quot;: false, &quot;verdict&quot;: &quot;not-checkable-at-this-size&quot;,
+ &quot;errors&quot;: [&quot;Not checkable at this size: GaussianSplats (line 2, 11,700,036 bytes) is larger than libxml2's 10,000,000-byte start-tag limit, so the XSD check did not run ...&quot;],
+ &quot;schema_version&quot;: &quot;4.1&quot;}
+</code></pre>
+<p><code>checked: false</code> means no verdict was reached; a consumer that tests only <code>valid</code> cannot tell an unchecked scene from an invalid one. (<strong><span class="g C" title="Confirmed">C</span></strong>, <code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.1</code>.)</p>
+<h2 id="7-the-gates">7. The gates</h2>
+<h3 id="71-loomkit-witnesses-accept-receipt">7.1 loomkit: witnesses, accept, receipt</h3>
+<p><code>x3d.loom@162ab18:kit/loomkit</code> is a standard-library-only gate kit around the validator. A <strong>candidate</strong> is the sha256 of the sorted file inventory of a folder; a <strong>witness</strong> is one JSON record (<code>loom.witness/1</code>) bound to that hash; <strong>accept</strong> decides from a named profile, never from a score. Status (<code>pass | fail | error | not_run | not_applicable | deferred</code>) and grade (<code>C | L | S</code>) are separate axes.</p>
+<pre><code class="language-text"> candidate folder --sha256 inventory--&gt; subject_sha256
+        |
+        +-- loomkit traps | pagetraps | grammar | foldback | sci | play | physics | ...
+        |      each writes evidence/&lt;name&gt;.json {status, grade, instrument, measurements,
+        |                                        coverage, limitations, evidence[], subject}
+        v
+   loomkit accept --profile P     one record per required witness, else a stable code:
+        |                         MISSING_WITNESS  STALE_WITNESS  WITNESS_NOT_PASS
+        |                         UNMEASURED_REQUIRED_WITNESS  COVERAGE_REQUIRED  EVIDENCE_DRIFT
+        v
+   loomkit receipt -&gt; receipt.json (unsigned; candidate hash, witness hashes, not_run, prev)
+        v
+   loomkit verify-receipt         RECEIPT_DRIFT if any byte of the body changed
+</code></pre>
+<p>The CLI has 17 sub-commands at <code>162ab18</code>: <code>candidate</code>, <code>traps</code>, <code>pagetraps</code>, <code>grammar</code> (writes two witnesses, <code>grammar</code> and <code>meaning</code>), <code>foldback</code>, <code>sci</code>, <code>metalsite</code>, <code>hepevent</code>, <code>play</code>, <code>physics</code>, <code>command</code>, <code>record</code>, <code>accept</code>, <code>receipt</code>, <code>verify-receipt</code>, <code>sweep</code> (the leak sweep; the source tree is never modified) and <code>picture</code>. The brief for this chapter named gates xsd, loom, fact, privacy, witness and scene; <strong>none of those names exists</strong> in <code>cli.py</code> (<strong><span class="g C" title="Confirmed">C</span></strong>). Nearest: <code>grammar</code> (XSD), <code>meaning</code> (semantic), <code>sweep</code> (privacy), <code>command</code>/<code>record</code>/<code>accept</code> (witnesses), <code>candidate</code> (scene folder identity).</p>
+<p>Exit codes, observed <strong><span class="g C" title="Confirmed">C</span></strong>: <code>0</code> whenever a witness was written, <strong>including <code>status: fail</code></strong>; <code>1</code> for a rejection (<code>{&quot;rejected&quot;: CODE}</code>); <code>2</code> for an instrument error. The docstring's &quot;0 = passed&quot; holds for <code>accept</code> and <code>verify-receipt</code>, not for the producers. Read the status of a witness, not the exit code.</p>
+<p><strong>A real run</strong> (three scratch scenes, loomkit <code>162ab18</code>, fork <code>b4efcd3</code>, 2026-11-14, <strong><span class="g C" title="Confirmed">C</span></strong>):</p>
+<table>
+<thead>
+<tr>
+<th>step</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>traps</code> on s00, s02, s05</td>
+<td><code>fail</code>: 2 errors, both <code>route-before-def</code> on s05; s02 gets none</td>
+</tr>
+<tr>
+<td><code>grammar</code> on the same</td>
+<td><code>grammar</code> fail (s02: 1 XSD error); <code>meaning</code> fail (s02: 1 error 1 warning; s05: 2 errors); both name commit <code>b4efcd39b989...</code>, <code>dirty: false</code></td>
+</tr>
+<tr>
+<td><code>accept</code>, bad candidate</td>
+<td><code>{&quot;rejected&quot;: &quot;WITNESS_NOT_PASS&quot;, &quot;detail&quot;: &quot;grammar: fail&quot;}</code>, exit 1</td>
+</tr>
+<tr>
+<td>s00 only, three witnesses, <code>accept</code></td>
+<td><code>accepted</code>, grade <code>C</code> on all three, <code>visible_not_run: [&quot;eyes&quot;]</code></td>
+</tr>
+<tr>
+<td>append a comment to s00, <code>accept</code></td>
+<td><code>{&quot;rejected&quot;: &quot;STALE_WITNESS&quot;, &quot;detail&quot;: &quot;grammar&quot;}</code>, exit 1</td>
+</tr>
+</tbody>
+</table>
+<p>Two instruments, two blind spots: the loomkit trap and the fork's semantic rule of the same name caught s05 independently; the XSD caught s02, which no trap looks for.</p>
+<p><strong>The adapter fails closed.</strong> <code>kit/loomkit/grammar.py</code> imports <code>src.validation.validate</code> in the fork's own venv. At <code>b4efcd3</code> that module does <code>from validation import listvalues, oversize</code>, which needs <code>src/</code> on <code>sys.path</code>. In a venv without an editable install the first run gave <code>InstrumentError ... No module named 'validation'</code>, exit 2. A one-line <code>.pth</code> file fixed it. A broken instrument is <code>error</code>, never <code>pass</code>.</p>
+<p><strong>Controls.</strong> <code>kit/tests/test_gates.py</code> (run on a scratch copy; it writes <code>last-run.json</code>) printed, for both <code>optimized=False</code> and <code>python -O</code>: &quot;82 negative controls caught with the intended code; 15 trap rules, 8 page-trap rules and 10 page forms ... pass their clean fixture and catch their failing one&quot;, in 3.8 s. A control rejected for the wrong reason counts as a broken test. <strong><span class="g C" title="Confirmed">C</span></strong>.</p>
+<h3 id="72-the-x3d-blender-io-conformance-suite">7.2 The x3d-blender-io conformance suite</h3>
+<p><code>x3d-blender-io@ab99988:tests/suite</code> builds a Blender scene of cases, exports it with the add-on, judges the file with a standard-library validator (<code>validate_x3d_export.py</code>, 1,702 lines, <code>--selftest</code>), and can load it in X_ITE (<code>x3d_browser_check.py</code>, needs Playwright). Verdicts: <code>PASS</code>, <code>FAIL</code> (CORE failed, exit 1), <code>WARN</code> (FIDELITY), <code>MISSING</code> (ROADMAP, expected), <code>NEW</code> (ROADMAP passed), <code>SKIP</code>, <code>ERROR</code>. Without Blender I could verify, <strong><span class="g C" title="Confirmed">C</span></strong>:</p>
+<table>
+<thead>
+<tr>
+<th>item</th>
+<th>value</th>
+<th>how</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>catalogue (suite 2.0.0)</td>
+<td>195 = 148 CORE + 21 FIDELITY + 26 ROADMAP</td>
+<td>tier cells in <code>docs/test-suite/x3d_case_catalog.md</code></td>
+</tr>
+<tr>
+<td>recorded, add-on v2.6.1, Blender 5.2.2</td>
+<td>CORE 143 pass 4 fail; FIDELITY 2 pass 19 warn; ROADMAP 26 missing (194 cases)</td>
+<td>embedded data of <code>reports/x3d_validation_report.html</code></td>
+</tr>
+<tr>
+<td>same suite on <code>main</code> 0c48976, Blender 5.1.0</td>
+<td>CORE 143 / 4; ROADMAP 21 missing 5 new</td>
+<td><code>reports/..._origin_main_0c48976.html</code></td>
+</tr>
+<tr>
+<td>with the phantom-sphere fix</td>
+<td>CORE <strong>147 / 147</strong>; ROADMAP 21 missing 5 new</td>
+<td><code>reports/..._with_phantom_fix.html</code></td>
+</tr>
+<tr>
+<td>validator self-test</td>
+<td>27 checks pass</td>
+<td><code>validate_x3d_export.py --selftest</code></td>
+</tr>
+</tbody>
+</table>
+<p>&quot;148/148&quot; is <strong>not a recorded result</strong>: the scoreboards cover the 194-case scene (147 CORE) and end at 147/147; the catalogue now lists 148 CORE and a 148/148 scoreboard needs Blender (<strong><span class="g S" title="Suspected">S</span></strong>). The CI job (&quot;Export conformance suite (Blender 5.1.2)&quot;) is written to fail on any CORE failure; I read it, I did not run it. The suite's <code>integrity.*</code> cases (DEF unique, USE resolves earlier, ROUTE targets exist, numbers finite, coordIndex valid, interpolators well-formed, SFColor in 0..1) are the R3 families written a second time by a different author in a different language: a cheap cross-check on the first.</p>
+<h2 id="8-the-pin-rule-and-the-validator-register">8. The pin rule and the validator register</h2>
+<p><strong>The rule.</strong> Quote a validator as <code>x3d_mcp fork &lt;sha7&gt;</code> (a commit, never a branch, never &quot;latest&quot;, never &quot;the fork&quot;), with the schema version it judged against. A gate witness records <code>commit</code>, <code>branch</code>, <code>dirty</code> and the interpreter path in its instrument block and adds the limitation &quot;Fork commit X on branch Y; not the family pin unless they match&quot;. The family-wide pin was decided as a tag, <code>loom-pin-2026-11-01</code> (<code>x3d.loom@162ab18:GLOSSARY.md</code>); the <code>x3d_mcp</code> checkout has <strong>0 tags</strong> (<strong><span class="g C" title="Confirmed">C</span></strong>, <code>git tag</code>), so every recorded run names a commit instead. When two pins have byte-identical validator code, re-scoring costs nothing and changes nothing; when they differ, re-score.</p>
+<p>The register, from recorded <code>evidence/grammar.json</code> records in <code>x3d.loom@162ab18:runs/</code> (24 grammar witnesses) and from <code>git log</code> of the checkout (<strong><span class="g C" title="Confirmed">C</span></strong>):</p>
+<table>
+<thead>
+<tr>
+<th>pin</th>
+<th>commit date</th>
+<th>commit subject</th>
+<th>recorded use</th>
+<th>validator code vs <code>b4efcd3</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x3d_mcp upstream 74da0ec</code></td>
+<td>2026-08-05</td>
+<td>upstream main, Merge PR #21</td>
+<td>fork base; 19 rule ids, 10 checks, one XSD (4.1)</td>
+<td>differs (this chapter's base column)</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork fa0b389</code></td>
+<td>2026-10-17</td>
+<td>validate_semantic: add RigidBodyPhysics checks (X-09, X-10)</td>
+<td><strong>15 runs</strong>, 2026-11-04 to 2026-11-06 (data-city x2, scientific x2, chirp x2, electron-cloud x2, kerr2 x2, turing-garden x2, living-heart, manifold, vortex-sound)</td>
+<td>predates the ROUTE-order, colour-range and HAnim checks of 2026-10-30; not diffed here</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork 788041c</code></td>
+<td>2026-10-30</td>
+<td>Add ROUTE order, colour range and H-Anim name checks; report libxml2 engine give-ups by value</td>
+<td>cited as the commit that gained <code>route-before-def</code> in the loomkit trap comment; no recorded grammar witness uses it</td>
+<td><code>src/validation</code> identical to <code>327c5c4</code></td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork 327c5c4</code></td>
+<td>2026-11-01</td>
+<td>Merge PR #16</td>
+<td><strong>4 runs</strong> on 2026-11-06 (drift, platformer, zinc-scenes, zinc-scenes-v2)</td>
+<td><code>.py</code> identical</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork 13121b6</code></td>
+<td>2026-11-03</td>
+<td>MCP and friends playground</td>
+<td><strong>1 run</strong> (brain, 2026-11-06) and 21 scenes in the x3d.mol project</td>
+<td><code>.py</code> identical; 4 schema-data files differ later</td>
+</tr>
+<tr>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>2026-11-13</td>
+<td>Merge PR #17</td>
+<td>this chapter</td>
+<td>itself</td>
+</tr>
+<tr>
+<td>no commit field</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>4 grammar witnesses (hep-demo x2, zinc-site, zinc-structures) carry no fork identity</td>
+<td>not the fork</td>
+</tr>
+</tbody>
+</table>
+<p>&quot;Identical&quot; is <code>git diff --quiet</code> over <code>semantic.py</code>, <code>validate.py</code>, <code>hints.py</code>, <code>repair.py</code> (13121b6 to b4efcd3), plus an empty <code>git diff --stat -- src/validation</code> for 788041c to 327c5c4 and 327c5c4 to 13121b6. Consequence: <strong>verdicts recorded at 327c5c4 and 13121b6 are the verdicts of b4efcd3</strong> for the XSD, semantic, hint and repair layers; those recorded at <code>fa0b389</code> are not (<strong><span class="g C" title="Confirmed">C</span></strong> the diffs; <strong><span class="g L" title="Likely">L</span></strong> the consequence, since I re-scored no recorded run and 13121b6 to b4efcd3 added schema data for the semantic-web tools).</p>
+<p>Other commits named in older working notes (<code>cf84f64</code>, <code>d5598c4</code>, <code>8c0a457</code>, <code>56809ca</code>, <code>535fdac</code>, <code>c9c9788</code>, <code>acdf5c4</code>) exist in the checkout, dated 2026-10-08 to 2026-10-30; that they served as pins for particular experiments is <strong><span class="g S" title="Suspected">S</span></strong>, carried from private notes and not re-checked, and no number in this chapter depends on them.</p>
+<h2 id="9-blind-spots-ranked">9. Blind spots, ranked</h2>
+<table>
+<thead>
+<tr>
+<th>rank</th>
+<th>blind spot</th>
+<th>evidence</th>
+<th>what would cover it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Visible and placed.</strong> A scene can be valid, clean and show nothing</td>
+<td>s12: R2 to R5 silent</td>
+<td>a render check (R6), a viewpoint-versus-bounds rule, a person</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Intent.</strong> The loop returns the seed exactly in 268 of 540 cases</td>
+<td>re-run of <code>exact_fix_eval.py</code> (49.6%)</td>
+<td>a spec in the file; review <code>applied</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Deletion as repair</strong> (15 of 540; s10, s11)</td>
+<td><code>valid_after: true</code> with <code>remove_element</code></td>
+<td>read <code>applied</code>; use <code>repair_x3d</code> for version problems</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong><code>remaining</code> is not the semantic gate</strong></td>
+<td>s05, s08</td>
+<td>run <code>validate_semantic</code> after every repair</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Errors with no fix:</strong> index range (s08), duplicate DEF (s13), bad XML (s01)</td>
+<td><code>hints: 0</code> or <code>suggested_fix: null</code></td>
+<td>a new hint rule (section 10)</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Vocabulary outside the bundle:</strong> X_ITE-only nodes fail every rung</td>
+<td>s11; no match in XSD, X3DUOM, extension XSDs, ontology</td>
+<td>an explicit extension profile; never auto-delete</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>libxml2 limits:</strong> 10,000,000-byte start tag; the pattern engine gives up on long lists</td>
+<td>oversize probe; docs: a bad colour from about the 13th list entry</td>
+<td><code>listvalues.py</code> (linear-time reader), chunking</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>One XSD error per parent</strong></td>
+<td>EXACT-FIX-HINTS.md</td>
+<td>loop to a fixpoint (the apply loop does)</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>Rules written to one renderer.</strong> <code>route-before-def</code> exists because X_ITE drops an early ROUTE</td>
+<td>ROUTE-COLOUR-HANIM-CHECKS.md (it adds that the X3D Schematron also calls it an error)</td>
+<td>label each rule: spec, schema, or X_ITE behaviour</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>Same-author corpora</strong></td>
+<td>EXACT-FIX-HINTS.md; my re-run uses the same script</td>
+<td>an independent defect corpus, real user scenes</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>JSON knows 4.0 only</strong></td>
+<td>version enum</td>
+<td>none in the bundle</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>Render rung not run;</strong> the README pins <code>X_ITE 16.4.3</code></td>
+<td>read, not run</td>
+<td>a rig with a browser; chapter 06</td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>Cross-file references</strong> (Inline, ExternProto, textures)</td>
+<td>not tested</td>
+<td><strong><span class="g S" title="Suspected">S</span></strong>: assume unchecked</td>
+</tr>
+</tbody>
+</table>
+<h2 id="10-how-to-write-a-new-rule">10. How to write a new rule</h2>
+<p>The rule I wrote for this chapter closes blind spot 1 in a small way: a <code>Material</code> with <code>transparency &gt;= 1</code> draws nothing. It lives in a scratch copy, not in the fork.</p>
+<pre><code class="language-python">_POINTING_SENSORS = {&quot;TouchSensor&quot;, &quot;PlaneSensor&quot;, &quot;CylinderSensor&quot;, &quot;SphereSensor&quot;, &quot;ProximitySensor&quot;}
+
+def _check_invisible_material(scene):
+    diagnostics = []
+    for el in scene.iter(&quot;Material&quot;):
+        if el.get(&quot;USE&quot;):
+            continue
+        try:
+            t = float(el.get(&quot;transparency&quot;, &quot;0&quot;))
+        except ValueError:
+            continue
+        if t &gt;= 1.0:
+            parent = el.getparent()                       # Appearance
+            shape = parent.getparent() if parent is not None else None
+            if shape is not None and shape.getparent() is not None and any(
+                    _local_tag(sib) in _POINTING_SENSORS for sib in shape.getparent()):
+                continue                                  # an invisible hit area is a known idiom
+            diagnostics.append(Diagnostic(
+                level=&quot;warning&quot;, check=&quot;invisible-material&quot;,
+                message=&quot;Material transparency='1' draws nothing: the Shape is valid but cannot be seen. &quot;
+                        &quot;Lower transparency below 1, or remove the Shape.&quot;,
+                node_tag=&quot;Material&quot;, def_name=(shape.get(&quot;DEF&quot;, &quot;&quot;) if shape is not None else &quot;&quot;)))
+    return diagnostics
+# then add _check_invisible_material to _ALL_CHECKS in src/validation/semantic.py
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>step</th>
+<th>what to do</th>
+<th>what happened here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Start from a scene that fails in the field; name the incident</td>
+<td>s12: valid, clean, invisible</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Write <code>_check_x(scene) -&gt; list[Diagnostic]</code>; level honestly (error only for what a conforming viewer refuses or drops)</td>
+<td><code>warning</code>: a transparent box is legal</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Register it in <code>_ALL_CHECKS</code>; add a positive and a negative test</td>
+<td>23 to 24 functions; two tests</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Run it over every scene you own</strong> before anyone else does</td>
+<td>2 hits in 14 scenes: a deliberate hit-area <code>Box size='8 2 .001'</code> beside a <code>TouchSensor</code>, and a deliberately faulted fixture</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Refine or demote; add a test for the exemption</td>
+<td>exempt a Shape beside a pointing-device sensor: 1 hit left (the fixture, <code>transparency='1.2'</code>)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>If an exact fix exists, add a hint rule in <code>hints.py</code> with honest <code>confidence</code>; else leave <code>suggested_fix</code> null</td>
+<td>none added: intent decides</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Add a class to <code>evaluation/exact_fix_eval.py</code> if a hint exists; write the note in <code>docs/</code>; record the new commit in the pin register</td>
+<td>scratch patch only</td>
+</tr>
+</tbody>
+</table>
+<p>Result, <strong><span class="g C" title="Confirmed">C</span></strong> (scratch copy of <code>x3d_mcp@b4efcd3</code>, 2026-11-14): the two semantic test files went from 148 to 151 passed in 1.70 s; s00 stays at 0 diagnostics; s12 reports <code>invisible-material</code>. A warning does not stop <code>gate()</code>. A gate that refuses invisible scenes is a profile decision, not a rule-level one.</p>
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule (imperative, at most 30 words)</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-VAL-1</td>
+<td>Never write &quot;valid&quot; alone; write validator commit, schema version and the call that ran. A verdict without both cannot be re-run.</td>
+<td>C</td>
+<td>s10 is valid at base 74da0ec and invalid at b4efcd3 for the same bytes</td>
+<td><code>x3d_mcp fork b4efcd3</code> vs <code>x3d_mcp upstream 74da0ec</code></td>
+</tr>
+<tr>
+<td>H-VAL-2</td>
+<td>Run the semantic layer after the XSD, always. XSD-valid is not gate-clean.</td>
+<td>C</td>
+<td>8 of 15 faulty scenes pass the XSD; 6 of those 8 carry a semantic error</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.0</code></td>
+</tr>
+<tr>
+<td>H-VAL-3</td>
+<td>Read <code>checked</code> before <code>valid</code>. <code>valid: false, checked: false</code> means no verdict, not a failure.</td>
+<td>C</td>
+<td>11,700,036-byte start tag returned <code>not-checkable-at-this-size</code></td>
+<td><code>x3d_mcp fork b4efcd3</code>, libxml2 2.14.6</td>
+</tr>
+<tr>
+<td>H-VAL-4</td>
+<td>After any automatic repair, read <code>applied</code>; a loop that reports valid by deleting a node has lost content.</td>
+<td>C</td>
+<td>s10 and s11 end valid by <code>remove_element</code>; 15 of 540 eval cases</td>
+<td><code>x3d_mcp fork b4efcd3</code> <code>exact_fix_hints(apply=true)</code></td>
+</tr>
+<tr>
+<td>H-VAL-5</td>
+<td>Do not read <code>repair_x3d</code> <code>remaining</code> as clean; re-run <code>validate_semantic</code> on the repaired text.</td>
+<td>C</td>
+<td>s05 and s08: <code>schema_valid: true</code> while a semantic error stands</td>
+<td><code>x3d_mcp fork b4efcd3</code> <code>repair_x3d</code></td>
+</tr>
+<tr>
+<td>H-VAL-6</td>
+<td>Declare the version in every file; an undeclared version is judged as 4.1, a declared 3.x as 4.0.</td>
+<td>C</td>
+<td><code>resolve_xsd_version</code> table; s10</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.0</code>, <code>X3D XSD 4.1</code></td>
+</tr>
+<tr>
+<td>H-VAL-7</td>
+<td>Treat X_ITE-only nodes as an extension profile; never let a repair delete them to reach &quot;valid&quot;.</td>
+<td>C</td>
+<td>s11 BlendMode: unfixable in <code>repair_x3d</code>, deleted by the hint loop</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>X3DUOM 4.1</code>, <code>X3DUOM 4.0</code></td>
+</tr>
+<tr>
+<td>H-VAL-8</td>
+<td>Pin the commit, and diff the validator code between pins before re-scoring: identical code means identical verdicts.</td>
+<td>C</td>
+<td><code>src/validation</code> identical across 788041c, 327c5c4, 13121b6; <code>.py</code> identical to b4efcd3</td>
+<td><code>x3d_mcp fork b4efcd3</code> (git diff)</td>
+</tr>
+<tr>
+<td>H-VAL-9</td>
+<td>Keep two instruments with different blind spots on the same candidate; one agreeing and one disagreeing gate is information.</td>
+<td>C</td>
+<td>loomkit trap and fork semantic both caught s05; only the XSD caught s02</td>
+<td>loomkit <code>162ab18</code>, <code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-VAL-10</td>
+<td>Run a new rule over every scene you have before landing it; a legitimate idiom will trigger a first draft.</td>
+<td>C</td>
+<td>invisible-material hit a deliberate hit-area <code>Box</code> in 1 of 14 scenes</td>
+<td><code>x3d_mcp fork b4efcd3</code> scratch patch</td>
+</tr>
+<tr>
+<td>H-VAL-11</td>
+<td>Read the status of a gate witness, not the process exit code; a failing producer can exit 0.</td>
+<td>C</td>
+<td><code>loomkit traps</code> printed <code>status: fail</code> with exit 0; <code>accept</code> exited 1</td>
+<td>loomkit <code>162ab18</code></td>
+</tr>
+<tr>
+<td>H-VAL-12</td>
+<td>Count rules with a stated definition (ids, sites, functions); a bare &quot;62 rules&quot; is not comparable.</td>
+<td>C</td>
+<td>51 ids, 61 sites, 24 functions, 72 across layers at one commit</td>
+<td><code>x3d_mcp fork b4efcd3</code> (ast)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="drills">Drills</h2>
+<h3 id="d-val-1-count-the-rules-two-ways">D-VAL-1 Count the rules two ways</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> At <code>x3d_mcp@b4efcd3</code> count the distinct rule ids <code>src/validation/semantic.py</code> reports and the check functions <code>semantic_diagnostics</code> runs; repeat at <code>74da0ec</code>. State your definition.</li>
+<li><strong>Verify:</strong> parse with Python <code>ast</code>; take string constants in the second argument of <code>Diagnostic(...)</code> and of the <code>check</code>/<code>add</code>/<code>err</code>/<code>report</code> helpers, add the f-string ids <code>hanim-joint-name</code> and <code>hanim-segment-name</code>; read <code>_ALL_CHECKS</code>.</li>
+<li><strong>Answer:</strong> 51 ids and 24 functions (23 in <code>_ALL_CHECKS</code> plus <code>_check_profile_components</code>) at <code>b4efcd3</code>; 19 ids and 10 functions at <code>74da0ec</code>. With <code>splat_arrays.py</code> the union is 53; with the <code>inspect_splats.py</code> ids, 72.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code> and <code>x3d_mcp upstream 74da0ec</code>, Python <code>ast</code>.</li>
+</ul>
+<h3 id="d-val-2-walk-a-scene-up-the-ladder">D-VAL-2 Walk a scene up the ladder</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Write s05 (the control scene with both ROUTEs above the TimeSensor and the interpolator). Run <code>validate_xml</code>, <code>semantic_diagnostics</code> and <code>gate</code>. Which rung fails first, what is the hint, does the fork base agree?</li>
+<li><strong>Verify:</strong> <code>from validation.validate import validate_xml</code>, <code>from validation.semantic import semantic_diagnostics</code>, <code>from validation.hints import gate</code>, with <code>src/</code> on <code>sys.path</code>.</li>
+<li><strong>Answer:</strong> <code>validate_xml</code> says valid for 4.0. <code>semantic_diagnostics</code> returns 2 <code>route-before-def</code> errors (<code>Clock</code>, <code>Spin</code>). <code>gate</code> returns <code>valid: false, stage: &quot;semantic&quot;</code> and two hints (<code>move</code> to the end of <code>Scene</code>, <code>exact</code>). The base validator reports 0 semantic errors.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.0</code> (0509fa5bd601); base column from <code>x3d_mcp upstream 74da0ec</code>.</li>
+</ul>
+<h3 id="d-val-3-same-bytes-two-schemas">D-VAL-3 Same bytes, two schemas</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Declare <code>version=&quot;4.0&quot;</code> and add one <code>GaussianSplats</code> node (<code>positions</code>, <code>scales</code>, <code>orientations</code>, <code>opacities</code>, <code>sphericalHarmonicsDegree0Coef0</code>). Validate as written, then with <code>version=&quot;4.1&quot;</code> passed to <code>validate_xml</code>; then run <code>repair_x3d</code> and <code>exact_fix_hints(apply=true)</code> and compare what each did.</li>
+<li><strong>Verify:</strong> <code>validate_xml(text)</code>, <code>validate_xml(text, version=&quot;4.1&quot;)</code>, and the two tool functions.</li>
+<li><strong>Answer:</strong> invalid under 4.0 with a note that the node arrived in 4.1; valid forced to 4.1. <code>repair_x3d</code> raises the version to 4.1 and adds the <code>GaussianSplats</code> component at level 1. The hint loop reaches &quot;valid&quot; by deleting the node (<code>unknown-node</code>, <code>remove_element</code>).</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.0</code>, <code>X3D XSD 4.1</code>.</li>
+</ul>
+<h3 id="d-val-4-add-a-rule-then-break-it">D-VAL-4 Add a rule, then break it</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> In a scratch copy, add warning <code>invisible-material</code> for <code>Material transparency &gt;= 1</code>, with a positive and a negative test. Run every example and fixture scene through it, find the false positive, and add an exemption with a test.</li>
+<li><strong>Verify:</strong> <code>pytest tests/test_semantic.py tests/test_scene_semantics_fixtures.py</code>; a loop over <code>examples/</code>, <code>output/</code>, <code>tests/fixtures/</code> calling <code>semantic_diagnostics</code>.</li>
+<li><strong>Answer:</strong> first draft: 2 of 14 scenes hit, <code>MaterialModulator.x3d</code> (a transparent <code>Box size=&quot;8 2 .001&quot;</code> beside a <code>TouchSensor</code>: a hit area) and <code>LabScene41Faulted.x3d</code> (<code>transparency='1.2'</code>, a deliberate fault). Exempting a Shape with a pointing-device sensor among its siblings leaves 1 hit. Tests: 148 passed before, 151 after.</li>
+<li><strong>Checked:</strong> 2026-11-14 scratch copy of <code>x3d_mcp@b4efcd3</code>, pytest 9.2.0.</li>
+</ul>
+<h3 id="d-val-5-a-gate-that-rejects-accepts-and-goes-stale">D-VAL-5 A gate that rejects, accepts and goes stale</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> With loomkit <code>162ab18</code> and the fork venv, make a candidate of s00, s02 and s05; write <code>grammar</code>, <code>meaning</code> and <code>traps</code> witnesses; <code>accept</code> against a profile requiring all three. Then keep only s00, re-run, accept, append a comment to s00 and accept again.</li>
+<li><strong>Verify:</strong> <code>python3 -m loomkit grammar|traps|accept CAND --evidence EV ...</code> from <code>kit/</code>; the fork needs <code>.venv/bin/python</code> and <code>src/</code> importable.</li>
+<li><strong>Answer:</strong> first accept: <code>WITNESS_NOT_PASS grammar: fail</code>, exit 1 (traps: 2 <code>route-before-def</code>; grammar: 1 XSD error on s02; meaning fail). s00 alone: <code>accepted</code>, grades <code>C</code>, <code>visible_not_run: [&quot;eyes&quot;]</code>. After the edit: <code>STALE_WITNESS grammar</code>. If the fork venv cannot import <code>validation</code>, grammar exits 2 with <code>InstrumentError</code>, never 0.</li>
+<li><strong>Checked:</strong> 2026-11-14 loomkit <code>162ab18</code>, <code>x3d_mcp fork b4efcd3</code>.</li>
+</ul>
+<h3 id="d-val-6-the-conformance-suite-without-blender">D-VAL-6 The conformance suite, without Blender</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> How many cases are in the x3d-blender-io catalogue, how many CORE, what does the last recorded CORE scoreboard say, and is &quot;148/148&quot; recorded?</li>
+<li><strong>Verify:</strong> count tier cells in <code>docs/test-suite/x3d_case_catalog.md</code>; parse the <code>DATA</code> object in the three reports under <code>docs/test-suite/reports/</code>; run <code>validate_x3d_export.py --selftest</code>.</li>
+<li><strong>Answer:</strong> 195 cases, 148 CORE, 21 FIDELITY, 26 ROADMAP. Recorded CORE: 143 pass 4 fail, then 147 / 147 (194-case scene). No 148/148 report exists. The self-test passes 27 checks.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d-blender-io@ab99988</code>, Python 3.13.18.</li>
+</ul>
+<h3 id="d-val-7-what-not-checkable-looks-like">D-VAL-7 What &quot;not checkable&quot; looks like</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Build a document with one <code>GaussianSplats</code> attribute of about 11.7 MB of numbers and validate it. Which keys say the result is not a verdict?</li>
+<li><strong>Verify:</strong> <code>validate_xml(text)</code>; read <code>checked</code>, <code>verdict</code>, <code>oversize</code>.</li>
+<li><strong>Answer:</strong> <code>valid: false</code>, <code>checked: false</code>, <code>verdict: &quot;not-checkable-at-this-size&quot;</code>; the error names libxml2's 10,000,000-byte start-tag limit and <code>X3D_MCP_XML_HUGE=on</code> as the opt-in; 1,763 ms.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code>, libxml2 2.14.6.</li>
+</ul>
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li><strong>R6 was not run.</strong> <code>render_image</code> needs Playwright and Chromium. <strong><span class="g C" title="Confirmed">C</span></strong> that no R2 to R5 rung fires on s12; <strong><span class="g S" title="Suspected">S</span></strong> on how it looks.</li>
+<li><strong>Sixteen scenes, one author.</strong> They show the ladder's shape, not a defect distribution.</li>
+<li><strong>Rule counts depend on a definition.</strong> I count 51 ids in <code>semantic.py</code>; the masterclass's 62 at <code>13121b6</code> is a differently defined number I could not rebuild. The code supports 51/53/72 under stated definitions; the 62 is <strong><span class="g L" title="Likely">L</span></strong>.</li>
+<li><strong>Docs versus re-run.</strong> The repo doc's exact-fix figures (96.9% after, 15.0% before) differ from my re-run (96.7%, 14.1%). The re-run is tied to a commit; the doc column is <strong><span class="g L" title="Likely">L</span></strong>.</li>
+<li><strong>loomkit scope.</strong> I ran <code>traps</code>, <code>grammar</code>, <code>accept</code> and the controls. I read but did not run <code>receipt</code>, <code>sweep</code>, <code>physics</code>, <code>hepevent</code>, <code>sci</code>, <code>play</code>, <code>foldback</code>, <code>metalsite</code>, <code>picture</code>.</li>
+<li><strong>The pin tag</strong> <code>loom-pin-2026-11-01</code> is named in the loom docs; the checkout has no tags, so whether it exists upstream is <strong><span class="g S" title="Suspected">S</span></strong>.</li>
+<li><strong>Blender suite not re-run</strong> (no Blender): 147/147 is recorded, 148/148 is not.</li>
+<li><strong>One interpreter, one libxml2 build</strong> (the rig line); others were not tried.</li>
+<li><strong>Cross-file references</strong> (Inline, ExternProto, textures) were not probed.</li>
+<li><strong>Warm timings are repeat-call medians;</strong> cold costs are the 1.4 to 1.5 s schema compile and about 50 ms for the first semantic call.</li>
+</ul>
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-VAL-1</td>
+<td>distinct rule ids in <code>semantic.py</code></td>
+<td>51</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, Python <code>ast</code></td>
+<td>x3d_mcp@b4efcd3:src/validation/semantic.py</td>
+</tr>
+<tr>
+<td>N-VAL-2</td>
+<td>same, at the fork base</td>
+<td>19 ids, 10 check functions, 24 report sites</td>
+<td>C</td>
+<td><code>x3d_mcp upstream 74da0ec</code>, Python <code>ast</code></td>
+<td>x3d_mcp@74da0ec:src/validation/semantic.py</td>
+</tr>
+<tr>
+<td>N-VAL-3</td>
+<td>rule ids across semantic, splat arrays, splat inspector</td>
+<td>72 (51 + 2 + 19)</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, Python <code>ast</code></td>
+<td>x3d_mcp@b4efcd3:src/validation/{semantic,splat_arrays}.py, src/transfer/inspect_splats.py</td>
+</tr>
+<tr>
+<td>N-VAL-4</td>
+<td>hint rule ids and edit operations</td>
+<td>19 and 10</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, regex and <code>ast</code></td>
+<td>x3d_mcp@b4efcd3:src/validation/hints.py</td>
+</tr>
+<tr>
+<td>N-VAL-5</td>
+<td>full test suite</td>
+<td>1,367 passed, 27 skipped, 1,394 collected, 104 s</td>
+<td>C</td>
+<td>pytest 9.2.0, Python 3.13.18, no Chromium</td>
+<td>x3d_mcp@b4efcd3:tests/</td>
+</tr>
+<tr>
+<td>N-VAL-6</td>
+<td>concrete nodes in X3DUOM 4.0 and 4.1</td>
+<td>260 and 267; 7 only in 4.1</td>
+<td>C</td>
+<td><code>X3DUOM 4.1</code> (4fc10e8e15c0), <code>X3DUOM 4.0</code> (7e426a238656)</td>
+<td>x3d_mcp@b4efcd3:src/validation/schemas/X3dUnifiedObjectModel-4.{0,1}.xml</td>
+</tr>
+<tr>
+<td>N-VAL-7</td>
+<td>XSD cold compile</td>
+<td>1,456 ms (4.0), 1,547 ms (4.1)</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, libxml2 2.14.6, 4 vCPU 2.30 GHz</td>
+<td>scratch timing run, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-VAL-8</td>
+<td>warm repeat-call median, 12-line scene</td>
+<td>0.022 ms XSD, 0.314 ms semantic, 0.371 ms gate</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, 300 runs each</td>
+<td>scratch timing run, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-VAL-9</td>
+<td>faulty scenes passing the XSD, and carrying a semantic error</td>
+<td>8 of 15, and 6 of those 8</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>15 scratch scenes, section 4</td>
+</tr>
+<tr>
+<td>N-VAL-10</td>
+<td>hint loop on the 13 invalid scenes</td>
+<td>10 end valid, 2 of them by deleting a node, 3 not fixed</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code> <code>exact_fix_hints(apply=true)</code></td>
+<td>scratch run, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-VAL-11</td>
+<td>exact-fix evaluation re-run</td>
+<td>540 cases, 577 errors; 14.1% before, 96.7% after, 49.6% seed-exact, 2.8% by removal</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, seed 20261029</td>
+<td>x3d_mcp@b4efcd3:evaluation/exact_fix_eval.py</td>
+</tr>
+<tr>
+<td>N-VAL-12</td>
+<td>exact-fix numbers in the docs</td>
+<td>96.9% after, 15.0% before, 47.6% seed-exact (570 errors)</td>
+<td>L</td>
+<td>stated in the repo, not re-derived at its commit</td>
+<td>x3d_mcp@b4efcd3:docs/EXACT-FIX-HINTS.md</td>
+</tr>
+<tr>
+<td>N-VAL-13</td>
+<td>oversize verdict</td>
+<td>11,700,036-byte start tag, <code>checked: false</code>, 1,763 ms</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.1</code></td>
+<td>scratch probe, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-VAL-14</td>
+<td>loomkit controls</td>
+<td>82 negative controls, 15 trap rules, 8 page-trap rules, 10 page forms, both <code>-O</code> modes, 3.8 s</td>
+<td>C</td>
+<td>loomkit <code>162ab18</code></td>
+<td>x3d.loom@162ab18:kit/tests/test_gates.py</td>
+</tr>
+<tr>
+<td>N-VAL-15</td>
+<td>loomkit sub-commands</td>
+<td>17</td>
+<td>C</td>
+<td>loomkit <code>162ab18</code>, read</td>
+<td>x3d.loom@162ab18:kit/loomkit/cli.py</td>
+</tr>
+<tr>
+<td>N-VAL-16</td>
+<td>recorded grammar witnesses per validator pin</td>
+<td>fa0b389: 15; 327c5c4: 4; 13121b6: 1; none: 4 (24 total)</td>
+<td>C</td>
+<td>loomkit <code>162ab18</code> evidence records</td>
+<td>x3d.loom@162ab18:runs/*/evidence/grammar.json</td>
+</tr>
+<tr>
+<td>N-VAL-17</td>
+<td>blender-io catalogue</td>
+<td>195 cases: 148 CORE, 21 FIDELITY, 26 ROADMAP</td>
+<td>C</td>
+<td><code>x3d-blender-io@ab99988</code> catalogue</td>
+<td>x3d-blender-io@ab99988:docs/test-suite/x3d_case_catalog.md</td>
+</tr>
+<tr>
+<td>N-VAL-18</td>
+<td>blender-io recorded CORE scoreboard</td>
+<td>143 pass 4 fail, then 147 / 147 (194-case scene)</td>
+<td>C</td>
+<td>recorded reports parsed; Blender 5.2.2 and 5.1.0, add-on v2.6.1</td>
+<td>x3d-blender-io@ab99988:docs/test-suite/reports/</td>
+</tr>
+<tr>
+<td>N-VAL-19</td>
+<td>blender-io &quot;148/148&quot;</td>
+<td>not recorded</td>
+<td>S</td>
+<td>not run (no Blender here)</td>
+<td>x3d-blender-io@ab99988:docs/test-suite/SUITE_COMMENTARY.md</td>
+</tr>
+<tr>
+<td>N-VAL-20</td>
+<td>new rule scratch patch</td>
+<td>tests 148 to 151 passed; false positives 2 to 1 of 14 scenes</td>
+<td>C</td>
+<td>scratch copy of <code>x3d_mcp fork b4efcd3</code></td>
+<td>scratch patch, section 10</td>
+</tr>
+<tr>
+<td>N-VAL-21</td>
+<td>masterclass rule count at <code>13121b6</code></td>
+<td>62 (definition not recoverable)</td>
+<td>L</td>
+<td>stated in the teardown; not reproduced</td>
+<td>x3d.docs@f172f67:docs/x3d_mcp/MASTERCLASS.md</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<ul>
+<li><code>x3d_mcp@b4efcd3</code> (Merge PR #17, 2026-11-13): <code>src/validation/{validate,semantic,hints,repair,splat_arrays,oversize,listvalues}.py</code>, <code>src/tools/validate_tool.py</code>, <code>src/validation/schemas/*</code>, <code>docs/EXACT-FIX-HINTS.md</code>, <code>docs/ROUTE-COLOUR-HANIM-CHECKS.md</code>, <code>evaluation/exact_fix_eval.py</code>, <code>tests/</code>. Compared against <code>74da0ec</code> (upstream main, 2026-08-05), <code>fa0b389</code>, <code>788041c</code>, <code>327c5c4</code>, <code>13121b6</code> by <code>git log</code>, <code>git show</code> and <code>git diff</code>.</li>
+<li><code>x3d.loom@162ab18</code>: <code>kit/loomkit/{core,cli,grammar,accept,receipt,sweep,traps,pagetraps}.py</code>, <code>kit/tests/test_gates.py</code>, <code>GLOSSARY.md</code>, <code>LOOM-v1.md</code>, <code>runs/*/evidence/grammar.json</code>.</li>
+<li><code>x3d-blender-io@ab99988</code>: <code>tests/suite/</code>, <code>docs/test-suite/</code> (catalogue, commentary, three HTML reports).</li>
+<li><code>x3d.docs@f172f67</code>: <code>docs/x3d_mcp/MASTERCLASS.md</code> (rule table, PR table), <code>docs/x_ite/MASTERCLASS.md</code> (X_ITE-only node types).</li>
+<li>Re-run on 2026-11-14 in a scratch virtualenv: AST rule and tool counts, sixteen scenes through every rung, base-versus-head comparison, <code>repair_x3d</code> and <code>exact_fix_hints</code> across the corpus, the exact-fix evaluation, the full test suite, the oversize probe, loomkit traps, grammar, accept and controls, the blender-io self-test and report parsing, and a scratch rule patch.</li>
+<li>Not re-derived: the 62-rule figure, the pin tag's existence, any Blender run, the render rung. Some older commit names appear in private working notes and are listed in the pin register as unverified uses only. Claims about private data, unpublished material and upstream reports are not made here.</li>
+<li>Siblings: <a href="01-the-tether.html">01 The tether</a>, <a href="02-loom-laws.html">02 Loom laws</a>, <a href="04-mcp-for-agents.html">04 MCP for agents</a>, <a href="05-semantic-layer.html">05 Semantic layer</a>, <a href="06-xite-the-oracle.html">06 X_ITE, the oracle</a>, <a href="10-blender-pipeline.html">10 Blender pipeline</a>.</li>
+</ul>
+<div class="pn"><a href="02-loom-laws.html">&larr; 02-loom-laws</a><a href="04-mcp-for-agents.html">04-mcp-for-agents &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

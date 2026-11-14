@@ -1,0 +1,1290 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>04. x3d_mcp as the agent interface · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a class="cur" href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="04-mcp-for-agents.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/04-mcp-for-agents.md">GitHub</a></div><h1>04. x3d_mcp as the agent interface</h1>
+<details class="toc"><summary>On this page (22 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-what-the-server-says-on-connect">2. What the server says on connect</a><a class="l2" href="#3-json-in-json-out-and-where-it-is-not">3. JSON in, JSON out, and where it is not</a><a class="l2" href="#4-the-transfer-layer-measured">4. The transfer layer, measured</a><a class="l2" href="#5-guards">5. Guards</a><a class="l2" href="#6-the-accountability-playground-what-the-docs-say-read-not-run">6. The Accountability Playground (what the docs say, read not run)</a><a class="l2" href="#7-task-to-tool-with-the-cost-of-each-answer">7. Task to tool, with the cost of each answer</a><a class="l2" href="#8-a-reproducible-transcript-without-an-mcp-client">8. A reproducible transcript, without an MCP client</a><a class="l2" href="#9-safe-and-unsafe-usage">9. Safe and unsafe usage</a><a class="l2" href="#10-measured-and-claimed-agent-benefit">10. Measured and claimed agent benefit</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-mcp-1-count-the-surface-three-ways">D-MCP-1 Count the surface three ways</a><a class="l3" href="#d-mcp-2-price-a-session-before-it-starts">D-MCP-2 Price a session before it starts</a><a class="l3" href="#d-mcp-3-edit-a-big-scene-twice-once-by-value-and-once-by-name">D-MCP-3 Edit a big scene twice, once by value and once by name</a><a class="l3" href="#d-mcp-4-trip-each-sparql-guard">D-MCP-4 Trip each SPARQL guard</a><a class="l3" href="#d-mcp-5-what-does-path-reach">D-MCP-5 What does path= reach</a><a class="l3" href="#d-mcp-6-forge-a-ledger">D-MCP-6 Forge a ledger</a><a class="l3" href="#d-mcp-7-do-it-through-a-real-client">D-MCP-7 Do it through a real client</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> x3d_mcp gives a model 53 callable tools whose answers are small, structured and checkable, tells it the canonical path on connect, and keeps big documents and hostile queries out of its context with guards that live in the tool, not in the prompt. <strong><span class="g C" title="Confirmed">C</span></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>MCP</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="03-validator-and-gates.html">03 The validator and the gates</a> (the rungs these tools wrap); <a href="01-the-tether.html">01 The tether</a></td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>list the tool families and say which tools exist on a given transport; pick the tool for a task and predict how many bytes come back; move a 10 MB scene through the server without pasting it; read a guard refusal; reproduce a tool transcript without an MCP client; say which agent-benefit claims are measured and which are only stated</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td>x3d_mcp@b4efcd3:src/server.py, src/tools/<em>.py, src/transfer/</em>.py, src/x3d_utils/ontology_guard.py, README.md, docs/transfer-layer.md, docs/splats.md, docs/playground/ARCHITECTURE.md, docs/EXACT-FIX-HINTS.md, tests/; x3d.docs@f172f67:docs/x3d_mcp/MASTERCLASS.md</td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td><code>x3d_mcp fork b4efcd3</code>; <code>x3d_mcp upstream 74da0ec</code> (tools/list size only); <code>mcp</code> 1.30.0 (FastMCP, in process); <code>X3D XSD 4.0</code>, <code>X3D XSD 4.1</code>; Python 3.13.18; lxml 6.1.3 (libxml2 2.14.6); software only (4 vCPU Intel Xeon 2.30 GHz, no GPU)</td>
+</tr>
+</tbody>
+</table>
+<p>Rig for every number marked <strong><span class="g C" title="Confirmed">C</span></strong>: a fresh virtualenv installed from the ranges in the repo's <code>pyproject.toml</code> (<code>mcp&gt;=1.29,&lt;2</code> resolved to 1.30.0; <code>x3d</code> 4.0.65.8, <code>rdflib</code> 7.6.0, <code>pyshacl</code> 0.40.2, <code>numpy</code> 2.5.4, <code>zstandard</code> 0.25.0, <code>brotli</code> 1.2.1), 2026-11-14, source checkouts read-only. <strong>No MCP client was used.</strong> Tools were called as Python functions through a stand-in that records what <code>register(mcp)</code> decorates (section 8), and the list sizes came from FastMCP's own <code>list_tools()</code>. Nothing that costs money or needs a model, GPU or browser was run.</p>
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text">   MCP client (a model's host)
+        |  stdio (default)             or          streamable-http  /mcp  (+ /blob)
+        v                                                  v
+   +--------------------- src/server.py (FastMCP &quot;x3d-mcp&quot;) ---------------------+
+   |  INSTRUCTIONS: the path, the traps, blob and splat paragraphs (conditional)  |
+   |  12 register(mcp) calls, plus blob tools and splat tools when enabled        |
+   +----+----------+----------+----------+----------+----------+----------+------+
+        |          |          |          |          |          |          |
+     workflow   granular    query     validate   scene_ops  semantics   transfer
+     3 tools    9 tools    4 tools    6 tools    3 tools    5 tools     4 tools
+        |          |          |          |          |          |          |
+        +----------+----------+----+-----+----------+----------+----------+
+                                    v
+     validation/ (rungs of chapter 03)   x3d_utils/ (X3DUOM, ontology)   transfer/
+     7 of 13 tool families drawn; the table below lists all
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>family (module)</th>
+<th>tools</th>
+<th>n</th>
+<th>returns</th>
+<th>note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>validate (<code>validate_tool</code>)</td>
+<td><code>validate_x3d</code>, <code>validate_semantic</code>, <code>validate_current_scene</code>, <code>autofix_x3d</code>, <code>repair_x3d</code>, <code>exact_fix_hints</code></td>
+<td>6</td>
+<td>JSON; <code>validate_semantic</code> is markdown by default</td>
+<td>the rungs of <a href="03-validator-and-gates.html">chapter 03</a></td>
+</tr>
+<tr>
+<td>granular</td>
+<td><code>create_node</code>, <code>set_field</code>, <code>add_child</code>, <code>add_route</code>, <code>def_node</code>, <code>use_node</code>, <code>remove_node</code>, <code>get_scene</code>, <code>reset_scene</code></td>
+<td>9</td>
+<td>text</td>
+<td>an in-memory scene per session</td>
+</tr>
+<tr>
+<td>workflow</td>
+<td><code>create_scene</code>, <code>create_geometry</code>, <code>compose_scene</code></td>
+<td>3</td>
+<td>X3D text (xml, json or vrml)</td>
+<td>512 B for one box</td>
+</tr>
+<tr>
+<td>query</td>
+<td><code>list_nodes</code>, <code>describe_node</code>, <code>list_components</code>, <code>list_profiles</code></td>
+<td>4</td>
+<td>JSON</td>
+<td><code>describe_node('Material')</code> is 21,310 chars</td>
+</tr>
+<tr>
+<td>scene_ops</td>
+<td><code>modify_x3d_node</code>, <code>remove_x3d_node</code>, <code>move_x3d_node</code></td>
+<td>3</td>
+<td>document or envelope</td>
+<td>take <code>blob_id</code> and <code>return_mode</code></td>
+</tr>
+<tr>
+<td>animate</td>
+<td><code>animate_x3d_node</code>, <code>add_x3d_route</code>, <code>x3d_animation_info</code></td>
+<td>3</td>
+<td>text</td>
+<td></td>
+</tr>
+<tr>
+<td>convert</td>
+<td><code>convert_x3d</code>, <code>x3d_generation_schema</code></td>
+<td>2</td>
+<td>document or envelope</td>
+<td><code>x3d_generation_schema</code> came in PR #12 (masterclass)</td>
+</tr>
+<tr>
+<td>render</td>
+<td><code>x3dom_page</code>, <code>render_image</code>, <code>render_current_scene</code>, <code>x3dom_starter</code></td>
+<td>4</td>
+<td>HTML or PNG</td>
+<td><code>render_image</code> needs Playwright and Chromium (optional extra)</td>
+</tr>
+<tr>
+<td>semantics</td>
+<td><code>query_ontology</code>, <code>query_ontology_page</code>, <code>node_parents</code>, <code>describe_ontology_term</code>, <code>where_can_place</code></td>
+<td>5 (+2 resources)</td>
+<td>JSON</td>
+<td>guarded SPARQL</td>
+</tr>
+<tr>
+<td>semantic_web</td>
+<td><code>scene_to_rdf</code>, <code>sparql_scene</code>, <code>shacl_validate</code>, <code>rdf_infer</code>, <code>ontology_vs_gate</code></td>
+<td>5</td>
+<td>JSON</td>
+<td><a href="05-semantic-layer.html">chapter 05</a></td>
+</tr>
+<tr>
+<td>claims</td>
+<td><code>claim_append</code>, <code>claims_page</code>, <code>claims_verify</code></td>
+<td>3</td>
+<td>JSON</td>
+<td>hash-chained ledger</td>
+</tr>
+<tr>
+<td>splats</td>
+<td><code>splat_inspect</code>, <code>splat_chunk</code></td>
+<td>2</td>
+<td>JSON</td>
+<td>needs numpy; over HTTP needs the blob store</td>
+</tr>
+<tr>
+<td>transfer</td>
+<td><code>blob_put</code>, <code>blob_info</code>, <code>blob_read</code>, <code>blob_delete</code></td>
+<td>4</td>
+<td>JSON</td>
+<td>registered only when the store is on</td>
+</tr>
+<tr>
+<td><strong>total</strong></td>
+<td></td>
+<td><strong>53</strong></td>
+<td></td>
+<td>prompts 5, resources 2</td>
+</tr>
+</tbody>
+</table>
+<p>Counted three ways at <code>b4efcd3</code>, <strong><span class="g C" title="Confirmed">C</span></strong>: Python <code>ast</code> over the <code>@mcp.tool</code> decorators (53 tools, 5 prompts, 2 resources), a run of every <code>register(mcp)</code> against a recording stand-in (53, 5, 2), and FastMCP <code>list_tools()</code> on the real server module (53 tools, 5 prompts, 1 resource, 1 resource template). The five prompts are <code>build_scene</code>, <code>audit_scene</code>, <code>semantic_audit</code>, <code>animate_scene</code>, <code>convert_to_x3dom</code>. The resources are <code>x3d-ontology://turtle</code> and the template <code>x3d-ontology://placement/{child}</code>. <a href="../x3d_mcp/MASTERCLASS.html">The x3d_mcp masterclass</a> counts 48 <code>@mcp.tool</code> at <code>13121b6</code> and 34 at the fork base; the five semantic-web tools landed after its snapshot (48 + 5 = 53 at <code>b4efcd3</code>, <strong><span class="g L" title="Likely">L</span></strong> for the earlier snapshot, which I did not re-run).</p>
+<p><strong>Which tools exist depends on the transport</strong>, <strong><span class="g C" title="Confirmed">C</span></strong> (real <code>FastMCP</code> list, <code>MCP_TRANSPORT</code> and <code>X3D_MCP_BLOB_TOKEN</code> varied):</p>
+<table>
+<thead>
+<tr>
+<th>configuration</th>
+<th>tools</th>
+<th><code>tools/list</code> bytes (compact JSON)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stdio (default)</td>
+<td>53</td>
+<td>64,426</td>
+</tr>
+<tr>
+<td>streamable-http with <code>X3D_MCP_BLOB_TOKEN</code> (32+ chars)</td>
+<td>53</td>
+<td>64,426</td>
+</tr>
+<tr>
+<td>streamable-http, no token</td>
+<td><strong>47</strong> (no blob tools, no splat tools)</td>
+<td>56,205</td>
+</tr>
+<tr>
+<td>fork base <code>74da0ec</code></td>
+<td>34 (4 prompts, no resources)</td>
+<td>28,075</td>
+</tr>
+</tbody>
+</table>
+<p>The instructions follow the same switch: 3,353 characters over HTTP without a token (no large-scene or splat block, because there is no store to name a file in), 4,692 on stdio or with a token. A client that expects <code>blob_put</code> on an HTTP server started without a token will not find it, and will not be told to look.</p>
+<p><strong>In scope:</strong> the tool surface, its transfer layer and guards, and how a model should drive it. <strong>Out of scope:</strong> the validator rules themselves (<a href="03-validator-and-gates.html">03</a>), ontology and SHACL semantics (<a href="05-semantic-layer.html">05</a>), Playwright rendering (<a href="06-xite-the-oracle.html">06</a>).</p>
+<p><strong>Read next:</strong> deeper, <a href="03-validator-and-gates.html">03 The validator and the gates</a> for what the validate tools run, with <code>x3d_mcp@b4efcd3:docs/transfer-layer.md</code> for the byte layer; wider, <a href="05-semantic-layer.html">05 Semantic layer</a>.</p>
+<h2 id="2-what-the-server-says-on-connect">2. What the server says on connect</h2>
+<p><code>server.py</code> hands the client an <code>instructions</code> string. It is the one piece of prompting the server controls, so it is worth reading as a contract. Its structure, <strong><span class="g C" title="Confirmed">C</span></strong> (read):</p>
+<table>
+<thead>
+<tr>
+<th>block</th>
+<th>content</th>
+<th>when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>THE PATH</td>
+<td>1 LOOK UP (<code>describe_node</code>, <code>list_nodes</code>; &quot;never guess field or containerField names&quot;); 2 BUILD; 3 VALIDATE &quot;always BOTH&quot; <code>validate_x3d</code> and <code>validate_semantic</code>; 4 RENDER and look; &quot;a scene is not finished until validate_semantic is clean AND you have rendered it&quot;</td>
+<td>always</td>
+</tr>
+<tr>
+<td>MEANING, NOT ONLY SYNTAX</td>
+<td><code>scene_to_rdf</code>, <code>sparql_scene</code>, <code>shacl_validate</code>, <code>claim_append</code>; &quot;The ontology proposes, the shapes dispose, the validators gate: an ontology answer is never a validity verdict&quot;</td>
+<td>always</td>
+</tr>
+<tr>
+<td>NON-OBVIOUS RULES</td>
+<td>containerField defaults only fit the usual parent; DEF before USE; ROUTE types and access types must match</td>
+<td>always</td>
+</tr>
+<tr>
+<td>LARGE SCENES, SPLATS AND DATA FILES</td>
+<td>never paste over about 100 KB; use <code>path=</code> (stdio) or <code>PUT /blob</code> (HTTP) then <code>blob_id=</code>; <code>return_mode=&quot;summary&quot;</code> or <code>&quot;blob&quot;</code></td>
+<td>blob store on</td>
+</tr>
+<tr>
+<td>GAUSSIAN SPLATS</td>
+<td>a splat scene is 5 to 65 MB; one node validates only to roughly 75,000 to 100,000 splats (libxml2's 10 MB start-tag limit); <code>splat_inspect</code> then <code>splat_chunk</code></td>
+<td>numpy present and (store on or stdio)</td>
+</tr>
+</tbody>
+</table>
+<p>Size, <strong><span class="g C" title="Confirmed">C</span></strong> (<code>len(mcp.instructions)</code> on the real server module): 2,212 characters at <code>74da0ec</code>; at <code>b4efcd3</code> 3,353 over HTTP without a token and 4,692 on stdio. Together with the tool list that is what every session pays before the first call: 28,075 B of <code>tools/list</code> at base, 64,426 B at head (+36,351 B for 19 more tools; the five largest schemas are <code>splat_chunk</code> 3,681 B, <code>x3d_generation_schema</code> 2,461, <code>shacl_validate</code> 2,401, <code>repair_x3d</code> 2,338 and <code>scene_to_rdf</code> 2,276, together 13,157 B or 20 % of the head figure). Bytes, not tokens: I did not tokenise.</p>
+<p>The prompts encode the same path as a script. The base registers four prompts; <code>semantic_audit(content, focus)</code> is the one added since. <code>audit_scene</code> and <code>build_scene</code> are the entry points for &quot;check this&quot; and &quot;make this&quot;.</p>
+<h2 id="3-json-in-json-out-and-where-it-is-not">3. JSON in, JSON out, and where it is not</h2>
+<p>The repo's own doc says tools take <code>content: str</code> and return strings. In practice there are four reply shapes:</p>
+<table>
+<thead>
+<tr>
+<th>shape</th>
+<th>tools</th>
+<th>example size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JSON object</td>
+<td><code>validate_x3d</code>, <code>autofix_x3d</code>, <code>repair_x3d</code>, <code>exact_fix_hints</code>, all <code>query_*</code>/<code>describe_*</code>/<code>list_*</code>, ontology, claims, blob, splat, semantic-web</td>
+<td><code>validate_x3d</code> on a clean scene: 62 B</td>
+</tr>
+<tr>
+<td>markdown report</td>
+<td><code>validate_semantic</code> (default <code>return_mode=&quot;full&quot;</code>), <code>validate_current_scene</code> (markdown plus an embedded JSON block)</td>
+<td>242 B for a clean scene with one info line</td>
+</tr>
+<tr>
+<td>document text</td>
+<td><code>create_*</code>, <code>compose_scene</code>, <code>modify_x3d_node</code> and friends in <code>full</code> mode</td>
+<td>512 B for one box</td>
+</tr>
+<tr>
+<td>envelope</td>
+<td>any tool with <code>return_mode=&quot;summary&quot;</code> or <code>&quot;blob&quot;</code></td>
+<td>539 B for a one-error summary</td>
+</tr>
+</tbody>
+</table>
+<p>The envelope has a fixed head: <code>{&quot;return_mode&quot;, &quot;source&quot;, &quot;input&quot;: {&quot;sha256&quot;, &quot;bytes&quot;}, ...}</code>, then tool-specific keys, then <code>document: {sha256, bytes, media_type, nodes, node_types, blob_id?, stored_size?}</code> for tools that return a document. Lists are capped at <code>X3D_MCP_SUMMARY_ITEMS</code> (200) with <code>&lt;name&gt;_total</code> and <code>&lt;name&gt;_truncated</code> beside them.</p>
+<p>Every document-taking tool accepts exactly one of <code>content</code>, <code>path</code> or <code>blob_id</code>; the error for none or two is returned as JSON or a markdown &quot;Input Error&quot;, not raised. Errors are data: <code>{&quot;error&quot;: &quot;Query refused: ...&quot;}</code>, <code>{&quot;valid&quot;: false, &quot;errors&quot;: [...]}</code>. A caller that parses only success shapes will miss them.</p>
+<p>One protocol detail from the repo docs (<strong><span class="g L" title="Likely">L</span></strong>, not re-measured): a <code>-&gt; str</code> tool is sent twice (<code>content[].text</code> and <code>structuredContent.result</code>), so a 10 MB result is 20 MB on the wire; the four blob tools and the three claims tools are registered with <code>structured_output=False</code> (<strong><span class="g C" title="Confirmed">C</span></strong>, read of the decorators).</p>
+<h2 id="4-the-transfer-layer-measured">4. The transfer layer, measured</h2>
+<p><strong>Why it exists, <span class="g C" title="Confirmed">C</span>.</strong> <code>mcp</code> 1.30.0 refuses a request body over 4 MiB: <code>DEFAULT_MAX_REQUEST_BODY_SIZE = 4 * 1024 * 1024</code> and a <code>413 &quot;Request body too large&quot;</code> in <code>server/transport_security.py</code> (read in the installed package; I did not exercise it over a socket). Any scene over 4 MiB cannot be a <code>content</code> argument over HTTP. The fix is to name documents by id.</p>
+<pre><code class="language-text">  by value                                   by name
+  --------                                   -------
+  model --10 MB content--&gt; modify_x3d_node   upload once: blob_put(path=...) or PUT /blob
+  model &lt;--10 MB document-- modify_x3d_node  model --blob_id--&gt; modify_x3d_node(blob)
+  (repeated per edit, both ways)             model &lt;-- {changes, document:{sha256, blob_id}}
+                                             (about 1 KB per edit)
+</code></pre>
+<p><strong>Before and after, reproducible.</strong> A synthetic scene: 40,000 <code>Transform</code>/<code>Shape</code>/<code>Box</code> nodes, 6,505,087 B (sha256 prefix <code>6e0a70454d0f</code>), built by a 12-line generator. Ten <code>modify_x3d_node</code> edits (<code>translation</code> of <code>n0</code> to <code>n9</code>), called in process, counting the UTF-8 bytes of the arguments sent and of the string returned, <strong><span class="g C" title="Confirmed">C</span></strong>:</p>
+<table>
+<thead>
+<tr>
+<th>path</th>
+<th>bytes sent</th>
+<th>bytes returned</th>
+<th>total</th>
+<th>wall time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>inline <code>content</code>, <code>return_mode=&quot;full&quot;</code></td>
+<td>87,011,328</td>
+<td>89,451,090</td>
+<td><strong>176,462,418</strong></td>
+<td>1.8 s</td>
+</tr>
+<tr>
+<td><code>blob_put(path=...)</code> once, then <code>blob_id</code> with <code>return_mode=&quot;blob&quot;</code></td>
+<td>947</td>
+<td>9,902</td>
+<td><strong>10,849</strong></td>
+<td>4.0 s</td>
+</tr>
+</tbody>
+</table>
+<p>A ratio of about 16,300 to 1 in bytes crossing the tool boundary, and the blob path is slower in wall time (4.0 s against 1.8 s, in process, no network): the docs put the cost in hashing, compression and a worker thread; I did not profile it. The first edit re-serialises the document indented, so a 6,505,087 B input becomes an 8,945,109 B output; <code>modify_x3d_node</code> does not preserve formatting. <code>blob_put</code> stored the scene as zstd in 100,091 B (65 to 1); that ratio is a property of a highly repetitive synthetic scene and says nothing about real ones (the repo doc reports 25 to 1 for zstd level 3 on a real 10.9 MB scene, <strong><span class="g L" title="Likely">L</span></strong>, not re-run).</p>
+<p>Summaries are small, not always tiny, <strong><span class="g C" title="Confirmed">C</span></strong>: <code>validate_x3d(blob_id, return_mode=&quot;summary&quot;)</code> on the 8.9 MB blob answered in 320 B; <code>validate_semantic(..., &quot;summary&quot;)</code> answered in 47,537 B because the scene has 40,000 <code>unused-def</code> info findings; the list is capped at 200 items and the counts per check sit in <code>by_check</code>.</p>
+<p><strong>Splat chunking, measured.</strong> A synthetic 3DGS-style PLY (200,000 splats, 11,200,362 B, random values, seed 20261114), on <code>x3d_mcp fork b4efcd3</code>, <strong><span class="g C" title="Confirmed">C</span></strong>:</p>
+<table>
+<thead>
+<tr>
+<th>step</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>splat_inspect(path=...)</code></td>
+<td>3,310 B answer in 0.17 s; verdict <code>ok</code> with two info reasons: &quot;200,000 splats do not fit one validatable GaussianSplats node (61,062 at these digits): use splat_chunk (4 chunks at minimum)&quot; and a coordinate-frame note recommending <code>coordinate_system='rdf'</code> for a y-down training file</td>
+</tr>
+<tr>
+<td><code>splat_chunk(path=..., target=50000, out_dir=..., validate=True)</code></td>
+<td>2,913 B answer in 4.87 s; 4 chunk files of 6.6, 6.55, 6.55, 6.5 MB plus a master scene of <code>Inline</code> nodes; every file XSD-valid, 0 semantic errors, 0 warnings (5 of 5)</td>
+</tr>
+<tr>
+<td>one node, no chunking</td>
+<td>not checkable: an 11,700,036-byte <code>GaussianSplats</code> tag returns <code>valid: false, checked: false, verdict: &quot;not-checkable-at-this-size&quot;</code> in 1,763 ms</td>
+</tr>
+</tbody>
+</table>
+<p>The 10,000,000-byte start-tag limit is libxml2's. <code>X3D_MCP_XML_HUGE=on</code> allows a bounded <code>huge_tree</code> retry; the docs name it a security trade-off (<strong><span class="g L" title="Likely">L</span></strong>) and it is off by default.</p>
+<p><strong>When the store is on</strong> (docs, confirmed by the 47/53 tool counts above): stdio, always; HTTP only with a token of 32 or more characters; <code>X3D_MCP_BLOB=on</code> over HTTP without a token is a start-up error. Defaults read from the code: largest blob 256 MiB, in-RAM budget 128 MiB, decoded blob a tool will take 96 MiB (<code>X3D_MCP_TOOL_MAX_BYTES</code>; the header comment in <code>blobs.py</code> says 64M and the code and <code>docs/transfer-layer.md</code> say 96M: the code wins). Ids are the sha256 of the bytes; the same bytes give the same id.</p>
+<h2 id="5-guards">5. Guards</h2>
+<table>
+<thead>
+<tr>
+<th>guard</th>
+<th>default</th>
+<th>real output (<code>x3d_mcp fork b4efcd3</code>, <strong><span class="g C" title="Confirmed">C</span></strong>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SPARQL: no <code>SERVICE</code></td>
+<td>on</td>
+<td><code>{&quot;error&quot;: &quot;Query refused: SERVICE is not allowed (it makes the server send HTTP requests)&quot;}</code></td>
+</tr>
+<tr>
+<td>SPARQL: no <code>FROM</code> / <code>FROM NAMED</code></td>
+<td>on</td>
+<td><code>{&quot;error&quot;: &quot;Query refused: FROM and FROM NAMED are not allowed; the ontology graph is fixed&quot;}</code></td>
+</tr>
+<tr>
+<td>SPARQL: SELECT and ASK only</td>
+<td>on</td>
+<td>an <code>INSERT DATA</code> gives <code>Query refused: SPARQL does not parse: Expected {SelectQuery | ConstructQuery | DescribeQuery | AskQuery}, found 'INSERT'</code></td>
+</tr>
+<tr>
+<td>SPARQL: size</td>
+<td>20,000 characters (<code>X3D_MCP_SPARQL_MAX_CHARS</code>)</td>
+<td>a 30,346-character query: <code>Query refused: query is 30346 characters; the limit is 20000</code></td>
+</tr>
+<tr>
+<td>SPARQL: deadline</td>
+<td>20 s (<code>X3D_MCP_SPARQL_TIMEOUT</code>)</td>
+<td>with the limit set to 1 s, a triple cross-join stopped at 1.01 s: <code>{&quot;error&quot;: &quot;query ran past 1 s and was stopped (X3D_MCP_SPARQL_TIMEOUT)&quot;}</code></td>
+</tr>
+<tr>
+<td>SPARQL: row cap</td>
+<td>20,000 (<code>X3D_MCP_ONTOLOGY_MAX_ROWS</code>)</td>
+<td>with the cap at 5: <code>&quot;count&quot;: 5, &quot;truncated&quot;: true, &quot;total&quot;: 17736</code>, pointer to <code>query_ontology_page</code></td>
+</tr>
+<tr>
+<td>node name in <code>node_parents</code></td>
+<td><code>[A-Za-z_][A-Za-z0-9_]{0,127}</code></td>
+<td><code>node_parents(&quot;Box&gt; } ; DROP&quot;)</code>: <code>Query refused: node type must be a plain name such as Sphere</code></td>
+</tr>
+<tr>
+<td><code>path=</code> over HTTP</td>
+<td>refused</td>
+<td>with <code>MCP_TRANSPORT=streamable-http</code>: <code>Path input is disabled over the HTTP transport. Provide inline X3D content instead.</code></td>
+</tr>
+<tr>
+<td>stdout hygiene</td>
+<td><code>server.py</code> swaps <code>sys.stdout</code> to stderr around its imports</td>
+<td>the <code>x3d</code> package prints a banner to stdout on import; under stdio that would corrupt the JSON-RPC stream (<code>server.py</code> lines 41 to 49, read)</td>
+</tr>
+<tr>
+<td>blob ids</td>
+<td>64 hex characters</td>
+<td>other strings are rejected before reaching the table (code and tests, read)</td>
+</tr>
+<tr>
+<td>blob upload</td>
+<td>bearer token, rate and size limits, decoded-to-wire ratio 250</td>
+<td><code>tests/test_transfer_http.py</code>: 413 before any body byte; 413 on the ratio; passes</td>
+</tr>
+<tr>
+<td>large calls</td>
+<td>worker thread at 1 MiB (<code>X3D_MCP_OFFLOAD_MIN</code>), 2 concurrent blob calls</td>
+<td>docs and code, read; the 6.7 s event-loop stall that motivated it is <strong><span class="g L" title="Likely">L</span></strong></td>
+</tr>
+</tbody>
+</table>
+<p>The whole suite on this rig, <strong><span class="g C" title="Confirmed">C</span></strong>: 1,394 tests collected, 1,367 passed, 27 skipped, 104 s (the skips are chiefly the Chromium render tests and optional-extra tests). The deadline and row-cap behaviour above is also in the suite; I re-ran the outputs, not only the tests.</p>
+<p>The guard design rule worth copying: the guard sits in the tool, parses before it executes (SPARQL is parsed to its algebra and refused on the parsed form, not by string matching), and answers with a refusal that names the setting. A model that sees &quot;limit is 20000 (X3D_MCP_SPARQL_MAX_CHARS)&quot; can repair its call; an operator can see which knob to move.</p>
+<h2 id="6-the-accountability-playground-what-the-docs-say-read-not-run">6. The Accountability Playground (what the docs say, read not run)</h2>
+<p><code>docs/playground/{ARCHITECTURE,GUIDE,ADMIN}.md</code> describe a web service in which a model writes a scene and the fork's validator judges it. It needs sign-in and model endpoints, so I did not run it. The loop, from <code>ARCHITECTURE.md</code>:</p>
+<table>
+<thead>
+<tr>
+<th>step</th>
+<th>what happens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 write</td>
+<td>a writer model streams a scene; code fences and prose are stripped</td>
+</tr>
+<tr>
+<td>2 validate</td>
+<td>XSD for the declared version, then <code>semantic_diagnostics</code>; each finding has a layer, line, check id, message, hint</td>
+</tr>
+<tr>
+<td>3 validator fixes</td>
+<td><code>repair_x3d</code> applies exact fixes only (profile, component, version) and revalidates; &quot;it never guesses&quot;</td>
+</tr>
+<tr>
+<td>4 writer repairs</td>
+<td>the writer sees its draft and the defect list, up to a repair limit</td>
+</tr>
+<tr>
+<td>5 judge</td>
+<td>a model from another family reviews draft 1 without the validator; its defects are matched to the validator's errors by line (plus or minus 1) or quoted token</td>
+</tr>
+<tr>
+<td>6 browser</td>
+<td>a sandboxed iframe renders the final scene; a blank result triggers one visibility repair</td>
+</tr>
+</tbody>
+</table>
+<p>Two facts matter for an auditor. First, the playground imports the validator in process and does not go through the MCP tool surface (<a href="../x3d_mcp/MASTERCLASS.html">the teardown</a> section 3), so it does not exercise what this chapter describes. Second, its judge compares a validator-free model review against the validator, which is the right shape for the question &quot;does the file carry the accountability, or does the model's opinion?&quot;; no numbers from it are used here.</p>
+<h2 id="7-task-to-tool-with-the-cost-of-each-answer">7. Task to tool, with the cost of each answer</h2>
+<p>The bytes below are real, <strong><span class="g C" title="Confirmed">C</span></strong> (<code>x3d_mcp fork b4efcd3</code>, in-process calls of section 8; &quot;arg B&quot; is the UTF-8 length of the argument values, &quot;out B&quot; the length of the returned string). One scene of 645 bytes was used throughout, so costs scale with the document, not with the tool. Wall times moved by up to 7 % between two runs of the transcript; byte counts matched except <code>blob_info</code> (the expiry stamp changes its digits).</p>
+<table>
+<thead>
+<tr>
+<th>task</th>
+<th>call</th>
+<th>arg B</th>
+<th>out B</th>
+<th>note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>which components exist</td>
+<td><code>list_components()</code></td>
+<td>0</td>
+<td>8,593</td>
+<td>JSON</td>
+</tr>
+<tr>
+<td>which nodes in a component</td>
+<td><code>list_nodes(component=&quot;Shape&quot;)</code></td>
+<td>5</td>
+<td>202</td>
+<td>JSON</td>
+</tr>
+<tr>
+<td>fields of a node</td>
+<td><code>describe_node(&quot;Box&quot;)</code></td>
+<td>3</td>
+<td>5,829</td>
+<td><code>describe_node(&quot;Material&quot;)</code> is 21,310 characters</td>
+</tr>
+<tr>
+<td>build a small scene from a spec</td>
+<td><code>compose_scene(objects=[...], viewpoint=...)</code></td>
+<td>83</td>
+<td>512</td>
+<td>one box, XML</td>
+</tr>
+<tr>
+<td>XSD verdict, valid</td>
+<td><code>validate_x3d(content)</code></td>
+<td>512</td>
+<td>62</td>
+<td>about 1.5 s: first load of the 4.1 schema</td>
+</tr>
+<tr>
+<td>semantic verdict, clean</td>
+<td><code>validate_semantic(content)</code></td>
+<td>512</td>
+<td>242</td>
+<td>markdown; 24 ms</td>
+</tr>
+<tr>
+<td>XSD verdict, one error</td>
+<td><code>validate_x3d(content)</code></td>
+<td>645</td>
+<td>285</td>
+<td>about 1.5 s: first load of the 4.0 schema</td>
+</tr>
+<tr>
+<td>what to change</td>
+<td><code>exact_fix_hints(content)</code></td>
+<td>645</td>
+<td>1,325</td>
+<td>one hint, <code>wrong-parent</code>, <code>move</code>, <code>choice</code></td>
+</tr>
+<tr>
+<td>change it</td>
+<td><code>exact_fix_hints(content, apply=True)</code></td>
+<td>649</td>
+<td>2,314</td>
+<td>adds <code>fixed</code>, <code>valid_after</code>, <code>applied</code>; the repaired text comes back whole</td>
+</tr>
+<tr>
+<td>profile, component, version repair</td>
+<td><code>repair_x3d(content)</code></td>
+<td>650</td>
+<td>1,174</td>
+<td><code>component Shape level 2</code></td>
+</tr>
+<tr>
+<td>park a document</td>
+<td><code>blob_put(content=...)</code></td>
+<td>652</td>
+<td>331</td>
+<td>645 B stored as 393 B zstd</td>
+</tr>
+<tr>
+<td>validate by name</td>
+<td><code>validate_x3d(blob_id, return_mode=&quot;summary&quot;)</code></td>
+<td>71</td>
+<td>539</td>
+<td></td>
+</tr>
+<tr>
+<td>edit by name</td>
+<td><code>modify_x3d_node(blob_id, ..., return_mode=&quot;summary&quot;)</code></td>
+<td>102</td>
+<td>825</td>
+<td>keys: <code>return_mode, source, ok, input, document, changes, changes_total</code></td>
+</tr>
+<tr>
+<td>blob facts</td>
+<td><code>blob_info(blob_id)</code></td>
+<td>64</td>
+<td>547 to 548</td>
+<td>size, stored size, codec, expiry, preview</td>
+</tr>
+<tr>
+<td>record a claim</td>
+<td><code>claim_append(...)</code></td>
+<td>158</td>
+<td>1,265</td>
+<td>record plus the whole ledger so far</td>
+</tr>
+<tr>
+<td>verify the ledger</td>
+<td><code>claims_verify(ledger)</code></td>
+<td>326</td>
+<td>118</td>
+<td></td>
+</tr>
+<tr>
+<td>scene as a graph</td>
+<td><code>scene_to_rdf(content, return_mode=&quot;summary&quot;)</code></td>
+<td>652</td>
+<td>1,545</td>
+<td>119 triples, 14 individuals</td>
+</tr>
+<tr>
+<td>graph against shapes</td>
+<td><code>shacl_validate(graph_id)</code></td>
+<td>16</td>
+<td>2,097</td>
+<td>1 Violation, 1 Warning; about 1.0 s</td>
+</tr>
+<tr>
+<td>where may a node go</td>
+<td><code>where_can_place(&quot;Box&quot;, limit=5)</code></td>
+<td>4</td>
+<td>802</td>
+<td></td>
+</tr>
+<tr>
+<td>a splat file</td>
+<td><code>splat_inspect(path=...)</code>, then <code>splat_chunk</code></td>
+<td></td>
+<td>3,310 / 2,913</td>
+<td>section 4, 200,000 splats</td>
+</tr>
+<tr>
+<td>a picture</td>
+<td><code>render_image</code></td>
+<td></td>
+<td></td>
+<td>read, not run: needs Playwright and Chromium</td>
+</tr>
+</tbody>
+</table>
+<p>Which way to hand the server a document is a size decision, and the server's own instructions say so:</p>
+<pre><code class="language-text">  document size           how to name it                     answer
+  ----------------------  ---------------------------------  --------------------------
+  up to about 100 KB      content=  (inline)                 full, or summary
+  100 KB to 4 MiB, stdio  path=, or blob_put then blob_id    summary or blob
+  100 KB to 4 MiB, HTTP   PUT /blob, then blob_id=           summary or blob
+  over 4 MiB, HTTP        PUT /blob only (SDK refuses body)  summary or blob
+  splat file, 5-65 MB     splat_inspect, then splat_chunk    chunk files + master scene
+  one tag over ~10 MB     cannot be one node                 not-checkable-at-this-size
+</code></pre>
+<p>The 100 KB figure is the instructions' own; the 4 MiB row is the SDK cap of section 4; the splat and start-tag rows are measured in section 4.</p>
+<h2 id="8-a-reproducible-transcript-without-an-mcp-client">8. A reproducible transcript, without an MCP client</h2>
+<p>Nothing below needs a model, a network or a browser. The point is a stranger's ability to get the same bytes. Setup, read from <code>pyproject.toml</code> (ranges) and run with the versions in the rig line:</p>
+<pre><code class="language-bash">python3 -m venv venv
+./venv/bin/pip install &quot;mcp&gt;=1.29,&lt;2&quot; &quot;x3d&gt;=4.0.65.5,&lt;5&quot; lxml xmlschema jsonschema rdflib \
+    &quot;pyshacl&gt;=0.30,&lt;1&quot; numpy zstandard brotli
+git clone &lt;x3d_mcp repository&gt; x3d_mcp &amp;&amp; git -C x3d_mcp checkout b4efcd3   # read-only use
+export X3D_MCP_SRC=$PWD/x3d_mcp/src
+</code></pre>
+<p>File one, <code>x3d_mcp_calls.py</code>. It stands in for FastMCP: each <code>register(mcp)</code> decorates plain closures, so the harness records the closures and calls them.</p>
+<pre><code class="language-python">import asyncio, importlib, inspect, json, os, sys
+sys.path.insert(0, os.environ[&quot;X3D_MCP_SRC&quot;])          # &lt;checkout&gt;/src
+
+class FakeMCP:
+    &quot;&quot;&quot;Records what each register(mcp) decorates; every other hook is a no-op.&quot;&quot;&quot;
+    def __init__(self): self.tools = {}
+    def tool(self, *a, **kw):
+        def deco(fn):
+            self.tools[kw.get(&quot;name&quot;, fn.__name__)] = fn
+            return fn
+        return deco
+    def prompt(self, *a, **kw): return lambda fn: fn
+    def resource(self, *a, **kw): return lambda fn: fn
+    def custom_route(self, *a, **kw): return lambda fn: fn
+
+MODULES = [&quot;workflow&quot;, &quot;granular&quot;, &quot;convert&quot;, &quot;query&quot;, &quot;validate_tool&quot;, &quot;render&quot;, &quot;scene_ops&quot;,
+           &quot;animate&quot;, &quot;prompts&quot;, &quot;semantics&quot;, &quot;semantic_web&quot;, &quot;claims&quot;, &quot;splats&quot;, &quot;transfer&quot;]
+
+def load():
+    mcp = FakeMCP()
+    for m in MODULES:
+        importlib.import_module(&quot;tools.&quot; + m).register(mcp)
+    return mcp
+
+async def call(mcp, tool, **kw):
+    fn = mcp.tools[tool]
+    r = fn(**kw)
+    if inspect.isawaitable(r):           # 26 of the 53 tool functions are `async def`
+        r = await r
+    return r if isinstance(r, str) else json.dumps(r)
+</code></pre>
+<p>File two, <code>transcript.py</code> (the scene is the file of chapter 03's s02, a Box outside its Shape; <code>S09</code> is the same text with a different profile, a <code>PhysicalMaterial</code> and the Box inside the Shape):</p>
+<pre><code class="language-python">import asyncio, hashlib, json, os, sys, time
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from x3d_mcp_calls import load, call
+
+BAD = '''&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;X3D profile=&quot;Interactive&quot; version=&quot;4.0&quot;&gt;&lt;head&gt;&lt;meta name=&quot;title&quot; content=&quot;t&quot;/&gt;&lt;/head&gt;&lt;Scene&gt;
+  &lt;Viewpoint position=&quot;0 0 6&quot;/&gt;
+  &lt;Transform DEF=&quot;Spinner&quot;&gt;&lt;Shape&gt;&lt;Appearance&gt;&lt;Material diffuseColor=&quot;0 0.4 1&quot;/&gt;&lt;/Appearance&gt;&lt;/Shape&gt;&lt;Box/&gt;&lt;/Transform&gt;
+  &lt;TimeSensor DEF=&quot;Clock&quot; cycleInterval=&quot;4&quot; loop=&quot;true&quot;/&gt;
+  &lt;OrientationInterpolator DEF=&quot;Spin&quot; key=&quot;0 0.5 1&quot; keyValue=&quot;0 1 0 0 0 1 0 3.14159 0 1 0 6.28318&quot;/&gt;
+  &lt;ROUTE fromNode=&quot;Clock&quot; fromField=&quot;fraction_changed&quot; toNode=&quot;Spin&quot; toField=&quot;set_fraction&quot;/&gt;
+  &lt;ROUTE fromNode=&quot;Spin&quot; fromField=&quot;value_changed&quot; toNode=&quot;Spinner&quot; toField=&quot;set_rotation&quot;/&gt;
+&lt;/Scene&gt;&lt;/X3D&gt;'''
+S09 = (BAD.replace('profile=&quot;Interactive&quot;', 'profile=&quot;Interchange&quot;')
+          .replace('&lt;Material diffuseColor', '&lt;PhysicalMaterial baseColor')
+          .replace('&lt;/Appearance&gt;&lt;/Shape&gt;&lt;Box/&gt;', '&lt;/Appearance&gt;&lt;Box/&gt;&lt;/Shape&gt;'))
+mcp, rows = load(), []
+print(&quot;BAD bytes&quot;, len(BAD.encode()), &quot;sha256&quot;, hashlib.sha256(BAD.encode()).hexdigest()[:12])
+
+async def go(tool, **kw):                      # call, and record argument bytes, answer bytes, ms
+    t0 = time.perf_counter()
+    out = await call(mcp, tool, **kw)
+    rows.append((len(rows) + 1, tool, sum(len(str(v).encode()) for v in kw.values()),
+                 len(out.encode()), (time.perf_counter() - t0) * 1000))
+    return out
+
+async def main():
+    await go(&quot;list_components&quot;); await go(&quot;list_nodes&quot;, component=&quot;Shape&quot;); await go(&quot;describe_node&quot;, node_type=&quot;Box&quot;)
+    doc = await go(&quot;compose_scene&quot;, objects=[{&quot;shape&quot;: &quot;box&quot;, &quot;color&quot;: [0, 0.4, 1], &quot;def_name&quot;: &quot;Cube&quot;}],
+                   viewpoint={&quot;position&quot;: [0, 0, 6]})
+    print(&quot;validate_x3d(composed)  &quot;, json.loads(await go(&quot;validate_x3d&quot;, content=doc)))
+    await go(&quot;validate_semantic&quot;, content=doc)
+    print(&quot;validate_x3d(BAD)       &quot;, json.loads(await go(&quot;validate_x3d&quot;, content=BAD))[&quot;errors&quot;])
+    h = json.loads(await go(&quot;exact_fix_hints&quot;, content=BAD))[&quot;hints&quot;][0]
+    print(&quot;hint                    &quot;, h[&quot;rule&quot;], h[&quot;suggested_fix&quot;][&quot;op&quot;], h[&quot;confidence&quot;])
+    a = json.loads(await go(&quot;exact_fix_hints&quot;, content=BAD, apply=True))
+    print(&quot;hints apply             &quot;, a[&quot;valid_after&quot;], [x[&quot;rule&quot;] for x in a[&quot;applied&quot;]])
+    print(&quot;repair_x3d(S09)         &quot;, json.loads(await go(&quot;repair_x3d&quot;, content=S09))[&quot;changes&quot;])
+    put = json.loads(await go(&quot;blob_put&quot;, content=BAD, name=&quot;s02.x3d&quot;))
+    print(&quot;blob_put                &quot;, {k: put[k] for k in (&quot;size&quot;, &quot;stored_size&quot;, &quot;encoding&quot;)}, put[&quot;blob_id&quot;][:12])
+    v = json.loads(await go(&quot;validate_x3d&quot;, blob_id=put[&quot;blob_id&quot;], return_mode=&quot;summary&quot;))
+    print(&quot;validate_x3d(blob_id)   &quot;, {k: v[k] for k in (&quot;return_mode&quot;, &quot;valid&quot;, &quot;schema_version&quot;, &quot;error_count&quot;)})
+    m = json.loads(await go(&quot;modify_x3d_node&quot;, content=&quot;&quot;, blob_id=put[&quot;blob_id&quot;], def_name=&quot;Spinner&quot;,
+                            field_changes=json.dumps({&quot;translation&quot;: &quot;1 2 3&quot;}), return_mode=&quot;summary&quot;))
+    print(&quot;modify_x3d_node keys    &quot;, list(m))
+    await go(&quot;blob_info&quot;, blob_id=put[&quot;blob_id&quot;])
+    sha = hashlib.sha256(BAD.encode()).hexdigest()
+    c = json.loads(await go(&quot;claim_append&quot;, claim=&quot;s02 is not XSD-valid&quot;, grade=&quot;Confirmed&quot;, subject=sha,
+                            instrument=json.dumps({&quot;validator&quot;: &quot;b4efcd3&quot;, &quot;tool&quot;: &quot;validate_x3d&quot;}),
+                            evidence=&quot;transcript call 6&quot;))
+    v = json.loads(await go(&quot;claims_verify&quot;, ledger=c[&quot;ledger&quot;]))
+    print(&quot;claims_verify           &quot;, v[&quot;ok&quot;], v[&quot;records&quot;])
+    g = json.loads(await go(&quot;scene_to_rdf&quot;, content=BAD, return_mode=&quot;summary&quot;))
+    print(&quot;scene_to_rdf            &quot;, g[&quot;triples&quot;], &quot;triples&quot;, g[&quot;individuals&quot;], &quot;individuals&quot;)
+    s = json.loads(await go(&quot;shacl_validate&quot;, graph_id=g[&quot;graph_id&quot;]))
+    print(&quot;shacl_validate          &quot;, s[&quot;counts&quot;], s[&quot;by_check&quot;])
+    await go(&quot;where_can_place&quot;, child=&quot;Box&quot;, limit=5)
+    print(&quot;\n #  tool                 arg_B     out_B      ms&quot;)
+    for n, t, a_, o, ms in rows:
+        print(f&quot;{n:&gt;2}  {t:20s} {a_:6,d} {o:9,d} {ms:7.1f}&quot;)
+
+asyncio.run(main())
+</code></pre>
+<p>Run it as <code>./venv/bin/python -I transcript.py</code> (the <code>-I</code> flag keeps stray <code>PYTHONPATH</code> and the current directory out; the script puts its own folder on the path). Output on the rig of this chapter, <strong><span class="g C" title="Confirmed">C</span></strong>, 2026-11-14, with the one banner line the <code>x3d</code> package prints on import omitted:</p>
+<pre><code class="language-console">BAD bytes 645 sha256 f76343d3dcd0
+validate_x3d(composed)   {'valid': True, 'errors': [], 'schema_version': '4.1'}
+validate_x3d(BAD)        [&quot;Line 4: Element 'Box': This element is not expected. Expected is one of ( ROUTE, ExternProtoDeclare, ProtoDeclare, IMPORT, EXPORT, Background, ColorInterpolator, CoordinateInterpolator, DirectionalLight, Group ).&quot;]
+hint                     wrong-parent move choice
+hints apply              True ['wrong-parent']
+repair_x3d(S09)          [{'kind': 'component', 'name': 'Shape', 'from': None, 'to': '2', 'reason': &quot;nodes outside profile 'Interchange'&quot;}]
+blob_put                 {'size': 645, 'stored_size': 393, 'encoding': 'zstd'} f76343d3dcd0
+validate_x3d(blob_id)    {'return_mode': 'summary', 'valid': False, 'schema_version': '4.0', 'error_count': 1}
+modify_x3d_node keys     ['return_mode', 'source', 'ok', 'input', 'document', 'changes', 'changes_total']
+claims_verify            True 1
+scene_to_rdf             119 triples 14 individuals
+shacl_validate           {'Violation': 1, 'Warning': 1, 'Info': 0} {'field-not-in-domain': 1, 'shape-no-geometry': 1}
+</code></pre>
+<p>The byte table printed at the end is the table of section 7. The blob id is the sha256 of the bytes, so <code>f76343d3dcd0</code> is both the first line's hash and the start of the <code>blob_put</code> id: if your first line differs, your scene is not this scene. The harness does not show FastMCP's argument validation (it calls the closures directly, so a wrongly typed call can pass), the wire frame (counts are Python return values, without the JSON-RPC envelope or the duplicate <code>structuredContent</code>), or conditional registration (it registers every module; section 1 gives the real counts per transport).</p>
+<h2 id="9-safe-and-unsafe-usage">9. Safe and unsafe usage</h2>
+<table>
+<thead>
+<tr>
+<th>practice</th>
+<th>why</th>
+<th>evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name big documents, never paste them</td>
+<td>4 MiB request cap over HTTP; 176 MB against 10.8 KB at 40,000 nodes</td>
+<td>section 4, <strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>run <code>validate_x3d</code> and <code>validate_semantic</code>, both</td>
+<td>the instructions say so; 8 of 15 faulty scenes pass the XSD and 6 of those 8 carry a semantic error</td>
+<td><a href="03-validator-and-gates.html">chapter 03</a>, <strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>read <code>checked</code> before <code>valid</code></td>
+<td><code>valid: false, checked: false</code> is &quot;no verdict&quot;</td>
+<td><a href="03-validator-and-gates.html">chapter 03</a>, <strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>read <code>applied</code> after <code>apply=True</code></td>
+<td>the hint loop can reach &quot;valid&quot; by deleting an element</td>
+<td><a href="03-validator-and-gates.html">chapter 03</a>, <strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>parse every reply as possibly an error object</td>
+<td>errors are data: <code>{&quot;error&quot;: ...}</code>, <code>{&quot;valid&quot;: false, ...}</code>, <code>Input Error</code> markdown</td>
+<td>section 3, <strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>ask for <code>summary</code> when the document is not needed back, then check its size</td>
+<td>a summary of an 8.9 MB scene was 320 B for the XSD and 47,537 B for the semantic layer (40,000 info findings)</td>
+<td>section 4, <strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>treat <code>path=</code> under stdio as a file-read primitive</td>
+<td>see below</td>
+<td>probe, <strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>over HTTP, set a token of 32 or more characters</td>
+<td>without it: 47 tools, no store, <code>X3D_MCP_BLOB=on</code> is a start-up error</td>
+<td>section 1, <strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>keep ontology answers out of verdicts</td>
+<td>the server's own line: &quot;an ontology answer is never a validity verdict&quot;</td>
+<td>instructions, <strong><span class="g C" title="Confirmed">C</span></strong> (read)</td>
+</tr>
+<tr>
+<td>do not treat the claim ledger as signed</td>
+<td>see below</td>
+<td>probe, <strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>trust the SPARQL guard, not the model's query</td>
+<td>parsed form, not string matching; refusal names the knob</td>
+<td>section 5, <strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The stdio path policy, probed</strong> (<strong><span class="g C" title="Confirmed">C</span></strong>, <code>x3d_mcp fork b4efcd3</code>, 2026-11-14, two files in a scratch folder):</p>
+<table>
+<thead>
+<tr>
+<th>call</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>validate_x3d(path=&quot;notes.cfg&quot;)</code>, a file that is XML but not X3D</td>
+<td>read; the error echoes the root element name: <code>Element 'passwd_like': No matching global declaration available for the validation root.</code>, <code>schema_version: &quot;4.1&quot;</code>, note &quot;No version attribute&quot;</td>
+</tr>
+<tr>
+<td><code>validate_x3d(path=&quot;data.txt&quot;)</code>, plain text</td>
+<td>read; <code>XML parse error: Start tag expected, '&lt;' not found, line 1, column 1</code></td>
+</tr>
+<tr>
+<td><code>blob_put(path=&quot;data.txt&quot;)</code></td>
+<td>stored, 19 B, a <code>blob_id</code>; <code>blob_read(blob_id)</code> then pages the bytes back</td>
+</tr>
+<tr>
+<td><code>blob_put(path=&quot;notes.cfg&quot;)</code></td>
+<td>refused: <code>blob_put(path=) reads scene, data and splat files by extension (.csv, .glb, ... .xml); set X3D_MCP_BLOB_PATH_ROOTS to a directory to read other names from it</code></td>
+</tr>
+<tr>
+<td>any <code>path=</code> with <code>MCP_TRANSPORT=streamable-http</code></td>
+<td>refused: <code>Path input is disabled over the HTTP transport. Provide inline X3D content instead.</code></td>
+</tr>
+</tbody>
+</table>
+<p>Read: under stdio the server runs as the user who started it and trusts the model that is connected to it. <code>validate_x3d(path=)</code> reads any UTF-8 file that user can read and leaks only what a validator error quotes (an element name, a parse position); <code>blob_put(path=)</code> reads any file with one of 27 extensions (including <code>.txt</code>, <code>.md</code>, <code>.json</code>, <code>.xml</code>) and <code>blob_read</code> returns it whole. This is the repo's documented design (&quot;a local-use affordance&quot;; <code>docs/transfer-layer.md</code> says so), not a defect. The consequence is operational: start a stdio server as a user whose readable <code>.txt</code>, <code>.md</code>, <code>.json</code> and <code>.xml</code> files you would show the model, or set <code>X3D_MCP_BLOB_PATH_ROOTS</code>. I did not test <code>X3D_MCP_ALLOWED_HOSTS</code> or <code>X3D_MCP_ALLOWED_ORIGINS</code> (code and docs read).</p>
+<p><strong>The ledger, probed</strong> (<strong><span class="g C" title="Confirmed">C</span></strong>, <code>claim_append</code>, <code>claims_verify</code>, two records, <code>x3d_mcp fork b4efcd3</code>): each record carries <code>schema, claim, grade, subject, instrument, evidence, prev, sha256</code>, and <code>prev</code> is the previous record's hash. Editing a claim's text gives <code>ok: false</code> with <code>hash does not match the record</code> at index 0; deleting the first record gives <code>prev is not the hash of the record before</code>; a fresh one-record ledger that says the opposite gives <code>ok: true, records: 1</code>. A hash chain is tamper-evident to someone who holds the head hash, and says nothing about who wrote it. Truncating the tail was not probed. Grades in the ledger are the caller's word (<code>Confirmed</code>, <code>Likely</code>, <code>Suspected</code>), checked for spelling and not for truth.</p>
+<h2 id="10-measured-and-claimed-agent-benefit">10. Measured and claimed agent benefit</h2>
+<p>The thesis of this base is that a file can be held to account. This chapter's tools are how an agent meets that accountability. What can be said about the benefit to the agent, as of 2026-11-14:</p>
+<table>
+<thead>
+<tr>
+<th>claim</th>
+<th>where it stands</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>the server tells a model the path (look up, build, validate both, render) on connect</td>
+<td>the text is in <code>server.py</code>; 4,692 characters on stdio</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong> that it is sent; <strong><span class="g S" title="Suspected">S</span></strong> that it changes what a model does</td>
+</tr>
+<tr>
+<td>big documents cost 176,462,418 B inline against 10,849 B by name (40,000 nodes, 10 edits)</td>
+<td>measured, synthetic scene, in process</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong> for bytes; <strong><span class="g S" title="Suspected">S</span></strong> for any effect on a model's success</td>
+</tr>
+<tr>
+<td>the 53-tool surface costs 64,426 B of <code>tools/list</code> per session, +36,351 B (+129.5 %) over the 34-tool base</td>
+<td>measured, compact JSON, bytes not tokens</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td>the hint loop restores validity on 96.7 % of 540 mutated scenes (14.1 % by <code>repair_x3d</code> alone)</td>
+<td>re-run at <code>b4efcd3</code>, no model; mutations and rules share an author</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong> for the re-run</td>
+</tr>
+<tr>
+<td>hints improve a model's repair loop</td>
+<td>the repo's own heading is &quot;Model repair loop: not measured (S)&quot;; the experiment (<code>evaluation/hint_loop_gemini.py</code>, paired arms, up to 2 rounds, exact McNemar) needs a paid model API and was not run</td>
+<td><strong><span class="g S" title="Suspected">S</span></strong></td>
+</tr>
+<tr>
+<td>the plain-error baseline already reaches 60/60 in one round on the author's eval-plan prompts</td>
+<td>stated in <code>docs/EXACT-FIX-HINTS.md</code>; not re-run</td>
+<td><strong><span class="g L" title="Likely">L</span></strong></td>
+</tr>
+<tr>
+<td>a false-positive fix cut error-level files from 96 to 22 on 264 scenes (PR #4)</td>
+<td>PR description, quoted by the masterclass as &quot;claimed&quot;</td>
+<td><strong><span class="g L" title="Likely">L</span></strong></td>
+</tr>
+<tr>
+<td>count and index rules raised a blind mutation set from 62.6 % to 100 % caught, no new alarms (PR #8)</td>
+<td>PR description, same</td>
+<td><strong><span class="g L" title="Likely">L</span></strong></td>
+</tr>
+<tr>
+<td>the Accountability Playground shows validator-fixed against writer-fixed repairs</td>
+<td>the architecture is read; no playground run and no numbers used</td>
+<td>not graded</td>
+</tr>
+</tbody>
+</table>
+<p>Where this leaves the thesis: the tool surface is cheap to describe and measurable in bytes, and the exact-fix hints are measurable without a model. <strong>What is not measured, here or in the sources I read, is the difference this surface makes to a model's rate of valid-and-visible scenes.</strong> That needs the repo's own design, written out as an obligation: the same prompts, the same model, an arm with the tools and an arm without, a named validator commit, a visibility check through <a href="06-xite-the-oracle.html">the second renderer</a>, and a paired test. Until that exists the honest sentence is the one in the Say-it box: the tools make answers small and checkable; whether they make the agent better is open.</p>
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule (imperative, at most 30 words)</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-MCP-1</td>
+<td>Count tools on the transport you will ship; the same code lists 53 tools on stdio, 47 on HTTP without a blob token.</td>
+<td>C</td>
+<td><code>list_tools()</code> under three environments</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>mcp</code> 1.30.0</td>
+</tr>
+<tr>
+<td>H-MCP-2</td>
+<td>Budget <code>tools/list</code> before the first call: 64,426 B for 53 tools, 36,351 B more than the base. Trim by transport if context is scarce.</td>
+<td>C</td>
+<td><code>list_tools()</code> serialised compact</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>x3d_mcp upstream 74da0ec</code></td>
+</tr>
+<tr>
+<td>H-MCP-3</td>
+<td>Never paste a document over about 100 KB; name it with <code>path=</code> or <code>blob_id=</code>. Over HTTP, over 4 MiB, the name is the only way.</td>
+<td>C</td>
+<td>17,494,418 B inline against 10,756 B at 4,000 nodes</td>
+<td><code>x3d_mcp fork b4efcd3</code>; <code>mcp</code> 1.30.0 <code>transport_security.py</code></td>
+</tr>
+<tr>
+<td>H-MCP-4</td>
+<td>Ask for <code>return_mode=&quot;blob&quot;</code> when the edited document is not needed back, and <code>summary</code> for a verdict, then check how large the summary is.</td>
+<td>C</td>
+<td>semantic summary 47,537 B on 40,000 info findings</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-MCP-5</td>
+<td>Parse every reply as a possible error object; read <code>valid</code> and <code>checked</code> together, and <code>applied</code> after any automatic fix.</td>
+<td>C</td>
+<td><code>not-checkable-at-this-size</code>; s10 and s11 valid by deletion</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-MCP-6</td>
+<td>Run a stdio server as a user whose readable text, JSON and XML files you would show the model; <code>path=</code> and <code>blob_put(path=)</code> read them.</td>
+<td>C</td>
+<td>probe: <code>.txt</code> stored and readable, <code>.cfg</code> refused</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-MCP-7</td>
+<td>Over HTTP set a blob token of 32 or more characters, or expect 47 tools and no store.</td>
+<td>C</td>
+<td>env matrix; start-up error without token</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-MCP-8</td>
+<td>Put the guard in the tool, parse before executing, and have the refusal name the setting that moves it.</td>
+<td>C</td>
+<td>SPARQL refused on the parsed algebra; each message names its variable</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-MCP-9</td>
+<td>Treat a claim ledger as tamper-evident, not signed; keep the head hash somewhere the writer cannot reach.</td>
+<td>C</td>
+<td>edit and first-record drop detected; fresh forged chain verifies</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+</tr>
+<tr>
+<td>H-MCP-10</td>
+<td>Keep ontology and SHACL answers out of validity claims; cite them as meaning, and the validators as the gate.</td>
+<td>C</td>
+<td>server instructions; <code>ontology_vs_gate</code></td>
+<td><code>x3d_mcp fork b4efcd3</code> (read)</td>
+</tr>
+<tr>
+<td>H-MCP-11</td>
+<td>When you claim an agent benefit, name the model, the prompt set, the validator commit and the arm without the tool. Otherwise write &quot;not measured&quot;.</td>
+<td>S</td>
+<td>the repo's hint-loop heading; no paired run exists</td>
+<td><code>x3d_mcp fork b4efcd3</code> docs</td>
+</tr>
+<tr>
+<td>H-MCP-12</td>
+<td>Call tools through a harness before wiring a client: you get bytes and wall time per call, and no model to blame.</td>
+<td>C</td>
+<td>the 19-call transcript</td>
+<td><code>x3d_mcp fork b4efcd3</code>, Python 3.13.18</td>
+</tr>
+</tbody>
+</table>
+<h2 id="drills">Drills</h2>
+<h3 id="d-mcp-1-count-the-surface-three-ways">D-MCP-1 Count the surface three ways</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> At <code>x3d_mcp@b4efcd3</code> count tools, prompts and resources by Python <code>ast</code> over <code>src/tools/*.py</code>, by a recording stand-in for <code>mcp</code>, and by FastMCP <code>list_tools()</code> on <code>src/server.py</code>. Then repeat <code>list_tools()</code> with <code>MCP_TRANSPORT=streamable-http</code>, with and without <code>X3D_MCP_BLOB_TOKEN</code>.</li>
+<li><strong>Verify:</strong> count <code>@mcp.tool</code>, <code>@mcp.prompt</code>, <code>@mcp.resource</code> decorators with <code>ast.walk</code>; the stand-in is <code>FakeMCP</code> of section 8; for the real server load <code>server.py</code> with <code>importlib</code> and run <code>asyncio.run(mcp.list_tools())</code>.</li>
+<li><strong>Answer:</strong> 53 tools, 5 prompts, 2 resources by the first two methods; FastMCP lists 53 tools, 5 prompts, 1 resource and 1 resource template. Variants: stdio 53; HTTP without a token 47; HTTP with a 32-character or longer token 53. The six missing are <code>blob_put</code>, <code>blob_info</code>, <code>blob_read</code>, <code>blob_delete</code>, <code>splat_inspect</code>, <code>splat_chunk</code>.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code>, <code>mcp</code> 1.30.0, Python <code>ast</code>.</li>
+</ul>
+<h3 id="d-mcp-2-price-a-session-before-it-starts">D-MCP-2 Price a session before it starts</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Serialise <code>tools/list</code> as compact JSON (<code>json.dumps(..., separators=(&quot;,&quot;, &quot;:&quot;))</code> of each tool's <code>model_dump(by_alias=True, exclude_none=True, mode=&quot;json&quot;)</code>) and read <code>len(mcp.instructions)</code>, for <code>b4efcd3</code> on stdio and for the fork base <code>74da0ec</code>. Name the five largest tool schemas at head.</li>
+<li><strong>Verify:</strong> <code>await mcp.list_tools()</code> on each checkout's <code>src/server.py</code>; sort by serialised length.</li>
+<li><strong>Answer:</strong> base 34 tools, 28,075 B, instructions 2,212 characters. Head on stdio 53 tools, 64,426 B, instructions 4,692 characters; HTTP without a token 47 tools, 56,205 B, 3,353 characters. Largest at head: <code>splat_chunk</code> 3,681 B, <code>x3d_generation_schema</code> 2,461, <code>shacl_validate</code> 2,401, <code>repair_x3d</code> 2,338, <code>scene_to_rdf</code> 2,276.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code> and <code>x3d_mcp upstream 74da0ec</code>, <code>mcp</code> 1.30.0.</li>
+</ul>
+<h3 id="d-mcp-3-edit-a-big-scene-twice-once-by-value-and-once-by-name">D-MCP-3 Edit a big scene twice, once by value and once by name</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Generate a scene of 4,000 <code>Transform</code>/<code>Shape</code>/<code>Box</code> nodes (<code>DEF=&quot;n0&quot;</code> to <code>&quot;n3999&quot;</code>, <code>translation</code> set from the index, <code>Material</code> colours from the index modulo 10). Make 10 <code>modify_x3d_node</code> edits of <code>translation</code> on <code>n0</code> to <code>n9</code>: once inline with <code>return_mode=&quot;full&quot;</code> (feed each answer to the next call), once with <code>blob_put(path=...)</code> and then <code>blob_id</code> with <code>return_mode=&quot;blob&quot;</code>. Count argument bytes plus answer bytes.</li>
+<li><strong>Verify:</strong> the harness of section 8; <code>len(str(value).encode())</code> over the arguments and <code>len(answer.encode())</code> for each call.</li>
+<li><strong>Answer:</strong> the generator I used wrote a 642,887 B scene (sha256 prefix <code>06fdd220d5bc</code>); inline 8,625,328 B sent plus 8,869,090 B returned, 17,494,418 B total; by name 947 B sent plus 9,809 B returned, 10,756 B total, a ratio of about 1,630 to 1. Your absolute figures differ with the generator; the ratio should land within a factor of two. At 40,000 nodes (6,505,087 B) the same run gave 176,462,418 B against 10,849 B.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code>, in-process calls, 4 vCPU Intel Xeon 2.30 GHz.</li>
+</ul>
+<h3 id="d-mcp-4-trip-each-sparql-guard">D-MCP-4 Trip each SPARQL guard</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> With <code>query_ontology</code>: (a) send a query containing <code>SERVICE</code>; (b) one with <code>FROM</code>; (c) an <code>INSERT DATA</code>; (d) a query over 20,000 characters; (e) set <code>X3D_MCP_ONTOLOGY_MAX_ROWS=5</code> and select all triples; (f) set <code>X3D_MCP_SPARQL_TIMEOUT=1</code> and run a triple cross-join. Then call <code>node_parents</code> with <code>&quot;Box&gt; } ; DROP&quot;</code>. Record each refusal, and say what the model could do with each message.</li>
+<li><strong>Verify:</strong> <code>await call(mcp, &quot;query_ontology&quot;, sparql=...)</code> of section 8; set the environment variables before loading the modules.</li>
+<li><strong>Answer:</strong> (a) <code>Query refused: SERVICE is not allowed (it makes the server send HTTP requests)</code>; (b) <code>FROM and FROM NAMED are not allowed; the ontology graph is fixed</code>; (c) <code>SPARQL does not parse: Expected {SelectQuery | ConstructQuery | DescribeQuery | AskQuery}, found 'INSERT'</code>; (d) <code>query is 30346 characters; the limit is 20000</code> for a 30,346-character query; (e) <code>count: 5, truncated: true, total: 17736</code>, pointing to <code>query_ontology_page</code>; (f) stopped at 1.01 s, <code>query ran past 1 s and was stopped (X3D_MCP_SPARQL_TIMEOUT)</code>; node name: <code>node type must be a plain name such as Sphere</code>. Only (c) does not name a knob, because there is none: updates are not a mode.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code>, rdflib 7.6.0.</li>
+</ul>
+<h3 id="d-mcp-5-what-does-path-reach">D-MCP-5 What does <code>path=</code> reach</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Make a file <code>notes.cfg</code> holding <code>&lt;passwd_like user=&quot;alice&quot;&gt;&lt;entry shell=&quot;/bin/sh&quot;/&gt;&lt;/passwd_like&gt;</code> and a file <code>data.txt</code> holding one line of text. Call <code>validate_x3d(path=...)</code> on each, <code>blob_put(path=...)</code> on each, and <code>validate_x3d(path=...)</code> again with <code>MCP_TRANSPORT=streamable-http</code>. Which of the five calls read the file?</li>
+<li><strong>Verify:</strong> the harness of section 8; set <code>os.environ[&quot;MCP_TRANSPORT&quot;]</code> before the last call.</li>
+<li><strong>Answer:</strong> four of five read the file: both <code>validate_x3d</code> calls under stdio, and <code>blob_put</code> on <code>data.txt</code> (19 B stored). <code>blob_put</code> on <code>notes.cfg</code> is refused for its extension, with the message naming <code>X3D_MCP_BLOB_PATH_ROOTS</code>. Under the HTTP setting <code>validate_x3d(path=)</code> answers <code>Path input is disabled over the HTTP transport</code>. The XSD error quoted the element name <code>passwd_like</code>, which is what a validator error leaks.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code>.</li>
+</ul>
+<h3 id="d-mcp-6-forge-a-ledger">D-MCP-6 Forge a ledger</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Append two claims with <code>claim_append</code> (pass the first answer's <code>ledger</code> into the second call). Verify with <code>claims_verify</code>. Then (a) edit the first record's <code>claim</code> text, (b) drop the first line, (c) build a fresh one-record ledger that says the opposite. Which are caught? What would catch (c)?</li>
+<li><strong>Verify:</strong> <code>claims_verify(ledger=...)</code>; the record keys are <code>schema, claim, grade, subject, instrument, evidence, prev, sha256</code>.</li>
+<li><strong>Answer:</strong> intact: <code>ok: true, records: 2</code>. (a) <code>ok: false</code>, <code>hash does not match the record</code>, index 0. (b) <code>ok: false</code>, <code>prev is not the hash of the record before</code>, index 0. (c) <code>ok: true, records: 1</code>. Only a head hash held elsewhere, or a signature, would catch (c); the ledger has neither. Dropping the last record was not probed.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d_mcp fork b4efcd3</code>.</li>
+</ul>
+<h3 id="d-mcp-7-do-it-through-a-real-client">D-MCP-7 Do it through a real client</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Start <code>python src/server.py</code> with <code>MCP_TRANSPORT=streamable-http</code>, a 32-character <code>X3D_MCP_BLOB_TOKEN</code> and a loopback host. With any MCP client list tools and read the instructions; <code>PUT</code> a 6 MB scene to <code>/blob</code> with the bearer token and call <code>validate_x3d(blob_id=..., return_mode=&quot;summary&quot;)</code>. Compare the tool count, the <code>tools/list</code> size and the answer with D-MCP-1, D-MCP-2 and the transcript.</li>
+<li><strong>Verify:</strong> client output against the numbers in this chapter; also send a body over 4 MiB to <code>/mcp</code> and read the status.</li>
+<li><strong>Answer:</strong> expected from the source, <strong><span class="g S" title="Suspected">S</span></strong> until run: 53 tools; a body over 4,194,304 bytes refused with 413 <code>Request body too large</code>; the upload accepted up to 256 MiB.</li>
+<li><strong>Checked:</strong> not run (no MCP client or socket was used in this chapter).</li>
+</ul>
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li><strong>No MCP client and no socket.</strong> Every byte count is of a Python return value from a direct call. Argument validation by FastMCP, the JSON-RPC envelope and the duplicated <code>structuredContent</code> of <code>-&gt; str</code> tools are not in my numbers. The 4 MiB cap is read in the installed <code>mcp</code> 1.30.0, not exercised. <strong><span class="g C" title="Confirmed">C</span></strong> for the read, <strong><span class="g S" title="Suspected">S</span></strong> for the status code on the wire.</li>
+<li><strong>No model in the loop.</strong> I measured the tool surface, not any effect on a model's output. The one repo experiment that would (<code>hint_loop_gemini.py</code>) needs a paid API and was not run. <strong><span class="g S" title="Suspected">S</span></strong> for any benefit claim.</li>
+<li><strong>Synthetic scenes.</strong> The 40,000-node scene and the 200,000-splat file are generated and repetitive; the 65 to 1 compression and 16,300 to 1 byte ratio are properties of them. The repo's 25 to 1 on a real scene is <strong><span class="g L" title="Likely">L</span></strong>.</li>
+<li><strong>Bytes, not tokens.</strong> No tokeniser was run. <strong>One rig:</strong> 4 vCPU Intel Xeon 2.30 GHz, Python 3.13.18, <code>mcp</code> 1.30.0, software only; wall times (1.8 s inline against 4.0 s by name) are single runs.</li>
+<li><strong>Not run:</strong> <code>render_image</code> and the Playwright tools (no Chromium), the Playground (sign-in and model endpoints), the HTTP routes and their rate and quota knobs (tests passed; no server was started), <code>X3D_MCP_ALLOWED_HOSTS</code> and <code>X3D_MCP_ALLOWED_ORIGINS</code>. Read, not run.</li>
+<li><strong>Source disagreements.</strong> The <code>X3D_MCP_TOOL_MAX_BYTES</code> default is 96M in code and docs and 64M in a header comment of <code>blobs.py</code>: the code wins. The masterclass's 48 tools were the count at <code>13121b6</code>; 53 is the count at <code>b4efcd3</code>. The tool-list size at the fork base I measured (28,075 B, 34 tools) is the only base figure here.</li>
+<li><strong>Ledger probes</strong> covered edit, first-record drop and a fresh chain; tail truncation and reordering were not probed.</li>
+<li><strong>Version drift.</strong> A newer <code>mcp</code> may change the request cap or the <code>FastMCP</code> import path (the repo notes that 2.x renamed it).</li>
+</ul>
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-MCP-1</td>
+<td>tools, prompts, resources registered</td>
+<td>53, 5, 2 (FastMCP lists 1 resource and 1 template)</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, Python <code>ast</code>, <code>mcp</code> 1.30.0</td>
+<td>x3d_mcp@b4efcd3:src/tools/*.py</td>
+</tr>
+<tr>
+<td>N-MCP-2</td>
+<td>tools by transport</td>
+<td>stdio 53; HTTP with token 53; HTTP without token 47</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>list_tools()</code></td>
+<td>x3d_mcp@b4efcd3:src/server.py</td>
+</tr>
+<tr>
+<td>N-MCP-3</td>
+<td>tools and prompts at the fork base</td>
+<td>34 and 4</td>
+<td>C</td>
+<td><code>x3d_mcp upstream 74da0ec</code>, <code>list_tools()</code></td>
+<td>x3d_mcp@74da0ec:src/server.py</td>
+</tr>
+<tr>
+<td>N-MCP-4</td>
+<td><code>tools/list</code> size, compact JSON</td>
+<td>28,075 B (base); 64,426 B (stdio); 56,205 B (HTTP no token)</td>
+<td>C</td>
+<td><code>x3d_mcp upstream 74da0ec</code>, <code>x3d_mcp fork b4efcd3</code></td>
+<td>scratch run, 2026-11-14 (method in D-MCP-2)</td>
+</tr>
+<tr>
+<td>N-MCP-5</td>
+<td>growth of <code>tools/list</code> over the base</td>
+<td>+36,351 B (+129.5 %)</td>
+<td>C</td>
+<td>arithmetic on N-MCP-4</td>
+<td>section 2</td>
+</tr>
+<tr>
+<td>N-MCP-6</td>
+<td>server instructions length</td>
+<td>2,212 (base); 3,353 (HTTP no token); 4,692 (stdio) characters</td>
+<td>C</td>
+<td><code>x3d_mcp upstream 74da0ec</code>, <code>x3d_mcp fork b4efcd3</code></td>
+<td>x3d_mcp@b4efcd3:src/server.py</td>
+</tr>
+<tr>
+<td>N-MCP-7</td>
+<td>tool functions that are <code>async def</code></td>
+<td>26 of 53</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>inspect.iscoroutinefunction</code></td>
+<td>section 8 harness, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-MCP-8</td>
+<td>bytes crossing the tool boundary, 10 edits, 40,000-node scene (6,505,087 B)</td>
+<td>176,462,418 inline; 10,849 by <code>blob_id</code></td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, in-process</td>
+<td>scratch run, 2026-11-14 (method in D-MCP-3)</td>
+</tr>
+<tr>
+<td>N-MCP-9</td>
+<td>same, 4,000-node scene (642,887 B)</td>
+<td>17,494,418 inline; 10,756 by <code>blob_id</code></td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, in-process</td>
+<td>D-MCP-3, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-MCP-10</td>
+<td><code>blob_put</code> stored size of the 40,000-node scene</td>
+<td>100,091 B (zstd) for 6,505,087 B</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, zstandard 0.25.0</td>
+<td>scratch run, 2026-11-14 (method in D-MCP-3)</td>
+</tr>
+<tr>
+<td>N-MCP-11</td>
+<td>SDK request-body cap</td>
+<td>4 MiB (4,194,304 B), <code>413 Request body too large</code></td>
+<td>C</td>
+<td><code>mcp</code> 1.30.0 <code>server/transport_security.py</code> (read)</td>
+<td>installed package source</td>
+</tr>
+<tr>
+<td>N-MCP-12</td>
+<td>splat run, 200,000 splats (11,200,362 B)</td>
+<td><code>splat_inspect</code> 3,310 B in 0.17 s; <code>splat_chunk</code> 4 chunks of 6.5 to 6.6 MB in 4.87 s, 5 of 5 files valid</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, numpy 2.5.4</td>
+<td>scratch run, seed 20261114</td>
+</tr>
+<tr>
+<td>N-MCP-13</td>
+<td>oversize start tag</td>
+<td>11,700,036 B, <code>checked: false</code>, 1,763 ms</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, libxml2 2.14.6</td>
+<td>scratch probe, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-MCP-14</td>
+<td>SPARQL guard defaults</td>
+<td>20,000 chars; 20 s; 20,000 rows</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code> (read; refusals exercised at 1 s and 5 rows)</td>
+<td>x3d_mcp@b4efcd3:src/x3d_utils/ontology_guard.py</td>
+</tr>
+<tr>
+<td>N-MCP-15</td>
+<td>test suite</td>
+<td>1,367 passed, 27 skipped, 1,394 collected, 104 s</td>
+<td>C</td>
+<td>pytest 9.2.0, Python 3.13.18, no Chromium</td>
+<td>x3d_mcp@b4efcd3:tests/</td>
+</tr>
+<tr>
+<td>N-MCP-16</td>
+<td>one 645 B scene, answer sizes</td>
+<td><code>validate_x3d</code> 62 B valid, 285 B one error; <code>exact_fix_hints</code> 1,325 B; <code>blob_put</code> 331 B; summary 539 B</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>section 7 table</td>
+</tr>
+<tr>
+<td>N-MCP-17</td>
+<td>first <code>validate_x3d</code> call per schema version</td>
+<td>1,443 to 1,645 ms over two runs (4.1 and 4.0); later calls under 1 ms</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, libxml2 2.14.6</td>
+<td>section 8 byte table</td>
+</tr>
+<tr>
+<td>N-MCP-18</td>
+<td>ledger probes on two records</td>
+<td>edit caught, first-record drop caught, fresh forged chain verifies</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>D-MCP-6</td>
+</tr>
+<tr>
+<td>N-MCP-19</td>
+<td>stdio <code>path=</code> reach</td>
+<td>2 <code>validate_x3d</code> reads, 1 of 2 <code>blob_put</code> reads; 27 allowed extensions</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>D-MCP-5</td>
+</tr>
+<tr>
+<td>N-MCP-20</td>
+<td>tools in the masterclass snapshot</td>
+<td>48 (and 34 at the base)</td>
+<td>L</td>
+<td>stated in the teardown at <code>13121b6</code>, not re-run</td>
+<td>x3d.docs@f172f67:docs/x3d_mcp/MASTERCLASS.md</td>
+</tr>
+<tr>
+<td>N-MCP-21</td>
+<td>repo-stated zstd ratio on a real 10.9 MB scene</td>
+<td>25 to 1</td>
+<td>L</td>
+<td>stated in the repo, not re-run</td>
+<td>x3d_mcp@b4efcd3:docs/transfer-layer.md</td>
+</tr>
+<tr>
+<td>N-MCP-22</td>
+<td>PR claims: false positives 96 to 22 (264 scenes); blind set 62.6 % to 100 %</td>
+<td>as stated</td>
+<td>L</td>
+<td>PR descriptions via the masterclass; not re-derived</td>
+<td>x3d.docs@f172f67:docs/x3d_mcp/MASTERCLASS.md</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<ul>
+<li><code>x3d_mcp@b4efcd3</code> (Merge PR #17, 2026-11-13): <code>src/server.py</code>, <code>src/tools/*.py</code>, <code>src/transfer/*.py</code>, <code>src/x3d_utils/{source,ontology_guard}.py</code>, <code>README.md</code>, <code>pyproject.toml</code>, <code>docs/transfer-layer.md</code>, <code>docs/splats.md</code>, <code>docs/EXACT-FIX-HINTS.md</code>, <code>docs/playground/ARCHITECTURE.md</code>, <code>tests/</code>. The fork base <code>74da0ec</code> was used for the tool-list and instruction sizes only.</li>
+<li><code>x3d.docs@f172f67</code>: <code>docs/x3d_mcp/MASTERCLASS.md</code> (snapshot at <code>13121b6</code>: tool counts, PR claims, the playground-as-validator-client finding).</li>
+<li><code>mcp</code> 1.30.0 (installed package): <code>server/transport_security.py</code> for the request-body cap.</li>
+<li>Re-run on 2026-11-14 in a scratch virtualenv, source checkouts untouched: AST and recorded-call counts, <code>list_tools()</code> under three environments, the 19-call transcript, the 40,000- and 4,000-node transfer runs, the 200,000-splat run, the oversize probe, the guards, the path probe, the ledger probe, and the full test suite.</li>
+<li>Not re-derived: the masterclass's 48-tool snapshot, PR descriptions, the repo's real-scene compression ratio, anything about the Playground's behaviour, any model's use of these tools. Claims about private data and unpublished material are not made here.</li>
+<li>Siblings: <a href="01-the-tether.html">01 The tether</a>, <a href="03-validator-and-gates.html">03 The validator and the gates</a>, <a href="05-semantic-layer.html">05 Semantic layer</a>, <a href="06-xite-the-oracle.html">06 X_ITE, the oracle</a>.</li>
+</ul>
+<div class="pn"><a href="03-validator-and-gates.html">&larr; 03-validator-and-gates</a><a href="05-semantic-layer.html">05-semantic-layer &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

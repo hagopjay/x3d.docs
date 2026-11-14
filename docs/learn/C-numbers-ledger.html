@@ -1,0 +1,2643 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Appendix C. Numbers ledger · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a class="cur" href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="C-numbers-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/C-numbers-ledger.md">GitHub</a></div><h1>Appendix C. Numbers ledger</h1>
+<p>Merged from the <em>Numbers register</em> of every chapter by <code>tools-shared/build_learn.py</code>. Edit the chapter, not this file.</p>
+<!-- BEGIN GENERATED -->
+<p><strong>289 numbers</strong> from 14 chapters. Grades: <span class="g C" title="Confirmed">C</span> 247 · <span class="g L" title="Likely">L</span> 38 · <span class="g S" title="Suspected">S</span> 4. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Ch</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-TH-1</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>non-background pixel fraction, <code>visible.x3d</code></td>
+<td>0.1752</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>X_ITE 16.7.0</code>, Chromium 153, SwiftShader, 320 x 240</td>
+<td>section 5 (run 2026-11-14)</td>
+</tr>
+<tr>
+<td>N-TH-2</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>non-background pixel fraction, <code>blank.x3d</code> (valid, faces away)</td>
+<td>0.0000</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>X_ITE 16.7.0</code>, Chromium 153, SwiftShader, 320 x 240</td>
+<td>section 5 (run 2026-11-14)</td>
+</tr>
+<tr>
+<td>N-TH-3</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>scenes valid at the fork gate, of the two</td>
+<td>2 of 2</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>section 5 (run 2026-11-14)</td>
+</tr>
+<tr>
+<td>N-TH-4</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>hint loop alone, repaired cases</td>
+<td>521 of 540 (96.5%)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_mcp fork b4efcd3</code>, seed 20261029</td>
+<td><code>x3d_mcp@b4efcd3:evaluation/exact_fix_eval.py</code> (run 2026-11-14)</td>
+</tr>
+<tr>
+<td>N-TH-5</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td><code>repair_x3d</code> alone, repaired cases, at <code>b4efcd3</code></td>
+<td>76 of 540 (14.1%)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_mcp fork b4efcd3</code>, seed 20261029</td>
+<td><code>x3d_mcp@b4efcd3:evaluation/exact_fix_eval.py</code></td>
+</tr>
+<tr>
+<td>N-TH-6</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td><code>repair_x3d</code> alone, repaired cases, at <code>535fdac</code></td>
+<td>81 of 540 (15.0%)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_mcp fork 535fdac</code>, seed 20261029</td>
+<td><code>x3d_mcp@535fdac:evaluation/exact_fix_eval.py</code> (run 2026-11-14)</td>
+</tr>
+<tr>
+<td>N-TH-7</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>hint loop gives the seed back exactly, at <code>b4efcd3</code></td>
+<td>268 of 540 (49.6%); 15 valid only by deleting an element</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td><code>x3d_mcp@b4efcd3:evaluation/exact_fix_eval.py</code></td>
+</tr>
+<tr>
+<td>N-TH-8</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>injected route faults caught, gate vs XSD alone</td>
+<td>13 of 13 vs 0 of 13</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_mcp fork b4efcd3</code>, 24 seeds</td>
+<td>section 6 (run 2026-11-14)</td>
+</tr>
+<tr>
+<td>N-TH-9</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>injected displaced part caught</td>
+<td>0 of 14</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_mcp fork b4efcd3</code>, 24 seeds</td>
+<td>section 6 (run 2026-11-14)</td>
+</tr>
+<tr>
+<td>N-TH-10</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>unchanged seeds flagged by the gate</td>
+<td>0 of 24</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>section 6 (run 2026-11-14)</td>
+</tr>
+<tr>
+<td>N-TH-11</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>seeds, mutation sites, errors at <code>535fdac</code> and at <code>b4efcd3</code></td>
+<td>25, 15,651, 570 and 24, 10,294, 577</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_mcp fork 535fdac</code> and <code>b4efcd3</code></td>
+<td>section 7 (run 2026-11-14)</td>
+</tr>
+<tr>
+<td>N-TH-12</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>fix operations used in the 540-case run at <code>b4efcd3</code></td>
+<td><code>set_attribute</code> 290, <code>move</code> 127, <code>rename_element</code> 58, <code>remove_attribute</code> 29, <code>rename_attribute</code> 29, <code>remove_element</code> 15, <code>wrap</code> 10</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td><code>x3d_mcp@b4efcd3:evaluation/exact_fix_eval.py</code></td>
+</tr>
+<tr>
+<td>N-TH-13</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>hints for one broken ROUTE in the worked example</td>
+<td>2 hints for 1 error; 1 fix applied, valid True</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>section 5 step 4 (run 2026-11-14)</td>
+</tr>
+<tr>
+<td>N-TH-14</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>model repair with hints vs plain errors, first round</td>
+<td>507 vs 489 of 540; 31 gained, 13 lost; p 0.0096</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>a hosted model, as reported</td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code> section 7.1</td>
+</tr>
+<tr>
+<td>N-TH-15</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>valid scenes that drew nothing; blank among valid</td>
+<td>203 of 1,058; 17 of 91</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>as reported, not re-checked</td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code> section 7.2, failure mode 91</td>
+</tr>
+<tr>
+<td>N-TH-16</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>planted ROUTE-first faults caught before and after PR #15</td>
+<td>0 to 200 of 200</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>libxml2 2.14.6, fork 56809ca to the PR #15 change</td>
+<td><code>x3d_mcp@b4efcd3:docs/ROUTE-COLOUR-HANIM-CHECKS.md</code></td>
+</tr>
+<tr>
+<td>N-TH-17</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>scenes in the fork's XSD-verdict corpus run</td>
+<td>2,857 (1,593 invalid, 1,264 valid), verdict unchanged</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>libxml2 2.14.6, as reported</td>
+<td><code>x3d_mcp@b4efcd3:docs/ROUTE-COLOUR-HANIM-CHECKS.md</code></td>
+</tr>
+<tr>
+<td>N-TH-18</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>lawful metric AUC on recorded scenes</td>
+<td>0.997 on 383</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>x3d.onto, as reported</td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code> section 7.2</td>
+</tr>
+<tr>
+<td>N-TH-19</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>chain forgery after a scene edit verifies</td>
+<td>1 of 1</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>chain sketch, Python 3.13.18</td>
+<td>section 9 (run 2026-11-14)</td>
+</tr>
+<tr>
+<td>N-TH-20</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>doha seed gate errors at <code>535fdac</code> and <code>b4efcd3</code></td>
+<td>1 and 2 semantic errors</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_mcp fork 535fdac</code> and <code>b4efcd3</code></td>
+<td>section 7 (run 2026-11-14)</td>
+</tr>
+<tr>
+<td>N-TH-21</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>tether score of X3D</td>
+<td>5 of 5</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>reasoned from the <span class="g C" title="Confirmed">C</span> rows above</td>
+<td>section 3</td>
+</tr>
+<tr>
+<td>N-LAW-1</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>laws in <code>LOOM-v1.md</code> section 3, ids contiguous</td>
+<td>44</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>python parse of the table, <code>x3d.loom@162ab18</code></td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code></td>
+</tr>
+<tr>
+<td>N-LAW-2</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>failure modes in section 8, ids contiguous</td>
+<td>160</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>python parse of the table, <code>x3d.loom@162ab18</code></td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code></td>
+</tr>
+<tr>
+<td>N-LAW-3</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>witness rows in section 6.1</td>
+<td>13</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>python parse, <code>x3d.loom@162ab18</code></td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code></td>
+</tr>
+<tr>
+<td>N-LAW-4</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>profile files and profile rows in section 6.2</td>
+<td>20 files, 11 rows</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>count, <code>x3d.loom@162ab18</code></td>
+<td><code>x3d.loom@162ab18:kit/profiles/</code></td>
+</tr>
+<tr>
+<td>N-LAW-5</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>laws and failure modes at the first public snapshot</td>
+<td>35 and 92</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>git show 0244784:LOOM-v1.md</code>, python parse</td>
+<td><code>x3d.loom@0244784:LOOM-v1.md</code></td>
+</tr>
+<tr>
+<td>N-LAW-6</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>laws and failure modes added by commit <code>babba96</code> (PR #41)</td>
+<td>law 44; failure modes 148 to 160 (13)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>git show --stat babba96</code></td>
+<td><code>x3d.loom@babba96:LOOM-v1.md</code></td>
+</tr>
+<tr>
+<td>N-LAW-7</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>negative controls caught, each mode</td>
+<td>82 (normal and <code>-O</code>)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>loomkit <code>test_gates.py</code>, Python 3.13.18</td>
+<td><code>x3d.loom@162ab18:kit/tests/test_gates.py</code></td>
+</tr>
+<tr>
+<td>N-LAW-8</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>trap rules, page-trap rules, page forms, two-sided</td>
+<td>15, 8, 10</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>loomkit self-test</td>
+<td><code>x3d.loom@162ab18:kit/loomkit/traps.py</code>, <code>pagetraps.py</code></td>
+</tr>
+<tr>
+<td>N-LAW-9</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>physics diagnostic codes and tests</td>
+<td>18 codes; 30 physics tests</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>physics.py</code> docstring; <code>last-run.json</code></td>
+<td><code>x3d.loom@162ab18:kit/loomkit/physics.py</code></td>
+</tr>
+<tr>
+<td>N-LAW-10</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>physics witness on the two real records</td>
+<td>cap 3 pass; cap 0 <code>PHYS_WAIVERS_OVER_CAP</code></td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>loomkit physics, <code>x3d.physics/runs</code></td>
+<td><code>x3d.loom@162ab18:x3d.physics/runs/</code></td>
+</tr>
+<tr>
+<td>N-LAW-11</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>mutation controls on the real record</td>
+<td>14 of 14 caught</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>physx_controls.py</code></td>
+<td><code>x3d.loom@162ab18:x3d.physics/tools/physx_controls.py</code></td>
+</tr>
+<tr>
+<td>N-LAW-12</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>steps recorded and replay hosts, Chromium and Firefox records</td>
+<td>1918 and 969 steps; 5 replays each, 0 mismatches</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>loomkit physics, one machine</td>
+<td><code>x3d.loom@162ab18:x3d.physics/runs/</code></td>
+</tr>
+<tr>
+<td>N-LAW-13</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>profiles with a <code>traps</code> entry pinning 11 and 15 rules</td>
+<td>15 pin 11; 2 pin 15; the kit has 15</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>python over <code>kit/profiles/*.json</code></td>
+<td><code>x3d.loom@162ab18:kit/profiles/</code></td>
+</tr>
+<tr>
+<td>N-LAW-14</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>failure modes that record a recurrence</td>
+<td>7 (55, 58, 72, 73, 94, 107, 128)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>regex over section 8, 2 false hits removed</td>
+<td><code>x3d.loom@162ab18:LOOM-v1.md</code></td>
+</tr>
+<tr>
+<td>N-LAW-15</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>failure-mode classes in this chapter, ids covered once</td>
+<td>11 classes, 160 ids</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>D-LAW-7 script</td>
+<td>this chapter, section 3</td>
+</tr>
+<tr>
+<td>N-LAW-16</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>disagreement rows in <code>SOURCES.md</code> section 2</td>
+<td>16 (README says 14)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>count</td>
+<td><code>x3d.loom@162ab18:SOURCES.md</code></td>
+</tr>
+<tr>
+<td>N-LAW-17</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>rules R1 to R33 in <code>LEARNINGS-from-patches.md</code> section 6</td>
+<td>33 (README says 25)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>count</td>
+<td><code>x3d.loom@162ab18:LEARNINGS-from-patches.md</code></td>
+</tr>
+<tr>
+<td>N-LAW-18</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>physics playbook witness patterns</td>
+<td>19 (README says ten)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>count</td>
+<td><code>x3d.loom@162ab18:PHYSICS-PLAYBOOK.md</code></td>
+</tr>
+<tr>
+<td>N-LAW-19</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>leak sweep of the public snapshot</td>
+<td>status pass, 67 replacements, residue empty</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>as recorded, not re-run</td>
+<td><code>x3d.loom@162ab18:SWEEP-REPORT.json</code></td>
+</tr>
+<tr>
+<td>N-LAW-20</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>laws whose check column starts <code>code:</code> and <code>process:</code></td>
+<td>27 and 17</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>D-LAW-2 script (judgement of the column)</td>
+<td>this chapter, section 2</td>
+</tr>
+<tr>
+<td>N-VAL-1</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>distinct rule ids in <code>semantic.py</code></td>
+<td>51</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, Python <code>ast</code></td>
+<td>x3d_mcp@b4efcd3:src/validation/semantic.py</td>
+</tr>
+<tr>
+<td>N-VAL-2</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>same, at the fork base</td>
+<td>19 ids, 10 check functions, 24 report sites</td>
+<td>C</td>
+<td><code>x3d_mcp upstream 74da0ec</code>, Python <code>ast</code></td>
+<td>x3d_mcp@74da0ec:src/validation/semantic.py</td>
+</tr>
+<tr>
+<td>N-VAL-3</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>rule ids across semantic, splat arrays, splat inspector</td>
+<td>72 (51 + 2 + 19)</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, Python <code>ast</code></td>
+<td>x3d_mcp@b4efcd3:src/validation/{semantic,splat_arrays}.py, src/transfer/inspect_splats.py</td>
+</tr>
+<tr>
+<td>N-VAL-4</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>hint rule ids and edit operations</td>
+<td>19 and 10</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, regex and <code>ast</code></td>
+<td>x3d_mcp@b4efcd3:src/validation/hints.py</td>
+</tr>
+<tr>
+<td>N-VAL-5</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>full test suite</td>
+<td>1,367 passed, 27 skipped, 1,394 collected, 104 s</td>
+<td>C</td>
+<td>pytest 9.2.0, Python 3.13.18, no Chromium</td>
+<td>x3d_mcp@b4efcd3:tests/</td>
+</tr>
+<tr>
+<td>N-VAL-6</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>concrete nodes in X3DUOM 4.0 and 4.1</td>
+<td>260 and 267; 7 only in 4.1</td>
+<td>C</td>
+<td><code>X3DUOM 4.1</code> (4fc10e8e15c0), <code>X3DUOM 4.0</code> (7e426a238656)</td>
+<td>x3d_mcp@b4efcd3:src/validation/schemas/X3dUnifiedObjectModel-4.{0,1}.xml</td>
+</tr>
+<tr>
+<td>N-VAL-7</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>XSD cold compile</td>
+<td>1,456 ms (4.0), 1,547 ms (4.1)</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, libxml2 2.14.6, 4 vCPU 2.30 GHz</td>
+<td>scratch timing run, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-VAL-8</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>warm repeat-call median, 12-line scene</td>
+<td>0.022 ms XSD, 0.314 ms semantic, 0.371 ms gate</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, 300 runs each</td>
+<td>scratch timing run, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-VAL-9</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>faulty scenes passing the XSD, and carrying a semantic error</td>
+<td>8 of 15, and 6 of those 8</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>15 scratch scenes, section 4</td>
+</tr>
+<tr>
+<td>N-VAL-10</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>hint loop on the 13 invalid scenes</td>
+<td>10 end valid, 2 of them by deleting a node, 3 not fixed</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code> <code>exact_fix_hints(apply=true)</code></td>
+<td>scratch run, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-VAL-11</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>exact-fix evaluation re-run</td>
+<td>540 cases, 577 errors; 14.1% before, 96.7% after, 49.6% seed-exact, 2.8% by removal</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, seed 20261029</td>
+<td>x3d_mcp@b4efcd3:evaluation/exact_fix_eval.py</td>
+</tr>
+<tr>
+<td>N-VAL-12</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>exact-fix numbers in the docs</td>
+<td>96.9% after, 15.0% before, 47.6% seed-exact (570 errors)</td>
+<td>L</td>
+<td>stated in the repo, not re-derived at its commit</td>
+<td>x3d_mcp@b4efcd3:docs/EXACT-FIX-HINTS.md</td>
+</tr>
+<tr>
+<td>N-VAL-13</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>oversize verdict</td>
+<td>11,700,036-byte start tag, <code>checked: false</code>, 1,763 ms</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.1</code></td>
+<td>scratch probe, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-VAL-14</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>loomkit controls</td>
+<td>82 negative controls, 15 trap rules, 8 page-trap rules, 10 page forms, both <code>-O</code> modes, 3.8 s</td>
+<td>C</td>
+<td>loomkit <code>162ab18</code></td>
+<td>x3d.loom@162ab18:kit/tests/test_gates.py</td>
+</tr>
+<tr>
+<td>N-VAL-15</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>loomkit sub-commands</td>
+<td>17</td>
+<td>C</td>
+<td>loomkit <code>162ab18</code>, read</td>
+<td>x3d.loom@162ab18:kit/loomkit/cli.py</td>
+</tr>
+<tr>
+<td>N-VAL-16</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>recorded grammar witnesses per validator pin</td>
+<td>fa0b389: 15; 327c5c4: 4; 13121b6: 1; none: 4 (24 total)</td>
+<td>C</td>
+<td>loomkit <code>162ab18</code> evidence records</td>
+<td>x3d.loom@162ab18:runs/*/evidence/grammar.json</td>
+</tr>
+<tr>
+<td>N-VAL-17</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>blender-io catalogue</td>
+<td>195 cases: 148 CORE, 21 FIDELITY, 26 ROADMAP</td>
+<td>C</td>
+<td><code>x3d-blender-io@ab99988</code> catalogue</td>
+<td>x3d-blender-io@ab99988:docs/test-suite/x3d_case_catalog.md</td>
+</tr>
+<tr>
+<td>N-VAL-18</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>blender-io recorded CORE scoreboard</td>
+<td>143 pass 4 fail, then 147 / 147 (194-case scene)</td>
+<td>C</td>
+<td>recorded reports parsed; Blender 5.2.2 and 5.1.0, add-on v2.6.1</td>
+<td>x3d-blender-io@ab99988:docs/test-suite/reports/</td>
+</tr>
+<tr>
+<td>N-VAL-19</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>blender-io &quot;148/148&quot;</td>
+<td>not recorded</td>
+<td>S</td>
+<td>not run (no Blender here)</td>
+<td>x3d-blender-io@ab99988:docs/test-suite/SUITE_COMMENTARY.md</td>
+</tr>
+<tr>
+<td>N-VAL-20</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>new rule scratch patch</td>
+<td>tests 148 to 151 passed; false positives 2 to 1 of 14 scenes</td>
+<td>C</td>
+<td>scratch copy of <code>x3d_mcp fork b4efcd3</code></td>
+<td>scratch patch, section 10</td>
+</tr>
+<tr>
+<td>N-VAL-21</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>masterclass rule count at <code>13121b6</code></td>
+<td>62 (definition not recoverable)</td>
+<td>L</td>
+<td>stated in the teardown; not reproduced</td>
+<td>x3d.docs@f172f67:docs/x3d_mcp/MASTERCLASS.md</td>
+</tr>
+<tr>
+<td>N-MCP-1</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>tools, prompts, resources registered</td>
+<td>53, 5, 2 (FastMCP lists 1 resource and 1 template)</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, Python <code>ast</code>, <code>mcp</code> 1.30.0</td>
+<td>x3d_mcp@b4efcd3:src/tools/*.py</td>
+</tr>
+<tr>
+<td>N-MCP-2</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>tools by transport</td>
+<td>stdio 53; HTTP with token 53; HTTP without token 47</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>list_tools()</code></td>
+<td>x3d_mcp@b4efcd3:src/server.py</td>
+</tr>
+<tr>
+<td>N-MCP-3</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>tools and prompts at the fork base</td>
+<td>34 and 4</td>
+<td>C</td>
+<td><code>x3d_mcp upstream 74da0ec</code>, <code>list_tools()</code></td>
+<td>x3d_mcp@74da0ec:src/server.py</td>
+</tr>
+<tr>
+<td>N-MCP-4</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td><code>tools/list</code> size, compact JSON</td>
+<td>28,075 B (base); 64,426 B (stdio); 56,205 B (HTTP no token)</td>
+<td>C</td>
+<td><code>x3d_mcp upstream 74da0ec</code>, <code>x3d_mcp fork b4efcd3</code></td>
+<td>scratch run, 2026-11-14 (method in D-MCP-2)</td>
+</tr>
+<tr>
+<td>N-MCP-5</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>growth of <code>tools/list</code> over the base</td>
+<td>+36,351 B (+129.5 %)</td>
+<td>C</td>
+<td>arithmetic on N-MCP-4</td>
+<td>section 2</td>
+</tr>
+<tr>
+<td>N-MCP-6</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>server instructions length</td>
+<td>2,212 (base); 3,353 (HTTP no token); 4,692 (stdio) characters</td>
+<td>C</td>
+<td><code>x3d_mcp upstream 74da0ec</code>, <code>x3d_mcp fork b4efcd3</code></td>
+<td>x3d_mcp@b4efcd3:src/server.py</td>
+</tr>
+<tr>
+<td>N-MCP-7</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>tool functions that are <code>async def</code></td>
+<td>26 of 53</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>inspect.iscoroutinefunction</code></td>
+<td>section 8 harness, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-MCP-8</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>bytes crossing the tool boundary, 10 edits, 40,000-node scene (6,505,087 B)</td>
+<td>176,462,418 inline; 10,849 by <code>blob_id</code></td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, in-process</td>
+<td>scratch run, 2026-11-14 (method in D-MCP-3)</td>
+</tr>
+<tr>
+<td>N-MCP-9</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>same, 4,000-node scene (642,887 B)</td>
+<td>17,494,418 inline; 10,756 by <code>blob_id</code></td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, in-process</td>
+<td>D-MCP-3, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-MCP-10</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td><code>blob_put</code> stored size of the 40,000-node scene</td>
+<td>100,091 B (zstd) for 6,505,087 B</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, zstandard 0.25.0</td>
+<td>scratch run, 2026-11-14 (method in D-MCP-3)</td>
+</tr>
+<tr>
+<td>N-MCP-11</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>SDK request-body cap</td>
+<td>4 MiB (4,194,304 B), <code>413 Request body too large</code></td>
+<td>C</td>
+<td><code>mcp</code> 1.30.0 <code>server/transport_security.py</code> (read)</td>
+<td>installed package source</td>
+</tr>
+<tr>
+<td>N-MCP-12</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>splat run, 200,000 splats (11,200,362 B)</td>
+<td><code>splat_inspect</code> 3,310 B in 0.17 s; <code>splat_chunk</code> 4 chunks of 6.5 to 6.6 MB in 4.87 s, 5 of 5 files valid</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, numpy 2.5.4</td>
+<td>scratch run, seed 20261114</td>
+</tr>
+<tr>
+<td>N-MCP-13</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>oversize start tag</td>
+<td>11,700,036 B, <code>checked: false</code>, 1,763 ms</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, libxml2 2.14.6</td>
+<td>scratch probe, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-MCP-14</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>SPARQL guard defaults</td>
+<td>20,000 chars; 20 s; 20,000 rows</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code> (read; refusals exercised at 1 s and 5 rows)</td>
+<td>x3d_mcp@b4efcd3:src/x3d_utils/ontology_guard.py</td>
+</tr>
+<tr>
+<td>N-MCP-15</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>test suite</td>
+<td>1,367 passed, 27 skipped, 1,394 collected, 104 s</td>
+<td>C</td>
+<td>pytest 9.2.0, Python 3.13.18, no Chromium</td>
+<td>x3d_mcp@b4efcd3:tests/</td>
+</tr>
+<tr>
+<td>N-MCP-16</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>one 645 B scene, answer sizes</td>
+<td><code>validate_x3d</code> 62 B valid, 285 B one error; <code>exact_fix_hints</code> 1,325 B; <code>blob_put</code> 331 B; summary 539 B</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>section 7 table</td>
+</tr>
+<tr>
+<td>N-MCP-17</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>first <code>validate_x3d</code> call per schema version</td>
+<td>1,443 to 1,645 ms over two runs (4.1 and 4.0); later calls under 1 ms</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, libxml2 2.14.6</td>
+<td>section 8 byte table</td>
+</tr>
+<tr>
+<td>N-MCP-18</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>ledger probes on two records</td>
+<td>edit caught, first-record drop caught, fresh forged chain verifies</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>D-MCP-6</td>
+</tr>
+<tr>
+<td>N-MCP-19</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>stdio <code>path=</code> reach</td>
+<td>2 <code>validate_x3d</code> reads, 1 of 2 <code>blob_put</code> reads; 27 allowed extensions</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>D-MCP-5</td>
+</tr>
+<tr>
+<td>N-MCP-20</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>tools in the masterclass snapshot</td>
+<td>48 (and 34 at the base)</td>
+<td>L</td>
+<td>stated in the teardown at <code>13121b6</code>, not re-run</td>
+<td>x3d.docs@f172f67:docs/x3d_mcp/MASTERCLASS.md</td>
+</tr>
+<tr>
+<td>N-MCP-21</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>repo-stated zstd ratio on a real 10.9 MB scene</td>
+<td>25 to 1</td>
+<td>L</td>
+<td>stated in the repo, not re-run</td>
+<td>x3d_mcp@b4efcd3:docs/transfer-layer.md</td>
+</tr>
+<tr>
+<td>N-MCP-22</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>PR claims: false positives 96 to 22 (264 scenes); blind set 62.6 % to 100 %</td>
+<td>as stated</td>
+<td>L</td>
+<td>PR descriptions via the masterclass; not re-derived</td>
+<td>x3d.docs@f172f67:docs/x3d_mcp/MASTERCLASS.md</td>
+</tr>
+<tr>
+<td>N-SEM-1</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>tools, prompts at b4efcd3</td>
+<td>53 tools, 5 prompts, 1 resource, 1 template; 51 tools without numpy</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, in-memory <code>list_tools</code></td>
+<td>x3d_mcp@b4efcd3:src/server.py</td>
+</tr>
+<tr>
+<td>N-SEM-2</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>tools, prompts at the PR base</td>
+<td>48 tools, 4 prompts</td>
+<td>C</td>
+<td><code>x3d_mcp fork 13121b6</code></td>
+<td>x3d_mcp@13121b6:src/server.py</td>
+</tr>
+<tr>
+<td>N-SEM-3</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>converter vs Saxon goldens</td>
+<td>graph-isomorphic 10 of 10; text-identical 0 of 10</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, rdflib 7.6.0</td>
+<td>x3d_mcp@b4efcd3:tests/fixtures/scene_rdf/</td>
+</tr>
+<tr>
+<td>N-SEM-4</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>ontology 4.1 as bundled</td>
+<td>18,108 triples, 364 classes, 337 object and 727 datatype properties, sha256 057f1ba083a6</td>
+<td>C</td>
+<td>rdflib 7.6.0</td>
+<td>x3d_mcp@b4efcd3:src/validation/schemas/X3dOntology4.1.ttl</td>
+</tr>
+<tr>
+<td>N-SEM-5</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>domain pooling, 4.1 (4.0)</td>
+<td>901 (877) properties with a domain, 294 (296) with several, max 355 (347), <code>DEF</code> 337 (329)</td>
+<td>C</td>
+<td>rdflib 7.6.0</td>
+<td>same files</td>
+</tr>
+<tr>
+<td>N-SEM-6</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>axioms that could reject a node</td>
+<td>0 <code>owl:disjointWith</code>, 0 <code>owl:Restriction</code>, both releases</td>
+<td>C</td>
+<td>rdflib 7.6.0</td>
+<td>same files</td>
+</tr>
+<tr>
+<td>N-SEM-7</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>containerField defaults</td>
+<td>235 of 252 (3.3), 261 of 278 (4.0), 268 of 285 (4.1) elements</td>
+<td>C</td>
+<td>converter tables sha256 1a5f3229a7ee</td>
+<td>x3d_mcp@b4efcd3:src/validation/schemas/X3dToTurtle-tables.json</td>
+</tr>
+<tr>
+<td>N-SEM-8</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>positional IRI churn</td>
+<td>42 to 43 individuals; 34 kept, 8 renamed; 5 of 5 DEF-named kept</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>one NavigationInfo inserted into HelloWorld</td>
+</tr>
+<tr>
+<td>N-SEM-9</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>Box: map vs gate vs XSD</td>
+<td>map 12 parents (10 concrete); gate 10; both 9; XSD on gate pairs A 5, R 3, I 2</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, <code>X3DUOM 4.1</code>, <code>X3D XSD 4.1</code></td>
+<td><code>ontology_vs_gate(&quot;Box&quot;)</code></td>
+</tr>
+<tr>
+<td>N-SEM-10</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>ImageTexture: map vs gate vs XSD</td>
+<td>map 85 rows, 62 parents (55 concrete); gate 36 pairs, 14 parents; both 12; XSD gate A 31, R 1, I 4; map-only R 42, I 2</td>
+<td>C</td>
+<td>same</td>
+<td><code>ontology_vs_gate(&quot;ImageTexture&quot;)</code></td>
+</tr>
+<tr>
+<td>N-SEM-11</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td><code>subclass</code> inference</td>
+<td>HelloWorld +81 triples, types 3 / 3 / 8, 688 ms; LabScene41 +72, 3 / 4 / 6, 46 ms</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code> <code>rdf_infer</code></td>
+<td>scratch run, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-SEM-12</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>RDFS and OWL-RL closure</td>
+<td>RDFS +17,985 (HelloWorld, 4.9 s), +18,620 (LabScene41); OWL-RL +32,510 and +33,394, about 15 s</td>
+<td>C</td>
+<td>owlrl 7.6.2</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-SEM-13</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>DEF effect on type count (RDFS)</td>
+<td>DEF'd Transform 343, DEF-less Group 51, Scene 46; Box plus Transform node under OWL-RL: 14 types, 0 <code>owl:Nothing</code></td>
+<td>C</td>
+<td>owlrl 7.6.2</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-SEM-14</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td><code>x3d-core</code> shapes</td>
+<td>9 node shapes, 11 property shapes, 12 check ids, 5 <code>sh:agentInstruction</code>; slice 1,734 triples</td>
+<td>C</td>
+<td>rdflib, pyshacl 0.40.2</td>
+<td>x3d_mcp@b4efcd3:src/validation/schemas/shapes/x3d-core.shacl.ttl</td>
+</tr>
+<tr>
+<td>N-SEM-15</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>shapes on fixtures, no inference</td>
+<td>7 clean: 0 V, 3 W (S4); Faulted 4 V + 2 W; BoxChild 1 V; LabScene41Faulted 3 V</td>
+<td>C</td>
+<td>pyshacl 0.40.2</td>
+<td>x3d_mcp@b4efcd3:tests/fixtures/scene_rdf/</td>
+</tr>
+<tr>
+<td>N-SEM-16</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>false alarm with <code>inference=&quot;rdfs&quot;</code></td>
+<td>clean HelloWorld 2,185 results (2,180 V, 5 W), 17.3 s; faulted 2,236; 2 of 6 faults gone</td>
+<td>C</td>
+<td>pyshacl 0.40.2, owlrl 7.6.2</td>
+<td>D-SEM-6</td>
+</tr>
+<tr>
+<td>N-SEM-17</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>contact shape on ShelfCase</td>
+<td>Lamp floating 0.85, Book sunk -0.2; XSD valid, <code>validate_semantic</code> 0 errors, <code>x3d-core</code> 0 results; LabScene41 Orb floating 1.00</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, pyshacl 0.40.2</td>
+<td>section 7</td>
+</tr>
+<tr>
+<td>N-SEM-18</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>arity shapes on 3 colours</td>
+<td>naive minCount flags 2 (white wrongly); SPARQL arity 1; <code>sh:minListLength</code> 0</td>
+<td>C</td>
+<td>pyshacl 0.40.2</td>
+<td>D-SEM-7</td>
+</tr>
+<tr>
+<td>N-SEM-19</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>legality query by release</td>
+<td>6 rows (4.0), 1 row (4.1) on HelloWorldFaulted</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>D-SEM-4</td>
+</tr>
+<tr>
+<td>N-SEM-20</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>duplicate rows, joined graph</td>
+<td>4 plain, 1 with DISTINCT or without the ontology</td>
+<td>C</td>
+<td>rdflib 7.6.0</td>
+<td>D-SEM-8</td>
+</tr>
+<tr>
+<td>N-SEM-21</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>tool caps</td>
+<td>300,000 triples; 120,000 inline characters; 20,000 query characters; 20 s; 20,000 rows; 500 per page; 8 graphs; 256,000 shape characters; 120 XSD documents</td>
+<td>C</td>
+<td>read, not run</td>
+<td>x3d_mcp@b4efcd3:src/x3d_utils/{semantic_web,ontology_guard}.py</td>
+</tr>
+<tr>
+<td>N-SEM-22</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>session fault matrix</td>
+<td>colour seen by 3 of 4 layers, USE-before-DEF 1, ROUTE 2, floating and sunk 1</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>section 9</td>
+</tr>
+<tr>
+<td>N-SEM-23</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>claim ledger tamper test</td>
+<td>3 records verify; one changed character fails at index 0</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td><code>claim_append</code>, <code>claims_verify</code></td>
+</tr>
+<tr>
+<td>N-SEM-24</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>the lab page</td>
+<td>not yet published; no ontology-lab page at the pinned commit</td>
+<td>C</td>
+<td><code>x3d.demo@d10b457</code> directory read</td>
+<td>x3d.demo@d10b457:docs/demos/</td>
+</tr>
+<tr>
+<td>N-XIT-1</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>X3DUOM 4.1 concrete nodes</td>
+<td>267</td>
+<td>C</td>
+<td><code>X3DUOM 4.1</code> (sha256 4fc10e8e15c0), ElementTree</td>
+<td>x3d_mcp@b4efcd3:src/validation/schemas/X3dUnifiedObjectModel-4.1.xml</td>
+</tr>
+<tr>
+<td>N-XIT-2</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>nodes X_ITE can <code>createNode</code></td>
+<td>266 of 267 (<code>ProtoInstance</code> fails); same on 5 patches</td>
+<td>C</td>
+<td><code>X_ITE 16.7.0</code> (and 16.4.3, 16.5.1, 16.6.1, 16.7.1), Chromium 153, SwiftShader</td>
+<td>scratch run, 2026-11-14 (D-XIT-1)</td>
+</tr>
+<tr>
+<td>N-XIT-3</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>registered node names</td>
+<td>294 at 16.7.0; 295 at 16.7.1; 266 in X3DUOM 4.1, 28 not</td>
+<td>C</td>
+<td>regex over unminified <code>dist/</code></td>
+<td>npm tarball <code>x_ite@16.7.0</code> (D-XIT-1)</td>
+</tr>
+<tr>
+<td>N-XIT-4</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>supported components</td>
+<td>39 on 5 patches</td>
+<td>C</td>
+<td><code>X_ITE 16.7.0</code>, <code>browser.supportedComponents</code></td>
+<td>scratch run, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-XIT-5</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>webpack modules, own sources</td>
+<td>752 in 24 bundles, 730 own (16.4.3 to 16.7.0); 762 and 732 at 16.7.1</td>
+<td>C</td>
+<td>marker scan, <code>X_ITE 16.7.0</code></td>
+<td>npm tarballs (D-XIT-7)</td>
+</tr>
+<tr>
+<td>N-XIT-6</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td><code>x_ite.min.js</code> size</td>
+<td>1,306,961 B raw; 280,795 B at <code>gzip -9</code>; sha256 prefix b7df063e8cb1; byte-identical to the vendored copy</td>
+<td>C</td>
+<td><code>wc</code>, <code>gzip -9</code>, <code>sha256sum</code></td>
+<td>x3d.docs@f172f67:docs/vendor/x_ite/x_ite.min.js</td>
+</tr>
+<tr>
+<td>N-XIT-7</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>WebGL2 only</td>
+<td>1 <code>getContext (&quot;webgl2&quot;)</code> line; 0 hits for webgpu</td>
+<td>C</td>
+<td>grep, <code>X_ITE 16.7.0</code></td>
+<td>npm tarball <code>x_ite@16.7.0</code></td>
+</tr>
+<tr>
+<td>N-XIT-9</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>release cadence, 16.x</td>
+<td>23 releases, 2026-07-27 to 2026-11-08, median gap 5.7 d, 68 in 365 d</td>
+<td>C</td>
+<td>npm 10.9.9 <code>npm view x_ite time</code></td>
+<td>npm registry, read 2026-11-14</td>
+</tr>
+<tr>
+<td>N-XIT-10</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>npm versions and maintainers</td>
+<td>306 versions; 1 maintainer; latest 16.7.1</td>
+<td>C</td>
+<td>npm 10.9.9</td>
+<td>npm registry, read 2026-11-14</td>
+</tr>
+<tr>
+<td>N-XIT-11</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>draw test, visible box</td>
+<td>0.1752 on 5 patches</td>
+<td>C</td>
+<td><code>X_ITE 16.4.3</code> to <code>16.7.1</code>, Chromium 153, SwiftShader, 320 x 240</td>
+<td>scratch run (D-XIT-2)</td>
+</tr>
+<tr>
+<td>N-XIT-12</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>draw test, blank and off-camera</td>
+<td>0.0000 on 5 patches; first two frames 1.0000</td>
+<td>C</td>
+<td>same</td>
+<td>scratch run (D-XIT-2)</td>
+</tr>
+<tr>
+<td>N-XIT-14</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>picking with a pickable faint shape</td>
+<td>0 events; 1 event after <code>pointerEvents = false</code></td>
+<td>C</td>
+<td><code>X_ITE 16.4.3</code>, <code>16.5.1</code>, <code>16.7.0</code></td>
+<td>scratch run (D-XIT-4)</td>
+</tr>
+<tr>
+<td>N-XIT-15</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>hosted-page policy trap</td>
+<td>canvas 0 x 0 CSS, 1 x 1 buffer; 0.1752 with the fix</td>
+<td>C</td>
+<td><code>X_ITE 16.5.1</code>, <code>16.7.0</code>, emulated policy</td>
+<td>scratch run (D-XIT-3)</td>
+</tr>
+<tr>
+<td>N-XIT-16</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>callback freeze</td>
+<td>B events per 500 ms: 28 to 31 guarded, 0 throwing</td>
+<td>C</td>
+<td><code>X_ITE 16.5.1</code>, <code>16.7.0</code>, <code>16.7.1</code></td>
+<td>scratch run (D-XIT-6)</td>
+</tr>
+<tr>
+<td>N-XIT-17</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>vendored patches in <code>x3d.demo</code></td>
+<td>20 files: 1 x 16.4.3, 13 x 16.5.1, 5 x 16.6.0, 1 x 16.7.0; 29 pages</td>
+<td>C</td>
+<td>shell over banners</td>
+<td>x3d.demo@d10b457:docs/demos (D-XIT-8)</td>
+</tr>
+<tr>
+<td>N-XIT-18</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>renderer vs validator, seven scenes</td>
+<td>all draw 0.1752; 5 invalid or inconsistent; 3 dropped something silently</td>
+<td>C</td>
+<td><code>X_ITE 16.7.0</code>; <code>x3d_mcp fork b4efcd3</code></td>
+<td>scratch run (D-XIT-5)</td>
+</tr>
+<tr>
+<td>N-XIT-19</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>browser option defaults</td>
+<td><code>ColorSpace LINEAR_WHEN_PHYSICAL_MATERIAL</code>, <code>ToneMapping NONE</code>, <code>DisplayColorSpace SRGB</code>, <code>Exposure 1</code>, <code>Multisampling 4</code>, <code>OrderIndependentTransparency false</code>, <code>MaximumFrameRate 80</code></td>
+<td>C</td>
+<td><code>X_ITE 16.4.3</code> to <code>16.7.1</code>, <code>getBrowserOption</code></td>
+<td>scratch run, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-XIT-21</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>version diff 16.4.3 to 16.7.1</td>
+<td>2 renames, +10 modules and +1 node at 16.7.1; defaults unchanged</td>
+<td>C</td>
+<td>marker and name scan</td>
+<td>npm tarballs (section 8)</td>
+</tr>
+<tr>
+<td>N-XIT-22</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>locus shares (H7)</td>
+<td><code>WebXR</code> 100%, <code>GaussianSplats</code> 83%, <code>Text</code> 68%, <code>RigidBodyPhysics</code> 1%, <code>HAnim</code> 0%</td>
+<td>C</td>
+<td>marker scan, <code>X_ITE 16.7.0</code></td>
+<td>npm tarball (D-XIT-7)</td>
+</tr>
+<tr>
+<td>N-XIT-23</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>teardown anatomy</td>
+<td>98,369 lines, 730 modules, 5,940 functions; 194 / 43 / 29 / 1 field conformance</td>
+<td>L</td>
+<td>read, not re-run</td>
+<td>x3d.docs@f172f67:docs/x_ite/MASTERCLASS.md</td>
+</tr>
+<tr>
+<td>N-XIT-24</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>curriculum</td>
+<td>32 steps in 4 tracks of 8</td>
+<td>C</td>
+<td>read in the exact file</td>
+<td>x3d.docs@f172f67:docs/x_ite/MASTERCLASS.md</td>
+</tr>
+<tr>
+<td>N-XRY-1</td>
+<td><a href="07-xray.html">07</a></td>
+<td>declared looks</td>
+<td>12 (6 contrasts, 6 drifts); manifest sha256 prefix a5fce6ec4bade0c8</td>
+<td>C</td>
+<td><code>x3d.xray@8fa6845</code></td>
+<td>x3d.xray@8fa6845:x3dray/looks.py</td>
+</tr>
+<tr>
+<td>N-XRY-2</td>
+<td><a href="07-xray.html">07</a></td>
+<td>thresholds</td>
+<td>Cliff floor 147/1000, TV floor 1/10, alpha 1/20, q survive 1/10, q Confirmed 1/20, MIN_SIDE 20, M 199..999, WORK_CAP 10,000,000</td>
+<td>C</td>
+<td>read in code</td>
+<td>x3d.xray@8fa6845:x3dray/looks.py</td>
+</tr>
+<tr>
+<td>N-XRY-3</td>
+<td><a href="07-xray.html">07</a></td>
+<td>noise calibration</td>
+<td>4 of 150 pure-noise histories earn a Confirmed (2.67%)</td>
+<td>C</td>
+<td><code>examples/eda_1_signal_and_noise.py --calibrate</code>, seeds 1000 to 1149</td>
+<td>x3d.xray@8fa6845:examples/</td>
+</tr>
+<tr>
+<td>N-XRY-4</td>
+<td><a href="07-xray.html">07</a></td>
+<td>planted signal</td>
+<td>2 C looks (effect 647/1000 and 380/1000, q 0.0060)</td>
+<td>C</td>
+<td>same, seed 7</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-XRY-5</td>
+<td><a href="07-xray.html">07</a></td>
+<td>price of looking</td>
+<td>q 0.0130 at m = 13; 0.0510 at m = 51; 0.0120 at m = 12</td>
+<td>C</td>
+<td><code>stats.bh_q</code></td>
+<td>x3d.xray@8fa6845:x3dray/stats.py</td>
+</tr>
+<tr>
+<td>N-XRY-6</td>
+<td><a href="07-xray.html">07</a></td>
+<td>SplitMix64 seed 0 first word</td>
+<td>16294208416658607535 (0xE220A8397B1DCDAF)</td>
+<td>C</td>
+<td><code>stats.SplitMix64</code></td>
+<td>x3d.xray@8fa6845:x3dray/stats.py</td>
+</tr>
+<tr>
+<td>N-XRY-7</td>
+<td><a href="07-xray.html">07</a></td>
+<td>largest passing permutation count at M = 999</td>
+<td>49</td>
+<td>C</td>
+<td>arithmetic on <code>ALPHA</code></td>
+<td>x3d.xray@8fa6845:x3dray/looks.py</td>
+</tr>
+<tr>
+<td>N-XRY-8</td>
+<td><a href="07-xray.html">07</a></td>
+<td>test suite</td>
+<td>857 ran, 810 passed, 3 failed, 24 errored, 20 skipped, 295.5 s</td>
+<td>C</td>
+<td><code>unittest discover</code>, Git 2.43.0, Python 3.13.18</td>
+<td>x3d.xray@8fa6845:tests/</td>
+</tr>
+<tr>
+<td>N-XRY-9</td>
+<td><a href="07-xray.html">07</a></td>
+<td>JS twin and inference tests</td>
+<td>37 and 16 tests pass</td>
+<td>C</td>
+<td><code>test_eda_infer</code>, <code>test_eda_js_parity</code>, Node 22.23.4</td>
+<td>x3d.xray@8fa6845:tests/</td>
+</tr>
+<tr>
+<td>N-XRY-10</td>
+<td><a href="07-xray.html">07</a></td>
+<td>gallery suite</td>
+<td>43 pass; 42 pass with a shared sign mistake</td>
+<td>C</td>
+<td>scratch copy, Python 3.13.18</td>
+<td>x3d.xray@8fa6845:tests/test_gallery.py</td>
+</tr>
+<tr>
+<td>N-XRY-11</td>
+<td><a href="07-xray.html">07</a></td>
+<td>tool set</td>
+<td>11 shared, 1 MCP-only, 4 page-only</td>
+<td>C</td>
+<td><code>python3 -m x3dray tools</code></td>
+<td>x3d.xray@8fa6845:x3dray/web/tools.js</td>
+</tr>
+<tr>
+<td>N-XRY-12</td>
+<td><a href="07-xray.html">07</a></td>
+<td>repository size</td>
+<td>12,844 Python lines in <code>x3dray/</code>, 4,842 JavaScript lines in the web folders, 44 test files, 875 <code>def test_</code> lines</td>
+<td>C</td>
+<td><code>wc -l</code>, grep</td>
+<td>x3d.xray@8fa6845</td>
+</tr>
+<tr>
+<td>N-XRY-13</td>
+<td><a href="07-xray.html">07</a></td>
+<td>synthetic scene</td>
+<td><code>xray.x3d</code> 125,302 B, 98 labels, 12 buildings, 16 commits; XSD 4.0 valid</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code>, lxml 6.1.3</td>
+<td>experiments/smoke_synthetic_pipeline.py run</td>
+</tr>
+<tr>
+<td>N-XRY-14</td>
+<td><a href="07-xray.html">07</a></td>
+<td>semantic findings on that scene</td>
+<td>0 errors, 7 warnings, 145 info</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-XRY-15</td>
+<td><a href="07-xray.html">07</a></td>
+<td><code>MetadataString</code> tagged</td>
+<td>90 of 90; stripped: 90 <code>containerfield-unknown</code>, XSD errors 0</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>same (D-XRY-5)</td>
+</tr>
+<tr>
+<td>N-XRY-16</td>
+<td><a href="07-xray.html">07</a></td>
+<td>smoke pipeline</td>
+<td><code>ok</code> true, <code>release_ready</code> false; 3 gates pass, 4 skipped; page 37 files, 6,295,152 B</td>
+<td>C</td>
+<td><code>x3d.xray@8fa6845</code></td>
+<td>smoke JSON, 2026-11-14</td>
+</tr>
+<tr>
+<td>N-XRY-17</td>
+<td><a href="07-xray.html">07</a></td>
+<td>thin repo: history</td>
+<td>10 commits, 1 day, ai 9 and you 1, 363 files</td>
+<td>C</td>
+<td><code>x3d.xray@8fa6845</code> on <code>x3d.castle@d70e00c</code></td>
+<td>D-XRY-4</td>
+</tr>
+<tr>
+<td>N-XRY-18</td>
+<td><a href="07-xray.html">07</a></td>
+<td>thin repo: tree</td>
+<td>12,218,378 B, 78,637 text lines; top 64 files 79.2% of lines</td>
+<td>C</td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-XRY-19</td>
+<td><a href="07-xray.html">07</a></td>
+<td>thin repo: churn</td>
+<td>274 of 283 text files churn equals size; 349 of 363 files in one commit</td>
+<td>C</td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-XRY-20</td>
+<td><a href="07-xray.html">07</a></td>
+<td>thin repo: EDA</td>
+<td>12 looks, 0 evaluated; lattice 1 concept over 15 files</td>
+<td>C</td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-XRY-21</td>
+<td><a href="07-xray.html">07</a></td>
+<td>pass 1 benchmark</td>
+<td>121 nodes: 10.14 s to 0.63 s (16.08x), outputs hash-equal</td>
+<td>L</td>
+<td>read, not re-run</td>
+<td>x3d.xray@8fa6845:docs/development-pass-1.html</td>
+</tr>
+<tr>
+<td>N-XRY-22</td>
+<td><a href="07-xray.html">07</a></td>
+<td>pass tests</td>
+<td>178, 312 and 442 Python tests at passes 1, 2, 3</td>
+<td>L</td>
+<td>read, not re-run</td>
+<td>x3d.xray@8fa6845:docs/development-pass-{1,2,3}.html</td>
+</tr>
+<tr>
+<td>N-XRY-23</td>
+<td><a href="07-xray.html">07</a></td>
+<td>pass 3 layout repair</td>
+<td>7,936 overlapping glyph pairs to 0 at 1,000 entities</td>
+<td>L</td>
+<td>read, not re-run</td>
+<td>x3d.xray@8fa6845:docs/development-pass-3.html</td>
+</tr>
+<tr>
+<td>N-XRY-24</td>
+<td><a href="07-xray.html">07</a></td>
+<td>limits of the calibration</td>
+<td>4 of 150 is for these seeds and this generator</td>
+<td>C</td>
+<td><code>examples/eda_1_signal_and_noise.py</code></td>
+<td>x3d.xray@8fa6845:examples/</td>
+</tr>
+<tr>
+<td>N-BAB-1</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>concrete nodes in the bridge tracker</td>
+<td>260</td>
+<td>C</td>
+<td><code>X3DUOM 4.0</code> via <code>NODES.json</code></td>
+<td>x3d.loom@162ab18:x3d.webgpu/bridge/NODES.json</td>
+</tr>
+<tr>
+<td>N-BAB-2</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>tracker headline &quot;reader knows&quot;</td>
+<td>186 of 260 (71.5%): base 75, gap 70, bridged 41; claimed 8, blocked 1, todo 65</td>
+<td>C</td>
+<td><code>driver.py status</code>, <code>x3d.loom@162ab18</code></td>
+<td>x3d.loom@162ab18:x3d.webgpu/bridge/tools/driver.py (D-BAB-1)</td>
+</tr>
+<tr>
+<td>N-BAB-3</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>page-bundle census, 8 Nov tree</td>
+<td>68 of 260 (72 defs)</td>
+<td>C</td>
+<td><code>census.js</code> on <code>git archive 60824ce</code></td>
+<td>x3d.loom@60824ce:x3d.webgpu/demo/src (D-BAB-2)</td>
+</tr>
+<tr>
+<td>N-BAB-4</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>page-bundle census, today</td>
+<td>75 of 260 (79 defs); 83 (87) with the hall extension</td>
+<td>C</td>
+<td><code>census.js</code>, 162ab18</td>
+<td>x3d.loom@162ab18:x3d.webgpu/bridge/tools/census.js</td>
+</tr>
+<tr>
+<td>N-BAB-5</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>bridged without a logged gap</td>
+<td>41 of 260 (15.8%)</td>
+<td>C</td>
+<td><code>driver.py status</code></td>
+<td>x3d.loom@162ab18:x3d.webgpu/bridge/NODES.json</td>
+</tr>
+<tr>
+<td>N-BAB-6</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>batch headlines 20 to 26</td>
+<td>175, 175, 179, 184, 184, 181, 186</td>
+<td>L</td>
+<td>read in <code>BATCH-NN.md</code></td>
+<td>x3d.loom@162ab18:x3d.webgpu/bridge/BATCH-20.md to BATCH-26.md</td>
+</tr>
+<tr>
+<td>N-BAB-7</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>slots filled by batches 21 to 26</td>
+<td>30: 17 bridged, 13 gap; PRs #43 to #45</td>
+<td>C</td>
+<td><code>NODES.json</code>, merge log</td>
+<td>x3d.loom@162ab18:x3d.webgpu/bridge/NODES.json</td>
+</tr>
+<tr>
+<td>N-BAB-8</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>visual compare rows, batches 21 to 26</td>
+<td>42 rows; PSNR 11.73 to 40.03, median 35.92</td>
+<td>C</td>
+<td>parsed from the reports; X_ITE 16.6.0, 320 x 240, SwiftShader</td>
+<td>x3d.loom@162ab18:x3d.webgpu/bridge/BATCH-21.md to BATCH-26.md</td>
+</tr>
+<tr>
+<td>N-BAB-9</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>X_ITE 16.7.0 WebGPU strings</td>
+<td>0 &quot;webgpu&quot;, 0 <code>navigator.gpu</code>, 1 <code>getContext(&quot;webgl2&quot;</code></td>
+<td>C</td>
+<td>grep, <code>x_ite.min.js</code> sha256 prefix b7df063e8cb1</td>
+<td>x3d.docs@f172f67:docs/vendor/x_ite/x_ite.min.js (grep, section 2)</td>
+</tr>
+<tr>
+<td>N-BAB-10</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>merged traps</td>
+<td>50: first seen v1 13, v2 19, v3 13, v4 5; tiers A 14, B 20, C 11, W 5</td>
+<td>C (count), S (ranking)</td>
+<td>script over the section 5 table</td>
+<td>this chapter, section 5</td>
+</tr>
+<tr>
+<td>N-BAB-11</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>distinct hash-keyed shader programs</td>
+<td>26 (Collider 5, brain 4, manifold 7, Gobbler 3 6, Demiurge 4); 22 on 8 Nov; 6 more keyed by DEF in Dynasty</td>
+<td>C</td>
+<td>grep of <code>'[0-9a-f]{8}-[0-9a-f]{8}'</code></td>
+<td>x3d.loom@162ab18:x3d.webgpu/demo/src</td>
+</tr>
+<tr>
+<td>N-BAB-12</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>facade PSNR by window</td>
+<td>39.30 dB whole; 41.90 dB bottom 40 rows cropped; MAE 0.84 and 0.79</td>
+<td>C</td>
+<td>numpy, Pillow, 960 x 540, X_ITE 16.4.3 reference</td>
+<td>x3d.loom@162ab18:runs/webgpu-quick-wins-20261107/ (D-BAB-4)</td>
+</tr>
+<tr>
+<td>N-BAB-13</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Pantheon splats; Manifold</td>
+<td>50.17 and 51.01 dB; 49.34 and 48.47 dB</td>
+<td>L</td>
+<td><code>X_ITE 16.4.3</code> (960 x 540); <code>X_ITE 16.5.1</code> (640 x 360); SwiftShader</td>
+<td>x3d.loom@162ab18:runs/webgpu-{pantheon-splats,manifold}-2026110*/RECEIPT.md</td>
+</tr>
+<tr>
+<td>N-BAB-14</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>brain, Babylon 9.32.0</td>
+<td>33.03 all; 35.11 glass to 21.53 labels; torso 30.26</td>
+<td>L</td>
+<td><code>X_ITE 16.6.0</code>, 640 x 360, SwiftShader</td>
+<td>x3d.loom@162ab18:runs/webgpu-brain-20261107/RECEIPT.md</td>
+</tr>
+<tr>
+<td>N-BAB-15</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>KANSEI, masked</td>
+<td>24.36 to 32.46 over 6 views; sim hash equal in 6 of 6</td>
+<td>L</td>
+<td><code>X_ITE 16.5.1</code>, 640 x 360, SwiftShader</td>
+<td>x3d.loom@162ab18:runs/webgpu-drift-20261107/RECEIPT.md</td>
+</tr>
+<tr>
+<td>N-BAB-16</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Material Odyssey</td>
+<td>25.5 to 30.7 as authored (6 film times); 18.4 to 28.2 look on</td>
+<td>L</td>
+<td><code>X_ITE 16.4.3</code>, 1280 x 536, SwiftShader</td>
+<td>x3d.loom@162ab18:runs/webgpu-odyssey-20261108/RECEIPT.md</td>
+</tr>
+<tr>
+<td>N-BAB-17</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Chirp; Cloud; Gobbler 3; Demiurge; Dynasty; Hall</td>
+<td>24.87 to 25.36; 19.24 to 19.40 (21.01 to 24.96 masked); 14.60 to 19.66; 7.18 to 13.26; 29.0 to 37.8; 17.5 to 25.3 dB</td>
+<td>L</td>
+<td><code>X_ITE 16.5.1</code>, SwiftShader</td>
+<td>x3d.loom@162ab18:runs/webgpu-{chirp,cloud,gobbler,demiurge,dynasty,hall}-*/</td>
+</tr>
+<tr>
+<td>N-BAB-18</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>corpus name census</td>
+<td>111 files: 86 base-only, 22 need gap or todo or claimed, 1 unknown</td>
+<td>C</td>
+<td>lxml, <code>NODES.json</code></td>
+<td>x3d.demo@d10b457:docs/demos (D-BAB-5)</td>
+</tr>
+<tr>
+<td>N-BAB-19</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>real-GPU timing receipts for any bridge body</td>
+<td>0; <code>bench/receipts/</code> holds 1 file (the G1 adapter probe)</td>
+<td>C</td>
+<td><code>ls</code></td>
+<td>x3d.loom@162ab18:x3d.webgpu/bench/receipts/</td>
+</tr>
+<tr>
+<td>N-CAS-1</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>registered model formats; of them with <code>OnSave</code></td>
+<td>21; 7</td>
+<td>C</td>
+<td><code>formats.py</code>, 2026-11-14</td>
+<td><code>castle-engine@48ce617:src/</code></td>
+</tr>
+<tr>
+<td>N-CAS-2</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>parse-only groups; registrations in them (one abstract)</td>
+<td>11; 99</td>
+<td>C</td>
+<td><code>xite_names.py</code></td>
+<td><code>castle-engine@48ce617:src/scene/x3d/castleinternalnodesunsupported.pas</code></td>
+</tr>
+<tr>
+<td>N-CAS-3</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>parse-only names with a same-named non-abstract class in X_ITE</td>
+<td>97 of 99</td>
+<td>C</td>
+<td><code>xite_names.py</code>, <code>x_ite@16.7.1</code> npm dist</td>
+<td><code>x_ite@16.7.1:dist/x_ite.js</code>, <code>dist/assets/components/</code></td>
+</tr>
+<tr>
+<td>N-CAS-4</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>non-abstract classes found in X_ITE by <code>getStaticProperties</code></td>
+<td>292</td>
+<td>C</td>
+<td><code>xite_names.py</code></td>
+<td><code>x_ite@16.7.1:dist/</code></td>
+</tr>
+<tr>
+<td>N-CAS-5</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>names and <code>RegisterNodeClasses</code> calls in the whole tree</td>
+<td>333; 43</td>
+<td>C</td>
+<td>inline Python</td>
+<td><code>castle-engine@48ce617:src/</code></td>
+</tr>
+<tr>
+<td>N-CAS-6</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>change classes in <code>TX3DChange</code>; spec files; generated helper files</td>
+<td>43; 42; 409</td>
+<td>C</td>
+<td>inline Python, <code>ls</code></td>
+<td><code>castle-engine@48ce617:src/scene/x3d/castlefields_misctypes.inc</code>, <code>tools/internal/x3d-nodes-to-pascal/</code></td>
+</tr>
+<tr>
+<td>N-CAS-7</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>mean FLIP, core 11: X_ITE, Babylon add-on glb, Babylon Castle glb, Castle native, Castle all</td>
+<td>0.0457, 0.0485, 0.0491, 0.1149, 0.1146</td>
+<td>C</td>
+<td><code>core11.py</code>; FLIP 1.7, Cycles 256 spp, 512 px</td>
+<td><code>x3d.castle@d70e00c:results/quality/public/results.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-8</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>mean FLIP, all 15, same five legs</td>
+<td>0.0748, 0.0516, 0.0658, 0.1321, 0.1289</td>
+<td>C</td>
+<td><code>core11.py</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-CAS-9</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>core scenes where Castle native beats X_ITE; means on the other 7 core scenes</td>
+<td>4 of 11; 0.0406 against 0.0386</td>
+<td>C</td>
+<td><code>core11.py</code>, inline Python</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-CAS-10</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>share of the all-15 Castle-minus-X_ITE gap in <code>materials-world</code> plus <code>lights-after</code></td>
+<td>0.770</td>
+<td>C</td>
+<td>inline Python</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-CAS-11</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td><code>p1</code> Castle FLIP before and after attenuation <code>0 0 1</code>; X_ITE</td>
+<td>0.0546, 0.0059; 0.0053</td>
+<td>C</td>
+<td>receipt read</td>
+<td><code>docs/quality-leg.md</code> section 3</td>
+</tr>
+<tr>
+<td>N-CAS-12</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td><code>p4</code> Castle FLIP before and after; X_ITE; share of the gap closed</td>
+<td>0.0446, 0.0237; 0.0085; 58%</td>
+<td>C</td>
+<td>receipt read, arithmetic</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-CAS-13</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>mean FLIP change of the best single Castle switch (SSAA 4x)</td>
+<td>-0.0027</td>
+<td>C</td>
+<td>inline Python, 15 scenes</td>
+<td><code>results.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-14</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>stock writer glbs failing the validator; errors</td>
+<td>24 of 70; 14,379</td>
+<td>C</td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, receipt</td>
+<td><code>results/scout-70/stock-writer-gltf-validate.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-15</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>exporter glbs with 0 errors and 0 warnings; INFO notes</td>
+<td>70 of 70; 77</td>
+<td>C</td>
+<td>same validator, receipt</td>
+<td><code>results/phase3/gate70-default/gltf-validate.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-16</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>exporter census: lights, cameras, textures, vertex colours, lines, points, animation</td>
+<td>41/43, 55/55, 11/17, 26/27, 14/17, 10/11, 0/21</td>
+<td>C</td>
+<td><code>census_compare.py</code> receipt</td>
+<td><code>results/phase3/gate70-default/census.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-17</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>rig, 21 scenes, phase 3 <code>self</code>: mean; median</td>
+<td>7.80; 3.40</td>
+<td>C</td>
+<td>X_ITE 16.7.1 vs Babylon 9.32.0, Chromium 153.0.8010.12, SwiftShader, 512 px</td>
+<td><code>results/phase3/rig-gate-summary.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-18</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>same rig, phase 2 binary <code>self</code>: mean; median</td>
+<td>7.53; 1.05</td>
+<td>C</td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-CAS-19</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>phase 2 receipt means: exporter <code>rigcam</code>, add-on glb, stock glb</td>
+<td>7.80, 9.22, 17.62</td>
+<td>C</td>
+<td>same rig</td>
+<td><code>results/rig-exporter/results.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-20</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>share of the 21-scene sum carried by the four largest scenes</td>
+<td>71%</td>
+<td>C</td>
+<td>inline Python</td>
+<td><code>rig-gate-summary.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-21</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>fixtures passing: phase 3 binary; phase 2 binary</td>
+<td>18 of 18; 4 of 18</td>
+<td>C</td>
+<td><code>phase3_check.py</code> receipts</td>
+<td><code>results/phase3/fixtures.json</code>, <code>fixtures-baseline.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-22</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>gap rows: total; Confirmed; Likely</td>
+<td>20; 19; 1</td>
+<td>C</td>
+<td>row count</td>
+<td><code>docs/castle-gaps.md</code></td>
+</tr>
+<tr>
+<td>N-CAS-23</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>docker workflow runs, both success</td>
+<td>2 (8 min 32 s; 2 min 50 s)</td>
+<td>C</td>
+<td><code>gh run view</code>, 2026-11-14</td>
+<td><code>hagopjay/x3d.castle</code> Actions</td>
+</tr>
+<tr>
+<td>N-CAS-24</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td><code>#version</code> ComposedShader snippet through the validator</td>
+<td>valid, 0 errors, 1 INFO</td>
+<td>C</td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>drill D-CAS-6</td>
+</tr>
+<tr>
+<td>N-CAS-25</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>mutated glb, inner cone above outer</td>
+<td>E=1 W=0 I=1</td>
+<td>C</td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code></td>
+<td>drill D-CAS-5</td>
+</tr>
+<tr>
+<td>N-CAS-26</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>physical light factor at 3 m, attenuation <code>1 0 0</code> against <code>0 0 1</code></td>
+<td>1 against 0.111 (9x)</td>
+<td>C</td>
+<td>arithmetic on <code>add_light.glsl</code></td>
+<td><code>castle-engine@48ce617:src/scene/glsl/source/lighting_model_physical/add_light.glsl:123-128</code></td>
+</tr>
+<tr>
+<td>N-CAS-27</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>specular cap 0.25 against 0.5, rig mean; median</td>
+<td>7.45 against 7.80; 0.58 against 3.40</td>
+<td>C</td>
+<td>rig, 3 repeats, Babylon 9.32 only; receipt re-read</td>
+<td><code>results/phase3/rig-specular-cap025-summary.json</code></td>
+</tr>
+<tr>
+<td>N-CAS-28</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>field-guide claims checked; split</td>
+<td>279 = 127 + 133 + 13 + 6</td>
+<td>S</td>
+<td>carried from a private note</td>
+<td>not linkable</td>
+</tr>
+<tr>
+<td>N-BLE-1</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td><code>test_*</code> functions (AST)</td>
+<td>336 in 35 files (274 in 30 bpy files)</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>Python 3.13.18 <code>ast</code></td>
+<td>x3d-blender-io@ab99988:tests/</td>
+</tr>
+<tr>
+<td>N-BLE-2</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>tests run without <code>bpy</code></td>
+<td>62, OK</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>unittest runner</td>
+<td>x3d-blender-io@ab99988:.github/scripts/run_tests_in_blender.py</td>
+</tr>
+<tr>
+<td>N-BLE-3</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>tests run with <code>bpy</code></td>
+<td>335 ran, OK, 10 skipped (glb validator absent)</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>bpy 5.3.0</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-BLE-4</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>glb-validator tests with the validator present</td>
+<td>10 of 10 pass</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>gltf-validator 2.0.0-dev.3.10</code>, <code>bpy 5.3.0</code></td>
+<td>x3d-blender-io@ab99988:tests/test_glb_validator_bpy.py</td>
+</tr>
+<tr>
+<td>N-BLE-5</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>conformance cases</td>
+<td>195 = 148 CORE + 21 FIDELITY + 26 ROADMAP</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>tests/suite/x3d_test_suite.py</code> on <code>bpy 5.3.0</code></td>
+<td>x3d-blender-io@ab99988:tests/suite/README.md</td>
+</tr>
+<tr>
+<td>N-BLE-6</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>CORE pass, ROADMAP, FIDELITY</td>
+<td>148/148; 21 MISSING + 5 NEW; 19 WARN + 2 PASS</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>validate_x3d_export.py</code>, <code>bpy 5.3.0</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-BLE-7</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>suite exports valid</td>
+<td>main 7,010,591 B (4.0), crease 4,911,800 B (4.0), x41 4,617,408 B (4.1), 0 errors</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>x3d_mcp fork b4efcd3</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-BLE-8</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>concrete nodes in X3DUOM 4.1</td>
+<td>267</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>XML count of <code>ConcreteNode</code></td>
+<td>x3d_mcp@b4efcd3:src/validation/schemas/X3dUnifiedObjectModel-4.1.xml</td>
+</tr>
+<tr>
+<td>N-BLE-9</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>nodes written / read, teardown</td>
+<td>54 / 68 (base 39 / 42), both 43</td>
+<td><strong><span class="g L" title="Likely">L</span></strong></td>
+<td>teardown method, not reproduced</td>
+<td>x3d.docs@f172f67:docs/x3d-blender-io/MASTERCLASS.md</td>
+</tr>
+<tr>
+<td>N-BLE-10</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>nodes written / read, naive literal scan</td>
+<td>46 / 65, both 38</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>rule in section 3</td>
+<td>x3d-blender-io@ab99988:source/</td>
+</tr>
+<tr>
+<td>N-BLE-11</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>probe centre patch, X_ITE units (X_ITE / Babylon.js)</td>
+<td>74/74, 204/203, 204/203, 57/56, 78/78</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>X_ITE 16.7.1</code>, <code>Babylon.js 9.32.0</code>, Chrome 153 SwiftShader</td>
+<td>x3d-blender-io@ab99988:tools/fidelity_rig/probes.json</td>
+</tr>
+<tr>
+<td>N-BLE-12</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>probe centre patch, BLENDER units (Babylon.js)</td>
+<td>30, 27, 120, 30, 78</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-BLE-13</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>p2 <code>geometry_delta</code></td>
+<td>47.07 (centre 204 against 203)</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-BLE-14</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>glb validator on the five probe glbs</td>
+<td>0 errors, 0 warnings, 3 infos each</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code></td>
+<td>x3d-blender-io@ab99988:tools/fidelity_rig/validate_glb.mjs</td>
+</tr>
+<tr>
+<td>N-BLE-15</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>PLY bytes per splat, SH 0 to 3</td>
+<td>68, 104, 164, 248</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>splat_io.write_ply</code>, 1,000 splats</td>
+<td>x3d-blender-io@ab99988:source/splat_io.py</td>
+</tr>
+<tr>
+<td>N-BLE-16</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>toy bake: raw max, exposure, final max, bytes</td>
+<td>1.9151, 0.7569, 0.9696, 9,356 B (280 corners)</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>bpy 5.3.0</code> Cycles CPU 16 spp, <code>x3d_mcp fork b4efcd3</code></td>
+<td>(scratch script; reproduced by D-BLE-9)</td>
+</tr>
+<tr>
+<td>N-BLE-17</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>add-on version strings</td>
+<td>manifest 2.6.4; <code>bl_info</code> 2.6.1; generator meta v2.6.1</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>grep</code>, export header</td>
+<td>x3d-blender-io@ab99988:source/blender_manifest.toml, source/<strong>init</strong>.py</td>
+</tr>
+<tr>
+<td>N-BLE-18</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>legacy exporter header</td>
+<td><code>&lt;X3D version=&quot;3.0&quot;&gt;</code> for the option labelled &quot;X3D 3.3&quot;</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td>run of an X3D33 export</td>
+<td>x3d-blender-io@ab99988:source/export_x3d.py:342</td>
+</tr>
+<tr>
+<td>N-BLE-19</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>native splat type values</td>
+<td><code>['POINTS', 'GAUSSIAN_SPLAT']</code>; <code>wm.ply_export</code> of a splat: 0 vertices, 156 B</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>bpy 5.3.0</code></td>
+<td>probe (D-BLE-7)</td>
+</tr>
+<tr>
+<td>N-BLE-20</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>npm and PyPI latest on 2026-11-14</td>
+<td>bpy 5.3.0; x3d 4.0.65.8; x_ite 16.7.1; babylonjs 9.36.0 (rig pins 9.32.0)</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>pip index versions</code>, <code>npm view</code></td>
+<td>registries</td>
+</tr>
+<tr>
+<td>N-BLE-21</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>source size</td>
+<td>16,753 lines in <code>source/*.py</code>; <code>import_x3d.py</code> 7,340; <code>export_x3d.py</code> 1,985</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+<td><code>wc -l</code></td>
+<td>x3d-blender-io@ab99988:source/</td>
+</tr>
+<tr>
+<td>N-BLE-22</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>demo scenes, Blender units to X_ITE units, <code>geometry_delta</code></td>
+<td>40.5 to 25.3 (ontology constellation), 37.3 to 13.7 (materials shelf)</td>
+<td><strong><span class="g L" title="Likely">L</span></strong></td>
+<td>rig on nine scenes, README</td>
+<td>x3d-blender-io@ab99988:README.md</td>
+</tr>
+<tr>
+<td>N-BLE-23</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>baked village file growth</td>
+<td>26 KB to 330 KB gzipped</td>
+<td><strong><span class="g S" title="Suspected">S</span></strong></td>
+<td>carried from the bake-stage skill text</td>
+<td>skill text, receipt not public</td>
+</tr>
+<tr>
+<td>N-BLE-24</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>bridges first graded Confirmed that verified lower</td>
+<td>12 of 13</td>
+<td><strong><span class="g S" title="Suspected">S</span></strong></td>
+<td>verifier pass in a private note</td>
+<td>carried, not re-checked</td>
+</tr>
+<tr>
+<td>N-GLT-1</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>validator verdict on a 48-byte glb with no scene</td>
+<td>0 errors, 0 warnings, 0 tris</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code></td>
+<td>scratch run 2026-11-14 (snippet in Section 5.3)</td>
+</tr>
+<tr>
+<td>N-GLT-2</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>required unknown extension: validator infos / exit code</td>
+<td>1 info, exit 0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code></td>
+<td>scratch run 2026-11-14</td>
+</tr>
+<tr>
+<td>N-GLT-3</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>ratified extensions in the registry</td>
+<td>27 (24 KHR, 3 EXT)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Khronos registry sha256 prefix <code>32868b162d85</code></td>
+<td><code>KhronosGroup/glTF:extensions/README.md</code>, fetched 2026-11-14</td>
+</tr>
+<tr>
+<td>N-GLT-4</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>exhibition flat glb nodes / bytes / tris</td>
+<td>1,721 / 491,832 / 2,064</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code> plus JSON parse</td>
+<td>carried project glb, run 2026-11-14; matches <code>x3d-blender-io@ab99988:release_notes.md</code></td>
+</tr>
+<tr>
+<td>N-GLT-5</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>exhibition instanced glb nodes / bytes</td>
+<td>10 / 125,224</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-GLT-6</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>cathedral flat glb nodes / bytes / tris</td>
+<td>1,224 / 1,097,864 / 27,544</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-GLT-7</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>cathedral instanced glb nodes / bytes</td>
+<td>16 / 864,228</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-GLT-8</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>cathedral animated glb bytes / animations / channel path</td>
+<td>4,741,136 / 1 / <code>weights</code></td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>JSON parse 2026-11-14</td>
+<td>carried project glb</td>
+</tr>
+<tr>
+<td>N-GLT-9</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>repo scenes exporting a glb, all with 0 errors and 0 warnings</td>
+<td>33 of 34</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>bpy 5.3.0</code>, <code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, carried</td>
+<td><code>x3d-blender-io@ab99988:tools/fidelity_rig/README.md</code></td>
+</tr>
+<tr>
+<td>N-GLT-10</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>of those 33, empty glbs / points-only glbs</td>
+<td>5 / 2</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>same</td>
+<td><code>x3d-blender-io@ab99988:release_notes.md</code></td>
+</tr>
+<tr>
+<td>N-GLT-11</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>first animation sample, default versus <code>frame_start = 0</code></td>
+<td>0.041667 s versus 0.0 s</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>bpy 5.3.0</code></td>
+<td><code>x3d-blender-io@ab99988:tools/fidelity_rig/README.md</code></td>
+</tr>
+<tr>
+<td>N-GLT-12</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td><code>export_apply</code> True versus False: byte-identical glbs</td>
+<td>34 of 34 scenes</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>bpy 5.3.0</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-GLT-13</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>extreme scale: exporter result for Inline scale 1.057e-16</td>
+<td>about 1e8 too small (scale near 1e8 instead of 9.46e15)</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>bpy 5.3.0</code></td>
+<td><code>x3d-blender-io@ab99988:release_notes.md</code></td>
+</tr>
+<tr>
+<td>N-GLT-14</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td><code>emissiveColor 0.5</code> as drawn: X_ITE / as-is glb / sRGB glb</td>
+<td>128 / 186 / 127</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>X_ITE 16.7.1</code>, <code>Babylon.js 9.32.0</code>, Chromium 153, SwiftShader</td>
+<td><code>x3d-blender-io@ab99988:release_notes.md</code></td>
+</tr>
+<tr>
+<td>N-GLT-15</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>instanced versus flat render in Babylon.js 9.32.0</td>
+<td>0 of 262,144 pixels differ</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>Chromium 153, SwiftShader (carried)</td>
+<td><code>x3d-blender-io@ab99988:release_notes.md</code></td>
+</tr>
+<tr>
+<td>N-GLT-16</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>ROUTE elements in the animated X3D / in its glb</td>
+<td>2 / 0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>grep -c '&lt;ROUTE'</code> and JSON parse, 2026-11-14</td>
+<td>carried project files</td>
+</tr>
+<tr>
+<td>N-UNR-1</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>determinant of the axis swap P</td>
+<td>-1</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Python 3, 2026-11-14</td>
+<td>derivation in Section 4.1</td>
+</tr>
+<tr>
+<td>N-UNR-2</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>determinant of the alternative <code>(x, z, -y)</code></td>
+<td>+1</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Python 3, 2026-11-14</td>
+<td>Section 4.1</td>
+</tr>
+<tr>
+<td>N-UNR-3</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>UE <code>(120, 340, 90)</code> cm to X3D</td>
+<td><code>(1.2, 0.9, 3.4)</code> m</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>converter formula, 2026-11-14</td>
+<td>Section 4.1</td>
+</tr>
+<tr>
+<td>N-UNR-4</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>yaw 90 degrees to X3D rotation</td>
+<td><code>0 -1 0 1.5708</code></td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>converter functions, 2026-11-14</td>
+<td>Section 4.2</td>
+</tr>
+<tr>
+<td>N-UNR-5</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>horizontal 58 degrees at 16:9 to <code>fieldOfView</code></td>
+<td>0.6045 rad (34.63 degrees)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Python 3, 2026-11-14</td>
+<td>Section 4.4</td>
+</tr>
+<tr>
+<td>N-UNR-6</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>float32 spacing at 100,000 and 1,000,000</td>
+<td>0.0078 and 0.0625</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>numpy, 2026-11-14</td>
+<td>Section 4.5</td>
+</tr>
+<tr>
+<td>N-UNR-7</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>exhibition output <code>&lt;Transform&gt;</code> count</td>
+<td>1,719</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>grep -o '&lt;Transform '</code>, 2026-11-14</td>
+<td>converter output (private file)</td>
+</tr>
+<tr>
+<td>N-UNR-8</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>aurora static output <code>&lt;Transform&gt;</code> / USE</td>
+<td>1,216 / 1,208</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>grep, 2026-11-14</td>
+<td>converter output; re-run byte-identical</td>
+</tr>
+<tr>
+<td>N-UNR-9</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>exhibition glb nodes: flat / instanced</td>
+<td>1,721 / 10</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>JSON parse, <code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, 2026-11-14</td>
+<td><code>x3d-blender-io@ab99988:release_notes.md</code> agrees</td>
+</tr>
+<tr>
+<td>N-UNR-10</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>exhibition glb bytes: flat / instanced</td>
+<td>491,832 / 125,224</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>file size, 2026-11-14</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-UNR-11</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>aurora glb nodes: flat / instanced</td>
+<td>1,224 / 16</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>JSON parse, 2026-11-14</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-UNR-12</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>aurora glb bytes: flat / instanced</td>
+<td>1,097,864 / 864,228</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>file size, 2026-11-14</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-UNR-13</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>triangles: exhibition / aurora static</td>
+<td>2,064 / 27,544</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, 2026-11-14</td>
+<td>carried project glbs</td>
+</tr>
+<tr>
+<td>N-UNR-14</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>validator verdict on all four static and instanced glbs</td>
+<td>0 errors, 0 warnings</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-UNR-15</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>instanced render versus flat render in Babylon.js 9.32.0</td>
+<td>0 of 262,144 pixels differ</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>Chromium 153, SwiftShader (carried)</td>
+<td><code>x3d-blender-io@ab99988:release_notes.md</code></td>
+</tr>
+<tr>
+<td>N-UNR-16</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>probe p1 / p2 centre patch: X_ITE</td>
+<td>74 / 204</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>X_ITE 16.7.1</code>, Chromium 153, SwiftShader (carried)</td>
+<td><code>x3d-blender-io@ab99988:tools/fidelity_rig/README.md</code></td>
+</tr>
+<tr>
+<td>N-UNR-17</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>PSNR of offset-3 pair / noise sigma 5 pair</td>
+<td>38.63 dB / 34.31 dB</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>numpy, 2026-11-14</td>
+<td>Section 7.2</td>
+</tr>
+<tr>
+<td>N-UNR-18</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>Unreal 5.8 frames rendered in this base</td>
+<td>0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>none</td>
+<td>this chapter</td>
+</tr>
+<tr>
+<td>N-PHY-1</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Explicit Euler pendulum energy growth, h = 0.01, 100 s</td>
+<td>+10.89 (final dE/E0)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>numpy 2.5.3</td>
+<td>D-PHY-1</td>
+</tr>
+<tr>
+<td>N-PHY-2</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Symplectic Euler pendulum, same run</td>
+<td>+0.0002 final, 0.0150 max</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>numpy 2.5.3</td>
+<td>D-PHY-1</td>
+</tr>
+<tr>
+<td>N-PHY-3</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Discrete free fall against continuum gap, 1 s at 1/240</td>
+<td>-0.020437 m (<code>g h t/2</code> = 0.020438)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>numpy 2.5.3</td>
+<td>D-PHY-2</td>
+</tr>
+<tr>
+<td>N-PHY-4</td>
+<td><a href="13-physics.html">13</a></td>
+<td>PhysX 5.12 free fall error against discrete solution</td>
+<td>1.5e-6 m (limit 1e-4)</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>read, not run: <code>x3d.loom@162ab18:x3d.physics/physx-bridge/evidence/p1-analytic.json</code></td>
+<td>same file</td>
+</tr>
+<tr>
+<td>N-PHY-5</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Bead pre-projection violation, 1 to 100 substeps</td>
+<td>7.31e-3, 3.19e-4, 2.03e-5, 8.16e-7</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>numpy 2.5.3</td>
+<td>D-PHY-3</td>
+</tr>
+<tr>
+<td>N-PHY-6</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Kinetic energy, fixed, buggy and no collisions</td>
+<td>0.500000 each</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>numpy 2.5.3</td>
+<td>D-PHY-4</td>
+</tr>
+<tr>
+<td>N-PHY-7</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Order of symplectic Euler, T = 1 and T = 2 pi</td>
+<td>1.00 and 2.00</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>numpy 2.5.3</td>
+<td>D-PHY-5</td>
+</tr>
+<tr>
+<td>N-PHY-8</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Wave grid max amplitude at c dt/dx 0.7071 and 0.72, 400 steps</td>
+<td>4.65e-3 and 1.18e59</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>numpy 2.5.3</td>
+<td>D-PHY-6</td>
+</tr>
+<tr>
+<td>N-PHY-9</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Variable-step pendulum, two seeds, jitter 0.5</td>
+<td>final angle 0.1592 and 0.4356</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>numpy 2.5.3</td>
+<td>D-PHY-7</td>
+</tr>
+<tr>
+<td>N-PHY-10</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Physics witness on the 2 PhysX records</td>
+<td>pass</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d.loom@162ab18</code> <code>kit/loom physics</code></td>
+<td>D-PHY-8</td>
+</tr>
+<tr>
+<td>N-PHY-11</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Negative controls on the real records</td>
+<td>14 of 14 caught</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d.loom@162ab18</code> <code>physx_controls.py</code></td>
+<td>D-PHY-8</td>
+</tr>
+<tr>
+<td>N-PHY-12</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Kit self-test controls</td>
+<td>82, normal and <code>-O</code></td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d.loom@162ab18</code> <code>kit/tests/test_gates.py</code></td>
+<td>D-PHY-8</td>
+</tr>
+<tr>
+<td>N-PHY-13</td>
+<td><a href="13-physics.html">13</a></td>
+<td><code>PHYS_*</code> codes in the witness</td>
+<td>18 listed in the docstring</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d.loom@162ab18:kit/loomkit/physics.py</code></td>
+<td>section 3.5</td>
+</tr>
+<tr>
+<td>N-PHY-14</td>
+<td><a href="13-physics.html">13</a></td>
+<td>MuJoCo importer threat checks</td>
+<td>16 defended and 3 gaps (19)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read via python json count, <code>x3d.loom@162ab18</code></td>
+<td>D-PHY-9</td>
+</tr>
+<tr>
+<td>N-PHY-15</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Ten Minute Physics scenes built</td>
+<td>17 in 6 batches</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>ls</code>, <code>x3d.demo@d10b457</code></td>
+<td>D-PHY-10</td>
+</tr>
+<tr>
+<td>N-PHY-16</td>
+<td><a href="13-physics.html">13</a></td>
+<td>RigidBody or Script elements in those scenes</td>
+<td>0 files</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>grep -lE</code>, <code>x3d.demo@d10b457</code></td>
+<td>D-PHY-10</td>
+</tr>
+<tr>
+<td>N-PHY-17</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Replay of the Chromium run: steps and differing hashes</td>
+<td>1918 steps, 0 differing, 4 hosts</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>read, <code>x3d.loom@162ab18:x3d.physics/runs/physx-grand-cascade-chromium.physics.json</code></td>
+<td>PLAYBOOK pattern 3</td>
+</tr>
+<tr>
+<td>N-PHY-18</td>
+<td><a href="13-physics.html">13</a></td>
+<td>CCD tunnelling, 5 m/s marble, 5 mm wall</td>
+<td>0 of 40 on, 10 of 40 off</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>read, <code>physx-bridge/tests/analytic.test.ts</code> evidence</td>
+<td>PLAYBOOK pattern 7</td>
+</tr>
+<tr>
+<td>N-PHY-19</td>
+<td><a href="13-physics.html">13</a></td>
+<td>Independent review of v1 to v4</td>
+<td>125 claims, 55 findings, 25 survived, 0 false alarms</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>read, <code>ten-minute-physics/ERRATA-v1-v4.md</code></td>
+<td>law 44 row</td>
+</tr>
+<tr>
+<td>N-MET-1</td>
+<td><a href="14-methods.html">14</a></td>
+<td>chapters 01 to 13</td>
+<td>13</td>
+<td>C</td>
+<td><code>check_learn.py</code> at this commit</td>
+<td><code>x3d.docs@f172f67:docs/learn/</code></td>
+</tr>
+<tr>
+<td>N-MET-2</td>
+<td><a href="14-methods.html">14</a></td>
+<td>heuristics before chapter 14</td>
+<td>161</td>
+<td>C</td>
+<td><code>build_learn.py</code> at this commit</td>
+<td><code>docs/learn/D-heuristics-ledger.md</code></td>
+</tr>
+<tr>
+<td>N-MET-3</td>
+<td><a href="14-methods.html">14</a></td>
+<td>drills before chapter 14</td>
+<td>97</td>
+<td>C</td>
+<td><code>build_learn.py</code> at this commit</td>
+<td><code>docs/learn/E-drills.md</code></td>
+</tr>
+<tr>
+<td>N-MET-4</td>
+<td><a href="14-methods.html">14</a></td>
+<td>drills with a recorded run</td>
+<td>89</td>
+<td>C</td>
+<td><code>build_learn.py</code> at this commit</td>
+<td><code>docs/learn/E-drills.md</code></td>
+</tr>
+<tr>
+<td>N-MET-5</td>
+<td><a href="14-methods.html">14</a></td>
+<td>numbers registered</td>
+<td>277</td>
+<td>C</td>
+<td><code>build_learn.py</code> at this commit</td>
+<td><code>docs/learn/C-numbers-ledger.md</code></td>
+</tr>
+<tr>
+<td>N-MET-6</td>
+<td><a href="14-methods.html">14</a></td>
+<td>numbers graded C</td>
+<td>235</td>
+<td>C</td>
+<td><code>learn_lib.py</code> count</td>
+<td><code>docs/learn/C-numbers-ledger.md</code></td>
+</tr>
+<tr>
+<td>N-MET-7</td>
+<td><a href="14-methods.html">14</a></td>
+<td>numbers graded L</td>
+<td>38</td>
+<td>C</td>
+<td><code>learn_lib.py</code> count</td>
+<td><code>docs/learn/C-numbers-ledger.md</code></td>
+</tr>
+<tr>
+<td>N-MET-8</td>
+<td><a href="14-methods.html">14</a></td>
+<td>numbers graded S</td>
+<td>4</td>
+<td>C</td>
+<td><code>learn_lib.py</code> count</td>
+<td><code>docs/learn/C-numbers-ledger.md</code></td>
+</tr>
+<tr>
+<td>N-MET-9</td>
+<td><a href="14-methods.html">14</a></td>
+<td>heuristics graded C</td>
+<td>124</td>
+<td>C</td>
+<td><code>learn_lib.py</code> count</td>
+<td><code>docs/learn/D-heuristics-ledger.md</code></td>
+</tr>
+<tr>
+<td>N-MET-10</td>
+<td><a href="14-methods.html">14</a></td>
+<td>heuristics graded L</td>
+<td>30</td>
+<td>C</td>
+<td><code>learn_lib.py</code> count</td>
+<td><code>docs/learn/D-heuristics-ledger.md</code></td>
+</tr>
+<tr>
+<td>N-MET-11</td>
+<td><a href="14-methods.html">14</a></td>
+<td>heuristics graded S</td>
+<td>7</td>
+<td>C</td>
+<td><code>learn_lib.py</code> count</td>
+<td><code>docs/learn/D-heuristics-ledger.md</code></td>
+</tr>
+<tr>
+<td>N-MET-12</td>
+<td><a href="14-methods.html">14</a></td>
+<td>methods in this chapter</td>
+<td>7</td>
+<td>C</td>
+<td>read</td>
+<td>this file</td>
+</tr>
+</tbody>
+</table>
+<!-- END GENERATED -->
+<div class="pn"><a href="B-glossary.html">&larr; B-glossary</a><a href="D-heuristics-ledger.html">D-heuristics-ledger &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

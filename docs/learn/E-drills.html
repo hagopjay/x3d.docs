@@ -1,0 +1,754 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Appendix E. Drill index · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a class="cur" href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="E-drills.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/E-drills.md">GitHub</a></div><h1>Appendix E. Drill index</h1>
+<p>Every drill has a task, a verify command and an answer key. Run the ones marked <em>not run</em> and send the result as a PR to the chapter.</p>
+<!-- BEGIN GENERATED -->
+<p><strong>102 drills</strong>, 92 with a recorded run (<code>Checked</code>), 10 not yet run. Levels: L1 18, L2 51, L3 33.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Ch</th>
+<th>Level</th>
+<th>Drill</th>
+<th>Checked</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D-TH-1</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>L1</td>
+<td>Score five pipelines</td>
+<td>not run</td>
+</tr>
+<tr>
+<td>D-TH-2</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>L2</td>
+<td>Valid but blank</td>
+<td>2026-11-14, <code>x3d_mcp fork b4efcd3</code>; <code>X_ITE 16.7.0</code>, <code>Chromium 153 (Chrome for Testing 153.0.8010.12), SwiftShader</code>, 320 x 240</td>
+</tr>
+<tr>
+<td>D-TH-3</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>L2</td>
+<td>Read the hints, then break the loop</td>
+<td>2026-11-14, <code>x3d_mcp fork b4efcd3</code>, lxml 6.1.3, libxml2 2.14.6</td>
+</tr>
+<tr>
+<td>D-TH-4</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>L3</td>
+<td>Move the pin</td>
+<td>2026-11-14, <code>x3d_mcp fork 535fdac</code>, <code>ffbc20f</code>, <code>327c5c4</code>, <code>b4efcd3</code>; Python 3.13.18, lxml 6.1.3</td>
+</tr>
+<tr>
+<td>D-TH-5</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>L3</td>
+<td>Make the profile refuse a blank frame</td>
+<td>2026-11-14, <code>x3d.loom@162ab18</code> loomkit; <code>x3d_mcp fork b4efcd3</code>; <code>X_ITE 16.7.0</code>, <code>Chromium 153 ... SwiftShader</code></td>
+</tr>
+<tr>
+<td>D-TH-6</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>L3</td>
+<td>Forge the ledger</td>
+<td>2026-11-14, <code>chain.py</code> as printed in section 9, Python 3.13.18; the stamped scene also passed <code>x3d_mcp fork b4efcd3</code> (<code>valid True</code>)</td>
+</tr>
+<tr>
+<td>D-TH-7</td>
+<td><a href="01-the-tether.html">01</a></td>
+<td>L2</td>
+<td>Detection against injected faults</td>
+<td>2026-11-14, <code>x3d_mcp fork b4efcd3</code>, lxml 6.1.3, libxml2 2.14.6</td>
+</tr>
+<tr>
+<td>D-LAW-1</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>L1</td>
+<td>Which law and which failures came with PR #41</td>
+<td>2026-11-14, <code>git</code> on <code>x3d.loom@162ab18</code></td>
+</tr>
+<tr>
+<td>D-LAW-2</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>L2</td>
+<td>Re-derive the counts</td>
+<td>2026-11-14, <code>x3d.loom@162ab18</code>, Python 3.13.18 (the second line is run against this file as published)</td>
+</tr>
+<tr>
+<td>D-LAW-3</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>L2</td>
+<td>Run the kit's self-test</td>
+<td>2026-11-14, <code>x3d.loom@162ab18</code> loomkit, Python 3.13.18, normal and <code>-O</code></td>
+</tr>
+<tr>
+<td>D-LAW-4</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>L3</td>
+<td>Weaken a gate and watch the suite fail</td>
+<td>2026-11-14, <code>x3d.loom@162ab18</code> loomkit in a scratch copy, Python 3.13.18</td>
+</tr>
+<tr>
+<td>D-LAW-5</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>L2</td>
+<td>Let the physics witness judge the real records</td>
+<td>2026-11-14, <code>x3d.loom@162ab18</code> loomkit physics witness on <code>x3d.physics/runs</code>, Python 3.13.18</td>
+</tr>
+<tr>
+<td>D-LAW-6</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>L3</td>
+<td>Find the profile that cannot accept a new run</td>
+<td>2026-11-14, <code>x3d.loom@162ab18</code> loomkit, <code>kit/profiles/x3d-static.json</code>, Python 3.13.18</td>
+</tr>
+<tr>
+<td>D-LAW-7</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>L1</td>
+<td>Classify, then verify the catalogue</td>
+<td>2026-11-14, the K-table of this chapter, Python 3.13.18 (the script only; the classification is a judgement)</td>
+</tr>
+<tr>
+<td>D-LAW-8</td>
+<td><a href="02-loom-laws.html">02</a></td>
+<td>L1</td>
+<td>Apply the checklist to a described project</td>
+<td>not run</td>
+</tr>
+<tr>
+<td>D-VAL-1</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>L2</td>
+<td>Count the rules two ways</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code> and <code>x3d_mcp upstream 74da0ec</code>, Python <code>ast</code>.</td>
+</tr>
+<tr>
+<td>D-VAL-2</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>L2</td>
+<td>Walk a scene up the ladder</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.0</code> (0509fa5bd601); base column from <code>x3d_mcp upstream 74da0ec</code>.</td>
+</tr>
+<tr>
+<td>D-VAL-3</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>L2</td>
+<td>Same bytes, two schemas</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.0</code>, <code>X3D XSD 4.1</code>.</td>
+</tr>
+<tr>
+<td>D-VAL-4</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>L3</td>
+<td>Add a rule, then break it</td>
+<td>2026-11-14 scratch copy of <code>x3d_mcp@b4efcd3</code>, pytest 9.2.0.</td>
+</tr>
+<tr>
+<td>D-VAL-5</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>L3</td>
+<td>A gate that rejects, accepts and goes stale</td>
+<td>2026-11-14 loomkit <code>162ab18</code>, <code>x3d_mcp fork b4efcd3</code>.</td>
+</tr>
+<tr>
+<td>D-VAL-6</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>L1</td>
+<td>The conformance suite, without Blender</td>
+<td>2026-11-14 <code>x3d-blender-io@ab99988</code>, Python 3.13.18.</td>
+</tr>
+<tr>
+<td>D-VAL-7</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+<td>L2</td>
+<td>What &quot;not checkable&quot; looks like</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code>, libxml2 2.14.6.</td>
+</tr>
+<tr>
+<td>D-MCP-1</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>L2</td>
+<td>Count the surface three ways</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code>, <code>mcp</code> 1.30.0, Python <code>ast</code>.</td>
+</tr>
+<tr>
+<td>D-MCP-2</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>L2</td>
+<td>Price a session before it starts</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code> and <code>x3d_mcp upstream 74da0ec</code>, <code>mcp</code> 1.30.0.</td>
+</tr>
+<tr>
+<td>D-MCP-3</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>L2</td>
+<td>Edit a big scene twice, once by value and once by name</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code>, in-process calls, 4 vCPU Intel Xeon 2.30 GHz.</td>
+</tr>
+<tr>
+<td>D-MCP-4</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>L3</td>
+<td>Trip each SPARQL guard</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code>, rdflib 7.6.0.</td>
+</tr>
+<tr>
+<td>D-MCP-5</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>L2</td>
+<td>What does <code>path=</code> reach</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code>.</td>
+</tr>
+<tr>
+<td>D-MCP-6</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>L3</td>
+<td>Forge a ledger</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code>.</td>
+</tr>
+<tr>
+<td>D-MCP-7</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+<td>L3</td>
+<td>Do it through a real client</td>
+<td>not run (no MCP client or socket was used in this chapter).</td>
+</tr>
+<tr>
+<td>D-SEM-1</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>L1</td>
+<td>Count the tool surface</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code> and <code>x3d_mcp fork 13121b6</code>, Python 3.13.18, in-memory <code>list_tools</code>.</td>
+</tr>
+<tr>
+<td>D-SEM-2</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>L1</td>
+<td>Count the ontology</td>
+<td>2026-11-14 rdflib 7.6.0, <code>X3dOntology4.1.ttl</code> as bundled at <code>x3d_mcp fork b4efcd3</code>.</td>
+</tr>
+<tr>
+<td>D-SEM-3</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>L2</td>
+<td>Strip the DOCTYPE</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code> converter, ontology 4.1 (an emulation, not a Saxon run).</td>
+</tr>
+<tr>
+<td>D-SEM-4</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>L2</td>
+<td>One query, two ontologies</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code>, rdflib 7.6.0.</td>
+</tr>
+<tr>
+<td>D-SEM-5</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>L3</td>
+<td>A part that floats</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code>, pyshacl 0.40.2.</td>
+</tr>
+<tr>
+<td>D-SEM-6</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>L3</td>
+<td>Break it with reasoning</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code>, pyshacl 0.40.2, owlrl 7.6.2, 35.6 s.</td>
+</tr>
+<tr>
+<td>D-SEM-7</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>L2</td>
+<td>Set semantics and a silent ignore</td>
+<td>2026-11-14 pyshacl 0.40.2, rdflib 7.6.0.</td>
+</tr>
+<tr>
+<td>D-SEM-8</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+<td>L2</td>
+<td>What RDF forgets</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code>, rdflib 7.6.0, pyshacl 0.40.2.</td>
+</tr>
+<tr>
+<td>D-XIT-1</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>L2</td>
+<td>Count the coverage three ways</td>
+<td>2026-11-14 <code>X_ITE 16.7.0</code> (static scan) and <code>X_ITE 16.4.3</code>, <code>16.5.1</code>, <code>16.6.1</code>, <code>16.7.0</code>, <code>16.7.1</code> (<code>createNode</code>), <code>X3DUOM 4.1</code>, Chromium 153, SwiftShader</td>
+</tr>
+<tr>
+<td>D-XIT-2</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>L2</td>
+<td>Catch the sampler that lies</td>
+<td>2026-11-14 <code>X_ITE 16.4.3</code>, <code>16.5.1</code>, <code>16.6.1</code>, <code>16.7.0</code>, <code>16.7.1</code>, Chromium 153, SwiftShader, 320 x 240</td>
+</tr>
+<tr>
+<td>D-XIT-3</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>L3</td>
+<td>Reproduce the hosted-page black draw and fix it</td>
+<td>2026-11-14 <code>X_ITE 16.5.1</code>, <code>16.7.0</code>, Chromium 153, SwiftShader, emulated policy above (the real host's policy was not available)</td>
+</tr>
+<tr>
+<td>D-XIT-4</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>L2</td>
+<td>Break picking with a faint shape, then fix it</td>
+<td>2026-11-14 <code>X_ITE 16.4.3</code>, <code>16.5.1</code>, <code>16.7.0</code>; <code>x3d_mcp fork b4efcd3</code>; Chromium 153, SwiftShader</td>
+</tr>
+<tr>
+<td>D-XIT-5</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>L2</td>
+<td>Five scenes the renderer accepts and the validator does not</td>
+<td>2026-11-14 <code>X_ITE 16.7.0</code>, <code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.0</code> and <code>4.1</code>, lxml 6.1.3, Chromium 153, SwiftShader</td>
+</tr>
+<tr>
+<td>D-XIT-6</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>L3</td>
+<td>Freeze a route with one exception</td>
+<td>2026-11-14 <code>X_ITE 16.5.1</code>, <code>16.7.0</code>, <code>16.7.1</code>, Chromium 153, SwiftShader</td>
+</tr>
+<tr>
+<td>D-XIT-7</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>L2</td>
+<td>Re-derive H7, the locus of behaviour</td>
+<td>2026-11-14 marker scan of <code>x_ite@16.7.0</code>, <code>16.6.1</code>, <code>16.7.1</code> (module counts 752, 752, 762), Python 3.13.18</td>
+</tr>
+<tr>
+<td>D-XIT-8</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+<td>L1</td>
+<td>Count the patches a repository ships</td>
+<td>2026-11-14 <code>x3d.demo@d10b457</code>, shell</td>
+</tr>
+<tr>
+<td>D-XRY-1</td>
+<td><a href="07-xray.html">07</a></td>
+<td>L2</td>
+<td>Recompute the noise calibration</td>
+<td>2026-11-14 <code>x3d.xray@8fa6845</code>, Python 3.13.18</td>
+</tr>
+<tr>
+<td>D-XRY-2</td>
+<td><a href="07-xray.html">07</a></td>
+<td>L1</td>
+<td>The price of looking, by hand and by code</td>
+<td>2026-11-14 <code>x3d.xray@8fa6845</code>, Python 3.13.18</td>
+</tr>
+<tr>
+<td>D-XRY-3</td>
+<td><a href="07-xray.html">07</a></td>
+<td>L2</td>
+<td>Pin the generator and the add-one limit</td>
+<td>2026-11-14 <code>x3d.xray@8fa6845</code>, Python 3.13.18</td>
+</tr>
+<tr>
+<td>D-XRY-4</td>
+<td><a href="07-xray.html">07</a></td>
+<td>L2</td>
+<td>Run the method on a thin public repository</td>
+<td>2026-11-14 <code>x3d.xray@8fa6845</code>, <code>x3d.castle@d70e00c</code>, Git 2.43.0</td>
+</tr>
+<tr>
+<td>D-XRY-5</td>
+<td><a href="07-xray.html">07</a></td>
+<td>L3</td>
+<td>Reproduce the containerField defect and see which rung catches it</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code>, <code>X3D XSD 4.0</code>, lxml 6.1.3, <code>x3d.xray@8fa6845</code></td>
+</tr>
+<tr>
+<td>D-XRY-6</td>
+<td><a href="07-xray.html">07</a></td>
+<td>L3</td>
+<td>Make the producer and the reader agree on a bug</td>
+<td>2026-11-14 <code>x3d.xray@8fa6845</code> (scratch copy), Python 3.13.18</td>
+</tr>
+<tr>
+<td>D-XRY-7</td>
+<td><a href="07-xray.html">07</a></td>
+<td>L2</td>
+<td>Run the synthetic pipeline and read the gate verdicts</td>
+<td>2026-11-14 <code>x3d.xray@8fa6845</code>, <code>X_ITE 16.7.0</code> dist, Python 3.13.18</td>
+</tr>
+<tr>
+<td>D-XRY-8</td>
+<td><a href="07-xray.html">07</a></td>
+<td>L1</td>
+<td>Classify five looks by the grade function</td>
+<td>not run (read at <code>x3d.xray@8fa6845:x3dray/looks.py</code> lines 309 to 349)</td>
+</tr>
+<tr>
+<td>D-BAB-1</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>L2</td>
+<td>Recount the bridge's coverage</td>
+<td>2026-11-14 <code>x3d.loom@162ab18</code>, Node 22.23.4, Python 3</td>
+</tr>
+<tr>
+<td>D-BAB-2</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>L2</td>
+<td>Re-derive the primer's 68</td>
+<td>2026-11-14 <code>x3d.loom@162ab18</code> and <code>60824ce</code>, Node 22.23.4</td>
+</tr>
+<tr>
+<td>D-BAB-3</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>L3</td>
+<td>Break a shader key, then predict which half moves</td>
+<td>2026-11-14 <code>x3d.loom@162ab18</code>, Python 3 with lxml, scratch copies of the scene</td>
+</tr>
+<tr>
+<td>D-BAB-4</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>L2</td>
+<td>Move a PSNR by changing its window</td>
+<td>2026-11-14 numpy 2.5.3, Pillow 12.3.0, <code>x3d.loom@162ab18</code></td>
+</tr>
+<tr>
+<td>D-BAB-5</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>L3</td>
+<td>Census a corpus before you promise a port</td>
+<td>2026-11-14 lxml, <code>x3d.demo@d10b457</code>, <code>x3d.loom@162ab18</code></td>
+</tr>
+<tr>
+<td>D-CAS-1</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>L2</td>
+<td>Count the parse-only nodes and name the denominator</td>
+<td>2026-11-14 <code>castle-engine@48ce617</code>, Python 3.13.18</td>
+</tr>
+<tr>
+<td>D-CAS-2</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>L2</td>
+<td>Count loaders and savers without trusting a number</td>
+<td>2026-11-14 <code>castle-engine@48ce617</code>, Python 3.13.18</td>
+</tr>
+<tr>
+<td>D-CAS-3</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>L2</td>
+<td>Re-derive the headline FLIP and what it hides</td>
+<td>2026-11-14 <code>x3d.castle@d70e00c</code> receipt, Python 3.13.18</td>
+</tr>
+<tr>
+<td>D-CAS-4</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>L2</td>
+<td>Validate two exporter glbs</td>
+<td>2026-11-14 <code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, Node 22.23.4</td>
+</tr>
+<tr>
+<td>D-CAS-5</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>L3</td>
+<td>Break the spot-cone rule</td>
+<td>2026-11-14 <code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, Python 3.13.18</td>
+</tr>
+<tr>
+<td>D-CAS-6</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>L3</td>
+<td>A valid scene the validator cannot warn about</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code> (validator half only)</td>
+</tr>
+<tr>
+<td>D-CAS-7</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>L3</td>
+<td>Design the TimeSensor origin fixture</td>
+<td>not run</td>
+</tr>
+<tr>
+<td>D-CAS-8</td>
+<td><a href="09-castle-engine.html">09</a></td>
+<td>L1</td>
+<td>Attenuation at 3 m and at 0.5 m</td>
+<td>2026-11-14 Python 3.13.18 (arithmetic on the formula read at <code>castle-engine@48ce617</code>)</td>
+</tr>
+<tr>
+<td>D-BLE-1</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>L2</td>
+<td>Which version does an exported file claim?</td>
+<td>2026-11-14 <code>bpy 5.3.0</code>, <code>x3d-blender-io@ab99988</code>.</td>
+</tr>
+<tr>
+<td>D-BLE-2</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>L3</td>
+<td>Reproduce the colour trap</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code>, <code>bpy 5.3.0</code>.</td>
+</tr>
+<tr>
+<td>D-BLE-3</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>L2</td>
+<td>Count the tests two ways</td>
+<td>2026-11-14 <code>bpy 5.3.0</code>, <code>gltf-validator 2.0.0-dev.3.10</code>.</td>
+</tr>
+<tr>
+<td>D-BLE-4</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>L3</td>
+<td>A matching centre, a failing scene</td>
+<td>2026-11-14 <code>X_ITE 16.7.1</code>, <code>Babylon.js 9.32.0</code>, Chrome for Testing 153.0.8010.12 SwiftShader, <code>bpy 5.3.0</code>.</td>
+</tr>
+<tr>
+<td>D-BLE-5</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>L2</td>
+<td>Is a re-export evidence of a good importer?</td>
+<td>2026-11-14 <code>x3d_mcp fork b4efcd3</code>, <code>bpy 5.3.0</code>.</td>
+</tr>
+<tr>
+<td>D-BLE-6</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>L2</td>
+<td>Splat bytes, from the writer</td>
+<td>2026-11-14 <code>x3d-blender-io@ab99988</code>, Python 3.13.18.</td>
+</tr>
+<tr>
+<td>D-BLE-7</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>L3</td>
+<td>Can Blender 5.3 export a splat?</td>
+<td>2026-11-14 <code>bpy 5.3.0</code> (PLY export and operator list ran; the 4.1 export is covered by the test pass, not re-run here).</td>
+</tr>
+<tr>
+<td>D-BLE-8</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>L1</td>
+<td>Grade a Survey claim</td>
+<td>not run</td>
+</tr>
+<tr>
+<td>D-BLE-9</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+<td>L3</td>
+<td>A toy bake, gated</td>
+<td>2026-11-14 <code>bpy 5.3.0</code>, <code>x3d_mcp fork b4efcd3</code>.</td>
+</tr>
+<tr>
+<td>D-GLT-1</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>L2</td>
+<td>Build a glb that passes and is empty</td>
+<td>2026-11-14 <code>Khronos glTF-Validator 2.0.0-dev.3.10</code> (the empty glb only; the one-node variant was not run).</td>
+</tr>
+<tr>
+<td>D-GLT-2</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>L2</td>
+<td>Make a required extension pass</td>
+<td>2026-11-14 <code>Khronos glTF-Validator 2.0.0-dev.3.10</code>.</td>
+</tr>
+<tr>
+<td>D-GLT-3</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>L1</td>
+<td>Count the ratified extensions</td>
+<td>2026-11-14 registry file sha256 prefix <code>32868b162d85</code> (counted by line range 12 to 38; the awk form above was not run verbatim).</td>
+</tr>
+<tr>
+<td>D-GLT-4</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>L2</td>
+<td>Instancing leaves the triangle count alone</td>
+<td>2026-11-14 <code>Khronos glTF-Validator 2.0.0-dev.3.10</code> on carried project files (a reader without the files can use <code>tests/test_import_gpu_instances_bpy.py</code> in the repo instead).</td>
+</tr>
+<tr>
+<td>D-GLT-5</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>L3</td>
+<td>Find the loss in a glb</td>
+<td>2026-11-14 Python <code>json</code> on the carried glb (the failing-run extension was not written).</td>
+</tr>
+<tr>
+<td>D-GLT-6</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+<td>L3</td>
+<td>Find the animation start fault without Blender</td>
+<td>not run (no animated glb with the fault was produced here).</td>
+</tr>
+<tr>
+<td>D-UNR-1</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>L2</td>
+<td>Derive and check the axis swap</td>
+<td>2026-11-14 Python 3 (the converters' own <code>ue_rot</code>, <code>mm</code>, <code>axis_angle</code>).</td>
+</tr>
+<tr>
+<td>D-UNR-2</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>L1</td>
+<td>Convert a field of view</td>
+<td>2026-11-14 Python 3.</td>
+</tr>
+<tr>
+<td>D-UNR-3</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>L2</td>
+<td>Catch the winding flip</td>
+<td>2026-11-14 Python 3 with numpy.</td>
+</tr>
+<tr>
+<td>D-UNR-4</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>L1</td>
+<td>Instancing arithmetic</td>
+<td>2026-11-14 grep on <code>x3d-blender-io@ab99988</code> and Python 3.</td>
+</tr>
+<tr>
+<td>D-UNR-5</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>L3</td>
+<td>Break a PSNR comparison</td>
+<td>2026-11-14 numpy for all three numbers (offset 38.63 dB, noise 34.31 dB, square 22.71 dB).</td>
+</tr>
+<tr>
+<td>D-UNR-6</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>L3</td>
+<td>Write the pass and fail line for a gate</td>
+<td>not run (no Unreal here).</td>
+</tr>
+<tr>
+<td>D-PHY-1</td>
+<td><a href="13-physics.html">13</a></td>
+<td>L2</td>
+<td>Symplectic against explicit Euler on a pendulum</td>
+<td><code>2026-11-14 python3 -I numpy 2.5.3</code>: explicit 10.8933 and 11.0130, symplectic 0.0002 and 0.0150.</td>
+</tr>
+<tr>
+<td>D-PHY-2</td>
+<td><a href="13-physics.html">13</a></td>
+<td>L2</td>
+<td>The exact reference for a stepped scheme</td>
+<td><code>2026-11-14 python3 -I numpy 2.5.3</code>: sim 5.074562500, discrete 5.074562500, continuum 5.095000000, gap -0.020437.</td>
+</tr>
+<tr>
+<td>D-PHY-3</td>
+<td><a href="13-physics.html">13</a></td>
+<td>L2</td>
+<td>XPBD bead on a wire: substeps against residual and energy</td>
+<td><code>2026-11-14 python3 -I numpy 2.5.3</code>: 7.31e-03, 3.19e-04, 2.03e-05, 8.16e-07; dE -8.7945, -4.3632, -1.4550, -0.3125.</td>
+</tr>
+<tr>
+<td>D-PHY-4</td>
+<td><a href="13-physics.html">13</a></td>
+<td>L3</td>
+<td>A check that cannot fail: the wrong twin</td>
+<td><code>2026-11-14 python3 -I numpy 2.5.3</code>: KE 0.500000 three times; v at t = 1.0 s fixed [0,0] and [1,0]; buggy [1,0] and [0,0]; none [1,0] and [0,0]. The oblique extension was not run.</td>
+</tr>
+<tr>
+<td>D-PHY-5</td>
+<td><a href="13-physics.html">13</a></td>
+<td>L2</td>
+<td>Order of a method depends on where you measure</td>
+<td><code>2026-11-14 python3 -I numpy 2.5.3</code>: T=1 explicit 1.00, symplectic 1.00; T=2pi explicit 1.06, symplectic 2.00.</td>
+</tr>
+<tr>
+<td>D-PHY-6</td>
+<td><a href="13-physics.html">13</a></td>
+<td>L3</td>
+<td>The CFL limit is a stability limit, not &quot;outrunning a cell&quot;</td>
+<td><code>2026-11-14 python3 -I numpy 2.5.3</code>: 0.6 -&gt; 2.69e-03; 0.70 -&gt; 3.42e-03; 0.7071 -&gt; 4.65e-03; 0.72 -&gt; 1.18e+59; 0.80 -&gt; 4.40e+170. Bisection not run.</td>
+</tr>
+<tr>
+<td>D-PHY-7</td>
+<td><a href="13-physics.html">13</a></td>
+<td>L2</td>
+<td>Fixed against variable step</td>
+<td><code>2026-11-14 python3 -I numpy 2.5.3</code>: jitter 0 dE/E0 0.0002 theta 0.007586 twice; jitter 0.5 dE/E0 -0.0117, theta 0.159239 and 0.435642.</td>
+</tr>
+<tr>
+<td>D-PHY-8</td>
+<td><a href="13-physics.html">13</a></td>
+<td>L2</td>
+<td>Re-judge the PhysX run records and attack them</td>
+<td><code>2026-11-14 x3d.loom@162ab18 kit/loom physics</code>: status pass; <code>physx_controls.py</code>: &quot;14 controls on the real record, 14 caught with the intended code&quot;; <code>test_gates.py</code>: 82 controls, optimized False and True. This verifies the records replay in the <strong>recorded</strong> hosts (it reads the hashes; it does not run PhysX again).</td>
+</tr>
+<tr>
+<td>D-PHY-9</td>
+<td><a href="13-physics.html">13</a></td>
+<td>L1</td>
+<td>Count the MuJoCo threat checks yourself</td>
+<td><code>2026-11-14 x3d.loom@162ab18</code>: Counter({('defended','pass'): 16, ('gap','pass'): 3}).</td>
+</tr>
+<tr>
+<td>D-PHY-10</td>
+<td><a href="13-physics.html">13</a></td>
+<td>L1</td>
+<td>The ports are baked, not simulated by X3D</td>
+<td><code>2026-11-14 x3d.demo@d10b457 grep</code>: 17; 0; 200.</td>
+</tr>
+<tr>
+<td>D-MET-1</td>
+<td><a href="14-methods.html">14</a></td>
+<td>L1</td>
+<td>Count the base</td>
+<td>2026-11-14 <code>build_learn.py</code> at this commit.</td>
+</tr>
+<tr>
+<td>D-MET-2</td>
+<td><a href="14-methods.html">14</a></td>
+<td>L2</td>
+<td>Grade mix</td>
+<td>2026-11-14 <code>learn_lib.py</code> count, Python 3.13.</td>
+</tr>
+<tr>
+<td>D-MET-3</td>
+<td><a href="14-methods.html">14</a></td>
+<td>L3</td>
+<td>Break the linter</td>
+<td>2026-11-14 <code>check_learn.py</code> at this commit.</td>
+</tr>
+<tr>
+<td>D-MET-4</td>
+<td><a href="14-methods.html">14</a></td>
+<td>L2</td>
+<td>Pin audit</td>
+<td>not run.</td>
+</tr>
+<tr>
+<td>D-MET-5</td>
+<td><a href="14-methods.html">14</a></td>
+<td>L3</td>
+<td>Teach-back</td>
+<td>not run.</td>
+</tr>
+</tbody>
+</table>
+<!-- END GENERATED -->
+<div class="pn"><a href="D-heuristics-ledger.html">&larr; D-heuristics-ledger</a><a href="F-source-map.html">F-source-map &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

@@ -1,0 +1,354 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Appendix B. Glossary · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a class="cur" href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="B-glossary.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/B-glossary.md">GitHub</a></div><h1>Appendix B. Glossary</h1>
+<p>Two parts: the X3D framework and the tools around it, then the vocabulary of the method (the Loom). Chapter pointers say where the term does work.
+Definitions are working definitions for this base; the standard's own text wins wherever they differ.</p>
+<h2 id="part-1-x3d-and-its-neighbours">Part 1. X3D and its neighbours</h2>
+<table>
+<thead>
+<tr>
+<th>term</th>
+<th>working definition</th>
+<th>where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>X3D</strong></td>
+<td>the ISO/IEC 19775 family: a scene graph, an event model and several encodings for interactive 3D. This base targets 4.0 and notes 4.1 additions</td>
+<td><a href="01-the-tether.html">01</a></td>
+</tr>
+<tr>
+<td><strong>encodings</strong></td>
+<td>XML (<code>.x3d</code>), ClassicVRML (<code>.x3dv</code>), JSON (<code>.x3dj</code>), compressed binary (<code>.x3db</code>); the validator in this base reads the XML encoding</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+</tr>
+<tr>
+<td><strong>profile</strong></td>
+<td>a named bundle of components and levels a file declares it needs (Core, Interchange, Interactive, Immersive, Full, CADInterchange, MPEG-4). &quot;Valid&quot; is relative to the declared profile</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+</tr>
+<tr>
+<td><strong>component, level</strong></td>
+<td>a group of related nodes (Core, Grouping, Shape, Lighting, Texturing, ...) and the support level inside it</td>
+<td><a href="03-validator-and-gates.html">03</a>, <a href="06-xite-the-oracle.html">06</a></td>
+</tr>
+<tr>
+<td><strong>node, field</strong></td>
+<td>a typed object in the scene graph and one of its typed slots. Field types are single (<code>SFFloat</code>) or multiple (<code>MFVec3f</code>)</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+</tr>
+<tr>
+<td><strong>access type</strong></td>
+<td><code>initializeOnly</code>, <code>inputOnly</code>, <code>outputOnly</code>, <code>inputOutput</code>: which fields may be set at load, received, emitted or both. A ROUTE must respect them</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+</tr>
+<tr>
+<td><strong>DEF / USE</strong></td>
+<td>name a node once, reuse it by reference. USE-before-DEF and name clashes are classic scene faults</td>
+<td><a href="03-validator-and-gates.html">03</a>, <a href="05-semantic-layer.html">05</a></td>
+</tr>
+<tr>
+<td><strong>ROUTE</strong></td>
+<td>a typed connection from one node's output field to another's input field; the dataflow of an X3D scene. Behaviour lives here, which is why glTF export loses it</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+</tr>
+<tr>
+<td><strong>event cascade</strong></td>
+<td>the ordered propagation of events triggered by one input within one timestamp</td>
+<td><a href="02-loom-laws.html">02</a>, <a href="09-castle-engine.html">09</a></td>
+</tr>
+<tr>
+<td><strong>TimeSensor, interpolators</strong></td>
+<td>the clock and the keyframe nodes that turn time into field values; the standard animation chain</td>
+<td><a href="06-xite-the-oracle.html">06</a>, <a href="13-physics.html">13</a></td>
+</tr>
+<tr>
+<td><strong>Script node</strong></td>
+<td>embeds code that reads and writes fields; the part of a scene a validator can only partly judge</td>
+<td><a href="02-loom-laws.html">02</a></td>
+</tr>
+<tr>
+<td><strong>PROTO / EXTERNPROTO / IS</strong></td>
+<td>user-defined node types, in-file or external, with interface fields wired to inner fields by <code>IS</code></td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+</tr>
+<tr>
+<td><strong>Inline</strong></td>
+<td>pulls another scene (or glTF) into this one by URL; a path and privacy trap when exported</td>
+<td><a href="10-blender-pipeline.html">10</a>, <a href="11-gltf-usd-khronos.html">11</a></td>
+</tr>
+<tr>
+<td><strong>SAI</strong></td>
+<td>the Scene Access Interface: the API through which page code reads and writes a running scene (<code>X3D.getBrowser()</code> in X_ITE)</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+</tr>
+<tr>
+<td><strong>X3DUOM</strong></td>
+<td>the X3D Unified Object Model: an XML description of every node, field and type, from which schemas and tools are generated</td>
+<td><a href="03-validator-and-gates.html">03</a>, <a href="05-semantic-layer.html">05</a></td>
+</tr>
+<tr>
+<td><strong>XSD / DTD</strong></td>
+<td>the schema and the legacy document type definition for the XML encoding. They define grammar; they do not say a scene looks right</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+</tr>
+<tr>
+<td><strong>X3D Ontology</strong></td>
+<td>an OWL ontology of the X3D vocabulary (class tree, field types, restrictions) used for the graph view in chapter 05</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+</tr>
+<tr>
+<td><strong>containerField</strong></td>
+<td>an attribute saying which field of the parent a child node fills; a wrong or missing value is a frequent, silent fault</td>
+<td><a href="03-validator-and-gates.html">03</a>, <a href="07-xray.html">07</a></td>
+</tr>
+<tr>
+<td><strong>Viewpoint, NavigationInfo</strong></td>
+<td>the camera and the navigation settings; the first Viewpoint decides what a still render shows, so a render check depends on it</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+</tr>
+<tr>
+<td><strong>Material family</strong></td>
+<td><code>Material</code> (classic), <code>PhysicalMaterial</code> and <code>UnlitMaterial</code> (4.0), <code>TwoSidedMaterial</code>; the choice sets how lights and colour spaces behave per renderer</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+</tr>
+<tr>
+<td><strong>ComposedShader</strong></td>
+<td>a node carrying GLSL; a renderer on another API (WebGPU) must port each program by hand, keyed by a hash of its source</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+</tr>
+<tr>
+<td><strong>HAnim</strong></td>
+<td>the Humanoid Animation component: joints, segments, sites, skin</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+</tr>
+<tr>
+<td><strong>RigidBodyPhysics</strong></td>
+<td>the component that describes bodies, joints and collision spaces; an engine such as PhysX or MuJoCo can run it</td>
+<td><a href="13-physics.html">13</a></td>
+</tr>
+<tr>
+<td><strong>Gaussian splats</strong></td>
+<td>the X3D 4.1 splat node family for point-based radiance scenes; carried in glTF by a Khronos extension</td>
+<td><a href="10-blender-pipeline.html">10</a>, <a href="11-gltf-usd-khronos.html">11</a></td>
+</tr>
+<tr>
+<td><strong>X_ITE</strong></td>
+<td>the browser X3D engine used here as the reference renderer (WebGL2 only)</td>
+<td><a href="06-xite-the-oracle.html">06</a></td>
+</tr>
+<tr>
+<td><strong>Castle Game Engine</strong></td>
+<td>a native Pascal engine built on X3D; examined as a host and as a source of seam knowledge</td>
+<td><a href="09-castle-engine.html">09</a></td>
+</tr>
+<tr>
+<td><strong>Babylon.js</strong></td>
+<td>a browser 3D engine with a WebGPU path; the body in the Babylon bridge, with our own reader as the brain</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+</tr>
+<tr>
+<td><strong>WebGL2 / WebGPU / WGSL</strong></td>
+<td>the two browser graphics APIs and the shading language of the second</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+</tr>
+<tr>
+<td><strong>glTF / glb</strong></td>
+<td>Khronos's runtime asset format and its single-file binary form; extensions are named <code>KHR_*</code> or <code>EXT_*</code></td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+</tr>
+<tr>
+<td><strong>glTF-Validator</strong></td>
+<td>the Khronos tool that checks glb structure; it does not judge looks</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+</tr>
+<tr>
+<td><strong>USD / USDZ</strong></td>
+<td>Pixar's scene description format and its zipped form; a second carrier beside glTF</td>
+<td><a href="11-gltf-usd-khronos.html">11</a></td>
+</tr>
+<tr>
+<td><strong>Blender, bpy</strong></td>
+<td>the DCC tool that is the studio of this base, and its Python module that runs headless</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+</tr>
+<tr>
+<td><strong>Lumen, Nanite, HISM</strong></td>
+<td>Unreal Engine's global illumination, virtualised geometry and hierarchical instanced meshes</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+</tr>
+<tr>
+<td><strong>SwiftShader</strong></td>
+<td>Chromium's software GPU. It proves a browser path runs; it proves nothing about GPU speed</td>
+<td><a href="08-babylon-bridge.html">08</a>, <a href="06-xite-the-oracle.html">06</a></td>
+</tr>
+<tr>
+<td><strong>PSNR, FLIP</strong></td>
+<td>an image-difference score in dB (higher is closer) and a perceptual difference metric (lower is closer); both are correctness yardsticks, not beauty scores</td>
+<td><a href="08-babylon-bridge.html">08</a>, <a href="09-castle-engine.html">09</a></td>
+</tr>
+<tr>
+<td><strong>MCP</strong></td>
+<td>the Model Context Protocol: how a model calls tools such as the x3d_mcp validator</td>
+<td><a href="04-mcp-for-agents.html">04</a></td>
+</tr>
+<tr>
+<td><strong>RDF / OWL / SPARQL / SHACL</strong></td>
+<td>graph data, ontology language, graph query language and shape constraints</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+</tr>
+<tr>
+<td><strong>BH q, permutation null</strong></td>
+<td>the false-discovery-rate correction and the shuffled-data baseline used by the EDA stage of x3d.xray</td>
+<td><a href="07-xray.html">07</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="part-2-the-method-the-loom-and-the-tether">Part 2. The method (the Loom and the tether)</h2>
+<table>
+<thead>
+<tr>
+<th>term</th>
+<th>working definition</th>
+<th>where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>the tether</strong></td>
+<td>the property that an AI's output can be checked by an exact oracle, repaired from its reports, checked again by a second renderer, and carries its own history. &quot;X3D is the 3D format an AI can be held accountable to&quot;</td>
+<td><a href="01-the-tether.html">01</a></td>
+</tr>
+<tr>
+<td><strong>tether score</strong></td>
+<td>one point each for an unreliable writer, an exact oracle, valid-differs-from-works, history that must travel with the artifact, and someone answerable later</td>
+<td><a href="01-the-tether.html">01</a></td>
+</tr>
+<tr>
+<td><strong>oracle</strong></td>
+<td>a checker whose verdict can be reproduced from the same input: the validator for grammar, X_ITE for a render</td>
+<td><a href="03-validator-and-gates.html">03</a>, <a href="06-xite-the-oracle.html">06</a></td>
+</tr>
+<tr>
+<td><strong>pin</strong></td>
+<td>the exact commit or version a number was measured at. A number is quoted with its pin or not at all</td>
+<td><a href="A-validator-register.html">A</a></td>
+</tr>
+<tr>
+<td><strong>exact-fix hint</strong></td>
+<td>a validator message that names a concrete edit (move, wrap, rename, set), not just an error</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+</tr>
+<tr>
+<td><strong>repair loop</strong></td>
+<td>write, validate, send the report back, rewrite, validate again, until clean or a cap</td>
+<td><a href="01-the-tether.html">01</a></td>
+</tr>
+<tr>
+<td><strong>valid is not visible</strong></td>
+<td>a file can pass grammar and draw nothing; grammar starts the inspection and never ends it</td>
+<td><a href="01-the-tether.html">01</a>, <a href="02-loom-laws.html">02</a></td>
+</tr>
+<tr>
+<td><strong>valid is not placed</strong></td>
+<td>a file can pass the schema with parts floating or sunk; a placement check finds them</td>
+<td><a href="05-semantic-layer.html">05</a></td>
+</tr>
+<tr>
+<td><strong>grade <span class="g C" title="Confirmed">C</span>/<span class="g L" title="Likely">L</span>/<span class="g S" title="Suspected">S</span></strong></td>
+<td>Confirmed (measured, instrument named), Likely (read or reasoned), Suspected (a guess)</td>
+<td><a href="AUTHORING.html">AUTHORING</a></td>
+</tr>
+<tr>
+<td><strong>law, failure mode, playbook pattern</strong></td>
+<td>numbered rules, numbered mistakes already paid for once, and numbered procedures of the Loom</td>
+<td><a href="02-loom-laws.html">02</a></td>
+</tr>
+<tr>
+<td><strong>Loom</strong></td>
+<td>the method that makes one artifact right: a generator, independent witnesses and a receipt</td>
+<td><a href="02-loom-laws.html">02</a></td>
+</tr>
+<tr>
+<td><strong>generator</strong></td>
+<td>code that emits the artifact; the only place a fix may go</td>
+<td><a href="02-loom-laws.html">02</a></td>
+</tr>
+<tr>
+<td><strong>witness / gate / receipt</strong></td>
+<td>an independent checker that observes; a predicate that decides whether work may proceed; the record binding candidate, witnesses and outputs</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+</tr>
+<tr>
+<td><strong>candidate</strong></td>
+<td>the exact set of files under test, identified by a hash of its inventory</td>
+<td><a href="03-validator-and-gates.html">03</a></td>
+</tr>
+<tr>
+<td><strong>negative control</strong></td>
+<td>a deliberately wrong input that a gate must reject for the intended reason; a control that passes means a broken gate</td>
+<td><a href="02-loom-laws.html">02</a></td>
+</tr>
+<tr>
+<td><strong>fold-back</strong></td>
+<td>what a project learned, returned to the shared method as an additions-only patch with its counterexamples</td>
+<td><a href="02-loom-laws.html">02</a></td>
+</tr>
+<tr>
+<td><strong>parity</strong></td>
+<td>agreement between two renderers on the same file, expressed as numbers (dB, counts), never as &quot;looks the same&quot;</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+</tr>
+<tr>
+<td><strong>master / body / brain</strong></td>
+<td>the X3D file is the master; the renderer's drawing code is a body; our reader that runs the scene graph and events is the brain</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+</tr>
+<tr>
+<td><strong>look</strong></td>
+<td>a presentation layer (bloom, tone curve, grain) that may add to a scene but never assert; it has an &quot;as authored&quot; switch</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+</tr>
+<tr>
+<td><strong>round trip</strong></td>
+<td>export then re-import, to measure what a pipeline loses; a re-export can be valid even when the source was not, so score fidelity, not validity</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+</tr>
+<tr>
+<td><strong>bake</strong></td>
+<td>compute light once (for example Cycles vertex colours) and store it in the file so it travels</td>
+<td><a href="10-blender-pipeline.html">10</a></td>
+</tr>
+<tr>
+<td><strong>tier-1 framework</strong></td>
+<td>in this base: a host that drives the same file, passes the same gate and reports parity numbers like X_ITE does</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+</tr>
+<tr>
+<td><strong>teardown</strong></td>
+<td>an AST-based analysis of a code base with measured numbers; the six on this site</td>
+<td><a href="index.html">00</a></td>
+</tr>
+</tbody>
+</table>
+<div class="pn"><a href="A-validator-register.html">&larr; A-validator-register</a><a href="C-numbers-ledger.html">C-numbers-ledger &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

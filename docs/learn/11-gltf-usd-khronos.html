@@ -1,0 +1,1240 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>11. glTF, USD and Khronos: what survives and what the gate proves · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a class="cur" href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="11-gltf-usd-khronos.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/11-gltf-usd-khronos.md">GitHub</a></div><h1>11. glTF, USD and Khronos: what survives and what the gate proves</h1>
+<details class="toc"><summary>On this page (28 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-carriers-what-survives-an-x3d-to-glb-or-usd-hop">2. Carriers: what survives an X3D to glb or USD hop</a><a class="l3" href="#21-a-worked-loss-what-the-prismatica-animated-glb-kept-of-two-routes">2.1 A worked loss: what the Prismatica animated glb kept of two ROUTEs</a><a class="l2" href="#3-the-khr-extension-map-and-its-status">3. The KHR extension map and its status</a><a class="l2" href="#4-the-pipeline-x3d---blender---glb--usd">4. The pipeline X3D -&gt; Blender -&gt; glb / USD</a><a class="l3" href="#41-the-one-export-call">4.1 The one export call</a><a class="l3" href="#42-coordinates-in-one-line">4.2 Coordinates, in one line</a><a class="l3" href="#43-the-manifest-what-travels-beside-the-glb">4.3 The manifest: what travels beside the glb</a><a class="l3" href="#44-usd">4.4 USD</a><a class="l2" href="#5-the-khronos-validator-gate">5. The Khronos validator gate</a><a class="l3" href="#51-what-validate_glbmjs-is">5.1 What validate_glb.mjs is</a><a class="l3" href="#52-what-it-proves-and-what-it-does-not">5.2 What it proves, and what it does not</a><a class="l3" href="#53-re-run-a-valid-glb-with-nothing-in-it">5.3 Re-run: a valid glb with nothing in it</a><a class="l3" href="#54-re-run-the-existing-converter-glbs">5.4 Re-run: the existing converter glbs</a><a class="l2" href="#6-gotchas-learned-each-has-a-receipt">6. Gotchas learned (each has a receipt)</a><a class="l2" href="#7-usd-mapping-notes">7. USD mapping notes</a><a class="l2" href="#8-ten-steps-to-a-trustworthy-x3d---glb-run">8. Ten steps to a trustworthy X3D -&gt; glb run</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-glt-1-build-a-glb-that-passes-and-is-empty">D-GLT-1 Build a glb that passes and is empty</a><a class="l3" href="#d-glt-2-make-a-required-extension-pass">D-GLT-2 Make a required extension pass</a><a class="l3" href="#d-glt-3-count-the-ratified-extensions">D-GLT-3 Count the ratified extensions</a><a class="l3" href="#d-glt-4-instancing-leaves-the-triangle-count-alone">D-GLT-4 Instancing leaves the triangle count alone</a><a class="l3" href="#d-glt-5-find-the-loss-in-a-glb">D-GLT-5 Find the loss in a glb</a><a class="l3" href="#d-glt-6-find-the-animation-start-fault-without-blender">D-GLT-6 Find the animation start fault without Blender</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> an X3D scene that goes through Blender to a glb keeps its geometry, materials, lights, cameras and fixed animation, loses its behaviour (ROUTEs, Scripts, PROTOs, sensors) and its authoring identity unless you pay to carry it, and the Khronos validator proves only that the glb is well-formed, never that the scene is in it. <strong><span class="g C" title="Confirmed">C</span></strong> for the validator behaviour re-run below, <strong><span class="g L" title="Likely">L</span></strong> for what each carrier keeps.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>GLT</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="01-the-tether.html">01 The tether</a> for the loop; <a href="03-validator-and-gates.html">03 The validator and the gates</a> for what a validator can and cannot see</td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>(1) say per X3D feature whether it survives a glb or USD hop, and how that was graded; (2) run the Khronos glTF Validator gate on any glb and read its result honestly; (3) build a glb that passes the gate and is empty, and say why that is not a bug in the gate; (4) name the five export gotchas that bit this pipeline and the fix for each; (5) run the 10-step checklist for a trustworthy X3D to glb run</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td>x3d-blender-io@ab99988:{tools/fidelity_rig/validate_glb.mjs, manifest.py, blender_leg.py, package.json, README.md, release_notes.md, tests/test_glb_validator_bpy.py, source/import_x3d.py}; glTF extension registry (public, fetched 2026-11-14, sha256 prefix <code>32868b162d85</code>); x3d.docs@f172f67:docs/x3d-blender-io/MASTERCLASS.md</td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code> (npm, run 2026-11-14); <code>bpy 5.3.0</code> (read from repo receipts, not run: no <code>bpy</code> here); <code>X_ITE 16.7.1</code> and <code>Babylon.js 9.32.0</code> on <code>Chromium 153, SwiftShader</code> (receipts carried from the repo README); <code>x3d-blender-io@ab99988</code></td>
+</tr>
+</tbody>
+</table>
+<p>Grading note for this chapter. Blender was <strong>not</strong> installed in the session that wrote it, so no export in this chapter was produced here. What was run on 2026-11-14: the glTF Validator on five existing glbs and two hand-built glbs, the glb JSON chunk parsed with Python, and the Khronos extension registry fetched and counted. Every Blender-side number is therefore a repo receipt (<code>read, not run</code>) and is graded <span class="g L" title="Likely">L</span> unless a re-run is named.</p>
+<hr />
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text">  X3D 4.0 file (the tether's source of truth; ROUTEs, Script, PROTO, sensors live ONLY here)
+        |
+        |  import_scene.x3d   (x3d-blender-io: ONE translation, at import, no event runtime)
+        v
+  Blender scene  Z-up, metres, Principled BSDF, lights in W / lux, actions, shape keys
+        |   custom props x3d_def, x3d_def_path, x3d_use   (identity; survives only via extras)
+        |
+        +--&gt; export_scene.gltf  (GLB, export_extras=True, COMPAT light units, export_apply=True)
+        |        |
+        |        v
+        |    raw glb  --[ validate_glb.mjs: Khronos glTF Validator ]--&gt; FILE.glb.validation.json
+        |        |         exit 0 clean / 1 errors / 2 validator missing        (structure only)
+        |        v
+        |    manifest.json  (x3d sha256, add-on revision, Blender version, glb sha256, counts)
+        |        |
+        |        +--&gt; Babylon.js 9.32.0  vs  X_ITE 16.7.1 on the X3D   (looks: mean abs delta)
+        |
+        +--&gt; USD export (Blender's own exporter; NOT in the rig, NOT run here)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>in scope</th>
+<th>out of scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>what survives X3D to glb to engines; the validator gate; the export gotchas</td>
+<td>the X3D to Blender importer internals (see the <a href="../x3d-blender-io/MASTERCLASS.html">AST teardown</a>); Unreal import (<a href="12-unreal-tier1.html">12</a>); physics (<a href="13-physics.html">13</a>)</td>
+</tr>
+</tbody>
+</table>
+<p>Read next: deeper, <a href="03-validator-and-gates.html">03 The validator and the gates</a> for the X3D-side gates this chapter mirrors; wider, <a href="12-unreal-tier1.html">12 Unreal as a tier-1 X3D framework</a> for a glb consumer that has never been run.</p>
+<p>The thesis in one line: the <strong>source</strong> stays X3D and the glb is a build output with a receipt. A glb that &quot;looks fine&quot; is not accountable; a glb with a sha256, an add-on revision, a validator report and a named list of what was dropped is.</p>
+<hr />
+<h2 id="2-carriers-what-survives-an-x3d-to-glb-or-usd-hop">2. Carriers: what survives an X3D to glb or USD hop</h2>
+<p>Reading of this table: &quot;kept&quot; means a value reaches the file and an engine can draw it; &quot;dropped&quot; means no equivalent exists in the carrier; &quot;baked&quot; means the behaviour is sampled into data. Evidence is <code>read</code> (code or release note, not run here), <code>run</code> (re-run 2026-11-14), or <code>lead</code> (private note, not re-checked).</p>
+<table>
+<thead>
+<tr>
+<th>X3D feature</th>
+<th>glb (glTF 2.0)</th>
+<th>USD</th>
+<th>Evidence</th>
+<th>Grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transform, Group, Shape, DEF/USE meshes</td>
+<td>kept; USE becomes a shared mesh, flat import drops DEF'd Transforms into object names plus <code>x3d_def_path</code> extras</td>
+<td>kept as Xform and Mesh; references and payloads have no glTF form</td>
+<td><code>release_notes.md</code> identity entry, read</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>IndexedFaceSet, primitives, TriangleSets</td>
+<td>kept as meshes (a Box imports as a mesh; the 4.0 export writes primitives back)</td>
+<td>kept as Mesh</td>
+<td><code>release_notes.md</code>, read</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>PhysicalMaterial, Material, UnlitMaterial</td>
+<td>PBR metal-rough, classic Material approximated, unlit becomes <code>KHR_materials_unlit</code></td>
+<td>UsdPreviewSurface (not examined)</td>
+<td>release notes lines on UnlitMaterial and colour space, read</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>Colour space</td>
+<td>classic colours are sRGB in X_ITE, linear in glTF: converted at import under option <code>SRGB</code></td>
+<td>not examined</td>
+<td>README measurement: <code>emissiveColor 0.5</code> draws 128 in X_ITE, 186 from an as-is glb, 127 from a converted one (X_ITE 16.7.1, Babylon.js 9.32.0, Chromium 153)</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>DirectionalLight, PointLight, SpotLight</td>
+<td><code>KHR_lights_punctual</code>; units fitted so Babylon draws what X_ITE draws (light units option)</td>
+<td>UsdLux (not examined)</td>
+<td>probes table in rig README, read</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>Viewpoint, OrthoViewpoint, GeoViewpoint</td>
+<td>cameras; headlight is NOT a glTF object (rig adds it in Babylon)</td>
+<td>cameras</td>
+<td>rig README, read</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>TimeSensor + interpolators + ROUTE (fixed)</td>
+<td><strong>baked</strong> into an animation: Position/Orientation/Scale interpolators to node channels, CoordinateInterpolator to morph-target weights</td>
+<td>baked to time samples if exported</td>
+<td><code>import_x3d.py</code> ROUTE handling (read); morph-weights channel re-parsed from a glb 2026-11-14</td>
+<td><span class="g C" title="Confirmed">C</span> for the morph channel, <span class="g L" title="Likely">L</span> otherwise</td>
+</tr>
+<tr>
+<td>ROUTE as a live event graph</td>
+<td><strong>dropped</strong> (a baked clip has no graph); <code>KHR_interactivity</code> is the only glTF-side place it could go</td>
+<td>dropped</td>
+<td>Section 3; no exporter writes it</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>Script (ECMAScript), sensors (Touch, Proximity, Visibility)</td>
+<td><strong>dropped</strong>: no glTF equivalent in 2.0</td>
+<td>dropped</td>
+<td>nothing in the add-on reads or writes a Script; AST coverage table lists the touched components</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>PROTO / ExternProto</td>
+<td>expanded or absent: the glb has no concept of a prototype</td>
+<td>composition arcs differ in kind</td>
+<td>read: <code>_NOT_SWITCH_CHILDREN</code> lists ProtoDeclare as a non-child</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>Inline</td>
+<td>imported as an Empty carrying <code>x3d_inline_url</code>; the content is imported if the URL resolves; an unresolved Inline gives an empty glb</td>
+<td><code>references</code> are not used</td>
+<td><code>import_x3d.py:6518-6580</code>, read; 5 of 33 repo glbs empty</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>Switch, LOD</td>
+<td>Switch: the chosen child only; LOD: no glTF counterpart (a vendor extension <code>MSFT_lod</code> exists)</td>
+<td>variants / purpose differ</td>
+<td>registry lists <code>MSFT_lod</code> as a vendor extension (fetched); Switch handling read</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>NURBS (13 nodes)</td>
+<td>no node is read by the add-on per the AST coverage table; tessellate before import</td>
+<td>NURBS curves exist in USD, not examined</td>
+<td>MASTERCLASS section 2.1 coverage, measured 2026-11-13</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>ParticleSystems (10 nodes)</td>
+<td>no node read; no glTF particle feature</td>
+<td>no</td>
+<td>MASTERCLASS section 2.1</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>ComposedShader / ProgramShader (GLSL)</td>
+<td><strong>dropped</strong>: glTF has no shader slot; a GLSL scene must be baked to textures or re-authored as PBR</td>
+<td>MaterialX or OSL, different language</td>
+<td><code>SHADER_SPECS</code> read in importer (translation spec in repo, not run here)</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>Sound, AudioClip</td>
+<td>not in glTF 2.0 core; <code>KHR_audio_graph</code> is a <em>Proposal</em> in the registry</td>
+<td><code>UsdMedia</code> audio, not examined</td>
+<td>registry fetched 2026-11-14</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>RigidBodyPhysics</td>
+<td><code>KHR_physics_rigid_bodies</code> is a <em>Review Draft</em> in the registry; the add-on touches no RigidBodyPhysics node</td>
+<td><code>UsdPhysics</code></td>
+<td>registry; MASTERCLASS component list</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>HAnim</td>
+<td>armature and skin (joints, weights)</td>
+<td>UsdSkel</td>
+<td>add-on README: armatures export as HAnim; glb side not re-run</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>GeoElevationGrid</td>
+<td>a mesh (703 vertices, 1,296 triangles in the Showcase globe; 0 errors, 0 warnings)</td>
+<td>not examined</td>
+<td>release notes, read</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>Gaussian splats</td>
+<td><code>KHR_gaussian_splatting</code> (ratified per the registry); add-on reads splat PointClouds</td>
+<td>not examined</td>
+<td>registry; <code>source/splat_native.py</code> header</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+</tbody>
+</table>
+<p>The loss list is the useful part. Everything labelled <strong>dropped</strong> is behaviour, and behaviour is exactly the part the thesis of this knowledge base says must stay accountable in the X3D file. So: a glb is a <em>delivery copy of the static scene plus fixed clips</em>. Treat a missing behaviour as an expected loss, say so in the manifest, and never infer &quot;the X3D scene works&quot; from &quot;the glb loads&quot;.</p>
+<pre><code class="language-text">  What a glb can and cannot carry from an X3D scene (read from repo, grade [L])
+
+  STATIC            geometry  materials  textures  lights  cameras  hierarchy     --&gt; kept
+  SAMPLED           interpolator clips, CoordinateInterpolator morphs             --&gt; baked
+  IDENTITY          DEF names, USE links, Inline URLs                             --&gt; only in extras
+  ------------------------------------------------------------------------------------------
+  BEHAVIOUR         ROUTE graph  Script  sensors  PROTO  Switch-at-runtime       --&gt; dropped
+  SPECIAL           NURBS  ParticleSystems  GLSL shaders  Sound  Physics         --&gt; dropped (today)
+</code></pre>
+<h3 id="21-a-worked-loss-what-the-prismatica-animated-glb-kept-of-two-routes">2.1 A worked loss: what the Prismatica animated glb kept of two ROUTEs</h3>
+<p>The animated conversion of one of the Unreal-project scenes has exactly two ROUTEs (a TimeSensor to a CoordinateInterpolator, then the interpolator to a Coordinate's <code>set_point</code>), counted with <code>grep -c '&lt;ROUTE'</code> on the converter output on 2026-11-14. The glb the add-on produced from it (<code>bpy 5.3.0</code>, Blender glTF I/O 5.3.43, carried file) was parsed with Python's <code>json</code> on 2026-11-14:</p>
+<table>
+<thead>
+<tr>
+<th>quantity</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>glTF animations</td>
+<td>1, named <code>RibbonMeshAction</code></td>
+</tr>
+<tr>
+<td>channels</td>
+<td>1, target path <code>weights</code></td>
+</tr>
+<tr>
+<td>the ribbon mesh primitive has <code>targets</code></td>
+<td>true (it has morph targets)</td>
+</tr>
+<tr>
+<td>ROUTE elements in the glb</td>
+<td>0 (the format has none)</td>
+</tr>
+</tbody>
+</table>
+<p>So the <em>effect</em> of the ROUTE pair (a displaced surface cycling through key frames) survives as a morph clip, and the <em>wiring</em> does not. A reader who edits the glb cannot re-route the clock. That is the whole story of the carrier in one example.</p>
+<hr />
+<h2 id="3-the-khr-extension-map-and-its-status">3. The KHR extension map and its status</h2>
+<p>Status is date-sensitive. The map below is read from the public Khronos extension registry page (<code>KhronosGroup/glTF</code>, <code>extensions/README.md</code>, fetched 2026-11-14, sha256 prefix <code>32868b162d85</code>). A registry file does not carry ratification dates, so any date is <span class="g S" title="Suspected">S</span> unless the extension's own spec says it.</p>
+<table>
+<thead>
+<tr>
+<th>section of the registry</th>
+<th>count (2026-11-14)</th>
+<th>what it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ratified Khronos Extensions</td>
+<td>27 (24 <code>KHR_*</code>, 3 <code>EXT_*</code>)</td>
+<td>covered by the Khronos IP framework</td>
+</tr>
+<tr>
+<td>In-progress (Proposal / Initial / Review Draft / Release Candidate)</td>
+<td>9 extensions + 1 project</td>
+<td>not safe to require in a delivered glb</td>
+</tr>
+<tr>
+<td>Archived</td>
+<td>3</td>
+<td>do not write</td>
+</tr>
+</tbody>
+</table>
+<p>The ratified rows relevant to an X3D pipeline, with the X3D concept they carry:</p>
+<table>
+<thead>
+<tr>
+<th>extension</th>
+<th>status 2026-11-14</th>
+<th>X3D concept</th>
+<th>does our pipeline write it?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>KHR_lights_punctual</code></td>
+<td>Ratified</td>
+<td>DirectionalLight, PointLight, SpotLight</td>
+<td>yes: <code>required</code> in the Prismatica glbs (re-parsed)</td>
+</tr>
+<tr>
+<td><code>KHR_materials_unlit</code></td>
+<td>Ratified</td>
+<td>UnlitMaterial, lines, points</td>
+<td>yes (re-parsed)</td>
+</tr>
+<tr>
+<td><code>KHR_materials_emissive_strength</code></td>
+<td>Ratified</td>
+<td>HDR emissive</td>
+<td>not seen in the glbs read</td>
+</tr>
+<tr>
+<td><code>KHR_materials_transmission</code>, <code>_volume</code>, <code>_ior</code></td>
+<td>Ratified</td>
+<td>PhysicalMaterial transmission</td>
+<td>not examined</td>
+</tr>
+<tr>
+<td><code>KHR_materials_specular</code>, <code>_clearcoat</code>, <code>_sheen</code>, <code>_anisotropy</code>, <code>_iridescence</code>, <code>_dispersion</code></td>
+<td>Ratified</td>
+<td>X3D 4.1 MaterialExtension nodes (no 1:1 map measured)</td>
+<td><code>_specular</code> appears in an older unlit path per release notes; others not examined</td>
+</tr>
+<tr>
+<td><code>KHR_materials_variants</code></td>
+<td>Ratified</td>
+<td>no X3D node; Switch only loosely</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>KHR_texture_transform</code></td>
+<td>Ratified</td>
+<td>TextureTransform</td>
+<td>not examined</td>
+</tr>
+<tr>
+<td><code>KHR_texture_basisu</code></td>
+<td>Ratified</td>
+<td>compressed textures (KTX2)</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>KHR_mesh_quantization</code></td>
+<td>Ratified</td>
+<td>none (storage)</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>KHR_draco_mesh_compression</code></td>
+<td>Ratified</td>
+<td>none (storage)</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>KHR_node_visibility</code>, <code>_selectability</code>, <code>_hoverability</code></td>
+<td>Ratified</td>
+<td>Switch/visible, pickability</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>KHR_animation_pointer</code></td>
+<td>Ratified</td>
+<td>animation of any property: the glTF analogue of a ROUTE to a field</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>KHR_interactivity</code></td>
+<td>Ratified</td>
+<td>the glTF-side behaviour graph: the one place ROUTE-like logic could live</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>KHR_gaussian_splatting</code></td>
+<td>Ratified</td>
+<td><code>GaussianSplats</code> (X3D 4.1 draft)</td>
+<td>splat importer reads it</td>
+</tr>
+<tr>
+<td><code>EXT_mesh_gpu_instancing</code></td>
+<td>Ratified (EXT)</td>
+<td>DEF/USE reuse at scale</td>
+<td>yes, behind an option (Section 5.4)</td>
+</tr>
+<tr>
+<td><code>EXT_meshopt_compression</code>, <code>EXT_texture_webp</code></td>
+<td>Ratified (EXT)</td>
+<td>none (storage)</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>KHR_materials_diffuse_transmission</code></td>
+<td>Release Candidate</td>
+<td>none</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>KHR_physics_rigid_bodies</code>, <code>KHR_collision_shapes</code></td>
+<td>Review Draft</td>
+<td>RigidBodyPhysics, CollisionCollection</td>
+<td>no (see <a href="13-physics.html">13</a>)</td>
+</tr>
+<tr>
+<td><code>KHR_audio_graph</code></td>
+<td>Proposal</td>
+<td>Sound</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>KHR_materials_pbrSpecularGlossiness</code></td>
+<td>Archived</td>
+<td>none: do not write</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<p>Two cautions, both from re-running the validator.</p>
+<ol>
+<li><strong>Ratified does not mean validated.</strong> <code>EXT_mesh_gpu_instancing</code> is in the ratified list, yet <code>Khronos glTF-Validator 2.0.0-dev.3.10</code> does not know it: a glb that uses it passes at INFO with &quot;cannot validate an extension as it is not supported&quot; (run 2026-11-14 on two glbs, Section 5.3). The gate's <code>extensionsNotValidated</code> field exists to say so.</li>
+<li><strong>Ratified does not mean drawn.</strong> Which engine draws which extension is a separate measurement. Castle, X_ITE, Babylon.js and Unreal each have their own list, and the registry says nothing about them.</li>
+</ol>
+<p>The date claims that circulate (when <code>KHR_interactivity</code>, <code>KHR_gaussian_splatting</code> and glTF 2.1 reached which stage) came from private digests and a third-party tracker. They are <span class="g S" title="Suspected">S</span> here: &quot;carried, not re-checked&quot;. What is <span class="g C" title="Confirmed">C</span> is the registry page itself on the day it was fetched.</p>
+<hr />
+<h2 id="4-the-pipeline-x3d---blender---glb--usd">4. The pipeline X3D -&gt; Blender -&gt; glb / USD</h2>
+<h3 id="41-the-one-export-call">4.1 The one export call</h3>
+<p><code>tools/fidelity_rig/blender_leg.py</code> is the single place the glb is made for the rig. It is short enough to quote (x3d-blender-io@ab99988, lines 19 to 31; read, and its output measured by the rig):</p>
+<pre><code class="language-python">bpy.context.scene.frame_start = 0   # X3D time 0 lands on frame_start; glTF writes frame/fps
+assert bpy.ops.import_scene.x3d(filepath=x3d) == {&quot;FINISHED&quot;}
+assert bpy.ops.export_scene.gltf(filepath=glb, export_format=&quot;GLB&quot;, export_lights=True,
+    export_cameras=True, export_import_convert_lighting_mode=&quot;COMPAT&quot;, use_renderable=True,
+    export_yup=True, export_extras=True, export_apply=True, use_mesh_edges=True,
+    use_mesh_vertices=True, export_gpu_instances=&lt;env BLENDER_X3D_GPU_INSTANCES&gt;) == {&quot;FINISHED&quot;}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>option</th>
+<th>why it is set</th>
+<th>consequence if wrong</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>frame_start = 0</code> before import</td>
+<td>the importer puts X3D time 0 on <code>frame_start</code></td>
+<td>every clip starts 1/24 s late at the factory frame 1 (Section 6)</td>
+</tr>
+<tr>
+<td><code>export_extras=True</code></td>
+<td>carries <code>x3d_def</code>, <code>x3d_def_path</code>, <code>x3d_use</code> into node, mesh, material <code>extras</code></td>
+<td>the glb has no link back to the DEF names</td>
+</tr>
+<tr>
+<td><code>export_apply=True</code></td>
+<td>modifiers applied; checked harmless for the add-on's morphs</td>
+<td>none measured on 34 of 34 scenes (Section 6)</td>
+</tr>
+<tr>
+<td><code>use_renderable=True</code></td>
+<td>only renderable objects</td>
+<td>hidden helper objects leak into the glb otherwise</td>
+</tr>
+<tr>
+<td><code>export_import_convert_lighting_mode=&quot;COMPAT&quot;</code></td>
+<td>W to candela conversion consistent with the light-units fit</td>
+<td>a lights fit that no longer matches X_ITE</td>
+</tr>
+<tr>
+<td><code>use_mesh_edges</code>, <code>use_mesh_vertices</code></td>
+<td>lines and points export as primitives</td>
+<td><code>IndexedLineSet</code> and <code>PointSet</code> vanish</td>
+</tr>
+<tr>
+<td><code>export_gpu_instances</code></td>
+<td>writes <code>EXT_mesh_gpu_instancing</code> for same-mesh children of one Empty</td>
+<td>1,721 nodes instead of 10 (Section 5.4)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-coordinates-in-one-line">4.2 Coordinates, in one line</h3>
+<p>X3D is right-handed Y-up, metres. Blender is right-handed Z-up. glTF is right-handed Y-up, metres. The add-on does the single Y-up to Z-up conversion at import and Blender's exporter undoes it with <code>export_yup=True</code>. The rule that keeps this accountable: convert <strong>once</strong>, never add a second rotation after the exporter has converted. The handedness-changing case (Unreal) is derived in <a href="12-unreal-tier1.html">chapter 12</a>.</p>
+<h3 id="43-the-manifest-what-travels-beside-the-glb">4.3 The manifest: what travels beside the glb</h3>
+<p><code>tools/fidelity_rig/manifest.py</code> writes <code>out/LABEL/&lt;scene&gt;/manifest.json</code>, schema <code>x3d-blender-io.glb-manifest/v1</code>, with no timestamps so the same inputs give the same manifest:</p>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>what it records</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x3d path and sha256</td>
+<td>which source</td>
+</tr>
+<tr>
+<td>add-on git revision, Blender version</td>
+<td>which compiler</td>
+</tr>
+<tr>
+<td><code>BLENDER_X3D_*</code> options, <code>X3D_SPLAT_IMPORT</code></td>
+<td>which settings</td>
+</tr>
+<tr>
+<td>glb sha256 and bytes</td>
+<td>which output</td>
+</tr>
+<tr>
+<td>validator summary, <code>extensionsUsed</code>, <code>extensionsRequired</code>, counts</td>
+<td>what the gate saw</td>
+</tr>
+</tbody>
+</table>
+<p>This is the &quot;receipt&quot; of the tether applied to a glb: given the manifest, a stranger can re-run the leg and compare a sha256. The repo records that two separate imports of one file give byte-identical glbs, with or without extras (Blender 5.3.0, read).</p>
+<h3 id="44-usd">4.4 USD</h3>
+<p>The add-on has no USD writer of its own and the rig has no USD leg. The only USD route that exists here is Blender's own exporter after the import, which was <strong>not run</strong> in this session or recorded in the repo as a measured leg. Everything in Section 7 is therefore <span class="g L" title="Likely">L</span> or <span class="g S" title="Suspected">S</span>.</p>
+<hr />
+<h2 id="5-the-khronos-validator-gate">5. The Khronos validator gate</h2>
+<h3 id="51-what-validate_glbmjs-is">5.1 What <code>validate_glb.mjs</code> is</h3>
+<p><code>tools/fidelity_rig/validate_glb.mjs</code> wraps the <code>gltf-validator</code> npm package (pinned <code>2.0.0-dev.3.10</code> in <code>package.json</code>). Contract, read from the file:</p>
+<table>
+<thead>
+<tr>
+<th>item</th>
+<th>behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>usage</td>
+<td><code>node validate_glb.mjs FILE.glb [--max-warnings N] [--out REPORT.json] [--quiet]</code>; <code>--version</code> prints the validator version</td>
+</tr>
+<tr>
+<td>output</td>
+<td><code>FILE.glb.validation.json</code>: schema <code>x3d-blender-io.glb-validation/v1</code>, bytes, sha256, counts of errors / warnings / infos / hints, every issue with code, severity, pointer, message</td>
+</tr>
+<tr>
+<td>derived</td>
+<td>triangle, vertex, draw-call, material counts; <code>extensionsUsed</code>, <code>extensionsRequired</code>, <code>extensionsNotValidated</code></td>
+</tr>
+<tr>
+<td>exit codes</td>
+<td>0 clean, 1 errors (or more than N warnings, or the file would not parse), 2 usage error or validator package missing</td>
+</tr>
+<tr>
+<td>installation</td>
+<td><code>npm install</code> in the rig folder, or <code>GLTF_VALIDATOR_DIR</code> points at another install (CI sets it)</td>
+</tr>
+<tr>
+<td>CI</td>
+<td><code>tests/test_glb_validator_bpy.py</code> runs the gate without a browser; <code>GLTF_VALIDATOR_REQUIRED=1</code> turns a missing validator into a failure instead of silent skips</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52-what-it-proves-and-what-it-does-not">5.2 What it proves, and what it does not</h3>
+<table>
+<thead>
+<tr>
+<th>the gate proves</th>
+<th>the gate does not prove</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>container and chunk layout are well formed</td>
+<td>that any geometry is present</td>
+</tr>
+<tr>
+<td>JSON matches the glTF 2.0 schema</td>
+<td>that the scene is the X3D scene (an unsupported node imports to nothing)</td>
+</tr>
+<tr>
+<td>accessor and buffer-view bounds, index ranges, references resolve</td>
+<td>that materials look right (colour space, light units are looks)</td>
+</tr>
+<tr>
+<td>material and animation rules (for example a weights channel must have morph targets)</td>
+<td>that an engine draws it</td>
+</tr>
+<tr>
+<td>extensions it knows are used legally</td>
+<td>extensions it does not know: reported at INFO only, content unchecked</td>
+</tr>
+</tbody>
+</table>
+<p>The repo's own measurement of this limit (Blender 5.3.0, gltf-validator 2.0.0-dev.3.10, carried from <code>release_notes.md</code> and the README, read): of the repo's 34 scenes, 33 export a glb, all 33 with 0 errors and 0 warnings; <strong>5 of the 33 are empty</strong> (unsupported node, or an Inline glb that imports to nothing) and 2 hold only points. All pass the gate. A passing gate on those is correct and useless, which is the point of this section.</p>
+<h3 id="53-re-run-a-valid-glb-with-nothing-in-it">5.3 Re-run: a valid glb with nothing in it</h3>
+<p>The gate was installed from npm into a scratch folder and run on 2026-11-14 (<code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, node 22). Two hand-built glbs (the first is 48 bytes), built with this snippet (copy it as is):</p>
+<pre><code class="language-python">import struct
+def glb(json_bytes, path):
+    j = json_bytes + b' ' * ((4 - len(json_bytes) % 4) % 4)
+    open(path, 'wb').write(struct.pack('&lt;III', 0x46546C67, 2, 12 + 8 + len(j))
+                           + struct.pack('&lt;II', len(j), 0x4E4F534A) + j)
+glb(b'{&quot;asset&quot;:{&quot;version&quot;:&quot;2.0&quot;}}', 'empty.glb')
+glb(b'{&quot;asset&quot;:{&quot;version&quot;:&quot;2.0&quot;},&quot;extensionsUsed&quot;:[&quot;VENDOR_made_up&quot;],'
+    b'&quot;extensionsRequired&quot;:[&quot;VENDOR_made_up&quot;]}', 'reqext.glb')
+</code></pre>
+<pre><code class="language-bash">node validate_glb.mjs empty.glb      # exit 0
+node validate_glb.mjs reqext.glb     # exit 0, plus a NOT VALIDATED line
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>file</th>
+<th>result (run 2026-11-14)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>empty.glb</code> (48 B)</td>
+<td><code>OK</code>: 0 errors, 0 warnings, 0 infos; 0 tris, 0 draw calls, 0 materials; exit 0</td>
+</tr>
+<tr>
+<td><code>reqext.glb</code></td>
+<td><code>OK</code>: 0 errors, 0 warnings, 1 info; line <code>NOT VALIDATED: VENDOR_made_up (... REQUIRED by the file)</code>; exit 0</td>
+</tr>
+</tbody>
+</table>
+<p>Both facts matter. An empty scene is a valid glb. A glb that <em>requires</em> an extension nobody can read is a valid glb. The wrapper's <code>NOT VALIDATED</code> line (and <code>extensionsNotValidated</code> in the JSON) exists because the validator itself reports only INFO; without the wrapper, an agent reading &quot;0 errors&quot; would conclude more than the tool says.</p>
+<h3 id="54-re-run-the-existing-converter-glbs">5.4 Re-run: the existing converter glbs</h3>
+<p>Five glbs already in the project, produced by the add-on from the two Unreal-project conversions (the instanced pair with <code>export_gpu_instances</code> on; carried files, re-validated 2026-11-14 with the same gate):</p>
+<table>
+<thead>
+<tr>
+<th>glb</th>
+<th>nodes</th>
+<th>file bytes</th>
+<th>errors / warnings</th>
+<th>triangles</th>
+<th>extensions used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>exhibition, flat</td>
+<td>1,721</td>
+<td>491,832</td>
+<td>0 / 0</td>
+<td>2,064</td>
+<td>none</td>
+</tr>
+<tr>
+<td>exhibition, instanced</td>
+<td>10</td>
+<td>125,224</td>
+<td>0 / 0</td>
+<td>2,064</td>
+<td><code>EXT_mesh_gpu_instancing</code> (NOT VALIDATED)</td>
+</tr>
+<tr>
+<td>cathedral static, flat</td>
+<td>1,224</td>
+<td>1,097,864</td>
+<td>0 / 0</td>
+<td>27,544</td>
+<td><code>KHR_materials_unlit</code>, <code>KHR_lights_punctual</code></td>
+</tr>
+<tr>
+<td>cathedral static, instanced</td>
+<td>16</td>
+<td>864,228</td>
+<td>0 / 0</td>
+<td>27,544</td>
+<td>the two above plus <code>EXT_mesh_gpu_instancing</code> (NOT VALIDATED)</td>
+</tr>
+<tr>
+<td>cathedral animated</td>
+<td>1,224</td>
+<td>4,741,136</td>
+<td>0 / 0</td>
+<td>11,160</td>
+<td>the two KHR ones</td>
+</tr>
+</tbody>
+</table>
+<p>Reading the table: instancing keeps triangles and draw calls identical to the flat file while the node count falls from 1,721 to 10 and the size to a quarter; the validator reports the same 0 errors for both and cannot look inside the extension. The node, byte and triangle numbers match the public <code>release_notes.md</code> entry for the Group instances option (read), so that entry is now re-derived rather than carried. The animated file's validator triangle count (11,160) differs from the static one (27,544) because its ribbon mesh holds fewer indices (24,576 against 73,728, read from the accessors); the reason is a different tessellation setting in the conversion, which was not re-derived here.</p>
+<p><code>required</code> carries <code>KHR_lights_punctual</code> in the cathedral glbs. A viewer that ignores lights will refuse or degrade; this is the manifest's <code>extensionsRequired</code> doing its job.</p>
+<hr />
+<h2 id="6-gotchas-learned-each-has-a-receipt">6. Gotchas learned (each has a receipt)</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>symptom</th>
+<th>cause</th>
+<th>right fix</th>
+<th>wrong fix</th>
+<th>evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>every clip starts at 0.041667 s (1/24)</td>
+<td>the importer puts X3D time 0 on <code>scene.frame_start</code>; the glTF exporter writes <code>frame / fps</code>; factory frame 1</td>
+<td>set <code>frame_start = 0</code> <strong>before</strong> import</td>
+<td><code>export_anim_slide_to_zero</code></td>
+<td>first sample 0.0 s, last 2.0 s for a 2 s cycle with the fix; README, Blender 5.3.0, read, <span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>&quot;slide to zero&quot; seems to work</td>
+<td>the flag is <strong>ignored</strong> when <code>export_force_sampling</code> is off, and slides each action by its own first key, so a first key at 0.5 s moves to 0</td>
+<td>do not use it</td>
+<td>using it as a default</td>
+<td>error 0.5 s on a 0.5 s first key, README, read</td>
+</tr>
+<tr>
+<td>3</td>
+<td>final pose missing on a short loop</td>
+<td>integer-frame sampling stops a frame early: a 0.7 s cycle ends at 0.6667 s; a key at 0.3 of a 2 s cycle falls at frame 14.4 and is dropped (0.125 units of position error)</td>
+<td>keep cycles on whole frames, or use <code>export_force_sampling=False</code> for Transform animation; HAnim joints with it are untested</td>
+<td>trusting the first sample only</td>
+<td>README, read</td>
+</tr>
+<tr>
+<td>4</td>
+<td>worry that <code>export_apply=True</code> drops morphs</td>
+<td>the exporter's help says it prevents shape keys</td>
+<td>none needed: byte-identical glbs on 34 of 34 scenes and two CoordinateInterpolator scenes</td>
+<td>removing the flag</td>
+<td>README, Blender 5.3.0, read; the claim is true only for shape keys plus a non-armature modifier, which only the Solidify import option makes (then the glb fails with <code>ANIMATION_CHANNEL_TARGET_NODE_WEIGHTS_NO_MORPHS</code>)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>the glb names the importing machine's folders</td>
+<td><code>x3d_inline_resolved_path</code> and <code>x3d_scene_source_path</code> were stored absolute</td>
+<td>store relative to the importing file or as a file name (<code>mfstring.portable_path</code>)</td>
+<td>scrubbing the glb afterwards</td>
+<td>release notes line 5; <code>import_x3d.py:6553</code>, <code>populate.py:78</code>, read, <span class="g C" title="Confirmed">C</span> for the code line</td>
+</tr>
+<tr>
+<td>6</td>
+<td>scene with an Inline under scale <code>1.057e-16</code> imports then exports about 1e8 too small</td>
+<td>Blender's exporter writes <code>parent.matrix_world.inverted_safe() @ child</code>; in float32 the 4x4 determinant of that scale underflows and <code>inverted_safe()</code> returns a scale near 1e8</td>
+<td>move any world scale outside [1e-6, 1e6] off an Empty that has children onto the children's parent inverse (<code>matrix_safety.push_scale_to_children</code>)</td>
+<td>trusting the validator (it passed with 0 errors)</td>
+<td>release notes line 7, Blender 5.3.0, read; same glb now validator 0 errors, drawn like X_ITE in Babylon.js 9.32.0</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1,721 flat nodes where 10 would do</td>
+<td>USE and Group make every instance a scene root; the exporter writes <code>EXT_mesh_gpu_instancing</code> only for children of one Empty that share a mesh</td>
+<td>the <strong>Group instances</strong> import option (<code>BLENDER_X3D_GPU_INSTANCES=1</code>)</td>
+<td>hand-editing the glb</td>
+<td>Section 5.4, <span class="g C" title="Confirmed">C</span> for node counts</td>
+</tr>
+<tr>
+<td>8</td>
+<td>unlit shapes draw white in Babylon</td>
+<td><code>UnlitMaterial</code> once imported as Principled with black base colour and emissive colour; glTF multiplies <code>COLOR_0</code> into the black base only</td>
+<td>import as an Emission shape that exports <code>KHR_materials_unlit</code></td>
+<td>none</td>
+<td>release notes line 22, read</td>
+</tr>
+<tr>
+<td>9</td>
+<td>a <code>ColorRGBA</code> cloud layer is an opaque shell</td>
+<td>the glb alphaMode was OPAQUE</td>
+<td>alphaMode BLEND under AUTO, alpha in <code>COLOR_0</code></td>
+<td>none</td>
+<td>release notes line 21, read</td>
+</tr>
+</tbody>
+</table>
+<p>Three rules fall out of this table. The validator never catches a timing, identity or scale fault (all of 1, 5, 6 passed with 0 errors). A flag whose help text sounds right can be wrong for your inputs (2, 4). And a fix has to be tested in the <em>glb</em>, not in Blender's viewport, because the defects live in the exporter's arithmetic.</p>
+<hr />
+<h2 id="7-usd-mapping-notes">7. USD mapping notes</h2>
+<p>None of the USD notes below was run in this base. They come from reading and from private digests, so they are <span class="g L" title="Likely">L</span> at best.</p>
+<table>
+<thead>
+<tr>
+<th>topic</th>
+<th>note</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>role</td>
+<td>USD is a composed master with layers, references and variants; glTF is a flat delivery copy. The digests agree that export is a publication step, not a round trip</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>composition</td>
+<td>USD references, payloads, layers and overs have no glTF form; the X3D analogue is Inline and PROTO, which exist only at the X3D layer. A USD to glTF hop flattens, and so does glTF to USD</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>variants</td>
+<td><code>KHR_materials_variants</code> carries only the material part; X3D Switch and LOD have no glTF counterpart</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>lights</td>
+<td>only punctual lights survive glTF; UsdLux has more light types (area, dome) than X3D or glTF can say</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>packaging</td>
+<td>USDZ is an uncompressed, aligned archive made by UsdUtils; it is not a renamed zip. Relevant only for Apple AR copies</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>ingest</td>
+<td>Unreal's USD import is described by Epic as production-ready for assets and still experimental for levels in 5.8 (see <a href="12-unreal-tier1.html">12</a>); not tested here</td>
+<td><span class="g S" title="Suspected">S</span></td>
+</tr>
+<tr>
+<td>the rig</td>
+<td>no USD leg exists; a USD writer would need its own validator (usdchecker) and a scene-level compare. Adding one is the roadmap item &quot;USD round trip&quot; in the Unreal chapter</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+</tbody>
+</table>
+<p>What the add-on does with USD today: its splat importer reads splat PointClouds that Blender's USD importer can create (<code>source/splat_native.py</code>, header comment, read). That is import, not export.</p>
+<hr />
+<h2 id="8-ten-steps-to-a-trustworthy-x3d---glb-run">8. Ten steps to a trustworthy X3D -&gt; glb run</h2>
+<pre><code class="language-text">  1 validate X3D --&gt; 2 pin tools --&gt; 3 frame_start=0 --&gt; 4 import --&gt; 5 export (extras on)
+        |                                                                  |
+        +----------------------- manifest &lt;-- 8 hash everything &lt;----------+
+  6 gate (exit code) --&gt; 7 read 'NOT VALIDATED' + empties --&gt; 9 render compare --&gt; 10 receipt
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>step</th>
+<th>do</th>
+<th>pass / fail test</th>
+<th>why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>validate the X3D with the fork validator first (<a href="03-validator-and-gates.html">03</a>)</td>
+<td>0 errors</td>
+<td>a broken source gives a glb that is valid and wrong</td>
+</tr>
+<tr>
+<td>2</td>
+<td>pin versions: add-on revision, Blender, validator</td>
+<td>all three in the manifest</td>
+<td>numbers from another build are not comparable</td>
+</tr>
+<tr>
+<td>3</td>
+<td>set <code>scene.frame_start = 0</code> before import</td>
+<td>first animation sample is 0.0 s</td>
+<td>gotcha 1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>import with the option set the rig uses; turn on Group instances for scenes with many USE copies</td>
+<td>import returns FINISHED; log has no &quot;unsupported type&quot; for nodes you care about</td>
+<td>an unsupported node imports to nothing</td>
+</tr>
+<tr>
+<td>5</td>
+<td>export with <code>export_extras=True</code>, <code>use_renderable=True</code>, <code>export_apply=True</code></td>
+<td>glb written, extras carry <code>x3d_def</code></td>
+<td>identity survives only here</td>
+</tr>
+<tr>
+<td>6</td>
+<td>run <code>node validate_glb.mjs scene.glb</code></td>
+<td>exit 0; 0 errors; decide a warning budget with <code>--max-warnings</code></td>
+<td>structure gate</td>
+</tr>
+<tr>
+<td>7</td>
+<td>read the summary lines: <code>NOT VALIDATED</code>, triangle count, draw calls</td>
+<td>triangles greater than 0 and equal to the X3D's expected count; no unexpected <code>required</code> extension</td>
+<td>the gate cannot see an empty or point-only glb</td>
+</tr>
+<tr>
+<td>8</td>
+<td>write the manifest: sha256 of the X3D and the glb, add-on revision, options</td>
+<td>two runs give identical sha256</td>
+<td>determinism is the receipt</td>
+</tr>
+<tr>
+<td>9</td>
+<td>render Babylon.js on the glb and X_ITE on the X3D in one browser at one size</td>
+<td>mean abs delta and geometry delta recorded with the rig line (Chromium 153, SwiftShader)</td>
+<td>looks are a separate gate</td>
+</tr>
+<tr>
+<td>10</td>
+<td>store results with a list of expected losses (Section 2)</td>
+<td>the list names every dropped behaviour</td>
+<td>silence about a loss is a defect</td>
+</tr>
+</tbody>
+</table>
+<p>A scene fails step 7 for the reasons the repo records: <code>stars-view</code> (Inline under an extreme scale) before the fix; the two GeoElevationGrid scenes before PR #35 (a 132-byte glb that validated). The check that would have caught each is &quot;triangles greater than zero&quot;, not the validator.</p>
+<hr />
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-GLT-1</td>
+<td>Never read &quot;0 errors&quot; from the Khronos validator as &quot;the scene survived&quot;; also check triangles, draw calls and node counts against the X3D.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>48-byte empty glb exits 0</td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, run 2026-11-14</td>
+</tr>
+<tr>
+<td>H-GLT-2</td>
+<td>Print <code>extensionsNotValidated</code> next to every pass; a required extension the validator does not know passes at INFO.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>reqext.glb</code> passes, wrapper prints <code>NOT VALIDATED ... REQUIRED</code></td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, run 2026-11-14</td>
+</tr>
+<tr>
+<td>H-GLT-3</td>
+<td>Treat ROUTE, Script, sensors, PROTO, NURBS, particles, GLSL and physics as expected losses and list them in the manifest, never as &quot;not supported yet&quot; silence.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>carriers table, read</td>
+<td><code>x3d-blender-io@ab99988</code></td>
+</tr>
+<tr>
+<td>H-GLT-4</td>
+<td>Set <code>frame_start = 0</code> before import; do not use <code>export_anim_slide_to_zero</code> to fix animation timing.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>first sample 0.041667 s versus 0.0 s; flag ignored without force sampling</td>
+<td><code>bpy 5.3.0</code> receipts, read</td>
+</tr>
+<tr>
+<td>H-GLT-5</td>
+<td>Carry the DEF through <code>export_extras=True</code> in node, mesh and material extras; names alone are not the DEF.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>Blender suffixes duplicates (<code>BoxShape.001</code>); Transform DEFs are lost in flat import</td>
+<td><code>x3d-blender-io@ab99988</code> release notes, read</td>
+</tr>
+<tr>
+<td>H-GLT-6</td>
+<td>Keep the per-scene manifest beside the glb: x3d sha256, add-on revision, Blender version, glb sha256, validator summary.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>manifest.py</code> schema v1, deterministic</td>
+<td><code>x3d-blender-io@ab99988</code></td>
+</tr>
+<tr>
+<td>H-GLT-7</td>
+<td>For scenes with hundreds of repeated shapes, turn on Group instances; verify node, triangle and draw-call counts do not change except nodes.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>1,721 to 10 nodes, triangles 2,064 both</td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, run 2026-11-14</td>
+</tr>
+<tr>
+<td>H-GLT-8</td>
+<td>Read ratification from the registry file, not from a digest; give the fetch date and the file hash.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>27 ratified entries on 2026-11-14</td>
+<td>Khronos registry, sha256 prefix <code>32868b162d85</code></td>
+</tr>
+<tr>
+<td>H-GLT-9</td>
+<td>Treat a scale outside 1e-6 to 1e6 in a parent chain as a bug in waiting; the glb exporter inverts parent matrices in float32.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>1.057e-16 became 1e8</td>
+<td><code>bpy 5.3.0</code> receipts, read</td>
+</tr>
+<tr>
+<td>H-GLT-10</td>
+<td>Render to compare in one browser at one size with both engines pinned; compare the geometry mask, not only the whole frame.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>rig README: <code>mean_abs_delta</code> versus <code>geometry_delta</code></td>
+<td><code>X_ITE 16.7.1</code>, <code>Babylon.js 9.32.0</code>, Chromium 153, SwiftShader (carried)</td>
+</tr>
+<tr>
+<td>H-GLT-11</td>
+<td>A USD hop is a flatten in both directions; never use it as a correctness test.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>digests agree; none run here</td>
+<td>read, not run</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="drills">Drills</h2>
+<h3 id="d-glt-1-build-a-glb-that-passes-and-is-empty">D-GLT-1 Build a glb that passes and is empty</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> install the validator, build <code>empty.glb</code> from the Section 5.3 snippet, run the gate, then add a <code>scenes</code> array with one node and no mesh and run it again.</li>
+<li><strong>Verify:</strong> <code>node validate_glb.mjs empty.glb</code> and read <code>totalTriangleCount</code> in the <code>.validation.json</code>.</li>
+<li><strong>Answer:</strong> exit 0, 0 errors, 0 warnings, 0 tris, 0 draw calls, 0 materials. A one-node scene with no mesh also passes (it adds an info at most). The lesson: the gate is silent on emptiness.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>Khronos glTF-Validator 2.0.0-dev.3.10</code> (the empty glb only; the one-node variant was not run).</li>
+</ul>
+<h3 id="d-glt-2-make-a-required-extension-pass">D-GLT-2 Make a required extension pass</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> build <code>reqext.glb</code> (Section 5.3) and run the gate. Which line tells you the content is unchecked, and which field of the JSON report carries it?</li>
+<li><strong>Verify:</strong> <code>node validate_glb.mjs reqext.glb</code> then <code>python3 -c &quot;import json;print(json.load(open('reqext.glb.validation.json'))['extensionsNotValidated'])&quot;</code>.</li>
+<li><strong>Answer:</strong> exit 0; the console line starts <code>NOT VALIDATED: VENDOR_made_up</code> and ends <code>REQUIRED by the file</code>; the field is <code>extensionsNotValidated</code> (<code>['VENDOR_made_up']</code>). The validator itself reported 1 info (<code>UNSUPPORTED_EXTENSION</code>).</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>Khronos glTF-Validator 2.0.0-dev.3.10</code>.</li>
+</ul>
+<h3 id="d-glt-3-count-the-ratified-extensions">D-GLT-3 Count the ratified extensions</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> fetch the glTF extension registry and count the ratified extensions by prefix.</li>
+<li><strong>Verify:</strong> <code>curl -s https://raw.githubusercontent.com/KhronosGroup/glTF/main/extensions/README.md | awk '/^## Ratified/{f=1} /^## In-progress/{f=0} f' | grep -c '^\* \['</code></li>
+<li><strong>Answer:</strong> 27 on 2026-11-14 (24 <code>KHR_</code>, 3 <code>EXT_</code>). The count will change; the drill is to record the date and the file hash with it.</li>
+<li><strong>Checked:</strong> 2026-11-14 registry file sha256 prefix <code>32868b162d85</code> (counted by line range 12 to 38; the awk form above was not run verbatim).</li>
+</ul>
+<h3 id="d-glt-4-instancing-leaves-the-triangle-count-alone">D-GLT-4 Instancing leaves the triangle count alone</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> given a flat and an instanced glb of the same scene, show with the gate that only the node count and size change.</li>
+<li><strong>Verify:</strong> run <code>node validate_glb.mjs</code> on both; compare <code>totalTriangleCount</code>, <code>drawCallCount</code>, and count <code>nodes</code> by parsing the JSON chunk (<code>struct.unpack('&lt;I', b[12:16])</code>, then <code>json.loads(b[20:20+L])</code>).</li>
+<li><strong>Answer:</strong> for the exhibition pair: 1,721 nodes versus 10; 491,832 B versus 125,224 B; 2,064 triangles and 8 draw calls in both; 0 errors in both, <code>EXT_mesh_gpu_instancing</code> flagged NOT VALIDATED in the instanced one.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>Khronos glTF-Validator 2.0.0-dev.3.10</code> on carried project files (a reader without the files can use <code>tests/test_import_gpu_instances_bpy.py</code> in the repo instead).</li>
+</ul>
+<h3 id="d-glt-5-find-the-loss-in-a-glb">D-GLT-5 Find the loss in a glb</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> take an X3D with a TimeSensor, a CoordinateInterpolator and two ROUTEs. Convert it, then write a 10-line Python script that lists, from the glb JSON, every place where the ROUTE graph could have survived. Extend it to fail the run if the X3D has ROUTEs and the glb has neither <code>animations</code> nor <code>KHR_interactivity</code>.</li>
+<li><strong>Verify:</strong> parse the JSON chunk; count <code>animations</code>, channel <code>path</code> values, and <code>extensions</code>.</li>
+<li><strong>Answer:</strong> for the Prismatica animated conversion: 1 animation, 1 channel, path <code>weights</code>, 0 ROUTE objects anywhere. The script should print the channel paths and flag that the wiring is gone while the effect is baked.</li>
+<li><strong>Checked:</strong> 2026-11-14 Python <code>json</code> on the carried glb (the failing-run extension was not written).</li>
+</ul>
+<h3 id="d-glt-6-find-the-animation-start-fault-without-blender">D-GLT-6 Find the animation start fault without Blender</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> from any glb with an animation, read the first input accessor's <code>min</code> and decide whether the clip is a frame late.</li>
+<li><strong>Verify:</strong> <code>accessors[animation.samplers[0].input].min[0]</code> equals 0.0 for a correct clip; 0.041667 at 24 fps means the <code>frame_start</code> fault.</li>
+<li><strong>Answer:</strong> a correct clip has min 0.0. With the rig's fix the first sample is 0.0 s and the last is 2.0 s for a 2 s cycle; without it 0.041667 s (Blender 5.3.0, repo receipt).</li>
+<li><strong>Checked:</strong> not run (no animated glb with the fault was produced here).</li>
+</ul>
+<hr />
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li><strong>No Blender here.</strong> No export in this chapter was produced in the writing session. Every <code>bpy 5.3.0</code> figure is a receipt from <code>x3d-blender-io@ab99988</code> (README or release notes) and is <span class="g L" title="Likely">L</span>. <span class="g S" title="Suspected">S</span> only for items that were never measured anywhere.</li>
+<li><strong>No USD run at all.</strong> Section 7 is reading and digests. A USD hop could break any row in Section 2.</li>
+<li><strong>The validator is structural.</strong> <code>2.0.0-dev.3.10</code> does not know <code>EXT_mesh_gpu_instancing</code>, a <em>ratified</em> extension, so the gate says nothing about the contents of the instanced glbs. A newer validator may know it; that was not tried.</li>
+<li><strong>The carriers table is read, not exercised.</strong> Rows graded <span class="g L" title="Likely">L</span> were taken from importer code and release notes. NURBS, particles, Script and shaders were not each fed through the importer; &quot;no node read&quot; comes from the AST coverage table of 2026-11-13, itself inferred from string literals.</li>
+<li><strong>Registry dates are not in the registry.</strong> The ratified list is <span class="g C" title="Confirmed">C</span> for 2026-11-14; ratification dates and &quot;glTF 2.1&quot; timing are <span class="g S" title="Suspected">S</span>.</li>
+<li><strong>Engine support is a separate question.</strong> Which engine draws which extension was not enumerated here. Babylon.js 9.32.0 drawing the instanced glb pixel for pixel like the flat one (0 of 262,144 pixels differ) is a repo receipt, carried.</li>
+<li><strong>Two private-source figures are not used.</strong> A test count and several digest claims about third-party tool versions were left out because they were not re-derived.</li>
+<li><strong>Converter inputs are not public.</strong> The Unreal-project converter scripts and glbs used in Sections 2.1 and 5.4 are not in a public repository at the time of writing; their counts agree with a public release note, which is the citable source.</li>
+</ul>
+<hr />
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-GLT-1</td>
+<td>validator verdict on a 48-byte glb with no scene</td>
+<td>0 errors, 0 warnings, 0 tris</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code></td>
+<td>scratch run 2026-11-14 (snippet in Section 5.3)</td>
+</tr>
+<tr>
+<td>N-GLT-2</td>
+<td>required unknown extension: validator infos / exit code</td>
+<td>1 info, exit 0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code></td>
+<td>scratch run 2026-11-14</td>
+</tr>
+<tr>
+<td>N-GLT-3</td>
+<td>ratified extensions in the registry</td>
+<td>27 (24 KHR, 3 EXT)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Khronos registry sha256 prefix <code>32868b162d85</code></td>
+<td><code>KhronosGroup/glTF:extensions/README.md</code>, fetched 2026-11-14</td>
+</tr>
+<tr>
+<td>N-GLT-4</td>
+<td>exhibition flat glb nodes / bytes / tris</td>
+<td>1,721 / 491,832 / 2,064</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code> plus JSON parse</td>
+<td>carried project glb, run 2026-11-14; matches <code>x3d-blender-io@ab99988:release_notes.md</code></td>
+</tr>
+<tr>
+<td>N-GLT-5</td>
+<td>exhibition instanced glb nodes / bytes</td>
+<td>10 / 125,224</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-GLT-6</td>
+<td>cathedral flat glb nodes / bytes / tris</td>
+<td>1,224 / 1,097,864 / 27,544</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-GLT-7</td>
+<td>cathedral instanced glb nodes / bytes</td>
+<td>16 / 864,228</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-GLT-8</td>
+<td>cathedral animated glb bytes / animations / channel path</td>
+<td>4,741,136 / 1 / <code>weights</code></td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>JSON parse 2026-11-14</td>
+<td>carried project glb</td>
+</tr>
+<tr>
+<td>N-GLT-9</td>
+<td>repo scenes exporting a glb, all with 0 errors and 0 warnings</td>
+<td>33 of 34</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>bpy 5.3.0</code>, <code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, carried</td>
+<td><code>x3d-blender-io@ab99988:tools/fidelity_rig/README.md</code></td>
+</tr>
+<tr>
+<td>N-GLT-10</td>
+<td>of those 33, empty glbs / points-only glbs</td>
+<td>5 / 2</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>same</td>
+<td><code>x3d-blender-io@ab99988:release_notes.md</code></td>
+</tr>
+<tr>
+<td>N-GLT-11</td>
+<td>first animation sample, default versus <code>frame_start = 0</code></td>
+<td>0.041667 s versus 0.0 s</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>bpy 5.3.0</code></td>
+<td><code>x3d-blender-io@ab99988:tools/fidelity_rig/README.md</code></td>
+</tr>
+<tr>
+<td>N-GLT-12</td>
+<td><code>export_apply</code> True versus False: byte-identical glbs</td>
+<td>34 of 34 scenes</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>bpy 5.3.0</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-GLT-13</td>
+<td>extreme scale: exporter result for Inline scale 1.057e-16</td>
+<td>about 1e8 too small (scale near 1e8 instead of 9.46e15)</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>bpy 5.3.0</code></td>
+<td><code>x3d-blender-io@ab99988:release_notes.md</code></td>
+</tr>
+<tr>
+<td>N-GLT-14</td>
+<td><code>emissiveColor 0.5</code> as drawn: X_ITE / as-is glb / sRGB glb</td>
+<td>128 / 186 / 127</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>X_ITE 16.7.1</code>, <code>Babylon.js 9.32.0</code>, Chromium 153, SwiftShader</td>
+<td><code>x3d-blender-io@ab99988:release_notes.md</code></td>
+</tr>
+<tr>
+<td>N-GLT-15</td>
+<td>instanced versus flat render in Babylon.js 9.32.0</td>
+<td>0 of 262,144 pixels differ</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>Chromium 153, SwiftShader (carried)</td>
+<td><code>x3d-blender-io@ab99988:release_notes.md</code></td>
+</tr>
+<tr>
+<td>N-GLT-16</td>
+<td>ROUTE elements in the animated X3D / in its glb</td>
+<td>2 / 0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>grep -c '&lt;ROUTE'</code> and JSON parse, 2026-11-14</td>
+<td>carried project files</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<ul>
+<li><code>x3d-blender-io@ab99988</code>: <code>tools/fidelity_rig/{validate_glb.mjs, manifest.py, blender_leg.py, package.json, README.md}</code>, <code>tests/test_glb_validator_bpy.py</code>, <code>release_notes.md</code>, <code>source/{import_x3d.py, populate.py, mfstring.py, matrix_safety.py, splat_native.py}</code>. Public repository <code>hagopjay/x3d-blender-io</code>.</li>
+<li><code>x3d.docs@f172f67:docs/x3d-blender-io/MASTERCLASS.md</code>: AST coverage tables (measured 2026-11-13).</li>
+<li>Khronos glTF extension registry (<code>KhronosGroup/glTF</code>, <code>extensions/README.md</code>), fetched 2026-11-14.</li>
+<li>npm <code>gltf-validator@2.0.0-dev.3.10</code>, installed 2026-11-14 in a scratch folder and run through the repo's own <code>validate_glb.mjs</code>.</li>
+<li>Two private digests about glTF and USD guides were read as leads; every figure taken from them is either re-derived above or graded <span class="g S" title="Suspected">S</span> and not used as a premise.</li>
+<li>Private-source gaps: converter scripts and glbs for two Unreal-project scenes are not in a public repo; their numbers are cited through the public release notes.</li>
+</ul>
+<div class="pn"><a href="10-blender-pipeline.html">&larr; 10-blender-pipeline</a><a href="12-unreal-tier1.html">12-unreal-tier1 &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>
