@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**279 heuristics.** Grades: [C] 229 · [L] 43 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**289 heuristics.** Grades: [C] 236 · [L] 46 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -272,6 +272,16 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-YJS-6 | [15](15-yjs-collaboration.md) | Give every peer a control step that must differ (offline edits) before trusting a zero-difference picture. | [C] | 16,633 pixels differ | `receipts/e2e-xite.json` |
 | H-YJS-8 | [15](15-yjs-collaboration.md) | Keep user DEF names out of the render path: render every node as `y_<uid>` so a DEF clash between peers cannot misdirect a USE or a ROUTE. | [L] | by construction; the unit test checks the clash export names, no renderer run with a clash | `x3d.loom@0689f1a:x3d.yjs/src/yx3d.js` |
 | H-YJS-7 | [15](15-yjs-collaboration.md) | Validate the agent's ops against the document before they enter it; return refusals as results. | [L] | `Nope` DEF refused; no validator run on agent output yet | `src/agent.js` |
+| H-PTR-1 | [18](18-three-pathtracer.md) | Put every renderer in a comparison through the same camera maths before comparing numbers; check the framing by eye first, it costs one picture. | [C] | Cycles drew 1.0092 rad where 0.7854 was asked; first table passed all three scenes, matched table failed e1 | bpy 5.3.0; flip-evaluator 1.7 |
+| H-PTR-2 | [18](18-three-pathtracer.md) | Apply X3D `fieldOfView` to the smaller picture axis, never the horizontal one, when building any camera outside an X3D browser. | [C] | 19775-1 23.4.2; D-PTR-1 | numpy 2.5.4 |
+| H-PTR-3 | [18](18-three-pathtracer.md) | Set a physically based renderer's lights to I for PhysicalMaterial scenes and I x PI only when matching classic rho x I shading. | [L] | X_ITE PBR lights rho/pi x I; Cornell 1 bounce 0.142 from X_ITE | X_ITE 16.6.0; run-pt.js |
+| H-PTR-4 | [18](18-three-pathtracer.md) | Remove any mesh a bridge draws for a Background before path tracing, and set the miss colour instead; a lit sky sphere turns the frame white. | [C] | e3 first run: frame FLIP 0.93 with the sphere, 0.09 to 0.50 without | run-pt.js |
+| H-PTR-5 | [18](18-three-pathtracer.md) | Stop the body's own animation-frame loop before accumulating samples, or a raster frame overwrites the accumulated picture. | [L] | the loop is `requestAnimationFrame(loop)` in `body-three.js`; the first shots survived by timing luck | `x3d.loom@5f59349` |
+| H-PTR-6 | [18](18-three-pathtracer.md) | Keep your own reference to X_ITE's `window.X3D` before loading any bundle that defines `X3D`; the bridge's SAI shim overwrites it. | [C] | `getBrowser` returned null until fixed; D-PTR-4 | headless Chromium 153 |
+| H-PTR-7 | [18](18-three-pathtracer.md) | State the noise floor next to every FLIP pass, and call a pass smaller than the floor "inside noise". | [C] | floor 0.055; e3 passes by 0.005 | two 96-sample Cornell runs |
+| H-PTR-8 | [18](18-three-pathtracer.md) | Time GPU work after a `gl.finish()` and a pixel read; a timer that stops at the last draw call times the queue, not the work. | [C] | `tTrace` 0.8 s before, 104 s after, for 96 samples | Chromium 153 SwiftShader |
+| H-PTR-9 | [18](18-three-pathtracer.md) | Treat an emissive surface as a light in a path tracer and as paint in X_ITE; offer the switch rather than choose silently. | [C] | Cornell panel; demo switch | run-pt.js; Demo 25 |
+| H-PTR-10 | [18](18-three-pathtracer.md) | Do not read a path-traced mismatch as an X3D defect until a direct-light run (1 bounce) shows whether the gap is transport or conversion. | [L] | Cornell 0.142 at 1 bounce, 0.265 at 6 | run-pt.js |
 | H-GTO-1 | [19](19-gltf-tooling.md) | Count identity tokens before and after every optimiser step; a size win with tokens lost is a loss, not a win. | [C] | stock `instance()` on the cathedral: 1,190.8 to 843.8 KiB, 1,216 of 1,251 tokens lost | `x3dgltf step-probe`, glTF-Transform 4.5.1 |
 | H-GTO-2 | [19](19-gltf-tooling.md) | Do not run stock `instance()` or `join()` on a glb whose names matter; use `instanceWithIdentity` or skip the step. | [C] | `join()`: 1,208 tokens lost and 16,482.7 KiB; `instance()`: 1,216 lost | `x3dgltf step-probe`, glTF-Transform 4.5.1 |
 | H-GTO-3 | [19](19-gltf-tooling.md) | Wrap `quantize()` when the glb has animation; stock leaves a channel without its target node. | [C] | animated fixture: 1 of 3 channels unmatched stock, 0 of 3 wrapped | `x3dgltf step-probe`, glTF-Transform 4.5.1 |

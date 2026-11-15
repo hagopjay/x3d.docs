@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**464 numbers** from 17 chapters. Grades: [C] 420 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**479 numbers** from 18 chapters. Grades: [C] 435 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -447,6 +447,21 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-YJS-13 | [15](15-yjs-collaboration.md) | remote apply at 500 nodes | 149,687 per second | [C] | same | same |
 | N-YJS-14 | [15](15-yjs-collaboration.md) | orphan nodes over 200 fuzz seeds | 5,127 | [C] | same | same |
 | N-YJS-15 | [15](15-yjs-collaboration.md) | reported conflicts over 200 seeds: def-clash, sfnode-slot, duplicate | 206, 31, 15 | [C] | same | same |
+| N-PTR-1 | [18](18-three-pathtracer.md) | e2 Cornell, path tracer 6 bounces vs X_ITE, object FLIP | 0.265 | [C] | Chromium 153 SwiftShader; X_ITE 16.6.0; 96 spp | `x3d.loom@5f59349:x3d.threejs/pathtracer/results/results.json` |
+| N-PTR-2 | [18](18-three-pathtracer.md) | e2 Cornell, path tracer 1 bounce vs X_ITE | 0.142 | [C] | same | same |
+| N-PTR-3 | [18](18-three-pathtracer.md) | e2 Cornell, path tracer vs Cycles | 0.380 | [C] | same; bpy 5.3.0 CPU 256 spp OIDN | same |
+| N-PTR-4 | [18](18-three-pathtracer.md) | e2 Cornell, Cycles vs X_ITE (spread) | 0.468 | [C] | same | same |
+| N-PTR-5 | [18](18-three-pathtracer.md) | e1 PBR grid, path tracer vs Cycles | 0.743 | [C] | same | same |
+| N-PTR-6 | [18](18-three-pathtracer.md) | e1 pass bound (X-C + 0.05) | 0.349 | [C] | same | same |
+| N-PTR-7 | [18](18-three-pathtracer.md) | e3 light ladder, path tracer vs Cycles; bound | 0.751; 0.755 | [C] | same | same |
+| N-PTR-8 | [18](18-three-pathtracer.md) | e2 bridge raster vs X_ITE | 0.595 | [C] | same | same |
+| N-PTR-9 | [18](18-three-pathtracer.md) | Noise floor: two 96 spp Cornell runs against each other | 0.055 | [C] | same | `results/runs/` notes; README |
+| N-PTR-10 | [18](18-three-pathtracer.md) | Cycles vertical angle drawn at 4:3 from the add-on's horizontal 1.2695 rad | 1.0092 rad (asked 0.7854) | [C] | numpy 2.5.4 (D-PTR-1) | `cycles_job.py` docstring |
+| N-PTR-11 | [18](18-three-pathtracer.md) | First (wrong) e1 spread X-C and bound before the camera match | 0.594; 0.644 | [C] | same rig, unmatched Cycles | commit history of `x3d.loom` PR #76 |
+| N-PTR-12 | [18](18-three-pathtracer.md) | Path-tracer time per 96-sample scene on SwiftShader | 59 to 111 s trace, 100 to 190 s with shader build | [C] | Chromium 153 SwiftShader | `results/runs/f6/*.json` |
+| N-PTR-13 | [18](18-three-pathtracer.md) | Object share of e3 light ladder | 16.4 percent of pixels | [C] | same | `results/results.json` |
+| N-PTR-14 | [18](18-three-pathtracer.md) | e3 frame FLIP with a lit sky sphere vs without | 0.93 vs 0.09 | [C] | same | first and final run files |
+| N-PTR-15 | [18](18-three-pathtracer.md) | Demo 25 headless check: samples reached; X_ITE root nodes | 181; 12 | [C] | Chromium 153 SwiftShader | `x3d.demo` PR 29 description |
 | N-GTO-1 | [19](19-gltf-tooling.md) | PRISMATICA cathedral draw calls, source to `instanced` | 1,218 to 10 | [C] | `x3dgltf optimize`, glTF-Transform 4.5.1 | x3d.loom@b6a3650:x3d.gltf/receipts/matrix/ |
 | N-GTO-2 | [19](19-gltf-tooling.md) | cathedral identity tokens | 1,251 | [C] | `x3dgltf verify` | x3d.loom@b6a3650:x3d.gltf/receipts/matrix/ |
 | N-GTO-3 | [19](19-gltf-tooling.md) | tokens lost by stock `instance()` on the cathedral | 1,216 of 1,251 | [C] | `x3dgltf step-probe` | x3d.loom@b6a3650:x3d.gltf/receipts/step-probe.md |
