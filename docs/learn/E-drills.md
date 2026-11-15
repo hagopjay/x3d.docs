@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**145 drills**, 132 with a recorded run (`Checked`), 13 not yet run. Levels: L1 25, L2 77, L3 43.
+**151 drills**, 138 with a recorded run (`Checked`), 13 not yet run. Levels: L1 27, L2 80, L3 44.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -146,6 +146,12 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-ZOD-4 | [16](16-typed-x3d-zod.md) | L2 | The upstream file has the NavigationInfo bug | 2026-11-15 ajv 8.20.0, zod 4.6.7, schema sha1 `c6765a4` |
 | D-ZOD-5 | [16](16-typed-x3d-zod.md) | L2 | Size a vocabulary | 2026-11-15 Node v22.23.4 and Python 3.13, schema sha1 `c6765a4` |
 | D-ZOD-6 | [16](16-typed-x3d-zod.md) | L3 | Find the stack limit | 2026-11-15 Node v22.23.4, zod 4.6.7 |
+| D-ENG-1 | [17](17-physics-engines.md) | L2 | The ramp that sticks | `2026-11-15 x3d.loom@56340c2, Node v22.23.4, cannon-es 0.20.0`: mu 0.5 builtin 27, rapier 27, cannon 25, cannon-raw 45. |
+| D-ENG-2 | [17](17-physics-engines.md) | L1 | Find the escaped cones | `2026-11-15 x3d.loom@1e884b6`: one match, the condition above. |
+| D-ENG-3 | [17](17-physics-engines.md) | L3 | Make the sensor miss | `2026-11-15 x3d.loom@56340c2`: the test passes with `frame`; `results/sensor-impact.json` holds 11 and 5 for `last`. |
+| D-ENG-4 | [17](17-physics-engines.md) | L2 | Four sub-steps for a cradle | `2026-11-15 x3d.loom@56340c2, Rapier 0.21.0`: test passes; sweep printed 0.22 for every iteration setting, 0.65 and 0.64 for 4 and 8 sub-steps. |
+| D-ENG-5 | [17](17-physics-engines.md) | L2 | Same bits under jitter | `2026-11-15 x3d.loom@56340c2, Node v22.23.4`: 3 of 3 pass. |
+| D-ENG-6 | [17](17-physics-engines.md) | L1 | Rank by host | `2026-11-15 x3d.loom@56340c2`: Chromium {rapier 2.42, cannon 1.85}. |
 | D-PTR-1 | [18](18-three-pathtracer.md) | L1 | The vertical angle that Cycles drew | `2026-11-15 python3 -I numpy 2.5.4` |
 | D-PTR-2 | [18](18-three-pathtracer.md) | L2 | Apply the bound | `2026-11-15 python3 -I` |
 | D-PTR-3 | [18](18-three-pathtracer.md) | L2 | Re-score a strip | `2026-11-15 python3 -I flip-evaluator 1.7` |
