@@ -20,7 +20,7 @@ blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;backgr
 details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
 .foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a class="cur" href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="12-unreal-tier1.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/12-unreal-tier1.md">GitHub</a></div><h1>12. Unreal as a tier-1 X3D framework</h1>
-<details class="toc"><summary>On this page (44 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-the-question-and-a-definition-that-can-fail">2. The question and a definition that can fail</a><a class="l2" href="#3-candidate-mechanisms">3. Candidate mechanisms</a><a class="l2" href="#4-coordinates-and-units-the-matrix-derived-and-checked">4. Coordinates and units: the matrix, derived and checked</a><a class="l3" href="#41-points">4.1 Points</a><a class="l3" href="#42-rotations-conjugation-not-substitution">4.2 Rotations: conjugation, not substitution</a><a class="l3" href="#43-winding-and-the-solid-trap">4.3 Winding and the solid trap</a><a class="l3" href="#44-field-of-view-and-cameras">4.4 Field of view and cameras</a><a class="l3" href="#45-units-and-float-range">4.5 Units and float range</a><a class="l2" href="#5-instancing-hism-gpu-instancing-and-the-thalassa-and-prismatica-counts">5. Instancing: HISM, GPU instancing and the Thalassa and Prismatica counts</a><a class="l3" href="#51-the-counts-re-derived">5.1 The counts, re-derived</a><a class="l3" href="#52-what-the-glb-does-with-them">5.2 What the glb does with them</a><a class="l2" href="#6-looks-lumen-nanite-and-x_ite">6. Looks: Lumen, Nanite, and X_ITE</a><a class="l2" href="#7-how-fidelity-is-measured">7. How fidelity is measured</a><a class="l3" href="#71-the-rig-as-it-exists">7.1 The rig, as it exists</a><a class="l3" href="#72-the-metrics-with-what-each-can-and-cannot-say">7.2 The metrics, with what each can and cannot say</a><a class="l3" href="#73-what-a-fair-comparison-has-to-hold-constant">7.3 What a fair comparison has to hold constant</a><a class="l2" href="#8-what-the-unreal-58-projects-looked-like-when-read-statically">8. What the Unreal 5.8 projects looked like when read statically</a><a class="l2" href="#9-the-test-plan-that-would-promote-claims-to-c">9. The test plan that would promote claims to <span class="g C" title="Confirmed">C</span></a><a class="l2" href="#10-the-first-run-unreal-584-on-a-cloud-gpu-2026-11-14-to-15">10. The first run: Unreal 5.8.4 on a cloud GPU (2026-11-14 to 15)</a><a class="l3" href="#101-the-rig">10.1 The rig</a><a class="l3" href="#102-the-gates-of-section-9-as-far-as-this-run-went">10.2 The gates of Section 9, as far as this run went</a><a class="l3" href="#103-what-the-run-taught-ranked-by-how-much-it-changes-a-pipeline">10.3 What the run taught, ranked by how much it changes a pipeline</a><a class="l3" href="#104-exposure-the-bracket-that-replaced-a-hand-set-number">10.4 Exposure: the bracket that replaced a hand-set number</a><a class="l2" href="#11-known-physics-a-pass-line-written-first-and-the-gpus-ceiling-2026-11-15">11. Known physics, a pass line written first, and the GPU&#x27;s ceiling (2026-11-15)</a><a class="l3" href="#111-the-three-scenes-leg-e">11.1 The three scenes (Leg E)</a><a class="l3" href="#112-agreement-and-why-the-whole-frame-number-misleads">11.2 Agreement, and why the whole-frame number misleads</a><a class="l3" href="#113-what-the-scenes-named">11.3 What the scenes named</a><a class="l3" href="#114-a-pass-line-for-tier-1-fixed-before-the-run">11.4 A pass line for tier 1, fixed before the run</a><a class="l3" href="#115-the-cards-ceiling-from-python-on-vulkan">11.5 The card&#x27;s ceiling, from Python on Vulkan</a><a class="l3" href="#116-lessons-that-change-how-the-next-run-is-written">11.6 Lessons that change how the next run is written</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-unr-1-derive-and-check-the-axis-swap">D-UNR-1 Derive and check the axis swap</a><a class="l3" href="#d-unr-2-convert-a-field-of-view">D-UNR-2 Convert a field of view</a><a class="l3" href="#d-unr-3-catch-the-winding-flip">D-UNR-3 Catch the winding flip</a><a class="l3" href="#d-unr-4-instancing-arithmetic">D-UNR-4 Instancing arithmetic</a><a class="l3" href="#d-unr-5-break-a-psnr-comparison">D-UNR-5 Break a PSNR comparison</a><a class="l3" href="#d-unr-6-write-the-pass-and-fail-line-for-a-gate">D-UNR-6 Write the pass and fail line for a gate</a><a class="l3" href="#d-unr-7-pick-an-exposure-from-a-bracket">D-UNR-7 Pick an exposure from a bracket</a><a class="l3" href="#d-unr-8-count-what-interchange-kept">D-UNR-8 Count what Interchange kept</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<details class="toc"><summary>On this page (45 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-the-question-and-a-definition-that-can-fail">2. The question and a definition that can fail</a><a class="l2" href="#3-candidate-mechanisms">3. Candidate mechanisms</a><a class="l2" href="#4-coordinates-and-units-the-matrix-derived-and-checked">4. Coordinates and units: the matrix, derived and checked</a><a class="l3" href="#41-points">4.1 Points</a><a class="l3" href="#42-rotations-conjugation-not-substitution">4.2 Rotations: conjugation, not substitution</a><a class="l3" href="#43-winding-and-the-solid-trap">4.3 Winding and the solid trap</a><a class="l3" href="#44-field-of-view-and-cameras">4.4 Field of view and cameras</a><a class="l3" href="#45-units-and-float-range">4.5 Units and float range</a><a class="l2" href="#5-instancing-hism-gpu-instancing-and-the-thalassa-and-prismatica-counts">5. Instancing: HISM, GPU instancing and the Thalassa and Prismatica counts</a><a class="l3" href="#51-the-counts-re-derived">5.1 The counts, re-derived</a><a class="l3" href="#52-what-the-glb-does-with-them">5.2 What the glb does with them</a><a class="l2" href="#6-looks-lumen-nanite-and-x_ite">6. Looks: Lumen, Nanite, and X_ITE</a><a class="l2" href="#7-how-fidelity-is-measured">7. How fidelity is measured</a><a class="l3" href="#71-the-rig-as-it-exists">7.1 The rig, as it exists</a><a class="l3" href="#72-the-metrics-with-what-each-can-and-cannot-say">7.2 The metrics, with what each can and cannot say</a><a class="l3" href="#73-what-a-fair-comparison-has-to-hold-constant">7.3 What a fair comparison has to hold constant</a><a class="l2" href="#8-what-the-unreal-58-projects-looked-like-when-read-statically">8. What the Unreal 5.8 projects looked like when read statically</a><a class="l2" href="#9-the-test-plan-that-would-promote-claims-to-c">9. The test plan that would promote claims to <span class="g C" title="Confirmed">C</span></a><a class="l2" href="#10-the-first-run-unreal-584-on-a-cloud-gpu-2026-11-14-to-15">10. The first run: Unreal 5.8.4 on a cloud GPU (2026-11-14 to 15)</a><a class="l3" href="#101-the-rig">10.1 The rig</a><a class="l3" href="#102-the-gates-of-section-9-as-far-as-this-run-went">10.2 The gates of Section 9, as far as this run went</a><a class="l3" href="#103-what-the-run-taught-ranked-by-how-much-it-changes-a-pipeline">10.3 What the run taught, ranked by how much it changes a pipeline</a><a class="l3" href="#104-exposure-the-bracket-that-replaced-a-hand-set-number">10.4 Exposure: the bracket that replaced a hand-set number</a><a class="l2" href="#11-known-physics-a-pass-line-written-first-and-the-gpus-ceiling-2026-11-15">11. Known physics, a pass line written first, and the GPU&#x27;s ceiling (2026-11-15)</a><a class="l3" href="#111-the-three-scenes-leg-e">11.1 The three scenes (Leg E)</a><a class="l3" href="#112-agreement-and-why-the-whole-frame-number-misleads">11.2 Agreement, and why the whole-frame number misleads</a><a class="l3" href="#113-what-the-scenes-named">11.3 What the scenes named</a><a class="l3" href="#114-a-pass-line-for-tier-1-fixed-before-the-run">11.4 A pass line for tier 1, fixed before the run</a><a class="l3" href="#115-the-cards-ceiling-from-python-on-vulkan">11.5 The card&#x27;s ceiling, from Python on Vulkan</a><a class="l3" href="#116-lessons-that-change-how-the-next-run-is-written">11.6 Lessons that change how the next run is written</a><a class="l3" href="#117-the-proof-run-tier-1-not-earned-by-a-small-margin-in-two-of-three-failures">11.7 The proof run: tier 1 not earned, by a small margin in two of three failures</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-unr-1-derive-and-check-the-axis-swap">D-UNR-1 Derive and check the axis swap</a><a class="l3" href="#d-unr-2-convert-a-field-of-view">D-UNR-2 Convert a field of view</a><a class="l3" href="#d-unr-3-catch-the-winding-flip">D-UNR-3 Catch the winding flip</a><a class="l3" href="#d-unr-4-instancing-arithmetic">D-UNR-4 Instancing arithmetic</a><a class="l3" href="#d-unr-5-break-a-psnr-comparison">D-UNR-5 Break a PSNR comparison</a><a class="l3" href="#d-unr-6-write-the-pass-and-fail-line-for-a-gate">D-UNR-6 Write the pass and fail line for a gate</a><a class="l3" href="#d-unr-7-pick-an-exposure-from-a-bracket">D-UNR-7 Pick an exposure from a bracket</a><a class="l3" href="#d-unr-8-count-what-interchange-kept">D-UNR-8 Count what Interchange kept</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
 <blockquote>
 <p><strong>Say it:</strong> Unreal is a plausible tier-1 endpoint for <em>rendering</em> an X3D scene through a glb, it cannot run X3D behaviour without a plugin that does not exist, and today every Unreal claim in this base is read, not run: no Unreal 5.8 install and no GPU run stand behind any of them. <strong><span class="g L" title="Likely">L</span></strong> for the architecture, <strong><span class="g S" title="Suspected">S</span></strong> for every Unreal behaviour claim, <strong><span class="g C" title="Confirmed">C</span></strong> only for the conversions and arithmetic re-run on 2026-11-14.</p>
 </blockquote>
@@ -1125,8 +1125,8 @@ error. <span class="g C" title="Confirmed">C</span> by eye, one still.</p>
             UE-C
   pass if max(UE-X, UE-C) &lt;= X-C + 0.05,  silhouette IoU &gt;= 0.95,  repeat &lt;= 0.02
 </code></pre>
-<p>Status on 2026-11-15: not yet run. Tier 1 is not claimed. The likely outcome, graded <span class="g S" title="Suspected">S</span>: E3 fails &quot;within the reference spread&quot; on the
-light-model gap of Section 11.3, which would make the claim &quot;tier 1 with one named exception&quot;.</p>
+<p>Status: run on 2026-11-15, result in Section 11.7. Tier 1 is not claimed. The prediction written here before the run, graded <span class="g S" title="Suspected">S</span>, was
+that E3 would fail &quot;within the reference spread&quot; on the light-model gap of Section 11.3. It did, and so did two other views.</p>
 <h3 id="115-the-cards-ceiling-from-python-on-vulkan">11.5 The card's ceiling, from Python on Vulkan</h3>
 <p><code>wgpu-py 0.33.0</code>, forced onto its Vulkan backend, runs WGSL compute shaders on the same GPU. This gives the hardware's ceiling, which the
 render pipeline's numbers can be compared against.</p>
@@ -1215,6 +1215,101 @@ from the hardware's limits, so no tier-1 result on this rig is limited by the GP
 </tr>
 </tbody>
 </table>
+<h3 id="117-the-proof-run-tier-1-not-earned-by-a-small-margin-in-two-of-three-failures">11.7 The proof run: tier 1 not earned, by a small margin in two of three failures</h3>
+<p>The run of Section 11.4 happened the same night, on a fresh runtime of <code>x3d.lab</code> main (auto exposure, Nanite ray-tracing mode and the
+<code>shadows</code> fix all in), with the bounds unchanged. Rig as Section 10.1: UE 5.8.4 Vulkan SM6+RT with hardware Lumen, X_ITE 16.7.0 on ANGLE
+Vulkan on the same GPU, Cycles from Blender 5.2.3, flip-evaluator LDR over object pixels. All figures <span class="g C" title="Confirmed">C</span>.</p>
+<table>
+<thead>
+<tr>
+<th>scene / viewpoint</th>
+<th>IoU</th>
+<th>UE-X</th>
+<th>UE-C</th>
+<th>X-C</th>
+<th>repeat</th>
+<th>verdict</th>
+<th>the failed check, by how much</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stilllife / CA_Camera</td>
+<td>–</td>
+<td>–</td>
+<td>0.214</td>
+<td>–</td>
+<td>0.000</td>
+<td>SKIP</td>
+<td>X_ITE returned no still, so there is no outline to score</td>
+</tr>
+<tr>
+<td>odyssey / DroneCam</td>
+<td>1.000</td>
+<td>0.667</td>
+<td>0.699</td>
+<td>0.527</td>
+<td>0.000</td>
+<td>FAIL</td>
+<td>spread: 0.699 against a bound of 0.577, over by 0.122</td>
+</tr>
+<tr>
+<td>odyssey / GiftFrame</td>
+<td>1.000</td>
+<td>0.626</td>
+<td>–</td>
+<td>–</td>
+<td>0.000</td>
+<td>PASS</td>
+<td>(no Cycles still for a second viewpoint: two checks of three)</td>
+</tr>
+<tr>
+<td>E1 PBR grid / Front</td>
+<td>1.000</td>
+<td>0.221</td>
+<td>0.260</td>
+<td>0.298</td>
+<td>0.000</td>
+<td>PASS</td>
+<td>Unreal is closer to X_ITE than Cycles is</td>
+</tr>
+<tr>
+<td>E2 Cornell box / Front</td>
+<td>0.999</td>
+<td>0.516</td>
+<td>0.419</td>
+<td>0.458</td>
+<td>0.000</td>
+<td>FAIL</td>
+<td>spread: 0.516 against 0.508, over by 0.008</td>
+</tr>
+<tr>
+<td>E3 light ladder / Front</td>
+<td>0.980</td>
+<td>0.735</td>
+<td>0.724</td>
+<td>0.677</td>
+<td>0.000</td>
+<td>FAIL</td>
+<td>spread: 0.735 against 0.727, over by 0.008</td>
+</tr>
+</tbody>
+</table>
+<p>Totals: 2 PASS, 3 FAIL, 1 SKIP. Peak VRAM across the stills was 12.2 GB.</p>
+<p>What the run settles:</p>
+<ul>
+<li><strong>Geometry and cameras are done.</strong> Every outline scored IoU 0.980 or better against X_ITE. <span class="g C" title="Confirmed">C</span></li>
+<li><strong>Unreal is deterministic here.</strong> A still rendered twice differs by object FLIP 0.000 on every view, so the noise floor is zero, not 0.02. <span class="g C" title="Confirmed">C</span></li>
+<li><strong>E1 works in X_ITE after all.</strong> The pass of Section 11.2 had no X_ITE still for E1; this run has one, and on it Unreal agrees with X_ITE
+more closely (0.221) than Cycles does (0.298), black fully metallic sphere included. Why the earlier run drew nothing is still not known. <span class="g C" title="Confirmed">C</span> for the numbers.</li>
+<li><strong>The <code>shadows</code> fix was not the main gap.</strong> E2's object FLIP to X_ITE went from 0.489 to 0.516 and E3's stayed at 0.735. Point and spot
+falloff (inverse-square in Unreal, matched to X3D attenuation only at the scene's centre) and the one-light-model-per-scene rule remain,
+and both E2 and E3 are lit that way. <span class="g C" title="Confirmed">C</span> that the numbers did not move; <span class="g L" title="Likely">L</span> for the cause.</li>
+<li><strong>odyssey's DroneCam fails against Cycles, not X_ITE.</strong> One exposure per scene is fitted on one camera (Section 10.4). <span class="g S" title="Suspected">S</span> that this is the cause.</li>
+</ul>
+<p>The bounds stay as written. Two failures are within 0.008 of the line; moving the line after seeing them would turn the gate into a
+description. The next run changes the pipeline instead: fit each X3D point and spot light's attenuation with Unreal's non-inverse-square
+falloff (a light can turn inverse-squared falloff off and take a falloff exponent), and fit exposure per camera. <span class="g S" title="Suspected">S</span> that this closes E2 and E3.</p>
 <hr />
 <h2 id="heuristics">Heuristics</h2>
 <table>
@@ -1361,6 +1456,13 @@ from the hardware's limits, so no tier-1 result on this rig is limited by the GP
 <td>98.1 TFLOPS from Python against 7.5-12.6 GB and 10 s stills in Unreal</td>
 <td>wgpu-py 0.33.0 Vulkan, 2026-11-15</td>
 </tr>
+<tr>
+<td>H-UNR-20</td>
+<td>When a gate fails by a hair, keep the bound and change the pipeline; report the margin beside the verdict.</td>
+<td><span class="g C" title="Confirmed">C</span> (method)</td>
+<td>E2 and E3 over the spread bound by 0.008 each, bounds unchanged</td>
+<td>tier-1 proof run, 2026-11-15</td>
+</tr>
 </tbody>
 </table>
 <hr />
@@ -1435,6 +1537,7 @@ from the hardware's limits, so no tier-1 result on this rig is limited by the GP
 <li><strong>No Unreal run exists.</strong> No frame, import log, actor count or frame time came from Unreal 5.8 in this base. Everything on Unreal behaviour is <span class="g S" title="Suspected">S</span> and says so. <span class="g S" title="Suspected">S</span></li>
 <li><strong>Superseded 2026-11-15 by Section 10:</strong> one run on one machine now stands behind the import, calibration, instancing, exposure and Nanite rows there. Frame times, behaviour, a second machine and FLIP between engines are still not measured. The stills and logs of that run are in a private notebook output, not in a public repository, so a reader cannot re-open them; the notebook and its tests are public. <span class="g L" title="Likely">L</span></li>
 <li><strong>Updated 2026-11-15 by Section 11:</strong> FLIP between engines is now measured for three scenes on one machine, over object pixels. Frame times, behaviour and a second machine are still not measured, the tier-1 proof run has not happened, and why X_ITE produced no still for E1 is not known. <span class="g L" title="Likely">L</span></li>
+<li><strong>Updated 2026-11-15 by Section 11.7:</strong> the tier-1 proof run happened and tier 1 was not earned (2 PASS, 3 FAIL, 1 SKIP on one machine). The cause of the failures is graded <span class="g L" title="Likely">L</span> and <span class="g S" title="Suspected">S</span>, not measured; a second machine and frame times are still missing. <span class="g C" title="Confirmed">C</span> for the verdicts.</li>
 <li><strong>The Nanite finding is visual.</strong> One view, two stills, judged by eye; no metric was computed between them. <span class="g L" title="Likely">L</span></li>
 <li><strong>The Unreal digest is a lead.</strong> It was written 2026-11-12 with some vendor pages unreachable (the licence pages returned an error), so licence terms, product pricing and web-streaming claims are not stated here. A reader needs the vendors' own pages. <span class="g S" title="Suspected">S</span></li>
 <li><strong>Web targets move fast.</strong> The digest reports an experimental WebGPU target in a 5.9 preview and a commercial streaming route that supports 5.8; both are vendor or Epic claims, not tested, and dated. They are not repeated as facts here. <span class="g S" title="Suspected">S</span></li>
@@ -1770,6 +1873,70 @@ from the hardware's limits, so no tier-1 result on this rig is limited by the GP
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>same</td>
 <td>Section 11.5</td>
+</tr>
+<tr>
+<td>N-UNR-40</td>
+<td>tier-1 proof run verdicts (PASS / FAIL / SKIP)</td>
+<td>2 / 3 / 1</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>UE 5.8.4 Vulkan SM6+RT, X_ITE 16.7.0 ANGLE Vulkan, Cycles 5.2.3, flip-evaluator LDR object pixels, RTX PRO 6000 Blackwell SE, 2026-11-15</td>
+<td>Section 11.7</td>
+</tr>
+<tr>
+<td>N-UNR-41</td>
+<td>outline IoU vs X_ITE, range over scored views</td>
+<td>0.980-1.000</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>Section 11.7</td>
+</tr>
+<tr>
+<td>N-UNR-42</td>
+<td>repeat render object FLIP, every view</td>
+<td>0.000</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>Section 11.7</td>
+</tr>
+<tr>
+<td>N-UNR-43</td>
+<td>E1 PBR grid: UE-X / UE-C / X-C object FLIP</td>
+<td>0.221 / 0.260 / 0.298</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>Section 11.7</td>
+</tr>
+<tr>
+<td>N-UNR-44</td>
+<td>E2 Cornell box: UE-X / UE-C / X-C object FLIP</td>
+<td>0.516 / 0.419 / 0.458</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>Section 11.7</td>
+</tr>
+<tr>
+<td>N-UNR-45</td>
+<td>E3 light ladder: UE-X / UE-C / X-C object FLIP</td>
+<td>0.735 / 0.724 / 0.677</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>Section 11.7</td>
+</tr>
+<tr>
+<td>N-UNR-46</td>
+<td>odyssey DroneCam: UE-X / UE-C / X-C object FLIP</td>
+<td>0.667 / 0.699 / 0.527</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>Section 11.7</td>
+</tr>
+<tr>
+<td>N-UNR-47</td>
+<td>peak VRAM across the proof run's stills</td>
+<td>12.2 GB</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>Section 11.7</td>
 </tr>
 </tbody>
 </table>

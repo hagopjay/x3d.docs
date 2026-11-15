@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**359 numbers** from 14 chapters. Grades: [C] 315 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**374 numbers** from 14 chapters. Grades: [C] 330 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -219,6 +219,13 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-BAB-57 | [08](08-babylon-bridge.md) | ProjectionVolumeStyle AVERAGE of a uniform grey 204 volume | 38 | C | both engines | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/ProjectionVolumeStyle.test.json |
 | N-BAB-58 | [08](08-babylon-bridge.md) | BlendedVolumeStyle defaults, voxels 204 and 102 | 153 (ALPHA0: 215, ONE_MINUS_ALPHA0: 91) | C | both engines | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/BlendedVolumeStyle.test.json |
 | N-BAB-59 | [08](08-babylon-bridge.md) | batch 45 fixture steps passed (ours / X_ITE) | Geo 305 and 300; Blended 63 and 53, Composed 17 and 17, Projection 32 and 32 | C | `run-tests.js` | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures |
+| N-BAB-60 | [08](08-babylon-bridge.md) | GeoLOD, centre 50 m up, parent scale 1.9 and 2.1 | level 1 and level 0 | C | both engines | x3d.loom@c80cecd:x3d.webgpu/bridge/fixtures/GeoLOD.test.json |
+| N-BAB-61 | [08](08-babylon-bridge.md) | hitGeoCoord longitude under a GeoLocation 3.3 m east of the origin | 8.4e-7 degrees (true: 3.0e-5) | C | X_ITE 16.6.0 and bridge | x3d.loom@c80cecd:x3d.webgpu/bridge/fixtures/GeoTouchSensor.test.json |
+| N-BAB-62 | [08](08-babylon-bridge.md) | batch 46 fixture steps passed, ours and X_ITE alike | GeoLOD 92, GeoTouchSensor 51, GeoProximitySensor 64, GeoMetadata 30, EspduTransform 146, ReceiverPdu 69, SignalPdu 70, TransmitterPdu 82, DISEntityManager 30, DISEntityTypeMapping 43 | C | `run-tests.js` | x3d.loom@c80cecd:x3d.webgpu/bridge/fixtures |
+| N-BAB-63 | [08](08-babylon-bridge.md) | batch 47 fixture steps passed, ours and X_ITE alike | CollisionSensor 36, CollisionSpace 34, Contact 30 | C | `run-tests.js` | x3d.loom@80388ce:x3d.webgpu/bridge/fixtures |
+| N-BAB-64 | [08](08-babylon-bridge.md) | unit cube resting on a fixed ground, contacts kept | Bullet 2 of the 4 lower corners; bridge 4 | C | X_ITE 16.6.0, SwiftShader rig | x3d.loom@80388ce:x3d.webgpu/bridge/fixtures/CollisionSensor.test.json |
+| N-BAB-65 | [08](08-babylon-bridge.md) | resting distance of a ball on the ground | X_ITE 3e-8; bridge up to 5 mm (slop) | C | both engines | WHY-physics-sensing-batch.md section 5 |
+| N-BAB-66 | [08](08-babylon-bridge.md) | full regression after the shim fix and batch 47 | 142 picture fixtures and 45 event fixtures pass, in chunks of 8 | C | our engine, SwiftShader | x3d.loom@80388ce |
 | N-CAS-1 | [09](09-castle-engine.md) | registered model formats; of them with `OnSave` | 21; 7 | C | `formats.py`, 2026-11-14 | `castle-engine@48ce617:src/` |
 | N-CAS-2 | [09](09-castle-engine.md) | parse-only groups; registrations in them (one abstract) | 11; 99 | C | `xite_names.py` | `castle-engine@48ce617:src/scene/x3d/castleinternalnodesunsupported.pas` |
 | N-CAS-3 | [09](09-castle-engine.md) | parse-only names with a same-named non-abstract class in X_ITE | 97 of 99 | C | `xite_names.py`, `x_ite@16.7.1` npm dist | `x_ite@16.7.1:dist/x_ite.js`, `dist/assets/components/` |
@@ -326,6 +333,14 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-UNR-37 | [12](12-unreal-tier1.md) | tier-1 bounds: IoU / repeat / spread margin | 0.95 / 0.02 / 0.05 | [C] | `x3d.lab` PR #32, `tier1_proof_cells.py` | Section 11.4 |
 | N-UNR-38 | [12](12-unreal-tier1.md) | Mandelbulb 8K at 64 rays per pixel | 0.67 s | [C] | same | Section 11.5 |
 | N-UNR-39 | [12](12-unreal-tier1.md) | all-pairs N-body, 262,144 bodies: interaction rate | 1.48 x 10^12 /s (29.7 TFLOPS at 20 flops each) | [C] | same | Section 11.5 |
+| N-UNR-40 | [12](12-unreal-tier1.md) | tier-1 proof run verdicts (PASS / FAIL / SKIP) | 2 / 3 / 1 | [C] | UE 5.8.4 Vulkan SM6+RT, X_ITE 16.7.0 ANGLE Vulkan, Cycles 5.2.3, flip-evaluator LDR object pixels, RTX PRO 6000 Blackwell SE, 2026-11-15 | Section 11.7 |
+| N-UNR-41 | [12](12-unreal-tier1.md) | outline IoU vs X_ITE, range over scored views | 0.980-1.000 | [C] | same | Section 11.7 |
+| N-UNR-42 | [12](12-unreal-tier1.md) | repeat render object FLIP, every view | 0.000 | [C] | same | Section 11.7 |
+| N-UNR-43 | [12](12-unreal-tier1.md) | E1 PBR grid: UE-X / UE-C / X-C object FLIP | 0.221 / 0.260 / 0.298 | [C] | same | Section 11.7 |
+| N-UNR-44 | [12](12-unreal-tier1.md) | E2 Cornell box: UE-X / UE-C / X-C object FLIP | 0.516 / 0.419 / 0.458 | [C] | same | Section 11.7 |
+| N-UNR-45 | [12](12-unreal-tier1.md) | E3 light ladder: UE-X / UE-C / X-C object FLIP | 0.735 / 0.724 / 0.677 | [C] | same | Section 11.7 |
+| N-UNR-46 | [12](12-unreal-tier1.md) | odyssey DroneCam: UE-X / UE-C / X-C object FLIP | 0.667 / 0.699 / 0.527 | [C] | same | Section 11.7 |
+| N-UNR-47 | [12](12-unreal-tier1.md) | peak VRAM across the proof run's stills | 12.2 GB | [C] | same | Section 11.7 |
 | N-PHY-1 | [13](13-physics.md) | Explicit Euler pendulum energy growth, h = 0.01, 100 s | +10.89 (final dE/E0) | [C] | numpy 2.5.3 | D-PHY-1 |
 | N-PHY-2 | [13](13-physics.md) | Symplectic Euler pendulum, same run | +0.0002 final, 0.0150 max | [C] | numpy 2.5.3 | D-PHY-1 |
 | N-PHY-3 | [13](13-physics.md) | Discrete free fall against continuum gap, 1 s at 1/240 | -0.020437 m (`g h t/2` = 0.020438) | [C] | numpy 2.5.3 | D-PHY-2 |

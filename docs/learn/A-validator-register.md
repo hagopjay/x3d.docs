@@ -3,15 +3,16 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-245 distinct instrument strings across the numbers registers.
+249 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
-| `same` | 26 | 05, 06, 07, 09, 10, 11, 12 | C:25 L:1 |
+| `same` | 33 | 05, 06, 07, 09, 10, 11, 12 | C:32 L:1 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `same rig` | 12 | 08, 09, 13 | C:12 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
 | `learn_lib.py count` | 6 | 14 | C:6 |
+| `both engines` | 5 | 08 | C:5 |
 | `bpy 5.3.0` | 5 | 10, 11 | C:2 L:3 |
 | `Khronos glTF-Validator 2.0.0-dev.3.10` | 4 | 09, 10, 11 | C:4 |
 | `build_learn.py at this commit` | 4 | 14 | C:4 |
@@ -20,9 +21,9 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `read, not re-run` | 4 | 06, 07 | L:4 |
 | `Python 3, 2026-11-14` | 3 | 12 | C:3 |
 | `SwiftShader` | 3 | 08 | C:3 |
-| `both engines` | 3 | 08 | C:3 |
 | `count` | 3 | 02 | C:3 |
 | `inline Python` | 3 | 09 | C:3 |
+| `run-tests.js` | 3 | 08 | C:3 |
 | `wc -l` | 3 | 08, 10 | C:3 |
 | `x3d_mcp fork b4efcd3, seed 20261029` | 3 | 01, 03 | C:3 |
 | `Chromium 153, SwiftShader (carried)` | 2 | 11, 12 | L:2 |
@@ -60,6 +61,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `Python 3.13.18 ast` | 1 | 10 | C:1 |
 | `Python, X_ITE 16.6.0` | 1 | 08 | C:1 |
 | `SwiftShader, 320 x 240` | 1 | 08 | C:1 |
+| `UE 5.8.4 Vulkan SM6+RT, X_ITE 16.7.0 ANGLE Vulkan, Cycles 5.2.3, flip-evaluator LDR object pixels, RTX PRO 6000 Blackwell SE, 2026-11-15` | 1 | 12 | C:1 |
 | `UE 5.8.4 on RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-14` | 1 | 12 | C:1 |
 | `X3DUOM 4.0 via NODES.json` | 1 | 08 | C:1 |
 | `X3DUOM 4.1 (4fc10e8e15c0), X3DUOM 4.0 (7e426a238656)` | 1 | 03 | C:1 |
@@ -74,11 +76,13 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `X_ITE 16.5.1, 16.7.0, emulated policy` | 1 | 06 | C:1 |
 | `X_ITE 16.5.1, 640 x 360, SwiftShader` | 1 | 08 | L:1 |
 | `X_ITE 16.5.1, SwiftShader` | 1 | 08 | L:1 |
+| `X_ITE 16.6.0 and bridge` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0 private getNormals, SwiftShader` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0 private getVertices, SwiftShader` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0, 640 x 360, SwiftShader` | 1 | 08 | L:1 |
 | `X_ITE 16.6.0, Chromium 153.0.8010.12` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader, three.js r187` | 1 | 08 | C:1 |
+| `X_ITE 16.6.0, SwiftShader rig` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0, SwiftShader, parsed from the report` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0, VolumeRenderingComponent read` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0, three.js r187, Chromium 153.0.8010.12, SwiftShader, 320 x 240` | 1 | 08 | C:1 |
@@ -155,6 +159,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `npm 10.9.9 npm view x_ite time` | 1 | 06 | C:1 |
 | `numpy, Pillow, 960 x 540, X_ITE 16.4.3 reference` | 1 | 08 | C:1 |
 | `nvidia-smi, 0.5 s samples, 2026-11-15` | 1 | 12 | C:1 |
+| `our engine, SwiftShader` | 1 | 08 | C:1 |
 | `parsed from the reports; X_ITE 16.6.0, 320 x 240, SwiftShader` | 1 | 08 | C:1 |
 | `phase3_check.py receipts` | 1 | 09 | C:1 |
 | `physics.py docstring; last-run.json` | 1 | 02 | C:1 |
@@ -187,7 +192,6 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `row count` | 1 | 09 | C:1 |
 | `rule in section 3` | 1 | 10 | C:1 |
 | `run of an X3D33 export` | 1 | 10 | C:1 |
-| `run-tests.js` | 1 | 08 | C:1 |
 | `same rig, one run` | 1 | 08 | C:1 |
 | `same rig, same fixture twice` | 1 | 08 | C:1 |
 | `same rig, two runs of the 10 fixtures` | 1 | 08 | C:1 |

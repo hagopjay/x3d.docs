@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**212 heuristics.** Grades: [C] 166 · [L] 39 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**219 heuristics.** Grades: [C] 173 · [L] 39 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -130,6 +130,12 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-BAB-34 | [08](08-babylon-bridge.md) | Read a GeoTransform as L^-1 M L, not as "children at geoCenter"; test it with a rotation about the local up. | C | default fields give the identity; box 10 m east goes to 10 m north (N-BAB-51) | `GeoTransform.test.json` |
 | H-BAB-35 | [08](08-babylon-bridge.md) | Test a lit volume style on smooth data, rotated and unrotated; a cube hides both the dim shell and the rotation error. | C | ball under Shaded: unrotated agree, rotated differ (N-BAB-53, N-BAB-54) | `_volume-smooth-lit` |
 | H-BAB-36 | [08](08-babylon-bridge.md) | Give a test-rig `set` of a double field its type; a plain list becomes NaN in X_ITE and looks like an X_ITE defect. | C | geoCoords set drew nothing until SFVec3d was built | `tools/run-tests.js` |
+| H-BAB-37 | [08](08-babylon-bridge.md) | Take a distance for a level of detail in the camera's frame, not the node's: a parent scale changes it. | C | scale 1.9 gives level 1, 2.1 gives level 0 | `GeoLOD.test.json` |
+| H-BAB-38 | [08](08-babylon-bridge.md) | When a node is marked not supported in the reference engine, copy its silence and assert it with `noevent`; never add behaviour the oracle lacks. | C | six DIS nodes, 69 to 146 steps each, same in both engines | `X_ITE 16.6.0`, `x3d.loom@c80cecd` |
+| H-BAB-39 | [08](08-babylon-bridge.md) | Name the frame of every geographic output: a value that is local to a sensor is only the true position when nothing moves the sensor. | C | hitGeoCoord under a GeoLocation reads 8.4e-7, not 3.0e-5 degrees | `GeoTouchSensor.test.json` |
+| H-BAB-40 | [08](08-babylon-bridge.md) | Keep the reference engine drawing (animate something) when a test depends on a sensor noticing a camera move. | C | X_ITE sees an enter only after an extra frame | `GeoProximitySensor.test.json` |
+| H-BAB-41 | [08](08-babylon-bridge.md) | Assert only resting contacts for a collision sensor: an impact lasts one sub-step in both engines and is a lottery. | C | X_ITE sent true, false, true within 150 ms, nothing with bounce on | `CollisionSensor.test.json` |
+| H-BAB-42 | [08](08-babylon-bridge.md) | Copy a reference engine's null before correcting it: assert its value on its side and the specified value on yours, and log the departure. | C | Contact body1, body2, geometry1, geometry2 | `Contact.test.json` |
 | H-CAS-1 | [09](09-castle-engine.md) | Judge a Castle load by its warnings and a shape census against the declared count; never by "it loaded" or an exit code. | C | classic reader warns once and skips the rest of the file | `castle-engine@48ce617:x3dnodes_encoding_classic.inc:569-573` |
 | H-CAS-2 | [09](09-castle-engine.md) | Quote node coverage by rung and definition (registered, parse-only, name present in a peer, behaves); never a bare "98 of 328". | C | 99 registrations, 98 concrete, five denominators in circulation | `castle-engine@48ce617`; `x_ite@16.7.1` dist |
 | H-CAS-3 | [09](09-castle-engine.md) | Treat name presence in a peer as the weakest rung; do not turn 97 of 99 into "X_ITE implements them". | C | the scan reads class names, not behaviour | `x_ite@16.7.1` dist |
@@ -188,6 +194,7 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-UNR-17 | [12](12-unreal-tier1.md) | Fix a gate's bounds in the cell before the run that tests it, and let the references' own disagreement set the agreement bound. | [C] (method) | bounds in `tier1_proof_cells.py` written before any proof run | `x3d.lab` PR #32 |
 | H-UNR-18 | [12](12-unreal-tier1.md) | Carry X3D 4.0's `shadows` field to the engine light; a renderer default that casts shadows is a silent disagreement. | [C] | E2 shadows under the match look | UE 5.8.4 on RTX PRO 6000, 2026-11-15; fix `x3d.lab` PR #31 |
 | H-UNR-19 | [12](12-unreal-tier1.md) | Measure the hardware ceiling separately from the pipeline, so a slow number can be blamed on the right layer. | [L] | 98.1 TFLOPS from Python against 7.5-12.6 GB and 10 s stills in Unreal | wgpu-py 0.33.0 Vulkan, 2026-11-15 |
+| H-UNR-20 | [12](12-unreal-tier1.md) | When a gate fails by a hair, keep the bound and change the pipeline; report the margin beside the verdict. | [C] (method) | E2 and E3 over the spread bound by 0.008 each, bounds unchanged | tier-1 proof run, 2026-11-15 |
 | H-PHY-1 | [13](13-physics.md) | Use the scheme's own discrete solution as the exact reference for a stepped engine, and report the continuum gap as a known number. | [C] | PhysX free fall 1.5e-6 m from discrete, 0.0204 m from continuum; D-PHY-2 reproduces both | `x3d.loom@162ab18` `p1-analytic.json`; numpy 2.5.3 |
 | H-PHY-2 | [13](13-physics.md) | Run every new check against a known-wrong implementation before trusting it; if the wrong one passes, the check says nothing. | [C] | KE 0.5 for fixed, buggy and no collisions (D-PHY-4); law 44 | numpy 2.5.3; ERRATA-v1-v4 |
 | H-PHY-3 | [13](13-physics.md) | Add an oblique collision case; a head-on axis-aligned test makes every dot product exact and passes a wrong normal. | [C] | 19 of 300 oblique pairs differed per step; failure mode 151 | ERRATA-v1-v4 (reviewer), read |
