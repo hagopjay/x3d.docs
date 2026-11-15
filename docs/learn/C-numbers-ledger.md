@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**479 numbers** from 18 chapters. Grades: [C] 435 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**497 numbers** from 19 chapters. Grades: [C] 453 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -447,6 +447,24 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-YJS-13 | [15](15-yjs-collaboration.md) | remote apply at 500 nodes | 149,687 per second | [C] | same | same |
 | N-YJS-14 | [15](15-yjs-collaboration.md) | orphan nodes over 200 fuzz seeds | 5,127 | [C] | same | same |
 | N-YJS-15 | [15](15-yjs-collaboration.md) | reported conflicts over 200 seeds: def-clash, sfnode-slot, duplicate | 206, 31, 15 | [C] | same | same |
+| N-ZOD-1 | [16](16-typed-x3d-zod.md) | definitions in the Web3D JSON Schema / of them scene nodes | 364 / 261 | [C] | `x3d.zod` `gen.mjs`, schema sha1 `c6765a4` | `x3d.loom@d8e02ef:x3d.zod/receipts/gen.json` |
+| N-ZOD-2 | [16](16-typed-x3d-zod.md) | generated Zod file | 597,222 bytes | [C] | `gen.mjs` | `x3d.zod/src/generated/x3d.zod.ts` |
+| N-ZOD-3 | [16](16-typed-x3d-zod.md) | strict objects / unions / tuples / enums emitted | 887 / 301 / 88 / 150 | [C] | `gen.mjs` | `x3d.zod/receipts/gen.json` |
+| N-ZOD-4 | [16](16-typed-x3d-zod.md) | node tests | 32 of 32 pass | [C] | Node v22.23.4, zod 4.6.7, ajv 8.20.0 | `x3d.zod/tests` |
+| N-ZOD-5 | [16](16-typed-x3d-zod.md) | full schema minified / starter lean / animated lean | 502,810 / 19,153 / 25,635 bytes | [C] | `restrictSchema` and `llm_schema.py` agree | `x3d.zod/src/restrict.ts`, `x3d_mcp@c86caf7` |
+| N-ZOD-6 | [16](16-typed-x3d-zod.md) | repository scenes found / checked by all four validators | 1,533 / 1,432 | [C] | `tools/corpus.py`, x3d_mcp fork fbe165f | `x3d.zod/receipts/corpus-summary.json` |
+| N-ZOD-7 | [16](16-typed-x3d-zod.md) | scenes where Zod, ajv and jsonschema agree | 1,432 of 1,432 | [C] | same | same |
+| N-ZOD-8 | [16](16-typed-x3d-zod.md) | XSD accepts and JSON accepts / XSD accepts and JSON rejects | 918 / 128 | [C] | `validate_xml`, `validate_json` | same |
+| N-ZOD-9 | [16](16-typed-x3d-zod.md) | XSD rejects and JSON accepts / both reject | 62 / 324 | [C] | same | same |
+| N-ZOD-10 | [16](16-typed-x3d-zod.md) | median validation time Zod / ajv / jsonschema | 1.13 / 0.19 / 2.3 ms | [C] | one container, 4 cores, no GPU | same |
+| N-ZOD-11 | [16](16-typed-x3d-zod.md) | 95th percentile Zod / ajv / jsonschema | 27 / 2.6 / 251 ms | [C] | same | same |
+| N-ZOD-12 | [16](16-typed-x3d-zod.md) | fuzz mutants / Zod-ajv disagreements | 7,728 / 0 | [C] | `tools/fuzz.mjs`, seed 1, 966 source scenes | `x3d.zod/receipts/fuzz.json` |
+| N-ZOD-13 | [16](16-typed-x3d-zod.md) | tuple properties tested x random arrays | 79 x 400, 0 disagreements | [C] | `tests/tuples.test.ts` | `x3d.zod/tests` |
+| N-ZOD-14 | [16](16-typed-x3d-zod.md) | lean restriction rejecting scenes the full schema accepts | 110 of 966 | [C] | `jsonschema 4.26.0` | independent review, `llm_schema.py` comments |
+| N-ZOD-15 | [16](16-typed-x3d-zod.md) | nine-mistake matrix: caught by JSON / XSD / semantic / any | 8 / 4 / 2 / 9 | [C] | `x3d_mcp fork fbe165f`, Zod 4.6.7 | `x3d.demo@9c96896:docs/demos/typed-x3d/v1/matrix.json` |
+| N-ZOD-16 | [16](16-typed-x3d-zod.md) | first-run disagreements that were converter repairs | 56 of 224 | [C] | root-cause pass | `x3d.zod/receipts/rootcause-v1.json` |
+| N-ZOD-17 | [16](16-typed-x3d-zod.md) | Zod stack limit, nested Transforms | about 115 default, about 484 at 4000 | [C] | Node v22.23.4 (cold start) | drill D-ZOD-6 |
+| N-ZOD-18 | [16](16-typed-x3d-zod.md) | Zod browser bundle | 734,727 bytes, 115,346 gzipped | [C] | `esbuild 0.25.12` | `x3d.demo@9c96896:docs/demos/typed-x3d/v1/x3d-zod.bundle.js` |
 | N-PTR-1 | [18](18-three-pathtracer.md) | e2 Cornell, path tracer 6 bounces vs X_ITE, object FLIP | 0.265 | [C] | Chromium 153 SwiftShader; X_ITE 16.6.0; 96 spp | `x3d.loom@5f59349:x3d.threejs/pathtracer/results/results.json` |
 | N-PTR-2 | [18](18-three-pathtracer.md) | e2 Cornell, path tracer 1 bounce vs X_ITE | 0.142 | [C] | same | same |
 | N-PTR-3 | [18](18-three-pathtracer.md) | e2 Cornell, path tracer vs Cycles | 0.380 | [C] | same; bpy 5.3.0 CPU 256 spp OIDN | same |
