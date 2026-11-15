@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**248 heuristics.** Grades: [C] 200 · [L] 41 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**259 heuristics.** Grades: [C] 208 · [L] 44 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -247,6 +247,17 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-MET-6 | [14](14-methods.md) | Prefer the lowest grade the evidence allows; a copied number is [L] at best. | L | grade mix below | Appendix C count |
 | H-MET-7 | [14](14-methods.md) | Cut a failing scene to the smallest file that still fails before reporting it. | L | practice in chapter 03 | `x3d_mcp fork b4efcd3` |
 | H-MET-8 | [14](14-methods.md) | Two independent readings agree only if tests pin a raw value; compare against stored values, not only each other. | C | chapter 07 gallery lesson | `x3d.xray@8fa6845` |
+| H-ENG-1 | [15](15-physics-engines.md) | Check every engine against a closed form before comparing engines to each other; a mutual match proves only that they share a bias. | [C] | cannon-es +14.0 % energy on an elastic hit, visible only against the analytic 0 % | `x3d.loom@56340c2` `results/fidelity-node.json`; Node v22.23.4 |
+| H-ENG-2 | [15](15-physics-engines.md) | When a library accepts a friction value, run a ramp sweep; a box that sticks at 45 degrees for every mu is a unit error, not a surface property. | [C] | cannon-es raw 45 and 45 degrees against 11.3 and 26.6 | `tools/friction-sweep.js`; cannon-es 0.20.0 |
+| H-ENG-3 | [15](15-physics-engines.md) | Count escapees per shape kind in a contained stress scene; an exact count equal to one kind's population is a missing collider. | [C] | 10 escaped, 10 cones | `tools/record-demo.js`, `RigidBodyCollection.js` at `x3d.loom@1e884b6` |
+| H-ENG-4 | [15](15-physics-engines.md) | Let a CollisionSensor read every sub-step of a tick, not the last; test it with many drop heights that land on different sub-steps. | [C] | 24 of 24 in frame mode against 5 to 11 in last mode | `tools/sensor-impact.js`; Chromium 153.0.8010.12 |
+| H-ENG-5 | [15](15-physics-engines.md) | Step external engines on the bridge's fixed grid and never on the frame time; then hash the trace under jittered frames to prove it. | [C] | 21 of 21 final states equal under 40 ms / 8.3 ms ticks | `tools/determinism.js` |
+| H-ENG-6 | [15](15-physics-engines.md) | Compare hosts on positions first and on orientation second; axis-angle conversion differs in the last bits between V8 builds. | [C] | 21 of 21 positions identical, 12 of 21 whole traces not, maximum 1.1e-16 | `tools/determinism.js`; Node v22.23.4, Chromium 153 |
+| H-ENG-7 | [15](15-physics-engines.md) | Time engines in the host that will run them; the same code ranks the engines differently in Node and in the browser. | [C] | built-in 15.989 ms in Node, 3.966 ms in Chromium at 250 bodies | `tools/speed.js` |
+| H-ENG-8 | [15](15-physics-engines.md) | Give a stiff chain sub-steps before touching solver iterations; measure the end-of-chain response, not the first contact. | [C] | Rapier cradle 0.22 m with 1 sub-step, 0.65 m with 4, unchanged by 1 to 8 PGS and 10 to 20 iterations | `test/engines.test.js`, Rapier 0.21.0 |
+| H-ENG-9 | [15](15-physics-engines.md) | Set the body origin to the centre of mass and pass principal inertia explicitly when an engine derives its own; otherwise it silently overrides the X3D rule. | [L] | Rapier mass set as additional properties with collider density 0; pendulum period error 0.19 % | `engine-rapier.js` read; `tools/fidelity-node.js` |
+| H-ENG-10 | [15](15-physics-engines.md) | Put every unmapped node into a visible notes list instead of dropping it; a quiet drop reads as a pass. | [L] | `ctx.notes` lists Universal and DoubleAxis limits and motors for Rapier | `engines.js`, `engine-rapier.js` read |
+| H-ENG-11 | [15](15-physics-engines.md) | Restore the original function when switching an adapter off, and keep it callable under another name. | [L] | `builtinTick` kept; `use('builtin')` drops the engine state | `engines.js` read |
 | H-YJS-1 | [15](15-yjs-collaboration.md) | Store the tree as a flat table with a parent register; never nest a node's Map inside its parent's. | [C] | move-with-edit test | `x3d.loom@0689f1a` tests |
 | H-YJS-2 | [15](15-yjs-collaboration.md) | Fuzz the export text, not the Yjs state: converged state can still print differently. | [C] | attribute-order bug, 9 of 12 seeds | same, Node v22.23.4 |
 | H-YJS-3 | [15](15-yjs-collaboration.md) | Treat order-hint arrays as hints: walk by the register, with a visited set. | [C] | runaway-delete bug | bench, 200 seeds |
