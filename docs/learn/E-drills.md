@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**113 drills**, 103 with a recorded run (`Checked`), 10 not yet run. Levels: L1 19, L2 59, L3 35.
+**115 drills**, 105 with a recorded run (`Checked`), 10 not yet run. Levels: L1 19, L2 60, L3 36.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -73,6 +73,8 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-BAB-11 | [08](08-babylon-bridge.md) | L2 | Swap the ElevationGrid diagonal and predict the number | 2026-11-14 `x3d.loom@38530ab`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 |
 | D-BAB-12 | [08](08-babylon-bridge.md) | L2 | Midpoint of latitude 0 to latitude 60 | 2026-11-15 python3 -I |
 | D-BAB-13 | [08](08-babylon-bridge.md) | L3 | Why a block of 204 draws 70 | 2026-11-15 python3 -I (70.35); the rig gives 70 in both engines |
+| D-BAB-70 | [08](08-babylon-bridge.md) | L2 | Make FASTEST mean nearest and predict which box moves | 2026-11-15 `x3d.loom@72a4bca`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 |
+| D-BAB-71 | [08](08-babylon-bridge.md) | L3 | Stop the ground at its last groundAngle | 2026-11-15 `x3d.loom@72a4bca`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 |
 | D-CAS-1 | [09](09-castle-engine.md) | L2 | Count the parse-only nodes and name the denominator | 2026-11-14 `castle-engine@48ce617`, Python 3.13.18 |
 | D-CAS-2 | [09](09-castle-engine.md) | L2 | Count loaders and savers without trusting a number | 2026-11-14 `castle-engine@48ce617`, Python 3.13.18 |
 | D-CAS-3 | [09](09-castle-engine.md) | L2 | Re-derive the headline FLIP and what it hides | 2026-11-14 `x3d.castle@d70e00c` receipt, Python 3.13.18 |

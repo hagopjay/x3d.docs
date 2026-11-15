@@ -485,6 +485,28 @@ A 35-agent adversarial review of the batch (three reviewers over code, runtime b
 
 Not matched: IndexedTriangleSet and IndexedQuadSet generated normals sit at IoU 0.95 (a dim rim; the cause was not isolated), and PhysicalMaterial is reference-only at IoU 0.91, 25.32 dB, because X_ITE adds an environment glow that three.js has no counterpart for without an environment map. The unit tests (`node --test tools/`, 7 pass) load the body bundle in node with a stub window and check ElevationGrid winding, creaseAngle and TriangleSet counts without a browser.
 
+### 14.6 Batch 3: textures, fog, background and the camera
+
+Batch 3 (`x3d.loom@72a4bca`, the pull request #69 branch, read and run 2026-11-15) drew 13 more nodes from 13 scene fixtures: TwoSidedMaterial, TextureCoordinateGenerator, MultiTexture, TextureProperties, LineProperties, OrthoViewpoint, FillProperties, LocalFog, FogCoordinate, Background, TextureBackground, Polypoint2D and CoordinateDouble. The tracker reads drawn 65, reader-checked 29, reader 45, todo 93, upstream 28 [C, `driver.py status`]. The 13 fixtures add 25 pictures, 10 of them pixel-identical to X_ITE; the other 15 sit at 35.03 to 67.60 dB (median 48.04), silhouette IoU 0.98 to 1.00 [C, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187, receipts]. All 58 fixtures and 14 unit tests pass.
+
+What was learned, in the order it happened:
+
+| # | what | result | grade |
+|---|---|---|---|
+| 1 | A texture node's *default* behaviour has to be put in a fixture, not assumed. A TextureProperties with every field at its default (`<TextureProperties/>`, magnification FASTEST) is sampled smoothly by X_ITE; only the NEAREST_PIXEL names give hard texels. The first reading of FASTEST as "nearest" was wrong. | 28.23 dB with FASTEST nearest, 67.60 dB with only NEAREST_PIXEL nearest | C |
+| 2 | Without a TextureProperties, X_ITE samples an image under 16 x 16 pixels with hard texels (a 4 x 4 image on a box is a clean checkerboard), and a 16 x 16 or 32 x 32 image smoothly. The exact edge between 4 and 16 was not bisected; 16 is the value the Babylon volume code already carries. | 4 x 4: smooth drawing gave 18.8 dB, nearest gave 64.50 dB; 16 x 16 and 32 x 32 smooth match | C for 4 and 16, L for the rest of the range |
+| 3 | X_ITE draws a line `linewidthScaleFactor` pixels wide. The README said X_ITE draws every line one pixel wide; that was true only for lines with no LineProperties. WebGL has no wide lines, so each segment is a quad widened in the vertex shader. | IoU 0.63 with thin lines, 0.98 and 47.71 dB with quads (1051 foreground pixels in X_ITE, 1069 here) | C |
+| 4 | A MultiTexture ADD stage is added to the texture colour *before* the light and is not clipped at 1. Three placements were tried against X_ITE: summed on an 8-bit canvas (clipped), added after the light, added before the light unclipped. Region means told them apart where the frame dB barely moved. | ADD cube mean red 181.1, 226.2 and 214.1 against X_ITE 214.9; frame 28.15, 27.84 and 35.03 dB | C |
+| 5 | The ground of a Background does not stop at its last `groundAngle`: X_ITE holds the last ground colour out to the horizon. With the ground ending early the horizon was a curved edge below the real one. | level view mad 36.07 (9.75 dB) before, 0.28 (53.61 dB) after; up 48.04 and down 52.79 dB unchanged | C |
+| 6 | The six faces of a TextureBackground follow from the viewing direction: for each face the viewer's look direction, right and up give the plane's basis (front looks down -Z; top has its image up toward +Z, bottom toward -Z). Each face got a 3 x 3 PixelTexture with a white bottom-left and a black top-right pixel, so a turned or mirrored image shows. | all six directions pixel-identical on the first run (99 dB) | C |
+| 7 | The runner's value converter, shared with the Babylon bridge, has no MFColor: a `set` of a colour list made X_ITE draw black while the reader accepted it, which read as an engine difference. | patched at read time in `tools/run-tests.js` (the Babylon file is untouched); Background recolour step 42.26 dB | C |
+| 8 | A Cylinder with `top` or `bottom` FALSE still drew its caps: the TwoSidedMaterial fixture, an open tube seen from above, showed it (no blue inside). | 22.41 dB before the fix, 39.57 after | C |
+| 9 | LocalFog needs one fog per mesh and three.js has one per scene: each mesh sets `scene.fog` in `onBeforeRender` to the fog of its nearest enclosing group, and the frame puts the world fog back; fields are read at every draw. A FogCoordinate is a per-vertex attribute and a material patch: `mix(fogColor, colour, 1 - depth)`. | LocalFog 60.30 dB, identical after switching one fog off and narrowing another; FogCoordinate 43.55 dB before and after flipping the depths | C |
+
+Hatching (FillProperties) is a screen-space overlay mesh with a 32 x 32 mask read at the fragment position, one texel per pixel; the 19 masks are cut out of the Babylon body at bundle time, so both bridges carry one table (identical to X_ITE, 99 dB). An OrthoViewpoint swaps in an orthographic camera and takes the headlight with it (60.17 dB, and the perspective view after it 67.15 dB).
+
+Not matched: MultiTexture is composed on a 256 x 256 8-bit canvas (35.03 dB, mean error under 1 grey level on the ADD cube), TwoSidedMaterial has no ambient term (39.57 dB), set_bind between several Backgrounds is not ported, and the camera-space TextureCoordinateGenerator modes redo every vertex on the CPU when the view moves.
+
 ## 15. Geospatial and the last volume styles: a position is a point, and two engines disagree on a rotated volume
 
 Batch 45 bridged ten nodes: GeoOrigin, GeoCoordinate, GeoLocation, GeoTransform, GeoViewpoint, GeoElevationGrid, GeoPositionInterpolator, and the volume styles BlendedVolumeStyle, ComposedVolumeStyle and ProjectionVolumeStyle. Read at `x3d.loom@bfeba57` (the batch-45 pull request branch); reference engine `X_ITE 16.6.0`; rig for every number in this section: `Chromium 153.0.8010.12`, SwiftShader (no real GPU), `Babylon 9.32.0`, 320 x 240 pictures. The reasoning is in `x3d.webgpu/bridge/WHY-geospatial-batch.md`.
@@ -563,6 +585,11 @@ A plain list handed to a double field (`GeoOrigin.geoCoords`) made X_ITE draw no
 | H-BAB-34 | Read a GeoTransform as L^-1 M L, not as "children at geoCenter"; test it with a rotation about the local up. | C | default fields give the identity; box 10 m east goes to 10 m north (N-BAB-51) | `GeoTransform.test.json` |
 | H-BAB-35 | Test a lit volume style on smooth data, rotated and unrotated; a cube hides both the dim shell and the rotation error. | C | ball under Shaded: unrotated agree, rotated differ (N-BAB-53, N-BAB-54) | `_volume-smooth-lit` |
 | H-BAB-36 | Give a test-rig `set` of a double field its type; a plain list becomes NaN in X_ITE and looks like an X_ITE defect. | C | geoCoords set drew nothing until SFVec3d was built | `tools/run-tests.js` |
+| H-BAB-70 | Put a node's defaults in the fixture beside its non-default settings: render `<TextureProperties/>` as well as the NEAREST variant before reading a default's name as a behaviour. | C | FASTEST read as nearest: 28.23 dB; measured smooth: 67.60 dB | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187, TextureProperties fixture |
+| H-BAB-71 | Bracket a reference engine's threshold with inputs on both sides in one scene (4 x 4, 16 x 16 and 32 x 32 images) before writing the rule. | C | 4 x 4 hard texels, 16 and 32 smooth; the edge between 4 and 16 is not bisected | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 |
+| H-BAB-72 | Pick between blend orders by region means as well as frame dB: one cube of three told the placements apart. | C | ADD cube red mean 181.1, 226.2, 214.1 against 214.9; frame dB 28.15, 27.84, 35.03 | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187, MultiTexture fixture |
+| H-BAB-73 | Test a background or cube map from every direction with an asymmetric marker on each face, so a turned or mirrored face cannot pass. | C | six faces identical on the first run with a white bottom-left and black top-right pixel | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187, TextureBackground fixture |
+| H-BAB-74 | Make sure a `set` step changes the reference engine's picture too: a harness conversion gap looks like an engine difference. | C | MFColor `set` drew X_ITE black until the runner converted it | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187, `tools/run-tests.js` |
 
 ## Drills
 
@@ -681,6 +708,20 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 - **Answer:** 70.35, so 70. The linear ramp from 0 to 204 between two voxel centres is 14 slices long; its alpha is already opaque before the full 204 is reached, so the pixel is the colour of the ramp, not the block. With nearest filtering (8 voxels) there is no ramp and the pixel is 204.
 - **Checked:** 2026-11-15 python3 -I (70.35); the rig gives 70 in both engines
 
+### D-BAB-70 Make FASTEST mean nearest and predict which box moves
+- **Level:** L2
+- **Task:** In `x3d.threejs/bridge/src/body-three.js`, in `texProps`, change `mag === 'NEAREST_PIXEL'` to `mag === 'NEAREST_PIXEL' || mag === 'FASTEST'`, run the TextureProperties fixture and predict which of its seven shapes changes before you look.
+- **Verify:** `NODE_PATH=/opt/node22/lib/node_modules node tools/run-tests.js --shots /tmp/shots TextureProperties` from `x3d.threejs/bridge`, with X_ITE 16.6.0 and three.js r187 in place; restore the line afterwards.
+- **Answer:** only the box whose texture has `<TextureProperties/>` with every field at its default goes hard-edged (its magnification is FASTEST); the silhouettes do not move (IoU 1.00) and the picture falls from 67.60 dB (mad 0.01) to 28.23 dB (mad 1.27), because X_ITE draws that box smooth.
+- **Checked:** 2026-11-15 `x3d.loom@72a4bca`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187
+
+### D-BAB-71 Stop the ground at its last groundAngle
+- **Level:** L3
+- **Task:** In `x3d.threejs/bridge/src/nodes/Background.js` delete the line that adds a stop at the horizon (`if (stops[0][0] > Math.PI / 2) stops.unshift(...)`), run the Background fixture and predict which of its three views get worse before you look.
+- **Verify:** `NODE_PATH=/opt/node22/lib/node_modules node tools/run-tests.js --shots /tmp/shots Background` from `x3d.threejs/bridge`; restore the line afterwards.
+- **Answer:** only the level view: the ground (last groundAngle 1.4 of a possible 1.5708) ends 0.17 radian below the horizon with a curved edge, so the picture has mad 36.07 (9.75 dB) against 0.28 (53.61 dB); the up view (48.04 dB) and the down view (52.79 dB) do not show the horizon and do not move.
+- **Checked:** 2026-11-15 `x3d.loom@72a4bca`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187
+
 ## Honest limits
 
 - **Software GL only, Chromium only [C].** Every pixel number is SwiftShader in Chrome for Testing 153.0.8010.12; no real GPU, Firefox or Safari. Babylon 9.32.0 is a snapshot; 9.33.0 to 9.35.0 (per the primer) were not run [L].
@@ -690,7 +731,7 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 - **Behaviour was never compared [L].** No event traces, pointer tapes or audio pass; fixtures compare ROUTE chains in two engines, not whole pages. The noise floor of X_ITE against itself (TBD-13) is unmeasured, so no dB threshold here is a standard.
 - **Carried, not re-checked [S]:** law-40 coverage by page, the Gobbler review defect, all effort figures in `PATHS.md` and `BABYLON.md` (person-weeks are guesses), the 1,396 `gl.*` call sites. Private run logs, device owners' details and unpublished material are left out on purpose.
 - **NURBS section read at the batch-44 branch, not main [L]:** `x3d.loom@4887a98` carried the pull request when written; counts are from the batch run of 2026-11-14 (our reader and X_ITE 16.6.0 on SwiftShader). Not covered: real GPU timing, GeoCoordinate control points, NurbsTextureCoordinate, trimming, picking of NURBS lines. The chord reading of the Extrusion Y axis is Likely: read from memory of 19775-1, not re-checked against the text.
-- **The three.js bridge is 45 scene fixtures, not a port [L].** 53 of 260 nodes are drawn; MultiTexture, movie and cube-map textures, Text, Inline, picking and pointer sensors are not, `global=FALSE` light scope is not implemented, and 32 Babylon fixtures that probe `__body` internals run here for their pictures only. All pixel numbers are SwiftShader at 320 x 240; no timing, no real GPU, no WebGPU renderer. The person-day figures in `ESTIMATE.md` are guesses [S]; the item list of what three.js gives and lacks is read from its documentation, not run [L].
+- **The three.js bridge is 58 scene fixtures, not a port [L].** 65 of 260 nodes are drawn; movie and cube-map textures, Text, Inline, shaders, layering, picking and pointer sensors are not, `global=FALSE` light scope is not implemented, and 32 Babylon fixtures that probe `__body` internals run here for their pictures only. All pixel numbers are SwiftShader at 320 x 240; no timing, no real GPU, no WebGPU renderer. The person-day figures in `ESTIMATE.md` are guesses [S]; the item list of what three.js gives and lacks is read from its documentation, not run [L].
 - **Geospatial section read at the batch-45 branch, not main [L]:** counts are from the batch run of 2026-11-15 on SwiftShader; geocentric (no GeoOrigin) pictures are not made (32 bit world matrix), GeoViewpoint navigation is computed, not wired, and WM, the angle unit and the geoid are not implemented in X_ITE 16.6.0 or the bridge. The rotated-volume error of X_ITE is observed on one Gaussian ball and its cause is not isolated [S].
 
 ## Numbers register
@@ -756,6 +797,16 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 | N-BAB-57 | ProjectionVolumeStyle AVERAGE of a uniform grey 204 volume | 38 | C | both engines | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/ProjectionVolumeStyle.test.json |
 | N-BAB-58 | BlendedVolumeStyle defaults, voxels 204 and 102 | 153 (ALPHA0: 215, ONE_MINUS_ALPHA0: 91) | C | both engines | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/BlendedVolumeStyle.test.json |
 | N-BAB-59 | batch 45 fixture steps passed (ours / X_ITE) | Geo 305 and 300; Blended 63 and 53, Composed 17 and 17, Projection 32 and 32 | C | `run-tests.js` | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures |
+| N-BAB-70 | three.js bridge status, batch 3 | drawn 65, reader-checked 29, reader 45, todo 93, upstream 28 | C | `driver.py status` | x3d.loom@72a4bca:x3d.threejs/bridge/NODES.json |
+| N-BAB-71 | all compared pictures after batch 3 | 86 pictures; IoU 0.90 to 1.00; PSNR 25.32 to 80.17 dB over 62 that differ, median 50.23; 24 at 99 dB (identical or empty frames) | C | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 | x3d.loom@72a4bca:x3d.threejs/bridge/receipts/*.json |
+| N-BAB-72 | pictures new in batch 3 | 25 pictures over 13 fixtures; 10 pixel-identical; the other 15 at 35.03 to 67.60 dB, median 48.04; IoU 0.98 to 1.00 | C | same rig | same receipts |
+| N-BAB-73 | TextureProperties fixture, FASTEST read as nearest against measured smooth | 28.23 dB (mad 1.27) against 67.60 dB (mad 0.01) | C | same rig | fixtures/TextureProperties.x3d, receipts/TextureProperties.json |
+| N-BAB-74 | a 4 x 4 texture on a box, smooth against hard texels | 18.80 dB against 64.50 dB | C | same rig | TextureProperties fixture, first version |
+| N-BAB-75 | LineProperties, thin lines against screen-space quads | IoU 0.63 (689 against 1051 foreground pixels) against 0.98 and 47.71 dB (1069) | C | same rig | receipts/LineProperties.json |
+| N-BAB-76 | MultiTexture ADD placements | frame 28.15 (canvas sum), 27.84 (after the light), 35.03 dB (before the light, unclipped); ADD cube mean red 181.1, 226.2, 214.1 against 214.9 | C | same rig | receipts/MultiTexture.json |
+| N-BAB-77 | Background level view, ground stopping at the last groundAngle against held to the horizon | mad 36.07 (9.75 dB) against 0.28 (53.61 dB) | C | same rig | receipts/Background.json |
+| N-BAB-78 | TwoSidedMaterial on an open cylinder, caps always drawn against honoured | 22.41 dB against 39.57 dB | C | same rig | receipts/TwoSidedMaterial.json |
+| N-BAB-79 | LocalFog and FogCoordinate | 60.30 dB and 99 dB after two field events; FogCoordinate 43.55 dB twice | C | same rig | receipts/LocalFog.json, receipts/FogCoordinate.json |
 
 ## Sources and provenance
 
@@ -765,5 +816,6 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 - `x3d.loom@108a282` (scaffold, read and run 2026-11-14): `x3d.threejs/bridge/{README.md,ESTIMATE.md,src/body-three.js,tools/*,fixtures/*,receipts/*,NODES.json}`; the Babylon files it reads at bundle time are those of `x3d.loom@ed1bed8`.
 - `x3d.loom@95eda37` (batch 1, read and run 2026-11-14): `x3d.threejs/bridge/{src/body-three.js,fixtures/{PointLight,PointLightAttenuation,SpotLight,Fog,PixelTexture,ImageTexture,TextureTransform,TexturedPrimitives}.*,receipts/*}`; X_ITE formulas read in `x_ite.js` 16.6.0 (`Fog2.glsl`, `TextureTransform`, `QuadSphereOptions`, `CylinderOptions`).
 - `x3d.loom@38530ab` (batch 2, read and run 2026-11-14): `x3d.threejs/bridge/{src/body-three.js,src/nodes/Geometry.js,tools/tooling.test.js,fixtures/*,receipts/*}`; X_ITE 16.6.0 read for the ElevationGrid and line behaviour only through renders.
+- `x3d.loom@72a4bca` (batch 3, read and run 2026-11-15): `x3d.threejs/bridge/{src/body-three.js,src/nodes/{Textures,Fog,Background}.js,tools/{bundle.js,run-tests.js,tooling.test.js},fixtures/*,receipts/*}`; X_ITE 16.6.0 read for nothing new (every rule here is a measurement against it); the MFColor converter patch is in `tools/run-tests.js`.
 - Private-source gap: a private primer of 8 November and private notes on each port were pointers only. Figures here were re-derived from the repository or read from a named receipt; the rest are graded [S] or [L] and labelled carried. No private document, link, identifier or chat wording is reproduced.
 - Siblings: [01](01-the-tether.md), [03](03-validator-and-gates.md), [04](04-mcp-for-agents.md), [07](07-xray.md), [09](09-castle-engine.md), [11](11-gltf-usd-khronos.md), [13](13-physics.md).

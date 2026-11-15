@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**208 heuristics.** Grades: [C] 163 · [L] 38 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**213 heuristics.** Grades: [C] 168 · [L] 38 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -130,6 +130,11 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-BAB-34 | [08](08-babylon-bridge.md) | Read a GeoTransform as L^-1 M L, not as "children at geoCenter"; test it with a rotation about the local up. | C | default fields give the identity; box 10 m east goes to 10 m north (N-BAB-51) | `GeoTransform.test.json` |
 | H-BAB-35 | [08](08-babylon-bridge.md) | Test a lit volume style on smooth data, rotated and unrotated; a cube hides both the dim shell and the rotation error. | C | ball under Shaded: unrotated agree, rotated differ (N-BAB-53, N-BAB-54) | `_volume-smooth-lit` |
 | H-BAB-36 | [08](08-babylon-bridge.md) | Give a test-rig `set` of a double field its type; a plain list becomes NaN in X_ITE and looks like an X_ITE defect. | C | geoCoords set drew nothing until SFVec3d was built | `tools/run-tests.js` |
+| H-BAB-70 | [08](08-babylon-bridge.md) | Put a node's defaults in the fixture beside its non-default settings: render `<TextureProperties/>` as well as the NEAREST variant before reading a default's name as a behaviour. | C | FASTEST read as nearest: 28.23 dB; measured smooth: 67.60 dB | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187, TextureProperties fixture |
+| H-BAB-71 | [08](08-babylon-bridge.md) | Bracket a reference engine's threshold with inputs on both sides in one scene (4 x 4, 16 x 16 and 32 x 32 images) before writing the rule. | C | 4 x 4 hard texels, 16 and 32 smooth; the edge between 4 and 16 is not bisected | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 |
+| H-BAB-72 | [08](08-babylon-bridge.md) | Pick between blend orders by region means as well as frame dB: one cube of three told the placements apart. | C | ADD cube red mean 181.1, 226.2, 214.1 against 214.9; frame dB 28.15, 27.84, 35.03 | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187, MultiTexture fixture |
+| H-BAB-73 | [08](08-babylon-bridge.md) | Test a background or cube map from every direction with an asymmetric marker on each face, so a turned or mirrored face cannot pass. | C | six faces identical on the first run with a white bottom-left and black top-right pixel | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187, TextureBackground fixture |
+| H-BAB-74 | [08](08-babylon-bridge.md) | Make sure a `set` step changes the reference engine's picture too: a harness conversion gap looks like an engine difference. | C | MFColor `set` drew X_ITE black until the runner converted it | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187, `tools/run-tests.js` |
 | H-CAS-1 | [09](09-castle-engine.md) | Judge a Castle load by its warnings and a shape census against the declared count; never by "it loaded" or an exit code. | C | classic reader warns once and skips the rest of the file | `castle-engine@48ce617:x3dnodes_encoding_classic.inc:569-573` |
 | H-CAS-2 | [09](09-castle-engine.md) | Quote node coverage by rung and definition (registered, parse-only, name present in a peer, behaves); never a bare "98 of 328". | C | 99 registrations, 98 concrete, five denominators in circulation | `castle-engine@48ce617`; `x_ite@16.7.1` dist |
 | H-CAS-3 | [09](09-castle-engine.md) | Treat name presence in a peer as the weakest rung; do not turn 97 of 99 into "X_ITE implements them". | C | the scan reads class names, not behaviour | `x_ite@16.7.1` dist |
