@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**117 drills**, 107 with a recorded run (`Checked`), 10 not yet run. Levels: L1 19, L2 61, L3 37.
+**118 drills**, 108 with a recorded run (`Checked`), 10 not yet run. Levels: L1 19, L2 62, L3 37.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -77,6 +77,7 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-BAB-71 | [08](08-babylon-bridge.md) | L3 | Stop the ground at its last groundAngle | 2026-11-15 `x3d.loom@72a4bca`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 |
 | D-BAB-72 | [08](08-babylon-bridge.md) | L2 | Leave the `#version` line in a ComposedShader | 2026-11-15 `x3d.loom@1192dd4`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 |
 | D-BAB-73 | [08](08-babylon-bridge.md) | L3 | Transpose the matrix of a GeoLocation | 2026-11-15 `x3d.loom@1192dd4`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 |
+| D-BAB-74 | [08](08-babylon-bridge.md) | L2 | How much of a patch does a ring keep | 2026-11-15 python3 -I (0.4487) |
 | D-CAS-1 | [09](09-castle-engine.md) | L2 | Count the parse-only nodes and name the denominator | 2026-11-14 `castle-engine@48ce617`, Python 3.13.18 |
 | D-CAS-2 | [09](09-castle-engine.md) | L2 | Count loaders and savers without trusting a number | 2026-11-14 `castle-engine@48ce617`, Python 3.13.18 |
 | D-CAS-3 | [09](09-castle-engine.md) | L2 | Re-derive the headline FLIP and what it hides | 2026-11-14 `x3d.castle@d70e00c` receipt, Python 3.13.18 |
