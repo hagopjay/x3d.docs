@@ -20,7 +20,7 @@ blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;backgr
 details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
 .foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a class="cur" href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="08-babylon-bridge.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/08-babylon-bridge.md">GitHub</a></div><h1>08. The Babylon bridge</h1>
-<details class="toc"><summary>On this page (52 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-why-a-second-renderer-and-why-the-file-stays-the-master">2. Why: a second renderer, and why the file stays the master</a><a class="l2" href="#3-architecture-the-reader-is-the-brain-babylon-is-the-body">3. Architecture: the reader is the brain, Babylon is the body</a><a class="l2" href="#4-node-coverage-recounted-at-x3dloom162ab18">4. Node coverage, recounted at x3d.loom@162ab18</a><a class="l3" href="#41-volume-rendering-ten-nodes-one-lattice-x3dloom-batch-43">4.1 Volume rendering: ten nodes, one lattice (x3d.loom batch 43)</a><a class="l2" href="#5-the-playbook-merged-50-traps-ranked">5. The playbook, merged: 50 traps, ranked</a><a class="l2" href="#6-the-parity-method-psnr-against-x_ite-on-a-software-gpu">6. The parity method: PSNR against X_ITE on a software GPU</a><a class="l2" href="#7-the-ports-and-what-each-taught">7. The ports and what each taught</a><a class="l2" href="#8-a-look-may-add-never-assert-a-fallback-must-say-so">8. A look may add, never assert; a fallback must say so</a><a class="l2" href="#9-shader-porting-hash-keyed-glsl-to-hand-written-wgsl">9. Shader porting: hash-keyed GLSL to hand-written WGSL</a><a class="l2" href="#10-the-adapter-and-blocklist-trap">10. The adapter and blocklist trap</a><a class="l2" href="#11-porting-a-new-demo-sixteen-steps-append-only">11. Porting a new demo: sixteen steps, append-only</a><a class="l2" href="#12-no-speed-claim-exists-and-what-one-would-take">12. No speed claim exists, and what one would take</a><a class="l2" href="#13-nurbs-in-the-bridge-shared-maths-x_ites-tessellation-rule-and-where-x_ite-is-wrong">13. NURBS in the bridge: shared maths, X_ITE&#x27;s tessellation rule, and where X_ITE is wrong</a><a class="l3" href="#131-what-was-built-and-why-it-is-one-library">13.1 What was built and why it is one library</a><a class="l3" href="#132-the-tessellation-rule-is-x_ites-on-purpose-the-maths-is-the-standards">13.2 The tessellation rule is X_ITE&#x27;s on purpose; the maths is the standard&#x27;s</a><a class="l3" href="#133-where-x_ite-1660-is-wrong-and-where-it-is-only-different">13.3 Where X_ITE 16.6.0 is wrong, and where it is only different</a><a class="l3" href="#134-two-schema-findings-and-one-test-rig-trap">13.4 Two schema findings and one test-rig trap</a><a class="l2" href="#14-a-second-body-the-reader-on-threejs">14. A second body: the reader on three.js</a><a class="l3" href="#141-why-this-is-easy-and-what-is-not">14.1 Why this is easy, and what is not</a><a class="l3" href="#142-what-the-first-run-taught">14.2 What the first run taught</a><a class="l3" href="#143-x_ite-lighting-is-a-target-not-a-rule">14.3 X_ITE lighting is a target, not a rule</a><a class="l3" href="#144-batch-1-lights-fog-textures-and-how-x_ites-formulas-were-found">14.4 Batch 1: lights, fog, textures, and how X_ITE&#x27;s formulas were found</a><a class="l3" href="#145-batch-2-geometry-sets-lines-points-billboard-lod-and-clipplane">14.5 Batch 2: geometry sets, lines, points, Billboard, LOD and ClipPlane</a><a class="l3" href="#146-batch-3-textures-fog-background-and-the-camera">14.6 Batch 3: textures, fog, background and the camera</a><a class="l2" href="#15-geospatial-and-the-last-volume-styles-a-position-is-a-point-and-two-engines-disagree-on-a-rotated-volume">15. Geospatial and the last volume styles: a position is a point, and two engines disagree on a rotated volume</a><a class="l3" href="#151-the-earth-is-the-scene-and-float32-cannot-hold-it">15.1 The earth is the scene, and float32 cannot hold it</a><a class="l3" href="#152-geotransform-does-not-move-its-children-to-the-centre">15.2 GeoTransform does not move its children to the centre</a><a class="l3" href="#153-a-great-circle-with-a-linear-radius">15.3 A great circle with a linear radius</a><a class="l3" href="#154-three-volume-styles-three-surprises">15.4 Three volume styles, three surprises</a><a class="l3" href="#155-smooth-volumes-dim-shells-and-a-rotated-volume-x_ite-lights-wrongly">15.5 Smooth volumes: dim shells, and a rotated volume X_ITE lights wrongly</a><a class="l3" href="#156-two-test-rig-slips">15.6 Two test-rig slips</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-bab-1-recount-the-bridges-coverage">D-BAB-1 Recount the bridge&#x27;s coverage</a><a class="l3" href="#d-bab-2-re-derive-the-primers-68">D-BAB-2 Re-derive the primer&#x27;s 68</a><a class="l3" href="#d-bab-3-break-a-shader-key-then-predict-which-half-moves">D-BAB-3 Break a shader key, then predict which half moves</a><a class="l3" href="#d-bab-4-move-a-psnr-by-changing-its-window">D-BAB-4 Move a PSNR by changing its window</a><a class="l3" href="#d-bab-5-census-a-corpus-before-you-promise-a-port">D-BAB-5 Census a corpus before you promise a port</a><a class="l3" href="#d-bab-9-opacity-of-a-stack-of-slices">D-BAB-9 Opacity of a stack of slices</a><a class="l3" href="#d-bab-6-check-the-weights-radius-100-not-124">D-BAB-6 Check the weights: radius 1.00, not 1.24</a><a class="l3" href="#d-bab-7-re-run-one-nurbs-node-against-x_ite">D-BAB-7 Re-run one NURBS node against X_ITE</a><a class="l3" href="#d-bab-8-predict-a-sets-triangle-counts">D-BAB-8 Predict a set&#x27;s triangle counts</a><a class="l3" href="#d-bab-10-break-the-first-viewpoint-rule-and-read-the-picture">D-BAB-10 Break the first-Viewpoint rule and read the picture</a><a class="l3" href="#d-bab-11-swap-the-elevationgrid-diagonal-and-predict-the-number">D-BAB-11 Swap the ElevationGrid diagonal and predict the number</a><a class="l3" href="#d-bab-12-midpoint-of-latitude-0-to-latitude-60">D-BAB-12 Midpoint of latitude 0 to latitude 60</a><a class="l3" href="#d-bab-13-why-a-block-of-204-draws-70">D-BAB-13 Why a block of 204 draws 70</a><a class="l3" href="#d-bab-70-make-fastest-mean-nearest-and-predict-which-box-moves">D-BAB-70 Make FASTEST mean nearest and predict which box moves</a><a class="l3" href="#d-bab-71-stop-the-ground-at-its-last-groundangle">D-BAB-71 Stop the ground at its last groundAngle</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<details class="toc"><summary>On this page (67 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-why-a-second-renderer-and-why-the-file-stays-the-master">2. Why: a second renderer, and why the file stays the master</a><a class="l2" href="#3-architecture-the-reader-is-the-brain-babylon-is-the-body">3. Architecture: the reader is the brain, Babylon is the body</a><a class="l2" href="#4-node-coverage-recounted-at-x3dloom162ab18">4. Node coverage, recounted at x3d.loom@162ab18</a><a class="l3" href="#41-volume-rendering-ten-nodes-one-lattice-x3dloom-batch-43">4.1 Volume rendering: ten nodes, one lattice (x3d.loom batch 43)</a><a class="l2" href="#5-the-playbook-merged-50-traps-ranked">5. The playbook, merged: 50 traps, ranked</a><a class="l2" href="#6-the-parity-method-psnr-against-x_ite-on-a-software-gpu">6. The parity method: PSNR against X_ITE on a software GPU</a><a class="l2" href="#7-the-ports-and-what-each-taught">7. The ports and what each taught</a><a class="l2" href="#8-a-look-may-add-never-assert-a-fallback-must-say-so">8. A look may add, never assert; a fallback must say so</a><a class="l2" href="#9-shader-porting-hash-keyed-glsl-to-hand-written-wgsl">9. Shader porting: hash-keyed GLSL to hand-written WGSL</a><a class="l2" href="#10-the-adapter-and-blocklist-trap">10. The adapter and blocklist trap</a><a class="l2" href="#11-porting-a-new-demo-sixteen-steps-append-only">11. Porting a new demo: sixteen steps, append-only</a><a class="l2" href="#12-no-speed-claim-exists-and-what-one-would-take">12. No speed claim exists, and what one would take</a><a class="l2" href="#13-nurbs-in-the-bridge-shared-maths-x_ites-tessellation-rule-and-where-x_ite-is-wrong">13. NURBS in the bridge: shared maths, X_ITE&#x27;s tessellation rule, and where X_ITE is wrong</a><a class="l3" href="#131-what-was-built-and-why-it-is-one-library">13.1 What was built and why it is one library</a><a class="l3" href="#132-the-tessellation-rule-is-x_ites-on-purpose-the-maths-is-the-standards">13.2 The tessellation rule is X_ITE&#x27;s on purpose; the maths is the standard&#x27;s</a><a class="l3" href="#133-where-x_ite-1660-is-wrong-and-where-it-is-only-different">13.3 Where X_ITE 16.6.0 is wrong, and where it is only different</a><a class="l3" href="#134-two-schema-findings-and-one-test-rig-trap">13.4 Two schema findings and one test-rig trap</a><a class="l2" href="#14-a-second-body-the-reader-on-threejs">14. A second body: the reader on three.js</a><a class="l3" href="#141-why-this-is-easy-and-what-is-not">14.1 Why this is easy, and what is not</a><a class="l3" href="#142-what-the-first-run-taught">14.2 What the first run taught</a><a class="l3" href="#143-x_ite-lighting-is-a-target-not-a-rule">14.3 X_ITE lighting is a target, not a rule</a><a class="l3" href="#144-batch-1-lights-fog-textures-and-how-x_ites-formulas-were-found">14.4 Batch 1: lights, fog, textures, and how X_ITE&#x27;s formulas were found</a><a class="l3" href="#145-batch-2-geometry-sets-lines-points-billboard-lod-and-clipplane">14.5 Batch 2: geometry sets, lines, points, Billboard, LOD and ClipPlane</a><a class="l3" href="#146-batch-3-textures-fog-background-and-the-camera">14.6 Batch 3: textures, fog, background and the camera</a><a class="l3" href="#147-batch-4-cube-maps-the-pointer-layer-composedshader-inline-and-text">14.7 Batch 4: cube maps, the pointer layer, ComposedShader, Inline and Text</a><a class="l3" href="#148-batch-5-cad-geospatial-and-what-a-review-of-batch-4-found-on-paths-no-picture-drives">14.8 Batch 5: CAD, geospatial, and what a review of batch 4 found on paths no picture drives</a><a class="l2" href="#15-geospatial-and-the-last-volume-styles-a-position-is-a-point-and-two-engines-disagree-on-a-rotated-volume">15. Geospatial and the last volume styles: a position is a point, and two engines disagree on a rotated volume</a><a class="l3" href="#151-the-earth-is-the-scene-and-float32-cannot-hold-it">15.1 The earth is the scene, and float32 cannot hold it</a><a class="l3" href="#152-geotransform-does-not-move-its-children-to-the-centre">15.2 GeoTransform does not move its children to the centre</a><a class="l3" href="#153-a-great-circle-with-a-linear-radius">15.3 A great circle with a linear radius</a><a class="l3" href="#154-three-volume-styles-three-surprises">15.4 Three volume styles, three surprises</a><a class="l3" href="#155-smooth-volumes-dim-shells-and-a-rotated-volume-x_ite-lights-wrongly">15.5 Smooth volumes: dim shells, and a rotated volume X_ITE lights wrongly</a><a class="l3" href="#156-two-test-rig-slips">15.6 Two test-rig slips</a><a class="l2" href="#16-batch-46-the-rest-of-the-geospatial-group-and-six-nodes-that-do-nothing-on-purpose">16. Batch 46: the rest of the geospatial group, and six nodes that do nothing on purpose</a><a class="l3" href="#161-geolod-has-one-range-and-two-levels">16.1 GeoLOD has one range and two levels</a><a class="l3" href="#162-the-geographic-coordinate-of-a-touch-is-the-geographic-reading-of-a-local-point">16.2 The geographic coordinate of a touch is the geographic reading of a LOCAL point</a><a class="l3" href="#163-a-proximity-sensor-that-reports-where-the-viewer-is-and-a-geocenter-that-is-not-a-coordinate">16.3 A proximity sensor that reports where the viewer is, and a geoCenter that is not a coordinate</a><a class="l3" href="#164-six-nodes-that-store-their-fields-and-do-nothing">16.4 Six nodes that store their fields and do nothing</a><a class="l3" href="#165-one-fix-outside-the-batch-an-inputoutput-set-is-one-event">16.5 One fix outside the batch: an inputOutput set is one event</a><a class="l2" href="#17-batch-47-a-sensor-that-reads-the-worlds-contacts-a-list-and-a-data-node">17. Batch 47: a sensor that reads the world&#x27;s contacts, a list, and a data node</a><a class="l3" href="#171-collisionsensor-does-not-detect-anything">17.1 CollisionSensor does not detect anything</a><a class="l3" href="#172-collisionspace-is-a-list-and-contact-is-a-pool">17.2 CollisionSpace is a list, and Contact is a pool</a><a class="l3" href="#173-what-can-be-asserted-and-what-is-a-lottery">17.3 What can be asserted, and what is a lottery</a><a class="l3" href="#174-one-trap-in-the-sweep">17.4 One trap in the sweep</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-bab-1-recount-the-bridges-coverage">D-BAB-1 Recount the bridge&#x27;s coverage</a><a class="l3" href="#d-bab-2-re-derive-the-primers-68">D-BAB-2 Re-derive the primer&#x27;s 68</a><a class="l3" href="#d-bab-3-break-a-shader-key-then-predict-which-half-moves">D-BAB-3 Break a shader key, then predict which half moves</a><a class="l3" href="#d-bab-4-move-a-psnr-by-changing-its-window">D-BAB-4 Move a PSNR by changing its window</a><a class="l3" href="#d-bab-5-census-a-corpus-before-you-promise-a-port">D-BAB-5 Census a corpus before you promise a port</a><a class="l3" href="#d-bab-9-opacity-of-a-stack-of-slices">D-BAB-9 Opacity of a stack of slices</a><a class="l3" href="#d-bab-6-check-the-weights-radius-100-not-124">D-BAB-6 Check the weights: radius 1.00, not 1.24</a><a class="l3" href="#d-bab-7-re-run-one-nurbs-node-against-x_ite">D-BAB-7 Re-run one NURBS node against X_ITE</a><a class="l3" href="#d-bab-8-predict-a-sets-triangle-counts">D-BAB-8 Predict a set&#x27;s triangle counts</a><a class="l3" href="#d-bab-10-break-the-first-viewpoint-rule-and-read-the-picture">D-BAB-10 Break the first-Viewpoint rule and read the picture</a><a class="l3" href="#d-bab-11-swap-the-elevationgrid-diagonal-and-predict-the-number">D-BAB-11 Swap the ElevationGrid diagonal and predict the number</a><a class="l3" href="#d-bab-12-midpoint-of-latitude-0-to-latitude-60">D-BAB-12 Midpoint of latitude 0 to latitude 60</a><a class="l3" href="#d-bab-13-why-a-block-of-204-draws-70">D-BAB-13 Why a block of 204 draws 70</a><a class="l3" href="#d-bab-70-make-fastest-mean-nearest-and-predict-which-box-moves">D-BAB-70 Make FASTEST mean nearest and predict which box moves</a><a class="l3" href="#d-bab-71-stop-the-ground-at-its-last-groundangle">D-BAB-71 Stop the ground at its last groundAngle</a><a class="l3" href="#d-bab-72-leave-the-version-line-in-a-composedshader">D-BAB-72 Leave the #version line in a ComposedShader</a><a class="l3" href="#d-bab-73-transpose-the-matrix-of-a-geolocation">D-BAB-73 Transpose the matrix of a GeoLocation</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
 <blockquote>
 <p><strong>Say it:</strong> one X3D file is the master, our own reader runs its events, and Babylon on WebGPU only paints the result; every picture is a claim against X_ITE on a named rig, every fallback says so on screen, and nothing about speed has been measured. <strong><span class="g C" title="Confirmed">C</span></strong></p>
 </blockquote>
@@ -1572,6 +1572,135 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </table>
 <p>Hatching (FillProperties) is a screen-space overlay mesh with a 32 x 32 mask read at the fragment position, one texel per pixel; the 19 masks are cut out of the Babylon body at bundle time, so both bridges carry one table (identical to X_ITE, 99 dB). An OrthoViewpoint swaps in an orthographic camera and takes the headlight with it (60.17 dB, and the perspective view after it 67.15 dB).</p>
 <p>Not matched: MultiTexture is composed on a 256 x 256 8-bit canvas (35.03 dB, mean error under 1 grey level on the ADD cube), TwoSidedMaterial has no ambient term (39.57 dB), set_bind between several Backgrounds is not ported, and the camera-space TextureCoordinateGenerator modes redo every vertex on the CPU when the view moves.</p>
+<h3 id="147-batch-4-cube-maps-the-pointer-layer-composedshader-inline-and-text">14.7 Batch 4: cube maps, the pointer layer, ComposedShader, Inline and Text</h3>
+<p>Batch 4 (<code>x3d.loom@a6e3d31</code>, merged as pull request #69 at <code>7f6496b</code>, read and run 2026-11-15) drew 16 more nodes from 17 fixtures: ImageCubeMapTexture, ComposedCubeMapTexture, GeneratedCubeMapTexture, ComposedShader, Text and FontStyle, Inline, TouchSensor, PlaneSensor, SphereSensor, CylinderSensor, KeySensor, StringSensor, VisibilitySensor and TransformSensor. The pictures: ImageCubeMapTexture IoU 1.00 at 31.45 and 31.98 dB, ComposedCubeMapTexture 1.00 at 29.12 dB, GeneratedCubeMapTexture 0.94 and 0.98 at 34.03 dB, ComposedShader 1.00 at 40.47 and 39.75 dB, Inline 1.00 at 55.83 and 52.54 dB, Text 0.65 at 19.21 dB [C, <code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, three.js r187, <code>receipts/</code>]. What each one taught, in the order it happened:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>what</th>
+<th>result</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>X_ITE draws a cube map only through a TextureCoordinateGenerator: the same box without one is not a mirror. The mode is camera-space reflection, so the cube turns with the camera. The first fixture had no generator and read as a bug in the bridge.</td>
+<td>magenta and blue split before the generator was restored; both engines then agree at IoU 1.00</td>
+<td>C</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Faces: a cross image and a ComposedCubeMapTexture are drawn unturned on their faces, and a 2:1 panorama has its middle at +Z running toward +X. The first panorama used the longitude <code>atan2(dx, -dz)</code> and was a quarter turn off.</td>
+<td><code>atan2(dx, dz)</code> matched; IoU 1.00</td>
+<td>C</td>
+</tr>
+<tr>
+<td>3</td>
+<td>A GeneratedCubeMapTexture is looked up in the camera frame, not the world frame (no camera-to-world turn), and needs no mipmaps: with mipmaps and linear filtering its borders were blurred against X_ITE's.</td>
+<td>main 0.94, turned 0.98; 34.03 dB both</td>
+<td>C</td>
+</tr>
+<tr>
+<td>4</td>
+<td>X_ITE hands the ShaderPart sources of a ComposedShader to the compiler as written, as GLSL ES 3.00 (the author writes <code>#version 300 es</code>) and adds three defines. A CDATA ShaderPart loses its line breaks in X_ITE, so the fixture uses <code>data:</code> urls.</td>
+<td>the shader draws in both engines at 40.47 dB</td>
+<td>C</td>
+</tr>
+<tr>
+<td>5</td>
+<td>three.js <code>RawShaderMaterial</code> puts its own <code>#define</code> lines before the source, and a <code>#version</code> line may not follow them. The author's <code>#version 300 es</code> line has to come out and <code>glslVersion</code> has to carry it. Without that the program does not compile and the Shape falls back to its Material.</td>
+<td>with the line left in, the pictures are empty (IoU 0, D-BAB-72)</td>
+<td>C</td>
+</tr>
+<tr>
+<td>6</td>
+<td>TouchSensor follows 19775-1 20.4.3 as X_ITE does: isOver on entering the shape, the hit outputs while over, isActive TRUE on the press, FALSE on the release, touchTime on a release still over the shape. A press on a drag sensor takes the pointer from the view; a press on a TouchSensor does not.</td>
+<td>34 of 34 steps in both engines</td>
+<td>C</td>
+</tr>
+<tr>
+<td>7</td>
+<td>X_ITE keeps a VisibilitySensor with <code>size 0 0 0</code> active. The spec says it is off; the fixture marks the step <code>xiteDisagrees</code> and asserts the specified value on our side.</td>
+<td>recorded as a departure, not copied</td>
+<td>C</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Text is a glyph atlas drawn on one quad per line, laid out with the reader's fields (justify on the ink box, <code>length</code>, <code>maxExtent</code>, <code>spacing</code>) and the Droid Serif, PT Sans and Ubuntu Mono files X_ITE ships. The boxes match X_ITE to the pixel; the letters do not, because the browser's rasteriser and X_ITE's own glyph renderer draw different outlines.</td>
+<td>IoU 0.65, 19.21 dB: the lowest number in the table, kept in the table</td>
+<td>C</td>
+</tr>
+</tbody>
+</table>
+<p>Inline fetches the file (gunzip when the first two bytes are 1f 8b), parses it with the SAI shim, and builds the roots under its own group. A relative url is read against the page and a url inside the Inline file against the main file (a gap at batch 4; section 14.8 closes the first half of it).</p>
+<p>Not matched at batch 4: vertical and right-to-left Text, a texture on a Text, the geometry, tessellation and compute shader stages, ShaderPart urls that need a fetch, and the pick sensors (the shared <code>BR.pick</code> walks Babylon meshes and needs an adapter).</p>
+<h3 id="148-batch-5-cad-geospatial-and-what-a-review-of-batch-4-found-on-paths-no-picture-drives">14.8 Batch 5: CAD, geospatial, and what a review of batch 4 found on paths no picture drives</h3>
+<p>Batch 5 (<code>x3d.loom@1192dd4</code>, pull request #70, read and run 2026-11-15) draws CADAssembly, CADLayer, CADPart and CADFace (a Group, a Group with a Transform's fields, and a face that holds one shape: IoU 0.99, 51.21 to 54.88 dB over four pictures), GeoLocation and GeoTransform (one 64-bit matrix each: the 16 numbers of the row-vector matrix are the 16 numbers of a column-major three.js matrix, and <code>Matrix4.elements</code> stays JavaScript doubles until the modelView is made), GeoOrigin, GeoCoordinate, GeoViewpoint, GeoLOD, GeoTouchSensor and GeoProximitySensor, and the ViewpointGroup list. The geographic maths is the Babylon bridge's own (<code>BR.geo</code>); only the drawing half was written again. All 95 fixtures pass in both engines [C, <code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, three.js r187].</p>
+<p>Then batch 4 was reviewed (H-BAB-32): five lenses (pointer semantics, cube maps and shaders, Inline and Text, input from a hostile file, regressions in shared code), 171 agents, 83 raw findings, two skeptics for each. 69 survived: 10 high, 36 medium, 23 low. Not one of them is a picture difference; every one is on a path no fixture drove, and each is now fixed or recorded:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>path</th>
+<th>what was wrong</th>
+<th>fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>a second finger or button while a sensor is held</td>
+<td>the press cleared the held sensor, so isActive stayed TRUE and a drag never ended</td>
+<td>the second pointer is ignored while a sensor holds the first</td>
+</tr>
+<tr>
+<td>2</td>
+<td>an Inline that is DEF'd and USE'd</td>
+<td>the stale-record guard compared with the last record of the node id, so every copy but the last was dropped</td>
+<td>one record per use, a <code>dead</code> flag per record</td>
+</tr>
+<tr>
+<td>3</td>
+<td>an Inline that includes itself, or a very large file</td>
+<td>no guard: a self-including file loaded forever, a gzip bomb was unbounded</td>
+<td>depth 8, 512 loads per world, 32 MB (128 MB unzipped), the file's own url compared along the chain</td>
+</tr>
+<tr>
+<td>4</td>
+<td>a world replaced while a file is on its way</td>
+<td>the parse had already put the new TimeSensors and DEFs on the page</td>
+<td>they are taken off again; <code>clearWorld</code> also clears cube targets, glyph atlases, the texture cache and the mesh lists</td>
+</tr>
+<tr>
+<td>5</td>
+<td>a material changed on a shader mesh, or a TwoSidedMaterial with a cube map or Text</td>
+<td>the refresh threw on a <code>RawShaderMaterial</code>; the TwoSided early return skipped the cube, fog-coordinate and Text code</td>
+<td>shader meshes are skipped in the refresh; the early return is gone</td>
+</tr>
+<tr>
+<td>6</td>
+<td>author GLSL and field names</td>
+<td>a regular expression that backtracked, a <code>#version</code> scan that was quadratic, a field named <code>__proto__</code> or <code>x3d_ProjectionMatrix</code>, a pair that compiles and does not link</td>
+<td>linear scans, reserved names skipped, a throw-away link</td>
+</tr>
+<tr>
+<td>7</td>
+<td>picking</td>
+<td>ClipPlanes, the near plane and back faces were ignored; hover ran on every move; a normal went into the sensor frame with the inverse instead of the transpose; an Anchor fired on any button and over a nearer sensor</td>
+<td>all five corrected; hover only when the world has a pointer sensor</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>javascript:</code> in an Anchor url</td>
+<td>the test missed <code>java&lt;tab&gt;script:</code> and a leading control character</td>
+<td>the shared <code>Anchor.js</code> strips what a URL parser strips (one line, also protects the Babylon body)</td>
+</tr>
+</tbody>
+</table>
+<p>The drill after the batch found a weak fixture. Swapping the basis of the GeoViewpoint orientation (<code>makeBasis(E, U, S)</code> to <code>makeBasis(S, U, E)</code>) still passed all 98 of 98 steps, because the batch-46 fixture sits on a <code>rotateYUp</code> origin where the frame at the camera is the identity. The new fixture <code>GeoViewpointFrame</code> (latitude 0, longitude 90, no origin, boxes at 55 m north and east) draws IoU 1.00 and 64.48 dB with the right basis and IoU 0 and 18.49 dB with the swapped one <span class="g C" title="Confirmed">C</span>.</p>
+<p>Not done: Layering and Layout, HAnim, particles, Texturing3D, Sound, the pick sensors, TextureProjector. The tracker reads drawn 98, reader-checked 32, reader 41, todo 66, upstream 23.</p>
 <h2 id="15-geospatial-and-the-last-volume-styles-a-position-is-a-point-and-two-engines-disagree-on-a-rotated-volume">15. Geospatial and the last volume styles: a position is a point, and two engines disagree on a rotated volume</h2>
 <p>Batch 45 bridged ten nodes: GeoOrigin, GeoCoordinate, GeoLocation, GeoTransform, GeoViewpoint, GeoElevationGrid, GeoPositionInterpolator, and the volume styles BlendedVolumeStyle, ComposedVolumeStyle and ProjectionVolumeStyle. Read at <code>x3d.loom@bfeba57</code> (the batch-45 pull request branch); reference engine <code>X_ITE 16.6.0</code>; rig for every number in this section: <code>Chromium 153.0.8010.12</code>, SwiftShader (no real GPU), <code>Babylon 9.32.0</code>, 320 x 240 pictures. The reasoning is in <code>x3d.webgpu/bridge/WHY-geospatial-batch.md</code>.</p>
 <pre><code class="language-text"> geoCoords (lat, lon, height)  --GD or UTM or GC--&gt;  geocentric metres (6.4e6, float64)
@@ -1594,6 +1723,42 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <p>The cube fixtures of batch 43 could not show what smooth data does. A 16 cubed Gaussian ball was drawn under four lit styles. Unrotated, the engines agree within about 8 levels on Shaded and 12 on ToneMapped along a row <span class="g C" title="Confirmed">C</span>. A smooth ball draws as a dim shell in both engines: the transition layer is already opaque before the bright core, so a ball whose core is 243 draws 18 grey, and a block of 204 that fills half the width of a 16 voxel volume draws 70 (the arithmetic is D-BAB-13) <span class="g C" title="Confirmed">C</span>. When the Transform above the volume rotates it, X_ITE lights it differently: a ball should look the same in any orientation, the bridge's does and X_ITE's does not (rotation about Z moves the lit side, about Y it goes almost black, only a half turn is unchanged) [C, observation]. The cause is not isolated: the gradient seems to be turned the wrong way <span class="g S" title="Suspected">S</span>. The bridge keeps the rotation-independent picture and the fixture checks that volume in the bridge only.</p>
 <h3 id="156-two-test-rig-slips">15.6 Two test-rig slips</h3>
 <p>A plain list handed to a double field (<code>GeoOrigin.geoCoords</code>) made X_ITE draw nothing and then crash the page; the runner now builds an SFVec3d and names the type in the step <span class="g C" title="Confirmed">C</span>. And a case that X_ITE cannot compile (ALPHA1) left the rig waiting ten minutes, so it is described and not part of the fixture <span class="g C" title="Confirmed">C</span>.</p>
+<h2 id="16-batch-46-the-rest-of-the-geospatial-group-and-six-nodes-that-do-nothing-on-purpose">16. Batch 46: the rest of the geospatial group, and six nodes that do nothing on purpose</h2>
+<p>Batch 46 bridged ten nodes: GeoLOD, GeoTouchSensor, GeoProximitySensor, GeoMetadata and the DIS nodes EspduTransform, ReceiverPdu, SignalPdu, TransmitterPdu, DISEntityManager and DISEntityTypeMapping. Read at <code>x3d.loom@c80cecd</code> (the batch-46 pull request); reference engine <code>X_ITE 16.6.0</code>; rig for every number in this section: <code>Chromium 153.0.8010.12</code>, SwiftShader (no real GPU), <code>Babylon 9.32.0</code>, 320 x 240 pictures. The reasoning is in <code>x3d.webgpu/bridge/WHY-geo-dis-batch.md</code>.</p>
+<pre><code class="language-text"> camera --(eye-space distance of local(center))--&gt; GeoLOD:  d &lt; range ? level 1 : level 0
+                                                     level_changed  -&gt;  children   (this order)
+ pointer --hit on a Shape--&gt; GeoTouchSensor: hitTexCoord, hitNormal, hitPoint (sensor-local)
+                                             hitGeoCoord = geoOf(sensor, LOCAL hitPoint)
+ camera --pose in the sensor's parent frame--&gt; GeoProximitySensor: isActive, position, orientation,
+                                             centerOfRotation, geoCoord_changed = geoOf(sensor, position)
+</code></pre>
+<h3 id="161-geolod-has-one-range-and-two-levels">16.1 GeoLOD has one range and two levels</h3>
+<p>The specification talks about a list of ranges and about unloading; X_ITE 16.6.0 has a single <code>range</code> and exactly two levels, decided on every frame as <code>distance &lt; range</code>, strictly, with the distance taken in EYE space from the camera to <code>center</code> (through the node's geoSystem and GeoOrigin, like a GeoLocation) <span class="g C" title="Confirmed">C</span>. A parent scale therefore counts: with a centre 50 m up, a parent scale of 1.9 gives level 1 and 2.1 gives level 0 <span class="g C" title="Confirmed">C</span>. Level 1 is announced at once, but the picture keeps the root until all four child scenes are finished (loaded, failed or empty), and children are fetched at the first visit to level 1 and never unloaded <span class="g C" title="Confirmed">C</span>. <code>level_changed</code> fires before <code>children</code>, the opposite of what the specification text implies <span class="g C" title="Confirmed">C</span>, and starts at -1 <span class="g C" title="Confirmed">C</span>. <code>rootNode</code> wins over <code>rootUrl</code>, which is still fetched <span class="g C" title="Confirmed">C</span>. The fixtures use <code>data:model/x3d+xml,</code> urls so that they need no server <span class="g C" title="Confirmed">C</span>.</p>
+<h3 id="162-the-geographic-coordinate-of-a-touch-is-the-geographic-reading-of-a-local-point">16.2 The geographic coordinate of a touch is the geographic reading of a LOCAL point</h3>
+<p>GeoTouchSensor's output is <code>hitGeoCoord_changed</code> (there is no <code>geoCoords_changed</code>) <span class="g C" title="Confirmed">C</span>. X_ITE converts <code>hitPoint_changed</code>, which is in the sensor's own parent frame, through the sensor's geoSystem and GeoOrigin as if that frame were the origin frame. Under a Transform or a GeoLocation the result is not where the hit is: a sensor in a GeoLocation 3.3 m east of the origin reports longitude 8.4e-7 degrees, not 3.0e-5 <span class="g C" title="Confirmed">C</span>. The bridge copies it, because the aim is the same numbers and the shortcut is documented <span class="g C" title="Confirmed">C</span>; the fix would be one matrix. Two Babylon details: a pick at (160,120) is half a pixel from X_ITE's, so hitPoint differs by 0.0155 m at a distance of 9 (tolerance 0.05), and the body's meshes carry <code>v</code> flipped, so the bridge reports <code>1 - v</code> <span class="g C" title="Confirmed">C</span>.</p>
+<h3 id="163-a-proximity-sensor-that-reports-where-the-viewer-is-and-a-geocenter-that-is-not-a-coordinate">16.3 A proximity sensor that reports where the viewer is, and a <code>geoCenter</code> that is not a coordinate</h3>
+<p>GeoProximitySensor wraps a ProximitySensor: a box (<code>center</code>, <code>size</code>), inclusive, size 0 never active, size -1 always inside <span class="g C" title="Confirmed">C</span>. <code>geoCenter</code> is copied raw into <code>center</code> only when it is written at run time, the attribute in a file is ignored, and <code>center</code> is plain local metres (a <code>geoCenter</code> of 0 0 10 reads 10 m, not 10 degrees) <span class="g C" title="Confirmed">C</span>. On exit the last position outside is announced first (geoCoord_changed, position_changed), then isActive false and exitTime <span class="g C" title="Confirmed">C</span>. X_ITE draws on demand and notices an ENTER after a pure camera move only when something else keeps the page drawing, so the fixture animates a small box <span class="g C" title="Confirmed">C</span>.</p>
+<h3 id="164-six-nodes-that-store-their-fields-and-do-nothing">16.4 Six nodes that store their fields and do nothing</h3>
+<p>X_ITE 16.6.0 marks the DIS component as not supported. EspduTransform is a Group: translation, rotation and scale are stored and never applied, nothing is sent, no output (isActive, timestamp, firedTime and the rest) ever fires, and <code>enabled</code> false does not hide anything <span class="g C" title="Confirmed">C</span>. The four PDU nodes and the manager and mapping store their fields and draw nothing; the mapping never loads its url <span class="g C" title="Confirmed">C</span>. SFTime outputs default to -1, geoSystem defaults to GD WE, and the fixture head must name the DIS component or X_ITE drops the node <span class="g C" title="Confirmed">C</span>. The bridge copies all of it, and the fixtures assert silence with <code>noevent</code> after two seconds <span class="g C" title="Confirmed">C</span>.</p>
+<h3 id="165-one-fix-outside-the-batch-an-inputoutput-set-is-one-event">16.5 One fix outside the batch: an inputOutput set is one event</h3>
+<p>Setting an inputOutput field in the SAI shim raised the page's field callbacks twice (once from the body hook, once from the event queue); X_ITE raises one. The reader now marks the call (<code>R.rx</code>) so the callbacks run once <span class="g C" title="Confirmed">C</span>.</p>
+<h2 id="17-batch-47-a-sensor-that-reads-the-worlds-contacts-a-list-and-a-data-node">17. Batch 47: a sensor that reads the world's contacts, a list, and a data node</h2>
+<p>Batch 47 bridged the three nodes that let a scene hear about the physics world: CollisionSensor, CollisionSpace and Contact. Read at <code>x3d.loom@80388ce</code> (the batch-46 and batch-47 pull request); reference engine <code>X_ITE 16.6.0</code> (Bullet compiled to WebAssembly); rig for every number in this section: <code>Chromium 153.0.8010.12</code>, SwiftShader (no real GPU), <code>Babylon 9.32.0</code>. The reasoning is in <code>x3d.webgpu/bridge/WHY-physics-sensing-batch.md</code>. The physics world itself is chapter <a href="13-physics.html">13</a>.</p>
+<pre><code class="language-text"> world sub-step (1/240 s) --&gt; contacts of the LAST sub-step, each tagged (body, top-level collidable) x 2
+                                   |
+ CollisionSensor.tick: flatten(collider.collidables)  -&gt;  body -&gt; last listed collidable
+                       keep a contact when a body of the pair is in that map  (distance &lt;= 0)
+                       isActive (only on change) -&gt; intersections -&gt; contacts   (every frame while touching)
+ Contact: a pooled data node the sensor fills; writing one in a scene or to set_contacts does nothing
+</code></pre>
+<h3 id="171-collisionsensor-does-not-detect-anything">17.1 CollisionSensor does not detect anything</h3>
+<p>Once per frame X_ITE reads the contacts the world left after its last sub-step, keeps those that touch or penetrate (distance at most 0), and keeps a contact when at least one of its two bodies owns a collidable that the sensor's own <code>collider</code> lists <span class="g C" title="Confirmed">C</span>. The sensor's collider is a separate CollisionCollection from the world's. Only the top-level geometry of a body counts: list the CollidableOffset, not the shape inside it, and a body with several listed collidables is named by the last one <span class="g C" title="Confirmed">C</span>. <code>isActive</code> is sent when it changes; <code>intersections</code> and <code>contacts</code> are sent on every frame while a contact exists, as the same node objects, and are never cleared: once the touch ends <code>isActive</code> is false and the lists keep their last length <span class="g C" title="Confirmed">C</span>. <code>enabled</code> is read only at load and when <code>collider</code> is written, so a file with <code>enabled=&quot;false&quot;</code> stays dead until the collider is written again <span class="g C" title="Confirmed">C</span>. The bridge copies all of it.</p>
+<h3 id="172-collisionspace-is-a-list-and-contact-is-a-pool">17.2 CollisionSpace is a list, and Contact is a pool</h3>
+<p>CollisionSpace only flattens its <code>collidables</code> through nested spaces, live: emptying a nested list ends the contact within a frame. <code>enabled</code> and <code>useGeometry</code> are never read <span class="g C" title="Confirmed">C</span>. Contact is a data node the sensor fills from a pool; it copies appliedParameters, bounce, minBounceSpeed, frictionCoefficients, surfaceSpeed and the softness fields from the sensor's collider, and slipFactors into slipCoefficients, while position, contactNormal (unit length) and depth (at least 0) come from the world <span class="g C" title="Confirmed">C</span>. In X_ITE 16.6.0 <code>body1</code>, <code>body2</code>, <code>geometry1</code> and <code>geometry2</code> stay null, because the code writes a property with a trailing underscore <span class="g C" title="Confirmed">C</span>. The bridge departs here on purpose and fills them, as the specification says; the fixture asserts X_ITE's null on the X_ITE side and the pair on ours.</p>
+<h3 id="173-what-can-be-asserted-and-what-is-a-lottery">17.3 What can be asserted, and what is a lottery</h3>
+<p>An impact lasts one sub-step in both engines: X_ITE gave true, false, true within 150 ms and no event at all with bounce on <span class="g C" title="Confirmed">C</span>. The fixtures therefore assert only resting contacts: a ball exactly touching a fixed ground and a unit cube resting on it. The count for a cube is a range (Bullet kept 2 of the 4 lower corners, the bridge 4) and the sign of <code>contactNormal</code> depends on the order of the pair, so only its length and axis are asserted <span class="g C" title="Confirmed">C</span>. Cylinders and cones are bounding spheres in the bridge world, so their flat-face contacts are approximate (logged).</p>
+<h3 id="174-one-trap-in-the-sweep">17.4 One trap in the sweep</h3>
+<p>A scene sweep of 60 or more picture fixtures in one process crashes the page; the full regression (142 picture fixtures and 45 event fixtures) runs in chunks of 8 and passes after batches 46 and 47 <span class="g C" title="Confirmed">C</span>.</p>
 <h2 id="heuristics">Heuristics</h2>
 <table>
 <thead>
@@ -1893,6 +2058,90 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>MFColor <code>set</code> drew X_ITE black until the runner converted it</td>
 <td><code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, three.js r187, <code>tools/run-tests.js</code></td>
 </tr>
+<tr>
+<td>H-BAB-37</td>
+<td>Take a distance for a level of detail in the camera's frame, not the node's: a parent scale changes it.</td>
+<td>C</td>
+<td>scale 1.9 gives level 1, 2.1 gives level 0</td>
+<td><code>GeoLOD.test.json</code></td>
+</tr>
+<tr>
+<td>H-BAB-38</td>
+<td>When a node is marked not supported in the reference engine, copy its silence and assert it with <code>noevent</code>; never add behaviour the oracle lacks.</td>
+<td>C</td>
+<td>six DIS nodes, 69 to 146 steps each, same in both engines</td>
+<td><code>X_ITE 16.6.0</code>, <code>x3d.loom@c80cecd</code></td>
+</tr>
+<tr>
+<td>H-BAB-39</td>
+<td>Name the frame of every geographic output: a value that is local to a sensor is only the true position when nothing moves the sensor.</td>
+<td>C</td>
+<td>hitGeoCoord under a GeoLocation reads 8.4e-7, not 3.0e-5 degrees</td>
+<td><code>GeoTouchSensor.test.json</code></td>
+</tr>
+<tr>
+<td>H-BAB-40</td>
+<td>Keep the reference engine drawing (animate something) when a test depends on a sensor noticing a camera move.</td>
+<td>C</td>
+<td>X_ITE sees an enter only after an extra frame</td>
+<td><code>GeoProximitySensor.test.json</code></td>
+</tr>
+<tr>
+<td>H-BAB-41</td>
+<td>Assert only resting contacts for a collision sensor: an impact lasts one sub-step in both engines and is a lottery.</td>
+<td>C</td>
+<td>X_ITE sent true, false, true within 150 ms, nothing with bounce on</td>
+<td><code>CollisionSensor.test.json</code></td>
+</tr>
+<tr>
+<td>H-BAB-42</td>
+<td>Copy a reference engine's null before correcting it: assert its value on its side and the specified value on yours, and log the departure.</td>
+<td>C</td>
+<td>Contact body1, body2, geometry1, geometry2</td>
+<td><code>Contact.test.json</code></td>
+</tr>
+<tr>
+<td>H-BAB-75</td>
+<td>Put the reference engine's rule for a node in a one-node probe before writing its body: X_ITE draws a cube map only through a TextureCoordinateGenerator, and a fixture without one measures nothing.</td>
+<td>C</td>
+<td>magenta and blue split until the generator was in the scene</td>
+<td><code>CubeMaps.js</code>, <code>ImageCubeMapTexture.x3d</code></td>
+</tr>
+<tr>
+<td>H-BAB-76</td>
+<td>Let the renderer own the <code>#version</code> line: take the author's <code>#version 300 es</code> out of a RawShaderMaterial source and pass it as <code>glslVersion</code>, and use <code>data:</code> urls in fixtures (CDATA loses its line breaks in X_ITE).</td>
+<td>C</td>
+<td>the shader pictures are empty with the line left in (IoU 0)</td>
+<td><code>Shaders.js</code>, <code>ComposedShader.x3d</code></td>
+</tr>
+<tr>
+<td>H-BAB-77</td>
+<td>Test a frame-dependent node on a frame that is not the identity: a fixture on a <code>rotateYUp</code> origin cannot tell the right basis from the wrong one.</td>
+<td>C</td>
+<td>swapped basis 98 of 98 steps; on the new fixture IoU 0 and 18.49 dB</td>
+<td><code>GeoViewpointFrame.test.json</code></td>
+</tr>
+<tr>
+<td>H-BAB-78</td>
+<td>Write a fixture for every path a review fixes: each of the 69 findings of batch 4 was on a path (second finger, USE'd node, replaced world) that no fixture drove.</td>
+<td>C</td>
+<td>InlineUse: both copies draw, load FALSE takes both away, TRUE brings both back</td>
+<td><code>InlineUse.test.json</code></td>
+</tr>
+<tr>
+<td>H-BAB-79</td>
+<td>Guard an include before it is fetched: depth, fan-out, size, and a cycle on the chain's own urls.</td>
+<td>C</td>
+<td>8 deep, 512 loads, 32 MB (128 MB unzipped)</td>
+<td><code>body-three.js</code> <code>loadInline</code></td>
+</tr>
+<tr>
+<td>H-BAB-80</td>
+<td>A security fix in a shared file is told to the lane that owns it: the scheme test of an Anchor must drop what a URL parser drops (tab, line break, leading control characters).</td>
+<td>C</td>
+<td><code>java&lt;tab&gt;script:</code> ran past the test</td>
+<td><code>Anchor.js</code></td>
+</tr>
 </tbody>
 </table>
 <h2 id="drills">Drills</h2>
@@ -2043,6 +2292,22 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <li><strong>Answer:</strong> only the level view: the ground (last groundAngle 1.4 of a possible 1.5708) ends 0.17 radian below the horizon with a curved edge, so the picture has mad 36.07 (9.75 dB) against 0.28 (53.61 dB); the up view (48.04 dB) and the down view (52.79 dB) do not show the horizon and do not move.</li>
 <li><strong>Checked:</strong> 2026-11-15 <code>x3d.loom@72a4bca</code>, <code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, three.js r187</li>
 </ul>
+<h3 id="d-bab-72-leave-the-version-line-in-a-composedshader">D-BAB-72 Leave the <code>#version</code> line in a ComposedShader</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> In <code>x3d.threejs/bridge/src/nodes/Shaders.js</code>, in <code>make</code>, change <code>es3 = !!(lv &amp;&amp; lf)</code> to <code>es3 = false &amp;&amp; !!(lv &amp;&amp; lf)</code> so the author's <code>#version 300 es</code> line stays in the source, run the ComposedShader fixture and predict which of its steps fail before you look.</li>
+<li><strong>Verify:</strong> <code>NODE_PATH=/opt/node22/lib/node_modules node tools/run-tests.js --shots /tmp/shots ComposedShader</code> from <code>x3d.threejs/bridge</code>, with X_ITE 16.6.0 and three.js r187 in place; restore the line afterwards.</li>
+<li><strong>Answer:</strong> the 9 event steps still pass (the node and its fields are read by the reader), and both pictures are empty: IoU 0 and mad 21.87 for <code>main</code> (foreground mean 0 against 140, 148, 63) and mad 18.17 for <code>fields</code>. three.js puts its own <code>#define</code> lines first and a <code>#version</code> line may not follow them, so the program does not compile and the Shape is drawn with its Material.</li>
+<li><strong>Checked:</strong> 2026-11-15 <code>x3d.loom@1192dd4</code>, <code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, three.js r187</li>
+</ul>
+<h3 id="d-bab-73-transpose-the-matrix-of-a-geolocation">D-BAB-73 Transpose the matrix of a GeoLocation</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> In <code>x3d.threejs/bridge/src/nodes/Geo.js</code>, in <code>place</code>, change <code>r.tn.matrix.fromArray(G.matrixOf(n));</code> to <code>r.tn.matrix.fromArray(G.matrixOf(n)).transpose();</code>, run the GeoLocation and GeoTransform fixtures and predict where the node ends up.</li>
+<li><strong>Verify:</strong> <code>NODE_PATH=/opt/node22/lib/node_modules node tools/run-tests.js --shots /tmp/shots GeoLocation GeoTransform</code> from <code>x3d.threejs/bridge</code>; restore the line afterwards.</li>
+<li><strong>Answer:</strong> the row-vector matrix keeps its translation in elements 12 to 14, which is where a column-major three.js matrix keeps it; transposed, the translation lands in the bottom row and is lost. GeoLocation fails 9 of 22 steps (the position reads 0 0 0 where 6378137 0 0 is expected; boxes sit at the origin) and GeoTransform fails 5 of 34 steps.</li>
+<li><strong>Checked:</strong> 2026-11-15 <code>x3d.loom@1192dd4</code>, <code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, three.js r187</li>
+</ul>
 <h2 id="honest-limits">Honest limits</h2>
 <ul>
 <li><strong>Software GL only, Chromium only <span class="g C" title="Confirmed">C</span>.</strong> Every pixel number is SwiftShader in Chrome for Testing 153.0.8010.12; no real GPU, Firefox or Safari. Babylon 9.32.0 is a snapshot; 9.33.0 to 9.35.0 (per the primer) were not run <span class="g L" title="Likely">L</span>.</li>
@@ -2052,7 +2317,7 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <li><strong>Behaviour was never compared <span class="g L" title="Likely">L</span>.</strong> No event traces, pointer tapes or audio pass; fixtures compare ROUTE chains in two engines, not whole pages. The noise floor of X_ITE against itself (TBD-13) is unmeasured, so no dB threshold here is a standard.</li>
 <li><strong>Carried, not re-checked <span class="g S" title="Suspected">S</span>:</strong> law-40 coverage by page, the Gobbler review defect, all effort figures in <code>PATHS.md</code> and <code>BABYLON.md</code> (person-weeks are guesses), the 1,396 <code>gl.*</code> call sites. Private run logs, device owners' details and unpublished material are left out on purpose.</li>
 <li><strong>NURBS section read at the batch-44 branch, not main <span class="g L" title="Likely">L</span>:</strong> <code>x3d.loom@4887a98</code> carried the pull request when written; counts are from the batch run of 2026-11-14 (our reader and X_ITE 16.6.0 on SwiftShader). Not covered: real GPU timing, GeoCoordinate control points, NurbsTextureCoordinate, trimming, picking of NURBS lines. The chord reading of the Extrusion Y axis is Likely: read from memory of 19775-1, not re-checked against the text.</li>
-<li><strong>The three.js bridge is 58 scene fixtures, not a port <span class="g L" title="Likely">L</span>.</strong> 65 of 260 nodes are drawn; movie and cube-map textures, Text, Inline, shaders, layering, picking and pointer sensors are not, <code>global=FALSE</code> light scope is not implemented, and 32 Babylon fixtures that probe <code>__body</code> internals run here for their pictures only. All pixel numbers are SwiftShader at 320 x 240; no timing, no real GPU, no WebGPU renderer. The person-day figures in <code>ESTIMATE.md</code> are guesses <span class="g S" title="Suspected">S</span>; the item list of what three.js gives and lacks is read from its documentation, not run <span class="g L" title="Likely">L</span>.</li>
+<li><strong>The three.js bridge is 95 fixtures, not a port <span class="g L" title="Likely">L</span>.</strong> 98 of 260 nodes are drawn, 66 still need the body and 23 wait on the Babylon batches; layering and layout, HAnim, particles, Texturing3D, Sound, the pick sensors and TextureProjector are not drawn, <code>global=FALSE</code> light scope is not implemented, a GeoViewpoint draws on a plain depth buffer where X_ITE uses a logarithmic one, 32 Babylon fixtures probe <code>__body</code> internals and match here by picture only, and the batch-46 GeoViewpoint fixture cannot tell a wrong frame basis from a right one (GeoViewpointFrame does) <span class="g L" title="Likely">L</span>. Text letter shapes differ from X_ITE's (IoU 0.65). No real-GPU timing exists.</li>
 <li><strong>Geospatial section read at the batch-45 branch, not main <span class="g L" title="Likely">L</span>:</strong> counts are from the batch run of 2026-11-15 on SwiftShader; geocentric (no GeoOrigin) pictures are not made (32 bit world matrix), GeoViewpoint navigation is computed, not wired, and WM, the angle unit and the geoid are not implemented in X_ITE 16.6.0 or the bridge. The rotated-volume error of X_ITE is observed on one Gaussian ball and its cause is not isolated <span class="g S" title="Suspected">S</span>.</li>
 </ul>
 <h2 id="numbers-register">Numbers register</h2>
@@ -2620,6 +2885,142 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <td>same rig</td>
 <td>receipts/LocalFog.json, receipts/FogCoordinate.json</td>
 </tr>
+<tr>
+<td>N-BAB-60</td>
+<td>GeoLOD, centre 50 m up, parent scale 1.9 and 2.1</td>
+<td>level 1 and level 0</td>
+<td>C</td>
+<td>both engines</td>
+<td>x3d.loom@c80cecd:x3d.webgpu/bridge/fixtures/GeoLOD.test.json</td>
+</tr>
+<tr>
+<td>N-BAB-61</td>
+<td>hitGeoCoord longitude under a GeoLocation 3.3 m east of the origin</td>
+<td>8.4e-7 degrees (true: 3.0e-5)</td>
+<td>C</td>
+<td>X_ITE 16.6.0 and bridge</td>
+<td>x3d.loom@c80cecd:x3d.webgpu/bridge/fixtures/GeoTouchSensor.test.json</td>
+</tr>
+<tr>
+<td>N-BAB-62</td>
+<td>batch 46 fixture steps passed, ours and X_ITE alike</td>
+<td>GeoLOD 92, GeoTouchSensor 51, GeoProximitySensor 64, GeoMetadata 30, EspduTransform 146, ReceiverPdu 69, SignalPdu 70, TransmitterPdu 82, DISEntityManager 30, DISEntityTypeMapping 43</td>
+<td>C</td>
+<td><code>run-tests.js</code></td>
+<td>x3d.loom@c80cecd:x3d.webgpu/bridge/fixtures</td>
+</tr>
+<tr>
+<td>N-BAB-63</td>
+<td>batch 47 fixture steps passed, ours and X_ITE alike</td>
+<td>CollisionSensor 36, CollisionSpace 34, Contact 30</td>
+<td>C</td>
+<td><code>run-tests.js</code></td>
+<td>x3d.loom@80388ce:x3d.webgpu/bridge/fixtures</td>
+</tr>
+<tr>
+<td>N-BAB-64</td>
+<td>unit cube resting on a fixed ground, contacts kept</td>
+<td>Bullet 2 of the 4 lower corners; bridge 4</td>
+<td>C</td>
+<td>X_ITE 16.6.0, SwiftShader rig</td>
+<td>x3d.loom@80388ce:x3d.webgpu/bridge/fixtures/CollisionSensor.test.json</td>
+</tr>
+<tr>
+<td>N-BAB-65</td>
+<td>resting distance of a ball on the ground</td>
+<td>X_ITE 3e-8; bridge up to 5 mm (slop)</td>
+<td>C</td>
+<td>both engines</td>
+<td>WHY-physics-sensing-batch.md section 5</td>
+</tr>
+<tr>
+<td>N-BAB-66</td>
+<td>full regression after the shim fix and batch 47</td>
+<td>142 picture fixtures and 45 event fixtures pass, in chunks of 8</td>
+<td>C</td>
+<td>our engine, SwiftShader</td>
+<td>x3d.loom@80388ce</td>
+</tr>
+<tr>
+<td>N-BAB-80</td>
+<td>three.js bridge status, batch 5</td>
+<td>drawn 98, reader-checked 32, reader 41, todo 66, upstream 23</td>
+<td>C</td>
+<td><code>driver.py status</code></td>
+<td>x3d.loom@1192dd4:x3d.threejs/bridge/NODES.json</td>
+</tr>
+<tr>
+<td>N-BAB-81</td>
+<td>all compared pictures after batch 5</td>
+<td>116 pictures; IoU 0.65 to 1.00; PSNR 19.21 to 99 dB, median 53.67; 25 at 99 dB</td>
+<td>C</td>
+<td><code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, three.js r187</td>
+<td>x3d.loom@1192dd4:x3d.threejs/bridge/receipts/*</td>
+</tr>
+<tr>
+<td>N-BAB-82</td>
+<td>cube-map pictures</td>
+<td>ImageCubeMapTexture 31.45 and 31.98 dB; ComposedCubeMapTexture 29.12; GeneratedCubeMapTexture 34.03 (IoU 0.94 and 0.98)</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/*CubeMapTexture.json</td>
+</tr>
+<tr>
+<td>N-BAB-83</td>
+<td>ComposedShader pictures</td>
+<td>40.47 and 39.75 dB, IoU 1.00; with the <code>#version</code> line left in IoU 0 (mad 21.87 and 18.17)</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/ComposedShader.json, D-BAB-72</td>
+</tr>
+<tr>
+<td>N-BAB-84</td>
+<td>Text against X_ITE's glyph renderer</td>
+<td>IoU 0.65, 19.21 dB (the boxes match to the pixel)</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/Text.json</td>
+</tr>
+<tr>
+<td>N-BAB-85</td>
+<td>CAD nodes, four fixtures of one scene</td>
+<td>IoU 0.99; 54.88, 51.22, 51.21 and 53.67 dB</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/CAD*.json</td>
+</tr>
+<tr>
+<td>N-BAB-86</td>
+<td>Geo fixture steps passed, ours and X_ITE alike</td>
+<td>GeoViewpoint 98 and 96, GeoLOD 92, GeoElevationGrid 64, GeoProximitySensor 64, GeoTouchSensor 51, GeoTransform 34, GeoLocation 22 and 19, GeoOrigin 22, GeoCoordinate 16</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/Geo*.json</td>
+</tr>
+<tr>
+<td>N-BAB-87</td>
+<td>review of batch 4</td>
+<td>171 agents, 83 raw findings, 69 survived two skeptics (10 high, 36 medium, 23 low); by lens 16 regression, 15 pointer, 15 input, 12 cube and shader, 11 Inline and Text</td>
+<td>C</td>
+<td>workflow run 2026-11-15</td>
+<td>x3d.loom pull request #70</td>
+</tr>
+<tr>
+<td>N-BAB-88</td>
+<td>GeoViewpoint frame, right basis against swapped</td>
+<td>IoU 1.00 and 64.48 dB against IoU 0 and 18.49 dB (the batch-46 fixture: 98 of 98 either way)</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/GeoViewpointFrame.json</td>
+</tr>
+<tr>
+<td>N-BAB-89</td>
+<td>GeoLocation with the matrix transposed (D-BAB-73)</td>
+<td>9 of 22 steps fail; the position reads 0 0 0 where 6378137 0 0 is expected</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/GeoLocation.json</td>
+</tr>
 </tbody>
 </table>
 <h2 id="sources-and-provenance">Sources and provenance</h2>
@@ -2631,6 +3032,8 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <li><code>x3d.loom@95eda37</code> (batch 1, read and run 2026-11-14): <code>x3d.threejs/bridge/{src/body-three.js,fixtures/{PointLight,PointLightAttenuation,SpotLight,Fog,PixelTexture,ImageTexture,TextureTransform,TexturedPrimitives}.*,receipts/*}</code>; X_ITE formulas read in <code>x_ite.js</code> 16.6.0 (<code>Fog2.glsl</code>, <code>TextureTransform</code>, <code>QuadSphereOptions</code>, <code>CylinderOptions</code>).</li>
 <li><code>x3d.loom@38530ab</code> (batch 2, read and run 2026-11-14): <code>x3d.threejs/bridge/{src/body-three.js,src/nodes/Geometry.js,tools/tooling.test.js,fixtures/*,receipts/*}</code>; X_ITE 16.6.0 read for the ElevationGrid and line behaviour only through renders.</li>
 <li><code>x3d.loom@72a4bca</code> (batch 3, read and run 2026-11-15): <code>x3d.threejs/bridge/{src/body-three.js,src/nodes/{Textures,Fog,Background}.js,tools/{bundle.js,run-tests.js,tooling.test.js},fixtures/*,receipts/*}</code>; X_ITE 16.6.0 read for nothing new (every rule here is a measurement against it); the MFColor converter patch is in <code>tools/run-tests.js</code>.</li>
+<li><code>x3d.loom@c80cecd</code> and <code>@80388ce</code> (batches 46 and 47, read and run 2026-11-15): <code>x3d.webgpu/bridge/{BATCH-46.md,BATCH-47.md,WHY-geo-dis-batch.md,WHY-physics-sensing-batch.md,src/nodes/{GeoLOD,GeoTouchSensor,GeoProximitySensor,GeoMetadata,CollisionSensor,CollisionSpace,Contact,RigidBodyCollection}.js,fixtures/*,receipts/*}</code>; X_ITE 16.6.0 read for each node's runtime behaviour.</li>
+<li><code>x3d.loom@a6e3d31</code> (batch 4, merged at <code>7f6496b</code>) and <code>x3d.loom@1192dd4</code> (batch 5, pull request #70, read and run 2026-11-15): <code>x3d.threejs/bridge/{src/body-three.js,src/nodes/{CubeMaps,Pointing,Shaders,Text,Geo,CAD,Textures}.js,fixtures/*,receipts/*,NODES.json}</code>; the review workflow's result (69 findings) is summarised in 14.8, its journal is not reproduced.</li>
 <li>Private-source gap: a private primer of 8 November and private notes on each port were pointers only. Figures here were re-derived from the repository or read from a named receipt; the rest are graded <span class="g S" title="Suspected">S</span> or <span class="g L" title="Likely">L</span> and labelled carried. No private document, link, identifier or chat wording is reproduced.</li>
 <li>Siblings: <a href="01-the-tether.html">01</a>, <a href="03-validator-and-gates.html">03</a>, <a href="04-mcp-for-agents.html">04</a>, <a href="07-xray.html">07</a>, <a href="09-castle-engine.html">09</a>, <a href="11-gltf-usd-khronos.html">11</a>, <a href="13-physics.html">13</a>.</li>
 </ul>
