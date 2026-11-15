@@ -63,14 +63,14 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
   tools/gen.mjs --&gt; src/generated/x3d.zod.ts   887 z.strictObject, 301 z.union, 88 z.tuple,
         |                  |                    150 z.enum, plus 364 explicit TS types
         |                  +--&gt; src/index.ts    validateX3DJson, parseLlmX3D, repairPrompt;
-        |                                       paths in the x3d_mcp format X3D/Scene/-children/0/...
+        |                                       paths like X3D/Scene/-children/0/Shape/...
         +--&gt; src/restrict.ts, x3d_mcp llm_schema.py   schema for a chosen node vocabulary
 
   one model reply
      | JSON.parse --------------------------------&gt; not JSON: &quot;json_parse&quot;
      v
   JSON gate (this chapter) --&gt; XSD (after json_to_xml) --&gt; semantic layer --&gt; X_ITE picture
-   typing, shape, ranges        enumerations, order         ROUTE targets,     what it looks like
+   typing, shape, ranges        enumerations, order         ROUTE targets,    what it looks like
                                                             profile, DEF/USE
 </code></pre>
 <table>

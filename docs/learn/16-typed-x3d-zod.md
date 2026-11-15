@@ -23,14 +23,14 @@ A model that writes X3D has two failure modes: it writes something the standard 
   tools/gen.mjs --> src/generated/x3d.zod.ts   887 z.strictObject, 301 z.union, 88 z.tuple,
         |                  |                    150 z.enum, plus 364 explicit TS types
         |                  +--> src/index.ts    validateX3DJson, parseLlmX3D, repairPrompt;
-        |                                       paths in the x3d_mcp format X3D/Scene/-children/0/...
+        |                                       paths like X3D/Scene/-children/0/Shape/...
         +--> src/restrict.ts, x3d_mcp llm_schema.py   schema for a chosen node vocabulary
 
   one model reply
      | JSON.parse --------------------------------> not JSON: "json_parse"
      v
   JSON gate (this chapter) --> XSD (after json_to_xml) --> semantic layer --> X_ITE picture
-   typing, shape, ranges        enumerations, order         ROUTE targets,     what it looks like
+   typing, shape, ranges        enumerations, order         ROUTE targets,    what it looks like
                                                             profile, DEF/USE
 ```
 
