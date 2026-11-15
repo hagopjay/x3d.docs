@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**109 drills**, 99 with a recorded run (`Checked`), 10 not yet run. Levels: L1 19, L2 56, L3 34.
+**111 drills**, 101 with a recorded run (`Checked`), 10 not yet run. Levels: L1 19, L2 58, L3 34.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -100,6 +100,8 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-UNR-4 | [12](12-unreal-tier1.md) | L1 | Instancing arithmetic | 2026-11-14 grep on `x3d-blender-io@ab99988` and Python 3. |
 | D-UNR-5 | [12](12-unreal-tier1.md) | L3 | Break a PSNR comparison | 2026-11-14 numpy for all three numbers (offset 38.63 dB, noise 34.31 dB, square 22.71 dB). |
 | D-UNR-6 | [12](12-unreal-tier1.md) | L3 | Write the pass and fail line for a gate | not run (no Unreal here). |
+| D-UNR-7 | [12](12-unreal-tier1.md) | L2 | Pick an exposure from a bracket | 2026-11-15 pytest 9 on the PR #29 branch (11 new tests pass). |
+| D-UNR-8 | [12](12-unreal-tier1.md) | L2 | Count what Interchange kept | 2026-11-15 UE 5.8.4 Interchange on RTX PRO 6000 (one run). |
 | D-PHY-1 | [13](13-physics.md) | L2 | Symplectic against explicit Euler on a pendulum | `2026-11-14 python3 -I numpy 2.5.3`: explicit 10.8933 and 11.0130, symplectic 0.0002 and 0.0150. |
 | D-PHY-2 | [13](13-physics.md) | L2 | The exact reference for a stepped scheme | `2026-11-14 python3 -I numpy 2.5.3`: sim 5.074562500, discrete 5.074562500, continuum 5.095000000, gap -0.020437. |
 | D-PHY-3 | [13](13-physics.md) | L2 | XPBD bead on a wire: substeps against residual and energy | `2026-11-14 python3 -I numpy 2.5.3`: 7.31e-03, 3.19e-04, 2.03e-05, 8.16e-07; dE -8.7945, -4.3632, -1.4550, -0.3125. |

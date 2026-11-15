@@ -3,12 +3,12 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-230 distinct instrument strings across the numbers registers.
+233 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
+| `same` | 19 | 05, 06, 07, 09, 10, 11, 12 | C:18 L:1 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
-| `same` | 13 | 05, 06, 07, 09, 10, 11, 12 | C:12 L:1 |
 | `same rig` | 12 | 08, 09, 13 | C:12 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
 | `learn_lib.py count` | 6 | 14 | C:6 |
@@ -55,6 +55,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `Node (D-BAB-6); X_ITE SAI` | 1 | 08 | C:1 |
 | `PR descriptions via the masterclass; not re-derived` | 1 | 04 | L:1 |
 | `Python 3.13.18 ast` | 1 | 10 | C:1 |
+| `UE 5.8.4 on RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-14` | 1 | 12 | C:1 |
 | `X3DUOM 4.0 via NODES.json` | 1 | 08 | C:1 |
 | `X3DUOM 4.1 (4fc10e8e15c0), X3DUOM 4.0 (7e426a238656)` | 1 | 03 | C:1 |
 | `X3DUOM 4.1 (sha256 4fc10e8e15c0), ElementTree` | 1 | 06 | C:1 |
@@ -183,6 +184,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `same rig, two runs of the 10 fixtures` | 1 | 08 | C:1 |
 | `same rig, wall-clock wait` | 1 | 13 | C:1 |
 | `same validator, receipt` | 1 | 09 | C:1 |
+| `same, 44 shader workers` | 1 | 12 | C:1 |
+| `same, X_ITE on ANGLE Vulkan, Chromium 159` | 1 | 12 | C:1 |
 | `same, seed 7` | 1 | 07 | C:1 |
 | `scratch copy of x3d_mcp fork b4efcd3` | 1 | 03 | C:1 |
 | `scratch copy, Python 3.13.18` | 1 | 07 | C:1 |

@@ -4,6 +4,7 @@ Newest first. One row per change: date, where, what, and the instrument that bac
 
 | date | where | change | instrument |
 |---|---|---|---|
+| 2026-11-15 | [12 Unreal as a tier-1 endpoint](12-unreal-tier1.md) | section 10: the first measured run of Unreal 5.8.4 on a cloud GPU (rig, gates, findings, per-scene exposure, Nanite for ray tracing); H-UNR-12 to 15, N-UNR-19 to 27, D-UNR-7 and 8 | `x3d.lab@70551e8` notebook 07 run (UE 5.8.4-58902052 Vulkan SM6+RT, RTX PRO 6000 Blackwell SE, driver 580.82.07; X_ITE 16.7.0, Chromium 159.0.8154.6, ANGLE Vulkan); fixes in `x3d.lab` PR #29 |
 | 2026-11-14 | [08 The Babylon bridge](08-babylon-bridge.md) | section 14.5: three.js batch 2, geometry sets, lines, points, Billboard, LOD, ClipPlane and the IndexedFaceSet gaps; H-BAB-27 to 32, N-BAB-43 to 48, D-BAB-11 | `x3d.loom@38530ab` receipts (X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader, three.js r187) |
 | 2026-11-14 | [08 The Babylon bridge](08-babylon-bridge.md) | section 14.4: three.js batch 1, lights, fog, textures and the X_ITE formulas found in its source; H-BAB-24 to 26, N-BAB-37 to 42 | `x3d.loom@95eda37` receipts (X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader, three.js r187) |
 | 2026-11-14 | [08 The Babylon bridge](08-babylon-bridge.md) | section 14: a second body, the reader on three.js (scaffold, 10 scene fixtures, estimate by node group); H-BAB-20 to 23, N-BAB-30 to 36, D-BAB-10 | `x3d.loom@108a282` fixtures (X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader, three.js r187) |

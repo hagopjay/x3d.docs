@@ -22,7 +22,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a class="cur" href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="D-heuristics-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/D-heuristics-ledger.md">GitHub</a></div><h1>Appendix D. Heuristics ledger</h1>
 <p>Merged from the <em>Heuristics</em> table of every chapter. Edit the chapter, not this file.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>200 heuristics.</strong> Grades: <span class="g C" title="Confirmed">C</span> 155 · <span class="g L" title="Likely">L</span> 38 · <span class="g S" title="Suspected">S</span> 7. Retired rules are struck through in their chapter, never deleted.</p>
+<p><strong>204 heuristics.</strong> Grades: <span class="g C" title="Confirmed">C</span> 159 · <span class="g L" title="Likely">L</span> 38 · <span class="g S" title="Suspected">S</span> 7. Retired rules are struck through in their chapter, never deleted.</p>
 <table>
 <thead>
 <tr>
@@ -1386,6 +1386,38 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><span class="g S" title="Suspected">S</span></td>
 <td>design expectation</td>
 <td>none</td>
+</tr>
+<tr>
+<td>H-UNR-12</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>Bracket exposure per scene before any expensive still; a calibration box fixes light units, not exposure.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>odyssey -14 EV, Khronos controls +2 EV</td>
+<td>UE 5.8.4 on RTX PRO 6000, 2026-11-14</td>
+</tr>
+<tr>
+<td>H-UNR-13</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>Turn on <code>r.RayTracing.Nanite.Mode 1</code> wherever rays are traced, or curved X3D primitives render faceted.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>faceted spheres in the path tracer, round with the setting</td>
+<td>UE 5.8.4 on RTX PRO 6000, 2026-11-15</td>
+</tr>
+<tr>
+<td>H-UNR-14</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>Ship the DEF/USE glb to Unreal, not the <code>EXT_mesh_gpu_instancing</code> glb, until Interchange reads the extension.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>1,711 instances dropped, 8 meshes kept</td>
+<td>UE 5.8.4 Interchange log, 2026-11-15</td>
+</tr>
+<tr>
+<td>H-UNR-15</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>When a bracket's best is its edge, extend it; an edge pick means the scene's exposure was not reached.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>odyssey picked -10 at the edge, then -14</td>
+<td>same run</td>
 </tr>
 <tr>
 <td>H-PHY-1</td>

@@ -20,7 +20,7 @@ blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;backgr
 details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
 .foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a class="cur" href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="12-unreal-tier1.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/12-unreal-tier1.md">GitHub</a></div><h1>12. Unreal as a tier-1 X3D framework</h1>
-<details class="toc"><summary>On this page (30 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-the-question-and-a-definition-that-can-fail">2. The question and a definition that can fail</a><a class="l2" href="#3-candidate-mechanisms">3. Candidate mechanisms</a><a class="l2" href="#4-coordinates-and-units-the-matrix-derived-and-checked">4. Coordinates and units: the matrix, derived and checked</a><a class="l3" href="#41-points">4.1 Points</a><a class="l3" href="#42-rotations-conjugation-not-substitution">4.2 Rotations: conjugation, not substitution</a><a class="l3" href="#43-winding-and-the-solid-trap">4.3 Winding and the solid trap</a><a class="l3" href="#44-field-of-view-and-cameras">4.4 Field of view and cameras</a><a class="l3" href="#45-units-and-float-range">4.5 Units and float range</a><a class="l2" href="#5-instancing-hism-gpu-instancing-and-the-thalassa-and-prismatica-counts">5. Instancing: HISM, GPU instancing and the Thalassa and Prismatica counts</a><a class="l3" href="#51-the-counts-re-derived">5.1 The counts, re-derived</a><a class="l3" href="#52-what-the-glb-does-with-them">5.2 What the glb does with them</a><a class="l2" href="#6-looks-lumen-nanite-and-x_ite">6. Looks: Lumen, Nanite, and X_ITE</a><a class="l2" href="#7-how-fidelity-is-measured">7. How fidelity is measured</a><a class="l3" href="#71-the-rig-as-it-exists">7.1 The rig, as it exists</a><a class="l3" href="#72-the-metrics-with-what-each-can-and-cannot-say">7.2 The metrics, with what each can and cannot say</a><a class="l3" href="#73-what-a-fair-comparison-has-to-hold-constant">7.3 What a fair comparison has to hold constant</a><a class="l2" href="#8-what-the-unreal-58-projects-looked-like-when-read-statically">8. What the Unreal 5.8 projects looked like when read statically</a><a class="l2" href="#9-the-test-plan-that-would-promote-claims-to-c">9. The test plan that would promote claims to <span class="g C" title="Confirmed">C</span></a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-unr-1-derive-and-check-the-axis-swap">D-UNR-1 Derive and check the axis swap</a><a class="l3" href="#d-unr-2-convert-a-field-of-view">D-UNR-2 Convert a field of view</a><a class="l3" href="#d-unr-3-catch-the-winding-flip">D-UNR-3 Catch the winding flip</a><a class="l3" href="#d-unr-4-instancing-arithmetic">D-UNR-4 Instancing arithmetic</a><a class="l3" href="#d-unr-5-break-a-psnr-comparison">D-UNR-5 Break a PSNR comparison</a><a class="l3" href="#d-unr-6-write-the-pass-and-fail-line-for-a-gate">D-UNR-6 Write the pass and fail line for a gate</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<details class="toc"><summary>On this page (37 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-the-question-and-a-definition-that-can-fail">2. The question and a definition that can fail</a><a class="l2" href="#3-candidate-mechanisms">3. Candidate mechanisms</a><a class="l2" href="#4-coordinates-and-units-the-matrix-derived-and-checked">4. Coordinates and units: the matrix, derived and checked</a><a class="l3" href="#41-points">4.1 Points</a><a class="l3" href="#42-rotations-conjugation-not-substitution">4.2 Rotations: conjugation, not substitution</a><a class="l3" href="#43-winding-and-the-solid-trap">4.3 Winding and the solid trap</a><a class="l3" href="#44-field-of-view-and-cameras">4.4 Field of view and cameras</a><a class="l3" href="#45-units-and-float-range">4.5 Units and float range</a><a class="l2" href="#5-instancing-hism-gpu-instancing-and-the-thalassa-and-prismatica-counts">5. Instancing: HISM, GPU instancing and the Thalassa and Prismatica counts</a><a class="l3" href="#51-the-counts-re-derived">5.1 The counts, re-derived</a><a class="l3" href="#52-what-the-glb-does-with-them">5.2 What the glb does with them</a><a class="l2" href="#6-looks-lumen-nanite-and-x_ite">6. Looks: Lumen, Nanite, and X_ITE</a><a class="l2" href="#7-how-fidelity-is-measured">7. How fidelity is measured</a><a class="l3" href="#71-the-rig-as-it-exists">7.1 The rig, as it exists</a><a class="l3" href="#72-the-metrics-with-what-each-can-and-cannot-say">7.2 The metrics, with what each can and cannot say</a><a class="l3" href="#73-what-a-fair-comparison-has-to-hold-constant">7.3 What a fair comparison has to hold constant</a><a class="l2" href="#8-what-the-unreal-58-projects-looked-like-when-read-statically">8. What the Unreal 5.8 projects looked like when read statically</a><a class="l2" href="#9-the-test-plan-that-would-promote-claims-to-c">9. The test plan that would promote claims to <span class="g C" title="Confirmed">C</span></a><a class="l2" href="#10-the-first-run-unreal-584-on-a-cloud-gpu-2026-11-14-to-15">10. The first run: Unreal 5.8.4 on a cloud GPU (2026-11-14 to 15)</a><a class="l3" href="#101-the-rig">10.1 The rig</a><a class="l3" href="#102-the-gates-of-section-9-as-far-as-this-run-went">10.2 The gates of Section 9, as far as this run went</a><a class="l3" href="#103-what-the-run-taught-ranked-by-how-much-it-changes-a-pipeline">10.3 What the run taught, ranked by how much it changes a pipeline</a><a class="l3" href="#104-exposure-the-bracket-that-replaced-a-hand-set-number">10.4 Exposure: the bracket that replaced a hand-set number</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-unr-1-derive-and-check-the-axis-swap">D-UNR-1 Derive and check the axis swap</a><a class="l3" href="#d-unr-2-convert-a-field-of-view">D-UNR-2 Convert a field of view</a><a class="l3" href="#d-unr-3-catch-the-winding-flip">D-UNR-3 Catch the winding flip</a><a class="l3" href="#d-unr-4-instancing-arithmetic">D-UNR-4 Instancing arithmetic</a><a class="l3" href="#d-unr-5-break-a-psnr-comparison">D-UNR-5 Break a PSNR comparison</a><a class="l3" href="#d-unr-6-write-the-pass-and-fail-line-for-a-gate">D-UNR-6 Write the pass and fail line for a gate</a><a class="l3" href="#d-unr-7-pick-an-exposure-from-a-bracket">D-UNR-7 Pick an exposure from a bracket</a><a class="l3" href="#d-unr-8-count-what-interchange-kept">D-UNR-8 Count what Interchange kept</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
 <blockquote>
 <p><strong>Say it:</strong> Unreal is a plausible tier-1 endpoint for <em>rendering</em> an X3D scene through a glb, it cannot run X3D behaviour without a plugin that does not exist, and today every Unreal claim in this base is read, not run: no Unreal 5.8 install and no GPU run stand behind any of them. <strong><span class="g L" title="Likely">L</span></strong> for the architecture, <strong><span class="g S" title="Suspected">S</span></strong> for every Unreal behaviour claim, <strong><span class="g C" title="Confirmed">C</span></strong> only for the conversions and arithmetic re-run on 2026-11-14.</p>
 </blockquote>
@@ -668,7 +668,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <p>Therefore: what is established about these projects is that their <em>engine-independent maths</em> can be turned into X3D and a glb, and that the glb is structurally valid. What is not established is any statement about how they look in Unreal. A frame from Unreal would be the first evidence, and the conversions would then be a candidate oracle, not the other way round.</p>
 <hr />
 <h2 id="9-the-test-plan-that-would-promote-claims-to-c">9. The test plan that would promote claims to <span class="g C" title="Confirmed">C</span></h2>
-<p>Preconditions, none met today: Unreal Engine 5.8 installed on a Linux or Windows machine with a Shader Model 6 class GPU (ray-tracing cores for the hardware paths); a named GPU and driver; the rig's scenes available.</p>
+<p>Preconditions (none were met when this chapter was first written; all were met on 2026-11-14, see <a href="#10-the-first-run-unreal-584-on-a-cloud-gpu-2026-11-14-to-15">section 10</a>): Unreal Engine 5.8 installed on a Linux or Windows machine with a Shader Model 6 class GPU (ray-tracing cores for the hardware paths); a named GPU and driver; the rig's scenes available.</p>
 <table>
 <thead>
 <tr>
@@ -736,6 +736,253 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tbody>
 </table>
 <p>A gate that fails is a result, recorded as a dated row; the earlier statement is demoted, not edited away (the base's augmentation loop, <code>AUTHORING.md</code> section 6). Promotion rule: a claim moves from <span class="g S" title="Suspected">S</span> to <span class="g L" title="Likely">L</span> when a gate passes once on one machine, to <span class="g C" title="Confirmed">C</span> when G8 holds.</p>
+<hr />
+<h2 id="10-the-first-run-unreal-584-on-a-cloud-gpu-2026-11-14-to-15">10. The first run: Unreal 5.8.4 on a cloud GPU (2026-11-14 to 15)</h2>
+<p>This section is dated and supersedes nothing above it: Sections 3 to 9 stay as written, and the rows here are the first measurements that
+stand beside them. One machine, one night, the x3d.lab notebook 07 pipeline (glb through Interchange, stills through Movie Render Queue).
+By the promotion rule of Section 9, a gate passed once on one machine lifts its claim from <span class="g S" title="Suspected">S</span> to <span class="g L" title="Likely">L</span>, not to <span class="g C" title="Confirmed">C</span>; the numbers
+themselves are <span class="g C" title="Confirmed">C</span> because they were measured with the instruments named.</p>
+<h3 id="101-the-rig">10.1 The rig</h3>
+<table>
+<thead>
+<tr>
+<th>part</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPU</td>
+<td>NVIDIA RTX PRO 6000 Blackwell Server Edition (95.6 GB), driver 580.82.07, CUDA 13.0, compute capability 12.0 (a Colab G4 runtime)</td>
+</tr>
+<tr>
+<td>host</td>
+<td>Ubuntu 24.04, AMD EPYC 9B45, 48 CPUs, 177 GB RAM</td>
+</tr>
+<tr>
+<td>engine</td>
+<td>Unreal Engine 5.8.4-58902052, Vulkan, shader platforms SM6 and SM6 ray tracing; bindless through <code>VK_EXT_descriptor_buffer</code>; async compute off; hardware Lumen with hit lighting, MegaLights and Substrate on</td>
+</tr>
+<tr>
+<td>X3D to glb</td>
+<td><code>bpy 5.2.3</code> with <code>x3d-blender-io@54aba0c</code>; <code>Khronos glTF-Validator 2.0.0-dev.3.10</code></td>
+</tr>
+<tr>
+<td>reference</td>
+<td><code>X_ITE 16.7.0</code>, headless Chromium 159.0.8154.6 on ANGLE Vulkan 1.4.312 on the same GPU (not SwiftShader)</td>
+</tr>
+<tr>
+<td>pipeline</td>
+<td><code>x3d.lab@70551e8</code>, notebook 07 (<code>notebooks/unreal/src/07_unreal.py</code>); fixes from this run in x3d.lab PR #29</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-text">  X3D --bpy 5.2.3 + add-on--&gt; glb --validator--&gt; Interchange --&gt; level, lights, cameras
+                                                                       |
+  calib box --&gt; K = 1.017 (light units)     exposure bracket (720p Lumen)
+                                                                       |
+                                                                       v
+          MRQ stills: preview 1080p Lumen | 4K HW Lumen | 4K path tracer
+                                                                       |
+            compare vs X_ITE 16.7.0 (same GPU) and Cycles: match, IoU, SSIM, luma
+</code></pre>
+<h3 id="102-the-gates-of-section-9-as-far-as-this-run-went">10.2 The gates of Section 9, as far as this run went</h3>
+<table>
+<thead>
+<tr>
+<th>gate</th>
+<th>result</th>
+<th>grade of the claim now</th>
+<th>evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G0 headless import</td>
+<td>passed: every scene imported in a one-shot editor run, exit 0</td>
+<td>&quot;Unreal imports our glb&quot; <span class="g L" title="Likely">L</span></td>
+<td>notebook 07 step 8 scorecard</td>
+</tr>
+<tr>
+<td>G1 importer coverage</td>
+<td>partial: 8 scenes imported (calib, stilllife, two Unreal-project scenes, odyssey, three Khronos controls); triangle WARN on stilllife, 27,560 in the glb against 9,403 counted, Likely the Nanite fallback count</td>
+<td><span class="g L" title="Likely">L</span> for coverage of these scenes</td>
+<td>step 8 accounting rows</td>
+</tr>
+<tr>
+<td>G2 instancing</td>
+<td>recorded failure: Interchange logs <code>Extension is not supported: EXT_mesh_gpu_instancing</code> and the instanced exhibition glb arrives as 8 meshes with 1,711 instances dropped; the plain DEF/USE glb of the same scene keeps sharing (1,719 actors on 8 meshes)</td>
+<td>&quot;Unreal 5.8.4 reads <code>EXT_mesh_gpu_instancing</code>&quot;: refuted on this build <span class="g C" title="Confirmed">C</span></td>
+<td>Interchange log line</td>
+</tr>
+<tr>
+<td>G3 coordinates</td>
+<td>not run as a dedicated test; silhouettes match X_ITE (below), which a wrong axis swap would break</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>indirect</td>
+</tr>
+<tr>
+<td>G4 light units</td>
+<td>calibrated: K = 1.01736 (the code assumed 1.2); rule <code>lux = lin(i) x pi x K</code> for a classic directional light</td>
+<td><span class="g C" title="Confirmed">C</span> for this engine build and rig</td>
+<td>calib box centre pixel, match look</td>
+</tr>
+<tr>
+<td>G5 engine pairs</td>
+<td>partial: stilllife only, numbers below; FLIP not reported</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>step 10</td>
+</tr>
+<tr>
+<td>G6 frame time</td>
+<td>not run (stills only)</td>
+<td>unchanged</td>
+<td>none</td>
+</tr>
+<tr>
+<td>G7 behaviour</td>
+<td>not run; step 7 freezes animated scenes instead (Section 10.4)</td>
+<td>unchanged</td>
+<td>none</td>
+</tr>
+<tr>
+<td>G8 second machine</td>
+<td>not run</td>
+<td>unchanged</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>stilllife, 1080p preview, match look</th>
+<th>vs X_ITE 16.7.0</th>
+<th>vs Cycles</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>silhouette match (2 px tolerance)</td>
+<td>1.000</td>
+<td>not reported</td>
+</tr>
+<tr>
+<td>mask IoU</td>
+<td>0.997</td>
+<td>not reported</td>
+</tr>
+<tr>
+<td>SSIM</td>
+<td>0.8195</td>
+<td>0.7334</td>
+</tr>
+<tr>
+<td>mean colour delta (0 to 255)</td>
+<td>11.5</td>
+<td>not reported</td>
+</tr>
+<tr>
+<td>luma ratio Unreal / other</td>
+<td>0.715</td>
+<td>0.601</td>
+</tr>
+</tbody>
+</table>
+<h3 id="103-what-the-run-taught-ranked-by-how-much-it-changes-a-pipeline">10.3 What the run taught, ranked by how much it changes a pipeline</h3>
+<table>
+<thead>
+<tr>
+<th>rank</th>
+<th>finding</th>
+<th>grade</th>
+<th>what to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Manual exposure tuned on the calibration box does not fit scenes: odyssey's White Room (four spots at X3D intensity 100) rendered 86 % clipped white at the calibrated EV and wanted -14 EV; the Khronos controls (no lights of their own) wanted +2; one X3D scene still wanted more than +8</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>bracket each scene before expensive stills (notebook 07 <code>EXPOSURE = &quot;auto&quot;</code>, PR #29)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>The path tracer and Lumen hit lighting trace Nanite's reduced fallback mesh by default: X3D Spheres (64 segments) were visibly faceted in 4K path-traced stills and round with <code>r.RayTracing.Nanite.Mode 1</code>, same view</td>
+<td><span class="g C" title="Confirmed">C</span> (visual, one view; no metric)</td>
+<td>set it on every ray-traced rung</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>EXT_mesh_gpu_instancing</code> is not read by Interchange in 5.8.4</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>ship the DEF/USE glb to Unreal; expand instancing in the import script if counts get large</td>
+</tr>
+<tr>
+<td>4</td>
+<td>The USD path brings lights and cameras but no mesh actors; <code>UsdStageImportOptions</code> no longer has <code>import_lights</code>, <code>import_cameras</code>, <code>meters_per_unit</code></td>
+<td><span class="g C" title="Confirmed">C</span> for this build</td>
+<td>glb is the carrier for Unreal 5.8.4</td>
+</tr>
+<tr>
+<td>5</td>
+<td>The editor binary links ATK and GTK; the stock Ubuntu 24.04 cloud image lacks them, so the first start exits with code 127</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>install the desktop libraries before the first start</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Unreal is darker than X_ITE on the same classic scene under the match look (luma ratio 0.715) after calibration</td>
+<td><span class="g C" title="Confirmed">C</span> for stilllife</td>
+<td>log as a difference; the light model, not the import, is the Likely cause <span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>7</td>
+<td>X_ITE ran on the real GPU (ANGLE Vulkan), not SwiftShader, in the same session</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>name the GPU in X_ITE receipts from such runs</td>
+</tr>
+</tbody>
+</table>
+<h3 id="104-exposure-the-bracket-that-replaced-a-hand-set-number">10.4 Exposure: the bracket that replaced a hand-set number</h3>
+<pre><code class="language-text">  round 1 (one Unreal start, 1280 x 720, Lumen):  +4   0   -4   -8   -12   -16   EV offsets
+  score each still: |median luma - 0.38| + 2.5 x max(0, clipped - 2 %) + max(0, black - 25 %)
+  round 2: best +-1, +-2; if the best was the edge, also 4 and 8 stops further that way
+  render the keepers at the best offset (4K HW Lumen, or the path tracer)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>scene</th>
+<th>picked offset</th>
+<th>note</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>odyssey, frozen at 0.886 of its 138 s film (the White Room)</td>
+<td>-14 EV</td>
+<td>first bracket stopped at its -10 edge; the second reached -14</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>Khronos Lantern, ToyCar (glTF), WaterBottle</td>
+<td>+2 EV</td>
+<td>no lights of their own; made for an environment map this stage does not add</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>ToyCar (X3D 4 conversion)</td>
+<td>+8 EV, the edge</td>
+<td>also mis-framed: the model is centimetre-sized</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+</tbody>
+</table>
+<p>Animated scenes need a moment. The notebook freezes a scene that is dark at time 0 at its brightest moment (every
+TimeSensor-driven interpolator evaluated at one fraction and written into its target); for odyssey that is fraction 0.886, inside the White Room,
+so the stills show the authored state of the film at about 122 s, not the time-0 set. <span class="g C" title="Confirmed">C</span>, <code>x3d.lab@70551e8:notebooks/unreal/x3due/staging.py</code>.</p>
 <hr />
 <h2 id="heuristics">Heuristics</h2>
 <table>
@@ -826,6 +1073,34 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>design expectation</td>
 <td>none</td>
 </tr>
+<tr>
+<td>H-UNR-12</td>
+<td>Bracket exposure per scene before any expensive still; a calibration box fixes light units, not exposure.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>odyssey -14 EV, Khronos controls +2 EV</td>
+<td>UE 5.8.4 on RTX PRO 6000, 2026-11-14</td>
+</tr>
+<tr>
+<td>H-UNR-13</td>
+<td>Turn on <code>r.RayTracing.Nanite.Mode 1</code> wherever rays are traced, or curved X3D primitives render faceted.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>faceted spheres in the path tracer, round with the setting</td>
+<td>UE 5.8.4 on RTX PRO 6000, 2026-11-15</td>
+</tr>
+<tr>
+<td>H-UNR-14</td>
+<td>Ship the DEF/USE glb to Unreal, not the <code>EXT_mesh_gpu_instancing</code> glb, until Interchange reads the extension.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>1,711 instances dropped, 8 meshes kept</td>
+<td>UE 5.8.4 Interchange log, 2026-11-15</td>
+</tr>
+<tr>
+<td>H-UNR-15</td>
+<td>When a bracket's best is its edge, extend it; an edge pick means the scene's exposure was not reached.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>odyssey picked -10 at the edge, then -14</td>
+<td>same run</td>
+</tr>
 </tbody>
 </table>
 <hr />
@@ -878,10 +1153,28 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <li><strong>Answer:</strong> expected UE location <code>(x*100, z*100, y*100) = (100, 300, 200)</code> cm; the yaw is the inverse of the Section 4.2 mapping. The checker passes if location is within 1 cm and the actor's forward vector is within 0.1 degrees of the expected one.</li>
 <li><strong>Checked:</strong> not run (no Unreal here).</li>
 </ul>
+<h3 id="d-unr-7-pick-an-exposure-from-a-bracket">D-UNR-7 Pick an exposure from a bracket</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> a fake engine draws a still whose linear value is <code>0.38^2.2 x 2^-(ev + 14)</code>, shown with gamma 2.2. Score offsets +4 to -16 with the Section 10.4 rule, run the second round, and report the pick and whether it is an edge.</li>
+<li><strong>Verify:</strong> <code>pytest notebooks/unreal/tests/test_ue_g4_first_run.py::test_fit_exposure_finds_a_dark_scene</code> in <code>hagopjay/x3d.lab</code> (PR #29 branch).</li>
+<li><strong>Answer:</strong> round 1 picks -12 or -16 by a hair; round 2 tries -10, -11, -13, -14 (and -18, -20 at an edge) and picks -14, not an edge.</li>
+<li><strong>Checked:</strong> 2026-11-15 pytest 9 on the PR #29 branch (11 new tests pass).</li>
+</ul>
+<h3 id="d-unr-8-count-what-interchange-kept">D-UNR-8 Count what Interchange kept</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> for an instanced glb, count meshes and instances from the glb JSON (<code>EXT_mesh_gpu_instancing</code> accessors), then the static mesh actors Unreal created. State which number the engine lost and which log line says why.</li>
+<li><strong>Verify:</strong> glb JSON parse; the Interchange log of the import.</li>
+<li><strong>Answer:</strong> 8 meshes in both; 1,711 instances in the glb, none in the level; <code>Extension is not supported: EXT_mesh_gpu_instancing</code>.</li>
+<li><strong>Checked:</strong> 2026-11-15 UE 5.8.4 Interchange on RTX PRO 6000 (one run).</li>
+</ul>
 <hr />
 <h2 id="honest-limits">Honest limits</h2>
 <ul>
 <li><strong>No Unreal run exists.</strong> No frame, import log, actor count or frame time came from Unreal 5.8 in this base. Everything on Unreal behaviour is <span class="g S" title="Suspected">S</span> and says so. <span class="g S" title="Suspected">S</span></li>
+<li><strong>Superseded 2026-11-15 by Section 10:</strong> one run on one machine now stands behind the import, calibration, instancing, exposure and Nanite rows there. Frame times, behaviour, a second machine and FLIP between engines are still not measured. The stills and logs of that run are in a private notebook output, not in a public repository, so a reader cannot re-open them; the notebook and its tests are public. <span class="g L" title="Likely">L</span></li>
+<li><strong>The Nanite finding is visual.</strong> One view, two stills, judged by eye; no metric was computed between them. <span class="g L" title="Likely">L</span></li>
 <li><strong>The Unreal digest is a lead.</strong> It was written 2026-11-12 with some vendor pages unreachable (the licence pages returned an error), so licence terms, product pricing and web-streaming claims are not stated here. A reader needs the vendors' own pages. <span class="g S" title="Suspected">S</span></li>
 <li><strong>Web targets move fast.</strong> The digest reports an experimental WebGPU target in a 5.9 preview and a commercial streaming route that supports 5.8; both are vendor or Epic claims, not tested, and dated. They are not repeated as facts here. <span class="g S" title="Suspected">S</span></li>
 <li><strong>The Unreal-project converters are not public.</strong> Section 5 and 8 counts agree with a public release note; the scripts themselves and the outputs are in a private project folder. A reader outside cannot repeat the counting. <span class="g L" title="Likely">L</span></li>
@@ -1049,6 +1342,78 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>none</td>
 <td>this chapter</td>
 </tr>
+<tr>
+<td>N-UNR-19</td>
+<td>light calibration constant K</td>
+<td>1.01736 (assumed 1.2)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>UE 5.8.4 on RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-14</td>
+<td>notebook 07 step 8 (recorded run, not in a repo)</td>
+</tr>
+<tr>
+<td>N-UNR-20</td>
+<td>stilllife vs X_ITE 16.7.0: match / IoU / SSIM</td>
+<td>1.000 / 0.997 / 0.8195</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same, X_ITE on ANGLE Vulkan, Chromium 159</td>
+<td>notebook 07 step 10</td>
+</tr>
+<tr>
+<td>N-UNR-21</td>
+<td>stilllife luma ratio Unreal / X_ITE and Unreal / Cycles</td>
+<td>0.715 / 0.601</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>notebook 07 step 10</td>
+</tr>
+<tr>
+<td>N-UNR-22</td>
+<td>cold start (first shader compile) / warm start</td>
+<td>312.7 s / 15.3 s</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same, 44 shader workers</td>
+<td>notebook 07 step 6</td>
+</tr>
+<tr>
+<td>N-UNR-23</td>
+<td>1080p Lumen still, stilllife / peak VRAM</td>
+<td>10 s / 7.5 GB</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>notebook 07 step 9</td>
+</tr>
+<tr>
+<td>N-UNR-24</td>
+<td>instances dropped by Interchange from the instanced glb</td>
+<td>1,711</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>Interchange log</td>
+</tr>
+<tr>
+<td>N-UNR-25</td>
+<td>odyssey White Room: clipped pixels at the calibrated EV / picked offset</td>
+<td>86 % / -14 EV</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>exposure bracket</td>
+</tr>
+<tr>
+<td>N-UNR-26</td>
+<td>Khronos controls: picked offset</td>
+<td>+2 EV</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>exposure bracket</td>
+</tr>
+<tr>
+<td>N-UNR-27</td>
+<td>scorecard of the first leg</td>
+<td>40 PASS, 3 WARN, 0 FAIL, 1 SKIP</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>notebook 07 step 11</td>
+</tr>
 </tbody>
 </table>
 <hr />
@@ -1058,6 +1423,8 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <li>Khronos glTF extension registry, fetched 2026-11-14.</li>
 <li>Two converter scripts for Unreal-project scenes (manifest to X3D; C++ maths to X3D): read in full, one re-run (byte-identical output), outputs counted and the produced glbs re-validated with <code>gltf-validator@2.0.0-dev.3.10</code> on 2026-11-14. The scripts and the projects are not in a public repository; counts are cross-checked against the public release note.</li>
 <li>A private digest of Unreal, web-reach, Castle and quality-metric sources (written 2026-11-12, one adversarial pass 2026-11-12). Read as a lead. Its Unreal, web, licence and metric-tool claims are not re-checked and are graded <span class="g S" title="Suspected">S</span>.</li>
+<li><code>x3d.lab@70551e8</code>: <code>notebooks/unreal/src/07_unreal.py</code>, <code>x3due/staging.py</code>, <code>x3due/tier.py</code>; the fixes of Section 10 in x3d.lab PR #29. Public repository <code>hagopjay/x3d.lab</code>.</li>
+<li>The 2026-11-14 to 15 run: notebook 07 output read as it ran (scorecard, Interchange and render logs, stills); not in a public repository.</li>
 <li>Sibling chapters: <a href="11-gltf-usd-khronos.html">11 glTF, USD and Khronos</a>, <a href="08-babylon-bridge.html">08 The Babylon bridge</a>, <a href="09-castle-engine.html">09 Castle Game Engine</a>, <a href="13-physics.html">13 Physics</a>.</li>
 </ul>
 <div class="pn"><a href="11-gltf-usd-khronos.html">&larr; 11-gltf-usd-khronos</a><a href="13-physics.html">13-physics &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

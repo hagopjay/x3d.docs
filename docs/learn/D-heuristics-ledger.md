@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**200 heuristics.** Grades: [C] 155 · [L] 38 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**204 heuristics.** Grades: [C] 159 · [L] 38 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -176,6 +176,10 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-UNR-9 | [12](12-unreal-tier1.md) | Do not infer that an instanced glb works in a second engine from a first: the validator cannot read `EXT_mesh_gpu_instancing`. | [C] | `NOT VALIDATED` line | `Khronos glTF-Validator 2.0.0-dev.3.10`, run 2026-11-14 |
 | H-UNR-10 | [12](12-unreal-tier1.md) | Treat behaviour as a separate tier: no glb import gives ROUTEs; tier 4 needs software that does not exist. | [L] | no importer found; ROUTE count in glb is 0 | read; JSON parse |
 | H-UNR-11 | [12](12-unreal-tier1.md) | Keep a calibration constant for X3D lights in Unreal as an explicit manifest field, not a hidden multiplier. | [S] | design expectation | none |
+| H-UNR-12 | [12](12-unreal-tier1.md) | Bracket exposure per scene before any expensive still; a calibration box fixes light units, not exposure. | [C] | odyssey -14 EV, Khronos controls +2 EV | UE 5.8.4 on RTX PRO 6000, 2026-11-14 |
+| H-UNR-13 | [12](12-unreal-tier1.md) | Turn on `r.RayTracing.Nanite.Mode 1` wherever rays are traced, or curved X3D primitives render faceted. | [C] | faceted spheres in the path tracer, round with the setting | UE 5.8.4 on RTX PRO 6000, 2026-11-15 |
+| H-UNR-14 | [12](12-unreal-tier1.md) | Ship the DEF/USE glb to Unreal, not the `EXT_mesh_gpu_instancing` glb, until Interchange reads the extension. | [C] | 1,711 instances dropped, 8 meshes kept | UE 5.8.4 Interchange log, 2026-11-15 |
+| H-UNR-15 | [12](12-unreal-tier1.md) | When a bracket's best is its edge, extend it; an edge pick means the scene's exposure was not reached. | [C] | odyssey picked -10 at the edge, then -14 | same run |
 | H-PHY-1 | [13](13-physics.md) | Use the scheme's own discrete solution as the exact reference for a stepped engine, and report the continuum gap as a known number. | [C] | PhysX free fall 1.5e-6 m from discrete, 0.0204 m from continuum; D-PHY-2 reproduces both | `x3d.loom@162ab18` `p1-analytic.json`; numpy 2.5.3 |
 | H-PHY-2 | [13](13-physics.md) | Run every new check against a known-wrong implementation before trusting it; if the wrong one passes, the check says nothing. | [C] | KE 0.5 for fixed, buggy and no collisions (D-PHY-4); law 44 | numpy 2.5.3; ERRATA-v1-v4 |
 | H-PHY-3 | [13](13-physics.md) | Add an oblique collision case; a head-on axis-aligned test makes every dot product exact and passes a wrong normal. | [C] | 19 of 300 oblique pairs differed per step; failure mode 151 | ERRATA-v1-v4 (reviewer), read |
