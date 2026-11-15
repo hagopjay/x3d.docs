@@ -1,0 +1,816 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>20. Compute on the GPU: WebGPU kernels for X3D workloads · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-yjs-collaboration.html">15. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a class="cur" href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="20-webgpu-compute.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/20-webgpu-compute.md">GitHub</a></div><h1>20. Compute on the GPU: WebGPU kernels for X3D workloads</h1>
+<details class="toc"><summary>On this page (23 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-the-five-kernels">2. The five kernels</a><a class="l2" href="#3-how-a-kernel-earns-trust">3. How a kernel earns trust</a><a class="l3" href="#31-the-twin">3.1 The twin</a><a class="l3" href="#32-the-planted-bug">3.2 The planted bug</a><a class="l3" href="#33-the-hand-worked-chain">3.3 The hand-worked chain</a><a class="l3" href="#34-cases-that-cannot-pass-by-luck">3.4 Cases that cannot pass by luck</a><a class="l2" href="#4-the-three-clocks">4. The three clocks</a><a class="l2" href="#5-what-the-workloads-cost-on-a-software-adapter">5. What the workloads cost on a software adapter</a><a class="l2" href="#6-the-sort-is-the-splat-cost">6. The sort is the splat cost</a><a class="l2" href="#7-what-the-review-found">7. What the review found</a><a class="l2" href="#8-what-needs-a-real-gpu">8. What needs a real GPU</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-wgc-1-run-the-gate">D-WGC-1 Run the gate</a><a class="l3" href="#d-wgc-2-plant-a-bug">D-WGC-2 Plant a bug</a><a class="l3" href="#d-wgc-3-price-the-sort">D-WGC-3 Price the sort</a><a class="l3" href="#d-wgc-4-do-the-skeleton-by-hand">D-WGC-4 Do the skeleton by hand</a><a class="l3" href="#d-wgc-5-read-three-clocks">D-WGC-5 Read three clocks</a><a class="l3" href="#d-wgc-6-break-the-sort">D-WGC-6 Break the sort</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> Five X3D features (ParticleSystem, HAnim skinning, VolumeData, NURBS patches, GaussianSplats) have per-frame arithmetic that maps to WGSL compute kernels one thread per item, and each kernel is trustworthy only because it matches an independent CPU twin, fails when a bug is planted in it, and is timed three ways that disagree. <strong><span class="g C" title="Confirmed">C</span></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>WGC</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="02-loom-laws.html">02 Loom laws</a>, <a href="08-babylon-bridge.html">08 The Babylon bridge</a></td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>map an X3D feature onto a compute kernel and say what the kernel ignores; write a CPU twin and a tolerance that can fail; plant a bug and watch the gate go red; read a GPU timestamp, a wall time and a rAF frame time and say why they differ; say why a sort with fewer passes can still be slower</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td><code>x3d.loom@7c818e3:x3d.compute/{README.md,src/,fixtures/,bench/page.js,tools/,receipts/}</code> (read and run)</td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td>Chromium 153.0.8010.12 with the SwiftShader WebGPU adapter (software, timestamp-query present) on 4x Intel Xeon 2.10 GHz, Node v22.23.4, <code>x3d.loom@7c818e3</code>; no real GPU was used for any number in this chapter</td>
+</tr>
+</tbody>
+</table>
+<p>The bridges draw X3D by walking the scene graph on the CPU. Five features spend their time in arithmetic that has no data dependence between items: a particle step, a vertex blend, a ray, a grid vertex, a splat. That arithmetic is the part a GPU does well, and WebGPU compute lets a browser run it without leaving the page. This chapter is about the kernels in <code>x3d.compute</code> and, more than that, about the rules that made their numbers believable: the twin, the planted bug, and the three clocks. Every timing here comes from a software adapter, so read each as a scaling number, not a GPU number. Section 8 lists what only a real GPU can answer.</p>
+<hr />
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text">   X3D fixture (.x3d)                      CPU twin (JS, f64 or matched f32 order)
+        |  fromX3D()                                   |
+        v                                              v
+   packed params + buffers  ---&gt;  WGSL kernel  ---&gt;  GPU result  ---compare(tol)---&gt; PASS / FAIL
+                                      |                                                ^
+                          timestamp-query (first/last pass)                            |
+                                      |                              planted mutant must turn this red
+                                      v
+          wall ms (submit -&gt; onSubmittedWorkDone)      rAF dt and sustained ms per frame
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>in scope</th>
+<th>out of scope here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>five compute kernels, their fixtures and twins, the gate, the mutation check, the three timing methods, the sort variants</td>
+<td>drawing (the demo draws the kernel output with ordinary render pipelines), a real-GPU receipt, a WebGL2 fallback, X3D event wiring of the results</td>
+</tr>
+</tbody>
+</table>
+<p>Read next: deeper, <a href="08-babylon-bridge.html">08 The Babylon bridge</a> (the CPU-side semantics these kernels shortcut); wider, <a href="14-methods.html">14 Methods</a> (how a claim earns its grade).</p>
+<h2 id="2-the-five-kernels">2. The five kernels</h2>
+<p>One table says what each kernel computes, what it deliberately does not, and what it is checked against. &quot;Ignored&quot; is the column to read first: a kernel that quietly drops a field is the failure the first review found.</p>
+<table>
+<thead>
+<tr>
+<th>kernel (entry)</th>
+<th>X3D feature</th>
+<th>one thread is</th>
+<th>mapped</th>
+<th>ignored or refused (logged in the file header or <code>fromX3D</code>)</th>
+<th>twin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>particles.wgsl</code> (<code>step</code>, <code>seed</code>)</td>
+<td>ParticleSystem</td>
+<td>a particle</td>
+<td>ConeEmitter position, angle, speed, variation; ForcePhysicsModel force; WindPhysicsModel direction and speed; BoundedPhysicsModel Box as a floor</td>
+<td>emitter mass, surfaceArea, lifetimeVariation, gustiness, turbulence; cone axis other than +Y is refused; drag 0.5 and restitution 0.5 are harness constants</td>
+<td>same pcg hash and f32 operation order</td>
+</tr>
+<tr>
+<td><code>skinning.wgsl</code> (<code>skin</code>)</td>
+<td>HAnimHumanoid, HAnimJoint</td>
+<td>a vertex</td>
+<td>skinCoordIndex and skinCoordWeight reduced to the top 4 influences per vertex; joint translation, center, rotation</td>
+<td>joint scale and scaleOrientation, skinBindingMatrix are refused; a vertex with no weight uses an identity slot</td>
+<td>forward kinematics plus a CPU blend, and a hand-worked chain</td>
+</tr>
+<tr>
+<td><code>volume.wgsl</code> (<code>march</code>)</td>
+<td>VolumeData</td>
+<td>a pixel</td>
+<td>OpacityMapVolumeStyle (front-to-back over) and ProjectionVolumeStyle MAX</td>
+<td>transfer function is a fixed ramp, nearest-voxel sampling, orthographic yaw-only camera, other styles refused</td>
+<td>same march and step positions</td>
+</tr>
+<tr>
+<td><code>nurbs.wgsl</code> (<code>tess</code>)</td>
+<td>NurbsPatchSurface</td>
+<td>a grid vertex</td>
+<td>rational, any order to 6, uKnot and vKnot, analytic normal, area element in <code>normal.w</code></td>
+<td>uClosed and vClosed (periodic) refused</td>
+<td>a different algorithm: recursive Cox-de Boor in f64</td>
+</tr>
+<tr>
+<td><code>splats.wgsl</code> (<code>project</code>, <code>bitonic_*</code>)</td>
+<td>GaussianSplats</td>
+<td>a splat, or a compare-exchange</td>
+<td>EWA projection, 3 sigma radius, culling, depth sort</td>
+<td>spherical-harmonic colour, tile binning</td>
+<td>f64 projection and a CPU sort of the GPU's own keys</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-text"> pcg(i, frame, k) -&gt; particle respawn          M[j] = world(pose) * inverse(world(rest))
+ vertex v: p' = sum over &lt;=4 of w_k * M[idx_k] * p     (idx = nj means &quot;unweighted&quot;, M = identity)
+ pixel (px,py): ray o + t*d through the unit cube, slab test per axis, then steps of (tmax-tmin)/N
+ grid (i,j): u = span search, basis N_p(u) by Piegl-Tiller A2.2, S = sum N_i M_j P_ij, n = Su x Sv
+ splat s: z = view depth; key = f32 bits of z (culled and padding: 0xFFFFFFFF); sort keys with values
+</code></pre>
+<h2 id="3-how-a-kernel-earns-trust">3. How a kernel earns trust</h2>
+<h3 id="31-the-twin">3.1 The twin</h3>
+<p>Each kernel has a CPU twin in <code>src/ref/*.js</code> that reads the same fixture. Three rules decided the twins:</p>
+<ol>
+<li><strong>Match the order of operations when the claim is bit-level, differ in algorithm when the claim is correctness.</strong> The particle twin copies the f32 order of operations because a respawn decision flips on one ulp. The NURBS twin is a different algorithm on purpose: if both used the same basis recurrence, one bug would sit in both.</li>
+<li><strong>Compare relative to a floor for quantities that are small by nature.</strong> A splat conic is about 1/sigma squared, so an absolute tolerance of 1e-3 let a swapped-term mutant survive. <code>compareRel(a, b, rel, floor)</code> fixed it.</li>
+<li><strong>Work one case out by hand.</strong> An independent twin shares your convention errors. The skinning suite carries a chain whose expected positions were derived on paper (section 3.3).</li>
+</ol>
+<h3 id="32-the-planted-bug">3.2 The planted bug</h3>
+<p><code>tools/mutation-check.sh</code> rewrites one line of a kernel in the page (<code>?mut=</code> carries <code>[kernel, old text, new text]</code>), runs only that kernel's suite, and requires the suite to read <code>false</code>. The first version of this script was wrong in three ways that each made it look better than it was:</p>
+<table>
+<thead>
+<tr>
+<th>flaw in the first version</th>
+<th>effect</th>
+<th>fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>any result other than <code>true</code> counted as caught</td>
+<td>a crash or a missing mutation target counted as a catch</td>
+<td>read the receipt JSON; only <code>pass === false</code> is a catch; <code>ERROR</code> and missing are failures of the check</td>
+</tr>
+<tr>
+<td><code>val()</code> cut a mutation string at its first <code>=</code></td>
+<td>mutants containing <code>=</code> ran as truncated text, so some &quot;catches&quot; were crashes</td>
+<td>slice after the first <code>=</code></td>
+</tr>
+<tr>
+<td>one mutant (drop the degree factor in the NURBS derivative)</td>
+<td>survived forever: normals are scale-invariant, so it is an equivalent mutant</td>
+<td>replace it by a sign mutant and add the area element <code>normal.w</code>, which is not scale-invariant</td>
+</tr>
+</tbody>
+</table>
+<p>Result in the current version: five unmutated baselines green, then 14 of 14 mutants red. The mutants cover the drag term, the speed variation, the restitution, two skin blend weights, the over-compositing term, the cube-face clamp, the NURBS basis sign, the area element, the conic, the depth key and three lines of the bitonic network.</p>
+<h3 id="33-the-hand-worked-chain">3.3 The hand-worked chain</h3>
+<p><code>SK.handChain()</code> is three joints and five vertices. J0 and J1 rotate +90 degrees about z (J1 about its own center, 1 0 0), J2 rotates 180 degrees, and vertex 4 is weighted 0.25, 0.5, 0.25 over the three joints after renormalisation (raw weights 0.5, 1, 0.5). The work for vertex 4 at rest position (1, 2, 0), done by hand:</p>
+<table>
+<thead>
+<tr>
+<th>joint</th>
+<th>step</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>J0 (weight 0.25)</td>
+<td>R(90) about origin: (x, y) -&gt; (-y, x)</td>
+<td>(-2, 1, 0)</td>
+</tr>
+<tr>
+<td>J1 (weight 0.5)</td>
+<td>undo rest translation (0,-2,0) -&gt; (1,0,0); about center (1,0,0) a rotation leaves it fixed; translate (0,2,0) -&gt; (1,2,0); then J0's R(90)</td>
+<td>(-2, 1, 0)</td>
+</tr>
+<tr>
+<td>J2 (weight 0.25)</td>
+<td>undo rest translation (0,1,0) -&gt; (1,3,0); R(180) -&gt; (-1,-3,0); translate (0,-1,0) -&gt; (-1,-4,0); then J0's R(90)</td>
+<td>(4, -1, 0)</td>
+</tr>
+<tr>
+<td>blend</td>
+<td>0.25 (-2,1,0) + 0.5 (-2,1,0) + 0.25 (4,-1,0)</td>
+<td>(-0.5, 0.5, 0)</td>
+</tr>
+</tbody>
+</table>
+<p>The GPU returned that point to within 6.1e-17 of the hand value (threshold 1e-5). The same chain has one vertex with no weight at all, which must come back unchanged at (5, 5, 5): that exercises the identity slot, the row <code>M[nj]</code>.</p>
+<h3 id="34-cases-that-cannot-pass-by-luck">3.4 Cases that cannot pass by luck</h3>
+<table>
+<thead>
+<tr>
+<th>kernel</th>
+<th>case added after review</th>
+<th>what it catches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>particles</td>
+<td>all uniforms non-default (speed 1.7, cone 0.4 rad, variation 0.4, wind, drag 0.8, gravity -7, floor 0.2, restitution 0.6, lifetime 1.3 s, seed 99) and n = 4093, not a multiple of 64</td>
+<td>a field that is ignored or swapped; the bounds check; respawn (4,093 of 4,093 respawned during the run)</td>
+</tr>
+<tr>
+<td>volume</td>
+<td>a ramp non-zero up to every face at yaw 0, pi/2, 0.6 and 2.4</td>
+<td>the axis-parallel slab branch; first and last sample; clamp at the faces</td>
+</tr>
+<tr>
+<td>nurbs</td>
+<td>eight patches: orders 3 to 5, rational, interior knots, unclamped repeated end knots</td>
+<td>the end-span NaN case; basis order; weights</td>
+</tr>
+<tr>
+<td>splats</td>
+<td>3,000 random-orientation splats seen from inside the cloud: 1,051 visible, 944 behind the near plane, 1,005 off screen</td>
+<td>cull reasons, depth key, padding keys</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-the-three-clocks">4. The three clocks</h2>
+<p>A frame counter, a wall clock and a GPU timestamp measure different things. The harness keeps them apart in every row of every receipt.</p>
+<table>
+<thead>
+<tr>
+<th>clock</th>
+<th>what it measures</th>
+<th>where it misleads</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPU timestamp (<code>timestamp-query</code>)</td>
+<td>first pass begin to last pass end, median of 12 to 15 runs after warm-up</td>
+<td>on SwiftShader it times CPU-emulated execution; absent on some adapters</td>
+</tr>
+<tr>
+<td>wall ms</td>
+<td><code>submit()</code> to <code>onSubmittedWorkDone()</code></td>
+<td>includes queue and driver latency</td>
+</tr>
+<tr>
+<td>rAF dt</td>
+<td>the interval <code>requestAnimationFrame</code> reports</td>
+<td>stays at the display interval while the queue falls behind</td>
+</tr>
+<tr>
+<td><code>sustained_ms_per_frame</code></td>
+<td>(last frame done - first frame done) / (frames - 1)</td>
+<td>the honest rate; the first version divided by N, not N-1</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-text"> volume 256^3, 512x512, 384 steps, opacity (Chromium 153 SwiftShader, 4 cores)
+   rAF dt median      16.7 ms   &lt;- the loop looks like 60 fps
+   sustained          355.7 ms  &lt;- what the user gets
+   GPU timestamp      375.5 ms
+</code></pre>
+<p>Timestamp rules that cost a validation error each: write <code>timestampWrites</code> with a begin index on the first pass and an end index on the last pass of a workload; a middle pass must carry none. Auto pipeline layouts drop bindings the entry point does not use statically, so <code>bitonic_local_sort</code> touches <code>_ = B.n;</code> to keep binding 0 alive.</p>
+<h2 id="5-what-the-workloads-cost-on-a-software-adapter">5. What the workloads cost on a software adapter</h2>
+<p>All rows: Chromium 153.0.8010.12, SwiftShader, 4x Xeon 2.10 GHz, <code>x3d.loom@7c818e3:x3d.compute/receipts/full-swiftshader.json</code>, GPU timestamp medians.</p>
+<table>
+<thead>
+<tr>
+<th>kernel</th>
+<th>size</th>
+<th>ms</th>
+<th>rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>particles</td>
+<td>65,536</td>
+<td>2.43</td>
+<td>27.0 M particles/s</td>
+</tr>
+<tr>
+<td>particles</td>
+<td>262,144</td>
+<td>9.47</td>
+<td>27.7 M/s</td>
+</tr>
+<tr>
+<td>particles</td>
+<td>1,048,576</td>
+<td>29.94</td>
+<td>35.0 M/s</td>
+</tr>
+<tr>
+<td>skinning (24 joints)</td>
+<td>65,536 vertices</td>
+<td>7.25</td>
+<td>9.04 M vertices/s</td>
+</tr>
+<tr>
+<td>skinning</td>
+<td>1,048,576</td>
+<td>105.4</td>
+<td>9.95 M/s</td>
+</tr>
+<tr>
+<td>skinning</td>
+<td>2,097,152</td>
+<td>187.7</td>
+<td>11.2 M/s</td>
+</tr>
+<tr>
+<td>volume, opacity</td>
+<td>64^3, 256x256, 96 steps</td>
+<td>28.7</td>
+<td>2.29 M rays/s</td>
+</tr>
+<tr>
+<td>volume, opacity</td>
+<td>128^3, 256x256, 192 steps</td>
+<td>51.9</td>
+<td>1.26 M rays/s</td>
+</tr>
+<tr>
+<td>volume, opacity</td>
+<td>256^3, 512x512, 384 steps</td>
+<td>375.5</td>
+<td>0.70 M rays/s</td>
+</tr>
+<tr>
+<td>nurbs (8x8 control, order 4x4)</td>
+<td>128x128 grid</td>
+<td>11.3</td>
+<td>1.45 M vertices/s</td>
+</tr>
+<tr>
+<td>nurbs</td>
+<td>512x512</td>
+<td>156.5</td>
+<td>1.68 M/s</td>
+</tr>
+<tr>
+<td>nurbs</td>
+<td>2048x2048</td>
+<td>2,389</td>
+<td>1.76 M/s</td>
+</tr>
+</tbody>
+</table>
+<p>Reading the table: particle and skinning rates climb a little with size (launch overhead amortised), volume rate falls with volume size (more samples per ray), NURBS is flat (arithmetic bound at about 700 flops per vertex by estimate). Particles at 262,144 need 9.5 ms here; the same step on a real GPU is a question this chapter cannot answer.</p>
+<h2 id="6-the-sort-is-the-splat-cost">6. The sort is the splat cost</h2>
+<p>Rendering splats needs them in depth order. The kernel projects every splat (one thread each), writes the key <code>f32 bits of depth</code> (culled and padding slots 0xFFFFFFFF), and sorts key and value pairs with a bitonic network. Two variants are implemented and both are exact against a CPU sort of the GPU's own keys.</p>
+<table>
+<thead>
+<tr>
+<th>size</th>
+<th>passes naive / tiled</th>
+<th>project ms</th>
+<th>naive sort ms</th>
+<th>tiled sort ms</th>
+<th>tiled over naive</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>65,536</td>
+<td>136 / 36</td>
+<td>4.47</td>
+<td>122.9</td>
+<td>414.1</td>
+<td>0.30x</td>
+</tr>
+<tr>
+<td>262,144</td>
+<td>171 / 55</td>
+<td>9.54</td>
+<td>547.4</td>
+<td>1,987</td>
+<td>0.28x</td>
+</tr>
+<tr>
+<td>1,048,576</td>
+<td>210 / 78</td>
+<td>55.6</td>
+<td>3,043</td>
+<td>9,138</td>
+<td>0.33x</td>
+</tr>
+</tbody>
+</table>
+<p>At one million splats the naive sort is 98.2 percent of project plus sort (3,043 of 3,098.5 ms). Optimising the projection would change the frame by under two percent. The tiled variant sorts 512-element tiles in workgroup memory with <code>workgroupBarrier</code> and uses global passes only across tiles, so it needs 78 passes where the naive network needs 210. It is also 3 to 3.6 times slower here. SwiftShader emulates workgroup barriers with real thread synchronisation, so a pass count that falls does not mean the time falls. Which variant wins on a real GPU is open; the harness answers it with <code>node tools/run.js --gpu</code>.</p>
+<h2 id="7-what-the-review-found">7. What the review found</h2>
+<p>A 92-agent review of the first version produced 41 findings; they are kept as received in <code>receipts/review-2026-11-15-untriaged.json</code>. The ones that were real:</p>
+<table>
+<thead>
+<tr>
+<th>finding</th>
+<th>cause</th>
+<th>fix</th>
+<th>caught by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fixture mass, surfaceArea, lifetimeVariation ignored</td>
+<td>the kernel never read them and said so nowhere</td>
+<td>listed in the header; the harness refuses cone axes it cannot do</td>
+<td>all-uniform particle case</td>
+</tr>
+<tr>
+<td>cone angle taken from a recomputed value</td>
+<td>kernel and twin derived the base separately</td>
+<td>one <code>cosCone</code> computed in f64 and passed in</td>
+<td>particle suite and mutant</td>
+</tr>
+<tr>
+<td>speed variation one-sided</td>
+<td><code>1 + v*rnd</code> instead of <code>1 + v*(2*rnd-1)</code></td>
+<td>symmetric form</td>
+<td>variation mutant</td>
+</tr>
+<tr>
+<td>volume <code>PixelTexture3D</code> header order</td>
+<td>image is <code>components width height depth</code> then voxels, not width first</td>
+<td><code>fromX3D</code> reads <code>comp w h d</code></td>
+<td>non-cubic and header checks</td>
+</tr>
+<tr>
+<td>NURBS NaN in the last span</td>
+<td>repeated end knots made the span search step past the end</td>
+<td>span clamp</td>
+<td><code>P_unclamped_repeat_end</code> patch</td>
+</tr>
+<tr>
+<td>mutation check counted crashes</td>
+<td>see 3.2</td>
+<td>rewritten</td>
+<td>planted-bug run</td>
+</tr>
+<tr>
+<td>sustained ms off by N/(N-1)</td>
+<td>divided by frames, not frames minus one</td>
+<td>fixed</td>
+<td>receipt</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8-what-needs-a-real-gpu">8. What needs a real GPU</h2>
+<table>
+<thead>
+<tr>
+<th>question</th>
+<th>why software cannot answer</th>
+<th>how to get the answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>is the tiled sort faster than the naive one</td>
+<td>SwiftShader serialises barriers</td>
+<td><code>node tools/run.js --gpu --only=splats</code></td>
+</tr>
+<tr>
+<td>how many particles hold 60 fps</td>
+<td>emulated ALU, 4 cores</td>
+<td><code>--gpu --only=particles</code>, read <code>sustained_ms_per_frame</code></td>
+</tr>
+<tr>
+<td>does a real canvas present</td>
+<td>headless SwiftShader never presents a WebGPU canvas; the bridge test harness stubs the context for this reason</td>
+<td>the demo's <code>?dbg=offscreen</code> renders offscreen and blits for screenshots; a person with a GPU opens the demo</td>
+</tr>
+<tr>
+<td>does the 4-influence limit matter for production rigs</td>
+<td>needs real rigs, not a 24-joint tube</td>
+<td>run <code>SK.influences()</code> on a real HAnim file; it reports <code>dropped</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-WGC-1</td>
+<td>Report sustained ms per frame beside rAF dt; a compute queue can be far behind while rAF reads the display interval.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>256^3 volume: rAF 16.7 ms, sustained 355.7 ms</td>
+<td><code>x3d.compute</code> receipt, SwiftShader</td>
+</tr>
+<tr>
+<td>H-WGC-2</td>
+<td>Give each kernel a CPU twin, and where you can afford it use a different algorithm, not a port.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>NURBS twin is recursive Cox-de Boor; max position diff 7.2e-7</td>
+<td><code>x3d.loom@7c818e3</code>, SwiftShader</td>
+</tr>
+<tr>
+<td>H-WGC-3</td>
+<td>Plant a bug in every gate and require an explicit red; count a crash or a missing target as a failure of the check.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>first script counted crashes; now 14 of 14</td>
+<td><code>tools/mutation-check.sh</code></td>
+</tr>
+<tr>
+<td>H-WGC-4</td>
+<td>Compare small quantities relatively with a magnitude floor; an absolute tolerance hides errors in values near 1/sigma squared.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>conic mutant survived absolute 1e-3</td>
+<td><code>compareRel</code>, receipt</td>
+</tr>
+<tr>
+<td>H-WGC-5</td>
+<td>Run one case with every parameter non-default; a default fixture cannot see a field the kernel ignores.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>particle case B, n = 4093</td>
+<td>receipt</td>
+</tr>
+<tr>
+<td>H-WGC-6</td>
+<td>Work one expected value out by hand; a twin shares your convention errors.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>FK chain, vertex 4 at (-0.5, 0.5, 0)</td>
+<td><code>SK.handChain()</code>, receipt</td>
+</tr>
+<tr>
+<td>H-WGC-7</td>
+<td>Put <code>timestampWrites</code> on the first and last pass only; a middle pass with the field and no indices is a validation error.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>splat passes</td>
+<td>Chromium 153, WebGPU</td>
+</tr>
+<tr>
+<td>H-WGC-8</td>
+<td>An auto pipeline layout drops statically unused bindings; touch the binding or write an explicit layout.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>_ = B.n;</code> in <code>bitonic_local_sort</code></td>
+<td>Chromium 153, WebGPU</td>
+</tr>
+<tr>
+<td>H-WGC-9</td>
+<td>Profile the sort before the projection; for large splat clouds the sort is the frame.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>98.2 percent at 1,048,576</td>
+<td>receipt, SwiftShader</td>
+</tr>
+<tr>
+<td>H-WGC-10</td>
+<td>Do not choose a sort variant from pass counts or from a software adapter; measure on the target GPU.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>tiled 78 passes, 3.0 to 3.6x slower</td>
+<td>receipt, SwiftShader</td>
+</tr>
+<tr>
+<td>H-WGC-11</td>
+<td>Log in the kernel header every X3D field the kernel ignores, and make the loader refuse inputs it cannot do.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>review finding on ignored particle fields</td>
+<td>review of the first version (<code>x3d.loom@7c69356</code>), read and fixed</td>
+</tr>
+<tr>
+<td>H-WGC-12</td>
+<td>Test pages that must screenshot a WebGPU canvas on a software adapter need an offscreen render path.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>real canvas never presented</td>
+<td>Chromium 153, SwiftShader</td>
+</tr>
+</tbody>
+</table>
+<h2 id="drills">Drills</h2>
+<h3 id="d-wgc-1-run-the-gate">D-WGC-1 Run the gate</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> Run all five correctness suites without the timing runs and read which pass.</li>
+<li><strong>Verify:</strong> from <code>x3d.loom/x3d.compute</code>: <code>node tools/run.js --quick --nobench --name=drill</code> (needs playwright on <code>NODE_PATH</code> and a Chromium)</li>
+<li><strong>Answer:</strong> <code>particles</code>, <code>skinning</code>, <code>volume</code>, <code>nurbs</code>, <code>splats</code> all <code>true</code>, <code>gpu_errors</code> empty, about 2 s of page time.</li>
+<li><strong>Checked:</strong> 2026-11-15 Chromium 153.0.8010.12 SwiftShader, <code>x3d.loom@7c818e3</code></li>
+</ul>
+<h3 id="d-wgc-2-plant-a-bug">D-WGC-2 Plant a bug</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Flip the sign of the NURBS basis term in the kernel through the mutation hook and confirm the NURBS gate goes red.</li>
+<li><strong>Verify:</strong> <code>node tools/run.js --quick --nobench --only=nurbs --name=drill --mutate='nurbs|(*d)[r] = f32(p) * (a - b);|(*d)[r] = f32(p) * (a + b);'</code></li>
+<li><strong>Answer:</strong> <code>&quot;nurbs&quot;: false</code> in the printed summary; with no <code>--mutate</code> the same command prints <code>true</code>.</li>
+<li><strong>Checked:</strong> 2026-11-15 Chromium 153.0.8010.12 SwiftShader, <code>x3d.loom@7c818e3</code></li>
+</ul>
+<h3 id="d-wgc-3-price-the-sort">D-WGC-3 Price the sort</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> From <code>receipts/full-swiftshader.json</code>, compute the share of project plus naive sort that the sort takes at 1,048,576 splats.</li>
+<li><strong>Verify:</strong> <code>node -e &quot;const b=require('./receipts/full-swiftshader.json').suites.splats.bench[2];console.log(b.sort_ms_naive_derived/b.project_plus_naive_sort.gpu_ms.median)&quot;</code></li>
+<li><strong>Answer:</strong> 0.982 (3,043 ms of 3,098.5 ms).</li>
+<li><strong>Checked:</strong> 2026-11-15 recorded receipt, Node v22.23.4</li>
+</ul>
+<h3 id="d-wgc-4-do-the-skeleton-by-hand">D-WGC-4 Do the skeleton by hand</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Compute the skinned position of vertex 4 of <code>SK.handChain()</code> on paper (section 3.3), then compare with the library.</li>
+<li><strong>Verify:</strong> <code>node --input-type=module -e &quot;import('./src/ref/skinning.js').then(S=&gt;{const h=S.handChain(),i=S.influences(h.joints,h.nv),M=S.skinMatrices(h.joints,h.pose),r=S.skinCPU(h.rest,new Float32Array(h.nv*4),i.idx,i.w,M,h.nv);console.log(Array.from(r.P.slice(16,19)))})&quot;</code></li>
+<li><strong>Answer:</strong> (-0.5, 0.5, 0) up to rounding.</li>
+<li><strong>Checked:</strong> 2026-11-15 Node v22.23.4, <code>x3d.loom@7c818e3</code> (same computation printed all fifteen coordinates equal to the expected list)</li>
+</ul>
+<h3 id="d-wgc-5-read-three-clocks">D-WGC-5 Read three clocks</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> For the 256^3 opacity volume row in the receipt, list the rAF median, the sustained ms per frame and the GPU timestamp, and say which two disagree with the third.</li>
+<li><strong>Verify:</strong> open <code>receipts/full-swiftshader.json</code>, suite <code>volume</code>, bench row <code>256^3</code>, style <code>opacity</code>.</li>
+<li><strong>Answer:</strong> rAF 16.7 ms, sustained 355.7 ms, GPU 375.5 ms; rAF is the outlier.</li>
+<li><strong>Checked:</strong> 2026-11-15 recorded receipt</li>
+</ul>
+<h3 id="d-wgc-6-break-the-sort">D-WGC-6 Break the sort</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Change the direction test of the first bitonic kernel and confirm the splat gate fails.</li>
+<li><strong>Verify:</strong> <code>node tools/run.js --quick --nobench --only=splats --name=drill --mutate='splats|let up = (i &amp; B.k) == 0u;|let up = (i &amp; B.k) != 0u;'</code></li>
+<li><strong>Answer:</strong> <code>&quot;splats&quot;: false</code>; the naive and tiled sorts both report positions wrong against the CPU sort.</li>
+<li><strong>Checked:</strong> 2026-11-15 <code>tools/mutation-check.sh</code> (that mutant is number 12 of the 14)</li>
+</ul>
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li>Every timing is SwiftShader on 4 Xeon cores. They are scaling numbers and carry no claim about a GPU. <strong><span class="g C" title="Confirmed">C</span></strong></li>
+<li>The tiled-sort result (3.0 to 3.6x slower) is a property of the software adapter until a real GPU says otherwise. <strong><span class="g C" title="Confirmed">C</span></strong> for SwiftShader, <strong><span class="g S" title="Suspected">S</span></strong> for anything else.</li>
+<li>The fixtures were read by the harness and by the X3D readers in the twins; they were not run through the <code>x3d_mcp</code> validator for this chapter. <strong><span class="g S" title="Suspected">S</span></strong></li>
+<li>The volume kernel uses nearest-voxel sampling, a fixed transfer function and an orthographic yaw-only camera; the screen basis is left-handed, so the image is a horizontal mirror of a right-handed X3D camera. Kernel and twin share this, so the gate cannot see it. <strong><span class="g C" title="Confirmed">C</span></strong></li>
+<li>The particle kernel ignores mass, surfaceArea and lifetimeVariation that the three.js bridge honours; the two are not interchangeable. <strong><span class="g C" title="Confirmed">C</span></strong></li>
+<li>Top-4 skin influences are enough for the 144-vertex fixture (0 dropped) and the procedural tube; real rigs may need more. <strong><span class="g S" title="Suspected">S</span></strong></li>
+<li>The 92-agent review is kept as received (41 findings); only the ones in section 7 were verified and fixed, the rest were not individually closed. <strong><span class="g C" title="Confirmed">C</span></strong></li>
+<li>Throughput figures quoted in the project brief for real GPUs were carried from a note and not re-checked here, so none appears in the numbers register. <strong><span class="g S" title="Suspected">S</span></strong></li>
+</ul>
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-WGC-1</td>
+<td>correctness suites passing</td>
+<td>5 of 5</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Chromium 153.0.8010.12 SwiftShader, <code>x3d.loom@7c818e3</code></td>
+<td><code>x3d.compute/receipts/full-swiftshader.json</code></td>
+</tr>
+<tr>
+<td>N-WGC-2</td>
+<td>full receipt run time</td>
+<td>391.1 s</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same, 4x Xeon 2.10 GHz</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-WGC-3</td>
+<td>planted bugs caught</td>
+<td>14 of 14, with 5 of 5 green baselines</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td><code>x3d.compute/receipts/mutation-check.txt</code></td>
+</tr>
+<tr>
+<td>N-WGC-4</td>
+<td>review findings received</td>
+<td>41</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>92-agent review of the first version</td>
+<td><code>x3d.compute/receipts/review-2026-11-15-untriaged.json</code></td>
+</tr>
+<tr>
+<td>N-WGC-5</td>
+<td>particles, worst abs diff, 4,096 x 120 steps</td>
+<td>5.75e-4</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>receipt, particles</td>
+</tr>
+<tr>
+<td>N-WGC-6</td>
+<td>skinning, worst abs diff, 65,536-vertex tube</td>
+<td>3.8e-6</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>receipt, skinning</td>
+</tr>
+<tr>
+<td>N-WGC-7</td>
+<td>NURBS worst position and normal diff, 8 patches</td>
+<td>7.2e-7 and 1.5e-5</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>receipt, nurbs</td>
+</tr>
+<tr>
+<td>N-WGC-8</td>
+<td>splat projection, worst relative diff</td>
+<td>7.9e-5</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>receipt, splats</td>
+</tr>
+<tr>
+<td>N-WGC-9</td>
+<td>particle step, 262,144 particles</td>
+<td>9.47 ms</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same, GPU timestamp</td>
+<td>receipt</td>
+</tr>
+<tr>
+<td>N-WGC-10</td>
+<td>skinning, 1,048,576 vertices, 24 joints</td>
+<td>105.4 ms</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>receipt</td>
+</tr>
+<tr>
+<td>N-WGC-11</td>
+<td>volume 256^3, 512x512, 384 steps: GPU, sustained, rAF</td>
+<td>375.5, 355.7, 16.7 ms</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>receipt</td>
+</tr>
+<tr>
+<td>N-WGC-12</td>
+<td>NURBS 512x512 grid</td>
+<td>156.5 ms</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>receipt</td>
+</tr>
+<tr>
+<td>N-WGC-13</td>
+<td>splats 1,048,576: project, naive sort, tiled sort</td>
+<td>55.6, 3,043, 9,138 ms</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>receipt</td>
+</tr>
+<tr>
+<td>N-WGC-14</td>
+<td>sort share of project plus naive sort at 1,048,576</td>
+<td>98.2 percent</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>receipt</td>
+</tr>
+<tr>
+<td>N-WGC-15</td>
+<td>bitonic passes at 1,048,576, naive and tiled</td>
+<td>210 and 78</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>receipt</td>
+</tr>
+<tr>
+<td>N-WGC-16</td>
+<td>edge-case splat cloud (3,000): visible, behind near, off screen</td>
+<td>1,051, 944, 1,005</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>receipt, splats</td>
+</tr>
+<tr>
+<td>N-WGC-17</td>
+<td>hand-worked chain, max error against the GPU</td>
+<td>6.1e-17</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>receipt, skinning</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<p><code>hagopjay/x3d.loom@7c818e3</code> folder <code>x3d.compute</code> (branch of the pull request that adds it), read and run on 2026-11-15 on the rig in the header; WGSL and WebGPU behaviour as implemented by Chromium 153.0.8010.12 (Dawn and SwiftShader), the W3C WebGPU and WGSL specifications read for the timestamp-query and layout rules. NURBS basis after Piegl and Tiller, The NURBS Book, algorithms A2.1 and A2.2; Gaussian splat projection after Zwicker et al., EWA splatting. Companion demo: <code>x3d.demo</code> <code>docs/demos/webgpu-compute/v1</code>. Nothing was run on a real GPU.</p>
+<div class="pn"><a href="15-yjs-collaboration.html">&larr; 15-yjs-collaboration</a><a href="A-validator-register.html">A-validator-register &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

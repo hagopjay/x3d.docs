@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**124 drills**, 114 with a recorded run (`Checked`), 10 not yet run. Levels: L1 21, L2 65, L3 38.
+**130 drills**, 120 with a recorded run (`Checked`), 10 not yet run. Levels: L1 23, L2 67, L3 40.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -131,4 +131,10 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-YJS-3 | [15](15-yjs-collaboration.md) | L2 | Two browsers | 2026-11-15 Chromium 153.0.8010.12 SwiftShader, X_ITE 16.6.0 |
 | D-YJS-4 | [15](15-yjs-collaboration.md) | L2 | Price a structural edit | 2026-11-15 Node v22.23.4, Intel Xeon 2.10 GHz x4 |
 | D-YJS-5 | [15](15-yjs-collaboration.md) | L1 | Predict the winner | 2026-11-15 `x3d.loom@0689f1a` tests |
+| D-WGC-1 | [20](20-webgpu-compute.md) | L1 | Run the gate | 2026-11-15 Chromium 153.0.8010.12 SwiftShader, `x3d.loom@7c818e3` |
+| D-WGC-2 | [20](20-webgpu-compute.md) | L3 | Plant a bug | 2026-11-15 Chromium 153.0.8010.12 SwiftShader, `x3d.loom@7c818e3` |
+| D-WGC-3 | [20](20-webgpu-compute.md) | L2 | Price the sort | 2026-11-15 recorded receipt, Node v22.23.4 |
+| D-WGC-4 | [20](20-webgpu-compute.md) | L2 | Do the skeleton by hand | 2026-11-15 Node v22.23.4, `x3d.loom@7c818e3` (same computation printed all fifteen coordinates equal to the expected list) |
+| D-WGC-5 | [20](20-webgpu-compute.md) | L1 | Read three clocks | 2026-11-15 recorded receipt |
+| D-WGC-6 | [20](20-webgpu-compute.md) | L3 | Break the sort | 2026-11-15 `tools/mutation-check.sh` (that mutant is number 12 of the 14) |
 <!-- END GENERATED -->

@@ -3,11 +3,11 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-259 distinct instrument strings across the numbers registers.
+263 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
-| `same` | 41 | 05, 06, 07, 09, 10, 11, 12, 15 | C:40 L:1 |
+| `same` | 54 | 05, 06, 07, 09, 10, 11, 12, 15, 20 | C:53 L:1 |
 | `same rig` | 30 | 08, 09, 13 | C:30 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
@@ -47,9 +47,11 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d_mcp fork b4efcd3, libxml2 2.14.6` | 2 | 04 | C:2 |
 | `x3d_mcp upstream 74da0ec, x3d_mcp fork b4efcd3` | 2 | 04 | C:2 |
 | `xite_names.py` | 2 | 09 | C:2 |
+| `92-agent review of the first version` | 1 | 20 | C:1 |
 | `BR.geo.speedOf; X_ITE formula (height + 10) / 10 x factor` | 1 | 08 | C:1 |
 | `Babylon 9.32.0 body vs X_ITE 16.6.0, SwiftShader` | 1 | 08 | C:1 |
 | `Chromium 153.0.8010.12 SwiftShader, X_ITE 16.6.0, three.js r187` | 1 | 08 | C:1 |
+| `Chromium 153.0.8010.12 SwiftShader, x3d.loom@7c818e3` | 1 | 20 | C:1 |
 | `D-LAW-2 script (judgement of the column)` | 1 | 02 | L:1 |
 | `D-LAW-7 script` | 1 | 02 | C:1 |
 | `Intel Xeon 2.10 GHz x4` | 1 | 15 | C:1 |
@@ -205,6 +207,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `same validator, receipt` | 1 | 09 | C:1 |
 | `same, 3 peers x 300 ops` | 1 | 15 | C:1 |
 | `same, 44 shader workers` | 1 | 12 | C:1 |
+| `same, 4x Xeon 2.10 GHz` | 1 | 20 | C:1 |
+| `same, GPU timestamp` | 1 | 20 | C:1 |
 | `same, X_ITE on ANGLE Vulkan, Chromium 159` | 1 | 12 | C:1 |
 | `same, in-process link` | 1 | 15 | C:1 |
 | `same, seed 7` | 1 | 07 | C:1 |
