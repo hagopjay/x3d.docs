@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**262 heuristics.** Grades: [C] 213 · [L] 42 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**273 heuristics.** Grades: [C] 223 · [L] 43 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -247,6 +247,17 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-MET-6 | [14](14-methods.md) | Prefer the lowest grade the evidence allows; a copied number is [L] at best. | L | grade mix below | Appendix C count |
 | H-MET-7 | [14](14-methods.md) | Cut a failing scene to the smallest file that still fails before reporting it. | L | practice in chapter 03 | `x3d_mcp fork b4efcd3` |
 | H-MET-8 | [14](14-methods.md) | Two independent readings agree only if tests pin a raw value; compare against stored values, not only each other. | C | chapter 07 gallery lesson | `x3d.xray@8fa6845` |
+| H-ANM-1 | [15](15-animation-timelines.md) | Interpolate colours in HSV when you model ColorInterpolator, or the bake is wrong between keys. | C | 0.059 off, then 7.6e-8 | `X_ITE 16.6.0` |
+| H-ANM-2 | [15](15-animation-timelines.md) | Use the authoring tool itself as the oracle and measure the bake on a grid the baker did not sample. | C | check grid 4x finer, offset a third | `x3d.anim/src/bake.js` |
+| H-ANM-3 | [15](15-animation-timelines.md) | Keep every authored key time as a key; thin only the samples between them. | C | key counts per channel in the table | `tools/verify.js` |
+| H-ANM-4 | [15](15-animation-timelines.md) | Raise the sample rate, not `tol`, when an ease has kinks between samples. | C | bounce.out floor 0.0145 at all tolerances | `bake()` run |
+| H-ANM-5 | [15](15-animation-timelines.md) | Give unkeyed Theatre components their rest values; a missing scale track reads as 0. | C | defaults in `tools/cases.js` | `@theatre/core 0.7.2` |
+| H-ANM-6 | [15](15-animation-timelines.md) | Never import the studio package into an exporter; read the saved state JSON. | L | AGPL-3.0-only vs Apache-2.0 | registry metadata |
+| H-ANM-7 | [15](15-animation-timelines.md) | Skip the keys with the GSAP `_gsap` record when you copy a target tree: it is circular. | C | stack overflow in the first run | `gsap 3.15.1` |
+| H-ANM-8 | [15](15-animation-timelines.md) | Give HTML ids unique names: a section id and a canvas id collide and `getElementById` returns the first. | C | two blank widgets in the demo page | Chromium 153 |
+| H-ANM-9 | [15](15-animation-timelines.md) | Give an achromatic ColorInterpolator end the partner's hue when you model HSV, as X_ITE's `Color3.lerp` does. | C | 0.0167 off on 4 channels, then 1.8e-6 | `X_ITE 16.6.0` |
+| H-ANM-10 | [15](15-animation-timelines.md) | Keep authored key times per channel, not per timeline, or every channel inherits every other's keys. | C | 16,031 keys against 2,467 | `x3d.anim/receipts/gsap-orrery.json` |
+| H-ANM-11 | [15](15-animation-timelines.md) | Move the world under a fixed camera when a scene must run on every body; a Viewpoint under an animated Transform is not followed everywhere. | C | probe 13456, 2912, 2912 on the fixed build | `x3d.loom` PR #75 |
 | H-YJS-1 | [15](15-yjs-collaboration.md) | Store the tree as a flat table with a parent register; never nest a node's Map inside its parent's. | [C] | move-with-edit test | `x3d.loom@0689f1a` tests |
 | H-YJS-2 | [15](15-yjs-collaboration.md) | Fuzz the export text, not the Yjs state: converged state can still print differently. | [C] | attribute-order bug, 9 of 12 seeds | same, Node v22.23.4 |
 | H-YJS-3 | [15](15-yjs-collaboration.md) | Treat order-hint arrays as hints: walk by the register, with a visited set. | [C] | runaway-delete bug | bench, 200 seeds |

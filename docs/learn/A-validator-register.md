@@ -3,12 +3,12 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-271 distinct instrument strings across the numbers registers.
+280 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
-| `same` | 41 | 05, 06, 07, 09, 10, 11, 12, 15 | C:40 L:1 |
-| `same rig` | 30 | 08, 09, 13 | C:30 |
+| `same` | 42 | 05, 06, 07, 09, 10, 11, 12, 15 | C:41 L:1 |
+| `same rig` | 31 | 08, 09, 13, 15 | C:31 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
 | `both engines` | 7 | 08 | C:7 |
@@ -18,6 +18,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `bpy 5.3.0` | 5 | 10, 11 | C:2 L:3 |
 | `x3dgltf step-probe` | 5 | 19 | C:5 |
 | `x3dgltf verify` | 5 | 19 | C:5 |
+| `X_ITE 16.6.0` | 4 | 08, 15 | C:4 |
 | `build_learn.py at this commit` | 4 | 14 | C:4 |
 | `rdflib 7.6.0` | 4 | 05 | C:4 |
 | `read, not re-run` | 4 | 06, 07 | L:4 |
@@ -31,10 +32,10 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `Chromium 153, SwiftShader (carried)` | 2 | 11, 12 | L:2 |
 | `Node v22.23.4, Yjs 13.6.33` | 2 | 15 | C:2 |
 | `SwiftShader, 320 x 240` | 2 | 08 | C:2 |
-| `X_ITE 16.6.0` | 2 | 08 | C:2 |
 | `X_ITE 16.6.0, Chromium 153.0.8010.12 SwiftShader, three.js r187` | 2 | 08 | C:2 |
 | `X_ITE 16.7.0, Chromium 153, SwiftShader, 320 x 240` | 2 | 01 | C:2 |
 | `file size, 2026-11-14` | 2 | 12 | C:2 |
+| `gsap 3.15.1, Node 22` | 2 | 15 | C:2 |
 | `marker scan, X_ITE 16.7.0` | 2 | 06 | C:2 |
 | `numpy, 2026-11-14` | 2 | 12 | C:2 |
 | `owlrl 7.6.2` | 2 | 05 | C:2 |
@@ -68,6 +69,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `NODES.json, merge log` | 1 | 08 | C:1 |
 | `Node (D-BAB-6); X_ITE 16.6.0 SwiftShader` | 1 | 08 | C:1 |
 | `Node (D-BAB-6); X_ITE SAI` | 1 | 08 | C:1 |
+| `Node 22.23.4` | 1 | 15 | C:1 |
 | `Node v22.23.4` | 1 | 19 | C:1 |
 | `PR descriptions via the masterclass; not re-derived` | 1 | 04 | L:1 |
 | `Python 3.13.18 ast` | 1 | 10 | C:1 |
@@ -91,6 +93,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `X_ITE 16.6.0 private getNormals, SwiftShader` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0 private getVertices, SwiftShader` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0, 640 x 360, SwiftShader` | 1 | 08 | L:1 |
+| `X_ITE 16.6.0, Chromium 153 SwiftShader` | 1 | 15 | C:1 |
 | `X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 15 | C:1 |
 | `X_ITE 16.6.0, Chromium 153.0.8010.12` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader, three.js r187` | 1 | 08 | C:1 |
@@ -207,6 +210,10 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `row count` | 1 | 09 | C:1 |
 | `rule in section 3` | 1 | 10 | C:1 |
 | `run of an X3D33 export` | 1 | 10 | C:1 |
+| `same rig plus three.js r187 body` | 1 | 15 | C:1 |
+| `same rig, 320x240` | 1 | 15 | C:1 |
+| `same rig, @theatre/core 0.7.2` | 1 | 15 | C:1 |
+| `same rig, gsap 3.15.1` | 1 | 15 | C:1 |
 | `same rig, one run` | 1 | 08 | C:1 |
 | `same rig, same fixture twice` | 1 | 08 | C:1 |
 | `same rig, two runs of the 10 fixtures` | 1 | 08 | C:1 |
@@ -242,6 +249,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `wgpu-py 0.33.0 Vulkan, RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-15` | 1 | 12 | C:1 |
 | `workflow run 2026-11-15` | 1 | 08 | C:1 |
 | `x3d-blender-io@ab99988 catalogue` | 1 | 03 | C:1 |
+| `x3d.anim bake, 76 channels` | 1 | 15 | C:1 |
+| `x3d.anim/receipts/*.json` | 1 | 15 | C:1 |
 | `x3d.demo@d10b457 directory read` | 1 | 05 | C:1 |
 | `x3d.gltf/src/profile-contract.mjs` | 1 | 19 | C:1 |
 | `x3d.lab PR #32, tier1_proof_cells.py` | 1 | 12 | C:1 |
