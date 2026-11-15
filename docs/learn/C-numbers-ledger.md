@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**497 numbers** from 19 chapters. Grades: [C] 453 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**514 numbers** from 20 chapters. Grades: [C] 470 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -465,6 +465,23 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-ZOD-16 | [16](16-typed-x3d-zod.md) | first-run disagreements that were converter repairs | 56 of 224 | [C] | root-cause pass | `x3d.zod/receipts/rootcause-v1.json` |
 | N-ZOD-17 | [16](16-typed-x3d-zod.md) | Zod stack limit, nested Transforms | about 115 default, about 484 at 4000 | [C] | Node v22.23.4 (cold start) | drill D-ZOD-6 |
 | N-ZOD-18 | [16](16-typed-x3d-zod.md) | Zod browser bundle | 734,727 bytes, 115,346 gzipped | [C] | `esbuild 0.25.12` | `x3d.demo@9c96896:docs/demos/typed-x3d/v1/x3d-zod.bundle.js` |
+| N-ENG-1 | [17](17-physics-engines.md) | Drop bounce apex above contact, analytic 1.125 m: built-in, Rapier, cannon-es | 1.125, 1.121, 1.235 m | [C] | Node v22.23.4, Rapier 0.21.0, cannon-es 0.20.0 | `x3d.loom@56340c2:x3d.physics/rigid-engines/results/fidelity-node.json` |
+| N-ENG-2 | [17](17-physics-engines.md) | Same drop in X_ITE 16.6.0, two loads | 0.784 and 0.522 m | [C] | X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader | `results/fidelity-xite.json` |
+| N-ENG-3 | [17](17-physics-engines.md) | Elastic head-on hit, energy error: built-in, Rapier, cannon-es, X_ITE | 0.39, 0.38, 14.02, 9.55 / 3.06 % | [C] | same rigs | `fidelity-node.json`, `fidelity-xite.json` |
+| N-ENG-4 | [17](17-physics-engines.md) | Slope mu 0.2, acceleration, analytic 3.19 m/s2: built-in, Rapier, cannon-es, cannon-es raw | 3.20, 3.20, 3.43, 0 | [C] | Node v22.23.4 | `fidelity-node.json` |
+| N-ENG-5 | [17](17-physics-engines.md) | Ramp angle where a unit cube first moves at mu 0.2 and 0.5 (analytic slip 11.3, 26.6): cannon-es raw | 45 and 45 degrees (tipping, not slipping) | [C] | cannon-es 0.20.0 | `results/friction-sweep.json` |
+| N-ENG-6 | [17](17-physics-engines.md) | Same, cannon-es with the adapter patch | 12 and 25 degrees | [C] | cannon-es 0.20.0 plus `engine-cannon.js` | `results/friction-sweep.json` |
+| N-ENG-7 | [17](17-physics-engines.md) | Pendulum period error against the physical-pendulum formula: built-in, Rapier, cannon-es | 0.27, 0.19, 0.44 % | [C] | Node v22.23.4 | `fidelity-node.json` |
+| N-ENG-8 | [17](17-physics-engines.md) | Hinge limit 1.0 rad, max angle: Rapier, X_ITE | 1.000 and 3.121 rad | [C] | Node v22.23.4; X_ITE 16.6.0 | `fidelity-node.json`, `fidelity-xite.json` |
+| N-ENG-9 | [17](17-physics-engines.md) | Runs repeatable bit for bit, and equal under jittered ticks | 21 of 21 and 21 of 21 | [C] | Node v22.23.4 | `results/determinism.json` |
+| N-ENG-10 | [17](17-physics-engines.md) | Position difference Node against Chromium; whole-trace matches; max orientation difference | 0 m in 21 of 21; 9 of 21; 1.1e-16 | [C] | Node v22.23.4, Chromium 153.0.8010.12 | `results/determinism.json` |
+| N-ENG-11 | [17](17-physics-engines.md) | Wall ms per 1/240 s step at 250 bodies, Chromium: built-in, Rapier, cannon-es | 3.966, 1.642, 2.142 | [C] | Chromium 153.0.8010.12 SwiftShader, best of 3 | `results/speed.json` |
+| N-ENG-12 | [17](17-physics-engines.md) | Same at 25 bodies, Chromium | 0.387, 0.462, 0.313 | [C] | same | `results/speed.json` |
+| N-ENG-13 | [17](17-physics-engines.md) | Same at 250 bodies, Node | 15.989, 1.593, 2.574 | [C] | Node v22.23.4 | `results/speed.json` |
+| N-ENG-14 | [17](17-physics-engines.md) | CollisionSensor first impact seen of 24 drops: X_ITE, built-in last, Rapier last, cannon-es last | 4, 6, 11, 5 | [C] | Chromium 153 / Node v22.23.4 | `results/sensor-impact.json` |
+| N-ENG-15 | [17](17-physics-engines.md) | Same in frame mode: Rapier and cannon-es | 24 and 24 | [C] | Node v22.23.4 | `results/sensor-impact.json`, `test/engines.test.js` |
+| N-ENG-16 | [17](17-physics-engines.md) | Cradle, last ball peak rise for a 0.71 m lift: built-in, Rapier 1 sub-step, Rapier 4 sub-steps, cannon-es | 0.62, 0.22, 0.65, 1.78 m | [C] | Node v22.23.4, Rapier 0.21.0 | `data/stats.json` of `x3d.demo` demo `rigid-engines/v1` (fields `last_ball_peak_rise_m`, `last_ball_peak_rise_m_1_sub_step`) |
+| N-ENG-17 | [17](17-physics-engines.md) | Avalanche, 40 bodies, bodies out of the funnel: built-in, Rapier, cannon-es | 10, 0, 0 | [C] | Node v22.23.4 | `data/stats.json` |
 | N-PTR-1 | [18](18-three-pathtracer.md) | e2 Cornell, path tracer 6 bounces vs X_ITE, object FLIP | 0.265 | [C] | Chromium 153 SwiftShader; X_ITE 16.6.0; 96 spp | `x3d.loom@5f59349:x3d.threejs/pathtracer/results/results.json` |
 | N-PTR-2 | [18](18-three-pathtracer.md) | e2 Cornell, path tracer 1 bounce vs X_ITE | 0.142 | [C] | same | same |
 | N-PTR-3 | [18](18-three-pathtracer.md) | e2 Cornell, path tracer vs Cycles | 0.380 | [C] | same; bpy 5.3.0 CPU 256 spp OIDN | same |
