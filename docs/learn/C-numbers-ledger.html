@@ -22,7 +22,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a class="cur" href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="C-numbers-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/C-numbers-ledger.md">GitHub</a></div><h1>Appendix C. Numbers ledger</h1>
 <p>Merged from the <em>Numbers register</em> of every chapter by <code>tools-shared/build_learn.py</code>. Edit the chapter, not this file.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>374 numbers</strong> from 14 chapters. Grades: <span class="g C" title="Confirmed">C</span> 330 · <span class="g L" title="Likely">L</span> 40 · <span class="g S" title="Suspected">S</span> 4. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
+<p><strong>399 numbers</strong> from 14 chapters. Grades: <span class="g C" title="Confirmed">C</span> 355 · <span class="g L" title="Likely">L</span> 40 · <span class="g S" title="Suspected">S</span> 4. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
 <table>
 <thead>
 <tr>
@@ -1945,6 +1945,96 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures</td>
 </tr>
 <tr>
+<td>N-BAB-70</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>three.js bridge status, batch 3</td>
+<td>drawn 65, reader-checked 29, reader 45, todo 93, upstream 28</td>
+<td>C</td>
+<td><code>driver.py status</code></td>
+<td>x3d.loom@72a4bca:x3d.threejs/bridge/NODES.json</td>
+</tr>
+<tr>
+<td>N-BAB-71</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>all compared pictures after batch 3</td>
+<td>86 pictures; IoU 0.90 to 1.00; PSNR 25.32 to 80.17 dB over 62 that differ, median 50.23; 24 at 99 dB (identical or empty frames)</td>
+<td>C</td>
+<td><code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, three.js r187</td>
+<td>x3d.loom@72a4bca:x3d.threejs/bridge/receipts/*.json</td>
+</tr>
+<tr>
+<td>N-BAB-72</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>pictures new in batch 3</td>
+<td>25 pictures over 13 fixtures; 10 pixel-identical; the other 15 at 35.03 to 67.60 dB, median 48.04; IoU 0.98 to 1.00</td>
+<td>C</td>
+<td>same rig</td>
+<td>same receipts</td>
+</tr>
+<tr>
+<td>N-BAB-73</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>TextureProperties fixture, FASTEST read as nearest against measured smooth</td>
+<td>28.23 dB (mad 1.27) against 67.60 dB (mad 0.01)</td>
+<td>C</td>
+<td>same rig</td>
+<td>fixtures/TextureProperties.x3d, receipts/TextureProperties.json</td>
+</tr>
+<tr>
+<td>N-BAB-74</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>a 4 x 4 texture on a box, smooth against hard texels</td>
+<td>18.80 dB against 64.50 dB</td>
+<td>C</td>
+<td>same rig</td>
+<td>TextureProperties fixture, first version</td>
+</tr>
+<tr>
+<td>N-BAB-75</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>LineProperties, thin lines against screen-space quads</td>
+<td>IoU 0.63 (689 against 1051 foreground pixels) against 0.98 and 47.71 dB (1069)</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/LineProperties.json</td>
+</tr>
+<tr>
+<td>N-BAB-76</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>MultiTexture ADD placements</td>
+<td>frame 28.15 (canvas sum), 27.84 (after the light), 35.03 dB (before the light, unclipped); ADD cube mean red 181.1, 226.2, 214.1 against 214.9</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/MultiTexture.json</td>
+</tr>
+<tr>
+<td>N-BAB-77</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Background level view, ground stopping at the last groundAngle against held to the horizon</td>
+<td>mad 36.07 (9.75 dB) against 0.28 (53.61 dB)</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/Background.json</td>
+</tr>
+<tr>
+<td>N-BAB-78</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>TwoSidedMaterial on an open cylinder, caps always drawn against honoured</td>
+<td>22.41 dB against 39.57 dB</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/TwoSidedMaterial.json</td>
+</tr>
+<tr>
+<td>N-BAB-79</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>LocalFog and FogCoordinate</td>
+<td>60.30 dB and 99 dB after two field events; FogCoordinate 43.55 dB twice</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/LocalFog.json, receipts/FogCoordinate.json</td>
+</tr>
+<tr>
 <td>N-BAB-60</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>GeoLOD, centre 50 m up, parent scale 1.9 and 2.1</td>
@@ -2006,6 +2096,141 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C</td>
 <td>our engine, SwiftShader</td>
 <td>x3d.loom@80388ce</td>
+</tr>
+<tr>
+<td>N-BAB-80</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>three.js bridge status, batch 5</td>
+<td>drawn 98, reader-checked 32, reader 41, todo 66, upstream 23</td>
+<td>C</td>
+<td><code>driver.py status</code></td>
+<td>x3d.loom@1192dd4:x3d.threejs/bridge/NODES.json</td>
+</tr>
+<tr>
+<td>N-BAB-81</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>all compared pictures after batch 5</td>
+<td>116 pictures; IoU 0.65 to 1.00; PSNR 19.21 to 99 dB, median 53.67; 25 at 99 dB</td>
+<td>C</td>
+<td><code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, three.js r187</td>
+<td>x3d.loom@1192dd4:x3d.threejs/bridge/receipts/*</td>
+</tr>
+<tr>
+<td>N-BAB-82</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>cube-map pictures</td>
+<td>ImageCubeMapTexture 31.45 and 31.98 dB; ComposedCubeMapTexture 29.12; GeneratedCubeMapTexture 34.03 (IoU 0.94 and 0.98)</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/*CubeMapTexture.json</td>
+</tr>
+<tr>
+<td>N-BAB-83</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>ComposedShader pictures</td>
+<td>40.47 and 39.75 dB, IoU 1.00; with the <code>#version</code> line left in IoU 0 (mad 21.87 and 18.17)</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/ComposedShader.json, D-BAB-72</td>
+</tr>
+<tr>
+<td>N-BAB-84</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Text against X_ITE's glyph renderer</td>
+<td>IoU 0.65, 19.21 dB (the boxes match to the pixel)</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/Text.json</td>
+</tr>
+<tr>
+<td>N-BAB-85</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>CAD nodes, four fixtures of one scene</td>
+<td>IoU 0.99; 54.88, 51.22, 51.21 and 53.67 dB</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/CAD*.json</td>
+</tr>
+<tr>
+<td>N-BAB-86</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Geo fixture steps passed, ours and X_ITE alike</td>
+<td>GeoViewpoint 98 and 96, GeoLOD 92, GeoElevationGrid 64, GeoProximitySensor 64, GeoTouchSensor 51, GeoTransform 34, GeoLocation 22 and 19, GeoOrigin 22, GeoCoordinate 16</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/Geo*.json</td>
+</tr>
+<tr>
+<td>N-BAB-87</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>review of batch 4</td>
+<td>171 agents, 83 raw findings, 69 survived two skeptics (10 high, 36 medium, 23 low); by lens 16 regression, 15 pointer, 15 input, 12 cube and shader, 11 Inline and Text</td>
+<td>C</td>
+<td>workflow run 2026-11-15</td>
+<td>x3d.loom pull request #70</td>
+</tr>
+<tr>
+<td>N-BAB-88</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>GeoViewpoint frame, right basis against swapped</td>
+<td>IoU 1.00 and 64.48 dB against IoU 0 and 18.49 dB (the batch-46 fixture: 98 of 98 either way)</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/GeoViewpointFrame.json</td>
+</tr>
+<tr>
+<td>N-BAB-89</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>GeoLocation with the matrix transposed (D-BAB-73)</td>
+<td>9 of 22 steps fail; the position reads 0 0 0 where 6378137 0 0 is expected</td>
+<td>C</td>
+<td>same rig</td>
+<td>receipts/GeoLocation.json</td>
+</tr>
+<tr>
+<td>N-BAB-90</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Disk2D, Rectangle2D, Extrusion silhouette overlap with X_ITE</td>
+<td>0.98, 0.97, 0.93</td>
+<td>C</td>
+<td>SwiftShader, 320 x 240</td>
+<td>x3d.loom@cd71796:x3d.webgpu/bridge/receipts</td>
+</tr>
+<tr>
+<td>N-BAB-91</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>PointProperties default pointSizeMin, scale, max</td>
+<td>1, 1, 1 in the standard and X_ITE; hall default was 0</td>
+<td>C</td>
+<td>X_ITE 16.6.0</td>
+<td>PointProperties.test.json</td>
+</tr>
+<tr>
+<td>N-BAB-92</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>NurbsTextureCoordinate uv step with centre weight 3, 8 cells</td>
+<td>0.125 in X_ITE (regular); rational form would give 0.114</td>
+<td>C</td>
+<td>X_ITE 16.6.0</td>
+<td>NurbsTextureCoordinate.test.json</td>
+</tr>
+<tr>
+<td>N-BAB-93</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>NurbsSweptSurface triangles, octagon along a bend and triangle along an arc</td>
+<td>160 and 36, equal in both engines</td>
+<td>C</td>
+<td>both engines</td>
+<td>NurbsSweptSurface.test.json</td>
+</tr>
+<tr>
+<td>N-BAB-94</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>NurbsTrimmedSurface untrimmed 8 x 8 patch triangles</td>
+<td>128 in both engines</td>
+<td>C</td>
+<td>both engines</td>
+<td>NurbsTrimmedSurface.test.json</td>
 </tr>
 <tr>
 <td>N-CAS-1</td>

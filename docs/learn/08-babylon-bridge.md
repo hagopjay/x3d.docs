@@ -485,6 +485,68 @@ A 35-agent adversarial review of the batch (three reviewers over code, runtime b
 
 Not matched: IndexedTriangleSet and IndexedQuadSet generated normals sit at IoU 0.95 (a dim rim; the cause was not isolated), and PhysicalMaterial is reference-only at IoU 0.91, 25.32 dB, because X_ITE adds an environment glow that three.js has no counterpart for without an environment map. The unit tests (`node --test tools/`, 7 pass) load the body bundle in node with a stub window and check ElevationGrid winding, creaseAngle and TriangleSet counts without a browser.
 
+### 14.6 Batch 3: textures, fog, background and the camera
+
+Batch 3 (`x3d.loom@72a4bca`, the pull request #69 branch, read and run 2026-11-15) drew 13 more nodes from 13 scene fixtures: TwoSidedMaterial, TextureCoordinateGenerator, MultiTexture, TextureProperties, LineProperties, OrthoViewpoint, FillProperties, LocalFog, FogCoordinate, Background, TextureBackground, Polypoint2D and CoordinateDouble. The tracker reads drawn 65, reader-checked 29, reader 45, todo 93, upstream 28 [C, `driver.py status`]. The 13 fixtures add 25 pictures, 10 of them pixel-identical to X_ITE; the other 15 sit at 35.03 to 67.60 dB (median 48.04), silhouette IoU 0.98 to 1.00 [C, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187, receipts]. All 58 fixtures and 14 unit tests pass.
+
+What was learned, in the order it happened:
+
+| # | what | result | grade |
+|---|---|---|---|
+| 1 | A texture node's *default* behaviour has to be put in a fixture, not assumed. A TextureProperties with every field at its default (`<TextureProperties/>`, magnification FASTEST) is sampled smoothly by X_ITE; only the NEAREST_PIXEL names give hard texels. The first reading of FASTEST as "nearest" was wrong. | 28.23 dB with FASTEST nearest, 67.60 dB with only NEAREST_PIXEL nearest | C |
+| 2 | Without a TextureProperties, X_ITE samples an image under 16 x 16 pixels with hard texels (a 4 x 4 image on a box is a clean checkerboard), and a 16 x 16 or 32 x 32 image smoothly. The exact edge between 4 and 16 was not bisected; 16 is the value the Babylon volume code already carries. | 4 x 4: smooth drawing gave 18.8 dB, nearest gave 64.50 dB; 16 x 16 and 32 x 32 smooth match | C for 4 and 16, L for the rest of the range |
+| 3 | X_ITE draws a line `linewidthScaleFactor` pixels wide. The README said X_ITE draws every line one pixel wide; that was true only for lines with no LineProperties. WebGL has no wide lines, so each segment is a quad widened in the vertex shader. | IoU 0.63 with thin lines, 0.98 and 47.71 dB with quads (1051 foreground pixels in X_ITE, 1069 here) | C |
+| 4 | A MultiTexture ADD stage is added to the texture colour *before* the light and is not clipped at 1. Three placements were tried against X_ITE: summed on an 8-bit canvas (clipped), added after the light, added before the light unclipped. Region means told them apart where the frame dB barely moved. | ADD cube mean red 181.1, 226.2 and 214.1 against X_ITE 214.9; frame 28.15, 27.84 and 35.03 dB | C |
+| 5 | The ground of a Background does not stop at its last `groundAngle`: X_ITE holds the last ground colour out to the horizon. With the ground ending early the horizon was a curved edge below the real one. | level view mad 36.07 (9.75 dB) before, 0.28 (53.61 dB) after; up 48.04 and down 52.79 dB unchanged | C |
+| 6 | The six faces of a TextureBackground follow from the viewing direction: for each face the viewer's look direction, right and up give the plane's basis (front looks down -Z; top has its image up toward +Z, bottom toward -Z). Each face got a 3 x 3 PixelTexture with a white bottom-left and a black top-right pixel, so a turned or mirrored image shows. | all six directions pixel-identical on the first run (99 dB) | C |
+| 7 | The runner's value converter, shared with the Babylon bridge, has no MFColor: a `set` of a colour list made X_ITE draw black while the reader accepted it, which read as an engine difference. | patched at read time in `tools/run-tests.js` (the Babylon file is untouched); Background recolour step 42.26 dB | C |
+| 8 | A Cylinder with `top` or `bottom` FALSE still drew its caps: the TwoSidedMaterial fixture, an open tube seen from above, showed it (no blue inside). | 22.41 dB before the fix, 39.57 after | C |
+| 9 | LocalFog needs one fog per mesh and three.js has one per scene: each mesh sets `scene.fog` in `onBeforeRender` to the fog of its nearest enclosing group, and the frame puts the world fog back; fields are read at every draw. A FogCoordinate is a per-vertex attribute and a material patch: `mix(fogColor, colour, 1 - depth)`. | LocalFog 60.30 dB, identical after switching one fog off and narrowing another; FogCoordinate 43.55 dB before and after flipping the depths | C |
+
+Hatching (FillProperties) is a screen-space overlay mesh with a 32 x 32 mask read at the fragment position, one texel per pixel; the 19 masks are cut out of the Babylon body at bundle time, so both bridges carry one table (identical to X_ITE, 99 dB). An OrthoViewpoint swaps in an orthographic camera and takes the headlight with it (60.17 dB, and the perspective view after it 67.15 dB).
+
+Not matched: MultiTexture is composed on a 256 x 256 8-bit canvas (35.03 dB, mean error under 1 grey level on the ADD cube), TwoSidedMaterial has no ambient term (39.57 dB), set_bind between several Backgrounds is not ported, and the camera-space TextureCoordinateGenerator modes redo every vertex on the CPU when the view moves.
+
+### 14.7 Batch 4: cube maps, the pointer layer, ComposedShader, Inline and Text
+
+Batch 4 (`x3d.loom@a6e3d31`, merged as pull request #69 at `7f6496b`, read and run 2026-11-15) drew 16 more nodes from 17 fixtures: ImageCubeMapTexture, ComposedCubeMapTexture, GeneratedCubeMapTexture, ComposedShader, Text and FontStyle, Inline, TouchSensor, PlaneSensor, SphereSensor, CylinderSensor, KeySensor, StringSensor, VisibilitySensor and TransformSensor. The pictures: ImageCubeMapTexture IoU 1.00 at 31.45 and 31.98 dB, ComposedCubeMapTexture 1.00 at 29.12 dB, GeneratedCubeMapTexture 0.94 and 0.98 at 34.03 dB, ComposedShader 1.00 at 40.47 and 39.75 dB, Inline 1.00 at 55.83 and 52.54 dB, Text 0.65 at 19.21 dB [C, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187, `receipts/`]. What each one taught, in the order it happened:
+
+| # | what | result | grade |
+|---|---|---|---|
+| 1 | X_ITE draws a cube map only through a TextureCoordinateGenerator: the same box without one is not a mirror. The mode is camera-space reflection, so the cube turns with the camera. The first fixture had no generator and read as a bug in the bridge. | magenta and blue split before the generator was restored; both engines then agree at IoU 1.00 | C |
+| 2 | Faces: a cross image and a ComposedCubeMapTexture are drawn unturned on their faces, and a 2:1 panorama has its middle at +Z running toward +X. The first panorama used the longitude `atan2(dx, -dz)` and was a quarter turn off. | `atan2(dx, dz)` matched; IoU 1.00 | C |
+| 3 | A GeneratedCubeMapTexture is looked up in the camera frame, not the world frame (no camera-to-world turn), and needs no mipmaps: with mipmaps and linear filtering its borders were blurred against X_ITE's. | main 0.94, turned 0.98; 34.03 dB both | C |
+| 4 | X_ITE hands the ShaderPart sources of a ComposedShader to the compiler as written, as GLSL ES 3.00 (the author writes `#version 300 es`) and adds three defines. A CDATA ShaderPart loses its line breaks in X_ITE, so the fixture uses `data:` urls. | the shader draws in both engines at 40.47 dB | C |
+| 5 | three.js `RawShaderMaterial` puts its own `#define` lines before the source, and a `#version` line may not follow them. The author's `#version 300 es` line has to come out and `glslVersion` has to carry it. Without that the program does not compile and the Shape falls back to its Material. | with the line left in, the pictures are empty (IoU 0, D-BAB-72) | C |
+| 6 | TouchSensor follows 19775-1 20.4.3 as X_ITE does: isOver on entering the shape, the hit outputs while over, isActive TRUE on the press, FALSE on the release, touchTime on a release still over the shape. A press on a drag sensor takes the pointer from the view; a press on a TouchSensor does not. | 34 of 34 steps in both engines | C |
+| 7 | X_ITE keeps a VisibilitySensor with `size 0 0 0` active. The spec says it is off; the fixture marks the step `xiteDisagrees` and asserts the specified value on our side. | recorded as a departure, not copied | C |
+| 8 | Text is a glyph atlas drawn on one quad per line, laid out with the reader's fields (justify on the ink box, `length`, `maxExtent`, `spacing`) and the Droid Serif, PT Sans and Ubuntu Mono files X_ITE ships. The boxes match X_ITE to the pixel; the letters do not, because the browser's rasteriser and X_ITE's own glyph renderer draw different outlines. | IoU 0.65, 19.21 dB: the lowest number in the table, kept in the table | C |
+
+Inline fetches the file (gunzip when the first two bytes are 1f 8b), parses it with the SAI shim, and builds the roots under its own group. A relative url is read against the page and a url inside the Inline file against the main file (a gap at batch 4; section 14.8 closes the first half of it).
+
+Not matched at batch 4: vertical and right-to-left Text, a texture on a Text, the geometry, tessellation and compute shader stages, ShaderPart urls that need a fetch, and the pick sensors (the shared `BR.pick` walks Babylon meshes and needs an adapter).
+
+### 14.8 Batch 5: CAD, geospatial, and what a review of batch 4 found on paths no picture drives
+
+Batch 5 (`x3d.loom@1192dd4`, pull request #70, read and run 2026-11-15) draws CADAssembly, CADLayer, CADPart and CADFace (a Group, a Group with a Transform's fields, and a face that holds one shape: IoU 0.99, 51.21 to 54.88 dB over four pictures), GeoLocation and GeoTransform (one 64-bit matrix each: the 16 numbers of the row-vector matrix are the 16 numbers of a column-major three.js matrix, and `Matrix4.elements` stays JavaScript doubles until the modelView is made), GeoOrigin, GeoCoordinate, GeoViewpoint, GeoLOD, GeoTouchSensor and GeoProximitySensor, and the ViewpointGroup list. The geographic maths is the Babylon bridge's own (`BR.geo`); only the drawing half was written again. All 95 fixtures pass in both engines [C, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187].
+
+Then batch 4 was reviewed (H-BAB-32): five lenses (pointer semantics, cube maps and shaders, Inline and Text, input from a hostile file, regressions in shared code), 171 agents, 83 raw findings, two skeptics for each. 69 survived: 10 high, 36 medium, 23 low. Not one of them is a picture difference; every one is on a path no fixture drove, and each is now fixed or recorded:
+
+| # | path | what was wrong | fix |
+|---|---|---|---|
+| 1 | a second finger or button while a sensor is held | the press cleared the held sensor, so isActive stayed TRUE and a drag never ended | the second pointer is ignored while a sensor holds the first |
+| 2 | an Inline that is DEF'd and USE'd | the stale-record guard compared with the last record of the node id, so every copy but the last was dropped | one record per use, a `dead` flag per record |
+| 3 | an Inline that includes itself, or a very large file | no guard: a self-including file loaded forever, a gzip bomb was unbounded | depth 8, 512 loads per world, 32 MB (128 MB unzipped), the file's own url compared along the chain |
+| 4 | a world replaced while a file is on its way | the parse had already put the new TimeSensors and DEFs on the page | they are taken off again; `clearWorld` also clears cube targets, glyph atlases, the texture cache and the mesh lists |
+| 5 | a material changed on a shader mesh, or a TwoSidedMaterial with a cube map or Text | the refresh threw on a `RawShaderMaterial`; the TwoSided early return skipped the cube, fog-coordinate and Text code | shader meshes are skipped in the refresh; the early return is gone |
+| 6 | author GLSL and field names | a regular expression that backtracked, a `#version` scan that was quadratic, a field named `__proto__` or `x3d_ProjectionMatrix`, a pair that compiles and does not link | linear scans, reserved names skipped, a throw-away link |
+| 7 | picking | ClipPlanes, the near plane and back faces were ignored; hover ran on every move; a normal went into the sensor frame with the inverse instead of the transpose; an Anchor fired on any button and over a nearer sensor | all five corrected; hover only when the world has a pointer sensor |
+| 8 | `javascript:` in an Anchor url | the test missed `java<tab>script:` and a leading control character | the shared `Anchor.js` strips what a URL parser strips (one line, also protects the Babylon body) |
+
+The drill after the batch found a weak fixture. Swapping the basis of the GeoViewpoint orientation (`makeBasis(E, U, S)` to `makeBasis(S, U, E)`) still passed all 98 of 98 steps, because the batch-46 fixture sits on a `rotateYUp` origin where the frame at the camera is the identity. The new fixture `GeoViewpointFrame` (latitude 0, longitude 90, no origin, boxes at 55 m north and east) draws IoU 1.00 and 64.48 dB with the right basis and IoU 0 and 18.49 dB with the swapped one [C].
+
+Not done: Layering and Layout, HAnim, particles, Texturing3D, Sound, the pick sensors, TextureProjector. The tracker reads drawn 98, reader-checked 32, reader 41, todo 66, upstream 23.
+
 ## 15. Geospatial and the last volume styles: a position is a point, and two engines disagree on a rotated volume
 
 Batch 45 bridged ten nodes: GeoOrigin, GeoCoordinate, GeoLocation, GeoTransform, GeoViewpoint, GeoElevationGrid, GeoPositionInterpolator, and the volume styles BlendedVolumeStyle, ComposedVolumeStyle and ProjectionVolumeStyle. Read at `x3d.loom@bfeba57` (the batch-45 pull request branch); reference engine `X_ITE 16.6.0`; rig for every number in this section: `Chromium 153.0.8010.12`, SwiftShader (no real GPU), `Babylon 9.32.0`, 320 x 240 pictures. The reasoning is in `x3d.webgpu/bridge/WHY-geospatial-batch.md`.
@@ -585,6 +647,46 @@ An impact lasts one sub-step in both engines: X_ITE gave true, false, true withi
 
 A scene sweep of 60 or more picture fixtures in one process crashes the page; the full regression (142 picture fixtures and 45 event fixtures) runs in chunks of 8 and passes after batches 46 and 47 [C].
 
+## 18. Batch 48: eight nodes the reader had already eaten
+
+Batch 48 gave fixtures to the eight nodes the Library hall port had drawn but nobody had tested: Collision, CoordinateInterpolator, CoordinateInterpolator2D, Disk2D, Extrusion, MultiTextureCoordinate, PointProperties and Rectangle2D. Read at `x3d.loom@cd71796` (the batch-48 and batch-49 pull request); reference engine `X_ITE 16.6.0`; rig for every number in this section: `Chromium 153.0.8010.12`, SwiftShader (no real GPU), `Babylon 9.32.0`. The reasoning is in `x3d.webgpu/bridge/WHY-hall-nodes-batch.md`.
+
+### 18.1 A reader that converts a node deletes it
+
+The hall reader turned Disk2D, Rectangle2D and Extrusion into an IndexedFaceSet while parsing, so the scene graph never held the original node and its fields (innerRadius, size, crossSection, spine) read as nothing through the SAI [C]. The bridge now owns any node type for which it registers a `geometry` hook: the node stays in the graph, and the hall maths is called through `R.hallGeom` to make the triangles. Pictures stay the same (silhouette overlap with X_ITE 0.93 for Extrusion, 0.97 for Rectangle2D, 0.98 for Disk2D) and events and `changed` work again [C].
+
+```text
+parse:   Disk2D { innerRadius 0.2 outerRadius 1 }   (kept as a real node, fields alive)
+draw:    spec.geometry(node) -> R.hallGeom.disk(node) -> {pos, nrm, uv, idx} -> BR.hallFaces -> mesh
+event:   set innerRadius -> spec.changed -> body.regeo -> redraw
+```
+
+### 18.2 Defaults and plumbing the tests found
+
+PointProperties: the hall default for pointSizeMinValue was 0; the standard and X_ITE say 1, with scale 1, max 1 and attenuation 1 0 0 [C]. On this rig ours drew 12 point quads where X_ITE drew 3 for the same PointSet, so the fixture asserts the vertex count and the defaults and not a picture [C]. CoordinateInterpolator2D gave zeros because `toSAI('MFVec2f')` read a flat typed array as if it held pairs; it reads two numbers at a time now, which fixed every 2D interpolator output [C]. Collision draws its children (the hall body was missing from the bundle) and, like X_ITE, fires no isActive or collideTime without navigation collision [C]. MultiTextureCoordinate gives each stage of a MultiTexture its own matrix, the TextureTransform composed with an affine fit of channel i from channel 0; where the channels are not related by an affine map the fit is a least-squares approximation and is logged as a gap [L].
+
+Steps ours and X_ITE: Collision 29 and 29, CoordinateInterpolator 20 and 20, CoordinateInterpolator2D 20 and 20, PointProperties 22 and 22, Extrusion 45 and 45, Rectangle2D 31 and 31, Disk2D 39 and 39, MultiTextureCoordinate 13 and 12 [C].
+
+### 18.3 What a review finds that a green sweep cannot
+
+After the fixtures and the 144-picture sweep were green, four reviewers each took a lens (reader regressions, body and kit, NURBS maths, lifecycle and events) and two skeptics tried to refute every claim; 23 of 24 held up [C]. Almost all were places no fixture puts the node, or changes that arrive by event: a Rectangle2D as a picking geometry read as nothing once the reader stopped converting it; a ROUTE into `set_spine` was refused because the field was initialize-only; an interpolator output read before any event threw; a PointSet with PointProperties and no Coordinate aborted the whole scene build; a MultiTexture stage that could not be drawn shifted every later stage by one; a moved Coordinate redrew a NurbsCurve but not the surface swept along it [C]. All were fixed except the ones logged as gaps: contours that cross each other, `trimmingContour.push` through the SAI proxy, camera-space texture coordinate generators inside a MultiTextureCoordinate, and a repainted PixelTexture stage [L].
+
+## 19. Batch 49: the end of NURBS, and three places where reading the source was not enough
+
+Batch 49 bridged NurbsTextureCoordinate, NurbsSweptSurface and NurbsTrimmedSurface, the last three NURBS nodes. Read at `x3d.loom@cd71796`; reference engine `X_ITE 16.6.0`; rig as in section 18. The reasoning is in `x3d.webgpu/bridge/WHY-nurbs-finish-batch.md`.
+
+### 19.1 NurbsTextureCoordinate has no weights in X_ITE
+
+X_ITE builds each texture control point as (x, y, 0, w) but samples the surface with `haveWeights` false, so nothing divides by the weight: the coordinates are the plain B-spline of the points [C]. A centre weight of 3 leaves the uv grid regular in steps of 0.125 [C]. The standard says rational; the bridge copies X_ITE and logs the difference. My first version divided by the weights from reading the source and failed at once (0.114 against 0.125), so the receipt is the measurement, not the reading [C].
+
+### 19.2 NurbsSweptSurface is an Extrusion with crease angle pi
+
+The cross-section curve is carried along the trajectory frame by frame and the normals are smoothed everywhere. A trajectory that is not a NurbsCurve, a missing cross-section, or a one point trajectory draws nothing in both engines. Triangle counts are equal (160 and 36 for the two shapes on screen) and positions agree to 0.02 [C].
+
+### 19.3 NurbsTrimmedSurface keeps what an odd number of contours contain
+
+A point is kept when an odd number of contours contain it. A contour inside another is a hole whichever way it runs, two identical squares leave nothing, a contour around the whole domain keeps everything and no contours is untrimmed [C]. The two engines cut the grid at the contour into different triangles, so the fixture compares area and bounding box of the kept part (equal to three decimals in all eight cases) and the silhouette [C]. All 260 node types in the tracker now have a reader; what remains is logged gaps, not missing nodes [C].
+
 ## Heuristics
 
 | ID | Rule (imperative, at most 30 words) | Grade | Evidence | Instrument |
@@ -625,12 +727,28 @@ A scene sweep of 60 or more picture fixtures in one process crashes the page; th
 | H-BAB-34 | Read a GeoTransform as L^-1 M L, not as "children at geoCenter"; test it with a rotation about the local up. | C | default fields give the identity; box 10 m east goes to 10 m north (N-BAB-51) | `GeoTransform.test.json` |
 | H-BAB-35 | Test a lit volume style on smooth data, rotated and unrotated; a cube hides both the dim shell and the rotation error. | C | ball under Shaded: unrotated agree, rotated differ (N-BAB-53, N-BAB-54) | `_volume-smooth-lit` |
 | H-BAB-36 | Give a test-rig `set` of a double field its type; a plain list becomes NaN in X_ITE and looks like an X_ITE defect. | C | geoCoords set drew nothing until SFVec3d was built | `tools/run-tests.js` |
+| H-BAB-70 | Put a node's defaults in the fixture beside its non-default settings: render `<TextureProperties/>` as well as the NEAREST variant before reading a default's name as a behaviour. | C | FASTEST read as nearest: 28.23 dB; measured smooth: 67.60 dB | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187, TextureProperties fixture |
+| H-BAB-71 | Bracket a reference engine's threshold with inputs on both sides in one scene (4 x 4, 16 x 16 and 32 x 32 images) before writing the rule. | C | 4 x 4 hard texels, 16 and 32 smooth; the edge between 4 and 16 is not bisected | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 |
+| H-BAB-72 | Pick between blend orders by region means as well as frame dB: one cube of three told the placements apart. | C | ADD cube red mean 181.1, 226.2, 214.1 against 214.9; frame dB 28.15, 27.84, 35.03 | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187, MultiTexture fixture |
+| H-BAB-73 | Test a background or cube map from every direction with an asymmetric marker on each face, so a turned or mirrored face cannot pass. | C | six faces identical on the first run with a white bottom-left and black top-right pixel | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187, TextureBackground fixture |
+| H-BAB-74 | Make sure a `set` step changes the reference engine's picture too: a harness conversion gap looks like an engine difference. | C | MFColor `set` drew X_ITE black until the runner converted it | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187, `tools/run-tests.js` |
 | H-BAB-37 | Take a distance for a level of detail in the camera's frame, not the node's: a parent scale changes it. | C | scale 1.9 gives level 1, 2.1 gives level 0 | `GeoLOD.test.json` |
 | H-BAB-38 | When a node is marked not supported in the reference engine, copy its silence and assert it with `noevent`; never add behaviour the oracle lacks. | C | six DIS nodes, 69 to 146 steps each, same in both engines | `X_ITE 16.6.0`, `x3d.loom@c80cecd` |
 | H-BAB-39 | Name the frame of every geographic output: a value that is local to a sensor is only the true position when nothing moves the sensor. | C | hitGeoCoord under a GeoLocation reads 8.4e-7, not 3.0e-5 degrees | `GeoTouchSensor.test.json` |
 | H-BAB-40 | Keep the reference engine drawing (animate something) when a test depends on a sensor noticing a camera move. | C | X_ITE sees an enter only after an extra frame | `GeoProximitySensor.test.json` |
 | H-BAB-41 | Assert only resting contacts for a collision sensor: an impact lasts one sub-step in both engines and is a lottery. | C | X_ITE sent true, false, true within 150 ms, nothing with bounce on | `CollisionSensor.test.json` |
 | H-BAB-42 | Copy a reference engine's null before correcting it: assert its value on its side and the specified value on yours, and log the departure. | C | Contact body1, body2, geometry1, geometry2 | `Contact.test.json` |
+| H-BAB-75 | Put the reference engine's rule for a node in a one-node probe before writing its body: X_ITE draws a cube map only through a TextureCoordinateGenerator, and a fixture without one measures nothing. | C | magenta and blue split until the generator was in the scene | `CubeMaps.js`, `ImageCubeMapTexture.x3d` |
+| H-BAB-76 | Let the renderer own the `#version` line: take the author's `#version 300 es` out of a RawShaderMaterial source and pass it as `glslVersion`, and use `data:` urls in fixtures (CDATA loses its line breaks in X_ITE). | C | the shader pictures are empty with the line left in (IoU 0) | `Shaders.js`, `ComposedShader.x3d` |
+| H-BAB-77 | Test a frame-dependent node on a frame that is not the identity: a fixture on a `rotateYUp` origin cannot tell the right basis from the wrong one. | C | swapped basis 98 of 98 steps; on the new fixture IoU 0 and 18.49 dB | `GeoViewpointFrame.test.json` |
+| H-BAB-78 | Write a fixture for every path a review fixes: each of the 69 findings of batch 4 was on a path (second finger, USE'd node, replaced world) that no fixture drove. | C | InlineUse: both copies draw, load FALSE takes both away, TRUE brings both back | `InlineUse.test.json` |
+| H-BAB-79 | Guard an include before it is fetched: depth, fan-out, size, and a cycle on the chain's own urls. | C | 8 deep, 512 loads, 32 MB (128 MB unzipped) | `body-three.js` `loadInline` |
+| H-BAB-80 | A security fix in a shared file is told to the lane that owns it: the scheme test of an Anchor must drop what a URL parser drops (tab, line break, leading control characters). | C | `java<tab>script:` ran past the test | `Anchor.js` |
+| H-BAB-81 | When a reader rewrites a node at parse time, give the bridge ownership of that node type instead of patching around it: the fields come back and so do events. | C | Disk2D, Rectangle2D and Extrusion fields read as nothing; IoU 0.93 to 0.98 after | `x3d.loom@cd71796`, `lifecycle.test.js` |
+| H-BAB-82 | Measure a weight rule in the reference engine with a fixture that has a non-uniform weight; the source can read as rational and be sampled as plain. | C | NurbsTextureCoordinate centre weight 3 leaves X_ITE's uv regular; reading the source gave 0.114 against 0.125 | `NurbsTextureCoordinate.test.json`, X_ITE 16.6.0 |
+| H-BAB-83 | Compare two triangulations of a cut shape by area and bounding box, not by corners. | C | trimmed surface: all eight cases equal to three decimals though the triangles differ | `NurbsTrimmedSurface.test.json` |
+| H-BAB-84 | Give every list-valued shared-code fix (a SAI conversion, a default) a sweep of all earlier fixtures before the merge request. | C | one change to `toSAI('MFVec2f')` touches every 2D interpolator | chunked regression sweep, chunks of 8 |
+| H-BAB-85 | After a batch is green, review it with lenses that ask where the node is used and what arrives by event, and have two skeptics try to refute each claim; the picture sweep cannot see either. | C | 23 of 24 claims held; none was visible to 144 picture and 48 event fixtures | workflow run of 52 agents over the uncommitted batch 48 and 49 diff |
 
 ## Drills
 
@@ -749,6 +867,40 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 - **Answer:** 70.35, so 70. The linear ramp from 0 to 204 between two voxel centres is 14 slices long; its alpha is already opaque before the full 204 is reached, so the pixel is the colour of the ramp, not the block. With nearest filtering (8 voxels) there is no ramp and the pixel is 204.
 - **Checked:** 2026-11-15 python3 -I (70.35); the rig gives 70 in both engines
 
+### D-BAB-70 Make FASTEST mean nearest and predict which box moves
+- **Level:** L2
+- **Task:** In `x3d.threejs/bridge/src/body-three.js`, in `texProps`, change `mag === 'NEAREST_PIXEL'` to `mag === 'NEAREST_PIXEL' || mag === 'FASTEST'`, run the TextureProperties fixture and predict which of its seven shapes changes before you look.
+- **Verify:** `NODE_PATH=/opt/node22/lib/node_modules node tools/run-tests.js --shots /tmp/shots TextureProperties` from `x3d.threejs/bridge`, with X_ITE 16.6.0 and three.js r187 in place; restore the line afterwards.
+- **Answer:** only the box whose texture has `<TextureProperties/>` with every field at its default goes hard-edged (its magnification is FASTEST); the silhouettes do not move (IoU 1.00) and the picture falls from 67.60 dB (mad 0.01) to 28.23 dB (mad 1.27), because X_ITE draws that box smooth.
+- **Checked:** 2026-11-15 `x3d.loom@72a4bca`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187
+
+### D-BAB-71 Stop the ground at its last groundAngle
+- **Level:** L3
+- **Task:** In `x3d.threejs/bridge/src/nodes/Background.js` delete the line that adds a stop at the horizon (`if (stops[0][0] > Math.PI / 2) stops.unshift(...)`), run the Background fixture and predict which of its three views get worse before you look.
+- **Verify:** `NODE_PATH=/opt/node22/lib/node_modules node tools/run-tests.js --shots /tmp/shots Background` from `x3d.threejs/bridge`; restore the line afterwards.
+- **Answer:** only the level view: the ground (last groundAngle 1.4 of a possible 1.5708) ends 0.17 radian below the horizon with a curved edge, so the picture has mad 36.07 (9.75 dB) against 0.28 (53.61 dB); the up view (48.04 dB) and the down view (52.79 dB) do not show the horizon and do not move.
+- **Checked:** 2026-11-15 `x3d.loom@72a4bca`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187
+
+### D-BAB-72 Leave the `#version` line in a ComposedShader
+- **Level:** L2
+- **Task:** In `x3d.threejs/bridge/src/nodes/Shaders.js`, in `make`, change `es3 = !!(lv && lf)` to `es3 = false && !!(lv && lf)` so the author's `#version 300 es` line stays in the source, run the ComposedShader fixture and predict which of its steps fail before you look.
+- **Verify:** `NODE_PATH=/opt/node22/lib/node_modules node tools/run-tests.js --shots /tmp/shots ComposedShader` from `x3d.threejs/bridge`, with X_ITE 16.6.0 and three.js r187 in place; restore the line afterwards.
+- **Answer:** the 9 event steps still pass (the node and its fields are read by the reader), and both pictures are empty: IoU 0 and mad 21.87 for `main` (foreground mean 0 against 140, 148, 63) and mad 18.17 for `fields`. three.js puts its own `#define` lines first and a `#version` line may not follow them, so the program does not compile and the Shape is drawn with its Material.
+- **Checked:** 2026-11-15 `x3d.loom@1192dd4`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187
+
+### D-BAB-73 Transpose the matrix of a GeoLocation
+- **Level:** L3
+- **Task:** In `x3d.threejs/bridge/src/nodes/Geo.js`, in `place`, change `r.tn.matrix.fromArray(G.matrixOf(n));` to `r.tn.matrix.fromArray(G.matrixOf(n)).transpose();`, run the GeoLocation and GeoTransform fixtures and predict where the node ends up.
+- **Verify:** `NODE_PATH=/opt/node22/lib/node_modules node tools/run-tests.js --shots /tmp/shots GeoLocation GeoTransform` from `x3d.threejs/bridge`; restore the line afterwards.
+- **Answer:** the row-vector matrix keeps its translation in elements 12 to 14, which is where a column-major three.js matrix keeps it; transposed, the translation lands in the bottom row and is lost. GeoLocation fails 9 of 22 steps (the position reads 0 0 0 where 6378137 0 0 is expected; boxes sit at the origin) and GeoTransform fails 5 of 34 steps.
+- **Checked:** 2026-11-15 `x3d.loom@1192dd4`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187
+### D-BAB-74 How much of a patch does a ring keep
+- **Level:** L2
+- **Task:** A trimmed patch has an outer square contour from 0.1 to 0.9 in both parametric directions and, inside it, a 16 sided polygon of radius 0.25 centred at 0.5 0.5. Using the odd rule, what fraction of the parametric domain is kept?
+- **Verify:** `python3 -I -c "import math;print(0.8*0.8-0.5*16*0.25**2*math.sin(2*math.pi/16))"`
+- **Answer:** 0.4487. The square covers 0.64 of the domain and the hole removes 0.1913 of it because a point inside both contours has an even count.
+- **Checked:** 2026-11-15 python3 -I (0.4487)
+
 ## Honest limits
 
 - **Software GL only, Chromium only [C].** Every pixel number is SwiftShader in Chrome for Testing 153.0.8010.12; no real GPU, Firefox or Safari. Babylon 9.32.0 is a snapshot; 9.33.0 to 9.35.0 (per the primer) were not run [L].
@@ -758,7 +910,7 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 - **Behaviour was never compared [L].** No event traces, pointer tapes or audio pass; fixtures compare ROUTE chains in two engines, not whole pages. The noise floor of X_ITE against itself (TBD-13) is unmeasured, so no dB threshold here is a standard.
 - **Carried, not re-checked [S]:** law-40 coverage by page, the Gobbler review defect, all effort figures in `PATHS.md` and `BABYLON.md` (person-weeks are guesses), the 1,396 `gl.*` call sites. Private run logs, device owners' details and unpublished material are left out on purpose.
 - **NURBS section read at the batch-44 branch, not main [L]:** `x3d.loom@4887a98` carried the pull request when written; counts are from the batch run of 2026-11-14 (our reader and X_ITE 16.6.0 on SwiftShader). Not covered: real GPU timing, GeoCoordinate control points, NurbsTextureCoordinate, trimming, picking of NURBS lines. The chord reading of the Extrusion Y axis is Likely: read from memory of 19775-1, not re-checked against the text.
-- **The three.js bridge is 45 scene fixtures, not a port [L].** 53 of 260 nodes are drawn; MultiTexture, movie and cube-map textures, Text, Inline, picking and pointer sensors are not, `global=FALSE` light scope is not implemented, and 32 Babylon fixtures that probe `__body` internals run here for their pictures only. All pixel numbers are SwiftShader at 320 x 240; no timing, no real GPU, no WebGPU renderer. The person-day figures in `ESTIMATE.md` are guesses [S]; the item list of what three.js gives and lacks is read from its documentation, not run [L].
+- **The three.js bridge is 95 fixtures, not a port [L].** 98 of 260 nodes are drawn, 66 still need the body and 23 wait on the Babylon batches; layering and layout, HAnim, particles, Texturing3D, Sound, the pick sensors and TextureProjector are not drawn, `global=FALSE` light scope is not implemented, a GeoViewpoint draws on a plain depth buffer where X_ITE uses a logarithmic one, 32 Babylon fixtures probe `__body` internals and match here by picture only, and the batch-46 GeoViewpoint fixture cannot tell a wrong frame basis from a right one (GeoViewpointFrame does) [L]. Text letter shapes differ from X_ITE's (IoU 0.65). No real-GPU timing exists.
 - **Geospatial section read at the batch-45 branch, not main [L]:** counts are from the batch run of 2026-11-15 on SwiftShader; geocentric (no GeoOrigin) pictures are not made (32 bit world matrix), GeoViewpoint navigation is computed, not wired, and WM, the angle unit and the geoid are not implemented in X_ITE 16.6.0 or the bridge. The rotated-volume error of X_ITE is observed on one Gaussian ball and its cause is not isolated [S].
 
 ## Numbers register
@@ -824,6 +976,16 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 | N-BAB-57 | ProjectionVolumeStyle AVERAGE of a uniform grey 204 volume | 38 | C | both engines | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/ProjectionVolumeStyle.test.json |
 | N-BAB-58 | BlendedVolumeStyle defaults, voxels 204 and 102 | 153 (ALPHA0: 215, ONE_MINUS_ALPHA0: 91) | C | both engines | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/BlendedVolumeStyle.test.json |
 | N-BAB-59 | batch 45 fixture steps passed (ours / X_ITE) | Geo 305 and 300; Blended 63 and 53, Composed 17 and 17, Projection 32 and 32 | C | `run-tests.js` | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures |
+| N-BAB-70 | three.js bridge status, batch 3 | drawn 65, reader-checked 29, reader 45, todo 93, upstream 28 | C | `driver.py status` | x3d.loom@72a4bca:x3d.threejs/bridge/NODES.json |
+| N-BAB-71 | all compared pictures after batch 3 | 86 pictures; IoU 0.90 to 1.00; PSNR 25.32 to 80.17 dB over 62 that differ, median 50.23; 24 at 99 dB (identical or empty frames) | C | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 | x3d.loom@72a4bca:x3d.threejs/bridge/receipts/*.json |
+| N-BAB-72 | pictures new in batch 3 | 25 pictures over 13 fixtures; 10 pixel-identical; the other 15 at 35.03 to 67.60 dB, median 48.04; IoU 0.98 to 1.00 | C | same rig | same receipts |
+| N-BAB-73 | TextureProperties fixture, FASTEST read as nearest against measured smooth | 28.23 dB (mad 1.27) against 67.60 dB (mad 0.01) | C | same rig | fixtures/TextureProperties.x3d, receipts/TextureProperties.json |
+| N-BAB-74 | a 4 x 4 texture on a box, smooth against hard texels | 18.80 dB against 64.50 dB | C | same rig | TextureProperties fixture, first version |
+| N-BAB-75 | LineProperties, thin lines against screen-space quads | IoU 0.63 (689 against 1051 foreground pixels) against 0.98 and 47.71 dB (1069) | C | same rig | receipts/LineProperties.json |
+| N-BAB-76 | MultiTexture ADD placements | frame 28.15 (canvas sum), 27.84 (after the light), 35.03 dB (before the light, unclipped); ADD cube mean red 181.1, 226.2, 214.1 against 214.9 | C | same rig | receipts/MultiTexture.json |
+| N-BAB-77 | Background level view, ground stopping at the last groundAngle against held to the horizon | mad 36.07 (9.75 dB) against 0.28 (53.61 dB) | C | same rig | receipts/Background.json |
+| N-BAB-78 | TwoSidedMaterial on an open cylinder, caps always drawn against honoured | 22.41 dB against 39.57 dB | C | same rig | receipts/TwoSidedMaterial.json |
+| N-BAB-79 | LocalFog and FogCoordinate | 60.30 dB and 99 dB after two field events; FogCoordinate 43.55 dB twice | C | same rig | receipts/LocalFog.json, receipts/FogCoordinate.json |
 | N-BAB-60 | GeoLOD, centre 50 m up, parent scale 1.9 and 2.1 | level 1 and level 0 | C | both engines | x3d.loom@c80cecd:x3d.webgpu/bridge/fixtures/GeoLOD.test.json |
 | N-BAB-61 | hitGeoCoord longitude under a GeoLocation 3.3 m east of the origin | 8.4e-7 degrees (true: 3.0e-5) | C | X_ITE 16.6.0 and bridge | x3d.loom@c80cecd:x3d.webgpu/bridge/fixtures/GeoTouchSensor.test.json |
 | N-BAB-62 | batch 46 fixture steps passed, ours and X_ITE alike | GeoLOD 92, GeoTouchSensor 51, GeoProximitySensor 64, GeoMetadata 30, EspduTransform 146, ReceiverPdu 69, SignalPdu 70, TransmitterPdu 82, DISEntityManager 30, DISEntityTypeMapping 43 | C | `run-tests.js` | x3d.loom@c80cecd:x3d.webgpu/bridge/fixtures |
@@ -831,6 +993,21 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 | N-BAB-64 | unit cube resting on a fixed ground, contacts kept | Bullet 2 of the 4 lower corners; bridge 4 | C | X_ITE 16.6.0, SwiftShader rig | x3d.loom@80388ce:x3d.webgpu/bridge/fixtures/CollisionSensor.test.json |
 | N-BAB-65 | resting distance of a ball on the ground | X_ITE 3e-8; bridge up to 5 mm (slop) | C | both engines | WHY-physics-sensing-batch.md section 5 |
 | N-BAB-66 | full regression after the shim fix and batch 47 | 142 picture fixtures and 45 event fixtures pass, in chunks of 8 | C | our engine, SwiftShader | x3d.loom@80388ce |
+| N-BAB-80 | three.js bridge status, batch 5 | drawn 98, reader-checked 32, reader 41, todo 66, upstream 23 | C | `driver.py status` | x3d.loom@1192dd4:x3d.threejs/bridge/NODES.json |
+| N-BAB-81 | all compared pictures after batch 5 | 116 pictures; IoU 0.65 to 1.00; PSNR 19.21 to 99 dB, median 53.67; 25 at 99 dB | C | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 | x3d.loom@1192dd4:x3d.threejs/bridge/receipts/* |
+| N-BAB-82 | cube-map pictures | ImageCubeMapTexture 31.45 and 31.98 dB; ComposedCubeMapTexture 29.12; GeneratedCubeMapTexture 34.03 (IoU 0.94 and 0.98) | C | same rig | receipts/*CubeMapTexture.json |
+| N-BAB-83 | ComposedShader pictures | 40.47 and 39.75 dB, IoU 1.00; with the `#version` line left in IoU 0 (mad 21.87 and 18.17) | C | same rig | receipts/ComposedShader.json, D-BAB-72 |
+| N-BAB-84 | Text against X_ITE's glyph renderer | IoU 0.65, 19.21 dB (the boxes match to the pixel) | C | same rig | receipts/Text.json |
+| N-BAB-85 | CAD nodes, four fixtures of one scene | IoU 0.99; 54.88, 51.22, 51.21 and 53.67 dB | C | same rig | receipts/CAD*.json |
+| N-BAB-86 | Geo fixture steps passed, ours and X_ITE alike | GeoViewpoint 98 and 96, GeoLOD 92, GeoElevationGrid 64, GeoProximitySensor 64, GeoTouchSensor 51, GeoTransform 34, GeoLocation 22 and 19, GeoOrigin 22, GeoCoordinate 16 | C | same rig | receipts/Geo*.json |
+| N-BAB-87 | review of batch 4 | 171 agents, 83 raw findings, 69 survived two skeptics (10 high, 36 medium, 23 low); by lens 16 regression, 15 pointer, 15 input, 12 cube and shader, 11 Inline and Text | C | workflow run 2026-11-15 | x3d.loom pull request #70 |
+| N-BAB-88 | GeoViewpoint frame, right basis against swapped | IoU 1.00 and 64.48 dB against IoU 0 and 18.49 dB (the batch-46 fixture: 98 of 98 either way) | C | same rig | receipts/GeoViewpointFrame.json |
+| N-BAB-89 | GeoLocation with the matrix transposed (D-BAB-73) | 9 of 22 steps fail; the position reads 0 0 0 where 6378137 0 0 is expected | C | same rig | receipts/GeoLocation.json |
+| N-BAB-90 | Disk2D, Rectangle2D, Extrusion silhouette overlap with X_ITE | 0.98, 0.97, 0.93 | C | SwiftShader, 320 x 240 | x3d.loom@cd71796:x3d.webgpu/bridge/receipts |
+| N-BAB-91 | PointProperties default pointSizeMin, scale, max | 1, 1, 1 in the standard and X_ITE; hall default was 0 | C | X_ITE 16.6.0 | PointProperties.test.json |
+| N-BAB-92 | NurbsTextureCoordinate uv step with centre weight 3, 8 cells | 0.125 in X_ITE (regular); rational form would give 0.114 | C | X_ITE 16.6.0 | NurbsTextureCoordinate.test.json |
+| N-BAB-93 | NurbsSweptSurface triangles, octagon along a bend and triangle along an arc | 160 and 36, equal in both engines | C | both engines | NurbsSweptSurface.test.json |
+| N-BAB-94 | NurbsTrimmedSurface untrimmed 8 x 8 patch triangles | 128 in both engines | C | both engines | NurbsTrimmedSurface.test.json |
 
 ## Sources and provenance
 
@@ -840,6 +1017,8 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 - `x3d.loom@108a282` (scaffold, read and run 2026-11-14): `x3d.threejs/bridge/{README.md,ESTIMATE.md,src/body-three.js,tools/*,fixtures/*,receipts/*,NODES.json}`; the Babylon files it reads at bundle time are those of `x3d.loom@ed1bed8`.
 - `x3d.loom@95eda37` (batch 1, read and run 2026-11-14): `x3d.threejs/bridge/{src/body-three.js,fixtures/{PointLight,PointLightAttenuation,SpotLight,Fog,PixelTexture,ImageTexture,TextureTransform,TexturedPrimitives}.*,receipts/*}`; X_ITE formulas read in `x_ite.js` 16.6.0 (`Fog2.glsl`, `TextureTransform`, `QuadSphereOptions`, `CylinderOptions`).
 - `x3d.loom@38530ab` (batch 2, read and run 2026-11-14): `x3d.threejs/bridge/{src/body-three.js,src/nodes/Geometry.js,tools/tooling.test.js,fixtures/*,receipts/*}`; X_ITE 16.6.0 read for the ElevationGrid and line behaviour only through renders.
+- `x3d.loom@72a4bca` (batch 3, read and run 2026-11-15): `x3d.threejs/bridge/{src/body-three.js,src/nodes/{Textures,Fog,Background}.js,tools/{bundle.js,run-tests.js,tooling.test.js},fixtures/*,receipts/*}`; X_ITE 16.6.0 read for nothing new (every rule here is a measurement against it); the MFColor converter patch is in `tools/run-tests.js`.
 - `x3d.loom@c80cecd` and `@80388ce` (batches 46 and 47, read and run 2026-11-15): `x3d.webgpu/bridge/{BATCH-46.md,BATCH-47.md,WHY-geo-dis-batch.md,WHY-physics-sensing-batch.md,src/nodes/{GeoLOD,GeoTouchSensor,GeoProximitySensor,GeoMetadata,CollisionSensor,CollisionSpace,Contact,RigidBodyCollection}.js,fixtures/*,receipts/*}`; X_ITE 16.6.0 read for each node's runtime behaviour.
+- `x3d.loom@a6e3d31` (batch 4, merged at `7f6496b`) and `x3d.loom@1192dd4` (batch 5, pull request #70, read and run 2026-11-15): `x3d.threejs/bridge/{src/body-three.js,src/nodes/{CubeMaps,Pointing,Shaders,Text,Geo,CAD,Textures}.js,fixtures/*,receipts/*,NODES.json}`; the review workflow's result (69 findings) is summarised in 14.8, its journal is not reproduced.
 - Private-source gap: a private primer of 8 November and private notes on each port were pointers only. Figures here were re-derived from the repository or read from a named receipt; the rest are graded [S] or [L] and labelled carried. No private document, link, identifier or chat wording is reproduced.
 - Siblings: [01](01-the-tether.md), [03](03-validator-and-gates.md), [04](04-mcp-for-agents.md), [07](07-xray.md), [09](09-castle-engine.md), [11](11-gltf-usd-khronos.md), [13](13-physics.md).

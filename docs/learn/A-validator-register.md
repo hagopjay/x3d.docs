@@ -3,20 +3,20 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-249 distinct instrument strings across the numbers registers.
+252 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
 | `same` | 33 | 05, 06, 07, 09, 10, 11, 12 | C:32 L:1 |
+| `same rig` | 27 | 08, 09, 13 | C:27 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
-| `same rig` | 12 | 08, 09, 13 | C:12 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
+| `both engines` | 7 | 08 | C:7 |
+| `driver.py status` | 6 | 08 | C:6 |
 | `learn_lib.py count` | 6 | 14 | C:6 |
-| `both engines` | 5 | 08 | C:5 |
 | `bpy 5.3.0` | 5 | 10, 11 | C:2 L:3 |
 | `Khronos glTF-Validator 2.0.0-dev.3.10` | 4 | 09, 10, 11 | C:4 |
 | `build_learn.py at this commit` | 4 | 14 | C:4 |
-| `driver.py status` | 4 | 08 | C:4 |
 | `rdflib 7.6.0` | 4 | 05 | C:4 |
 | `read, not re-run` | 4 | 06, 07 | L:4 |
 | `Python 3, 2026-11-14` | 3 | 12 | C:3 |
@@ -27,6 +27,9 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `wc -l` | 3 | 08, 10 | C:3 |
 | `x3d_mcp fork b4efcd3, seed 20261029` | 3 | 01, 03 | C:3 |
 | `Chromium 153, SwiftShader (carried)` | 2 | 11, 12 | L:2 |
+| `SwiftShader, 320 x 240` | 2 | 08 | C:2 |
+| `X_ITE 16.6.0` | 2 | 08 | C:2 |
+| `X_ITE 16.6.0, Chromium 153.0.8010.12 SwiftShader, three.js r187` | 2 | 08 | C:2 |
 | `X_ITE 16.7.0, Chromium 153, SwiftShader, 320 x 240` | 2 | 01 | C:2 |
 | `file size, 2026-11-14` | 2 | 12 | C:2 |
 | `marker scan, X_ITE 16.7.0` | 2 | 06 | C:2 |
@@ -60,7 +63,6 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `PR descriptions via the masterclass; not re-derived` | 1 | 04 | L:1 |
 | `Python 3.13.18 ast` | 1 | 10 | C:1 |
 | `Python, X_ITE 16.6.0` | 1 | 08 | C:1 |
-| `SwiftShader, 320 x 240` | 1 | 08 | C:1 |
 | `UE 5.8.4 Vulkan SM6+RT, X_ITE 16.7.0 ANGLE Vulkan, Cycles 5.2.3, flip-evaluator LDR object pixels, RTX PRO 6000 Blackwell SE, 2026-11-15` | 1 | 12 | C:1 |
 | `UE 5.8.4 on RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-14` | 1 | 12 | C:1 |
 | `X3DUOM 4.0 via NODES.json` | 1 | 08 | C:1 |
@@ -222,6 +224,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `wc, gzip -9, sha256sum` | 1 | 06 | C:1 |
 | `wgpu-py 0.33.0 Vulkan, RTX PRO 6000 Blackwell SE, 2026-11-15` | 1 | 12 | C:1 |
 | `wgpu-py 0.33.0 Vulkan, RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-15` | 1 | 12 | C:1 |
+| `workflow run 2026-11-15` | 1 | 08 | C:1 |
 | `x3d-blender-io@ab99988 catalogue` | 1 | 03 | C:1 |
 | `x3d.demo@d10b457 directory read` | 1 | 05 | C:1 |
 | `x3d.lab PR #32, tier1_proof_cells.py` | 1 | 12 | C:1 |

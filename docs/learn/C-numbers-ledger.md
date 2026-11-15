@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**374 numbers** from 14 chapters. Grades: [C] 330 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**399 numbers** from 14 chapters. Grades: [C] 355 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -219,6 +219,16 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-BAB-57 | [08](08-babylon-bridge.md) | ProjectionVolumeStyle AVERAGE of a uniform grey 204 volume | 38 | C | both engines | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/ProjectionVolumeStyle.test.json |
 | N-BAB-58 | [08](08-babylon-bridge.md) | BlendedVolumeStyle defaults, voxels 204 and 102 | 153 (ALPHA0: 215, ONE_MINUS_ALPHA0: 91) | C | both engines | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/BlendedVolumeStyle.test.json |
 | N-BAB-59 | [08](08-babylon-bridge.md) | batch 45 fixture steps passed (ours / X_ITE) | Geo 305 and 300; Blended 63 and 53, Composed 17 and 17, Projection 32 and 32 | C | `run-tests.js` | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures |
+| N-BAB-70 | [08](08-babylon-bridge.md) | three.js bridge status, batch 3 | drawn 65, reader-checked 29, reader 45, todo 93, upstream 28 | C | `driver.py status` | x3d.loom@72a4bca:x3d.threejs/bridge/NODES.json |
+| N-BAB-71 | [08](08-babylon-bridge.md) | all compared pictures after batch 3 | 86 pictures; IoU 0.90 to 1.00; PSNR 25.32 to 80.17 dB over 62 that differ, median 50.23; 24 at 99 dB (identical or empty frames) | C | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 | x3d.loom@72a4bca:x3d.threejs/bridge/receipts/*.json |
+| N-BAB-72 | [08](08-babylon-bridge.md) | pictures new in batch 3 | 25 pictures over 13 fixtures; 10 pixel-identical; the other 15 at 35.03 to 67.60 dB, median 48.04; IoU 0.98 to 1.00 | C | same rig | same receipts |
+| N-BAB-73 | [08](08-babylon-bridge.md) | TextureProperties fixture, FASTEST read as nearest against measured smooth | 28.23 dB (mad 1.27) against 67.60 dB (mad 0.01) | C | same rig | fixtures/TextureProperties.x3d, receipts/TextureProperties.json |
+| N-BAB-74 | [08](08-babylon-bridge.md) | a 4 x 4 texture on a box, smooth against hard texels | 18.80 dB against 64.50 dB | C | same rig | TextureProperties fixture, first version |
+| N-BAB-75 | [08](08-babylon-bridge.md) | LineProperties, thin lines against screen-space quads | IoU 0.63 (689 against 1051 foreground pixels) against 0.98 and 47.71 dB (1069) | C | same rig | receipts/LineProperties.json |
+| N-BAB-76 | [08](08-babylon-bridge.md) | MultiTexture ADD placements | frame 28.15 (canvas sum), 27.84 (after the light), 35.03 dB (before the light, unclipped); ADD cube mean red 181.1, 226.2, 214.1 against 214.9 | C | same rig | receipts/MultiTexture.json |
+| N-BAB-77 | [08](08-babylon-bridge.md) | Background level view, ground stopping at the last groundAngle against held to the horizon | mad 36.07 (9.75 dB) against 0.28 (53.61 dB) | C | same rig | receipts/Background.json |
+| N-BAB-78 | [08](08-babylon-bridge.md) | TwoSidedMaterial on an open cylinder, caps always drawn against honoured | 22.41 dB against 39.57 dB | C | same rig | receipts/TwoSidedMaterial.json |
+| N-BAB-79 | [08](08-babylon-bridge.md) | LocalFog and FogCoordinate | 60.30 dB and 99 dB after two field events; FogCoordinate 43.55 dB twice | C | same rig | receipts/LocalFog.json, receipts/FogCoordinate.json |
 | N-BAB-60 | [08](08-babylon-bridge.md) | GeoLOD, centre 50 m up, parent scale 1.9 and 2.1 | level 1 and level 0 | C | both engines | x3d.loom@c80cecd:x3d.webgpu/bridge/fixtures/GeoLOD.test.json |
 | N-BAB-61 | [08](08-babylon-bridge.md) | hitGeoCoord longitude under a GeoLocation 3.3 m east of the origin | 8.4e-7 degrees (true: 3.0e-5) | C | X_ITE 16.6.0 and bridge | x3d.loom@c80cecd:x3d.webgpu/bridge/fixtures/GeoTouchSensor.test.json |
 | N-BAB-62 | [08](08-babylon-bridge.md) | batch 46 fixture steps passed, ours and X_ITE alike | GeoLOD 92, GeoTouchSensor 51, GeoProximitySensor 64, GeoMetadata 30, EspduTransform 146, ReceiverPdu 69, SignalPdu 70, TransmitterPdu 82, DISEntityManager 30, DISEntityTypeMapping 43 | C | `run-tests.js` | x3d.loom@c80cecd:x3d.webgpu/bridge/fixtures |
@@ -226,6 +236,21 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-BAB-64 | [08](08-babylon-bridge.md) | unit cube resting on a fixed ground, contacts kept | Bullet 2 of the 4 lower corners; bridge 4 | C | X_ITE 16.6.0, SwiftShader rig | x3d.loom@80388ce:x3d.webgpu/bridge/fixtures/CollisionSensor.test.json |
 | N-BAB-65 | [08](08-babylon-bridge.md) | resting distance of a ball on the ground | X_ITE 3e-8; bridge up to 5 mm (slop) | C | both engines | WHY-physics-sensing-batch.md section 5 |
 | N-BAB-66 | [08](08-babylon-bridge.md) | full regression after the shim fix and batch 47 | 142 picture fixtures and 45 event fixtures pass, in chunks of 8 | C | our engine, SwiftShader | x3d.loom@80388ce |
+| N-BAB-80 | [08](08-babylon-bridge.md) | three.js bridge status, batch 5 | drawn 98, reader-checked 32, reader 41, todo 66, upstream 23 | C | `driver.py status` | x3d.loom@1192dd4:x3d.threejs/bridge/NODES.json |
+| N-BAB-81 | [08](08-babylon-bridge.md) | all compared pictures after batch 5 | 116 pictures; IoU 0.65 to 1.00; PSNR 19.21 to 99 dB, median 53.67; 25 at 99 dB | C | `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 | x3d.loom@1192dd4:x3d.threejs/bridge/receipts/* |
+| N-BAB-82 | [08](08-babylon-bridge.md) | cube-map pictures | ImageCubeMapTexture 31.45 and 31.98 dB; ComposedCubeMapTexture 29.12; GeneratedCubeMapTexture 34.03 (IoU 0.94 and 0.98) | C | same rig | receipts/*CubeMapTexture.json |
+| N-BAB-83 | [08](08-babylon-bridge.md) | ComposedShader pictures | 40.47 and 39.75 dB, IoU 1.00; with the `#version` line left in IoU 0 (mad 21.87 and 18.17) | C | same rig | receipts/ComposedShader.json, D-BAB-72 |
+| N-BAB-84 | [08](08-babylon-bridge.md) | Text against X_ITE's glyph renderer | IoU 0.65, 19.21 dB (the boxes match to the pixel) | C | same rig | receipts/Text.json |
+| N-BAB-85 | [08](08-babylon-bridge.md) | CAD nodes, four fixtures of one scene | IoU 0.99; 54.88, 51.22, 51.21 and 53.67 dB | C | same rig | receipts/CAD*.json |
+| N-BAB-86 | [08](08-babylon-bridge.md) | Geo fixture steps passed, ours and X_ITE alike | GeoViewpoint 98 and 96, GeoLOD 92, GeoElevationGrid 64, GeoProximitySensor 64, GeoTouchSensor 51, GeoTransform 34, GeoLocation 22 and 19, GeoOrigin 22, GeoCoordinate 16 | C | same rig | receipts/Geo*.json |
+| N-BAB-87 | [08](08-babylon-bridge.md) | review of batch 4 | 171 agents, 83 raw findings, 69 survived two skeptics (10 high, 36 medium, 23 low); by lens 16 regression, 15 pointer, 15 input, 12 cube and shader, 11 Inline and Text | C | workflow run 2026-11-15 | x3d.loom pull request #70 |
+| N-BAB-88 | [08](08-babylon-bridge.md) | GeoViewpoint frame, right basis against swapped | IoU 1.00 and 64.48 dB against IoU 0 and 18.49 dB (the batch-46 fixture: 98 of 98 either way) | C | same rig | receipts/GeoViewpointFrame.json |
+| N-BAB-89 | [08](08-babylon-bridge.md) | GeoLocation with the matrix transposed (D-BAB-73) | 9 of 22 steps fail; the position reads 0 0 0 where 6378137 0 0 is expected | C | same rig | receipts/GeoLocation.json |
+| N-BAB-90 | [08](08-babylon-bridge.md) | Disk2D, Rectangle2D, Extrusion silhouette overlap with X_ITE | 0.98, 0.97, 0.93 | C | SwiftShader, 320 x 240 | x3d.loom@cd71796:x3d.webgpu/bridge/receipts |
+| N-BAB-91 | [08](08-babylon-bridge.md) | PointProperties default pointSizeMin, scale, max | 1, 1, 1 in the standard and X_ITE; hall default was 0 | C | X_ITE 16.6.0 | PointProperties.test.json |
+| N-BAB-92 | [08](08-babylon-bridge.md) | NurbsTextureCoordinate uv step with centre weight 3, 8 cells | 0.125 in X_ITE (regular); rational form would give 0.114 | C | X_ITE 16.6.0 | NurbsTextureCoordinate.test.json |
+| N-BAB-93 | [08](08-babylon-bridge.md) | NurbsSweptSurface triangles, octagon along a bend and triangle along an arc | 160 and 36, equal in both engines | C | both engines | NurbsSweptSurface.test.json |
+| N-BAB-94 | [08](08-babylon-bridge.md) | NurbsTrimmedSurface untrimmed 8 x 8 patch triangles | 128 in both engines | C | both engines | NurbsTrimmedSurface.test.json |
 | N-CAS-1 | [09](09-castle-engine.md) | registered model formats; of them with `OnSave` | 21; 7 | C | `formats.py`, 2026-11-14 | `castle-engine@48ce617:src/` |
 | N-CAS-2 | [09](09-castle-engine.md) | parse-only groups; registrations in them (one abstract) | 11; 99 | C | `xite_names.py` | `castle-engine@48ce617:src/scene/x3d/castleinternalnodesunsupported.pas` |
 | N-CAS-3 | [09](09-castle-engine.md) | parse-only names with a same-named non-abstract class in X_ITE | 97 of 99 | C | `xite_names.py`, `x_ite@16.7.1` npm dist | `x_ite@16.7.1:dist/x_ite.js`, `dist/assets/components/` |
