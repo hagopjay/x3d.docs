@@ -264,7 +264,7 @@ Therefore: what is established about these projects is that their *engine-indepe
 
 ## 9. The test plan that would promote claims to [C]
 
-Preconditions, none met today: Unreal Engine 5.8 installed on a Linux or Windows machine with a Shader Model 6 class GPU (ray-tracing cores for the hardware paths); a named GPU and driver; the rig's scenes available.
+Preconditions (none were met when this chapter was first written; all were met on 2026-11-14, see [section 10](#10-the-first-run-unreal-584-on-a-cloud-gpu-2026-11-14-to-15)): Unreal Engine 5.8 installed on a Linux or Windows machine with a Shader Model 6 class GPU (ray-tracing cores for the hardware paths); a named GPU and driver; the rig's scenes available.
 
 | gate | what runs | pass criterion | promotes |
 |---|---|---|---|
@@ -279,6 +279,90 @@ Preconditions, none met today: Unreal Engine 5.8 installed on a Linux or Windows
 | G8 | repeat G0 to G5 on a second machine | the same pass or fail on every gate | determinism of the receipts |
 
 A gate that fails is a result, recorded as a dated row; the earlier statement is demoted, not edited away (the base's augmentation loop, `AUTHORING.md` section 6). Promotion rule: a claim moves from [S] to [L] when a gate passes once on one machine, to [C] when G8 holds.
+
+---
+
+## 10. The first run: Unreal 5.8.4 on a cloud GPU (2026-11-14 to 15)
+
+This section is dated and supersedes nothing above it: Sections 3 to 9 stay as written, and the rows here are the first measurements that
+stand beside them. One machine, one night, the x3d.lab notebook 07 pipeline (glb through Interchange, stills through Movie Render Queue).
+By the promotion rule of Section 9, a gate passed once on one machine lifts its claim from [S] to [L], not to [C]; the numbers
+themselves are [C] because they were measured with the instruments named.
+
+### 10.1 The rig
+
+| part | value |
+|---|---|
+| GPU | NVIDIA RTX PRO 6000 Blackwell Server Edition (95.6 GB), driver 580.82.07, CUDA 13.0, compute capability 12.0 (a Colab G4 runtime) |
+| host | Ubuntu 24.04, AMD EPYC 9B45, 48 CPUs, 177 GB RAM |
+| engine | Unreal Engine 5.8.4-58902052, Vulkan, shader platforms SM6 and SM6 ray tracing; bindless through `VK_EXT_descriptor_buffer`; async compute off; hardware Lumen with hit lighting, MegaLights and Substrate on |
+| X3D to glb | `bpy 5.2.3` with `x3d-blender-io@54aba0c`; `Khronos glTF-Validator 2.0.0-dev.3.10` |
+| reference | `X_ITE 16.7.0`, headless Chromium 159.0.8154.6 on ANGLE Vulkan 1.4.312 on the same GPU (not SwiftShader) |
+| pipeline | `x3d.lab@70551e8`, notebook 07 (`notebooks/unreal/src/07_unreal.py`); fixes from this run in x3d.lab PR #29 |
+
+```text
+  X3D --bpy 5.2.3 + add-on--> glb --validator--> Interchange --> level, lights, cameras
+                                                                       |
+  calib box --> K = 1.017 (light units)     exposure bracket (720p Lumen)
+                                                                       |
+                                                                       v
+          MRQ stills: preview 1080p Lumen | 4K HW Lumen | 4K path tracer
+                                                                       |
+            compare vs X_ITE 16.7.0 (same GPU) and Cycles: match, IoU, SSIM, luma
+```
+
+### 10.2 The gates of Section 9, as far as this run went
+
+| gate | result | grade of the claim now | evidence |
+|---|---|---|---|
+| G0 headless import | passed: every scene imported in a one-shot editor run, exit 0 | "Unreal imports our glb" [L] | notebook 07 step 8 scorecard |
+| G1 importer coverage | partial: 8 scenes imported (calib, stilllife, two Unreal-project scenes, odyssey, three Khronos controls); triangle WARN on stilllife, 27,560 in the glb against 9,403 counted, Likely the Nanite fallback count | [L] for coverage of these scenes | step 8 accounting rows |
+| G2 instancing | recorded failure: Interchange logs `Extension is not supported: EXT_mesh_gpu_instancing` and the instanced exhibition glb arrives as 8 meshes with 1,711 instances dropped; the plain DEF/USE glb of the same scene keeps sharing (1,719 actors on 8 meshes) | "Unreal 5.8.4 reads `EXT_mesh_gpu_instancing`": refuted on this build [C] | Interchange log line |
+| G3 coordinates | not run as a dedicated test; silhouettes match X_ITE (below), which a wrong axis swap would break | [L] | indirect |
+| G4 light units | calibrated: K = 1.01736 (the code assumed 1.2); rule `lux = lin(i) x pi x K` for a classic directional light | [C] for this engine build and rig | calib box centre pixel, match look |
+| G5 engine pairs | partial: stilllife only, numbers below; FLIP not reported | [L] | step 10 |
+| G6 frame time | not run (stills only) | unchanged | none |
+| G7 behaviour | not run; step 7 freezes animated scenes instead (Section 10.4) | unchanged | none |
+| G8 second machine | not run | unchanged | none |
+
+| stilllife, 1080p preview, match look | vs X_ITE 16.7.0 | vs Cycles |
+|---|---|---|
+| silhouette match (2 px tolerance) | 1.000 | not reported |
+| mask IoU | 0.997 | not reported |
+| SSIM | 0.8195 | 0.7334 |
+| mean colour delta (0 to 255) | 11.5 | not reported |
+| luma ratio Unreal / other | 0.715 | 0.601 |
+
+### 10.3 What the run taught, ranked by how much it changes a pipeline
+
+| rank | finding | grade | what to do |
+|---|---|---|---|
+| 1 | Manual exposure tuned on the calibration box does not fit scenes: odyssey's White Room (four spots at X3D intensity 100) rendered 86 % clipped white at the calibrated EV and wanted -14 EV; the Khronos controls (no lights of their own) wanted +2; one X3D scene still wanted more than +8 | [C] | bracket each scene before expensive stills (notebook 07 `EXPOSURE = "auto"`, PR #29) |
+| 2 | The path tracer and Lumen hit lighting trace Nanite's reduced fallback mesh by default: X3D Spheres (64 segments) were visibly faceted in 4K path-traced stills and round with `r.RayTracing.Nanite.Mode 1`, same view | [C] (visual, one view; no metric) | set it on every ray-traced rung |
+| 3 | `EXT_mesh_gpu_instancing` is not read by Interchange in 5.8.4 | [C] | ship the DEF/USE glb to Unreal; expand instancing in the import script if counts get large |
+| 4 | The USD path brings lights and cameras but no mesh actors; `UsdStageImportOptions` no longer has `import_lights`, `import_cameras`, `meters_per_unit` | [C] for this build | glb is the carrier for Unreal 5.8.4 |
+| 5 | The editor binary links ATK and GTK; the stock Ubuntu 24.04 cloud image lacks them, so the first start exits with code 127 | [C] | install the desktop libraries before the first start |
+| 6 | Unreal is darker than X_ITE on the same classic scene under the match look (luma ratio 0.715) after calibration | [C] for stilllife | log as a difference; the light model, not the import, is the Likely cause [L] |
+| 7 | X_ITE ran on the real GPU (ANGLE Vulkan), not SwiftShader, in the same session | [C] | name the GPU in X_ITE receipts from such runs |
+
+### 10.4 Exposure: the bracket that replaced a hand-set number
+
+```text
+  round 1 (one Unreal start, 1280 x 720, Lumen):  +4   0   -4   -8   -12   -16   EV offsets
+  score each still: |median luma - 0.38| + 2.5 x max(0, clipped - 2 %) + max(0, black - 25 %)
+  round 2: best +-1, +-2; if the best was the edge, also 4 and 8 stops further that way
+  render the keepers at the best offset (4K HW Lumen, or the path tracer)
+```
+
+| scene | picked offset | note | grade |
+|---|---|---|---|
+| odyssey, frozen at 0.886 of its 138 s film (the White Room) | -14 EV | first bracket stopped at its -10 edge; the second reached -14 | [C] |
+| Khronos Lantern, ToyCar (glTF), WaterBottle | +2 EV | no lights of their own; made for an environment map this stage does not add | [C] |
+| ToyCar (X3D 4 conversion) | +8 EV, the edge | also mis-framed: the model is centimetre-sized | [C] |
+
+Animated scenes need a moment. The notebook freezes a scene that is dark at time 0 at its brightest moment (every
+TimeSensor-driven interpolator evaluated at one fraction and written into its target); for odyssey that is fraction 0.886, inside the White Room,
+so the stills show the authored state of the film at about 122 s, not the time-0 set. [C], `x3d.lab@70551e8:notebooks/unreal/x3due/staging.py`.
 
 ---
 
@@ -297,6 +381,10 @@ A gate that fails is a result, recorded as a dated row; the earlier statement is
 | H-UNR-9 | Do not infer that an instanced glb works in a second engine from a first: the validator cannot read `EXT_mesh_gpu_instancing`. | [C] | `NOT VALIDATED` line | `Khronos glTF-Validator 2.0.0-dev.3.10`, run 2026-11-14 |
 | H-UNR-10 | Treat behaviour as a separate tier: no glb import gives ROUTEs; tier 4 needs software that does not exist. | [L] | no importer found; ROUTE count in glb is 0 | read; JSON parse |
 | H-UNR-11 | Keep a calibration constant for X3D lights in Unreal as an explicit manifest field, not a hidden multiplier. | [S] | design expectation | none |
+| H-UNR-12 | Bracket exposure per scene before any expensive still; a calibration box fixes light units, not exposure. | [C] | odyssey -14 EV, Khronos controls +2 EV | UE 5.8.4 on RTX PRO 6000, 2026-11-14 |
+| H-UNR-13 | Turn on `r.RayTracing.Nanite.Mode 1` wherever rays are traced, or curved X3D primitives render faceted. | [C] | faceted spheres in the path tracer, round with the setting | UE 5.8.4 on RTX PRO 6000, 2026-11-15 |
+| H-UNR-14 | Ship the DEF/USE glb to Unreal, not the `EXT_mesh_gpu_instancing` glb, until Interchange reads the extension. | [C] | 1,711 instances dropped, 8 meshes kept | UE 5.8.4 Interchange log, 2026-11-15 |
+| H-UNR-15 | When a bracket's best is its edge, extend it; an edge pick means the scene's exposure was not reached. | [C] | odyssey picked -10 at the edge, then -14 | same run |
 
 ---
 
@@ -344,11 +432,27 @@ A gate that fails is a result, recorded as a dated row; the earlier statement is
 - **Answer:** expected UE location `(x*100, z*100, y*100) = (100, 300, 200)` cm; the yaw is the inverse of the Section 4.2 mapping. The checker passes if location is within 1 cm and the actor's forward vector is within 0.1 degrees of the expected one.
 - **Checked:** not run (no Unreal here).
 
+### D-UNR-7 Pick an exposure from a bracket
+- **Level:** L2
+- **Task:** a fake engine draws a still whose linear value is `0.38^2.2 x 2^-(ev + 14)`, shown with gamma 2.2. Score offsets +4 to -16 with the Section 10.4 rule, run the second round, and report the pick and whether it is an edge.
+- **Verify:** `pytest notebooks/unreal/tests/test_ue_g4_first_run.py::test_fit_exposure_finds_a_dark_scene` in `hagopjay/x3d.lab` (PR #29 branch).
+- **Answer:** round 1 picks -12 or -16 by a hair; round 2 tries -10, -11, -13, -14 (and -18, -20 at an edge) and picks -14, not an edge.
+- **Checked:** 2026-11-15 pytest 9 on the PR #29 branch (11 new tests pass).
+
+### D-UNR-8 Count what Interchange kept
+- **Level:** L2
+- **Task:** for an instanced glb, count meshes and instances from the glb JSON (`EXT_mesh_gpu_instancing` accessors), then the static mesh actors Unreal created. State which number the engine lost and which log line says why.
+- **Verify:** glb JSON parse; the Interchange log of the import.
+- **Answer:** 8 meshes in both; 1,711 instances in the glb, none in the level; `Extension is not supported: EXT_mesh_gpu_instancing`.
+- **Checked:** 2026-11-15 UE 5.8.4 Interchange on RTX PRO 6000 (one run).
+
 ---
 
 ## Honest limits
 
 - **No Unreal run exists.** No frame, import log, actor count or frame time came from Unreal 5.8 in this base. Everything on Unreal behaviour is [S] and says so. [S]
+- **Superseded 2026-11-15 by Section 10:** one run on one machine now stands behind the import, calibration, instancing, exposure and Nanite rows there. Frame times, behaviour, a second machine and FLIP between engines are still not measured. The stills and logs of that run are in a private notebook output, not in a public repository, so a reader cannot re-open them; the notebook and its tests are public. [L]
+- **The Nanite finding is visual.** One view, two stills, judged by eye; no metric was computed between them. [L]
 - **The Unreal digest is a lead.** It was written 2026-11-12 with some vendor pages unreachable (the licence pages returned an error), so licence terms, product pricing and web-streaming claims are not stated here. A reader needs the vendors' own pages. [S]
 - **Web targets move fast.** The digest reports an experimental WebGPU target in a 5.9 preview and a commercial streaming route that supports 5.8; both are vendor or Epic claims, not tested, and dated. They are not repeated as facts here. [S]
 - **The Unreal-project converters are not public.** Section 5 and 8 counts agree with a public release note; the scripts themselves and the outputs are in a private project folder. A reader outside cannot repeat the counting. [L]
@@ -382,6 +486,15 @@ A gate that fails is a result, recorded as a dated row; the earlier statement is
 | N-UNR-16 | probe p1 / p2 centre patch: X_ITE | 74 / 204 | [L] | `X_ITE 16.7.1`, Chromium 153, SwiftShader (carried) | `x3d-blender-io@ab99988:tools/fidelity_rig/README.md` |
 | N-UNR-17 | PSNR of offset-3 pair / noise sigma 5 pair | 38.63 dB / 34.31 dB | [C] | numpy, 2026-11-14 | Section 7.2 |
 | N-UNR-18 | Unreal 5.8 frames rendered in this base | 0 | [C] | none | this chapter |
+| N-UNR-19 | light calibration constant K | 1.01736 (assumed 1.2) | [C] | UE 5.8.4 on RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-14 | notebook 07 step 8 (recorded run, not in a repo) |
+| N-UNR-20 | stilllife vs X_ITE 16.7.0: match / IoU / SSIM | 1.000 / 0.997 / 0.8195 | [C] | same, X_ITE on ANGLE Vulkan, Chromium 159 | notebook 07 step 10 |
+| N-UNR-21 | stilllife luma ratio Unreal / X_ITE and Unreal / Cycles | 0.715 / 0.601 | [C] | same | notebook 07 step 10 |
+| N-UNR-22 | cold start (first shader compile) / warm start | 312.7 s / 15.3 s | [C] | same, 44 shader workers | notebook 07 step 6 |
+| N-UNR-23 | 1080p Lumen still, stilllife / peak VRAM | 10 s / 7.5 GB | [C] | same | notebook 07 step 9 |
+| N-UNR-24 | instances dropped by Interchange from the instanced glb | 1,711 | [C] | same | Interchange log |
+| N-UNR-25 | odyssey White Room: clipped pixels at the calibrated EV / picked offset | 86 % / -14 EV | [C] | same | exposure bracket |
+| N-UNR-26 | Khronos controls: picked offset | +2 EV | [C] | same | exposure bracket |
+| N-UNR-27 | scorecard of the first leg | 40 PASS, 3 WARN, 0 FAIL, 1 SKIP | [C] | same | notebook 07 step 11 |
 
 ---
 
@@ -391,4 +504,6 @@ A gate that fails is a result, recorded as a dated row; the earlier statement is
 - Khronos glTF extension registry, fetched 2026-11-14.
 - Two converter scripts for Unreal-project scenes (manifest to X3D; C++ maths to X3D): read in full, one re-run (byte-identical output), outputs counted and the produced glbs re-validated with `gltf-validator@2.0.0-dev.3.10` on 2026-11-14. The scripts and the projects are not in a public repository; counts are cross-checked against the public release note.
 - A private digest of Unreal, web-reach, Castle and quality-metric sources (written 2026-11-12, one adversarial pass 2026-11-12). Read as a lead. Its Unreal, web, licence and metric-tool claims are not re-checked and are graded [S].
+- `x3d.lab@70551e8`: `notebooks/unreal/src/07_unreal.py`, `x3due/staging.py`, `x3due/tier.py`; the fixes of Section 10 in x3d.lab PR #29. Public repository `hagopjay/x3d.lab`.
+- The 2026-11-14 to 15 run: notebook 07 output read as it ran (scorecard, Interchange and render logs, stills); not in a public repository.
 - Sibling chapters: [11 glTF, USD and Khronos](11-gltf-usd-khronos.md), [08 The Babylon bridge](08-babylon-bridge.md), [09 Castle Game Engine](09-castle-engine.md), [13 Physics](13-physics.md).
