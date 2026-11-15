@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**248 heuristics.** Grades: [C] 200 · [L] 41 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**262 heuristics.** Grades: [C] 213 · [L] 42 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -255,4 +255,18 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-YJS-6 | [15](15-yjs-collaboration.md) | Give every peer a control step that must differ (offline edits) before trusting a zero-difference picture. | [C] | 16,633 pixels differ | `receipts/e2e-xite.json` |
 | H-YJS-8 | [15](15-yjs-collaboration.md) | Keep user DEF names out of the render path: render every node as `y_<uid>` so a DEF clash between peers cannot misdirect a USE or a ROUTE. | [L] | by construction; the unit test checks the clash export names, no renderer run with a clash | `x3d.loom@0689f1a:x3d.yjs/src/yx3d.js` |
 | H-YJS-7 | [15](15-yjs-collaboration.md) | Validate the agent's ops against the document before they enter it; return refusals as results. | [L] | `Nope` DEF refused; no validator run on agent output yet | `src/agent.js` |
+| H-GTO-1 | [19](19-gltf-tooling.md) | Count identity tokens before and after every optimiser step; a size win with tokens lost is a loss, not a win. | [C] | stock `instance()` on the cathedral: 1,190.8 to 843.8 KiB, 1,216 of 1,251 tokens lost | `x3dgltf step-probe`, glTF-Transform 4.5.1 |
+| H-GTO-2 | [19](19-gltf-tooling.md) | Do not run stock `instance()` or `join()` on a glb whose names matter; use `instanceWithIdentity` or skip the step. | [C] | `join()`: 1,208 tokens lost and 16,482.7 KiB; `instance()`: 1,216 lost | `x3dgltf step-probe`, glTF-Transform 4.5.1 |
+| H-GTO-3 | [19](19-gltf-tooling.md) | Wrap `quantize()` when the glb has animation; stock leaves a channel without its target node. | [C] | animated fixture: 1 of 3 channels unmatched stock, 0 of 3 wrapped | `x3dgltf step-probe`, glTF-Transform 4.5.1 |
+| H-GTO-4 | [19](19-gltf-tooling.md) | Dedup accessors and textures only, with `keepUniqueNames`; leave name-only duplicate meshes and materials standing, because a name is an identity. | [C] | `identity-dup` fixture: stock `dedup()` loses 2 tokens, the lane's loses 0 | `x3dgltf step-probe`, glTF-Transform 4.5.1 |
+| H-GTO-5 | [19](19-gltf-tooling.md) | Validate the decoded canonical file as well as the delivered one, and print `extensionsNotValidated` beside every pass. | [C] | validator names `EXT_meshopt_compression` as not validated on the `web` cathedral | `Khronos glTF-Validator 2.0.0-dev.3.10` |
+| H-GTO-6 | [19](19-gltf-tooling.md) | Read triangle counts from the inventory (per drawn instance), never from the validator's total (per unique mesh). | [C] | cathedral: validator 27,544, inventory 600,976 | `Khronos glTF-Validator 2.0.0-dev.3.10`, `x3dgltf inspect` |
+| H-GTO-7 | [19](19-gltf-tooling.md) | Write the geometry bound into the profile contract, and make `exact` one float32 ULP, not zero; a stored `matrix` moves a glb by 2.19e-9. | [C] | Castle `annotation-standard` glb under `lossless` | `x3dgltf verify`, glTF-Transform 4.5.1 |
+| H-GTO-8 | [19](19-gltf-tooling.md) | Match triangles by centroid through a k-d tree; a grid matcher does not finish on a 600,976-triangle scene. | [C] | grid did not finish in 250 s; tree self-compare 2.0 s | `x3d.gltf/src/geometry.mjs`, Node v22.23.4 |
+| H-GTO-9 | [19](19-gltf-tooling.md) | Count zero-area triangles apart; Draco drops them and a bit-bounded profile must not fail for a triangle that never had an area. | [C] | see receipts/matrix/cells for the notes of each draco cell | `x3dgltf matrix` |
+| H-GTO-10 | [19](19-gltf-tooling.md) | Compare profiles on gzip and brotli as well as raw bytes; the raw ranking is not the wire ranking. | [C] | the smallest passing profile by raw bytes differs from the smallest by brotli on 6 of 12 files (asterion: web-filter raw, draco brotli; lumen: draco raw, web-filter brotli; prismatica-aurora-cathedral: instanced raw, draco brotli) | `x3dgltf matrix`, Node `zlib` |
+| H-GTO-11 | [19](19-gltf-tooling.md) | Judge KTX2 by `gpuTextureBytes` and by wire bytes separately; UASTC can cost transfer and save memory. | [C] | still life: `web-ktx2` is 1,246.2 KiB against 1,072.7 KiB for `web`, with texture memory 1,365.4 KiB against 5,461.3 KiB | `x3dgltf matrix`, `ktx2-encoder 0.6.0` |
+| H-GTO-12 | [19](19-gltf-tooling.md) | Read the consumer's decoder row before choosing a compression; "the engine loads glTF" does not mean it loads meshopt or Draco. | [L] | Castle 7.0-alpha.3 and Unreal Interchange 5.5 to 5.8 read neither meshopt nor KTX2 (section 8) | package source, section 8 |
+| H-GTO-13 | [19](19-gltf-tooling.md) | Prove a browser path equals the CLI path with a SHA-256 of the output, not with a screenshot. | [C] | 4 of 4 parity tests identical in `Chromium 153.0.8010.12` | `tests/web.test.mjs` |
+| H-GTO-14 | [19](19-gltf-tooling.md) | Print a lossy profile's pass with what the pass means: bounds held, identity not. A bare PASS on `stock-instance` reads as success. | [C] | `stock-instance` on the cathedral: PASS with 1,216 tokens lost | `x3dgltf verify` |
 <!-- END GENERATED -->

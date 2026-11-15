@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**418 numbers** from 15 chapters. Grades: [C] 374 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**442 numbers** from 16 chapters. Grades: [C] 398 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -425,4 +425,28 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-YJS-13 | [15](15-yjs-collaboration.md) | remote apply at 500 nodes | 149,687 per second | [C] | same | same |
 | N-YJS-14 | [15](15-yjs-collaboration.md) | orphan nodes over 200 fuzz seeds | 5,127 | [C] | same | same |
 | N-YJS-15 | [15](15-yjs-collaboration.md) | reported conflicts over 200 seeds: def-clash, sfnode-slot, duplicate | 206, 31, 15 | [C] | same | same |
+| N-GTO-1 | [19](19-gltf-tooling.md) | PRISMATICA cathedral draw calls, source to `instanced` | 1,218 to 10 | [C] | `x3dgltf optimize`, glTF-Transform 4.5.1 | x3d.loom@b6a3650:x3d.gltf/receipts/matrix/ |
+| N-GTO-2 | [19](19-gltf-tooling.md) | cathedral identity tokens | 1,251 | [C] | `x3dgltf verify` | x3d.loom@b6a3650:x3d.gltf/receipts/matrix/ |
+| N-GTO-3 | [19](19-gltf-tooling.md) | tokens lost by stock `instance()` on the cathedral | 1,216 of 1,251 | [C] | `x3dgltf step-probe` | x3d.loom@b6a3650:x3d.gltf/receipts/step-probe.md |
+| N-GTO-4 | [19](19-gltf-tooling.md) | tokens lost by `join()` on the cathedral, and its size | 1,208; 1,190.8 to 16,482.7 KiB | [C] | `x3dgltf step-probe` | x3d.loom@b6a3650:x3d.gltf/receipts/step-probe.md |
+| N-GTO-5 | [19](19-gltf-tooling.md) | cathedral under `web` and under `instanced` | 638.0 KiB (53.6%); 445.4 KiB (37.4%) | [C] | `x3dgltf optimize` | x3d.loom@b6a3650:x3d.gltf/receipts/matrix/ |
+| N-GTO-6 | [19](19-gltf-tooling.md) | validator triangle total vs inventory, cathedral | 27,544 vs 600,976 | [C] | `Khronos glTF-Validator 2.0.0-dev.3.10` | x3d.loom@b6a3650:x3d.gltf/src/measure.mjs |
+| N-GTO-7 | [19](19-gltf-tooling.md) | Castle `annotation-standard` deviation under `lossless` | 2.19e-9 of the diagonal | [C] | `x3dgltf verify` | x3d.loom@b6a3650:x3d.gltf/tests/lane.test.mjs |
+| N-GTO-8 | [19](19-gltf-tooling.md) | `exact` geometry bound | 1e-7 of the diagonal (float32 ULP 1.19e-7) | [C] | `x3d.gltf/src/profile-contract.mjs` | x3d.loom@b6a3650:x3d.gltf/src/profile-contract.mjs |
+| N-GTO-9 | [19](19-gltf-tooling.md) | stock `quantize()` channels unmatched, animated fixture | 1 of 3 | [C] | `x3dgltf step-probe` | x3d.loom@b6a3650:x3d.gltf/receipts/step-probe.md |
+| N-GTO-10 | [19](19-gltf-tooling.md) | `weld()` growth on the cathedral | 1,190.8 to 1,204.4 KiB | [C] | `x3dgltf step-probe` | x3d.loom@b6a3650:x3d.gltf/receipts/step-probe.md |
+| N-GTO-11 | [19](19-gltf-tooling.md) | stock `prune()` on the cathedral | 1,190.8 to 891.6 KiB, 0 tokens lost | [C] | `x3dgltf step-probe` | x3d.loom@b6a3650:x3d.gltf/receipts/step-probe.md |
+| N-GTO-12 | [19](19-gltf-tooling.md) | browser bundle size | 400.2 KiB minified | [C] | `esbuild 0.25.12` | x3d.loom@b6a3650:x3d.gltf/web/forge.mjs |
+| N-GTO-13 | [19](19-gltf-tooling.md) | k-d tree self-compare of the cathedral | 2.0 s (grid: not finished in 250 s) | [C] | Node v22.23.4 | x3d.loom@b6a3650:x3d.gltf/src/geometry.mjs |
+| N-GTO-14 | [19](19-gltf-tooling.md) | lane tests | 13 lane + 4 browser parity, all passing | [C] | `node --test`, Node v22.23.4 | x3d.loom@b6a3650:x3d.gltf/tests/ |
+| N-GTO-15 | [19](19-gltf-tooling.md) | corpus totals under `web`: raw, gzip, brotli | 35.8%, 50.2%, 60.6% | [C] | `x3dgltf matrix`, Node `zlib` | x3d.loom@b6a3650:x3d.gltf/receipts/summary.md |
+| N-GTO-16 | [19](19-gltf-tooling.md) | corpus totals under `instanced`: raw, gzip, brotli | 32.1%, 49.2%, 58.8% | [C] | `x3dgltf matrix`, Node `zlib` | x3d.loom@b6a3650:x3d.gltf/receipts/summary.md |
+| N-GTO-17 | [19](19-gltf-tooling.md) | corpus totals under `draco`: raw, gzip, brotli | 44.8%, 57.5%, 69.7% | [C] | `x3dgltf matrix`, `draco3dgltf 1.5.9` | x3d.loom@b6a3650:x3d.gltf/receipts/summary.md |
+| N-GTO-18 | [19](19-gltf-tooling.md) | corpus totals under `lossless`: raw | 103.0% | [C] | `x3dgltf matrix` | x3d.loom@b6a3650:x3d.gltf/receipts/summary.md |
+| N-GTO-19 | [19](19-gltf-tooling.md) | identity tokens lost by a shipping profile, whole corpus | 0 over 108 cells | [C] | `x3dgltf verify` | x3d.loom@b6a3650:x3d.gltf/receipts/matrix/matrix.json |
+| N-GTO-20 | [19](19-gltf-tooling.md) | tokens lost by the two traps, whole corpus | 10,095 over 24 cells | [C] | `x3dgltf verify` | x3d.loom@b6a3650:x3d.gltf/receipts/matrix/matrix.json |
+| N-GTO-21 | [19](19-gltf-tooling.md) | thalassa `static-joined` | 480.3 to 3,204.0 KiB, geometry gate FAIL | [C] | `x3dgltf verify` | x3d.loom@b6a3650:x3d.gltf/receipts/matrix/cells/thalassa-exhibition.static-joined.json |
+| N-GTO-22 | [19](19-gltf-tooling.md) | asterion `lossless` | 4,404.4 to 4,851.9 KiB (110.2%) | [C] | `x3dgltf optimize` | x3d.loom@b6a3650:x3d.gltf/receipts/matrix/cells/asterion.lossless.json |
+| N-GTO-23 | [19](19-gltf-tooling.md) | still life `web-ktx2-etc1s` | 1,645.4 to 509.1 KiB (30.9%) | [C] | `ktx2-encoder 0.6.0` | x3d.loom@b6a3650:x3d.gltf/receipts/matrix/cells/stilllife-addon.web-ktx2-etc1s.json |
+| N-GTO-24 | [19](19-gltf-tooling.md) | matrix cells run | 132 (108 shipping, 24 trap) | [C] | `x3dgltf matrix` | x3d.loom@b6a3650:x3d.gltf/receipts/matrix/matrix.json |
 <!-- END GENERATED -->

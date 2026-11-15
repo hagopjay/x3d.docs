@@ -1,0 +1,2374 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-yjs-collaboration.html">15. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a class="cur" href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="19-gltf-tooling.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/19-gltf-tooling.md">GitHub</a></div><h1>19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</h1>
+<details class="toc"><summary>On this page (25 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-what-identity-means-for-a-glb">2. What &quot;identity&quot; means for a glb</a><a class="l3" href="#21-the-two-wrappers-that-make-exact-possible">2.1 The two wrappers that make exact possible</a><a class="l2" href="#3-step-anatomy-what-each-gltf-transform-step-does-to-identity">3. Step anatomy: what each glTF-Transform step does to identity</a><a class="l2" href="#4-the-nine-profiles">4. The nine profiles</a><a class="l2" href="#5-the-gates">5. The gates</a><a class="l3" href="#51-a-worked-bound-the-219e-9-that-was-not-a-bug">5.1 A worked bound: the 2.19e-9 that was not a bug</a><a class="l2" href="#6-the-validator-gap">6. The validator gap</a><a class="l2" href="#7-measured-the-corpus-matrix">7. Measured: the corpus matrix</a><a class="l2" href="#8-which-consumer-decodes-what">8. Which consumer decodes what</a><a class="l2" href="#9-the-render-oracle">9. The render oracle</a><a class="l2" href="#10-plugging-it-in">10. Plugging it in</a><a class="l2" href="#11-the-browser-forge-and-byte-parity">11. The browser forge and byte parity</a><a class="l2" href="#12-run-it">12. Run it</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-gto-1-count-the-contracts">D-GTO-1 Count the contracts</a><a class="l3" href="#d-gto-2-spring-the-trap-then-step-around-it">D-GTO-2 Spring the trap, then step around it</a><a class="l3" href="#d-gto-3-the-validator-that-cannot-see-the-geometry">D-GTO-3 The validator that cannot see the geometry</a><a class="l3" href="#d-gto-4-a-gate-that-can-fail">D-GTO-4 A gate that can fail</a><a class="l3" href="#d-gto-5-which-stock-step-takes-the-animation-channel">D-GTO-5 Which stock step takes the animation channel</a><a class="l3" href="#d-gto-6-rank-the-wire">D-GTO-6 Rank the wire</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> a glb from the Blender add-on can be cut to about a third of its size, or to a tenth of it on a mesh-heavy scene, and still be proven to carry every DEF name, camera, light, material and animation channel it started with, but only if the stock glTF-Transform steps that erase names are wrapped and the result is checked by gates the Khronos validator does not have. <strong><span class="g C" title="Confirmed">C</span></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>GTO</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="03-validator-and-gates.html">03 The validator and the gates</a> for what a gate can prove; <a href="11-gltf-usd-khronos.html">11 glTF, USD and Khronos</a> for where the identity extras come from (H-GLT-5)</td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>(1) pick one of nine optimiser profiles for a target and say what each one promises; (2) name the glTF-Transform steps that erase X3D identity and show the loss in tokens; (3) run the identity, geometry, material and animation gates on any glb pair; (4) read a validator &quot;0 errors&quot; on a compressed glb without over-reading it; (5) say which consumer decodes which compression, with the grade of each row</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td>x3d.loom@b6a3650:x3d.gltf/{src,bin,web,tools,tests,fixtures,receipts}; x3d-blender-io@54aba0c:docs/brag/showpieces; x3d.castle@0a1073f:results/exporter-70/sample-glb; npm package sources of <code>three@0.187.0</code>, <code>babylonjs@9.32.0</code>, <code>x_ite@16.7.1</code> (read in <code>node_modules</code>)</td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td><code>glTF-Transform 4.5.1</code>; <code>meshoptimizer 1.3.0</code>; <code>draco3dgltf 1.5.9</code>; <code>ktx2-encoder 0.6.0</code>; <code>Khronos glTF-Validator 2.0.0-dev.3.10</code>; <code>Node v22.23.4</code>; <code>Chromium 153.0.8010.12, SwiftShader</code> for the browser byte-parity test; <code>esbuild 0.25.12</code>; <code>three.js r187</code>, <code>Babylon.js 9.32.0</code>, <code>X_ITE 16.7.1</code> for the render oracle</td>
+</tr>
+</tbody>
+</table>
+<p>Grading note. Every size, count and token number below comes from <code>x3dgltf</code> runs on 2026-11-15 whose receipts are committed under <code>x3d.gltf/receipts/</code>; the Khronos validator ran in Node. Nothing here was timed on a GPU, and the render oracle ran on a software adapter. The per-engine support matrix was read from package source and graded row by row (section 8).</p>
+<hr />
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text"> X3D --(Blender + x3d-blender-io)--&gt; glb carrying x3d_* extras on nodes, meshes, materials, scenes
+                                              |
+                                              v
+        +--------------------------------------------------------------------+
+        | x3dgltf optimize IN.glb OUT.glb --profile P                        |
+        |   dedup -&gt; prune -&gt; weld -&gt; [reorder] -&gt; [instance | quantize]     |
+        |   -&gt; [EXT_meshopt_compression | KHR_draco_mesh_compression | KTX2]  |
+        +--------------------------------------------------------------------+
+                                              |
+        +----------+-------------+------------+-------------+----------------+
+        v          v             v            v             v                v
+   validator   identity      geometry     materials     animation        KTX2 container
+ (source and   (token        (k-d tree     (look-        (channel,        (vkFormat 0,
+  decoded)      multiset)     centroids)    fields)       key times)       ETC1S/UASTC)
+                                              |
+                                              v
+          delivered glb --&gt; three.js / Babylon.js / X_ITE / Unreal / Castle / blenderizer
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>in scope</th>
+<th>not in scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>glb size, draw calls, resident GPU bytes, and what each costs in identity</td>
+<td>rendering speed on a GPU (nothing timed)</td>
+</tr>
+<tr>
+<td>the nine profiles and their written contracts</td>
+<td>USD (see chapter 11, section 7)</td>
+</tr>
+<tr>
+<td>the identity, geometry, material and animation gates, with negative controls</td>
+<td>behaviour: ROUTEs, Scripts, PROTOs are lost before this lane starts (chapter 11, section 2)</td>
+</tr>
+<tr>
+<td>a Node CLI and a browser bundle that produce the same bytes</td>
+<td>a hosted service; the lane is a library, a CLI and a demo page</td>
+</tr>
+<tr>
+<td>the per-engine decoder matrix and the render oracle</td>
+<td>engines other than three.js, Babylon.js, X_ITE, Unreal, Blender and Castle</td>
+</tr>
+</tbody>
+</table>
+<p>Read next: deeper, <a href="11-gltf-usd-khronos.html">11 glTF, USD and Khronos</a> for the extras the gates depend on; wider, <a href="12-unreal-tier1.html">12 Unreal as a tier-1 endpoint</a> for the consumer that imports the optimised glb.</p>
+<hr />
+<h2 id="2-what-identity-means-for-a-glb">2. What &quot;identity&quot; means for a glb</h2>
+<p>The Blender add-on writes the X3D identity of every imported node into glTF <code>extras</code> (chapter 11, H-GLT-5): <code>x3d_def</code>, <code>x3d_def_path</code> (the chain of DEF'd ancestors), <code>x3d_use</code>, <code>x3d_viewpoint_description</code> on nodes, <code>x3d_head_meta</code> on the scene. Without them a glb cannot be traced back to the X3D scene it came from; the tether (chapter 01) is cut at the first optimiser that merges or drops a named node. The lane measures that as a <strong>token multiset</strong>: every named or tagged property becomes one string, source and output are compared as multisets, and the difference is split into lost and added.</p>
+<table>
+<thead>
+<tr>
+<th>token kind</th>
+<th>what it carries</th>
+<th>example (from the PRISMATICA cathedral glb)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>node</code></td>
+<td>node name and its whole <code>extras</code></td>
+<td><code>node|Pillar_017|{&quot;x3d_def&quot;:&quot;Pillar_017&quot;,&quot;x3d_def_path&quot;:[&quot;Nave&quot;,&quot;Pillar_017&quot;]}</code></td>
+</tr>
+<tr>
+<td><code>mesh</code>, <code>material</code>, <code>scene</code></td>
+<td>name and extras</td>
+<td><code>scene|...|{&quot;x3d_head_meta&quot;:[{&quot;name&quot;:&quot;title&quot;,...}]}</code></td>
+</tr>
+<tr>
+<td><code>camera</code>, <code>light</code></td>
+<td>name, extras and the projection or light parameters</td>
+<td><code>camera|Viewpoint1|{...}|perspective|0.8,0.1,100,</code></td>
+</tr>
+<tr>
+<td><code>asset</code></td>
+<td>root extras</td>
+<td><code>asset|{...}</code></td>
+</tr>
+</tbody>
+</table>
+<p>The cathedral glb has 1,251 tokens; the contract of a profile says what may happen to them.</p>
+<table>
+<thead>
+<tr>
+<th>contract</th>
+<th>meaning</th>
+<th>profiles</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>exact</code></td>
+<td>every token survives (lost 0, added 0)</td>
+<td>lossless, meshopt-lossless, quantized, web, web-filter, draco, web-ktx2, web-ktx2-etc1s</td>
+</tr>
+<tr>
+<td><code>mapped</code></td>
+<td>tags survive inside <code>extras.x3d_instances</code> of a new batch node (lost 0); the batch nodes are new</td>
+<td>instanced</td>
+</tr>
+<tr>
+<td><code>lossy</code></td>
+<td>tokens may be lost; the loss is counted and printed, never hidden</td>
+<td>static-joined, stock-instance</td>
+</tr>
+</tbody>
+</table>
+<p>A second identity check is <code>x3d_def_path</code> itself: a claim that a node sits under <code>Nave</code> is only true if the glb hierarchy still says so. The add-on writes the field as a <code>/</code>-joined string (<code>&quot;Nave/Pillar_017&quot;</code>), not the list the first version of this lane assumed; for most of the lane's life the check read zero claims on every real file and passed vacuously, and the gap was found by an independent reader of the lane. Parsed correctly, the cathedral carries 1,216 claims and 1,208 of them hold in the source (why the other eight do not was not traced), the <code>stilllife</code> file carries 9 and none hold, and the fixture <code>identity-dup</code> carries 4 and holds 4. For an <code>exact</code> profile the gate now fails if the output has a different number of claims or fewer that hold than the source (<code>src/gates.mjs</code>). The cathedral under <code>instanced</code> is a <code>mapped</code> contract and is not held to the claim count, because the batch nodes are new.</p>
+<h3 id="21-the-two-wrappers-that-make-exact-possible">2.1 The two wrappers that make <code>exact</code> possible</h3>
+<p>Stock glTF-Transform has two steps that change identity without losing a vertex. The lane wraps both and then lets the gate prove the wrapper works.</p>
+<pre><code class="language-text"> stock instance({min:2})            instanceWithIdentity({min:2})
+ ------------------------           ---------------------------------------------
+ N nodes sharing a mesh             record (name, extras) of each node, in order
+   -&gt; 1 batch node, N TRS           run the stock instance()
+   -&gt; the N nodes deleted           write the records to batch.extras.x3d_instances
+   -&gt; every DEF name gone           snapshot() expands them back into N node tokens
+
+ stock quantize()                   quantizeKeepingIdentity()
+ ------------------------           ---------------------------------------------
+ animated or parent node -&gt;         same call, then mark each helper node with
+   anonymous child node made          extras.x3d_wrapper_of = &lt;parent&gt;
+   animation channels retargeted    nodeKey() resolves a wrapper to its parent, so
+   to the child                       animation channels still match by target
+</code></pre>
+<p>Measured on the cathedral, stock <code>instance()</code> takes 1,218 draw calls to 10 and erases 1,216 of 1,251 tokens; the wrapper takes 1,218 to 10 and erases 0 (<code>receipts/step-probe.md</code>; <code>receipts/summary.md</code>). On the animated fixture, stock <code>quantize()</code> leaves 1 of 3 animation channels without a matching target; the wrapper leaves 0 of 3.</p>
+<hr />
+<h2 id="3-step-anatomy-what-each-gltf-transform-step-does-to-identity">3. Step anatomy: what each glTF-Transform step does to identity</h2>
+<p>Each step ran alone on a fresh read of each glb. &quot;Lost&quot; counts identity tokens; &quot;unmatched&quot; counts animation channels that no longer find their target node.</p>
+<table>
+<thead>
+<tr>
+<th>step</th>
+<th>cathedral: lost of 1,251, KiB</th>
+<th>still life: lost of 27, KiB</th>
+<th>identity-dup: lost of 19</th>
+<th>animated: lost of 8, channels unmatched of 3</th>
+<th>repeated: lost of 47, KiB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dedup() stock</td>
+<td>0, 1,190.8 to 1,143.3</td>
+<td>0, 1,645.4 to 1,644.9</td>
+<td>2</td>
+<td>0, 0</td>
+<td>0, 10.6 to 10.6</td>
+</tr>
+<tr>
+<td>dedup SAFE (accessor, texture)</td>
+<td>0, 1,190.8 to 1,143.3</td>
+<td>0, 1,645.4 to 1,644.9</td>
+<td>0</td>
+<td>0, 0</td>
+<td>0, 10.6 to 10.6</td>
+</tr>
+<tr>
+<td>prune() stock</td>
+<td>0, 1,190.8 to 891.6</td>
+<td>0, 1,645.4 to 1,451.7</td>
+<td>0</td>
+<td>0, 0</td>
+<td>0, 10.6 to 9.6</td>
+</tr>
+<tr>
+<td>prune SAFE (keepLeaves, keepExtras, keepAttributes)</td>
+<td>0, 1,190.8 to 1,189.9</td>
+<td>0, 1,645.4 to 1,644.9</td>
+<td>0</td>
+<td>0, 0</td>
+<td>0, 10.6 to 10.6</td>
+</tr>
+<tr>
+<td>weld()</td>
+<td>0, 1,190.8 to 1,204.4</td>
+<td>0, 1,645.4 to 1,644.9</td>
+<td>0</td>
+<td>0, 0</td>
+<td>0, 10.6 to 10.6</td>
+</tr>
+<tr>
+<td>reorder()</td>
+<td>0, 1,190.8 to 1,189.9</td>
+<td>0, 1,645.4 to 1,644.9</td>
+<td>0</td>
+<td>0, 0</td>
+<td>0, 10.6 to 10.6</td>
+</tr>
+<tr>
+<td>quantize() stock</td>
+<td>0, 1,190.8 to 877.9</td>
+<td>0, 1,645.4 to 1,353.5</td>
+<td>0</td>
+<td>0, 1</td>
+<td>0, 10.6 to 9.4</td>
+</tr>
+<tr>
+<td>quantize wrapper (marks helper nodes)</td>
+<td>0, 1,190.8 to 877.9</td>
+<td>0, 1,645.4 to 1,353.5</td>
+<td>0</td>
+<td>0, 0</td>
+<td>0, 10.6 to 9.4</td>
+</tr>
+<tr>
+<td>meshopt() stock</td>
+<td>0, 1,190.8 to 583.8</td>
+<td>0, 1,645.4 to 982.7</td>
+<td>0</td>
+<td>0, 1</td>
+<td>0, 10.6 to 8.4</td>
+</tr>
+<tr>
+<td>draco() stock</td>
+<td>0, 1,190.8 to 507.1</td>
+<td>0, 1,645.4 to 808.2</td>
+<td>0</td>
+<td>0, 0</td>
+<td>0, 10.6 to 6.8</td>
+</tr>
+<tr>
+<td>flatten()</td>
+<td>0, 1,190.8 to 1,189.9</td>
+<td>1, 1,645.4 to 1,644.8</td>
+<td>1</td>
+<td>0, 0</td>
+<td>0, 10.6 to 10.6</td>
+</tr>
+<tr>
+<td>join()</td>
+<td>1208, 1,190.8 to 16,482.7</td>
+<td>0, 1,645.4 to 1,644.9</td>
+<td>1</td>
+<td>0, 0</td>
+<td>39, 10.6 to 193.0</td>
+</tr>
+<tr>
+<td>palette({min:5})</td>
+<td>10 (+5), 1,190.8 to 1,309.5</td>
+<td>0, 1,645.4 to 1,644.9</td>
+<td>0</td>
+<td>0, 0</td>
+<td>0, 10.6 to 10.6</td>
+</tr>
+<tr>
+<td>instance({min:2}) stock</td>
+<td>1216, 1,190.8 to 843.8</td>
+<td>0, 1,645.4 to 1,644.9</td>
+<td>2</td>
+<td>0, 0</td>
+<td>40, 10.6 to 7.7</td>
+</tr>
+<tr>
+<td>instance wrapper (stamps x3d_instances)</td>
+<td>0, 1,190.8 to 980.4</td>
+<td>0, 1,645.4 to 1,644.9</td>
+<td>0</td>
+<td>0, 0</td>
+<td>0, 10.6 to 9.3</td>
+</tr>
+<tr>
+<td>simplify(0.5)</td>
+<td>0, 1,190.8 to 845.8</td>
+<td>0, 1,645.4 to 1,279.0</td>
+<td>0</td>
+<td>0, 0</td>
+<td>0, 10.6 to 10.2</td>
+</tr>
+<tr>
+<td>resample()</td>
+<td>0, 1,190.8 to 1,189.9</td>
+<td>0, 1,645.4 to 1,644.9</td>
+<td>0</td>
+<td>0, 0</td>
+<td>0, 10.6 to 10.6</td>
+</tr>
+<tr>
+<td>sparse()</td>
+<td>0, 1,190.8 to 1,189.9</td>
+<td>0, 1,645.4 to 1,644.9</td>
+<td>0</td>
+<td>0, 0</td>
+<td>0, 10.6 to 10.6</td>
+</tr>
+</tbody>
+</table>
+<p>What the table says, ranked by damage:</p>
+<table>
+<thead>
+<tr>
+<th>rank</th>
+<th>step</th>
+<th>measured effect</th>
+<th>why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>join()</code></td>
+<td>cathedral: 1,208 of 1,251 tokens lost, 1,190.8 KiB to 16,482.7 KiB (13.8 times)</td>
+<td>merges meshes; each source mesh and node name has nowhere to live</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>instance({min:2})</code></td>
+<td>cathedral: 1,216 tokens lost, size down to 843.8 KiB</td>
+<td>deletes the N nodes it folds into a batch</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>palette({min:5})</code></td>
+<td>cathedral: 10 lost, 5 added</td>
+<td>collapses near-identical materials into a palette</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>dedup()</code> (default)</td>
+<td><code>identity-dup</code> fixture: 2 lost</td>
+<td>merges accessors, meshes and materials that differ only by name</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>flatten()</code></td>
+<td>still life: 1 tagged token lost</td>
+<td>removes a transform-only node that carried a DEF</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>quantize()</code>, <code>meshopt()</code> stock</td>
+<td>animated fixture: 1 of 3 channels unmatched</td>
+<td>anonymous helper node takes over the weights channel</td>
+</tr>
+</tbody>
+</table>
+<p>The steps that are safe as they are: <code>reorder()</code>, <code>resample()</code>, <code>sparse()</code>, stock <code>draco()</code>, <code>weld()</code> and <code>simplify()</code> lost 0 tokens on every file probed. Safe on identity is not the same as free: <code>weld()</code> grew the cathedral from 1,190.8 KiB to 1,204.4 KiB, and <code>simplify(0.5)</code> removes triangles, which the geometry gate then refuses for an <code>exact</code> or bit-bounded profile.</p>
+<hr />
+<h2 id="4-the-nine-profiles">4. The nine profiles</h2>
+<table>
+<thead>
+<tr>
+<th>profile</th>
+<th>contract</th>
+<th>writes</th>
+<th>steps</th>
+<th>use it when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lossless</code></td>
+<td>exact / exact</td>
+<td>nothing</td>
+<td>dedup(accessor, texture), prune(keep extras), weld</td>
+<td>you want a canonical, deduplicated glb with nothing new in <code>extensionsUsed</code></td>
+</tr>
+<tr>
+<td><code>meshopt-lossless</code></td>
+<td>exact / exact</td>
+<td>EXT_meshopt_compression</td>
+<td>lossless + reorder + meshopt on unquantized data</td>
+<td>bit-exact floats, smaller on the wire</td>
+</tr>
+<tr>
+<td><code>quantized</code></td>
+<td>exact / 14-bit</td>
+<td>KHR_mesh_quantization</td>
+<td>lossless + quantize(14/10/12)</td>
+<td>the consumer reads quantization but not meshopt</td>
+</tr>
+<tr>
+<td><code>web</code></td>
+<td>exact / 14-bit</td>
+<td>quantization, meshopt</td>
+<td>quantized + reorder + meshopt</td>
+<td>the default for browsers (the <code>gltfpack -c</code> family)</td>
+</tr>
+<tr>
+<td><code>web-filter</code></td>
+<td>exact / 14-bit</td>
+<td>quantization, meshopt</td>
+<td>web with meshopt filters</td>
+<td>the wire is brotli and bytes before decompression matter least</td>
+</tr>
+<tr>
+<td><code>draco</code></td>
+<td>exact / 14-bit</td>
+<td>KHR_draco_mesh_compression</td>
+<td>lossless + Draco edgebreaker</td>
+<td>the consumer has a Draco decoder and no meshopt</td>
+</tr>
+<tr>
+<td><code>web-ktx2</code></td>
+<td>exact / 14-bit</td>
+<td>web + KHR_texture_basisu</td>
+<td>web + UASTC KTX2 textures</td>
+<td>VRAM matters more than transfer size</td>
+</tr>
+<tr>
+<td><code>web-ktx2-etc1s</code></td>
+<td>exact / 14-bit</td>
+<td>web + KHR_texture_basisu</td>
+<td>web + ETC1S KTX2 textures</td>
+<td>smallest textures, visible block artefacts on gradients</td>
+</tr>
+<tr>
+<td><code>instanced</code></td>
+<td>mapped / 14-bit</td>
+<td>web + EXT_mesh_gpu_instancing</td>
+<td>web + instanceWithIdentity</td>
+<td>a scene of hundreds of repeated shapes</td>
+</tr>
+</tbody>
+</table>
+<p>Two more profiles exist to be measured and never shipped: <code>static-joined</code> (flatten and join, the draw-call crunch) and <code>stock-instance</code> (glTF-Transform's own <code>instance()</code>). They are the traps of section 3 as profiles, so the matrix and the browser demo can show the cost next to the safe path. <code>x3dgltf profiles</code> prints the list with the contract of each.</p>
+<p>Geometry bounds are written in the contract, not in the gate: <code>exact</code> allows a centroid deviation of 1e-7 of the scene diagonal (one float32 ULP is 1.19e-7), <code>bits:N</code> allows 2^-(N-1): 1.22e-4 for 14 bits, 4.88e-4 for 12.</p>
+<hr />
+<h2 id="5-the-gates">5. The gates</h2>
+<p><code>x3dgltf verify SRC OUT --profile P</code> runs five checks and the CLI exits 1 if any fails. The portable ones (identity, geometry, materials, animation) are one module that runs in Node and in the browser bundle.</p>
+<table>
+<thead>
+<tr>
+<th>gate</th>
+<th>what it computes</th>
+<th>bound</th>
+<th>negative control (test in <code>tests/lane.test.mjs</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>identity</td>
+<td>token multiset difference, source vs output; <code>x3d_def_path</code> claims that still hold</td>
+<td>exact: lost 0 and added 0; mapped: lost 0</td>
+<td>a stock <code>dedup()</code> on the name-only duplicate fixture fails it</td>
+</tr>
+<tr>
+<td>geometry, triangles</td>
+<td>non-degenerate triangle count; zero-area triangles are counted apart</td>
+<td>exact: no change; bits: collapse at most max(16, 0.1%) of the solid triangles</td>
+<td><code>static-joined</code> on the cathedral fails (18,994 collapsed)</td>
+</tr>
+<tr>
+<td>geometry, centroids</td>
+<td>every source triangle matched to the nearest output triangle centroid through a static k-d tree, deviation as a fraction of the scene diagonal</td>
+<td>contract bound; unmatched must be 0; bounds within 2x; area within max(20x bound, 1e-9)</td>
+<td>a 0.1% scale change on a node fails it</td>
+</tr>
+<tr>
+<td>geometry, normals</td>
+<td>angle between matched triangle normals, p99</td>
+<td>1 degree for quantized, 1e-3 for exact; a dropped normal counts as a failure unless identity is lossy</td>
+<td><code>static-joined</code> on thalassa: p99 68.2 degrees</td>
+</tr>
+<tr>
+<td>materials</td>
+<td>look-defining material fields after normalising through the lane's own reader and writer; texture indices scrubbed</td>
+<td>identical</td>
+<td>altering a base colour fails it</td>
+</tr>
+<tr>
+<td>animation</td>
+<td>channels matched by animation name, target node key and path; exact keys or linear-resampled compare</td>
+<td>unmatched 0; exact profiles: value delta 0</td>
+<td>shifting one keyframe fails it</td>
+</tr>
+<tr>
+<td>validator</td>
+<td>Khronos validator on the source, the delivered file and, if compressed, the decoded canonical file</td>
+<td>errors 0; unexplained warnings not above the source's</td>
+<td>a corrupted accessor fails it</td>
+</tr>
+<tr>
+<td>KTX2 container</td>
+<td>vkFormat 0, ETC1S (163) or UASTC (166), BasisLZ for ETC1S, mip chain, multiple-of-4 sizes</td>
+<td>problems empty</td>
+<td>n/a (container advisories only)</td>
+</tr>
+</tbody>
+</table>
+<p>Why a k-d tree: the first matcher used a grid and did not finish in 250 s on the 600,976-triangle cathedral; the tree compares it with itself in 2.0 s. Why centroids and not vertices: an optimiser may reorder, weld, split or quantize vertices, but a triangle that survives keeps its centroid within the quantization step.</p>
+<h3 id="51-a-worked-bound-the-219e-9-that-was-not-a-bug">5.1 A worked bound: the 2.19e-9 that was not a bug</h3>
+<p>The Castle exporter's <code>annotation-standard</code> glb (1,404 triangles, diagonal 5.72) failed the first, stricter exact bound of 1e-9 with a deviation of 2.19e-9 on <code>lossless</code> and <code>meshopt-lossless</code>. Cause, found by running one step at a time: the file stores each node as a 4x4 <code>matrix</code>; glTF-Transform decomposes a matrix to translation, rotation and scale on read, and its writer snaps a scale within float32 noise of 1 (here 1.0000000367) to the default. The source scale error is the float32 rounding of the matrix, 1.2e-7 at worst. The bound for <code>exact</code> became one float32 ULP, and two tests pin it: a <code>matrix</code> node carrying 1.00000004 scales passes <code>lossless</code>, and a real 0.1% scale change on the same nodes still fails the geometry gate.</p>
+<pre><code class="language-bash">cd x3d.gltf &amp;&amp; node --test tests/*.test.mjs   # 13 lane tests + 4 browser parity tests
+</code></pre>
+<hr />
+<h2 id="6-the-validator-gap">6. The validator gap</h2>
+<p><code>Khronos glTF-Validator 2.0.0-dev.3.10</code> does not know <code>EXT_meshopt_compression</code>, <code>KHR_draco_mesh_compression</code>, <code>KHR_texture_basisu</code> or <code>EXT_mesh_gpu_instancing</code>: it reports them as unknown extensions and can say nothing about the data inside. A compressed glb passes with &quot;0 errors&quot; and the geometry is unchecked (chapter 11, H-GLT-2). The lane closes the gap twice.</p>
+<ol>
+<li><strong>Canonical file.</strong> <code>validateDelivery</code> decodes the delivered glb (meshopt, Draco; compression extensions disposed), rewrites it as plain glTF and validates that too. The report prints both, and <code>extensionsNotValidated</code> next to every pass.</li>
+<li><strong>Explained warnings.</strong> <code>KHR_texture_basisu</code> images trigger a validator warning that is a property of the validator, not of the file; the lane counts those as <code>explainedWarnings</code> and fails only on <code>unexplainedWarnings</code> above the source's own count. The KTX2 container is checked separately by <code>ktx2check.mjs</code> (section 5).</li>
+</ol>
+<p>Over the 132 matrix cells, the delivered file had validator errors in 0; the decoded canonical file was validated in 95 cells (errors in 0); the validator named an extension it does not check in 104 cells (EXT_meshopt_compression 84, EXT_mesh_gpu_instancing 28, KHR_draco_mesh_compression 11, KHR_texture_basisu 2). Source: <code>receipts/matrix/matrix.json</code>, field <code>validator</code>.</p>
+<hr />
+<h2 id="7-measured-the-corpus-matrix">7. Measured: the corpus matrix</h2>
+<p>The matrix ran every profile on 12 glbs: the four add-on showpieces, <code>stars-view</code>, five files from the Unreal lane (the cathedral static, animated and static-instanced, and the thalassa exhibition plain and instanced) and two Castle exporter files. File names, sizes and sha256 are in <code>receipts/corpus.json</code>; the per-cell receipts are in <code>receipts/matrix/</code>. Brotli is level 11 and gzip is level 9 (Node <code>zlib</code>).</p>
+<p><strong>Profile totals over the corpus</strong> (sum over the files each profile ran on; &quot;gates pass&quot; counts files)</p>
+<table>
+<thead>
+<tr>
+<th>profile</th>
+<th style="text-align:right">files</th>
+<th style="text-align:right">gates pass</th>
+<th style="text-align:right">KiB before</th>
+<th style="text-align:right">KiB after</th>
+<th style="text-align:right">% of before</th>
+<th style="text-align:right">gzip %</th>
+<th style="text-align:right">brotli %</th>
+<th style="text-align:right">identity tokens lost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lossless</td>
+<td style="text-align:right">12</td>
+<td style="text-align:right">12/12</td>
+<td style="text-align:right">17180.6</td>
+<td style="text-align:right">17702.4</td>
+<td style="text-align:right">103.0%</td>
+<td style="text-align:right">106.5%</td>
+<td style="text-align:right">102.6%</td>
+<td style="text-align:right">0</td>
+</tr>
+<tr>
+<td>meshopt-lossless</td>
+<td style="text-align:right">12</td>
+<td style="text-align:right">12/12</td>
+<td style="text-align:right">17180.6</td>
+<td style="text-align:right">11652.3</td>
+<td style="text-align:right">67.8%</td>
+<td style="text-align:right">88.8%</td>
+<td style="text-align:right">106.4%</td>
+<td style="text-align:right">0</td>
+</tr>
+<tr>
+<td>quantized</td>
+<td style="text-align:right">12</td>
+<td style="text-align:right">12/12</td>
+<td style="text-align:right">17180.6</td>
+<td style="text-align:right">9965.3</td>
+<td style="text-align:right">58.0%</td>
+<td style="text-align:right">74.4%</td>
+<td style="text-align:right">73.2%</td>
+<td style="text-align:right">0</td>
+</tr>
+<tr>
+<td>web</td>
+<td style="text-align:right">12</td>
+<td style="text-align:right">12/12</td>
+<td style="text-align:right">17180.6</td>
+<td style="text-align:right">6154.1</td>
+<td style="text-align:right">35.8%</td>
+<td style="text-align:right">50.2%</td>
+<td style="text-align:right">60.6%</td>
+<td style="text-align:right">0</td>
+</tr>
+<tr>
+<td>web-filter</td>
+<td style="text-align:right">12</td>
+<td style="text-align:right">12/12</td>
+<td style="text-align:right">17180.6</td>
+<td style="text-align:right">5646.1</td>
+<td style="text-align:right">32.9%</td>
+<td style="text-align:right">44.7%</td>
+<td style="text-align:right">54.3%</td>
+<td style="text-align:right">0</td>
+</tr>
+<tr>
+<td>draco</td>
+<td style="text-align:right">12</td>
+<td style="text-align:right">12/12</td>
+<td style="text-align:right">17180.6</td>
+<td style="text-align:right">7690.4</td>
+<td style="text-align:right">44.8%</td>
+<td style="text-align:right">57.5%</td>
+<td style="text-align:right">69.7%</td>
+<td style="text-align:right">0</td>
+</tr>
+<tr>
+<td>web-ktx2</td>
+<td style="text-align:right">12</td>
+<td style="text-align:right">12/12</td>
+<td style="text-align:right">17180.6</td>
+<td style="text-align:right">6327.5</td>
+<td style="text-align:right">36.8%</td>
+<td style="text-align:right">52.6%</td>
+<td style="text-align:right">63.9%</td>
+<td style="text-align:right">0</td>
+</tr>
+<tr>
+<td>web-ktx2-etc1s</td>
+<td style="text-align:right">12</td>
+<td style="text-align:right">12/12</td>
+<td style="text-align:right">17180.6</td>
+<td style="text-align:right">5590.4</td>
+<td style="text-align:right">32.5%</td>
+<td style="text-align:right">42.5%</td>
+<td style="text-align:right">50.3%</td>
+<td style="text-align:right">0</td>
+</tr>
+<tr>
+<td>instanced</td>
+<td style="text-align:right">12</td>
+<td style="text-align:right">12/12</td>
+<td style="text-align:right">17180.6</td>
+<td style="text-align:right">5515.1</td>
+<td style="text-align:right">32.1%</td>
+<td style="text-align:right">49.2%</td>
+<td style="text-align:right">58.8%</td>
+<td style="text-align:right">0</td>
+</tr>
+<tr>
+<td>static-joined</td>
+<td style="text-align:right">12</td>
+<td style="text-align:right">8/12</td>
+<td style="text-align:right">17180.6</td>
+<td style="text-align:right">10696.8</td>
+<td style="text-align:right">62.3%</td>
+<td style="text-align:right">40.8%</td>
+<td style="text-align:right">43.8%</td>
+<td style="text-align:right">5945</td>
+</tr>
+<tr>
+<td>stock-instance</td>
+<td style="text-align:right">12</td>
+<td style="text-align:right">12/12</td>
+<td style="text-align:right">17180.6</td>
+<td style="text-align:right">16768.7</td>
+<td style="text-align:right">97.6%</td>
+<td style="text-align:right">104.7%</td>
+<td style="text-align:right">100.9%</td>
+<td style="text-align:right">4150</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Per file: the smallest profile that passed every gate, by raw bytes and by brotli</strong></p>
+<table>
+<thead>
+<tr>
+<th>glb</th>
+<th style="text-align:right">KiB source</th>
+<th style="text-align:right">gzip KiB</th>
+<th style="text-align:right">brotli KiB</th>
+<th>smallest passing (raw)</th>
+<th style="text-align:right">KiB</th>
+<th style="text-align:right">%</th>
+<th>smallest passing (brotli)</th>
+<th style="text-align:right">brotli KiB</th>
+<th style="text-align:right">%</th>
+<th>draw calls source -&gt; instanced</th>
+<th style="text-align:right">identity tokens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>asterion.glb</td>
+<td style="text-align:right">4404.4</td>
+<td style="text-align:right">624.0</td>
+<td style="text-align:right">359.9</td>
+<td>web-filter</td>
+<td style="text-align:right">420.9</td>
+<td style="text-align:right">9.6%</td>
+<td>draco</td>
+<td style="text-align:right">112.2</td>
+<td style="text-align:right">31.2%</td>
+<td>284 -&gt; 284</td>
+<td style="text-align:right">587</td>
+</tr>
+<tr>
+<td>lumen.glb</td>
+<td style="text-align:right">2689.1</td>
+<td style="text-align:right">1252.2</td>
+<td style="text-align:right">550.8</td>
+<td>draco</td>
+<td style="text-align:right">231.3</td>
+<td style="text-align:right">8.6%</td>
+<td>web-filter</td>
+<td style="text-align:right">106.3</td>
+<td style="text-align:right">19.3%</td>
+<td>34 -&gt; 34</td>
+<td style="text-align:right">86</td>
+</tr>
+<tr>
+<td>prismatica-aurora-cathedral.glb</td>
+<td style="text-align:right">1190.8</td>
+<td style="text-align:right">525.5</td>
+<td style="text-align:right">384.8</td>
+<td>instanced</td>
+<td style="text-align:right">445.4</td>
+<td style="text-align:right">37.4%</td>
+<td>draco</td>
+<td style="text-align:right">125.3</td>
+<td style="text-align:right">32.6%</td>
+<td>1218 -&gt; 10</td>
+<td style="text-align:right">1251</td>
+</tr>
+<tr>
+<td>stilllife-addon.glb</td>
+<td style="text-align:right">1645.4</td>
+<td style="text-align:right">1098.8</td>
+<td style="text-align:right">908.5</td>
+<td>web-ktx2-etc1s</td>
+<td style="text-align:right">509.1</td>
+<td style="text-align:right">30.9%</td>
+<td>web-ktx2-etc1s</td>
+<td style="text-align:right">368.3</td>
+<td style="text-align:right">40.5%</td>
+<td>5 -&gt; 5</td>
+<td style="text-align:right">27</td>
+</tr>
+<tr>
+<td>stars-view.glb</td>
+<td style="text-align:right">40.7</td>
+<td style="text-align:right">25.7</td>
+<td style="text-align:right">22.5</td>
+<td>web</td>
+<td style="text-align:right">20.6</td>
+<td style="text-align:right">50.7%</td>
+<td>web</td>
+<td style="text-align:right">12.5</td>
+<td style="text-align:right">55.6%</td>
+<td>1 -&gt; 1</td>
+<td style="text-align:right">8</td>
+</tr>
+<tr>
+<td>prismatica-aurora-cathedral-animated.glb</td>
+<td style="text-align:right">4630.0</td>
+<td style="text-align:right">2557.1</td>
+<td style="text-align:right">2289.0</td>
+<td>web-filter</td>
+<td style="text-align:right">1857.8</td>
+<td style="text-align:right">40.1%</td>
+<td>quantized</td>
+<td style="text-align:right">1261.0</td>
+<td style="text-align:right">55.1%</td>
+<td>1218 -&gt; 1218</td>
+<td style="text-align:right">1251</td>
+</tr>
+<tr>
+<td>prismatica-aurora-cathedral-static.glb</td>
+<td style="text-align:right">1072.1</td>
+<td style="text-align:right">521.3</td>
+<td style="text-align:right">390.8</td>
+<td>instanced</td>
+<td style="text-align:right">341.0</td>
+<td style="text-align:right">31.8%</td>
+<td>draco</td>
+<td style="text-align:right">123.0</td>
+<td style="text-align:right">31.5%</td>
+<td>1218 -&gt; 10</td>
+<td style="text-align:right">1251</td>
+</tr>
+<tr>
+<td>prismatica-aurora-cathedral-static-instanced.glb</td>
+<td style="text-align:right">844.0</td>
+<td style="text-align:right">487.8</td>
+<td style="text-align:right">366.4</td>
+<td>draco</td>
+<td style="text-align:right">159.9</td>
+<td style="text-align:right">19.0%</td>
+<td>draco</td>
+<td style="text-align:right">101.4</td>
+<td style="text-align:right">27.7%</td>
+<td>10 -&gt; 10</td>
+<td style="text-align:right">43</td>
+</tr>
+<tr>
+<td>thalassa-exhibition.glb</td>
+<td style="text-align:right">480.3</td>
+<td style="text-align:right">96.4</td>
+<td style="text-align:right">75.6</td>
+<td>instanced</td>
+<td style="text-align:right">175.2</td>
+<td style="text-align:right">36.5%</td>
+<td>instanced</td>
+<td style="text-align:right">37.4</td>
+<td style="text-align:right">49.4%</td>
+<td>1719 -&gt; 8</td>
+<td style="text-align:right">1737</td>
+</tr>
+<tr>
+<td>thalassa-exhibition-instanced.glb</td>
+<td style="text-align:right">122.3</td>
+<td style="text-align:right">38.8</td>
+<td style="text-align:right">33.3</td>
+<td>draco</td>
+<td style="text-align:right">85.8</td>
+<td style="text-align:right">70.1%</td>
+<td>draco</td>
+<td style="text-align:right">31.9</td>
+<td style="text-align:right">95.9%</td>
+<td>8 -&gt; 8</td>
+<td style="text-align:right">26</td>
+</tr>
+<tr>
+<td>docs__demos__blender-x3d-io__v1__scenes__annotation-standard.glb</td>
+<td style="text-align:right">37.7</td>
+<td style="text-align:right">16.3</td>
+<td style="text-align:right">9.9</td>
+<td>draco</td>
+<td style="text-align:right">11.0</td>
+<td style="text-align:right">29.1%</td>
+<td>web-filter</td>
+<td style="text-align:right">4.7</td>
+<td style="text-align:right">47.6%</td>
+<td>5 -&gt; 5</td>
+<td style="text-align:right">16</td>
+</tr>
+<tr>
+<td>docs__demos__blender-x3d-io__v1__scenes__lights-before.glb</td>
+<td style="text-align:right">23.7</td>
+<td style="text-align:right">12.4</td>
+<td style="text-align:right">8.3</td>
+<td>draco</td>
+<td style="text-align:right">6.6</td>
+<td style="text-align:right">27.6%</td>
+<td>draco</td>
+<td style="text-align:right">3.7</td>
+<td style="text-align:right">45.0%</td>
+<td>3 -&gt; 3</td>
+<td style="text-align:right">13</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The two traps, every file</strong> (a lossy contract passes when its bounds hold; the identity column is the cost)</p>
+<table>
+<thead>
+<tr>
+<th>glb</th>
+<th>profile</th>
+<th>draw calls</th>
+<th>nodes</th>
+<th>triangles (source -&gt; out)</th>
+<th style="text-align:right">identity tokens lost of source</th>
+<th>KiB source -&gt; out</th>
+<th>gates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>asterion.glb</td>
+<td>stock-instance</td>
+<td>284 -&gt; 284</td>
+<td>288 -&gt; 288</td>
+<td>93682 -&gt; 93682</td>
+<td style="text-align:right">0 of 587</td>
+<td>4404.4 -&gt; 4851.9</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>asterion.glb</td>
+<td>static-joined</td>
+<td>284 -&gt; 10</td>
+<td>288 -&gt; 14</td>
+<td>93682 -&gt; 93682</td>
+<td style="text-align:right">548 of 587</td>
+<td>4404.4 -&gt; 1026.9</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>lumen.glb</td>
+<td>stock-instance</td>
+<td>34 -&gt; 34</td>
+<td>39 -&gt; 39</td>
+<td>89568 -&gt; 89568</td>
+<td style="text-align:right">0 of 86</td>
+<td>2689.1 -&gt; 2697.2</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>lumen.glb</td>
+<td>static-joined</td>
+<td>34 -&gt; 7</td>
+<td>39 -&gt; 12</td>
+<td>89568 -&gt; 89568</td>
+<td style="text-align:right">54 of 86</td>
+<td>2689.1 -&gt; 553.2</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>prismatica-aurora-cathedral.glb</td>
+<td>stock-instance</td>
+<td>1218 -&gt; 10</td>
+<td>1224 -&gt; 16</td>
+<td>600976 -&gt; 600976</td>
+<td style="text-align:right">1216 of 1251</td>
+<td>1190.8 -&gt; 858.3</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>prismatica-aurora-cathedral.glb</td>
+<td>static-joined</td>
+<td>1218 -&gt; 10</td>
+<td>1224 -&gt; 16</td>
+<td>600976 -&gt; 600976</td>
+<td style="text-align:right">1208 of 1251</td>
+<td>1190.8 -&gt; 1383.5</td>
+<td>FAIL: 18994 triangles collapsed (more than 0.1% of 600; normals p99 1.412 degrees exceeds 1</td>
+</tr>
+<tr>
+<td>stilllife-addon.glb</td>
+<td>stock-instance</td>
+<td>5 -&gt; 5</td>
+<td>11 -&gt; 11</td>
+<td>27560 -&gt; 27560</td>
+<td style="text-align:right">0 of 27</td>
+<td>1645.4 -&gt; 1644.9</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>stilllife-addon.glb</td>
+<td>static-joined</td>
+<td>5 -&gt; 5</td>
+<td>11 -&gt; 10</td>
+<td>27560 -&gt; 27560</td>
+<td style="text-align:right">1 of 27</td>
+<td>1645.4 -&gt; 990.6</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>stars-view.glb</td>
+<td>stock-instance</td>
+<td>1 -&gt; 1</td>
+<td>4 -&gt; 4</td>
+<td>0 -&gt; 0</td>
+<td style="text-align:right">0 of 8</td>
+<td>40.7 -&gt; 40.7</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>stars-view.glb</td>
+<td>static-joined</td>
+<td>1 -&gt; 1</td>
+<td>4 -&gt; 3</td>
+<td>0 -&gt; 0</td>
+<td style="text-align:right">1 of 8</td>
+<td>40.7 -&gt; 22.6</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>prismatica-aurora-cathedral-animated.glb</td>
+<td>stock-instance</td>
+<td>1218 -&gt; 1218</td>
+<td>1224 -&gt; 1224</td>
+<td>584592 -&gt; 584592</td>
+<td style="text-align:right">0 of 1251</td>
+<td>4630.0 -&gt; 4643.0</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>prismatica-aurora-cathedral-animated.glb</td>
+<td>static-joined</td>
+<td>1218 -&gt; 10</td>
+<td>1224 -&gt; 16</td>
+<td>584592 -&gt; 584592</td>
+<td style="text-align:right">1208 of 1251</td>
+<td>4630.0 -&gt; 1821.2</td>
+<td>FAIL: 18994 triangles collapsed (more than 0.1% of 584; normals p99 1.412 degrees exceeds 1</td>
+</tr>
+<tr>
+<td>prismatica-aurora-cathedral-static.glb</td>
+<td>stock-instance</td>
+<td>1218 -&gt; 10</td>
+<td>1224 -&gt; 16</td>
+<td>600976 -&gt; 600976</td>
+<td style="text-align:right">1216 of 1251</td>
+<td>1072.1 -&gt; 856.9</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>prismatica-aurora-cathedral-static.glb</td>
+<td>static-joined</td>
+<td>1218 -&gt; 10</td>
+<td>1224 -&gt; 16</td>
+<td>600976 -&gt; 600976</td>
+<td style="text-align:right">1208 of 1251</td>
+<td>1072.1 -&gt; 1381.7</td>
+<td>FAIL: 18994 triangles collapsed (more than 0.1% of 600; normals p99 1.412 degrees exceeds 1</td>
+</tr>
+<tr>
+<td>prismatica-aurora-cathedral-static-instanced.glb</td>
+<td>stock-instance</td>
+<td>10 -&gt; 10</td>
+<td>16 -&gt; 16</td>
+<td>600976 -&gt; 600976</td>
+<td style="text-align:right">0 of 43</td>
+<td>844.0 -&gt; 857.2</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>prismatica-aurora-cathedral-static-instanced.glb</td>
+<td>static-joined</td>
+<td>10 -&gt; 10</td>
+<td>16 -&gt; 16</td>
+<td>600976 -&gt; 600976</td>
+<td style="text-align:right">0 of 43</td>
+<td>844.0 -&gt; 182.4</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>thalassa-exhibition.glb</td>
+<td>stock-instance</td>
+<td>1719 -&gt; 8</td>
+<td>1721 -&gt; 10</td>
+<td>686712 -&gt; 686712</td>
+<td style="text-align:right">1718 of 1737</td>
+<td>480.3 -&gt; 130.4</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>thalassa-exhibition.glb</td>
+<td>static-joined</td>
+<td>1719 -&gt; 5</td>
+<td>1721 -&gt; 7</td>
+<td>686712 -&gt; 686712</td>
+<td style="text-align:right">1717 of 1737</td>
+<td>480.3 -&gt; 3204.0</td>
+<td>FAIL: 401116 triangles collapsed (more than 0.1% of 68; centroid deviation 3.69e-2 of the diagonal excee; normals p99 68.173 degrees exceeds 1</td>
+</tr>
+<tr>
+<td>thalassa-exhibition-instanced.glb</td>
+<td>stock-instance</td>
+<td>8 -&gt; 8</td>
+<td>10 -&gt; 10</td>
+<td>686712 -&gt; 686712</td>
+<td style="text-align:right">0 of 26</td>
+<td>122.3 -&gt; 130.7</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>thalassa-exhibition-instanced.glb</td>
+<td>static-joined</td>
+<td>8 -&gt; 8</td>
+<td>10 -&gt; 10</td>
+<td>686712 -&gt; 686712</td>
+<td style="text-align:right">0 of 26</td>
+<td>122.3 -&gt; 101.9</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>docs__demos__blender-x3d-io__v1__scenes__annotation-standard.glb</td>
+<td>stock-instance</td>
+<td>5 -&gt; 5</td>
+<td>10 -&gt; 10</td>
+<td>1404 -&gt; 1404</td>
+<td style="text-align:right">0 of 16</td>
+<td>37.7 -&gt; 34.8</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>docs__demos__blender-x3d-io__v1__scenes__annotation-standard.glb</td>
+<td>static-joined</td>
+<td>5 -&gt; 5</td>
+<td>10 -&gt; 10</td>
+<td>1404 -&gt; 1404</td>
+<td style="text-align:right">0 of 16</td>
+<td>37.7 -&gt; 16.0</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>docs__demos__blender-x3d-io__v1__scenes__lights-before.glb</td>
+<td>stock-instance</td>
+<td>3 -&gt; 3</td>
+<td>6 -&gt; 6</td>
+<td>974 -&gt; 974</td>
+<td style="text-align:right">0 of 13</td>
+<td>23.7 -&gt; 22.8</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+<tr>
+<td>docs__demos__blender-x3d-io__v1__scenes__lights-before.glb</td>
+<td>static-joined</td>
+<td>3 -&gt; 3</td>
+<td>6 -&gt; 6</td>
+<td>974 -&gt; 974</td>
+<td style="text-align:right">0 of 13</td>
+<td>23.7 -&gt; 12.8</td>
+<td>pass (loss is allowed and counted)</td>
+</tr>
+</tbody>
+</table>
+<p>Ranked findings from those tables. Each is <span class="g C" title="Confirmed">C</span> for the corpus and the tool versions above, and none is a claim about any other file.</p>
+<table>
+<thead>
+<tr>
+<th>rank</th>
+<th>finding</th>
+<th>numbers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>the traps are cheap to fall into and invisible to a size check</td>
+<td>cathedral <code>stock-instance</code>: 1,218 to 10 draw calls, smaller by 27.9%, gates PASS, 1,216 of 1,251 tokens gone; thalassa <code>stock-instance</code> 480.3 to 130.4 KiB with 1,718 of 1,737 gone; thalassa <code>static-joined</code> grows 480.3 to 3,204.0 KiB and loses 401,116 triangles</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>instanced</code> is the smallest shipping profile on repeated-shape scenes and loses nothing</td>
+<td>prismatica-aurora-cathedral-static: 1,218 to 10 draw calls, 1,072.1 to 341.0 KiB (31.8%), 0 lost; prismatica-aurora-cathedral: 1,218 to 10 draw calls, 1,190.8 to 445.4 KiB (37.4%), 0 lost; thalassa-exhibition: 1,719 to 8 draw calls, 480.3 to 175.2 KiB (36.5%), 0 lost</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Draco's raw win mostly disappears on the wire; meshopt filters keep theirs</td>
+<td>corpus totals: <code>draco</code> 44.8% raw but 69.7% brotli, <code>web-filter</code> 32.9% and 54.3%; per file <code>draco</code> is the smallest passing profile on 5 of 12 files by raw bytes and 6 by brotli</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>lossless</code> is not a no-op and can grow a file</td>
+<td><code>lossless</code> totals 103.0% of the source over the corpus; it grew 8 of 12 files, the most on asterion (4,404.4 to 4,851.9 KiB, 110.2%) and the cathedral (<code>weld()</code> alone: 1,190.8 to 1,204.4 KiB)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>UASTC KTX2 saves GPU memory and costs transfer bytes</td>
+<td>still life: <code>web</code> 1,072.7 KiB, <code>web-ktx2</code> (UASTC) 1,246.2 KiB, <code>web-ktx2-etc1s</code> 509.1 KiB; texture memory (glTF-Transform's formula) 5,461.3 KiB under <code>web</code>, 1,365.4 under UASTC, 682.7 under ETC1S</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Draco drops zero-area triangles; quantization collapses sub-step triangles</td>
+<td>lumen quantized: 8 triangles collapsed below the quantization step; lumen web: 8 triangles collapsed below the quantization step; lumen web-filter: 8 triangles collapsed below the quantization step; lumen draco: 6 triangles collapsed below the quantization step</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="8-which-consumer-decodes-what">8. Which consumer decodes what</h2>
+<p>Every row was read from the consumer's own source or documentation, then re-checked by a second reader who tried to refute it (147 rows re-checked, 146 confirmed). Grades: <span class="g C" title="Confirmed">C</span> means the exact code was read or the case was run (three.js, Babylon.js and X_ITE in headless Chromium, <code>Chromium 153.0.8010.12</code>, software GL); <span class="g L" title="Likely">L</span> means an Epic API page, release note or staff post, because the Unreal Engine source is not readable here; a cell with two entries differs between the versions named.</p>
+<table>
+<thead>
+<tr>
+<th>feature</th>
+<th>three.js r187</th>
+<th>Babylon.js 9.32.0</th>
+<th>X_ITE 16.7.1</th>
+<th>Unreal Interchange 5.5 to 5.8</th>
+<th>Blender 5.3 import</th>
+<th>Castle 7.0-alpha.3 reader</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KHR_draco_mesh_compression</td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g L" title="Likely">L</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>no <span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>EXT_meshopt_compression</td>
+<td>not read</td>
+<td>not read</td>
+<td>not read</td>
+<td>no <span class="g L" title="Likely">L</span></td>
+<td>not read</td>
+<td>not read</td>
+</tr>
+<tr>
+<td>its filters and modes</td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>partial <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>no <span class="g L" title="Likely">L</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>no <span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>KHR_mesh_quantization</td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g L" title="Likely">L</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>partial <span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>KHR_texture_basisu (KTX2)</td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>no <span class="g L" title="Likely">L</span></td>
+<td>partial <span class="g C" title="Confirmed">C</span></td>
+<td>no <span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>EXT_texture_webp</td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>no <span class="g L" title="Likely">L</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>no <span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>KHR_texture_transform</td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g L" title="Likely">L</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>EXT_mesh_gpu_instancing</td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>partial <span class="g C" title="Confirmed">C</span></td>
+<td>no <span class="g L" title="Likely">L</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>no <span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>KHR_materials_unlit</td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g L" title="Likely">L</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>KHR_lights_punctual</td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>partial <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g L" title="Likely">L</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>specular, ior, emissive_strength, clearcoat</td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g L" title="Likely">L</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>no <span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>morph targets, animated weights</td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>partial <span class="g C" title="Confirmed">C</span></td>
+<td>partial <span class="g S" title="Suspected">S</span> 5.5; yes <span class="g L" title="Likely">L</span> 5.6-5.8</td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>no <span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>node, mesh, material extras after load</td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>partial <span class="g C" title="Confirmed">C</span></td>
+<td>no <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g L" title="Likely">L</span> 5.5-5.8; unknown <span class="g S" title="Suspected">S</span> 5.5-5.8</td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>unknown required extension</td>
+<td>partial <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>no <span class="g C" title="Confirmed">C</span></td>
+<td>unknown <span class="g S" title="Suspected">S</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+<td>yes <span class="g C" title="Confirmed">C</span></td>
+</tr>
+</tbody>
+</table>
+<p>The same table turned into the question the lane asks: <strong>can this consumer read what the profile writes?</strong> A profile reads when every extension it writes is a &quot;yes&quot;. Derived from the table above, so it carries the weaker grade of the rows it uses.</p>
+<table>
+<thead>
+<tr>
+<th>profile</th>
+<th>three.js r187</th>
+<th>Babylon.js 9.32.0</th>
+<th>X_ITE 16.7.1</th>
+<th>Unreal Interchange 5.5 to 5.8</th>
+<th>Blender 5.3 import</th>
+<th>Castle 7.0-alpha.3 reader</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lossless</code></td>
+<td>reads</td>
+<td>reads</td>
+<td>reads</td>
+<td>reads</td>
+<td>reads</td>
+<td>reads</td>
+</tr>
+<tr>
+<td><code>meshopt-lossless</code></td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+</tr>
+<tr>
+<td><code>quantized</code></td>
+<td>reads</td>
+<td>reads</td>
+<td>reads</td>
+<td>reads</td>
+<td>reads</td>
+<td>reads in part</td>
+</tr>
+<tr>
+<td><code>web</code></td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+</tr>
+<tr>
+<td><code>web-filter</code></td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+</tr>
+<tr>
+<td><code>draco</code></td>
+<td>reads</td>
+<td>reads</td>
+<td>reads</td>
+<td>reads</td>
+<td>reads</td>
+<td>does not read</td>
+</tr>
+<tr>
+<td><code>web-ktx2</code></td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+</tr>
+<tr>
+<td><code>web-ktx2-etc1s</code></td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+</tr>
+<tr>
+<td><code>instanced</code></td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+<td>does not read</td>
+</tr>
+</tbody>
+</table>
+<p>Decisions that fall out of those two tables, ranked by how much damage the wrong choice does.</p>
+<table>
+<thead>
+<tr>
+<th>rank</th>
+<th>consumer</th>
+<th>what the rows say</th>
+<th>what to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Castle 7.0-alpha.3</td>
+<td>reads no Draco, no meshopt, no KTX2, no <code>EXT_mesh_gpu_instancing</code>; a glb that requires none of them still loads, an instanced one shows one copy of each mesh, a KTX2-only texture loads untextured, with no warning [C, read from source]</td>
+<td>send it <code>lossless</code>; never <code>instanced</code> or the KTX2 profiles</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Unreal Interchange 5.5 to 5.8</td>
+<td>reads Draco and quantization; no meshopt, no KTX2, no instancing extension <span class="g L" title="Likely">L</span></td>
+<td>send it <code>quantized</code> or <code>draco</code>; never <code>web</code>, <code>web-filter</code> or <code>instanced</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>X_ITE 16.7.1</td>
+<td>drops node, mesh and material extras on glb import, so the <code>x3d_def</code> tags are not in the X3D scene it builds; ignores an unknown required extension without a warning <span class="g C" title="Confirmed">C</span></td>
+<td>judge identity by the lane's gate, not by what X_ITE shows</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Babylon.js 9.32.0</td>
+<td>fetches its Draco, meshopt and KTX2 decoders from its CDN at run time (not in the npm packages); the CDN meshopt decoder is built from meshoptimizer 0.20 and has no COLOR filter; keeps node and material extras but not mesh extras <span class="g C" title="Confirmed">C</span></td>
+<td>allow the CDN or mirror the decoders; test <code>web-filter</code> on a glb with vertex colours before shipping it</td>
+</tr>
+<tr>
+<td>5</td>
+<td>three.js r187</td>
+<td>decodes everything the lane writes once <code>DRACOLoader</code>, <code>KTX2Loader</code> and <code>MeshoptDecoder</code> are set; a missing decoder fails only when the extension is required <span class="g C" title="Confirmed">C</span></td>
+<td>wire the three decoders; <code>userData</code> carries every extra</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Blender 5.3 import</td>
+<td>reads all of it, including instancing as real instances; aborts on an unknown required extension <span class="g C" title="Confirmed">C</span></td>
+<td>the round trip back to Blender works for every profile</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="9-the-render-oracle">9. The render oracle</h2>
+<p><code>x3d.gltf/render/</code> loads one glb in three.js r187, Babylon.js 9.32.0 and X_ITE 16.7.1 (headless <code>Chromium 153.0.8010.12</code>, ANGLE over SwiftShader, 256 px, local decoders, every non-localhost request blocked) from a camera framed on the <strong>original</strong> file, and measures how far the picture of an optimised file moved from the same engine's picture of the original. Cross-engine differences are not used, because the engines light and tone-map differently; only same-engine deltas mean anything. The oracle's determinism test renders each file twice, the second time in a freshly launched Chromium, and asserts a mean delta below 0.5; the recorded delta was 0.0000 in all three engines (<code>render/README.md</code>).</p>
+<p>Here the oracle was pointed at the lane's own profiles: 4 showpieces, 114 engine-profile cells, 111 loaded, 1 did not load, 2 not run. Each cell: mean absolute delta over R, G, B and the share of pixels whose largest channel moved by more than 16.</p>
+<p><strong>stilllife</strong></p>
+<table>
+<thead>
+<tr>
+<th>profile</th>
+<th style="text-align:right">KiB</th>
+<th>gates</th>
+<th style="text-align:right">identity lost</th>
+<th>three: mean delta / px&gt;16</th>
+<th>babylon: mean delta / px&gt;16</th>
+<th>xite: mean delta / px&gt;16</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lossless</td>
+<td style="text-align:right">1,644.9</td>
+<td>pass</td>
+<td style="text-align:right">0 of 27</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>meshopt-lossless</td>
+<td style="text-align:right">1,335.1</td>
+<td>pass</td>
+<td style="text-align:right">0 of 27</td>
+<td>0.000 / 0.002%</td>
+<td>0.000 / 0.000%</td>
+<td>0.001 / 0.002%</td>
+</tr>
+<tr>
+<td>quantized</td>
+<td style="text-align:right">1,353.5</td>
+<td>pass</td>
+<td style="text-align:right">0 of 27</td>
+<td>0.008 / 0.014%</td>
+<td>0.008 / 0.014%</td>
+<td>0.008 / 0.015%</td>
+</tr>
+<tr>
+<td>web</td>
+<td style="text-align:right">1,072.7</td>
+<td>pass</td>
+<td style="text-align:right">0 of 27</td>
+<td>0.008 / 0.014%</td>
+<td>0.008 / 0.014%</td>
+<td>0.008 / 0.015%</td>
+</tr>
+<tr>
+<td>web-filter</td>
+<td style="text-align:right">982.7</td>
+<td>pass</td>
+<td style="text-align:right">0 of 27</td>
+<td>0.030 / 0.023%</td>
+<td>0.028 / 0.032%</td>
+<td>0.023 / 0.024%</td>
+</tr>
+<tr>
+<td>draco</td>
+<td style="text-align:right">808.2</td>
+<td>pass</td>
+<td style="text-align:right">0 of 27</td>
+<td>0.010 / 0.006%</td>
+<td>0.009 / 0.009%</td>
+<td>0.007 / 0.006%</td>
+</tr>
+<tr>
+<td>instanced</td>
+<td style="text-align:right">1,072.7</td>
+<td>pass</td>
+<td style="text-align:right">0 of 27</td>
+<td>0.008 / 0.014%</td>
+<td>0.008 / 0.014%</td>
+<td>0.008 / 0.015%</td>
+</tr>
+<tr>
+<td>web-ktx2</td>
+<td style="text-align:right">1,246.2</td>
+<td>pass</td>
+<td style="text-align:right">0 of 27</td>
+<td>0.010 / 0.014%</td>
+<td>not run (KTX2 decoders are CDN-only)</td>
+<td>0.025 / 0.020%</td>
+</tr>
+<tr>
+<td>web-ktx2-etc1s</td>
+<td style="text-align:right">509.1</td>
+<td>pass</td>
+<td style="text-align:right">0 of 27</td>
+<td>0.013 / 0.014%</td>
+<td>not run (KTX2 decoders are CDN-only)</td>
+<td>0.025 / 0.020%</td>
+</tr>
+<tr>
+<td>stock-instance</td>
+<td style="text-align:right">1,644.9</td>
+<td>pass</td>
+<td style="text-align:right">0 of 27</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>static-joined</td>
+<td style="text-align:right">990.6</td>
+<td>pass</td>
+<td style="text-align:right">1 of 27</td>
+<td>0.008 / 0.014%</td>
+<td>0.008 / 0.014%</td>
+<td>0.008 / 0.015%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>prismatica</strong></p>
+<table>
+<thead>
+<tr>
+<th>profile</th>
+<th style="text-align:right">KiB</th>
+<th>gates</th>
+<th style="text-align:right">identity lost</th>
+<th>three: mean delta / px&gt;16</th>
+<th>babylon: mean delta / px&gt;16</th>
+<th>xite: mean delta / px&gt;16</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lossless</td>
+<td style="text-align:right">1,204.4</td>
+<td>pass</td>
+<td style="text-align:right">0 of 1251</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>meshopt-lossless</td>
+<td style="text-align:right">913.9</td>
+<td>pass</td>
+<td style="text-align:right">0 of 1251</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>quantized</td>
+<td style="text-align:right">877.9</td>
+<td>pass</td>
+<td style="text-align:right">0 of 1251</td>
+<td>0.054 / 0.018%</td>
+<td>0.074 / 0.017%</td>
+<td>0.013 / 0.012%</td>
+</tr>
+<tr>
+<td>web</td>
+<td style="text-align:right">638.0</td>
+<td>pass</td>
+<td style="text-align:right">0 of 1251</td>
+<td>0.054 / 0.018%</td>
+<td>0.074 / 0.017%</td>
+<td>0.013 / 0.012%</td>
+</tr>
+<tr>
+<td>web-filter</td>
+<td style="text-align:right">583.8</td>
+<td>pass</td>
+<td style="text-align:right">0 of 1251</td>
+<td>0.057 / 0.018%</td>
+<td>0.081 / 0.017%</td>
+<td>0.020 / 0.012%</td>
+</tr>
+<tr>
+<td>draco</td>
+<td style="text-align:right">507.1</td>
+<td>pass</td>
+<td style="text-align:right">0 of 1251</td>
+<td>0.022 / 0.008%</td>
+<td>0.020 / 0.008%</td>
+<td>0.009 / 0.008%</td>
+</tr>
+<tr>
+<td>instanced</td>
+<td style="text-align:right">445.4</td>
+<td>pass</td>
+<td style="text-align:right">0 of 1251</td>
+<td>0.054 / 0.018%</td>
+<td>0.074 / 0.017%</td>
+<td>0.013 / 0.012%</td>
+</tr>
+<tr>
+<td>stock-instance</td>
+<td style="text-align:right">858.3</td>
+<td>pass</td>
+<td style="text-align:right">1216 of 1251</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>static-joined</td>
+<td style="text-align:right">1,383.5</td>
+<td>FAIL</td>
+<td style="text-align:right">1208 of 1251</td>
+<td>0.059 / 0.029%</td>
+<td>0.079 / 0.027%</td>
+<td>did not load</td>
+</tr>
+</tbody>
+</table>
+<p><strong>asterion</strong></p>
+<table>
+<thead>
+<tr>
+<th>profile</th>
+<th style="text-align:right">KiB</th>
+<th>gates</th>
+<th style="text-align:right">identity lost</th>
+<th>three: mean delta / px&gt;16</th>
+<th>babylon: mean delta / px&gt;16</th>
+<th>xite: mean delta / px&gt;16</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lossless</td>
+<td style="text-align:right">4,851.9</td>
+<td>pass</td>
+<td style="text-align:right">0 of 587</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>meshopt-lossless</td>
+<td style="text-align:right">2,898.5</td>
+<td>pass</td>
+<td style="text-align:right">0 of 587</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>quantized</td>
+<td style="text-align:right">824.7</td>
+<td>pass</td>
+<td style="text-align:right">0 of 587</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>web</td>
+<td style="text-align:right">497.0</td>
+<td>pass</td>
+<td style="text-align:right">0 of 587</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>web-filter</td>
+<td style="text-align:right">420.9</td>
+<td>pass</td>
+<td style="text-align:right">0 of 587</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>draco</td>
+<td style="text-align:right">585.0</td>
+<td>pass</td>
+<td style="text-align:right">0 of 587</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>instanced</td>
+<td style="text-align:right">497.0</td>
+<td>pass</td>
+<td style="text-align:right">0 of 587</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>stock-instance</td>
+<td style="text-align:right">4,851.9</td>
+<td>pass</td>
+<td style="text-align:right">0 of 587</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>static-joined</td>
+<td style="text-align:right">1,026.9</td>
+<td>pass</td>
+<td style="text-align:right">548 of 587</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>lumen</strong></p>
+<table>
+<thead>
+<tr>
+<th>profile</th>
+<th style="text-align:right">KiB</th>
+<th>gates</th>
+<th style="text-align:right">identity lost</th>
+<th>three: mean delta / px&gt;16</th>
+<th>babylon: mean delta / px&gt;16</th>
+<th>xite: mean delta / px&gt;16</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lossless</td>
+<td style="text-align:right">2,697.2</td>
+<td>pass</td>
+<td style="text-align:right">0 of 86</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>meshopt-lossless</td>
+<td style="text-align:right">1,372.7</td>
+<td>pass</td>
+<td style="text-align:right">0 of 86</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>quantized</td>
+<td style="text-align:right">1,692.0</td>
+<td>pass</td>
+<td style="text-align:right">0 of 86</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>web</td>
+<td style="text-align:right">644.1</td>
+<td>pass</td>
+<td style="text-align:right">0 of 86</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>web-filter</td>
+<td style="text-align:right">490.7</td>
+<td>pass</td>
+<td style="text-align:right">0 of 86</td>
+<td>0.001 / 0.000%</td>
+<td>0.001 / 0.000%</td>
+<td>0.002 / 0.006%</td>
+</tr>
+<tr>
+<td>draco</td>
+<td style="text-align:right">231.3</td>
+<td>pass</td>
+<td style="text-align:right">0 of 86</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.001 / 0.000%</td>
+</tr>
+<tr>
+<td>instanced</td>
+<td style="text-align:right">644.1</td>
+<td>pass</td>
+<td style="text-align:right">0 of 86</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>stock-instance</td>
+<td style="text-align:right">2,697.2</td>
+<td>pass</td>
+<td style="text-align:right">0 of 86</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+<tr>
+<td>static-joined</td>
+<td style="text-align:right">553.2</td>
+<td>pass</td>
+<td style="text-align:right">54 of 86</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+<td>0.000 / 0.000%</td>
+</tr>
+</tbody>
+</table>
+<p>What the tables say. The largest mean delta of any profile that passed its gates, in any engine, is 0.081 of 255. The oracle can see damage: a deliberately coarse Draco (5-bit positions) moves the picture 40 to 75 times more than ordinary Draco in all three engines (<code>render/README.md</code>). The traps are the point of the second finding: on the PRISMATICA cathedral <code>stock-instance</code> erases 1216 of 1251 identity tokens and the picture moves by at most 0.000 mean delta in any of the three engines, the same as a lossless file. The one cell that did not load is <code>static-joined</code> on the cathedral in X_ITE (timeout after 25 s; the other two engines loaded it, and the identity gate fails it for 1,208 lost tokens). A render check cannot see the loss of a DEF name; the identity gate can. Neither replaces the other.</p>
+<p>Instrument limits: square frames, one viewpoint, no animation, skins or morph targets exercised, software GL that exposes BC7, so KTX2 is transcoded to a GPU-compressed format; Babylon.js KTX2 is not run because its transcoders come from its CDN and the oracle is offline (the earlier run that reached the CDN decoded both ETC1S and UASTC with mean delta 0.004 and 0.002).</p>
+<hr />
+<h2 id="10-plugging-it-in">10. Plugging it in</h2>
+<table>
+<thead>
+<tr>
+<th>consumer</th>
+<th>what the lane gives it</th>
+<th>recommended profile</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>blenderizer (<code>x3d-blender-io</code>)</td>
+<td>a post-export optimise-and-verify step; the manifest records the profile and the gate summary beside the glb sha256</td>
+<td><code>lossless</code> first (any consumer), <code>web</code> for browsers</td>
+<td><span class="g L" title="Likely">L</span>: design, not wired into the add-on in this change</td>
+</tr>
+<tr>
+<td>x3d.loom three.js and Babylon.js bridges</td>
+<td>the same glb, smaller, with the identity extras intact for the bridge to read</td>
+<td><code>web</code> (both read meshopt and quantization)</td>
+<td><span class="g C" title="Confirmed">C</span> for decode, section 8</td>
+</tr>
+<tr>
+<td>X_ITE glb import</td>
+<td>a glb the X_ITE reader can read</td>
+<td>see section 8: pick the profile whose extensions X_ITE decodes</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>Castle exporter</td>
+<td>verification of its glb (the 2.19e-9 matrix finding came from it)</td>
+<td><code>lossless</code> as the identity-preserving canonical form</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>Unreal glb import (x3d.lab)</td>
+<td>fewer draw calls with the DEF names recoverable from the batch extras</td>
+<td>see section 8 for which extensions the importer reads</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="11-the-browser-forge-and-byte-parity">11. The browser forge and byte parity</h2>
+<p><code>web/forge.mjs</code> bundles the same optimiser and the same four portable gates into one ES module (400.2 KiB minified, <code>esbuild 0.25.12</code>). Draco, KTX2 and the Khronos validator stay in Node. The demo page runs <code>forge()</code> in a Web Worker on the visitor's copy of a showpiece, shows the identity audit name by name, and compares the SHA-256 of the output with the receipt the Node CLI wrote. Parity is a test, not a claim: <code>tests/web.test.mjs</code> runs the bundle in <code>Chromium 153.0.8010.12</code> and compares bytes against Node for four profile and fixture pairs; all four are identical.</p>
+<hr />
+<h2 id="12-run-it">12. Run it</h2>
+<pre><code class="language-bash">cd x3d.gltf &amp;&amp; npm ci
+node bin/x3dgltf.mjs profiles                                   # contracts
+node bin/x3dgltf.mjs inspect model.glb                          # inventory, byte table, gzip/brotli
+node bin/x3dgltf.mjs validate model.glb                         # validator on the file and its decoded form
+node bin/x3dgltf.mjs optimize model.glb out.glb --profile web --receipt out.json
+node bin/x3dgltf.mjs verify  model.glb out.glb --profile web    # exit 0 only if every gate passes
+node bin/x3dgltf.mjs matrix --files a.glb,b.glb --profiles web,draco,instanced --out run --md run.md --expect-fail static-joined
+node tools/step-probe.mjs run/steps.json run/steps.md model.glb # one stock step at a time against the identity gate
+</code></pre>
+<hr />
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule (imperative, at most 30 words)</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-GTO-1</td>
+<td>Count identity tokens before and after every optimiser step; a size win with tokens lost is a loss, not a win.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>stock <code>instance()</code> on the cathedral: 1,190.8 to 843.8 KiB, 1,216 of 1,251 tokens lost</td>
+<td><code>x3dgltf step-probe</code>, glTF-Transform 4.5.1</td>
+</tr>
+<tr>
+<td>H-GTO-2</td>
+<td>Do not run stock <code>instance()</code> or <code>join()</code> on a glb whose names matter; use <code>instanceWithIdentity</code> or skip the step.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>join()</code>: 1,208 tokens lost and 16,482.7 KiB; <code>instance()</code>: 1,216 lost</td>
+<td><code>x3dgltf step-probe</code>, glTF-Transform 4.5.1</td>
+</tr>
+<tr>
+<td>H-GTO-3</td>
+<td>Wrap <code>quantize()</code> when the glb has animation; stock leaves a channel without its target node.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>animated fixture: 1 of 3 channels unmatched stock, 0 of 3 wrapped</td>
+<td><code>x3dgltf step-probe</code>, glTF-Transform 4.5.1</td>
+</tr>
+<tr>
+<td>H-GTO-4</td>
+<td>Dedup accessors and textures only, with <code>keepUniqueNames</code>; leave name-only duplicate meshes and materials standing, because a name is an identity.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>identity-dup</code> fixture: stock <code>dedup()</code> loses 2 tokens, the lane's loses 0</td>
+<td><code>x3dgltf step-probe</code>, glTF-Transform 4.5.1</td>
+</tr>
+<tr>
+<td>H-GTO-5</td>
+<td>Validate the decoded canonical file as well as the delivered one, and print <code>extensionsNotValidated</code> beside every pass.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>validator names <code>EXT_meshopt_compression</code> as not validated on the <code>web</code> cathedral</td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code></td>
+</tr>
+<tr>
+<td>H-GTO-6</td>
+<td>Read triangle counts from the inventory (per drawn instance), never from the validator's total (per unique mesh).</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>cathedral: validator 27,544, inventory 600,976</td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, <code>x3dgltf inspect</code></td>
+</tr>
+<tr>
+<td>H-GTO-7</td>
+<td>Write the geometry bound into the profile contract, and make <code>exact</code> one float32 ULP, not zero; a stored <code>matrix</code> moves a glb by 2.19e-9.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Castle <code>annotation-standard</code> glb under <code>lossless</code></td>
+<td><code>x3dgltf verify</code>, glTF-Transform 4.5.1</td>
+</tr>
+<tr>
+<td>H-GTO-8</td>
+<td>Match triangles by centroid through a k-d tree; a grid matcher does not finish on a 600,976-triangle scene.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>grid did not finish in 250 s; tree self-compare 2.0 s</td>
+<td><code>x3d.gltf/src/geometry.mjs</code>, Node v22.23.4</td>
+</tr>
+<tr>
+<td>H-GTO-9</td>
+<td>Count zero-area triangles apart; Draco drops them and a bit-bounded profile must not fail for a triangle that never had an area.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>see receipts/matrix/cells for the notes of each draco cell</td>
+<td><code>x3dgltf matrix</code></td>
+</tr>
+<tr>
+<td>H-GTO-10</td>
+<td>Compare profiles on gzip and brotli as well as raw bytes; the raw ranking is not the wire ranking.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>the smallest passing profile by raw bytes differs from the smallest by brotli on 6 of 12 files (asterion: web-filter raw, draco brotli; lumen: draco raw, web-filter brotli; prismatica-aurora-cathedral: instanced raw, draco brotli)</td>
+<td><code>x3dgltf matrix</code>, Node <code>zlib</code></td>
+</tr>
+<tr>
+<td>H-GTO-11</td>
+<td>Judge KTX2 by <code>gpuTextureBytes</code> and by wire bytes separately; UASTC can cost transfer and save memory.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>still life: <code>web-ktx2</code> is 1,246.2 KiB against 1,072.7 KiB for <code>web</code>, with texture memory 1,365.4 KiB against 5,461.3 KiB</td>
+<td><code>x3dgltf matrix</code>, <code>ktx2-encoder 0.6.0</code></td>
+</tr>
+<tr>
+<td>H-GTO-12</td>
+<td>Read the consumer's decoder row before choosing a compression; &quot;the engine loads glTF&quot; does not mean it loads meshopt or Draco.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>Castle 7.0-alpha.3 and Unreal Interchange 5.5 to 5.8 read neither meshopt nor KTX2 (section 8)</td>
+<td>package source, section 8</td>
+</tr>
+<tr>
+<td>H-GTO-13</td>
+<td>Prove a browser path equals the CLI path with a SHA-256 of the output, not with a screenshot.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>4 of 4 parity tests identical in <code>Chromium 153.0.8010.12</code></td>
+<td><code>tests/web.test.mjs</code></td>
+</tr>
+<tr>
+<td>H-GTO-14</td>
+<td>Print a lossy profile's pass with what the pass means: bounds held, identity not. A bare PASS on <code>stock-instance</code> reads as success.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>stock-instance</code> on the cathedral: PASS with 1,216 tokens lost</td>
+<td><code>x3dgltf verify</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="drills">Drills</h2>
+<h3 id="d-gto-1-count-the-contracts">D-GTO-1 Count the contracts</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> list the profiles and count how many promise <code>exact</code>, <code>mapped</code> and <code>lossy</code> identity.</li>
+<li><strong>Verify:</strong> <code>node bin/x3dgltf.mjs profiles | grep -c &quot;identity exact&quot;</code> and the same with <code>mapped</code> and <code>lossy</code>, from <code>x3d.gltf/</code>.</li>
+<li><strong>Answer:</strong> 8 exact, 1 mapped (<code>instanced</code>), 2 lossy (<code>static-joined</code>, <code>stock-instance</code>).</li>
+<li><strong>Checked:</strong> 2026-11-15 <code>x3dgltf</code> at x3d.loom@b6a3650, Node v22.23.4</li>
+</ul>
+<h3 id="d-gto-2-spring-the-trap-then-step-around-it">D-GTO-2 Spring the trap, then step around it</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> optimise the PRISMATICA cathedral glb with <code>stock-instance</code> and with <code>instanced</code>. Compare draw calls, size and tokens lost.</li>
+<li><strong>Verify:</strong> <code>node bin/x3dgltf.mjs optimize prismatica-aurora-cathedral.glb out.glb --profile stock-instance</code>, then <code>--profile instanced</code>. The glb is <code>docs/brag/showpieces/prismatica/prismatica-aurora-cathedral.glb</code> in x3d-blender-io@54aba0c.</li>
+<li><strong>Answer:</strong> both take 1,218 draw calls to 10. <code>stock-instance</code>: 858.3 KiB, identity kept 35 of 1,251, lost 1,216, and a PASS line followed by a NOTE that the pass is not about identity. <code>instanced</code>: 445.4 KiB, kept 1,251 of 1,251, lost 0.</li>
+<li><strong>Checked:</strong> 2026-11-15 <code>x3dgltf</code>, glTF-Transform 4.5.1, Node v22.23.4</li>
+</ul>
+<h3 id="d-gto-3-the-validator-that-cannot-see-the-geometry">D-GTO-3 The validator that cannot see the geometry</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> optimise the cathedral with <code>web</code>, validate the result, and say which extension the validator does not check and what the lane does about it.</li>
+<li><strong>Verify:</strong> <code>node bin/x3dgltf.mjs optimize prismatica-aurora-cathedral.glb web.glb --profile web --no-verify &amp;&amp; node bin/x3dgltf.mjs validate web.glb</code>.</li>
+<li><strong>Answer:</strong> delivered 0 errors, 0 warnings; the line &quot;NOT VALIDATED by gltf-validator 2.0.0-dev.3.10: EXT_meshopt_compression&quot;; a second line for the canonical file (meshopt disposed, decoded), 0 errors, 0 warnings. Triangles reported are 27,544, not 600,976 (H-GTO-6).</li>
+<li><strong>Checked:</strong> 2026-11-15 <code>Khronos glTF-Validator 2.0.0-dev.3.10</code>, Node v22.23.4</li>
+</ul>
+<h3 id="d-gto-4-a-gate-that-can-fail">D-GTO-4 A gate that can fail</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> run the four negative controls and read what each one breaks. Then write a fifth: change one scale in a <code>lossless</code> output by 0.1% and show the geometry gate fails while the float32 noise of a stored matrix does not.</li>
+<li><strong>Verify:</strong> <code>node --test --test-name-pattern &quot;negative control&quot; tests/lane.test.mjs</code>; for the fifth, <code>tests/lane.test.mjs</code> has <code>matrix nodes: float32 noise in a stored matrix passes an exact profile, a real 0.1% scale change still fails the gate</code>.</li>
+<li><strong>Answer:</strong> four of four negative controls pass (geometry moved 2%, a DEF stripped, a base colour changed, a keyframe shifted); the fifth passes too: the 1.00000004 matrix passes <code>lossless</code>, a 1.001 scale fails <code>geometry</code>.</li>
+<li><strong>Checked:</strong> 2026-11-15 <code>node --test</code>, Node v22.23.4</li>
+</ul>
+<h3 id="d-gto-5-which-stock-step-takes-the-animation-channel">D-GTO-5 Which stock step takes the animation channel</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> run the step probe on the animated fixture and find the two stock steps that leave a channel unmatched, then the wrapper that fixes one of them.</li>
+<li><strong>Verify:</strong> <code>node tools/step-probe.mjs run/steps.json run/steps.md animated.glb</code> (the fixture is built by <code>fixtures/build.mjs</code>); read the &quot;animation channels unmatched&quot; column.</li>
+<li><strong>Answer:</strong> stock <code>quantize()</code> and stock <code>meshopt()</code> each leave 1 of 3 channels unmatched; <code>quantize wrapper</code> leaves 0 of 3. <code>meshopt()</code> quantizes internally, which is why it behaves like <code>quantize()</code>.</li>
+<li><strong>Checked:</strong> 2026-11-15 <code>x3dgltf step-probe</code>, glTF-Transform 4.5.1</li>
+</ul>
+<h3 id="d-gto-6-rank-the-wire">D-GTO-6 Rank the wire</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> from <code>receipts/summary.md</code>, find the profile that wins on raw bytes and the profile that wins on brotli for the thalassa exhibition and for the PRISMATICA cathedral glb.</li>
+<li><strong>Verify:</strong> <code>node tools/summarize.mjs receipts/matrix/matrix.json receipts/matrix/matrix-traps.json</code> and read the per-file table.</li>
+<li><strong>Answer:</strong> thalassa-exhibition: raw instanced (175.2 KiB), brotli instanced (37.4 KiB); prismatica-aurora-cathedral: raw instanced (445.4 KiB), brotli draco (125.3 KiB).</li>
+<li><strong>Checked:</strong> 2026-11-15 <code>x3dgltf matrix</code>, Node <code>zlib</code> gzip 9 and brotli 11</li>
+</ul>
+<hr />
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> Nothing was timed. Sizes, counts and tokens are measured; load time, decode time and frame time are not, on any GPU or on the software adapter.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> The corpus is 12 glbs from this project. A different scene can rank the profiles differently; every ranking in section 7 is about these files.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> The validator, Draco and KTX2 run in Node only. The browser bundle claims the four portable gates and the meshopt profiles, nothing else.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> The gates compare a source and an output of the lane. They do not prove either file is a faithful rendering of the original X3D; that is the render oracle (section 9) and chapter 06.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> The <code>x3d_def_path</code> gate compares claim counts and how many hold; it does not re-derive whether the add-on's path is the right path for the node. On <code>stilllife</code> 9 claims are made and none hold in the source, so the gate can only promise &quot;no worse than the source&quot; there.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> The <code>static-joined</code> normals check samples about 400 triangles; one corpus file animates (the animated cathedral: 1 animation, 1 channel), so the multi-channel animation gate is exercised by fixtures only.</li>
+<li><strong><span class="g L" title="Likely">L</span></strong> The Unreal and Castle rows of the support matrix were read from API headers, documentation and source, not run: there was no Unreal Editor and no Castle binary in the session.</li>
+<li><strong><span class="g L" title="Likely">L</span></strong> Babylon.js fetches its Draco and basis transcoders from its CDN at run time; those decoder versions are the CDN's, not the npm package's.</li>
+<li><strong><span class="g S" title="Suspected">S</span></strong> A <code>web-lean</code> profile that prunes attributes no material uses would be about 300 KiB smaller on the cathedral (stock <code>prune()</code> removes 299.2 KiB and loses 0 tokens). It is not offered because the normals gate treats a dropped normal as a loss. Not built, not measured end to end.</li>
+<li><strong><span class="g S" title="Suspected">S</span></strong> The Blender add-on is not changed by this lane. A post-export optimise step is a design, not wired code.</li>
+</ul>
+<hr />
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-GTO-1</td>
+<td>PRISMATICA cathedral draw calls, source to <code>instanced</code></td>
+<td>1,218 to 10</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dgltf optimize</code>, glTF-Transform 4.5.1</td>
+<td>x3d.loom@b6a3650:x3d.gltf/receipts/matrix/</td>
+</tr>
+<tr>
+<td>N-GTO-2</td>
+<td>cathedral identity tokens</td>
+<td>1,251</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dgltf verify</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/receipts/matrix/</td>
+</tr>
+<tr>
+<td>N-GTO-3</td>
+<td>tokens lost by stock <code>instance()</code> on the cathedral</td>
+<td>1,216 of 1,251</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dgltf step-probe</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/receipts/step-probe.md</td>
+</tr>
+<tr>
+<td>N-GTO-4</td>
+<td>tokens lost by <code>join()</code> on the cathedral, and its size</td>
+<td>1,208; 1,190.8 to 16,482.7 KiB</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dgltf step-probe</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/receipts/step-probe.md</td>
+</tr>
+<tr>
+<td>N-GTO-5</td>
+<td>cathedral under <code>web</code> and under <code>instanced</code></td>
+<td>638.0 KiB (53.6%); 445.4 KiB (37.4%)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dgltf optimize</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/receipts/matrix/</td>
+</tr>
+<tr>
+<td>N-GTO-6</td>
+<td>validator triangle total vs inventory, cathedral</td>
+<td>27,544 vs 600,976</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>Khronos glTF-Validator 2.0.0-dev.3.10</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/src/measure.mjs</td>
+</tr>
+<tr>
+<td>N-GTO-7</td>
+<td>Castle <code>annotation-standard</code> deviation under <code>lossless</code></td>
+<td>2.19e-9 of the diagonal</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dgltf verify</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/tests/lane.test.mjs</td>
+</tr>
+<tr>
+<td>N-GTO-8</td>
+<td><code>exact</code> geometry bound</td>
+<td>1e-7 of the diagonal (float32 ULP 1.19e-7)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d.gltf/src/profile-contract.mjs</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/src/profile-contract.mjs</td>
+</tr>
+<tr>
+<td>N-GTO-9</td>
+<td>stock <code>quantize()</code> channels unmatched, animated fixture</td>
+<td>1 of 3</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dgltf step-probe</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/receipts/step-probe.md</td>
+</tr>
+<tr>
+<td>N-GTO-10</td>
+<td><code>weld()</code> growth on the cathedral</td>
+<td>1,190.8 to 1,204.4 KiB</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dgltf step-probe</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/receipts/step-probe.md</td>
+</tr>
+<tr>
+<td>N-GTO-11</td>
+<td>stock <code>prune()</code> on the cathedral</td>
+<td>1,190.8 to 891.6 KiB, 0 tokens lost</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dgltf step-probe</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/receipts/step-probe.md</td>
+</tr>
+<tr>
+<td>N-GTO-12</td>
+<td>browser bundle size</td>
+<td>400.2 KiB minified</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>esbuild 0.25.12</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/web/forge.mjs</td>
+</tr>
+<tr>
+<td>N-GTO-13</td>
+<td>k-d tree self-compare of the cathedral</td>
+<td>2.0 s (grid: not finished in 250 s)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Node v22.23.4</td>
+<td>x3d.loom@b6a3650:x3d.gltf/src/geometry.mjs</td>
+</tr>
+<tr>
+<td>N-GTO-14</td>
+<td>lane tests</td>
+<td>13 lane + 4 browser parity, all passing</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>node --test</code>, Node v22.23.4</td>
+<td>x3d.loom@b6a3650:x3d.gltf/tests/</td>
+</tr>
+<tr>
+<td>N-GTO-15</td>
+<td>corpus totals under <code>web</code>: raw, gzip, brotli</td>
+<td>35.8%, 50.2%, 60.6%</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dgltf matrix</code>, Node <code>zlib</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/receipts/summary.md</td>
+</tr>
+<tr>
+<td>N-GTO-16</td>
+<td>corpus totals under <code>instanced</code>: raw, gzip, brotli</td>
+<td>32.1%, 49.2%, 58.8%</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dgltf matrix</code>, Node <code>zlib</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/receipts/summary.md</td>
+</tr>
+<tr>
+<td>N-GTO-17</td>
+<td>corpus totals under <code>draco</code>: raw, gzip, brotli</td>
+<td>44.8%, 57.5%, 69.7%</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dgltf matrix</code>, <code>draco3dgltf 1.5.9</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/receipts/summary.md</td>
+</tr>
+<tr>
+<td>N-GTO-18</td>
+<td>corpus totals under <code>lossless</code>: raw</td>
+<td>103.0%</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dgltf matrix</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/receipts/summary.md</td>
+</tr>
+<tr>
+<td>N-GTO-19</td>
+<td>identity tokens lost by a shipping profile, whole corpus</td>
+<td>0 over 108 cells</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dgltf verify</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/receipts/matrix/matrix.json</td>
+</tr>
+<tr>
+<td>N-GTO-20</td>
+<td>tokens lost by the two traps, whole corpus</td>
+<td>10,095 over 24 cells</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dgltf verify</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/receipts/matrix/matrix.json</td>
+</tr>
+<tr>
+<td>N-GTO-21</td>
+<td>thalassa <code>static-joined</code></td>
+<td>480.3 to 3,204.0 KiB, geometry gate FAIL</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dgltf verify</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/receipts/matrix/cells/thalassa-exhibition.static-joined.json</td>
+</tr>
+<tr>
+<td>N-GTO-22</td>
+<td>asterion <code>lossless</code></td>
+<td>4,404.4 to 4,851.9 KiB (110.2%)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dgltf optimize</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/receipts/matrix/cells/asterion.lossless.json</td>
+</tr>
+<tr>
+<td>N-GTO-23</td>
+<td>still life <code>web-ktx2-etc1s</code></td>
+<td>1,645.4 to 509.1 KiB (30.9%)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>ktx2-encoder 0.6.0</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/receipts/matrix/cells/stilllife-addon.web-ktx2-etc1s.json</td>
+</tr>
+<tr>
+<td>N-GTO-24</td>
+<td>matrix cells run</td>
+<td>132 (108 shipping, 24 trap)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3dgltf matrix</code></td>
+<td>x3d.loom@b6a3650:x3d.gltf/receipts/matrix/matrix.json</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<table>
+<thead>
+<tr>
+<th>source</th>
+<th>state read</th>
+<th>what for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x3d.loom@b6a3650 <code>x3d.gltf/</code></td>
+<td>read and run, 2026-11-15</td>
+<td>every number in sections 2 to 7 and 11</td>
+</tr>
+<tr>
+<td>x3d-blender-io@54aba0c <code>docs/brag/showpieces/</code></td>
+<td>read and run</td>
+<td>the four showpiece glbs and <code>stars-view</code></td>
+</tr>
+<tr>
+<td>x3d.castle@0a1073f <code>results/exporter-70/sample-glb/</code></td>
+<td>read and run</td>
+<td>two exporter glbs, one with stored matrices</td>
+</tr>
+<tr>
+<td><code>three@0.187.0</code>, <code>babylonjs@9.32.0</code>, <code>babylonjs-loaders@9.32.0</code>, <code>x_ite@16.7.1</code> npm packages</td>
+<td>source read in <code>node_modules</code></td>
+<td>section 8</td>
+</tr>
+<tr>
+<td>Epic Interchange API headers and documentation, glTFRuntime, Blender <code>io_scene_gltf2</code>, Castle Game Engine source</td>
+<td>read, not run</td>
+<td>section 8, grades <span class="g L" title="Likely">L</span> and <span class="g C" title="Confirmed">C</span>-read</td>
+</tr>
+<tr>
+<td>glTF-Transform 4.5.1, meshoptimizer 1.3.0, draco3dgltf 1.5.9, ktx2-encoder 0.6.0, gltf-validator 2.0.0-dev.3.10</td>
+<td>npm, run in Node v22.23.4</td>
+<td>all runs</td>
+</tr>
+</tbody>
+</table>
+<p>Private-source gaps: the Unreal Engine source is not public to this session, so no Interchange row is graded from source. Unpublished material of any project is not used.</p>
+<div class="pn"><a href="15-yjs-collaboration.html">&larr; 15-yjs-collaboration</a><a href="A-validator-register.html">A-validator-register &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

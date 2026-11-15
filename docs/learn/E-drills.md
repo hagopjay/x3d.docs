@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**124 drills**, 114 with a recorded run (`Checked`), 10 not yet run. Levels: L1 21, L2 65, L3 38.
+**130 drills**, 120 with a recorded run (`Checked`), 10 not yet run. Levels: L1 22, L2 68, L3 40.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -131,4 +131,10 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-YJS-3 | [15](15-yjs-collaboration.md) | L2 | Two browsers | 2026-11-15 Chromium 153.0.8010.12 SwiftShader, X_ITE 16.6.0 |
 | D-YJS-4 | [15](15-yjs-collaboration.md) | L2 | Price a structural edit | 2026-11-15 Node v22.23.4, Intel Xeon 2.10 GHz x4 |
 | D-YJS-5 | [15](15-yjs-collaboration.md) | L1 | Predict the winner | 2026-11-15 `x3d.loom@0689f1a` tests |
+| D-GTO-1 | [19](19-gltf-tooling.md) | L1 | Count the contracts | 2026-11-15 `x3dgltf` at x3d.loom@b6a3650, Node v22.23.4 |
+| D-GTO-2 | [19](19-gltf-tooling.md) | L2 | Spring the trap, then step around it | 2026-11-15 `x3dgltf`, glTF-Transform 4.5.1, Node v22.23.4 |
+| D-GTO-3 | [19](19-gltf-tooling.md) | L2 | The validator that cannot see the geometry | 2026-11-15 `Khronos glTF-Validator 2.0.0-dev.3.10`, Node v22.23.4 |
+| D-GTO-4 | [19](19-gltf-tooling.md) | L3 | A gate that can fail | 2026-11-15 `node --test`, Node v22.23.4 |
+| D-GTO-5 | [19](19-gltf-tooling.md) | L3 | Which stock step takes the animation channel | 2026-11-15 `x3dgltf step-probe`, glTF-Transform 4.5.1 |
+| D-GTO-6 | [19](19-gltf-tooling.md) | L2 | Rank the wire | 2026-11-15 `x3dgltf matrix`, Node `zlib` gzip 9 and brotli 11 |
 <!-- END GENERATED -->
