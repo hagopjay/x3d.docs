@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**225 heuristics.** Grades: [C] 180 · [L] 38 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**230 heuristics.** Grades: [C] 185 · [L] 38 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -147,6 +147,11 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-BAB-78 | [08](08-babylon-bridge.md) | Write a fixture for every path a review fixes: each of the 69 findings of batch 4 was on a path (second finger, USE'd node, replaced world) that no fixture drove. | C | InlineUse: both copies draw, load FALSE takes both away, TRUE brings both back | `InlineUse.test.json` |
 | H-BAB-79 | [08](08-babylon-bridge.md) | Guard an include before it is fetched: depth, fan-out, size, and a cycle on the chain's own urls. | C | 8 deep, 512 loads, 32 MB (128 MB unzipped) | `body-three.js` `loadInline` |
 | H-BAB-80 | [08](08-babylon-bridge.md) | A security fix in a shared file is told to the lane that owns it: the scheme test of an Anchor must drop what a URL parser drops (tab, line break, leading control characters). | C | `java<tab>script:` ran past the test | `Anchor.js` |
+| H-BAB-81 | [08](08-babylon-bridge.md) | A colour `scene.background` clears the colour buffer in every `render` call even with `autoClear` off: give the Background to the first pass only. | C | LayerSet 4 of 86 steps fail without it | `x3d.loom@c9b7695`, X_ITE 16.6.0, Chromium 153.0.8010.12 SwiftShader |
+| H-BAB-82 | [08](08-babylon-bridge.md) | A headlight that is a child of the camera needs every pass camera in the scene; test a layer with the headlight on, in both orders. | C | unlit layers and a dark world with order `1 0` (review of batch 6) | `fixtures/LayerHeadlight.test.json` |
+| H-BAB-83 | [08](08-babylon-bridge.md) | Run every fixture alone as well as in a chunk: state that survives a world swap passes in a chunk and fails alone. | C | ScreenGroup 75 of 75 in a chunk after Layout fixtures, failing from step 4 alone | `tools/driver.py check ScreenGroup` |
+| H-BAB-84 | [08](08-babylon-bridge.md) | A held press belongs to the layer it started in; follow the pointer through that pass only. | C | LayerPress 14 of 14 in X_ITE; the TouchSensor left over without the rule | `fixtures/LayerPress.test.json` |
+| H-BAB-85 | [08](08-babylon-bridge.md) | Give each world Viewport a bit of its own and mask the outer one first; wrapping after eight draws the ninth into the first. | C | ViewportMany, ten tiles, 12 of 12 | `fixtures/ViewportMany.test.json` |
 | H-CAS-1 | [09](09-castle-engine.md) | Judge a Castle load by its warnings and a shape census against the declared count; never by "it loaded" or an exit code. | C | classic reader warns once and skips the rest of the file | `castle-engine@48ce617:x3dnodes_encoding_classic.inc:569-573` |
 | H-CAS-2 | [09](09-castle-engine.md) | Quote node coverage by rung and definition (registered, parse-only, name present in a peer, behaves); never a bare "98 of 328". | C | 99 registrations, 98 concrete, five denominators in circulation | `castle-engine@48ce617`; `x_ite@16.7.1` dist |
 | H-CAS-3 | [09](09-castle-engine.md) | Treat name presence in a peer as the weakest rung; do not turn 97 of 99 into "X_ITE implements them". | C | the scan reads class names, not behaviour | `x_ite@16.7.1` dist |
