@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**286 heuristics.** Grades: [C] 231 · [L] 48 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**298 heuristics.** Grades: [C] 242 · [L] 49 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -272,6 +272,18 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-YJS-6 | [15](15-yjs-collaboration.md) | Give every peer a control step that must differ (offline edits) before trusting a zero-difference picture. | [C] | 16,633 pixels differ | `receipts/e2e-xite.json` |
 | H-YJS-8 | [15](15-yjs-collaboration.md) | Keep user DEF names out of the render path: render every node as `y_<uid>` so a DEF clash between peers cannot misdirect a USE or a ROUTE. | [L] | by construction; the unit test checks the clash export names, no renderer run with a clash | `x3d.loom@0689f1a:x3d.yjs/src/yx3d.js` |
 | H-YJS-7 | [15](15-yjs-collaboration.md) | Validate the agent's ops against the document before they enter it; return refusals as results. | [L] | `Nope` DEF refused; no validator run on agent output yet | `src/agent.js` |
+| H-ZOD-1 | [16](16-typed-x3d-zod.md) | Generate the Zod from the schema file and pin the file's sha1; a hand-copied schema drifts without a signal. | C | `gen.json` records sha1 `c6765a4` and the generated file is regenerated and compared in a test | `x3d.zod` `tools/gen.mjs`, test `zod-002` |
+| H-ZOD-2 | [16](16-typed-x3d-zod.md) | Annotate every generated Zod schema with an explicit generated TS type; do not let TypeScript infer a 364-definition recursive graph. | C | inferred form failed with "excessively deep" on the first attempt; annotated form checks in about 8 s | `typescript 7.0.2` |
+| H-ZOD-3 | [16](16-typed-x3d-zod.md) | Treat `prefixItems` as positional constraints on positions that exist: mark positions at or past `minItems` optional, then state any length bound the tuple cannot. | C | `TransmitterPdu.x3d` `["UTM","Z3","N"]` rejected by Zod, accepted by ajv and jsonschema | corpus run, `tests/tuples.test.ts` |
+| H-ZOD-4 | [16](16-typed-x3d-zod.md) | When a union fails, report the arm the document meant, not "Invalid input": drop the USE arm unless `@USE` is present, then take the deepest. | C | `NavigationInfo` and `@radius` mistakes point at the field | `x3d.zod` test `zod-010` |
+| H-ZOD-5 | [16](16-typed-x3d-zod.md) | Put the schema correction in memory and keep the upstream file byte-identical and hashed; restrict only after correcting. | C | lean mode deletes the `$comment` the correction keys on | test `zod-001`, `llm_schema.py` |
+| H-ZOD-6 | [16](16-typed-x3d-zod.md) | Restrict by vocabulary, not by prompt: a node outside the vocabulary must have probability zero, not a request not to use it. | L | constrained schemas of 19,153 to 25,635 bytes against 502,810 bytes; no model was run | `restrict.ts`, `llm_schema.py` |
+| H-ZOD-7 | [16](16-typed-x3d-zod.md) | Use lean restriction only when the model never writes metadata, `@style` or `IS`; otherwise keep full keys and pay the bytes. | C | 110 of 966 scenes rejected by lean | `jsonschema 4.26.0` over the corpus |
+| H-ZOD-8 | [16](16-typed-x3d-zod.md) | Run more than one validator and compare before trusting a count; a split is a bug in one of them. | C | one split found in 1,533 scenes, in our generator | four-validator corpus run |
+| H-ZOD-9 | [16](16-typed-x3d-zod.md) | Check a schema-driven converter for repairs: a validator that sees a repaired document cannot catch the fault it hid. | C | 56 of 224 first-run disagreements were converter repairs | root-cause pass |
+| H-ZOD-10 | [16](16-typed-x3d-zod.md) | Return "not checked" for a document the validator could not process; never fold a crash into valid or invalid. | C | Zod overflowed on 240 and 300 nested Transforms | `stack_depth` test `zod-008` |
+| H-ZOD-11 | [16](16-typed-x3d-zod.md) | Put the schema gate first and the semantic layer last; neither implies the other. | C | 8 of 9 caught by JSON, 2 of 9 by semantic, 9 of 9 by the union | `matrix.json` in the demo |
+| H-ZOD-12 | [16](16-typed-x3d-zod.md) | Do not read "valid" as "correct": a ROUTE to a node that does not exist passes both schema gates. | C | mistake 9 | `x3d_mcp fork fbe165f` `validate_semantic` |
 | H-ENG-1 | [17](17-physics-engines.md) | Check every engine against a closed form before comparing engines to each other; a mutual match proves only that they share a bias. | [C] | cannon-es +14.0 % energy on an elastic hit, visible only against the analytic 0 % | `x3d.loom@56340c2` `results/fidelity-node.json`; Node v22.23.4 |
 | H-ENG-2 | [17](17-physics-engines.md) | When a library accepts a friction value, run a ramp sweep; a cube that holds until it topples, for every mu, is a unit error, not a surface property. | [C] | cannon-es raw 45 and 45 degrees (the tipping angle) against slip angles 11.3 and 26.6 | `tools/friction-sweep.js`; cannon-es 0.20.0 |
 | H-ENG-3 | [17](17-physics-engines.md) | Count escapees per shape kind in a contained stress scene; an exact count equal to one kind's population is a missing collider. | [C] | 10 escaped, 10 cones | `tools/record-demo.js`, `RigidBodyCollection.js` at `x3d.loom@1e884b6` |
