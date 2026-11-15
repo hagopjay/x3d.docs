@@ -3,12 +3,12 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-279 distinct instrument strings across the numbers registers.
+281 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
 | `same` | 43 | 05, 06, 07, 09, 10, 11, 12, 15, 17 | C:42 L:1 |
-| `same rig` | 31 | 08, 09, 13, 15 | C:31 |
+| `same rig` | 36 | 08, 09, 13, 15 | C:36 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
 | `both engines` | 7 | 08 | C:7 |
@@ -23,6 +23,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `read, not re-run` | 4 | 06, 07 | L:4 |
 | `Python 3, 2026-11-14` | 3 | 12 | C:3 |
 | `SwiftShader` | 3 | 08 | C:3 |
+| `SwiftShader, 320 x 240` | 3 | 08 | C:3 |
 | `count` | 3 | 02 | C:3 |
 | `inline Python` | 3 | 09 | C:3 |
 | `run-tests.js` | 3 | 08 | C:3 |
@@ -30,7 +31,6 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d_mcp fork b4efcd3, seed 20261029` | 3 | 01, 03 | C:3 |
 | `Chromium 153, SwiftShader (carried)` | 2 | 11, 12 | L:2 |
 | `Node v22.23.4, Yjs 13.6.33` | 2 | 15 | C:2 |
-| `SwiftShader, 320 x 240` | 2 | 08 | C:2 |
 | `X_ITE 16.6.0, Chromium 153.0.8010.12 SwiftShader, three.js r187` | 2 | 08 | C:2 |
 | `X_ITE 16.7.0, Chromium 153, SwiftShader, 320 x 240` | 2 | 01 | C:2 |
 | `file size, 2026-11-14` | 2 | 12 | C:2 |
@@ -54,6 +54,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `Chromium 153 / Node v22.23.4` | 1 | 17 | C:1 |
 | `Chromium 153.0.8010.12 SwiftShader, X_ITE 16.6.0, three.js r187` | 1 | 08 | C:1 |
 | `Chromium 153.0.8010.12 SwiftShader, best of 3` | 1 | 17 | C:1 |
+| `Chromium 153.0.8010.12, SwiftShader, three-mesh-bvh 0.9.18` | 1 | 08 | C:1 |
 | `D-LAW-2 script (judgement of the column)` | 1 | 02 | L:1 |
 | `D-LAW-7 script` | 1 | 02 | C:1 |
 | `Intel Xeon 2.10 GHz x4` | 1 | 15 | C:1 |
@@ -137,6 +138,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `core11.py; FLIP 1.7, Cycles 256 spp, 512 px` | 1 | 09 | C:1 |
 | `count, x3d.loom@162ab18` | 1 | 02 | C:1 |
 | `driver.py batch -n 10 --close, X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader` | 1 | 08 | C:1 |
+| `driver.py check over all fixtures` | 1 | 08 | C:1 |
 | `driver.py status, x3d.loom@162ab18` | 1 | 08 | C:1 |
 | `examples/eda_1_signal_and_noise.py` | 1 | 07 | C:1 |
 | `examples/eda_1_signal_and_noise.py --calibrate, seeds 1000 to 1149` | 1 | 07 | C:1 |
