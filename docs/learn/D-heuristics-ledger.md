@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**230 heuristics.** Grades: [C] 185 · [L] 38 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**235 heuristics.** Grades: [C] 189 · [L] 39 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -206,6 +206,11 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-UNR-13 | [12](12-unreal-tier1.md) | Turn on `r.RayTracing.Nanite.Mode 1` wherever rays are traced, or curved X3D primitives render faceted. | [C] | faceted spheres in the path tracer, round with the setting | UE 5.8.4 on RTX PRO 6000, 2026-11-15 |
 | H-UNR-14 | [12](12-unreal-tier1.md) | Ship the DEF/USE glb to Unreal, not the `EXT_mesh_gpu_instancing` glb, until Interchange reads the extension. | [C] | 1,711 instances dropped, 8 meshes kept | UE 5.8.4 Interchange log, 2026-11-15 |
 | H-UNR-15 | [12](12-unreal-tier1.md) | When a bracket's best is its edge, extend it; an edge pick means the scene's exposure was not reached. | [C] | odyssey picked -10 at the edge, then -14 | same run |
+| H-UNR-16 | [12](12-unreal-tier1.md) | Report FLIP over object pixels, with the object share, beside any whole-frame score; a keyed background dilutes the mean toward zero. | [C] | E3 0.092 whole frame, 0.735 over its 11.7 % object | flip-evaluator LDR on G4 stills, 2026-11-15 |
+| H-UNR-17 | [12](12-unreal-tier1.md) | Fix a gate's bounds in the cell before the run that tests it, and let the references' own disagreement set the agreement bound. | [C] (method) | bounds in `tier1_proof_cells.py` written before any proof run | `x3d.lab` PR #32 |
+| H-UNR-18 | [12](12-unreal-tier1.md) | Carry X3D 4.0's `shadows` field to the engine light; a renderer default that casts shadows is a silent disagreement. | [C] | E2 shadows under the match look | UE 5.8.4 on RTX PRO 6000, 2026-11-15; fix `x3d.lab` PR #31 |
+| H-UNR-19 | [12](12-unreal-tier1.md) | Measure the hardware ceiling separately from the pipeline, so a slow number can be blamed on the right layer. | [L] | 98.1 TFLOPS from Python against 7.5-12.6 GB and 10 s stills in Unreal | wgpu-py 0.33.0 Vulkan, 2026-11-15 |
+| H-UNR-20 | [12](12-unreal-tier1.md) | When a gate fails by a hair, keep the bound and change the pipeline; report the margin beside the verdict. | [C] (method) | E2 and E3 over the spread bound by 0.008 each, bounds unchanged | tier-1 proof run, 2026-11-15 |
 | H-PHY-1 | [13](13-physics.md) | Use the scheme's own discrete solution as the exact reference for a stepped engine, and report the continuum gap as a known number. | [C] | PhysX free fall 1.5e-6 m from discrete, 0.0204 m from continuum; D-PHY-2 reproduces both | `x3d.loom@162ab18` `p1-analytic.json`; numpy 2.5.3 |
 | H-PHY-2 | [13](13-physics.md) | Run every new check against a known-wrong implementation before trusting it; if the wrong one passes, the check says nothing. | [C] | KE 0.5 for fixed, buggy and no collisions (D-PHY-4); law 44 | numpy 2.5.3; ERRATA-v1-v4 |
 | H-PHY-3 | [13](13-physics.md) | Add an oblique collision case; a head-on axis-aligned test makes every dot product exact and passes a wrong normal. | [C] | 19 of 300 oblique pairs differed per step; failure mode 151 | ERRATA-v1-v4 (reviewer), read |

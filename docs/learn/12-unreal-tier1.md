@@ -364,6 +364,136 @@ Animated scenes need a moment. The notebook freezes a scene that is dark at time
 TimeSensor-driven interpolator evaluated at one fraction and written into its target); for odyssey that is fraction 0.886, inside the White Room,
 so the stills show the authored state of the film at about 122 s, not the time-0 set. [C], `x3d.lab@70551e8:notebooks/unreal/x3due/staging.py`.
 
+## 11. Known physics, a pass line written first, and the GPU's ceiling (2026-11-15)
+
+Same night, same machine as Section 10. Three small X3D 4.0 scenes were written to stress the light model rather than the import, and
+measured against both references. Then a pass line for tier 1 was written down before any proof run, and the card's raw compute was measured
+from Python on Vulkan. The scenes, cells and a findings README are public in `hagopjay/x3d.lab`, `notebooks/unreal/colab_g4/` (PR #32).
+
+### 11.1 The three scenes (Leg E)
+
+| scene | what it isolates |
+|---|---|
+| E1 PBR grid | 7 x 7 PhysicalMaterial spheres, metallic 0 to 1 against roughness 0 to 1; one DirectionalLight key, one PointLight fill |
+| E2 Cornell box | red and green walls, two boxes, one ceiling light; bounce light and shadows |
+| E3 light ladder | each X3D light type in its own bay, PhysicalMaterial against classic Material |
+
+### 11.2 Agreement, and why the whole-frame number misleads
+
+FLIP was computed twice for each pair: over the whole frame, and over object pixels only (pixels where either image is not the flat
+magenta key). Match look, preview rung, 1080p; X_ITE 16.7.0 on ANGLE Vulkan on the same GPU; Cycles through the same add-on.
+
+| scene | vs X_ITE, frame / object | vs Cycles, frame / object | object share of the frame |
+|---|---|---|---|
+| E1 PBR grid | X_ITE produced no still (cause open) | 0.289 / 0.427 | 67.5 % |
+| E2 Cornell box | 0.321 / 0.489 | 0.285 / 0.433 | 65.6 % |
+| E3 light ladder | 0.092 / 0.735 | 0.091 / 0.724 | 11.7 % |
+
+E3 is the case to remember. Its whole-frame FLIP of 0.09 reads as close agreement, but 88 % of that frame is identical key background. Over the
+object it is the largest disagreement of the three. [C] for the numbers. The object score is the one that ranks the scenes correctly.
+
+```text
+  whole-frame mean = share x object mean + (1 - share) x background mean
+  E3:  0.117 x 0.735 + 0.883 x ~0.007  ~= 0.092     (the background pulls it to near zero)
+```
+
+### 11.3 What the scenes named
+
+| gap | grade | evidence | status |
+|---|---|---|---|
+| Unreal lights cast shadows although X3D 4.0 `shadows` defaults to false | [C] | E2 under the match look | fixed in `x3d.lab` PR #31 (the field is carried to the light; looks can override); not yet re-measured |
+| One light model per scene: X_ITE lights PhysicalMaterial with rho/pi x i and classic Material with rho x i; the converter picks one rule for the whole scene | [C] | E3 bays disagree by material kind | open; per-material handling needed |
+| Point and spot falloff is inverse-square, matched at the scene centre | [C] | E3 | by design; X3D attenuation is not reproduced |
+| Metals read dark with no environment to reflect | [L] | E1 against Cycles | open; an environment light would test it |
+
+Under the cinematic look on the same night, E2 showed colour bleed from Lumen global illumination: red on the near face of the tall box, a
+green tint on the floor by the green wall, soft shadows. X_ITE does not compute bounce light, so this is a difference by design, not an
+error. [C] by eye, one still.
+
+### 11.4 A pass line for tier 1, fixed before the run
+
+A gate whose bounds are chosen after the numbers are seen can always be passed. These three were written into the proof cell
+(`tier1_proof_cells.py`, F1) before it ran. Each is scored per viewpoint on a fresh runtime of `x3d.lab` main:
+
+| check | bound | why this bound |
+|---|---|---|
+| silhouette | mask IoU against X_ITE >= 0.95 | Leg 1 measured 0.997; geometry and cameras are the solved part |
+| repeatable | object FLIP between two renders of the same still by Unreal <= 0.02 | the noise floor; any engine difference below it is not measurable |
+| within the reference spread | max(FLIP Unreal-X_ITE, FLIP Unreal-Cycles) <= FLIP X_ITE-Cycles + 0.05 | the two references disagree with each other; Unreal need not beat them, only stay inside their disagreement |
+
+```text
+            X_ITE
+           /     \
+   UE-X  /       \  X-C   <- the references' own spread
+        /         \
+     Unreal ------ Cycles
+            UE-C
+  pass if max(UE-X, UE-C) <= X-C + 0.05,  silhouette IoU >= 0.95,  repeat <= 0.02
+```
+
+Status: run on 2026-11-15, result in Section 11.7. Tier 1 is not claimed. The prediction written here before the run, graded [S], was
+that E3 would fail "within the reference spread" on the light-model gap of Section 11.3. It did, and so did two other views.
+
+### 11.5 The card's ceiling, from Python on Vulkan
+
+`wgpu-py 0.33.0`, forced onto its Vulkan backend, runs WGSL compute shaders on the same GPU. This gives the hardware's ceiling, which the
+render pipeline's numbers can be compared against.
+
+| measurement | value | grade |
+|---|---|---|
+| FP32 fused multiply-add shader, 60 s | 98.1 TFLOPS average (best batch 98.2) | [C] |
+| during it: utilisation, power, SM clock | 100 %, 541 W peak, 2,430 MHz | [C] (nvidia-smi, 0.5 s samples) |
+| theoretical FP32 at that clock | about 117 TFLOPS (about 24,000 FP32 lanes x 2 x 2.43 GHz) | [L] (lane count not checked on this machine) |
+| ray-marched Mandelbulb, 3840 x 2160, 4 rays per pixel, render only | 94.0 fps, 3.12 G rays/s (the burn's first 10 fps average had PNG saves inside its timer) | [C] |
+| the same fractal at 7680 x 4320, 64 rays per pixel (2.1 G rays) | 0.67 s | [C] |
+| all-pairs N-body, 262,144 bodies, 2,400 steps | 1.48 x 10^12 pair interactions/s; 29.7 TFLOPS at the customary 20 flops per interaction (about 30 % of the FMA figure: each interaction needs a reciprocal square root, which the FMA shader never calls) | [C] for the rate; [L] for the reason |
+
+Unreal's stills on the same machine used 7.5 to 12.6 GB of the card's 95.6 GB, at about 10 s per 1080p Lumen still. The pipeline is far
+from the hardware's limits, so no tier-1 result on this rig is limited by the GPU. [C] for the memory figures.
+
+### 11.6 Lessons that change how the next run is written
+
+| rank | lesson | grade |
+|---|---|---|
+| 1 | Score agreement over object pixels; report the object share beside it | [C] |
+| 2 | Write a gate's bounds into the cell before the run that tests them | [C] (method) |
+| 3 | Name grades so the engine's job-name sanitiser keeps them apart: `+3` and `-3` both become `_3`; use `p3` / `m3` (the lab now refuses a collision) | [C] |
+| 4 | A render rung that turns depth of field and fringe off needs grades to turn them back on in their own cvars | [C] |
+| 5 | An exposure fit that compares two images returns exactly 0 when no pixel is lit in both; fall back to a percentile match | [C] |
+| 6 | Time only what is measured: a save inside a frame timer cut a 94 fps figure to 10 | [C] |
+
+### 11.7 The proof run: tier 1 not earned, by a small margin in two of three failures
+
+The run of Section 11.4 happened the same night, on a fresh runtime of `x3d.lab` main (auto exposure, Nanite ray-tracing mode and the
+`shadows` fix all in), with the bounds unchanged. Rig as Section 10.1: UE 5.8.4 Vulkan SM6+RT with hardware Lumen, X_ITE 16.7.0 on ANGLE
+Vulkan on the same GPU, Cycles from Blender 5.2.3, flip-evaluator LDR over object pixels. All figures [C].
+
+| scene / viewpoint | IoU | UE-X | UE-C | X-C | repeat | verdict | the failed check, by how much |
+|---|---|---|---|---|---|---|---|
+| stilllife / CA_Camera | – | – | 0.214 | – | 0.000 | SKIP | X_ITE returned no still, so there is no outline to score |
+| odyssey / DroneCam | 1.000 | 0.667 | 0.699 | 0.527 | 0.000 | FAIL | spread: 0.699 against a bound of 0.577, over by 0.122 |
+| odyssey / GiftFrame | 1.000 | 0.626 | – | – | 0.000 | PASS | (no Cycles still for a second viewpoint: two checks of three) |
+| E1 PBR grid / Front | 1.000 | 0.221 | 0.260 | 0.298 | 0.000 | PASS | Unreal is closer to X_ITE than Cycles is |
+| E2 Cornell box / Front | 0.999 | 0.516 | 0.419 | 0.458 | 0.000 | FAIL | spread: 0.516 against 0.508, over by 0.008 |
+| E3 light ladder / Front | 0.980 | 0.735 | 0.724 | 0.677 | 0.000 | FAIL | spread: 0.735 against 0.727, over by 0.008 |
+
+Totals: 2 PASS, 3 FAIL, 1 SKIP. Peak VRAM across the stills was 12.2 GB.
+
+What the run settles:
+
+- **Geometry and cameras are done.** Every outline scored IoU 0.980 or better against X_ITE. [C]
+- **Unreal is deterministic here.** A still rendered twice differs by object FLIP 0.000 on every view, so the noise floor is zero, not 0.02. [C]
+- **E1 works in X_ITE after all.** The pass of Section 11.2 had no X_ITE still for E1; this run has one, and on it Unreal agrees with X_ITE
+  more closely (0.221) than Cycles does (0.298), black fully metallic sphere included. Why the earlier run drew nothing is still not known. [C] for the numbers.
+- **The `shadows` fix was not the main gap.** E2's object FLIP to X_ITE went from 0.489 to 0.516 and E3's stayed at 0.735. Point and spot
+  falloff (inverse-square in Unreal, matched to X3D attenuation only at the scene's centre) and the one-light-model-per-scene rule remain,
+  and both E2 and E3 are lit that way. [C] that the numbers did not move; [L] for the cause.
+- **odyssey's DroneCam fails against Cycles, not X_ITE.** One exposure per scene is fitted on one camera (Section 10.4). [S] that this is the cause.
+
+The bounds stay as written. Two failures are within 0.008 of the line; moving the line after seeing them would turn the gate into a
+description. The next run changes the pipeline instead: fit each X3D point and spot light's attenuation with Unreal's non-inverse-square
+falloff (a light can turn inverse-squared falloff off and take a falloff exponent), and fit exposure per camera. [S] that this closes E2 and E3.
+
 ---
 
 ## Heuristics
@@ -385,6 +515,11 @@ so the stills show the authored state of the film at about 122 s, not the time-0
 | H-UNR-13 | Turn on `r.RayTracing.Nanite.Mode 1` wherever rays are traced, or curved X3D primitives render faceted. | [C] | faceted spheres in the path tracer, round with the setting | UE 5.8.4 on RTX PRO 6000, 2026-11-15 |
 | H-UNR-14 | Ship the DEF/USE glb to Unreal, not the `EXT_mesh_gpu_instancing` glb, until Interchange reads the extension. | [C] | 1,711 instances dropped, 8 meshes kept | UE 5.8.4 Interchange log, 2026-11-15 |
 | H-UNR-15 | When a bracket's best is its edge, extend it; an edge pick means the scene's exposure was not reached. | [C] | odyssey picked -10 at the edge, then -14 | same run |
+| H-UNR-16 | Report FLIP over object pixels, with the object share, beside any whole-frame score; a keyed background dilutes the mean toward zero. | [C] | E3 0.092 whole frame, 0.735 over its 11.7 % object | flip-evaluator LDR on G4 stills, 2026-11-15 |
+| H-UNR-17 | Fix a gate's bounds in the cell before the run that tests it, and let the references' own disagreement set the agreement bound. | [C] (method) | bounds in `tier1_proof_cells.py` written before any proof run | `x3d.lab` PR #32 |
+| H-UNR-18 | Carry X3D 4.0's `shadows` field to the engine light; a renderer default that casts shadows is a silent disagreement. | [C] | E2 shadows under the match look | UE 5.8.4 on RTX PRO 6000, 2026-11-15; fix `x3d.lab` PR #31 |
+| H-UNR-19 | Measure the hardware ceiling separately from the pipeline, so a slow number can be blamed on the right layer. | [L] | 98.1 TFLOPS from Python against 7.5-12.6 GB and 10 s stills in Unreal | wgpu-py 0.33.0 Vulkan, 2026-11-15 |
+| H-UNR-20 | When a gate fails by a hair, keep the bound and change the pipeline; report the margin beside the verdict. | [C] (method) | E2 and E3 over the spread bound by 0.008 each, bounds unchanged | tier-1 proof run, 2026-11-15 |
 
 ---
 
@@ -452,6 +587,8 @@ so the stills show the authored state of the film at about 122 s, not the time-0
 
 - **No Unreal run exists.** No frame, import log, actor count or frame time came from Unreal 5.8 in this base. Everything on Unreal behaviour is [S] and says so. [S]
 - **Superseded 2026-11-15 by Section 10:** one run on one machine now stands behind the import, calibration, instancing, exposure and Nanite rows there. Frame times, behaviour, a second machine and FLIP between engines are still not measured. The stills and logs of that run are in a private notebook output, not in a public repository, so a reader cannot re-open them; the notebook and its tests are public. [L]
+- **Updated 2026-11-15 by Section 11:** FLIP between engines is now measured for three scenes on one machine, over object pixels. Frame times, behaviour and a second machine are still not measured, the tier-1 proof run has not happened, and why X_ITE produced no still for E1 is not known. [L]
+- **Updated 2026-11-15 by Section 11.7:** the tier-1 proof run happened and tier 1 was not earned (2 PASS, 3 FAIL, 1 SKIP on one machine). The cause of the failures is graded [L] and [S], not measured; a second machine and frame times are still missing. [C] for the verdicts.
 - **The Nanite finding is visual.** One view, two stills, judged by eye; no metric was computed between them. [L]
 - **The Unreal digest is a lead.** It was written 2026-11-12 with some vendor pages unreachable (the licence pages returned an error), so licence terms, product pricing and web-streaming claims are not stated here. A reader needs the vendors' own pages. [S]
 - **Web targets move fast.** The digest reports an experimental WebGPU target in a 5.9 preview and a commercial streaming route that supports 5.8; both are vendor or Epic claims, not tested, and dated. They are not repeated as facts here. [S]
@@ -495,6 +632,26 @@ so the stills show the authored state of the film at about 122 s, not the time-0
 | N-UNR-25 | odyssey White Room: clipped pixels at the calibrated EV / picked offset | 86 % / -14 EV | [C] | same | exposure bracket |
 | N-UNR-26 | Khronos controls: picked offset | +2 EV | [C] | same | exposure bracket |
 | N-UNR-27 | scorecard of the first leg | 40 PASS, 3 WARN, 0 FAIL, 1 SKIP | [C] | same | notebook 07 step 11 |
+| N-UNR-28 | E1 PBR grid vs Cycles, FLIP frame / object | 0.289 / 0.427 | [C] | flip-evaluator LDR, G4 stills, 2026-11-15 | Section 11.2 |
+| N-UNR-29 | E2 Cornell box vs X_ITE, FLIP frame / object | 0.321 / 0.489 | [C] | same | Section 11.2 |
+| N-UNR-30 | E2 Cornell box vs Cycles, FLIP frame / object | 0.285 / 0.433 | [C] | same | Section 11.2 |
+| N-UNR-31 | E3 light ladder vs X_ITE, FLIP frame / object | 0.092 / 0.735 | [C] | same | Section 11.2 |
+| N-UNR-32 | E3 light ladder vs Cycles, FLIP frame / object | 0.091 / 0.724 | [C] | same | Section 11.2 |
+| N-UNR-33 | E3 object share of the frame | 11.7 % | [C] | same | Section 11.2 |
+| N-UNR-34 | FP32 FMA throughput from Python on Vulkan, 60 s | 98.1 TFLOPS (best 98.2) | [C] | wgpu-py 0.33.0 Vulkan, RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-15 | Section 11.5 |
+| N-UNR-35 | power and SM clock peak during it | 541 W, 2,430 MHz | [C] | nvidia-smi, 0.5 s samples, 2026-11-15 | Section 11.5 |
+| N-UNR-36 | Mandelbulb 4K, 4 rays per pixel, render only | 94.0 fps (3.12 G rays/s) | [C] | wgpu-py 0.33.0 Vulkan, RTX PRO 6000 Blackwell SE, 2026-11-15 | Section 11.5 |
+| N-UNR-37 | tier-1 bounds: IoU / repeat / spread margin | 0.95 / 0.02 / 0.05 | [C] | `x3d.lab` PR #32, `tier1_proof_cells.py` | Section 11.4 |
+| N-UNR-38 | Mandelbulb 8K at 64 rays per pixel | 0.67 s | [C] | same | Section 11.5 |
+| N-UNR-39 | all-pairs N-body, 262,144 bodies: interaction rate | 1.48 x 10^12 /s (29.7 TFLOPS at 20 flops each) | [C] | same | Section 11.5 |
+| N-UNR-40 | tier-1 proof run verdicts (PASS / FAIL / SKIP) | 2 / 3 / 1 | [C] | UE 5.8.4 Vulkan SM6+RT, X_ITE 16.7.0 ANGLE Vulkan, Cycles 5.2.3, flip-evaluator LDR object pixels, RTX PRO 6000 Blackwell SE, 2026-11-15 | Section 11.7 |
+| N-UNR-41 | outline IoU vs X_ITE, range over scored views | 0.980-1.000 | [C] | same | Section 11.7 |
+| N-UNR-42 | repeat render object FLIP, every view | 0.000 | [C] | same | Section 11.7 |
+| N-UNR-43 | E1 PBR grid: UE-X / UE-C / X-C object FLIP | 0.221 / 0.260 / 0.298 | [C] | same | Section 11.7 |
+| N-UNR-44 | E2 Cornell box: UE-X / UE-C / X-C object FLIP | 0.516 / 0.419 / 0.458 | [C] | same | Section 11.7 |
+| N-UNR-45 | E3 light ladder: UE-X / UE-C / X-C object FLIP | 0.735 / 0.724 / 0.677 | [C] | same | Section 11.7 |
+| N-UNR-46 | odyssey DroneCam: UE-X / UE-C / X-C object FLIP | 0.667 / 0.699 / 0.527 | [C] | same | Section 11.7 |
+| N-UNR-47 | peak VRAM across the proof run's stills | 12.2 GB | [C] | same | Section 11.7 |
 
 ---
 
