@@ -323,9 +323,9 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-UNR-34 | [12](12-unreal-tier1.md) | FP32 FMA throughput from Python on Vulkan, 60 s | 98.1 TFLOPS (best 98.2) | [C] | wgpu-py 0.33.0 Vulkan, RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-15 | Section 11.5 |
 | N-UNR-35 | [12](12-unreal-tier1.md) | power and SM clock peak during it | 541 W, 2,430 MHz | [C] | nvidia-smi, 0.5 s samples, 2026-11-15 | Section 11.5 |
 | N-UNR-36 | [12](12-unreal-tier1.md) | Mandelbulb 4K, 4 rays per pixel, render only | 94.0 fps (3.12 G rays/s) | [C] | wgpu-py 0.33.0 Vulkan, RTX PRO 6000 Blackwell SE, 2026-11-15 | Section 11.5 |
+| N-UNR-37 | [12](12-unreal-tier1.md) | tier-1 bounds: IoU / repeat / spread margin | 0.95 / 0.02 / 0.05 | [C] | `x3d.lab` PR #32, `tier1_proof_cells.py` | Section 11.4 |
 | N-UNR-38 | [12](12-unreal-tier1.md) | Mandelbulb 8K at 64 rays per pixel | 0.67 s | [C] | same | Section 11.5 |
 | N-UNR-39 | [12](12-unreal-tier1.md) | all-pairs N-body, 262,144 bodies: interaction rate | 1.48 x 10^12 /s (29.7 TFLOPS at 20 flops each) | [C] | same | Section 11.5 |
-| N-UNR-37 | [12](12-unreal-tier1.md) | tier-1 bounds: IoU / repeat / spread margin | 0.95 / 0.02 / 0.05 | [C] | `x3d.lab` PR #32, `tier1_proof_cells.py` | Section 11.4 |
 | N-PHY-1 | [13](13-physics.md) | Explicit Euler pendulum energy growth, h = 0.01, 100 s | +10.89 (final dE/E0) | [C] | numpy 2.5.3 | D-PHY-1 |
 | N-PHY-2 | [13](13-physics.md) | Symplectic Euler pendulum, same run | +0.0002 final, 0.0150 max | [C] | numpy 2.5.3 | D-PHY-1 |
 | N-PHY-3 | [13](13-physics.md) | Discrete free fall against continuum gap, 1 s at 1/240 | -0.020437 m (`g h t/2` = 0.020438) | [C] | numpy 2.5.3 | D-PHY-2 |
