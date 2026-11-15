@@ -485,6 +485,44 @@ A 35-agent adversarial review of the batch (three reviewers over code, runtime b
 
 Not matched: IndexedTriangleSet and IndexedQuadSet generated normals sit at IoU 0.95 (a dim rim; the cause was not isolated), and PhysicalMaterial is reference-only at IoU 0.91, 25.32 dB, because X_ITE adds an environment glow that three.js has no counterpart for without an environment map. The unit tests (`node --test tools/`, 7 pass) load the body bundle in node with a stub window and check ElevationGrid winding, creaseAngle and TriangleSet counts without a browser.
 
+## 15. Geospatial and the last volume styles: a position is a point, and two engines disagree on a rotated volume
+
+Batch 45 bridged ten nodes: GeoOrigin, GeoCoordinate, GeoLocation, GeoTransform, GeoViewpoint, GeoElevationGrid, GeoPositionInterpolator, and the volume styles BlendedVolumeStyle, ComposedVolumeStyle and ProjectionVolumeStyle. Read at `x3d.loom@bfeba57` (the batch-45 pull request branch); reference engine `X_ITE 16.6.0`; rig for every number in this section: `Chromium 153.0.8010.12`, SwiftShader (no real GPU), `Babylon 9.32.0`, 320 x 240 pictures. The reasoning is in `x3d.webgpu/bridge/WHY-geospatial-batch.md`.
+
+```text
+ geoCoords (lat, lon, height)  --GD or UTM or GC-->  geocentric metres (6.4e6, float64)
+                                   |  minus GeoOrigin, rotated into east / up / -north when rotateYUp
+                                   v
+                          small local metres  --> GeoCoordinate points -> any geometry
+                                              --> GeoLocation, GeoTransform matrices (L^-1 M L)
+                                              --> GeoViewpoint pose, GeoElevationGrid triangles
+                                              --> GeoPositionInterpolator: great circle, linear radius
+```
+
+### 15.1 The earth is the scene, and float32 cannot hold it
+
+A geographic position becomes geocentric metres, about 6.4 million, where a 32 bit float resolves about half a metre. The bridge converts and subtracts the origin in double precision and hands the graphics card only the small remainder; a GeoOrigin with `rotateYUp` true is what makes the remainder small, because it also turns the axes to +X east, +Y up, -Z north [C]. Without it the world lies on its side and the numbers stay large, so the geocentric cases are checked as matrices and not as pictures [C]. "Up" is the ellipsoid normal, not the direction to the centre: the two differ by 0.19 degrees at latitude 45 [C].
+
+### 15.2 GeoTransform does not move its children to the centre
+
+The matrix is L^-1 M L, with L the placement at `geoCenter`. With default fields it is the identity and the children stay where they were written; a reader who takes the specification to mean "children at geoCenter" would be wrong for X_ITE 16.6.0, and the bridge follows X_ITE [C]. The fixture rotates 90 degrees about the local up at a `geoCenter` 111.3 m east of the origin: a box 10 m east of the centre goes to 10 m north of it, in both engines [C].
+
+### 15.3 A great circle with a linear radius
+
+GeoPositionInterpolator interpolates along a great circle about the earth's centre (the GeoOrigin point when there is one), changing the radius linearly, not in latitude, longitude and height. The middle of latitude 0 to latitude 60 is latitude 30.0833 and 2.66 km below the ellipsoid [C]. This is X_ITE's choice, copied so the numbers agree; the specification does not prescribe it [S, spec text not re-read].
+
+### 15.4 Three volume styles, three surprises
+
+ComposedVolumeStyle is a chain: each child gets the colour the one before returned and replaces it, so [red, blue] draws blue and [blue, red] draws red [C]. BlendedVolumeStyle computes clamp(c x w1 + b x w2) on all four channels, alpha included, so the default weights halve a faint volume and the slice is dropped under 1/255 [C]. ProjectionVolumeStyle is not a ray cast: each of the 400 slice fragments marches 16 steps of its own, from a start whose offset along the view is doubled, so a uniform grey 204 volume under AVERAGE (divided by 16, always) draws 38 [C]. X_ITE cannot draw the schema weight names ALPHA1 and ONE_MINUS_ALPHA1 (a stray space in the shader text makes the volume vanish), and it draws nothing when two Blended nodes meet; the bridge reads the schema names and draws any number [C].
+
+### 15.5 Smooth volumes: dim shells, and a rotated volume X_ITE lights wrongly
+
+The cube fixtures of batch 43 could not show what smooth data does. A 16 cubed Gaussian ball was drawn under four lit styles. Unrotated, the engines agree within about 8 levels on Shaded and 12 on ToneMapped along a row [C]. A smooth ball draws as a dim shell in both engines: the transition layer is already opaque before the bright core, so a ball whose core is 243 draws 18 grey, and a block of 204 that fills half the width of a 16 voxel volume draws 70 (the arithmetic is D-BAB-13) [C]. When the Transform above the volume rotates it, X_ITE lights it differently: a ball should look the same in any orientation, the bridge's does and X_ITE's does not (rotation about Z moves the lit side, about Y it goes almost black, only a half turn is unchanged) [C, observation]. The cause is not isolated: the gradient seems to be turned the wrong way [S]. The bridge keeps the rotation-independent picture and the fixture checks that volume in the bridge only.
+
+### 15.6 Two test-rig slips
+
+A plain list handed to a double field (`GeoOrigin.geoCoords`) made X_ITE draw nothing and then crash the page; the runner now builds an SFVec3d and names the type in the step [C]. And a case that X_ITE cannot compile (ALPHA1) left the rig waiting ten minutes, so it is described and not part of the fixture [C].
+
 ## Heuristics
 
 | ID | Rule (imperative, at most 30 words) | Grade | Evidence | Instrument |
@@ -521,6 +559,10 @@ Not matched: IndexedTriangleSet and IndexedQuadSet generated normals sit at IoU 
 | H-BAB-30 | A function lifted from another engine's body carries that body's omissions: list the features it never used (creaseAngle, Normal, per-face colour) and give each a fixture. | C | Extrusion faceted until `BR.ifsExtras`; IndexedFaceSetNormals 80.17 dB | `x3d.loom@38530ab` |
 | H-BAB-31 | Check that a passing fixture can fail: if both engines draw black or nothing, the match proves nothing. | C | 6108 against 9236 foreground pixels after the normals were changed | IndexedFaceSetNormals receipt |
 | H-BAB-32 | Review each batch with independent adversarial reviewers before the merge request: they find what the picture comparison cannot (dynamic changes, input-event paths, stale lists), and a verifier per finding keeps the false ones out. | C | 29 confirmed, 3 refuted; the 45 fixtures had passed before the review | workflow run of 35 agents over `x3d.loom@8a1e769`, fixes in `38530ab` |
+| H-BAB-33 | Convert and subtract the GeoOrigin in float64, and hand a float32 matrix only the small remainder; never draw a geocentric point directly. | C | 6.4e6 m has 0.5 m resolution in float32 (N-BAB-49) | `GeoCoordinate.js` `BR.geo` |
+| H-BAB-34 | Read a GeoTransform as L^-1 M L, not as "children at geoCenter"; test it with a rotation about the local up. | C | default fields give the identity; box 10 m east goes to 10 m north (N-BAB-51) | `GeoTransform.test.json` |
+| H-BAB-35 | Test a lit volume style on smooth data, rotated and unrotated; a cube hides both the dim shell and the rotation error. | C | ball under Shaded: unrotated agree, rotated differ (N-BAB-53, N-BAB-54) | `_volume-smooth-lit` |
+| H-BAB-36 | Give a test-rig `set` of a double field its type; a plain list becomes NaN in X_ITE and looks like an X_ITE defect. | C | geoCoords set drew nothing until SFVec3d was built | `tools/run-tests.js` |
 
 ## Drills
 
@@ -625,6 +667,20 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 - **Answer:** the silhouette does not move (both triangulations cover the same squares, IoU 0.97 and above); the shading does, because the flat facets of a creaseAngle 0 grid follow the diagonal: mad 2.70 and 29.13 dB against 99 dB (identical) with X_ITE's diagonal.
 - **Checked:** 2026-11-14 `x3d.loom@38530ab`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187
 
+### D-BAB-12 Midpoint of latitude 0 to latitude 60
+- **Level:** L2
+- **Task:** Interpolate halfway between (lat 0, lon 0, h 0) and (lat 60, lon 0, h 0) the way X_ITE 16.6.0 does: convert both to geocentric (WGS84), take the great-circle direction halfway, take the radius halfway, convert back. What are the latitude and the height?
+- **Verify:** about 20 lines of Python (ECEF, slerp of unit vectors, linear radius, iterate the geodetic inverse).
+- **Answer:** latitude 30.0832518, height -2663.0003 m; the radii are 6378137.0 and 6362132.224 m. The path is not (30, 0, 0).
+- **Checked:** 2026-11-15 python3 -I
+
+### D-BAB-13 Why a block of 204 draws 70
+- **Level:** L3
+- **Task:** A 16 cubed volume of dimensions 0.8 has voxels of 204 in the middle 8 along the viewing axis and 0 outside, linear filtering. X_ITE blends 400 slices spaced 0.8 x sqrt(3) / 399 apart with source alpha, no correction, the default ramp g = (v x 256 / 255 - 0.5 / 255) giving colour g and alpha g. Predict the centre pixel (0 to 255), and say why it is not 204.
+- **Verify:** a loop over the slices front to back (pixel += (1 - A) x g x g; A += (1 - A) x g), stopping at A > 0.998.
+- **Answer:** 70.35, so 70. The linear ramp from 0 to 204 between two voxel centres is 14 slices long; its alpha is already opaque before the full 204 is reached, so the pixel is the colour of the ramp, not the block. With nearest filtering (8 voxels) there is no ramp and the pixel is 204.
+- **Checked:** 2026-11-15 python3 -I (70.35); the rig gives 70 in both engines
+
 ## Honest limits
 
 - **Software GL only, Chromium only [C].** Every pixel number is SwiftShader in Chrome for Testing 153.0.8010.12; no real GPU, Firefox or Safari. Babylon 9.32.0 is a snapshot; 9.33.0 to 9.35.0 (per the primer) were not run [L].
@@ -635,6 +691,7 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 - **Carried, not re-checked [S]:** law-40 coverage by page, the Gobbler review defect, all effort figures in `PATHS.md` and `BABYLON.md` (person-weeks are guesses), the 1,396 `gl.*` call sites. Private run logs, device owners' details and unpublished material are left out on purpose.
 - **NURBS section read at the batch-44 branch, not main [L]:** `x3d.loom@4887a98` carried the pull request when written; counts are from the batch run of 2026-11-14 (our reader and X_ITE 16.6.0 on SwiftShader). Not covered: real GPU timing, GeoCoordinate control points, NurbsTextureCoordinate, trimming, picking of NURBS lines. The chord reading of the Extrusion Y axis is Likely: read from memory of 19775-1, not re-checked against the text.
 - **The three.js bridge is 45 scene fixtures, not a port [L].** 53 of 260 nodes are drawn; MultiTexture, movie and cube-map textures, Text, Inline, picking and pointer sensors are not, `global=FALSE` light scope is not implemented, and 32 Babylon fixtures that probe `__body` internals run here for their pictures only. All pixel numbers are SwiftShader at 320 x 240; no timing, no real GPU, no WebGPU renderer. The person-day figures in `ESTIMATE.md` are guesses [S]; the item list of what three.js gives and lacks is read from its documentation, not run [L].
+- **Geospatial section read at the batch-45 branch, not main [L]:** counts are from the batch run of 2026-11-15 on SwiftShader; geocentric (no GeoOrigin) pictures are not made (32 bit world matrix), GeoViewpoint navigation is computed, not wired, and WM, the angle unit and the geoid are not implemented in X_ITE 16.6.0 or the bridge. The rotated-volume error of X_ITE is observed on one Gaussian ball and its cause is not isolated [S].
 
 ## Numbers register
 
@@ -688,6 +745,17 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 | N-BAB-46 | ElevationGrid triangulation | diagonal (a, c, d) (a, d, b): 99 dB; the other diagonal: mad 2.70, 29.13 dB | C | same rig, same fixture twice | x3d.loom@38530ab:x3d.threejs/bridge/src/nodes/Geometry.js |
 | N-BAB-47 | Extrusion before and after BR.ifsExtras (first fixture) | IoU 0.98 to 0.99; mad 0.41 to 0.16; PSNR 39.98 to 38.65 dB; star fixture after: 0.99, 0.20, 37.51 dB | C | same rig | x3d.loom@38530ab:x3d.threejs/bridge/receipts/Extrusion.json |
 | N-BAB-48 | lines of the three.js body | body-three.js 461 (was 284 for 12 core nodes), nodes/Geometry.js 115 | C | `wc -l` | x3d.loom@38530ab:x3d.threejs/bridge/src |
+| N-BAB-49 | float32 resolution at geocentric radius 6.4e6 m | about 0.5 m | C | float32 spacing at 6.4e6 | x3d.loom@bfeba57:x3d.webgpu/bridge/src/nodes/GeoCoordinate.js |
+| N-BAB-50 | great-circle midpoint, latitude 0 to 60, WGS84 | latitude 30.0832518, height -2663.0003 m | C | Python, X_ITE 16.6.0 | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/GeoPositionInterpolator.test.json (D-BAB-12) |
+| N-BAB-51 | GeoTransform rotation 90 degrees about local up, geoCenter 111.32 m east | box 10 m east of the centre drawn 10 m north of it | C | both engines | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/GeoTransform.test.json |
+| N-BAB-52 | GeoViewpoint speed, height 500 m, speedFactor 3 | 153 | C | `BR.geo.speedOf`; X_ITE formula (height + 10) / 10 x factor | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/GeoViewpoint.test.json |
+| N-BAB-53 | Shaded, 16 cubed Gaussian ball, directional light, unrotated, red along a row (ours, X_ITE) | 6/42/80/115/139/154/162 and 0/39/75/108/135/159/159 | C | SwiftShader, 320 x 240 | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/_volume-smooth-lit.test.json |
+| N-BAB-54 | same ball turned 0.9 rad about Z, Shaded, five probes (ours, X_ITE) | lit side 156 and 36 (ours, X_ITE) at the same probe | C | SwiftShader | rig runs of 2026-11-15, not in a fixture |
+| N-BAB-55 | plain Gaussian ball, core 243, centre pixel | 18 (bridge), 23 (X_ITE) | C | SwiftShader | rig run of 2026-11-15 |
+| N-BAB-56 | block of 204 filling half the width, 16 voxels, centre pixel | 70 in both engines; 204 at 8 voxels (nearest) and 97 at 32 voxels | C | SwiftShader | D-BAB-13 |
+| N-BAB-57 | ProjectionVolumeStyle AVERAGE of a uniform grey 204 volume | 38 | C | both engines | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/ProjectionVolumeStyle.test.json |
+| N-BAB-58 | BlendedVolumeStyle defaults, voxels 204 and 102 | 153 (ALPHA0: 215, ONE_MINUS_ALPHA0: 91) | C | both engines | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/BlendedVolumeStyle.test.json |
+| N-BAB-59 | batch 45 fixture steps passed (ours / X_ITE) | Geo 305 and 300; Blended 63 and 53, Composed 17 and 17, Projection 32 and 32 | C | `run-tests.js` | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures |
 
 ## Sources and provenance
 

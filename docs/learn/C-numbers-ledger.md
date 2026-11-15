@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**336 numbers** from 14 chapters. Grades: [C] 292 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**347 numbers** from 14 chapters. Grades: [C] 303 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -208,6 +208,17 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-BAB-46 | [08](08-babylon-bridge.md) | ElevationGrid triangulation | diagonal (a, c, d) (a, d, b): 99 dB; the other diagonal: mad 2.70, 29.13 dB | C | same rig, same fixture twice | x3d.loom@38530ab:x3d.threejs/bridge/src/nodes/Geometry.js |
 | N-BAB-47 | [08](08-babylon-bridge.md) | Extrusion before and after BR.ifsExtras (first fixture) | IoU 0.98 to 0.99; mad 0.41 to 0.16; PSNR 39.98 to 38.65 dB; star fixture after: 0.99, 0.20, 37.51 dB | C | same rig | x3d.loom@38530ab:x3d.threejs/bridge/receipts/Extrusion.json |
 | N-BAB-48 | [08](08-babylon-bridge.md) | lines of the three.js body | body-three.js 461 (was 284 for 12 core nodes), nodes/Geometry.js 115 | C | `wc -l` | x3d.loom@38530ab:x3d.threejs/bridge/src |
+| N-BAB-49 | [08](08-babylon-bridge.md) | float32 resolution at geocentric radius 6.4e6 m | about 0.5 m | C | float32 spacing at 6.4e6 | x3d.loom@bfeba57:x3d.webgpu/bridge/src/nodes/GeoCoordinate.js |
+| N-BAB-50 | [08](08-babylon-bridge.md) | great-circle midpoint, latitude 0 to 60, WGS84 | latitude 30.0832518, height -2663.0003 m | C | Python, X_ITE 16.6.0 | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/GeoPositionInterpolator.test.json (D-BAB-12) |
+| N-BAB-51 | [08](08-babylon-bridge.md) | GeoTransform rotation 90 degrees about local up, geoCenter 111.32 m east | box 10 m east of the centre drawn 10 m north of it | C | both engines | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/GeoTransform.test.json |
+| N-BAB-52 | [08](08-babylon-bridge.md) | GeoViewpoint speed, height 500 m, speedFactor 3 | 153 | C | `BR.geo.speedOf`; X_ITE formula (height + 10) / 10 x factor | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/GeoViewpoint.test.json |
+| N-BAB-53 | [08](08-babylon-bridge.md) | Shaded, 16 cubed Gaussian ball, directional light, unrotated, red along a row (ours, X_ITE) | 6/42/80/115/139/154/162 and 0/39/75/108/135/159/159 | C | SwiftShader, 320 x 240 | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/_volume-smooth-lit.test.json |
+| N-BAB-54 | [08](08-babylon-bridge.md) | same ball turned 0.9 rad about Z, Shaded, five probes (ours, X_ITE) | lit side 156 and 36 (ours, X_ITE) at the same probe | C | SwiftShader | rig runs of 2026-11-15, not in a fixture |
+| N-BAB-55 | [08](08-babylon-bridge.md) | plain Gaussian ball, core 243, centre pixel | 18 (bridge), 23 (X_ITE) | C | SwiftShader | rig run of 2026-11-15 |
+| N-BAB-56 | [08](08-babylon-bridge.md) | block of 204 filling half the width, 16 voxels, centre pixel | 70 in both engines; 204 at 8 voxels (nearest) and 97 at 32 voxels | C | SwiftShader | D-BAB-13 |
+| N-BAB-57 | [08](08-babylon-bridge.md) | ProjectionVolumeStyle AVERAGE of a uniform grey 204 volume | 38 | C | both engines | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/ProjectionVolumeStyle.test.json |
+| N-BAB-58 | [08](08-babylon-bridge.md) | BlendedVolumeStyle defaults, voxels 204 and 102 | 153 (ALPHA0: 215, ONE_MINUS_ALPHA0: 91) | C | both engines | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/BlendedVolumeStyle.test.json |
+| N-BAB-59 | [08](08-babylon-bridge.md) | batch 45 fixture steps passed (ours / X_ITE) | Geo 305 and 300; Blended 63 and 53, Composed 17 and 17, Projection 32 and 32 | C | `run-tests.js` | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures |
 | N-CAS-1 | [09](09-castle-engine.md) | registered model formats; of them with `OnSave` | 21; 7 | C | `formats.py`, 2026-11-14 | `castle-engine@48ce617:src/` |
 | N-CAS-2 | [09](09-castle-engine.md) | parse-only groups; registrations in them (one abstract) | 11; 99 | C | `xite_names.py` | `castle-engine@48ce617:src/scene/x3d/castleinternalnodesunsupported.pas` |
 | N-CAS-3 | [09](09-castle-engine.md) | parse-only names with a same-named non-abstract class in X_ITE | 97 of 99 | C | `xite_names.py`, `x_ite@16.7.1` npm dist | `x_ite@16.7.1:dist/x_ite.js`, `dist/assets/components/` |

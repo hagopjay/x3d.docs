@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**204 heuristics.** Grades: [C] 159 · [L] 38 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**208 heuristics.** Grades: [C] 163 · [L] 38 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -126,6 +126,10 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-BAB-30 | [08](08-babylon-bridge.md) | A function lifted from another engine's body carries that body's omissions: list the features it never used (creaseAngle, Normal, per-face colour) and give each a fixture. | C | Extrusion faceted until `BR.ifsExtras`; IndexedFaceSetNormals 80.17 dB | `x3d.loom@38530ab` |
 | H-BAB-31 | [08](08-babylon-bridge.md) | Check that a passing fixture can fail: if both engines draw black or nothing, the match proves nothing. | C | 6108 against 9236 foreground pixels after the normals were changed | IndexedFaceSetNormals receipt |
 | H-BAB-32 | [08](08-babylon-bridge.md) | Review each batch with independent adversarial reviewers before the merge request: they find what the picture comparison cannot (dynamic changes, input-event paths, stale lists), and a verifier per finding keeps the false ones out. | C | 29 confirmed, 3 refuted; the 45 fixtures had passed before the review | workflow run of 35 agents over `x3d.loom@8a1e769`, fixes in `38530ab` |
+| H-BAB-33 | [08](08-babylon-bridge.md) | Convert and subtract the GeoOrigin in float64, and hand a float32 matrix only the small remainder; never draw a geocentric point directly. | C | 6.4e6 m has 0.5 m resolution in float32 (N-BAB-49) | `GeoCoordinate.js` `BR.geo` |
+| H-BAB-34 | [08](08-babylon-bridge.md) | Read a GeoTransform as L^-1 M L, not as "children at geoCenter"; test it with a rotation about the local up. | C | default fields give the identity; box 10 m east goes to 10 m north (N-BAB-51) | `GeoTransform.test.json` |
+| H-BAB-35 | [08](08-babylon-bridge.md) | Test a lit volume style on smooth data, rotated and unrotated; a cube hides both the dim shell and the rotation error. | C | ball under Shaded: unrotated agree, rotated differ (N-BAB-53, N-BAB-54) | `_volume-smooth-lit` |
+| H-BAB-36 | [08](08-babylon-bridge.md) | Give a test-rig `set` of a double field its type; a plain list becomes NaN in X_ITE and looks like an X_ITE defect. | C | geoCoords set drew nothing until SFVec3d was built | `tools/run-tests.js` |
 | H-CAS-1 | [09](09-castle-engine.md) | Judge a Castle load by its warnings and a shape census against the declared count; never by "it loaded" or an exit code. | C | classic reader warns once and skips the rest of the file | `castle-engine@48ce617:x3dnodes_encoding_classic.inc:569-573` |
 | H-CAS-2 | [09](09-castle-engine.md) | Quote node coverage by rung and definition (registered, parse-only, name present in a peer, behaves); never a bare "98 of 328". | C | 99 registrations, 98 concrete, five denominators in circulation | `castle-engine@48ce617`; `x_ite@16.7.1` dist |
 | H-CAS-3 | [09](09-castle-engine.md) | Treat name presence in a peer as the weakest rung; do not turn 97 of 99 into "X_ITE implements them". | C | the scan reads class names, not behaviour | `x_ite@16.7.1` dist |
