@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**269 heuristics.** Grades: [C] 217 · [L] 45 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**275 heuristics.** Grades: [C] 223 · [L] 45 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -152,6 +152,12 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-BAB-88 | [08](08-babylon-bridge.md) | Run every fixture alone as well as in a chunk: state that survives a world swap passes in a chunk and fails alone. | C | ScreenGroup 75 of 75 in a chunk after Layout fixtures, failing from step 4 alone | `tools/driver.py check ScreenGroup` |
 | H-BAB-89 | [08](08-babylon-bridge.md) | A held press belongs to the layer it started in; follow the pointer through that pass only. | C | LayerPress 14 of 14 in X_ITE; the TouchSensor left over without the rule | `fixtures/LayerPress.test.json` |
 | H-BAB-90 | [08](08-babylon-bridge.md) | Give each world Viewport a bit of its own and mask the outer one first; wrapping after eight draws the ninth into the first. | C | ViewportMany, ten tiles, 12 of 12 | `fixtures/ViewportMany.test.json` |
+| H-BAB-91 | [08](08-babylon-bridge.md) | Reset every shared per-frame uniform to its neutral value each frame; a mask left by the last frame of an earlier world tinted nothing in the next. | C | TextureProjectorParallel after TextureProjector, 96 of 96 | `fixtures/TextureProjectorParallel.test.json` |
+| H-BAB-92 | [08](08-babylon-bridge.md) | A change to the test runner needs the full sweep, not the fixtures of the batch: one missing brace broke every events-mode fixture. | C | ScreenFontStyle, HAnimMotion, GeoPositionInterpolator, 27, 104, 51 steps | `x3d.threejs/bridge/tools/run-tests.js` |
+| H-BAB-93 | [08](08-babylon-bridge.md) | Skin on the CPU with the reference's formula when the reference does not use an engine feature (skin = v + sum w (J v - v), displacers rotated after the skin). | C | HAnimHumanoid 17 of 17, bone matrices and 16 positions equal | `fixtures/HAnimHumanoid.test.json` |
+| H-BAB-94 | [08](08-babylon-bridge.md) | When a fast path and a slow path must agree, make the test prove which one ran: detach the tree for the plain cast and assert no mesh holds one. | C | BvhPicking, 161 x 161 grid, plain and tree same point | `fixtures/BvhPicking.test.json` |
+| H-BAB-95 | [08](08-babylon-bridge.md) | A clear colour that changes nothing means something is drawn over it: hide the X3D Background dome when a viewer wants its own backdrop. | C | style board tiles, sky colour 0.004 0.0032 0.0026 | `docs/demos/three-style-board/v1/index.html` (x3d.demo) |
+| H-BAB-96 | [08](08-babylon-bridge.md) | Take the Body's WebGLRenderer from three.module.js and the node materials from three.webgpu.js; one renderer per tile. | C | style board loads and draws nine tiles | `docs/demos/three-style-board/v1/index.html` (x3d.demo) |
 | H-BAB-81 | [08](08-babylon-bridge.md) | When a reader rewrites a node at parse time, give the bridge ownership of that node type instead of patching around it: the fields come back and so do events. | C | Disk2D, Rectangle2D and Extrusion fields read as nothing; IoU 0.93 to 0.98 after | `x3d.loom@cd71796`, `lifecycle.test.js` |
 | H-BAB-82 | [08](08-babylon-bridge.md) | Measure a weight rule in the reference engine with a fixture that has a non-uniform weight; the source can read as rational and be sampled as plain. | C | NurbsTextureCoordinate centre weight 3 leaves X_ITE's uv regular; reading the source gave 0.114 against 0.125 | `NurbsTextureCoordinate.test.json`, X_ITE 16.6.0 |
 | H-BAB-83 | [08](08-babylon-bridge.md) | Compare two triangulations of a cut shape by area and bounding box, not by corners. | C | trimmed surface: all eight cases equal to three decimals though the triangles differ | `NurbsTrimmedSurface.test.json` |
