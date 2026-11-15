@@ -523,6 +523,68 @@ The cube fixtures of batch 43 could not show what smooth data does. A 16 cubed G
 
 A plain list handed to a double field (`GeoOrigin.geoCoords`) made X_ITE draw nothing and then crash the page; the runner now builds an SFVec3d and names the type in the step [C]. And a case that X_ITE cannot compile (ALPHA1) left the rig waiting ten minutes, so it is described and not part of the fixture [C].
 
+## 16. Batch 46: the rest of the geospatial group, and six nodes that do nothing on purpose
+
+Batch 46 bridged ten nodes: GeoLOD, GeoTouchSensor, GeoProximitySensor, GeoMetadata and the DIS nodes EspduTransform, ReceiverPdu, SignalPdu, TransmitterPdu, DISEntityManager and DISEntityTypeMapping. Read at `x3d.loom@c80cecd` (the batch-46 pull request); reference engine `X_ITE 16.6.0`; rig for every number in this section: `Chromium 153.0.8010.12`, SwiftShader (no real GPU), `Babylon 9.32.0`, 320 x 240 pictures. The reasoning is in `x3d.webgpu/bridge/WHY-geo-dis-batch.md`.
+
+```text
+ camera --(eye-space distance of local(center))--> GeoLOD:  d < range ? level 1 : level 0
+                                                     level_changed  ->  children   (this order)
+ pointer --hit on a Shape--> GeoTouchSensor: hitTexCoord, hitNormal, hitPoint (sensor-local)
+                                             hitGeoCoord = geoOf(sensor, LOCAL hitPoint)
+ camera --pose in the sensor's parent frame--> GeoProximitySensor: isActive, position, orientation,
+                                             centerOfRotation, geoCoord_changed = geoOf(sensor, position)
+```
+
+### 16.1 GeoLOD has one range and two levels
+
+The specification talks about a list of ranges and about unloading; X_ITE 16.6.0 has a single `range` and exactly two levels, decided on every frame as `distance < range`, strictly, with the distance taken in EYE space from the camera to `center` (through the node's geoSystem and GeoOrigin, like a GeoLocation) [C]. A parent scale therefore counts: with a centre 50 m up, a parent scale of 1.9 gives level 1 and 2.1 gives level 0 [C]. Level 1 is announced at once, but the picture keeps the root until all four child scenes are finished (loaded, failed or empty), and children are fetched at the first visit to level 1 and never unloaded [C]. `level_changed` fires before `children`, the opposite of what the specification text implies [C], and starts at -1 [C]. `rootNode` wins over `rootUrl`, which is still fetched [C]. The fixtures use `data:model/x3d+xml,` urls so that they need no server [C].
+
+### 16.2 The geographic coordinate of a touch is the geographic reading of a LOCAL point
+
+GeoTouchSensor's output is `hitGeoCoord_changed` (there is no `geoCoords_changed`) [C]. X_ITE converts `hitPoint_changed`, which is in the sensor's own parent frame, through the sensor's geoSystem and GeoOrigin as if that frame were the origin frame. Under a Transform or a GeoLocation the result is not where the hit is: a sensor in a GeoLocation 3.3 m east of the origin reports longitude 8.4e-7 degrees, not 3.0e-5 [C]. The bridge copies it, because the aim is the same numbers and the shortcut is documented [C]; the fix would be one matrix. Two Babylon details: a pick at (160,120) is half a pixel from X_ITE's, so hitPoint differs by 0.0155 m at a distance of 9 (tolerance 0.05), and the body's meshes carry `v` flipped, so the bridge reports `1 - v` [C].
+
+### 16.3 A proximity sensor that reports where the viewer is, and a `geoCenter` that is not a coordinate
+
+GeoProximitySensor wraps a ProximitySensor: a box (`center`, `size`), inclusive, size 0 never active, size -1 always inside [C]. `geoCenter` is copied raw into `center` only when it is written at run time, the attribute in a file is ignored, and `center` is plain local metres (a `geoCenter` of 0 0 10 reads 10 m, not 10 degrees) [C]. On exit the last position outside is announced first (geoCoord_changed, position_changed), then isActive false and exitTime [C]. X_ITE draws on demand and notices an ENTER after a pure camera move only when something else keeps the page drawing, so the fixture animates a small box [C].
+
+### 16.4 Six nodes that store their fields and do nothing
+
+X_ITE 16.6.0 marks the DIS component as not supported. EspduTransform is a Group: translation, rotation and scale are stored and never applied, nothing is sent, no output (isActive, timestamp, firedTime and the rest) ever fires, and `enabled` false does not hide anything [C]. The four PDU nodes and the manager and mapping store their fields and draw nothing; the mapping never loads its url [C]. SFTime outputs default to -1, geoSystem defaults to GD WE, and the fixture head must name the DIS component or X_ITE drops the node [C]. The bridge copies all of it, and the fixtures assert silence with `noevent` after two seconds [C].
+
+### 16.5 One fix outside the batch: an inputOutput set is one event
+
+Setting an inputOutput field in the SAI shim raised the page's field callbacks twice (once from the body hook, once from the event queue); X_ITE raises one. The reader now marks the call (`R.rx`) so the callbacks run once [C].
+
+## 17. Batch 47: a sensor that reads the world's contacts, a list, and a data node
+
+Batch 47 bridged the three nodes that let a scene hear about the physics world: CollisionSensor, CollisionSpace and Contact. Read at `x3d.loom@80388ce` (the batch-46 and batch-47 pull request); reference engine `X_ITE 16.6.0` (Bullet compiled to WebAssembly); rig for every number in this section: `Chromium 153.0.8010.12`, SwiftShader (no real GPU), `Babylon 9.32.0`. The reasoning is in `x3d.webgpu/bridge/WHY-physics-sensing-batch.md`. The physics world itself is chapter [13](13-physics.md).
+
+```text
+ world sub-step (1/240 s) --> contacts of the LAST sub-step, each tagged (body, top-level collidable) x 2
+                                   |
+ CollisionSensor.tick: flatten(collider.collidables)  ->  body -> last listed collidable
+                       keep a contact when a body of the pair is in that map  (distance <= 0)
+                       isActive (only on change) -> intersections -> contacts   (every frame while touching)
+ Contact: a pooled data node the sensor fills; writing one in a scene or to set_contacts does nothing
+```
+
+### 17.1 CollisionSensor does not detect anything
+
+Once per frame X_ITE reads the contacts the world left after its last sub-step, keeps those that touch or penetrate (distance at most 0), and keeps a contact when at least one of its two bodies owns a collidable that the sensor's own `collider` lists [C]. The sensor's collider is a separate CollisionCollection from the world's. Only the top-level geometry of a body counts: list the CollidableOffset, not the shape inside it, and a body with several listed collidables is named by the last one [C]. `isActive` is sent when it changes; `intersections` and `contacts` are sent on every frame while a contact exists, as the same node objects, and are never cleared: once the touch ends `isActive` is false and the lists keep their last length [C]. `enabled` is read only at load and when `collider` is written, so a file with `enabled="false"` stays dead until the collider is written again [C]. The bridge copies all of it.
+
+### 17.2 CollisionSpace is a list, and Contact is a pool
+
+CollisionSpace only flattens its `collidables` through nested spaces, live: emptying a nested list ends the contact within a frame. `enabled` and `useGeometry` are never read [C]. Contact is a data node the sensor fills from a pool; it copies appliedParameters, bounce, minBounceSpeed, frictionCoefficients, surfaceSpeed and the softness fields from the sensor's collider, and slipFactors into slipCoefficients, while position, contactNormal (unit length) and depth (at least 0) come from the world [C]. In X_ITE 16.6.0 `body1`, `body2`, `geometry1` and `geometry2` stay null, because the code writes a property with a trailing underscore [C]. The bridge departs here on purpose and fills them, as the specification says; the fixture asserts X_ITE's null on the X_ITE side and the pair on ours.
+
+### 17.3 What can be asserted, and what is a lottery
+
+An impact lasts one sub-step in both engines: X_ITE gave true, false, true within 150 ms and no event at all with bounce on [C]. The fixtures therefore assert only resting contacts: a ball exactly touching a fixed ground and a unit cube resting on it. The count for a cube is a range (Bullet kept 2 of the 4 lower corners, the bridge 4) and the sign of `contactNormal` depends on the order of the pair, so only its length and axis are asserted [C]. Cylinders and cones are bounding spheres in the bridge world, so their flat-face contacts are approximate (logged).
+
+### 17.4 One trap in the sweep
+
+A scene sweep of 60 or more picture fixtures in one process crashes the page; the full regression (142 picture fixtures and 45 event fixtures) runs in chunks of 8 and passes after batches 46 and 47 [C].
+
 ## Heuristics
 
 | ID | Rule (imperative, at most 30 words) | Grade | Evidence | Instrument |
@@ -563,6 +625,12 @@ A plain list handed to a double field (`GeoOrigin.geoCoords`) made X_ITE draw no
 | H-BAB-34 | Read a GeoTransform as L^-1 M L, not as "children at geoCenter"; test it with a rotation about the local up. | C | default fields give the identity; box 10 m east goes to 10 m north (N-BAB-51) | `GeoTransform.test.json` |
 | H-BAB-35 | Test a lit volume style on smooth data, rotated and unrotated; a cube hides both the dim shell and the rotation error. | C | ball under Shaded: unrotated agree, rotated differ (N-BAB-53, N-BAB-54) | `_volume-smooth-lit` |
 | H-BAB-36 | Give a test-rig `set` of a double field its type; a plain list becomes NaN in X_ITE and looks like an X_ITE defect. | C | geoCoords set drew nothing until SFVec3d was built | `tools/run-tests.js` |
+| H-BAB-37 | Take a distance for a level of detail in the camera's frame, not the node's: a parent scale changes it. | C | scale 1.9 gives level 1, 2.1 gives level 0 | `GeoLOD.test.json` |
+| H-BAB-38 | When a node is marked not supported in the reference engine, copy its silence and assert it with `noevent`; never add behaviour the oracle lacks. | C | six DIS nodes, 69 to 146 steps each, same in both engines | `X_ITE 16.6.0`, `x3d.loom@c80cecd` |
+| H-BAB-39 | Name the frame of every geographic output: a value that is local to a sensor is only the true position when nothing moves the sensor. | C | hitGeoCoord under a GeoLocation reads 8.4e-7, not 3.0e-5 degrees | `GeoTouchSensor.test.json` |
+| H-BAB-40 | Keep the reference engine drawing (animate something) when a test depends on a sensor noticing a camera move. | C | X_ITE sees an enter only after an extra frame | `GeoProximitySensor.test.json` |
+| H-BAB-41 | Assert only resting contacts for a collision sensor: an impact lasts one sub-step in both engines and is a lottery. | C | X_ITE sent true, false, true within 150 ms, nothing with bounce on | `CollisionSensor.test.json` |
+| H-BAB-42 | Copy a reference engine's null before correcting it: assert its value on its side and the specified value on yours, and log the departure. | C | Contact body1, body2, geometry1, geometry2 | `Contact.test.json` |
 
 ## Drills
 
@@ -756,6 +824,13 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 | N-BAB-57 | ProjectionVolumeStyle AVERAGE of a uniform grey 204 volume | 38 | C | both engines | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/ProjectionVolumeStyle.test.json |
 | N-BAB-58 | BlendedVolumeStyle defaults, voxels 204 and 102 | 153 (ALPHA0: 215, ONE_MINUS_ALPHA0: 91) | C | both engines | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/BlendedVolumeStyle.test.json |
 | N-BAB-59 | batch 45 fixture steps passed (ours / X_ITE) | Geo 305 and 300; Blended 63 and 53, Composed 17 and 17, Projection 32 and 32 | C | `run-tests.js` | x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures |
+| N-BAB-60 | GeoLOD, centre 50 m up, parent scale 1.9 and 2.1 | level 1 and level 0 | C | both engines | x3d.loom@c80cecd:x3d.webgpu/bridge/fixtures/GeoLOD.test.json |
+| N-BAB-61 | hitGeoCoord longitude under a GeoLocation 3.3 m east of the origin | 8.4e-7 degrees (true: 3.0e-5) | C | X_ITE 16.6.0 and bridge | x3d.loom@c80cecd:x3d.webgpu/bridge/fixtures/GeoTouchSensor.test.json |
+| N-BAB-62 | batch 46 fixture steps passed, ours and X_ITE alike | GeoLOD 92, GeoTouchSensor 51, GeoProximitySensor 64, GeoMetadata 30, EspduTransform 146, ReceiverPdu 69, SignalPdu 70, TransmitterPdu 82, DISEntityManager 30, DISEntityTypeMapping 43 | C | `run-tests.js` | x3d.loom@c80cecd:x3d.webgpu/bridge/fixtures |
+| N-BAB-63 | batch 47 fixture steps passed, ours and X_ITE alike | CollisionSensor 36, CollisionSpace 34, Contact 30 | C | `run-tests.js` | x3d.loom@80388ce:x3d.webgpu/bridge/fixtures |
+| N-BAB-64 | unit cube resting on a fixed ground, contacts kept | Bullet 2 of the 4 lower corners; bridge 4 | C | X_ITE 16.6.0, SwiftShader rig | x3d.loom@80388ce:x3d.webgpu/bridge/fixtures/CollisionSensor.test.json |
+| N-BAB-65 | resting distance of a ball on the ground | X_ITE 3e-8; bridge up to 5 mm (slop) | C | both engines | WHY-physics-sensing-batch.md section 5 |
+| N-BAB-66 | full regression after the shim fix and batch 47 | 142 picture fixtures and 45 event fixtures pass, in chunks of 8 | C | our engine, SwiftShader | x3d.loom@80388ce |
 
 ## Sources and provenance
 
@@ -765,5 +840,6 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 - `x3d.loom@108a282` (scaffold, read and run 2026-11-14): `x3d.threejs/bridge/{README.md,ESTIMATE.md,src/body-three.js,tools/*,fixtures/*,receipts/*,NODES.json}`; the Babylon files it reads at bundle time are those of `x3d.loom@ed1bed8`.
 - `x3d.loom@95eda37` (batch 1, read and run 2026-11-14): `x3d.threejs/bridge/{src/body-three.js,fixtures/{PointLight,PointLightAttenuation,SpotLight,Fog,PixelTexture,ImageTexture,TextureTransform,TexturedPrimitives}.*,receipts/*}`; X_ITE formulas read in `x_ite.js` 16.6.0 (`Fog2.glsl`, `TextureTransform`, `QuadSphereOptions`, `CylinderOptions`).
 - `x3d.loom@38530ab` (batch 2, read and run 2026-11-14): `x3d.threejs/bridge/{src/body-three.js,src/nodes/Geometry.js,tools/tooling.test.js,fixtures/*,receipts/*}`; X_ITE 16.6.0 read for the ElevationGrid and line behaviour only through renders.
+- `x3d.loom@c80cecd` and `@80388ce` (batches 46 and 47, read and run 2026-11-15): `x3d.webgpu/bridge/{BATCH-46.md,BATCH-47.md,WHY-geo-dis-batch.md,WHY-physics-sensing-batch.md,src/nodes/{GeoLOD,GeoTouchSensor,GeoProximitySensor,GeoMetadata,CollisionSensor,CollisionSpace,Contact,RigidBodyCollection}.js,fixtures/*,receipts/*}`; X_ITE 16.6.0 read for each node's runtime behaviour.
 - Private-source gap: a private primer of 8 November and private notes on each port were pointers only. Figures here were re-derived from the repository or read from a named receipt; the rest are graded [S] or [L] and labelled carried. No private document, link, identifier or chat wording is reproduced.
 - Siblings: [01](01-the-tether.md), [03](03-validator-and-gates.md), [04](04-mcp-for-agents.md), [07](07-xray.md), [09](09-castle-engine.md), [11](11-gltf-usd-khronos.md), [13](13-physics.md).
