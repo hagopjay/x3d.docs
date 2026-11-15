@@ -1,0 +1,773 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>16. Typed X3D: Zod, JSON Schema and the model that can be held to it · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="15-yjs-collaboration.html">15. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a class="cur" href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="16-typed-x3d-zod.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/16-typed-x3d-zod.md">GitHub</a></div><h1>16. Typed X3D: Zod, JSON Schema and the model that can be held to it</h1>
+<details class="toc"><summary>On this page (19 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-the-generator">2. The generator</a><a class="l2" href="#3-turning-a-reply-into-a-verdict">3. Turning a reply into a verdict</a><a class="l2" href="#4-the-mask-a-schema-a-decoder-can-use">4. The mask: a schema a decoder can use</a><a class="l2" href="#5-four-validators-1533-scenes">5. Four validators, 1,533 scenes</a><a class="l3" href="#51-why-the-standards-disagree-on-190-scenes">5.1 Why the standards disagree on 190 scenes</a><a class="l2" href="#6-three-gates-nine-mistakes">6. Three gates, nine mistakes</a><a class="l2" href="#7-what-breaks-zod">7. What breaks Zod</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-zod-1-run-the-suite">D-ZOD-1 Run the suite</a><a class="l3" href="#d-zod-2-regenerate-and-compare">D-ZOD-2 Regenerate and compare</a><a class="l3" href="#d-zod-3-put-the-tuple-bug-back">D-ZOD-3 Put the tuple bug back</a><a class="l3" href="#d-zod-4-the-upstream-file-has-the-navigationinfo-bug">D-ZOD-4 The upstream file has the NavigationInfo bug</a><a class="l3" href="#d-zod-5-size-a-vocabulary">D-ZOD-5 Size a vocabulary</a><a class="l3" href="#d-zod-6-find-the-stack-limit">D-ZOD-6 Find the stack limit</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> The Web3D X3D 4.0 JSON Schema can be compiled into Zod schemas and TypeScript types (364 definitions, one in-memory correction), so a model's X3D JSON is checked in code with the exact path of every fault, shrunk to the few nodes a model needs for constrained decoding, and compared with the XSD and the semantic layer; four validators agreed on all 1,432 convertible repository scenes, and the 190 scenes where the XSD and the JSON Schema differ are almost all faults in the standards or in our converter, not in Zod. <strong><span class="g C" title="Confirmed">C</span></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>ZOD</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="01-the-tether.html">01 The tether</a>; <a href="03-validator-and-gates.html">03 Validator and gates</a> for the XSD and semantic rungs; <a href="04-mcp-for-agents.html">04 MCP for agents</a> for the tool surface</td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>(1) generate Zod and TS types from the Web3D JSON Schema and say which JSON Schema keywords the generator models; (2) turn a model's text into a verdict with a path, and into a repair prompt; (3) build a node-restricted schema and say what lean mode costs; (4) say what the JSON gate catches that the XSD cannot, and the reverse; (5) read the corpus table and know which disagreements are the standards'</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td><code>x3d.loom@d8e02ef:x3d.zod/{tools/gen.mjs,src/index.ts,src/restrict.ts,tools/xml2json.py,tools/corpus.py,tools/fuzz.mjs,tests/,receipts/}</code>; <code>x3d_mcp@c86caf7:src/validation/{llm_schema.py,validate.py}</code> and <code>src/tools/validate_tool.py</code>; <code>x3d.demo@9c96896:docs/demos/typed-x3d/v1/</code></td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td>Web3D <code>x3d-4.0-JSONSchema.json</code> sha1 <code>c6765a4</code> (1,023,286 bytes) with the <code>NavigationInfo.@type</code> correction applied in memory; <code>zod 4.6.7</code>; <code>ajv 8.20.0</code> (Draft 2020-12, formats off); <code>jsonschema 4.26.0</code> (Python 3.13); <code>typescript 7.0.2</code>; <code>esbuild 0.25.12</code>; Node v22.23.4; <code>x3d_mcp fork fbe165f</code> for <code>validate_xml</code>, <code>validate_json</code>, <code>validate_semantic</code> and <code>json_to_xml</code>; <code>X_ITE 16.6.0</code> on Chromium with SwiftShader; one container with 4 CPU cores and no GPU</td>
+</tr>
+</tbody>
+</table>
+<p>A model that writes X3D has two failure modes: it writes something the standard forbids, and it writes something the standard allows that is wrong. The first is a typing problem and typing problems are cheap to catch if the schema is code. This chapter is the typing layer: how the JSON Schema becomes Zod, what it can and cannot see, and what four validators say when they all look at the same 1,533 scenes.</p>
+<hr />
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text">  Web3D x3d-4.0-JSONSchema.json (sha1 c6765a4, 364 $defs, 261 scene nodes, &quot;Experimental&quot;)
+        |  + in-memory correction: NavigationInfo.@type is an MFString typed &quot;string&quot;
+        v
+  tools/gen.mjs --&gt; src/generated/x3d.zod.ts   887 z.strictObject, 301 z.union, 88 z.tuple,
+        |                  |                    150 z.enum, plus 364 explicit TS types
+        |                  +--&gt; src/index.ts    validateX3DJson, parseLlmX3D, repairPrompt;
+        |                                       paths like X3D/Scene/-children/0/Shape/...
+        +--&gt; src/restrict.ts, x3d_mcp llm_schema.py   schema for a chosen node vocabulary
+
+  one model reply
+     | JSON.parse --------------------------------&gt; not JSON: &quot;json_parse&quot;
+     v
+  JSON gate (this chapter) --&gt; XSD (after json_to_xml) --&gt; semantic layer --&gt; X_ITE picture
+   typing, shape, ranges        enumerations, order         ROUTE targets,    what it looks like
+                                                            profile, DEF/USE
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>in scope</th>
+<th>out of scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>the JSON Schema as code; node restriction; four-validator corpus run; fuzz; the mistakes a model makes</td>
+<td>calling a model (nothing here does); ROUTE and DEF/USE meaning; X3D 4.1 content (the schema stops at 4.0)</td>
+</tr>
+</tbody>
+</table>
+<p>Read next: deeper, <a href="03-validator-and-gates.html">03 Validator and gates</a> (the rungs this gate sits beside); wider, <a href="15-yjs-collaboration.html">15 Yjs</a> (another place an agent's output must be checked before it enters a scene).</p>
+<hr />
+<h2 id="2-the-generator">2. The generator</h2>
+<p>The schema uses a small slice of Draft 2020-12. Counting every keyword in the file shows why a hand-written generator is enough: <code>type</code>, <code>$ref</code>, <code>properties</code>, <code>items</code>, <code>minItems</code>, <code>maxItems</code>, <code>enum</code>, <code>oneOf</code>, <code>anyOf</code>, <code>minimum</code>, <code>maximum</code>, <code>exclusiveMinimum</code>, <code>prefixItems</code>, <code>required</code>, <code>additionalProperties</code>, <code>format</code>, <code>default</code>, <code>$comment</code>. Nothing else occurs (<code>x3d.zod/tools/gen.mjs</code> throws on an unsupported <code>$ref</code>).</p>
+<table>
+<thead>
+<tr>
+<th>JSON Schema</th>
+<th>Zod output</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>additionalProperties: false</code> (887 of 887 objects)</td>
+<td><code>z.strictObject</code></td>
+<td>a misspelled field is an error, never a silent no-op</td>
+</tr>
+<tr>
+<td><code>oneOf</code> of a USE arm and a definition arm (261 nodes)</td>
+<td><code>z.union</code></td>
+<td>safe because only the USE arm requires <code>@USE</code></td>
+</tr>
+<tr>
+<td><code>prefixItems</code> (88 emitted, 79 as inline properties)</td>
+<td><code>z.tuple</code>, positions at or past <code>minItems</code> optional, extra length check</td>
+<td>the bug in section 5</td>
+</tr>
+<tr>
+<td><code>enum</code> (150)</td>
+<td><code>z.enum</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>minimum</code>/<code>maximum</code>/<code>exclusiveMinimum</code></td>
+<td><code>.min</code> <code>.max</code> <code>.gt</code></td>
+<td>colours 0 to 1, angles, sizes</td>
+</tr>
+<tr>
+<td><code>$ref</code></td>
+<td>a property getter</td>
+<td>recursion without <code>z.lazy</code> on every field</td>
+</tr>
+<tr>
+<td><code>default</code>, <code>$comment</code>, <code>format</code></td>
+<td>ignored</td>
+<td><code>--comments</code> adds descriptions</td>
+</tr>
+</tbody>
+</table>
+<p>Two design choices matter more than the table. First, every definition is annotated <code>z.ZodType&lt;T_Name&gt;</code> with an explicit generated TS type; letting TypeScript infer 364 mutually recursive Zod types fails with &quot;Type instantiation is excessively deep&quot; (observed on the first attempt). Second, the generated file is 597,222 bytes and <code>tsc</code> checks it with the tests in about 8 s (<code>typescript 7.0.2</code>), so type drift between the two outputs is a build error, not a surprise.</p>
+<pre><code class="language-bash">cd x3d.loom/x3d.zod &amp;&amp; npm ci
+npm run gen &amp;&amp; npm run typecheck &amp;&amp; npm test
+</code></pre>
+<h2 id="3-turning-a-reply-into-a-verdict">3. Turning a reply into a verdict</h2>
+<p><code>validateX3DJson</code> returns <code>{ok, value}</code> or a list of <code>{path, code, message}</code>. The useful part is the path. Zod reports a failed union as a single &quot;Invalid input&quot;, and every X3D node is a union of its USE arm and its definition arm, so a naive report points at the node and says nothing. <code>toIssues</code> opens each union and keeps the arm the document was trying to be: not the USE arm unless <code>@USE</code> is present, then the deepest, then the one with the fewest complaints.</p>
+<table>
+<thead>
+<tr>
+<th>mistake in the reply</th>
+<th>issue path (shortened)</th>
+<th>message</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NavigationInfo.@type</code> as the string <code>&quot;EXAMINE&quot;</code></td>
+<td><code>.../NavigationInfo/@type</code></td>
+<td>expected array, received string</td>
+</tr>
+<tr>
+<td><code>&quot;@radius&quot;: &quot;0.36&quot;</code></td>
+<td><code>.../Sphere/@radius</code></td>
+<td>expected number, received string</td>
+</tr>
+<tr>
+<td>Box <code>@size</code> with two numbers</td>
+<td><code>.../Box/@size</code></td>
+<td>expected array to have &gt;=3 items</td>
+</tr>
+<tr>
+<td>a node called <code>Torus</code></td>
+<td><code>.../-geometry</code></td>
+<td>Unrecognized key: &quot;Torus&quot;</td>
+</tr>
+<tr>
+<td><code>@diffuseColour</code></td>
+<td><code>.../Material</code></td>
+<td>Unrecognized key: &quot;@diffuseColour&quot;</td>
+</tr>
+<tr>
+<td>emissive colour <code>[255, 153, 30]</code></td>
+<td><code>.../@emissiveColor/0</code></td>
+<td>expected number to be &lt;=1 (3 issues)</td>
+</tr>
+<tr>
+<td><code>@version</code> <code>&quot;4.1&quot;</code></td>
+<td><code>X3D/@version</code></td>
+<td>expected one of &quot;3.0&quot;, &quot;3.1&quot;, &quot;3.2&quot;, &quot;3.3&quot;, &quot;4.0&quot;</td>
+</tr>
+</tbody>
+</table>
+<p><code>parseLlmX3D</code> accepts a fenced block or bare JSON; <code>repairPrompt</code> turns the first twelve issues into a prompt that names the schema and asks for the complete corrected document. A document nested so deeply that Zod's recursive descent overflows the stack is reported as <code>stack_depth</code>, which means <em>not checked</em>; it is never reported as valid (section 7).</p>
+<h2 id="4-the-mask-a-schema-a-decoder-can-use">4. The mask: a schema a decoder can use</h2>
+<p>The full schema is 502,810 bytes minified, which does not fit a structured-output request and offers a model 261 nodes it will not use. <code>restrictSchema</code> (TypeScript) and <code>restricted_schema</code> (Python, the <code>x3d_json_schema</code> tool of the x3d_mcp fork) keep the schema's structure and typing, delete every scene node outside a named vocabulary from every <code>properties</code> map, and prune the definitions that become unreachable.</p>
+<table>
+<thead>
+<tr>
+<th>vocabulary</th>
+<th>nodes</th>
+<th>full-key bytes</th>
+<th>lean bytes</th>
+<th>defs kept (lean)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>starter</td>
+<td>12</td>
+<td>32,744</td>
+<td>19,153</td>
+<td>42</td>
+</tr>
+<tr>
+<td>animated</td>
+<td>19</td>
+<td>44,177</td>
+<td>25,635</td>
+<td>49</td>
+</tr>
+<tr>
+<td>all of X3D 4.0</td>
+<td>261</td>
+<td>502,810</td>
+<td>not measured</td>
+<td>364</td>
+</tr>
+</tbody>
+</table>
+<p>Lean mode also drops <code>@class</code>, <code>@id</code>, <code>@style</code>, <code>IS</code>, <code>-metadata</code>, <code>#comment</code> and every <code>$comment</code>, <code>default</code> and <code>description</code>. That is not free: of the 966 repository scenes the full schema accepts, 110 are rejected by the lean all-nodes schema (67 use <code>-metadata</code>, 41 use <code>@style</code>, 2 use <code>IS</code>), and a <code>ProtoDeclare</code> whose body wires fields with <code>IS</code> cannot be written in lean mode. Use <code>lean: false</code> when the model must write those. The <code>NavigationInfo</code> correction must be applied before restricting, because it keys on a <code>$comment</code> that lean mode deletes.</p>
+<p>An independent comparison of the two implementations on 32 vocabulary and lean combinations (starter, animated, empty, all, single nodes, ten random sets, each lean off and on) found identical output. It also found two gaps that are now closed: the TypeScript side silently accepted a misspelled node name where Python raised, and nothing guarded the parity. Both test suites now pin the same two sha1 prefixes of the starter schemas and both refuse unknown names.</p>
+<h2 id="5-four-validators-1533-scenes">5. Four validators, 1,533 scenes</h2>
+<p>Every <code>.x3d</code> file in nine project repositories (1,533 files of at most 2 MB) was converted to X3D JSON by <code>tools/xml2json.py</code>, which takes its field typing and container placement from the JSON Schema itself, then judged by the XSD (x3d_mcp <code>validate_xml</code>), <code>jsonschema</code> (x3d_mcp <code>validate_json</code>), <code>ajv</code> and Zod.</p>
+<table>
+<thead>
+<tr>
+<th>step</th>
+<th>files</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>found</td>
+<td>1,533</td>
+</tr>
+<tr>
+<td>not convertible (XML will not parse, empty file, nesting beyond Python's recursion limit)</td>
+<td>97</td>
+</tr>
+<tr>
+<td>converted but containing <code>NaN</code> or <code>Infinity</code> (not JSON)</td>
+<td>4</td>
+</tr>
+<tr>
+<td><strong>checked by all four</strong></td>
+<td><strong>1,432</strong></td>
+</tr>
+<tr>
+<td>Zod, ajv and jsonschema gave the same verdict</td>
+<td><strong>1,432</strong></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-text">                         JSON Schema accepts   JSON Schema rejects
+        XSD accepts              918                   128
+        XSD rejects               62                   324
+</code></pre>
+<p>The first run had one split, and it was our generator. <code>@geoSystem</code> is a tuple (<code>prefixItems</code> of 4, <code>minItems</code> 2); a Zod tuple demands every position, JSON Schema only constrains positions that exist. <code>TransmitterPdu.x3d</code> (<code>[&quot;UTM&quot;,&quot;Z3&quot;,&quot;N&quot;]</code>) was accepted by three validators and rejected by Zod. The generator now marks positions at or past <code>minItems</code> optional and states the length bounds the tuple shape cannot, and <code>tests/tuples.test.ts</code> draws 400 random arrays against each of the 79 tuple-typed properties and compares Zod with ajv.</p>
+<p>Speed per scene, this container, median and 95th percentile: ajv (compiled once) 0.19 ms and 2.6 ms; Zod 1.13 ms and 27 ms; <code>jsonschema</code> 2.3 ms and 251 ms. Zod is about six times slower than ajv at the median, and about twice as fast as <code>jsonschema</code> at the median and nine times at the 95th percentile.</p>
+<h3 id="51-why-the-standards-disagree-on-190-scenes">5.1 Why the standards disagree on 190 scenes</h3>
+<p>A root-cause pass (four independent reviewers, each finding graded by whether it was reproduced on a minimal document) went through the first run's 224 disagreements. The upper block is the rerun's first issue per scene (128); the lower block keeps the first run's counts (72), since the reviewers' breakdown was taken then. Where the pass found our converter at fault, that is stated and the converter was fixed.</p>
+<table>
+<thead>
+<tr>
+<th>direction</th>
+<th>scenes</th>
+<th>cause</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XSD accepts, JSON rejects</td>
+<td>60</td>
+<td>X3D 4.1 content the 4.0 schema cannot hold: <code>@version &quot;4.1&quot;</code> (30), the <code>GaussianSplats</code> node (7) and component name (23)</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td></td>
+<td>20</td>
+<td><code>OscillatorSource</code> has no slot for its <code>PeriodicWave</code> child</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td></td>
+<td>9</td>
+<td><code>ClipPlane @plane</code> bounds all four components to [-1,1]; the fourth is a distance</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td></td>
+<td>8</td>
+<td><code>geoSystem</code> order keywords (<code>longitude_first</code>) and non-Earth ellipsoids have no arm</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td></td>
+<td>6</td>
+<td><code>CollisionSensor @description</code> missing</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td></td>
+<td>13</td>
+<td>one-offs: <code>TextureProjector</code> vs the XSD's <code>TextureProjection</code>, <code>HAnimMotion @name</code>, empty MF arrays, Layout enums, <code>groundAngle</code> 1.571 against a 1.5708 bound</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td></td>
+<td>12</td>
+<td>probes and fixtures invalid on purpose (DEF and USE on one node, negative sensor size); three are a guess from the fixture name</td>
+<td><strong><span class="g L" title="Likely">L</span></strong></td>
+</tr>
+<tr>
+<td>XSD rejects, JSON accepts (first run's 72; 62 now)</td>
+<td>26</td>
+<td>the XSD is stricter than the X3DUOM (<code>containerField=&quot;pickTarget&quot;</code>, a <code>xs:sequence</code> standing in for a choice); the JSON Schema is right</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td></td>
+<td>16</td>
+<td>the JSON Schema is too lenient: DEF, USE and ROUTE names are bare strings (11), MFVec3f length not a multiple of 3 (2), <code>ProtoInstance</code> without <code>@name</code>, <code>HAnimSite</code> under <code>HAnimJoint</code>, <code>EnvironmentLight</code> in a 4.0 schema</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td></td>
+<td>5</td>
+<td>things JSON cannot say: XML sibling order (2), document-wide DEF uniqueness (3)</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+<tr>
+<td></td>
+<td>25</td>
+<td>our converter hid the fault; 14 fixed (case-folded booleans, <code>-08</code>, invented version and profile, replaced <code>containerField</code>), 11 open (dropped text content, stripped namespaces)</td>
+<td><strong><span class="g C" title="Confirmed">C</span></strong></td>
+</tr>
+</tbody>
+</table>
+<p>Of the first run's 224, 56 were the converter's: 29 scenes whose hex <code>SFImage</code> pixels it left as text, 2 whitespace-padded versions, and 25 of the lenient list. Fixing them moved the table from 894, 152, 72, 310 to the one above.</p>
+<h2 id="6-three-gates-nine-mistakes">6. Three gates, nine mistakes</h2>
+<p>The same nine mistakes (an orrery damaged in nine ways a model does) through the JSON gate, the XSD after <code>json_to_xml</code>, and the semantic layer. These are nine constructed documents, not a measured error rate.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>mistake</th>
+<th>JSON Schema</th>
+<th>XSD</th>
+<th>semantic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>two numbers where three are needed</td>
+<td>caught</td>
+<td>caught</td>
+<td>passes</td>
+</tr>
+<tr>
+<td>2</td>
+<td>a node that is not X3D (<code>Torus</code>)</td>
+<td>caught</td>
+<td>caught</td>
+<td>passes</td>
+</tr>
+<tr>
+<td>3</td>
+<td>a misspelled field</td>
+<td>caught</td>
+<td>caught</td>
+<td>passes</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>NavigationInfo.@type</code> as a string</td>
+<td>caught</td>
+<td>passes</td>
+<td>passes</td>
+</tr>
+<tr>
+<td>5</td>
+<td>colours on a 0 to 255 scale</td>
+<td>caught</td>
+<td>caught</td>
+<td>caught (<code>colour-out-of-range</code>)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>geometry without its <code>-geometry</code> slot</td>
+<td>caught</td>
+<td>passes</td>
+<td>passes</td>
+</tr>
+<tr>
+<td>7</td>
+<td>a number as a string</td>
+<td>caught</td>
+<td>passes</td>
+<td>passes</td>
+</tr>
+<tr>
+<td>8</td>
+<td>version &quot;4.1&quot; claimed</td>
+<td>caught</td>
+<td>passes</td>
+<td>passes</td>
+</tr>
+<tr>
+<td>9</td>
+<td>ROUTE to a node that does not exist</td>
+<td>passes</td>
+<td>passes</td>
+<td>caught (<code>route-missing-to-node</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>The JSON gate catches 8 of 9, the XSD 4, the semantic layer 2, and every mistake is caught by at least one. Rows 4, 6, 7 and 8 pass the XSD because JSON typing (array against string, slot against key, number against string) is erased when the document becomes XML attributes. Row 9 passes both schema gates because a ROUTE is four strings to them. The clean scene passes all three, but only after one fix: the first draft used a <code>PointLight</code> under the <code>Interchange</code> profile, which the semantic layer rejected (<code>profile-component</code>), a fault the JSON Schema never saw.</p>
+<h2 id="7-what-breaks-zod">7. What breaks Zod</h2>
+<table>
+<thead>
+<tr>
+<th>property</th>
+<th>measured</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fuzz, seed 1: 7,728 mutants of 966 valid scenes (delete, retype, rename, extend, truncate, enum swap, range, duplicate)</td>
+<td>Zod and ajv disagreed on 0; 5,597 mutants still valid, 2,131 rejected</td>
+</tr>
+<tr>
+<td>79 tuple properties x 400 random arrays</td>
+<td>0 disagreements between Zod and ajv (it fails if the tuple fix is removed)</td>
+</tr>
+<tr>
+<td>nesting depth</td>
+<td>Zod's recursive descent overflowed on two scenes nested 240 and 300 Transforms deep, while ajv accepted them; the cut-off is about 115 nested Transforms at Node's default stack and about 484 with <code>--stack-size=4000</code> (a cold-start measurement)</td>
+</tr>
+</tbody>
+</table>
+<p>An LLM will not write a hundred nested Transforms, but an adversarial or machine-generated scene can, so the library catches the <code>RangeError</code> and returns <code>stack_depth</code>. The caller should fall back to an iterative validator (ajv, <code>jsonschema</code>).</p>
+<hr />
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule (imperative, at most 30 words)</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-ZOD-1</td>
+<td>Generate the Zod from the schema file and pin the file's sha1; a hand-copied schema drifts without a signal.</td>
+<td>C</td>
+<td><code>gen.json</code> records sha1 <code>c6765a4</code> and the generated file is regenerated and compared in a test</td>
+<td><code>x3d.zod</code> <code>tools/gen.mjs</code>, test <code>zod-002</code></td>
+</tr>
+<tr>
+<td>H-ZOD-2</td>
+<td>Annotate every generated Zod schema with an explicit generated TS type; do not let TypeScript infer a 364-definition recursive graph.</td>
+<td>C</td>
+<td>inferred form failed with &quot;excessively deep&quot; on the first attempt; annotated form checks in about 8 s</td>
+<td><code>typescript 7.0.2</code></td>
+</tr>
+<tr>
+<td>H-ZOD-3</td>
+<td>Treat <code>prefixItems</code> as positional constraints on positions that exist: mark positions at or past <code>minItems</code> optional, then state any length bound the tuple cannot.</td>
+<td>C</td>
+<td><code>TransmitterPdu.x3d</code> <code>[&quot;UTM&quot;,&quot;Z3&quot;,&quot;N&quot;]</code> rejected by Zod, accepted by ajv and jsonschema</td>
+<td>corpus run, <code>tests/tuples.test.ts</code></td>
+</tr>
+<tr>
+<td>H-ZOD-4</td>
+<td>When a union fails, report the arm the document meant, not &quot;Invalid input&quot;: drop the USE arm unless <code>@USE</code> is present, then take the deepest.</td>
+<td>C</td>
+<td><code>NavigationInfo</code> and <code>@radius</code> mistakes point at the field</td>
+<td><code>x3d.zod</code> test <code>zod-010</code></td>
+</tr>
+<tr>
+<td>H-ZOD-5</td>
+<td>Put the schema correction in memory and keep the upstream file byte-identical and hashed; restrict only after correcting.</td>
+<td>C</td>
+<td>lean mode deletes the <code>$comment</code> the correction keys on</td>
+<td>test <code>zod-001</code>, <code>llm_schema.py</code></td>
+</tr>
+<tr>
+<td>H-ZOD-6</td>
+<td>Restrict by vocabulary, not by prompt: a node outside the vocabulary must have probability zero, not a request not to use it.</td>
+<td>L</td>
+<td>constrained schemas of 19,153 to 25,635 bytes against 502,810 bytes; no model was run</td>
+<td><code>restrict.ts</code>, <code>llm_schema.py</code></td>
+</tr>
+<tr>
+<td>H-ZOD-7</td>
+<td>Use lean restriction only when the model never writes metadata, <code>@style</code> or <code>IS</code>; otherwise keep full keys and pay the bytes.</td>
+<td>C</td>
+<td>110 of 966 scenes rejected by lean</td>
+<td><code>jsonschema 4.26.0</code> over the corpus</td>
+</tr>
+<tr>
+<td>H-ZOD-8</td>
+<td>Run more than one validator and compare before trusting a count; a split is a bug in one of them.</td>
+<td>C</td>
+<td>one split found in 1,533 scenes, in our generator</td>
+<td>four-validator corpus run</td>
+</tr>
+<tr>
+<td>H-ZOD-9</td>
+<td>Check a schema-driven converter for repairs: a validator that sees a repaired document cannot catch the fault it hid.</td>
+<td>C</td>
+<td>56 of 224 first-run disagreements were converter repairs</td>
+<td>root-cause pass</td>
+</tr>
+<tr>
+<td>H-ZOD-10</td>
+<td>Return &quot;not checked&quot; for a document the validator could not process; never fold a crash into valid or invalid.</td>
+<td>C</td>
+<td>Zod overflowed on 240 and 300 nested Transforms</td>
+<td><code>stack_depth</code> test <code>zod-008</code></td>
+</tr>
+<tr>
+<td>H-ZOD-11</td>
+<td>Put the schema gate first and the semantic layer last; neither implies the other.</td>
+<td>C</td>
+<td>8 of 9 caught by JSON, 2 of 9 by semantic, 9 of 9 by the union</td>
+<td><code>matrix.json</code> in the demo</td>
+</tr>
+<tr>
+<td>H-ZOD-12</td>
+<td>Do not read &quot;valid&quot; as &quot;correct&quot;: a ROUTE to a node that does not exist passes both schema gates.</td>
+<td>C</td>
+<td>mistake 9</td>
+<td><code>x3d_mcp fork fbe165f</code> <code>validate_semantic</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="drills">Drills</h2>
+<p>Commands run from <code>x3d.loom/x3d.zod</code> after <code>npm ci</code>.</p>
+<h3 id="d-zod-1-run-the-suite">D-ZOD-1 Run the suite</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> Run the node tests and count them.</li>
+<li><strong>Verify:</strong> <code>npm test</code></li>
+<li><strong>Answer:</strong> 32 tests, 32 pass, 0 fail.</li>
+<li><strong>Checked:</strong> 2026-11-15 Node v22.23.4, zod 4.6.7, ajv 8.20.0</li>
+</ul>
+<h3 id="d-zod-2-regenerate-and-compare">D-ZOD-2 Regenerate and compare</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Run the generator and read its receipt. How many definitions, tuples, strict objects, unions? Does the generated file change?</li>
+<li><strong>Verify:</strong> <code>node tools/gen.mjs &amp;&amp; git diff --stat -- src/generated</code></li>
+<li><strong>Answer:</strong> 364 definitions, 88 tuples, 887 strict objects, 301 unions, 150 enums; no diff. The receipt reports <code>upstreamMatches: true</code>.</li>
+<li><strong>Checked:</strong> 2026-11-15 Node v22.23.4, schema sha1 <code>c6765a4</code></li>
+</ul>
+<h3 id="d-zod-3-put-the-tuple-bug-back">D-ZOD-3 Put the tuple bug back</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> In <code>tools/gen.mjs</code>, make every <code>prefixItems</code> position required (remove the <code>.optional()</code> marking), regenerate, and run <code>node --test tests/tuples.test.ts tests/schema.test.ts</code>. Which tests fail and on what input?</li>
+<li><strong>Verify:</strong> the two test files; restore with <code>git checkout tools/gen.mjs src/generated</code>.</li>
+<li><strong>Answer:</strong> the tuple test fails (0 pass, 1 fail) and <code>zod-g06 geoSystem short tuple</code> fails in the schema tests (30 pass, 1 fail); the input is a <code>@geoSystem</code> array shorter than its prefix such as <code>[&quot;UTM&quot;,&quot;Z3&quot;,&quot;N&quot;]</code>.</li>
+<li><strong>Checked:</strong> 2026-11-15 Node v22.23.4, zod 4.6.7, ajv 8.20.0</li>
+</ul>
+<h3 id="d-zod-4-the-upstream-file-has-the-navigationinfo-bug">D-ZOD-4 The upstream file has the NavigationInfo bug</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Compile the unmodified upstream schema with ajv and test a <code>NavigationInfo</code> with <code>@type</code> as <code>[&quot;EXAMINE&quot;,&quot;ANY&quot;]</code> and as <code>&quot;EXAMINE&quot;</code>. Then run <code>validateX3DJson</code> on both.</li>
+<li><strong>Verify:</strong> three lines of ajv (Draft 2020 build, <code>strict: false</code>, <code>validateFormats: false</code>) against <code>schema/x3d-4.0-JSONSchema.json</code>; the library for the second half.</li>
+<li><strong>Answer:</strong> upstream ajv rejects the array form and accepts the bare string; <code>validateX3DJson</code> accepts the array and reports the string at <code>.../NavigationInfo/@type</code> (&quot;expected array, received string&quot;).</li>
+<li><strong>Checked:</strong> 2026-11-15 ajv 8.20.0, zod 4.6.7, schema sha1 <code>c6765a4</code></li>
+</ul>
+<h3 id="d-zod-5-size-a-vocabulary">D-ZOD-5 Size a vocabulary</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Restrict the schema to the starter vocabulary, lean on and off, and give the sizes. Then check that the Python tool agrees.</li>
+<li><strong>Verify:</strong> <code>restrictSchema(schema, {nodes, lean})</code> in Node and <code>restricted_schema(PRESETS[&quot;starter&quot;], lean)</code> in <code>x3d_mcp@c86caf7:src/validation/llm_schema.py</code>; compare <code>sha1</code> of the key-sorted compact JSON, first 12 hex digits.</li>
+<li><strong>Answer:</strong> 32,744 and 19,153 bytes; digests <code>339dee2fc602</code> (full keys) and <code>2e7ef1bfc403</code> (lean) on both sides.</li>
+<li><strong>Checked:</strong> 2026-11-15 Node v22.23.4 and Python 3.13, schema sha1 <code>c6765a4</code></li>
+</ul>
+<h3 id="d-zod-6-find-the-stack-limit">D-ZOD-6 Find the stack limit</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Binary-search the deepest chain of nested <code>Transform</code> nodes that Zod accepts at the default stack, then at <code>--stack-size=4000</code>. What does the library return beyond it?</li>
+<li><strong>Verify:</strong> build the document in a loop, call <code>X3DJson.safeParse</code> inside <code>try</code>, bisect on depth; the library call is <code>validateX3DJson</code>.</li>
+<li><strong>Answer:</strong> about 115 at the default stack and about 484 at <code>--stack-size=4000</code> (cold start, so treat as approximate); beyond it <code>validateX3DJson</code> returns one issue with code <code>stack_depth</code>.</li>
+<li><strong>Checked:</strong> 2026-11-15 Node v22.23.4, zod 4.6.7</li>
+</ul>
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li><strong>No model was run.</strong> The repair is a scripted replay and the mistakes are constructed. Whether a constrained decoder given a 19 KB schema writes better X3D than an unconstrained one is not measured here; <strong><span class="g S" title="Suspected">S</span></strong>. The earlier constrained-decoding A/B in the project used a different schema encoding and is not compared.</li>
+<li><strong>The schema stops at X3D 4.0 and is marked experimental.</strong> Sixty scenes fail only for 4.1 content; the gate is right for the file as published and wrong for the draft standard. <strong><span class="g C" title="Confirmed">C</span></strong></li>
+<li><strong>The converter is ours.</strong> 97 files did not convert, 4 contain <code>NaN</code> or <code>Infinity</code>, 595 of the 1,432 had at least one attribute or child the converter could not place (the schema then judged the text as written), and 11 converter repairs are still open (dropped text content, stripped namespaces). <strong><span class="g C" title="Confirmed">C</span></strong></li>
+<li><strong>The fuzz and the corpus agree because both sit on the same schema semantics.</strong> They test the generator against ajv, not the schema against the standard; the root-cause table is the second half.</li>
+<li><strong>The root-cause grades are reviewers' grades.</strong> Each <strong><span class="g C" title="Confirmed">C</span></strong> was reproduced by a reviewer on a minimal document; I re-ran the counts, not each repro. Three rows are guesses from fixture names and say so.</li>
+<li><strong>Timings come from one container</strong> with 4 CPU cores and no GPU. They rank validators; they are not a benchmark.</li>
+<li><strong>The demo's XSD and semantic columns are recorded</strong>, not run in the page (they need Python).</li>
+</ul>
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-ZOD-1</td>
+<td>definitions in the Web3D JSON Schema / of them scene nodes</td>
+<td>364 / 261</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d.zod</code> <code>gen.mjs</code>, schema sha1 <code>c6765a4</code></td>
+<td><code>x3d.loom@d8e02ef:x3d.zod/receipts/gen.json</code></td>
+</tr>
+<tr>
+<td>N-ZOD-2</td>
+<td>generated Zod file</td>
+<td>597,222 bytes</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>gen.mjs</code></td>
+<td><code>x3d.zod/src/generated/x3d.zod.ts</code></td>
+</tr>
+<tr>
+<td>N-ZOD-3</td>
+<td>strict objects / unions / tuples / enums emitted</td>
+<td>887 / 301 / 88 / 150</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>gen.mjs</code></td>
+<td><code>x3d.zod/receipts/gen.json</code></td>
+</tr>
+<tr>
+<td>N-ZOD-4</td>
+<td>node tests</td>
+<td>32 of 32 pass</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Node v22.23.4, zod 4.6.7, ajv 8.20.0</td>
+<td><code>x3d.zod/tests</code></td>
+</tr>
+<tr>
+<td>N-ZOD-5</td>
+<td>full schema minified / starter lean / animated lean</td>
+<td>502,810 / 19,153 / 25,635 bytes</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>restrictSchema</code> and <code>llm_schema.py</code> agree</td>
+<td><code>x3d.zod/src/restrict.ts</code>, <code>x3d_mcp@c86caf7</code></td>
+</tr>
+<tr>
+<td>N-ZOD-6</td>
+<td>repository scenes found / checked by all four validators</td>
+<td>1,533 / 1,432</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>tools/corpus.py</code>, x3d_mcp fork fbe165f</td>
+<td><code>x3d.zod/receipts/corpus-summary.json</code></td>
+</tr>
+<tr>
+<td>N-ZOD-7</td>
+<td>scenes where Zod, ajv and jsonschema agree</td>
+<td>1,432 of 1,432</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ZOD-8</td>
+<td>XSD accepts and JSON accepts / XSD accepts and JSON rejects</td>
+<td>918 / 128</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>validate_xml</code>, <code>validate_json</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ZOD-9</td>
+<td>XSD rejects and JSON accepts / both reject</td>
+<td>62 / 324</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ZOD-10</td>
+<td>median validation time Zod / ajv / jsonschema</td>
+<td>1.13 / 0.19 / 2.3 ms</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>one container, 4 cores, no GPU</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ZOD-11</td>
+<td>95th percentile Zod / ajv / jsonschema</td>
+<td>27 / 2.6 / 251 ms</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ZOD-12</td>
+<td>fuzz mutants / Zod-ajv disagreements</td>
+<td>7,728 / 0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>tools/fuzz.mjs</code>, seed 1, 966 source scenes</td>
+<td><code>x3d.zod/receipts/fuzz.json</code></td>
+</tr>
+<tr>
+<td>N-ZOD-13</td>
+<td>tuple properties tested x random arrays</td>
+<td>79 x 400, 0 disagreements</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>tests/tuples.test.ts</code></td>
+<td><code>x3d.zod/tests</code></td>
+</tr>
+<tr>
+<td>N-ZOD-14</td>
+<td>lean restriction rejecting scenes the full schema accepts</td>
+<td>110 of 966</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>jsonschema 4.26.0</code></td>
+<td>independent review, <code>llm_schema.py</code> comments</td>
+</tr>
+<tr>
+<td>N-ZOD-15</td>
+<td>nine-mistake matrix: caught by JSON / XSD / semantic / any</td>
+<td>8 / 4 / 2 / 9</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_mcp fork fbe165f</code>, Zod 4.6.7</td>
+<td><code>x3d.demo@9c96896:docs/demos/typed-x3d/v1/matrix.json</code></td>
+</tr>
+<tr>
+<td>N-ZOD-16</td>
+<td>first-run disagreements that were converter repairs</td>
+<td>56 of 224</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>root-cause pass</td>
+<td><code>x3d.zod/receipts/rootcause-v1.json</code></td>
+</tr>
+<tr>
+<td>N-ZOD-17</td>
+<td>Zod stack limit, nested Transforms</td>
+<td>about 115 default, about 484 at 4000</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Node v22.23.4 (cold start)</td>
+<td>drill D-ZOD-6</td>
+</tr>
+<tr>
+<td>N-ZOD-18</td>
+<td>Zod browser bundle</td>
+<td>734,727 bytes, 115,346 gzipped</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>esbuild 0.25.12</code></td>
+<td><code>x3d.demo@9c96896:docs/demos/typed-x3d/v1/x3d-zod.bundle.js</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<p><code>x3d.loom@d8e02ef</code> folder <code>x3d.zod</code> (branch of the first pull request), read and run on 2026-11-15; <code>x3d_mcp@c86caf7</code> (<code>src/validation/llm_schema.py</code>, the <code>x3d_json_schema</code> tool, 11 tests; the full suite was 1,377 passed and 27 skipped before the digest tests, Python 3.13) and its validators at <code>fbe165f</code>; <code>x3d.demo@9c96896</code> for the page and <code>matrix.json</code>. The schema file is the Web3D Consortium's published <code>x3d-4.0-JSONSchema.json</code>; Zod by Colin McDonnell and contributors; ajv by Evgeny Poberezkin and contributors. The corpus is the <code>.x3d</code> files in the nine project repositories as checked out on 2026-11-15.</p>
+<div class="pn"><a href="15-yjs-collaboration.html">&larr; 15-yjs-collaboration</a><a href="18-three-pathtracer.html">18-three-pathtracer &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>
