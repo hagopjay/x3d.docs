@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**347 numbers** from 14 chapters. Grades: [C] 303 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**357 numbers** from 14 chapters. Grades: [C] 312 · [L] 41 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -314,6 +314,16 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-UNR-25 | [12](12-unreal-tier1.md) | odyssey White Room: clipped pixels at the calibrated EV / picked offset | 86 % / -14 EV | [C] | same | exposure bracket |
 | N-UNR-26 | [12](12-unreal-tier1.md) | Khronos controls: picked offset | +2 EV | [C] | same | exposure bracket |
 | N-UNR-27 | [12](12-unreal-tier1.md) | scorecard of the first leg | 40 PASS, 3 WARN, 0 FAIL, 1 SKIP | [C] | same | notebook 07 step 11 |
+| N-UNR-28 | [12](12-unreal-tier1.md) | E1 PBR grid vs Cycles, FLIP frame / object | 0.289 / 0.427 | [C] | flip-evaluator LDR, G4 stills, 2026-11-15 | Section 11.2 |
+| N-UNR-29 | [12](12-unreal-tier1.md) | E2 Cornell box vs X_ITE, FLIP frame / object | 0.321 / 0.489 | [C] | same | Section 11.2 |
+| N-UNR-30 | [12](12-unreal-tier1.md) | E2 Cornell box vs Cycles, FLIP frame / object | 0.285 / 0.433 | [C] | same | Section 11.2 |
+| N-UNR-31 | [12](12-unreal-tier1.md) | E3 light ladder vs X_ITE, FLIP frame / object | 0.092 / 0.735 | [C] | same | Section 11.2 |
+| N-UNR-32 | [12](12-unreal-tier1.md) | E3 light ladder vs Cycles, FLIP frame / object | 0.091 / 0.724 | [C] | same | Section 11.2 |
+| N-UNR-33 | [12](12-unreal-tier1.md) | E3 object share of the frame | 11.7 % | [C] | same | Section 11.2 |
+| N-UNR-34 | [12](12-unreal-tier1.md) | FP32 FMA throughput from Python on Vulkan, 60 s | 98.1 TFLOPS (best 98.2) | [C] | wgpu-py 0.33.0 Vulkan, RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-15 | Section 11.5 |
+| N-UNR-35 | [12](12-unreal-tier1.md) | power and SM clock peak during it | 541 W, 2,430 MHz | [C] | nvidia-smi, 0.5 s samples, 2026-11-15 | Section 11.5 |
+| N-UNR-36 | [12](12-unreal-tier1.md) | Mandelbulb 4K, 4 rays per pixel, frames with no save | about 79 fps | [L] | same wgpu-py run, per-frame lines | Section 11.5 |
+| N-UNR-37 | [12](12-unreal-tier1.md) | tier-1 bounds: IoU / repeat / spread margin | 0.95 / 0.02 / 0.05 | [C] | `x3d.lab` PR #32, `tier1_proof_cells.py` | Section 11.4 |
 | N-PHY-1 | [13](13-physics.md) | Explicit Euler pendulum energy growth, h = 0.01, 100 s | +10.89 (final dE/E0) | [C] | numpy 2.5.3 | D-PHY-1 |
 | N-PHY-2 | [13](13-physics.md) | Symplectic Euler pendulum, same run | +0.0002 final, 0.0150 max | [C] | numpy 2.5.3 | D-PHY-1 |
 | N-PHY-3 | [13](13-physics.md) | Discrete free fall against continuum gap, 1 s at 1/240 | -0.020437 m (`g h t/2` = 0.020438) | [C] | numpy 2.5.3 | D-PHY-2 |

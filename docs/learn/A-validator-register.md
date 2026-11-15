@@ -3,11 +3,11 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-240 distinct instrument strings across the numbers registers.
+245 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
-| `same` | 19 | 05, 06, 07, 09, 10, 11, 12 | C:18 L:1 |
+| `same` | 24 | 05, 06, 07, 09, 10, 11, 12 | C:23 L:1 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `same rig` | 12 | 08, 09, 13 | C:12 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
@@ -117,6 +117,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `driver.py status, x3d.loom@162ab18` | 1 | 08 | C:1 |
 | `examples/eda_1_signal_and_noise.py` | 1 | 07 | C:1 |
 | `examples/eda_1_signal_and_noise.py --calibrate, seeds 1000 to 1149` | 1 | 07 | C:1 |
+| `flip-evaluator LDR, G4 stills, 2026-11-15` | 1 | 12 | C:1 |
 | `float32 spacing at 6.4e6` | 1 | 08 | C:1 |
 | `formats.py, 2026-11-14` | 1 | 09 | C:1 |
 | `gh run view, 2026-11-14` | 1 | 09 | C:1 |
@@ -153,6 +154,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `npm 10.9.9` | 1 | 06 | C:1 |
 | `npm 10.9.9 npm view x_ite time` | 1 | 06 | C:1 |
 | `numpy, Pillow, 960 x 540, X_ITE 16.4.3 reference` | 1 | 08 | C:1 |
+| `nvidia-smi, 0.5 s samples, 2026-11-15` | 1 | 12 | C:1 |
 | `parsed from the reports; X_ITE 16.6.0, 320 x 240, SwiftShader` | 1 | 08 | C:1 |
 | `phase3_check.py receipts` | 1 | 09 | C:1 |
 | `physics.py docstring; last-run.json` | 1 | 02 | C:1 |
@@ -191,6 +193,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `same rig, two runs of the 10 fixtures` | 1 | 08 | C:1 |
 | `same rig, wall-clock wait` | 1 | 13 | C:1 |
 | `same validator, receipt` | 1 | 09 | C:1 |
+| `same wgpu-py run, per-frame lines` | 1 | 12 | L:1 |
 | `same, 44 shader workers` | 1 | 12 | C:1 |
 | `same, X_ITE on ANGLE Vulkan, Chromium 159` | 1 | 12 | C:1 |
 | `same, seed 7` | 1 | 07 | C:1 |
@@ -214,8 +217,10 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `verifier pass in a private note` | 1 | 10 | S:1 |
 | `wc -l, grep` | 1 | 07 | C:1 |
 | `wc, gzip -9, sha256sum` | 1 | 06 | C:1 |
+| `wgpu-py 0.33.0 Vulkan, RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-15` | 1 | 12 | C:1 |
 | `x3d-blender-io@ab99988 catalogue` | 1 | 03 | C:1 |
 | `x3d.demo@d10b457 directory read` | 1 | 05 | C:1 |
+| `x3d.lab PR #32, tier1_proof_cells.py` | 1 | 12 | C:1 |
 | `x3d.loom PR #56, X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 13 | C:1 |
 | `x3d.loom batch 43 fixtures; X_ITE 16.6.0` | 1 | 08 | C:1 |
 | `x3d.loom batch 43 receipts; X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 08 | C:1 |

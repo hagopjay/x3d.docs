@@ -20,7 +20,7 @@ blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;backgr
 details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
 .foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a class="cur" href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="12-unreal-tier1.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/12-unreal-tier1.md">GitHub</a></div><h1>12. Unreal as a tier-1 X3D framework</h1>
-<details class="toc"><summary>On this page (37 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-the-question-and-a-definition-that-can-fail">2. The question and a definition that can fail</a><a class="l2" href="#3-candidate-mechanisms">3. Candidate mechanisms</a><a class="l2" href="#4-coordinates-and-units-the-matrix-derived-and-checked">4. Coordinates and units: the matrix, derived and checked</a><a class="l3" href="#41-points">4.1 Points</a><a class="l3" href="#42-rotations-conjugation-not-substitution">4.2 Rotations: conjugation, not substitution</a><a class="l3" href="#43-winding-and-the-solid-trap">4.3 Winding and the solid trap</a><a class="l3" href="#44-field-of-view-and-cameras">4.4 Field of view and cameras</a><a class="l3" href="#45-units-and-float-range">4.5 Units and float range</a><a class="l2" href="#5-instancing-hism-gpu-instancing-and-the-thalassa-and-prismatica-counts">5. Instancing: HISM, GPU instancing and the Thalassa and Prismatica counts</a><a class="l3" href="#51-the-counts-re-derived">5.1 The counts, re-derived</a><a class="l3" href="#52-what-the-glb-does-with-them">5.2 What the glb does with them</a><a class="l2" href="#6-looks-lumen-nanite-and-x_ite">6. Looks: Lumen, Nanite, and X_ITE</a><a class="l2" href="#7-how-fidelity-is-measured">7. How fidelity is measured</a><a class="l3" href="#71-the-rig-as-it-exists">7.1 The rig, as it exists</a><a class="l3" href="#72-the-metrics-with-what-each-can-and-cannot-say">7.2 The metrics, with what each can and cannot say</a><a class="l3" href="#73-what-a-fair-comparison-has-to-hold-constant">7.3 What a fair comparison has to hold constant</a><a class="l2" href="#8-what-the-unreal-58-projects-looked-like-when-read-statically">8. What the Unreal 5.8 projects looked like when read statically</a><a class="l2" href="#9-the-test-plan-that-would-promote-claims-to-c">9. The test plan that would promote claims to <span class="g C" title="Confirmed">C</span></a><a class="l2" href="#10-the-first-run-unreal-584-on-a-cloud-gpu-2026-11-14-to-15">10. The first run: Unreal 5.8.4 on a cloud GPU (2026-11-14 to 15)</a><a class="l3" href="#101-the-rig">10.1 The rig</a><a class="l3" href="#102-the-gates-of-section-9-as-far-as-this-run-went">10.2 The gates of Section 9, as far as this run went</a><a class="l3" href="#103-what-the-run-taught-ranked-by-how-much-it-changes-a-pipeline">10.3 What the run taught, ranked by how much it changes a pipeline</a><a class="l3" href="#104-exposure-the-bracket-that-replaced-a-hand-set-number">10.4 Exposure: the bracket that replaced a hand-set number</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-unr-1-derive-and-check-the-axis-swap">D-UNR-1 Derive and check the axis swap</a><a class="l3" href="#d-unr-2-convert-a-field-of-view">D-UNR-2 Convert a field of view</a><a class="l3" href="#d-unr-3-catch-the-winding-flip">D-UNR-3 Catch the winding flip</a><a class="l3" href="#d-unr-4-instancing-arithmetic">D-UNR-4 Instancing arithmetic</a><a class="l3" href="#d-unr-5-break-a-psnr-comparison">D-UNR-5 Break a PSNR comparison</a><a class="l3" href="#d-unr-6-write-the-pass-and-fail-line-for-a-gate">D-UNR-6 Write the pass and fail line for a gate</a><a class="l3" href="#d-unr-7-pick-an-exposure-from-a-bracket">D-UNR-7 Pick an exposure from a bracket</a><a class="l3" href="#d-unr-8-count-what-interchange-kept">D-UNR-8 Count what Interchange kept</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<details class="toc"><summary>On this page (44 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-the-question-and-a-definition-that-can-fail">2. The question and a definition that can fail</a><a class="l2" href="#3-candidate-mechanisms">3. Candidate mechanisms</a><a class="l2" href="#4-coordinates-and-units-the-matrix-derived-and-checked">4. Coordinates and units: the matrix, derived and checked</a><a class="l3" href="#41-points">4.1 Points</a><a class="l3" href="#42-rotations-conjugation-not-substitution">4.2 Rotations: conjugation, not substitution</a><a class="l3" href="#43-winding-and-the-solid-trap">4.3 Winding and the solid trap</a><a class="l3" href="#44-field-of-view-and-cameras">4.4 Field of view and cameras</a><a class="l3" href="#45-units-and-float-range">4.5 Units and float range</a><a class="l2" href="#5-instancing-hism-gpu-instancing-and-the-thalassa-and-prismatica-counts">5. Instancing: HISM, GPU instancing and the Thalassa and Prismatica counts</a><a class="l3" href="#51-the-counts-re-derived">5.1 The counts, re-derived</a><a class="l3" href="#52-what-the-glb-does-with-them">5.2 What the glb does with them</a><a class="l2" href="#6-looks-lumen-nanite-and-x_ite">6. Looks: Lumen, Nanite, and X_ITE</a><a class="l2" href="#7-how-fidelity-is-measured">7. How fidelity is measured</a><a class="l3" href="#71-the-rig-as-it-exists">7.1 The rig, as it exists</a><a class="l3" href="#72-the-metrics-with-what-each-can-and-cannot-say">7.2 The metrics, with what each can and cannot say</a><a class="l3" href="#73-what-a-fair-comparison-has-to-hold-constant">7.3 What a fair comparison has to hold constant</a><a class="l2" href="#8-what-the-unreal-58-projects-looked-like-when-read-statically">8. What the Unreal 5.8 projects looked like when read statically</a><a class="l2" href="#9-the-test-plan-that-would-promote-claims-to-c">9. The test plan that would promote claims to <span class="g C" title="Confirmed">C</span></a><a class="l2" href="#10-the-first-run-unreal-584-on-a-cloud-gpu-2026-11-14-to-15">10. The first run: Unreal 5.8.4 on a cloud GPU (2026-11-14 to 15)</a><a class="l3" href="#101-the-rig">10.1 The rig</a><a class="l3" href="#102-the-gates-of-section-9-as-far-as-this-run-went">10.2 The gates of Section 9, as far as this run went</a><a class="l3" href="#103-what-the-run-taught-ranked-by-how-much-it-changes-a-pipeline">10.3 What the run taught, ranked by how much it changes a pipeline</a><a class="l3" href="#104-exposure-the-bracket-that-replaced-a-hand-set-number">10.4 Exposure: the bracket that replaced a hand-set number</a><a class="l2" href="#11-known-physics-a-pass-line-written-first-and-the-gpus-ceiling-2026-11-15">11. Known physics, a pass line written first, and the GPU&#x27;s ceiling (2026-11-15)</a><a class="l3" href="#111-the-three-scenes-leg-e">11.1 The three scenes (Leg E)</a><a class="l3" href="#112-agreement-and-why-the-whole-frame-number-misleads">11.2 Agreement, and why the whole-frame number misleads</a><a class="l3" href="#113-what-the-scenes-named">11.3 What the scenes named</a><a class="l3" href="#114-a-pass-line-for-tier-1-fixed-before-the-run">11.4 A pass line for tier 1, fixed before the run</a><a class="l3" href="#115-the-cards-ceiling-from-python-on-vulkan">11.5 The card&#x27;s ceiling, from Python on Vulkan</a><a class="l3" href="#116-lessons-that-change-how-the-next-run-is-written">11.6 Lessons that change how the next run is written</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-unr-1-derive-and-check-the-axis-swap">D-UNR-1 Derive and check the axis swap</a><a class="l3" href="#d-unr-2-convert-a-field-of-view">D-UNR-2 Convert a field of view</a><a class="l3" href="#d-unr-3-catch-the-winding-flip">D-UNR-3 Catch the winding flip</a><a class="l3" href="#d-unr-4-instancing-arithmetic">D-UNR-4 Instancing arithmetic</a><a class="l3" href="#d-unr-5-break-a-psnr-comparison">D-UNR-5 Break a PSNR comparison</a><a class="l3" href="#d-unr-6-write-the-pass-and-fail-line-for-a-gate">D-UNR-6 Write the pass and fail line for a gate</a><a class="l3" href="#d-unr-7-pick-an-exposure-from-a-bracket">D-UNR-7 Pick an exposure from a bracket</a><a class="l3" href="#d-unr-8-count-what-interchange-kept">D-UNR-8 Count what Interchange kept</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
 <blockquote>
 <p><strong>Say it:</strong> Unreal is a plausible tier-1 endpoint for <em>rendering</em> an X3D scene through a glb, it cannot run X3D behaviour without a plugin that does not exist, and today every Unreal claim in this base is read, not run: no Unreal 5.8 install and no GPU run stand behind any of them. <strong><span class="g L" title="Likely">L</span></strong> for the architecture, <strong><span class="g S" title="Suspected">S</span></strong> for every Unreal behaviour claim, <strong><span class="g C" title="Confirmed">C</span></strong> only for the conversions and arithmetic re-run on 2026-11-14.</p>
 </blockquote>
@@ -983,6 +983,228 @@ themselves are <span class="g C" title="Confirmed">C</span> because they were me
 <p>Animated scenes need a moment. The notebook freezes a scene that is dark at time 0 at its brightest moment (every
 TimeSensor-driven interpolator evaluated at one fraction and written into its target); for odyssey that is fraction 0.886, inside the White Room,
 so the stills show the authored state of the film at about 122 s, not the time-0 set. <span class="g C" title="Confirmed">C</span>, <code>x3d.lab@70551e8:notebooks/unreal/x3due/staging.py</code>.</p>
+<h2 id="11-known-physics-a-pass-line-written-first-and-the-gpus-ceiling-2026-11-15">11. Known physics, a pass line written first, and the GPU's ceiling (2026-11-15)</h2>
+<p>Same night, same machine as Section 10. Three small X3D 4.0 scenes were written to stress the light model rather than the import, and
+measured against both references. Then a pass line for tier 1 was written down before any proof run, and the card's raw compute was measured
+from Python on Vulkan. The scenes, cells and a findings README are public in <code>hagopjay/x3d.lab</code>, <code>notebooks/unreal/colab_g4/</code> (PR #32).</p>
+<h3 id="111-the-three-scenes-leg-e">11.1 The three scenes (Leg E)</h3>
+<table>
+<thead>
+<tr>
+<th>scene</th>
+<th>what it isolates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E1 PBR grid</td>
+<td>7 x 7 PhysicalMaterial spheres, metallic 0 to 1 against roughness 0 to 1; one DirectionalLight key, one PointLight fill</td>
+</tr>
+<tr>
+<td>E2 Cornell box</td>
+<td>red and green walls, two boxes, one ceiling light; bounce light and shadows</td>
+</tr>
+<tr>
+<td>E3 light ladder</td>
+<td>each X3D light type in its own bay, PhysicalMaterial against classic Material</td>
+</tr>
+</tbody>
+</table>
+<h3 id="112-agreement-and-why-the-whole-frame-number-misleads">11.2 Agreement, and why the whole-frame number misleads</h3>
+<p>FLIP was computed twice for each pair: over the whole frame, and over object pixels only (pixels where either image is not the flat
+magenta key). Match look, preview rung, 1080p; X_ITE 16.7.0 on ANGLE Vulkan on the same GPU; Cycles through the same add-on.</p>
+<table>
+<thead>
+<tr>
+<th>scene</th>
+<th>vs X_ITE, frame / object</th>
+<th>vs Cycles, frame / object</th>
+<th>object share of the frame</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E1 PBR grid</td>
+<td>X_ITE produced no still (cause open)</td>
+<td>0.289 / 0.427</td>
+<td>67.5 %</td>
+</tr>
+<tr>
+<td>E2 Cornell box</td>
+<td>0.321 / 0.489</td>
+<td>0.285 / 0.433</td>
+<td>65.6 %</td>
+</tr>
+<tr>
+<td>E3 light ladder</td>
+<td>0.092 / 0.735</td>
+<td>0.091 / 0.724</td>
+<td>11.7 %</td>
+</tr>
+</tbody>
+</table>
+<p>E3 is the case to remember. Its whole-frame FLIP of 0.09 reads as close agreement, but 88 % of that frame is identical key background. Over the
+object it is the largest disagreement of the three. <span class="g C" title="Confirmed">C</span> for the numbers. The object score is the one that ranks the scenes correctly.</p>
+<pre><code class="language-text">  whole-frame mean = share x object mean + (1 - share) x background mean
+  E3:  0.117 x 0.735 + 0.883 x ~0.007  ~= 0.092     (the background pulls it to near zero)
+</code></pre>
+<h3 id="113-what-the-scenes-named">11.3 What the scenes named</h3>
+<table>
+<thead>
+<tr>
+<th>gap</th>
+<th>grade</th>
+<th>evidence</th>
+<th>status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unreal lights cast shadows although X3D 4.0 <code>shadows</code> defaults to false</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>E2 under the match look</td>
+<td>fixed in <code>x3d.lab</code> PR #31 (the field is carried to the light; looks can override); not yet re-measured</td>
+</tr>
+<tr>
+<td>One light model per scene: X_ITE lights PhysicalMaterial with rho/pi x i and classic Material with rho x i; the converter picks one rule for the whole scene</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>E3 bays disagree by material kind</td>
+<td>open; per-material handling needed</td>
+</tr>
+<tr>
+<td>Point and spot falloff is inverse-square, matched at the scene centre</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>E3</td>
+<td>by design; X3D attenuation is not reproduced</td>
+</tr>
+<tr>
+<td>Metals read dark with no environment to reflect</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>E1 against Cycles</td>
+<td>open; an environment light would test it</td>
+</tr>
+</tbody>
+</table>
+<p>Under the cinematic look on the same night, E2 showed colour bleed from Lumen global illumination: red on the near face of the tall box, a
+green tint on the floor by the green wall, soft shadows. X_ITE does not compute bounce light, so this is a difference by design, not an
+error. <span class="g C" title="Confirmed">C</span> by eye, one still.</p>
+<h3 id="114-a-pass-line-for-tier-1-fixed-before-the-run">11.4 A pass line for tier 1, fixed before the run</h3>
+<p>A gate whose bounds are chosen after the numbers are seen can always be passed. These three were written into the proof cell
+(<code>tier1_proof_cells.py</code>, F1) before it ran. Each is scored per viewpoint on a fresh runtime of <code>x3d.lab</code> main:</p>
+<table>
+<thead>
+<tr>
+<th>check</th>
+<th>bound</th>
+<th>why this bound</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>silhouette</td>
+<td>mask IoU against X_ITE &gt;= 0.95</td>
+<td>Leg 1 measured 0.997; geometry and cameras are the solved part</td>
+</tr>
+<tr>
+<td>repeatable</td>
+<td>object FLIP between two renders of the same still by Unreal &lt;= 0.02</td>
+<td>the noise floor; any engine difference below it is not measurable</td>
+</tr>
+<tr>
+<td>within the reference spread</td>
+<td>max(FLIP Unreal-X_ITE, FLIP Unreal-Cycles) &lt;= FLIP X_ITE-Cycles + 0.05</td>
+<td>the two references disagree with each other; Unreal need not beat them, only stay inside their disagreement</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-text">            X_ITE
+           /     \
+   UE-X  /       \  X-C   &lt;- the references' own spread
+        /         \
+     Unreal ------ Cycles
+            UE-C
+  pass if max(UE-X, UE-C) &lt;= X-C + 0.05,  silhouette IoU &gt;= 0.95,  repeat &lt;= 0.02
+</code></pre>
+<p>Status on 2026-11-15: not yet run. Tier 1 is not claimed. The likely outcome, graded <span class="g S" title="Suspected">S</span>: E3 fails &quot;within the reference spread&quot; on the
+light-model gap of Section 11.3, which would make the claim &quot;tier 1 with one named exception&quot;.</p>
+<h3 id="115-the-cards-ceiling-from-python-on-vulkan">11.5 The card's ceiling, from Python on Vulkan</h3>
+<p><code>wgpu-py 0.33.0</code>, forced onto its Vulkan backend, runs WGSL compute shaders on the same GPU. This gives the hardware's ceiling, which the
+render pipeline's numbers can be compared against.</p>
+<table>
+<thead>
+<tr>
+<th>measurement</th>
+<th>value</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FP32 fused multiply-add shader, 60 s</td>
+<td>98.1 TFLOPS average (best batch 98.2)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>during it: utilisation, power, SM clock</td>
+<td>100 %, 541 W peak, 2,430 MHz</td>
+<td><span class="g C" title="Confirmed">C</span> (nvidia-smi, 0.5 s samples)</td>
+</tr>
+<tr>
+<td>theoretical FP32 at that clock</td>
+<td>about 117 TFLOPS (about 24,000 FP32 lanes x 2 x 2.43 GHz)</td>
+<td><span class="g L" title="Likely">L</span> (lane count not checked on this machine)</td>
+</tr>
+<tr>
+<td>ray-marched Mandelbulb, 3840 x 2160, 4 rays per pixel</td>
+<td>about 79 fps per frame that saved nothing (the 10 fps average included PNG saves)</td>
+<td><span class="g L" title="Likely">L</span> (read from per-frame lines; a render-only timing cell exists)</td>
+</tr>
+</tbody>
+</table>
+<p>Unreal's stills on the same machine used 7.5 to 12.6 GB of the card's 95.6 GB, at about 10 s per 1080p Lumen still. The pipeline is far
+from the hardware's limits, so no tier-1 result on this rig is limited by the GPU. <span class="g C" title="Confirmed">C</span> for the memory figures.</p>
+<h3 id="116-lessons-that-change-how-the-next-run-is-written">11.6 Lessons that change how the next run is written</h3>
+<table>
+<thead>
+<tr>
+<th>rank</th>
+<th>lesson</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Score agreement over object pixels; report the object share beside it</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Write a gate's bounds into the cell before the run that tests them</td>
+<td><span class="g C" title="Confirmed">C</span> (method)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Name grades so the engine's job-name sanitiser keeps them apart: <code>+3</code> and <code>-3</code> both become <code>_3</code>; use <code>p3</code> / <code>m3</code> (the lab now refuses a collision)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>4</td>
+<td>A render rung that turns depth of field and fringe off needs grades to turn them back on in their own cvars</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td>An exposure fit that compares two images returns exactly 0 when no pixel is lit in both; fall back to a percentile match</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Time only what is measured: a save inside a frame timer cut a 79 fps figure to 10</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h2 id="heuristics">Heuristics</h2>
 <table>
@@ -1101,6 +1323,34 @@ so the stills show the authored state of the film at about 122 s, not the time-0
 <td>odyssey picked -10 at the edge, then -14</td>
 <td>same run</td>
 </tr>
+<tr>
+<td>H-UNR-16</td>
+<td>Report FLIP over object pixels, with the object share, beside any whole-frame score; a keyed background dilutes the mean toward zero.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>E3 0.092 whole frame, 0.735 over its 11.7 % object</td>
+<td>flip-evaluator LDR on G4 stills, 2026-11-15</td>
+</tr>
+<tr>
+<td>H-UNR-17</td>
+<td>Fix a gate's bounds in the cell before the run that tests it, and let the references' own disagreement set the agreement bound.</td>
+<td><span class="g C" title="Confirmed">C</span> (method)</td>
+<td>bounds in <code>tier1_proof_cells.py</code> written before any proof run</td>
+<td><code>x3d.lab</code> PR #32</td>
+</tr>
+<tr>
+<td>H-UNR-18</td>
+<td>Carry X3D 4.0's <code>shadows</code> field to the engine light; a renderer default that casts shadows is a silent disagreement.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>E2 shadows under the match look</td>
+<td>UE 5.8.4 on RTX PRO 6000, 2026-11-15; fix <code>x3d.lab</code> PR #31</td>
+</tr>
+<tr>
+<td>H-UNR-19</td>
+<td>Measure the hardware ceiling separately from the pipeline, so a slow number can be blamed on the right layer.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>98.1 TFLOPS from Python against 7.5-12.6 GB and 10 s stills in Unreal</td>
+<td>wgpu-py 0.33.0 Vulkan, 2026-11-15</td>
+</tr>
 </tbody>
 </table>
 <hr />
@@ -1174,6 +1424,7 @@ so the stills show the authored state of the film at about 122 s, not the time-0
 <ul>
 <li><strong>No Unreal run exists.</strong> No frame, import log, actor count or frame time came from Unreal 5.8 in this base. Everything on Unreal behaviour is <span class="g S" title="Suspected">S</span> and says so. <span class="g S" title="Suspected">S</span></li>
 <li><strong>Superseded 2026-11-15 by Section 10:</strong> one run on one machine now stands behind the import, calibration, instancing, exposure and Nanite rows there. Frame times, behaviour, a second machine and FLIP between engines are still not measured. The stills and logs of that run are in a private notebook output, not in a public repository, so a reader cannot re-open them; the notebook and its tests are public. <span class="g L" title="Likely">L</span></li>
+<li><strong>Updated 2026-11-15 by Section 11:</strong> FLIP between engines is now measured for three scenes on one machine, over object pixels. Frame times, behaviour and a second machine are still not measured, the tier-1 proof run has not happened, and why X_ITE produced no still for E1 is not known. <span class="g L" title="Likely">L</span></li>
 <li><strong>The Nanite finding is visual.</strong> One view, two stills, judged by eye; no metric was computed between them. <span class="g L" title="Likely">L</span></li>
 <li><strong>The Unreal digest is a lead.</strong> It was written 2026-11-12 with some vendor pages unreachable (the licence pages returned an error), so licence terms, product pricing and web-streaming claims are not stated here. A reader needs the vendors' own pages. <span class="g S" title="Suspected">S</span></li>
 <li><strong>Web targets move fast.</strong> The digest reports an experimental WebGPU target in a 5.9 preview and a commercial streaming route that supports 5.8; both are vendor or Epic claims, not tested, and dated. They are not repeated as facts here. <span class="g S" title="Suspected">S</span></li>
@@ -1413,6 +1664,86 @@ so the stills show the authored state of the film at about 122 s, not the time-0
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>same</td>
 <td>notebook 07 step 11</td>
+</tr>
+<tr>
+<td>N-UNR-28</td>
+<td>E1 PBR grid vs Cycles, FLIP frame / object</td>
+<td>0.289 / 0.427</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>flip-evaluator LDR, G4 stills, 2026-11-15</td>
+<td>Section 11.2</td>
+</tr>
+<tr>
+<td>N-UNR-29</td>
+<td>E2 Cornell box vs X_ITE, FLIP frame / object</td>
+<td>0.321 / 0.489</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>Section 11.2</td>
+</tr>
+<tr>
+<td>N-UNR-30</td>
+<td>E2 Cornell box vs Cycles, FLIP frame / object</td>
+<td>0.285 / 0.433</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>Section 11.2</td>
+</tr>
+<tr>
+<td>N-UNR-31</td>
+<td>E3 light ladder vs X_ITE, FLIP frame / object</td>
+<td>0.092 / 0.735</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>Section 11.2</td>
+</tr>
+<tr>
+<td>N-UNR-32</td>
+<td>E3 light ladder vs Cycles, FLIP frame / object</td>
+<td>0.091 / 0.724</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>Section 11.2</td>
+</tr>
+<tr>
+<td>N-UNR-33</td>
+<td>E3 object share of the frame</td>
+<td>11.7 %</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>Section 11.2</td>
+</tr>
+<tr>
+<td>N-UNR-34</td>
+<td>FP32 FMA throughput from Python on Vulkan, 60 s</td>
+<td>98.1 TFLOPS (best 98.2)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>wgpu-py 0.33.0 Vulkan, RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-15</td>
+<td>Section 11.5</td>
+</tr>
+<tr>
+<td>N-UNR-35</td>
+<td>power and SM clock peak during it</td>
+<td>541 W, 2,430 MHz</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>nvidia-smi, 0.5 s samples, 2026-11-15</td>
+<td>Section 11.5</td>
+</tr>
+<tr>
+<td>N-UNR-36</td>
+<td>Mandelbulb 4K, 4 rays per pixel, frames with no save</td>
+<td>about 79 fps</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>same wgpu-py run, per-frame lines</td>
+<td>Section 11.5</td>
+</tr>
+<tr>
+<td>N-UNR-37</td>
+<td>tier-1 bounds: IoU / repeat / spread margin</td>
+<td>0.95 / 0.02 / 0.05</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d.lab</code> PR #32, <code>tier1_proof_cells.py</code></td>
+<td>Section 11.4</td>
 </tr>
 </tbody>
 </table>
