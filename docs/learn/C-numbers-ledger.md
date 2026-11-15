@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**403 numbers** from 14 chapters. Grades: [C] 359 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**408 numbers** from 14 chapters. Grades: [C] 364 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -250,6 +250,11 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-BAB-96 | [08](08-babylon-bridge.md) | LayerSet with the Background left on every pass (D-BAB-75) | 4 of 86 steps fail; red world box missing | C | same rig | receipts/LayerSet.json |
 | N-BAB-97 | [08](08-babylon-bridge.md) | LayerHeadlight, headlight shot | IoU 0.90, 16.66 dB: the lit boxes differ in extent, the pixel probes agree | C | same rig | receipts/LayerHeadlight.json |
 | N-BAB-98 | [08](08-babylon-bridge.md) | ViewportMany, ten tiles | IoU 0.98, 26.27 dB, 12 of 12 steps | C | same rig | receipts/ViewportMany.json |
+| N-BAB-99 | [08](08-babylon-bridge.md) | three.js bridge status, batch 7 | drawn 130, reader-checked 34, reader 41, todo 32, upstream 23; 132 of 132 fixtures pass | C | `driver.py check` over all fixtures | x3d.loom@9f969d2:x3d.threejs/bridge/NODES.json |
+| N-BAB-100 | [08](08-babylon-bridge.md) | TextureProjector and TextureProjectorParallel base picture | IoU 1.00, 60.14 and 59.54 dB; 99 of 99 and 96 of 96 steps | C | SwiftShader, 320 x 240 | receipts/TextureProjector.json |
+| N-BAB-101 | [08](08-babylon-bridge.md) | HAnimHumanoid and HAnimDisplacer rest picture | IoU 1.00, 60.56 and 60.21 dB; 17 of 17 and 37 of 37 steps | C | same rig | receipts/HAnimHumanoid.json |
+| N-BAB-102 | [08](08-babylon-bridge.md) | ParticleSystem cone cloud against X_ITE | bbox within 5 px, drawn pixels 2764 and 2626, IoU 0.57, 18.2 dB | C | same rig | receipts/ParticleSystem.json |
+| N-BAB-103 | [08](08-babylon-bridge.md) | Texturing3D main pictures (Pixel, Composed, Image) | IoU 1.00; 38.57, 31.13 and 99 dB | C | same rig | receipts/PixelTexture3D.json |
 | N-BAB-90 | [08](08-babylon-bridge.md) | Disk2D, Rectangle2D, Extrusion silhouette overlap with X_ITE | 0.98, 0.97, 0.93 | C | SwiftShader, 320 x 240 | x3d.loom@cd71796:x3d.webgpu/bridge/receipts |
 | N-BAB-91 | [08](08-babylon-bridge.md) | PointProperties default pointSizeMin, scale, max | 1, 1, 1 in the standard and X_ITE; hall default was 0 | C | X_ITE 16.6.0 | PointProperties.test.json |
 | N-BAB-92 | [08](08-babylon-bridge.md) | NurbsTextureCoordinate uv step with centre weight 3, 8 cells | 0.125 in X_ITE (regular); rational form would give 0.114 | C | X_ITE 16.6.0 | NurbsTextureCoordinate.test.json |

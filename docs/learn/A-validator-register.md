@@ -3,12 +3,12 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-253 distinct instrument strings across the numbers registers.
+254 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
 | `same` | 33 | 05, 06, 07, 09, 10, 11, 12 | C:32 L:1 |
-| `same rig` | 30 | 08, 09, 13 | C:30 |
+| `same rig` | 33 | 08, 09, 13 | C:33 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
 | `both engines` | 7 | 08 | C:7 |
@@ -21,13 +21,13 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `read, not re-run` | 4 | 06, 07 | L:4 |
 | `Python 3, 2026-11-14` | 3 | 12 | C:3 |
 | `SwiftShader` | 3 | 08 | C:3 |
+| `SwiftShader, 320 x 240` | 3 | 08 | C:3 |
 | `count` | 3 | 02 | C:3 |
 | `inline Python` | 3 | 09 | C:3 |
 | `run-tests.js` | 3 | 08 | C:3 |
 | `wc -l` | 3 | 08, 10 | C:3 |
 | `x3d_mcp fork b4efcd3, seed 20261029` | 3 | 01, 03 | C:3 |
 | `Chromium 153, SwiftShader (carried)` | 2 | 11, 12 | L:2 |
-| `SwiftShader, 320 x 240` | 2 | 08 | C:2 |
 | `X_ITE 16.6.0` | 2 | 08 | C:2 |
 | `X_ITE 16.6.0, Chromium 153.0.8010.12 SwiftShader, three.js r187` | 2 | 08 | C:2 |
 | `X_ITE 16.7.0, Chromium 153, SwiftShader, 320 x 240` | 2 | 01 | C:2 |
@@ -121,6 +121,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `core11.py; FLIP 1.7, Cycles 256 spp, 512 px` | 1 | 09 | C:1 |
 | `count, x3d.loom@162ab18` | 1 | 02 | C:1 |
 | `driver.py batch -n 10 --close, X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader` | 1 | 08 | C:1 |
+| `driver.py check over all fixtures` | 1 | 08 | C:1 |
 | `driver.py status, x3d.loom@162ab18` | 1 | 08 | C:1 |
 | `examples/eda_1_signal_and_noise.py` | 1 | 07 | C:1 |
 | `examples/eda_1_signal_and_noise.py --calibrate, seeds 1000 to 1149` | 1 | 07 | C:1 |

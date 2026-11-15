@@ -564,6 +564,29 @@ The review of the batch (H-BAB-32): five lenses (render passes, picking, layout 
 
 The tracker reads drawn 105, reader-checked 33, reader 41, todo 58, upstream 23; 106 fixtures, 106 pass, 130 pictures, IoU 0.65 (Text) to 1.00, median 54.88 dB. Not done: HAnim, particles, Texturing3D, Sound, the pick sensors, TextureProjector.
 
+### 14.10 Batch 7: Texturing3D, Sound placement, particles, TextureProjector and HAnim
+
+Batch 7 (`x3d.loom@9f969d2`, run 2026-11-15) draws the last five families that had no three.js body: six Texturing3D nodes, the three Sound placement nodes, ParticleSystem with its emitters and physics, TextureProjector with its parallel twin, and the six HAnim nodes. The tracker then reads drawn 130, reader-checked 34, reader 41, todo 32, upstream 23; 132 fixtures, 132 pass, rig Chromium 153.0.8010.12 SwiftShader, three.js r187, X_ITE 16.6.0, 320 x 240.
+
+```text
+ Texturing3D   ShaderMaterial, GLSL3, sampler3D          (the volume path reuses the shared BR.vol maths)
+ Sound         shared Web Audio nodes, placement hooks   (listener and sources moved by the camera each frame)
+ Particles     CPU simulation, one THREE.Points per system (emitter shapes are the shared BR.ps)
+ Projector     onBeforeCompile on every mesh material, 4 projectors in one set of shared uniforms
+ HAnim         CPU skinning, skin = v + sum w (J v - v), the formula X_ITE evaluates
+```
+
+Four things the batch taught:
+
+| # | what | where it showed | rule |
+|---|---|---|---|
+| 1 | X_ITE's matrices are written as row vectors; three.js is column-major. The same list of 16 numbers read the other way is the same transformation, so `fromArray` on the list is the port, and the product order reverses (`inv(t2w) * P * bias` becomes `bias * P * inv(t2w)`). | TextureProjector: first run, picture matches X_ITE at 60.14 dB | do not transpose, reverse the product |
+| 2 | Shared uniform state outlives a world swap. A per-mesh scope mask left at 0 by the last frame of the previous world made the next world's projector tint nothing. It passed alone and failed after another fixture. | TextureProjectorParallel after TextureProjector | set shared uniforms to their neutral value every frame, and run fixtures alone and in both orders |
+| 3 | A runner edit dropped a closing brace in the events page. Every events-mode fixture then failed with a page error that carried no stack, while the scene fixtures kept passing. | the full sweep after batch 7c was not run until batch 7f | run the whole sweep after any change to `tools/run-tests.js`, and keep the page error's message and stack |
+| 4 | X_ITE adds a joint displacer's displacement after the skin matrices, rotated by the joint matrix. A Babylon morph target moves the vertex before skinning, which equals it only for a vertex that follows that one joint. CPU skinning takes X_ITE's order directly and has no four-influence limit. | HAnimDisplacer, bone matrices and 16 skinned positions equal to X_ITE | when the reference has a formula, copy the formula instead of the nearest engine feature |
+
+What the particles measured: a cone emitter with 400 particles and no force matches X_ITE's cloud in extent (bounding box within 5 pixels) and count (2764 against 2626 drawn pixels), IoU 0.57 because the particles are random. X_ITE lifts a force-driven cloud far higher than a ForcePhysicsModel of 0 -2 0 should, and draws a colour ramp without colour keys white; the fixtures avoid both and the gaps are written in them. HAnim and the projector match X_ITE's pictures at 60 dB and its numbers exactly.
+
 ## 15. Geospatial and the last volume styles: a position is a point, and two engines disagree on a rotated volume
 
 Batch 45 bridged ten nodes: GeoOrigin, GeoCoordinate, GeoLocation, GeoTransform, GeoViewpoint, GeoElevationGrid, GeoPositionInterpolator, and the volume styles BlendedVolumeStyle, ComposedVolumeStyle and ProjectionVolumeStyle. Read at `x3d.loom@bfeba57` (the batch-45 pull request branch); reference engine `X_ITE 16.6.0`; rig for every number in this section: `Chromium 153.0.8010.12`, SwiftShader (no real GPU), `Babylon 9.32.0`, 320 x 240 pictures. The reasoning is in `x3d.webgpu/bridge/WHY-geospatial-batch.md`.
@@ -766,6 +789,9 @@ A point is kept when an odd number of contours contain it. A contour inside anot
 | H-BAB-88 | Run every fixture alone as well as in a chunk: state that survives a world swap passes in a chunk and fails alone. | C | ScreenGroup 75 of 75 in a chunk after Layout fixtures, failing from step 4 alone | `tools/driver.py check ScreenGroup` |
 | H-BAB-89 | A held press belongs to the layer it started in; follow the pointer through that pass only. | C | LayerPress 14 of 14 in X_ITE; the TouchSensor left over without the rule | `fixtures/LayerPress.test.json` |
 | H-BAB-90 | Give each world Viewport a bit of its own and mask the outer one first; wrapping after eight draws the ninth into the first. | C | ViewportMany, ten tiles, 12 of 12 | `fixtures/ViewportMany.test.json` |
+| H-BAB-91 | Reset every shared per-frame uniform to its neutral value each frame; a mask left by the last frame of an earlier world tinted nothing in the next. | C | TextureProjectorParallel after TextureProjector, 96 of 96 | `fixtures/TextureProjectorParallel.test.json` |
+| H-BAB-92 | A change to the test runner needs the full sweep, not the fixtures of the batch: one missing brace broke every events-mode fixture. | C | ScreenFontStyle, HAnimMotion, GeoPositionInterpolator, 27, 104, 51 steps | `x3d.threejs/bridge/tools/run-tests.js` |
+| H-BAB-93 | Skin on the CPU with the reference's formula when the reference does not use an engine feature (skin = v + sum w (J v - v), displacers rotated after the skin). | C | HAnimHumanoid 17 of 17, bone matrices and 16 positions equal | `fixtures/HAnimHumanoid.test.json` |
 | H-BAB-81 | When a reader rewrites a node at parse time, give the bridge ownership of that node type instead of patching around it: the fields come back and so do events. | C | Disk2D, Rectangle2D and Extrusion fields read as nothing; IoU 0.93 to 0.98 after | `x3d.loom@cd71796`, `lifecycle.test.js` |
 | H-BAB-82 | Measure a weight rule in the reference engine with a fixture that has a non-uniform weight; the source can read as rational and be sampled as plain. | C | NurbsTextureCoordinate centre weight 3 leaves X_ITE's uv regular; reading the source gave 0.114 against 0.125 | `NurbsTextureCoordinate.test.json`, X_ITE 16.6.0 |
 | H-BAB-83 | Compare two triangulations of a cut shape by area and bounding box, not by corners. | C | trimmed surface: all eight cases equal to three decimals though the triangles differ | `NurbsTrimmedSurface.test.json` |
@@ -930,6 +956,13 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 - **Answer:** the Background is a colour, so every `render` call clears the colour buffer inside its scissor; the second pass erases the first. LayerSet fails 4 of 86 steps (the red world box under order `0 1` and `1 0` reads black). Layer passes: its world is empty.
 - **Checked:** 2026-11-15 `x3d.loom@c9b7695`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187
 
+### D-BAB-76 What the skin of one vertex becomes
+- **Level:** L2
+- **Task:** One vertex sits at 1 0 0. One joint with a binding that makes the rest pose the identity is turned 90 degrees about Z, so its matrix J takes 1 0 0 to 0 1 0. The vertex gives that joint a skinCoordWeight of 0.5. Using X_ITE 16.6.0's skin formula, where does the vertex go?
+- **Verify:** `python3 -I -c "v=(1,0,0);w=0.5;Jv=(0,1,0);print(tuple(v[i]+w*(Jv[i]-v[i]) for i in range(3)))"`
+- **Answer:** 0.5 0.5 0. The weight the joint does not take stays on the rest position, so the vertex lands halfway along the way from where it was to where the joint would put it.
+- **Checked:** 2026-11-15 python3 -I ((0.5, 0.5, 0.0))
+
 ## Honest limits
 
 - **Software GL only, Chromium only [C].** Every pixel number is SwiftShader in Chrome for Testing 153.0.8010.12; no real GPU, Firefox or Safari. Babylon 9.32.0 is a snapshot; 9.33.0 to 9.35.0 (per the primer) were not run [L].
@@ -1036,6 +1069,11 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 | N-BAB-96 | LayerSet with the Background left on every pass (D-BAB-75) | 4 of 86 steps fail; red world box missing | C | same rig | receipts/LayerSet.json |
 | N-BAB-97 | LayerHeadlight, headlight shot | IoU 0.90, 16.66 dB: the lit boxes differ in extent, the pixel probes agree | C | same rig | receipts/LayerHeadlight.json |
 | N-BAB-98 | ViewportMany, ten tiles | IoU 0.98, 26.27 dB, 12 of 12 steps | C | same rig | receipts/ViewportMany.json |
+| N-BAB-99 | three.js bridge status, batch 7 | drawn 130, reader-checked 34, reader 41, todo 32, upstream 23; 132 of 132 fixtures pass | C | `driver.py check` over all fixtures | x3d.loom@9f969d2:x3d.threejs/bridge/NODES.json |
+| N-BAB-100 | TextureProjector and TextureProjectorParallel base picture | IoU 1.00, 60.14 and 59.54 dB; 99 of 99 and 96 of 96 steps | C | SwiftShader, 320 x 240 | receipts/TextureProjector.json |
+| N-BAB-101 | HAnimHumanoid and HAnimDisplacer rest picture | IoU 1.00, 60.56 and 60.21 dB; 17 of 17 and 37 of 37 steps | C | same rig | receipts/HAnimHumanoid.json |
+| N-BAB-102 | ParticleSystem cone cloud against X_ITE | bbox within 5 px, drawn pixels 2764 and 2626, IoU 0.57, 18.2 dB | C | same rig | receipts/ParticleSystem.json |
+| N-BAB-103 | Texturing3D main pictures (Pixel, Composed, Image) | IoU 1.00; 38.57, 31.13 and 99 dB | C | same rig | receipts/PixelTexture3D.json |
 | N-BAB-90 | Disk2D, Rectangle2D, Extrusion silhouette overlap with X_ITE | 0.98, 0.97, 0.93 | C | SwiftShader, 320 x 240 | x3d.loom@cd71796:x3d.webgpu/bridge/receipts |
 | N-BAB-91 | PointProperties default pointSizeMin, scale, max | 1, 1, 1 in the standard and X_ITE; hall default was 0 | C | X_ITE 16.6.0 | PointProperties.test.json |
 | N-BAB-92 | NurbsTextureCoordinate uv step with centre weight 3, 8 cells | 0.125 in X_ITE (regular); rational form would give 0.114 | C | X_ITE 16.6.0 | NurbsTextureCoordinate.test.json |
