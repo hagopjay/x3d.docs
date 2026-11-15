@@ -3,11 +3,11 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-279 distinct instrument strings across the numbers registers.
+293 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
-| `same` | 64 | 05, 06, 07, 09, 10, 11, 12, 15, 18, 20 | C:63 L:1 |
+| `same` | 67 | 05, 06, 07, 09, 10, 11, 12, 15, 16, 18, 20 | C:66 L:1 |
 | `same rig` | 36 | 08, 09, 13, 15 | C:36 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
@@ -34,6 +34,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `X_ITE 16.6.0, Chromium 153.0.8010.12 SwiftShader, three.js r187` | 2 | 08 | C:2 |
 | `X_ITE 16.7.0, Chromium 153, SwiftShader, 320 x 240` | 2 | 01 | C:2 |
 | `file size, 2026-11-14` | 2 | 12 | C:2 |
+| `gen.mjs` | 2 | 16 | C:2 |
 | `gsap 3.15.1, Node 22` | 2 | 15 | C:2 |
 | `marker scan, X_ITE 16.7.0` | 2 | 06 | C:2 |
 | `numpy, 2026-11-14` | 2 | 12 | C:2 |
@@ -70,6 +71,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `Node (D-BAB-6); X_ITE 16.6.0 SwiftShader` | 1 | 08 | C:1 |
 | `Node (D-BAB-6); X_ITE SAI` | 1 | 08 | C:1 |
 | `Node 22.23.4` | 1 | 15 | C:1 |
+| `Node v22.23.4 (cold start)` | 1 | 16 | C:1 |
+| `Node v22.23.4, zod 4.6.7, ajv 8.20.0` | 1 | 16 | C:1 |
 | `PR descriptions via the masterclass; not re-derived` | 1 | 04 | L:1 |
 | `Python 3.13.18 ast` | 1 | 10 | C:1 |
 | `Python, X_ITE 16.6.0` | 1 | 08 | C:1 |
@@ -134,6 +137,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `driver.py batch -n 10 --close, X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader` | 1 | 08 | C:1 |
 | `driver.py check over all fixtures` | 1 | 08 | C:1 |
 | `driver.py status, x3d.loom@162ab18` | 1 | 08 | C:1 |
+| `esbuild 0.25.12` | 1 | 16 | C:1 |
 | `examples/eda_1_signal_and_noise.py` | 1 | 07 | C:1 |
 | `examples/eda_1_signal_and_noise.py --calibrate, seeds 1000 to 1149` | 1 | 07 | C:1 |
 | `flip-evaluator LDR, G4 stills, 2026-11-15` | 1 | 12 | C:1 |
@@ -154,6 +158,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `grep, x_ite.min.js sha256 prefix b7df063e8cb1` | 1 | 08 | C:1 |
 | `inline Python, 15 scenes` | 1 | 09 | C:1 |
 | `inline Python, ls` | 1 | 09 | C:1 |
+| `jsonschema 4.26.0` | 1 | 16 | C:1 |
 | `libxml2 2.14.6, as reported` | 1 | 01 | L:1 |
 | `libxml2 2.14.6, fork 56809ca to the PR #15 change` | 1 | 01 | L:1 |
 | `loomkit 162ab18` | 1 | 03 | C:1 |
@@ -175,6 +180,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `numpy 2.5.4 (D-PTR-1)` | 1 | 18 | C:1 |
 | `numpy, Pillow, 960 x 540, X_ITE 16.4.3 reference` | 1 | 08 | C:1 |
 | `nvidia-smi, 0.5 s samples, 2026-11-15` | 1 | 12 | C:1 |
+| `one container, 4 cores, no GPU` | 1 | 16 | C:1 |
 | `our engine, SwiftShader` | 1 | 08 | C:1 |
 | `parsed from the reports; X_ITE 16.6.0, 320 x 240, SwiftShader` | 1 | 08 | C:1 |
 | `phase3_check.py receipts` | 1 | 09 | C:1 |
@@ -203,8 +209,10 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `regex over section 8, 2 false hits removed` | 1 | 02 | C:1 |
 | `regex over src/nodes/*.js` | 1 | 08 | L:1 |
 | `regex over unminified dist/` | 1 | 06 | C:1 |
+| `restrictSchema and llm_schema.py agree` | 1 | 16 | C:1 |
 | `rig on nine scenes, README` | 1 | 10 | L:1 |
 | `rig, 3 repeats, Babylon 9.32 only; receipt re-read` | 1 | 09 | C:1 |
+| `root-cause pass` | 1 | 16 | C:1 |
 | `row count` | 1 | 09 | C:1 |
 | `rule in section 3` | 1 | 10 | C:1 |
 | `run of an X3D33 export` | 1 | 10 | C:1 |
@@ -240,10 +248,14 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `teardown method, not reproduced` | 1 | 10 | L:1 |
 | `test_eda_infer, test_eda_js_parity, Node 22.23.4` | 1 | 07 | C:1 |
 | `tests/suite/x3d_test_suite.py on bpy 5.3.0` | 1 | 10 | C:1 |
+| `tests/tuples.test.ts` | 1 | 16 | C:1 |
 | `three r187, SwiftShader` | 1 | 15 | C:1 |
+| `tools/corpus.py, x3d_mcp fork fbe165f` | 1 | 16 | C:1 |
+| `tools/fuzz.mjs, seed 1, 966 source scenes` | 1 | 16 | C:1 |
 | `unittest discover, Git 2.43.0, Python 3.13.18` | 1 | 07 | C:1 |
 | `unittest runner` | 1 | 10 | C:1 |
 | `validate_x3d_export.py, bpy 5.3.0` | 1 | 10 | C:1 |
+| `validate_xml, validate_json` | 1 | 16 | C:1 |
 | `verifier pass in a private note` | 1 | 10 | S:1 |
 | `wc -l, grep` | 1 | 07 | C:1 |
 | `wc, gzip -9, sha256sum` | 1 | 06 | C:1 |
@@ -264,6 +276,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d.loom@162ab18:kit/loomkit/physics.py` | 1 | 13 | C:1 |
 | `x3d.onto, as reported` | 1 | 01 | L:1 |
 | `x3d.xray@8fa6845 on x3d.castle@d70e00c` | 1 | 07 | C:1 |
+| `x3d.zod gen.mjs, schema sha1 c6765a4` | 1 | 16 | C:1 |
 | `x3d_mcp fork 13121b6` | 1 | 05 | C:1 |
 | `x3d_mcp fork 535fdac, seed 20261029` | 1 | 01 | C:1 |
 | `x3d_mcp fork b4efcd3 (read; refusals exercised at 1 s and 5 rows)` | 1 | 04 | C:1 |
@@ -283,6 +296,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d_mcp fork b4efcd3, rdflib 7.6.0` | 1 | 05 | C:1 |
 | `x3d_mcp fork b4efcd3, regex and ast` | 1 | 03 | C:1 |
 | `x3d_mcp fork b4efcd3, zstandard 0.25.0` | 1 | 04 | C:1 |
+| `x3d_mcp fork fbe165f, Zod 4.6.7` | 1 | 16 | C:1 |
 | `x3d_mcp upstream 74da0ec, Python ast` | 1 | 03 | C:1 |
 | `x3d_mcp upstream 74da0ec, list_tools()` | 1 | 04 | C:1 |
 | `xite_names.py, x_ite@16.7.1 npm dist` | 1 | 09 | C:1 |

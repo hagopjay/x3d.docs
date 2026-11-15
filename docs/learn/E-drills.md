@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**145 drills**, 132 with a recorded run (`Checked`), 13 not yet run. Levels: L1 26, L2 76, L3 43.
+**151 drills**, 138 with a recorded run (`Checked`), 13 not yet run. Levels: L1 27, L2 79, L3 45.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -140,6 +140,12 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-YJS-3 | [15](15-yjs-collaboration.md) | L2 | Two browsers | 2026-11-15 Chromium 153.0.8010.12 SwiftShader, X_ITE 16.6.0 |
 | D-YJS-4 | [15](15-yjs-collaboration.md) | L2 | Price a structural edit | 2026-11-15 Node v22.23.4, Intel Xeon 2.10 GHz x4 |
 | D-YJS-5 | [15](15-yjs-collaboration.md) | L1 | Predict the winner | 2026-11-15 `x3d.loom@0689f1a` tests |
+| D-ZOD-1 | [16](16-typed-x3d-zod.md) | L1 | Run the suite | 2026-11-15 Node v22.23.4, zod 4.6.7, ajv 8.20.0 |
+| D-ZOD-2 | [16](16-typed-x3d-zod.md) | L2 | Regenerate and compare | 2026-11-15 Node v22.23.4, schema sha1 `c6765a4` |
+| D-ZOD-3 | [16](16-typed-x3d-zod.md) | L3 | Put the tuple bug back | 2026-11-15 Node v22.23.4, zod 4.6.7, ajv 8.20.0 |
+| D-ZOD-4 | [16](16-typed-x3d-zod.md) | L2 | The upstream file has the NavigationInfo bug | 2026-11-15 ajv 8.20.0, zod 4.6.7, schema sha1 `c6765a4` |
+| D-ZOD-5 | [16](16-typed-x3d-zod.md) | L2 | Size a vocabulary | 2026-11-15 Node v22.23.4 and Python 3.13, schema sha1 `c6765a4` |
+| D-ZOD-6 | [16](16-typed-x3d-zod.md) | L3 | Find the stack limit | 2026-11-15 Node v22.23.4, zod 4.6.7 |
 | D-PTR-1 | [18](18-three-pathtracer.md) | L1 | The vertical angle that Cycles drew | `2026-11-15 python3 -I numpy 2.5.4` |
 | D-PTR-2 | [18](18-three-pathtracer.md) | L2 | Apply the bound | `2026-11-15 python3 -I` |
 | D-PTR-3 | [18](18-three-pathtracer.md) | L2 | Re-score a strip | `2026-11-15 python3 -I flip-evaluator 1.7` |
