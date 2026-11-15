@@ -3,13 +3,14 @@
 Every `repo@sha` cited anywhere in the chapters, with the chapters that cite it.
 
 <!-- BEGIN GENERATED -->
-45 (repo, commit) pairs cited. A number holds only at the commit named beside it.
+47 (repo, commit) pairs cited. A number holds only at the commit named beside it.
 
 | Repo | Commit | Chapters |
 |---|---|---|
 | `castle-engine` | `48ce617` | 09 |
-| `x3d-blender-io` | `54aba0c` | 12 |
+| `x3d-blender-io` | `54aba0c` | 12, 19 |
 | `x3d-blender-io` | `ab99988` | 03, 10, 11, 12 |
+| `x3d.castle` | `0a1073f` | 19 |
 | `x3d.castle` | `d70e00c` | 07, 09 |
 | `x3d.demo` | `272f4fd` | 18 |
 | `x3d.demo` | `9c96896` | 16 |
@@ -39,6 +40,7 @@ Every `repo@sha` cited anywhere in the chapters, with the chapters that cite it.
 | `x3d.loom` | `9f969d2` | 08 |
 | `x3d.loom` | `a6e3d31` | 08 |
 | `x3d.loom` | `a9640eb` | 15 |
+| `x3d.loom` | `b6a3650` | 19 |
 | `x3d.loom` | `babba96` | 02 |
 | `x3d.loom` | `bfeba57` | 08 |
 | `x3d.loom` | `c80cecd` | 08 |

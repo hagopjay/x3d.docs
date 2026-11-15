@@ -3,7 +3,7 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-304 distinct instrument strings across the numbers registers.
+314 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
@@ -11,12 +11,14 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `same rig` | 36 | 08, 09, 13, 15 | C:36 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
+| `Node v22.23.4` | 7 | 17, 19 | C:7 |
 | `both engines` | 7 | 08 | C:7 |
-| `Node v22.23.4` | 6 | 17 | C:6 |
 | `driver.py status` | 6 | 08 | C:6 |
 | `learn_lib.py count` | 6 | 14 | C:6 |
+| `Khronos glTF-Validator 2.0.0-dev.3.10` | 5 | 09, 10, 11, 19 | C:5 |
 | `bpy 5.3.0` | 5 | 10, 11 | C:2 L:3 |
-| `Khronos glTF-Validator 2.0.0-dev.3.10` | 4 | 09, 10, 11 | C:4 |
+| `x3dgltf step-probe` | 5 | 19 | C:5 |
+| `x3dgltf verify` | 5 | 19 | C:5 |
 | `X_ITE 16.6.0` | 4 | 08, 15 | C:4 |
 | `build_learn.py at this commit` | 4 | 14 | C:4 |
 | `rdflib 7.6.0` | 4 | 05 | C:4 |
@@ -34,6 +36,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `Node v22.23.4, Yjs 13.6.33` | 2 | 15 | C:2 |
 | `X_ITE 16.6.0, Chromium 153.0.8010.12 SwiftShader, three.js r187` | 2 | 08 | C:2 |
 | `X_ITE 16.7.0, Chromium 153, SwiftShader, 320 x 240` | 2 | 01 | C:2 |
+| `esbuild 0.25.12` | 2 | 16, 19 | C:2 |
 | `file size, 2026-11-14` | 2 | 12 | C:2 |
 | `gen.mjs` | 2 | 16 | C:2 |
 | `gsap 3.15.1, Node 22` | 2 | 15 | C:2 |
@@ -50,6 +53,9 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d_mcp fork b4efcd3, in-process` | 2 | 04 | C:2 |
 | `x3d_mcp fork b4efcd3, libxml2 2.14.6` | 2 | 04 | C:2 |
 | `x3d_mcp upstream 74da0ec, x3d_mcp fork b4efcd3` | 2 | 04 | C:2 |
+| `x3dgltf matrix` | 2 | 19 | C:2 |
+| `x3dgltf matrix, Node zlib` | 2 | 19 | C:2 |
+| `x3dgltf optimize` | 2 | 19 | C:2 |
 | `xite_names.py` | 2 | 09 | C:2 |
 | `92-agent review of the first version` | 1 | 20 | C:1 |
 | `BR.geo.speedOf; X_ITE formula (height + 10) / 10 x factor` | 1 | 08 | C:1 |
@@ -147,7 +153,6 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `driver.py batch -n 10 --close, X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader` | 1 | 08 | C:1 |
 | `driver.py check over all fixtures` | 1 | 08 | C:1 |
 | `driver.py status, x3d.loom@162ab18` | 1 | 08 | C:1 |
-| `esbuild 0.25.12` | 1 | 16 | C:1 |
 | `examples/eda_1_signal_and_noise.py` | 1 | 07 | C:1 |
 | `examples/eda_1_signal_and_noise.py --calibrate, seeds 1000 to 1149` | 1 | 07 | C:1 |
 | `flip-evaluator LDR, G4 stills, 2026-11-15` | 1 | 12 | C:1 |
@@ -169,6 +174,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `inline Python, 15 scenes` | 1 | 09 | C:1 |
 | `inline Python, ls` | 1 | 09 | C:1 |
 | `jsonschema 4.26.0` | 1 | 16 | C:1 |
+| `ktx2-encoder 0.6.0` | 1 | 19 | C:1 |
 | `libxml2 2.14.6, as reported` | 1 | 01 | L:1 |
 | `libxml2 2.14.6, fork 56809ca to the PR #15 change` | 1 | 01 | L:1 |
 | `loomkit 162ab18` | 1 | 03 | C:1 |
@@ -183,6 +189,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `lxml, NODES.json` | 1 | 08 | C:1 |
 | `marker and name scan` | 1 | 06 | C:1 |
 | `mcp 1.30.0 server/transport_security.py (read)` | 1 | 04 | C:1 |
+| `node --test, Node v22.23.4` | 1 | 19 | C:1 |
 | `none` | 1 | 12 | C:1 |
 | `not run (no Blender here)` | 1 | 03 | S:1 |
 | `npm 10.9.9` | 1 | 06 | C:1 |
@@ -277,6 +284,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d.anim bake, 76 channels` | 1 | 15 | C:1 |
 | `x3d.anim/receipts/*.json` | 1 | 15 | C:1 |
 | `x3d.demo@d10b457 directory read` | 1 | 05 | C:1 |
+| `x3d.gltf/src/profile-contract.mjs` | 1 | 19 | C:1 |
 | `x3d.lab PR #32, tier1_proof_cells.py` | 1 | 12 | C:1 |
 | `x3d.loom PR #56, X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 13 | C:1 |
 | `x3d.loom batch 43 fixtures; X_ITE 16.6.0` | 1 | 08 | C:1 |
@@ -310,5 +318,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d_mcp fork fbe165f, Zod 4.6.7` | 1 | 16 | C:1 |
 | `x3d_mcp upstream 74da0ec, Python ast` | 1 | 03 | C:1 |
 | `x3d_mcp upstream 74da0ec, list_tools()` | 1 | 04 | C:1 |
+| `x3dgltf matrix, draco3dgltf 1.5.9` | 1 | 19 | C:1 |
+| `x3dgltf optimize, glTF-Transform 4.5.1` | 1 | 19 | C:1 |
 | `xite_names.py, x_ite@16.7.1 npm dist` | 1 | 09 | C:1 |
 <!-- END GENERATED -->
