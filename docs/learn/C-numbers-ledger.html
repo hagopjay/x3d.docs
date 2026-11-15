@@ -22,7 +22,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="15-yjs-collaboration.html">15. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a class="cur" href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="C-numbers-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/C-numbers-ledger.md">GitHub</a></div><h1>Appendix C. Numbers ledger</h1>
 <p>Merged from the <em>Numbers register</em> of every chapter by <code>tools-shared/build_learn.py</code>. Edit the chapter, not this file.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>514 numbers</strong> from 20 chapters. Grades: <span class="g C" title="Confirmed">C</span> 470 · <span class="g L" title="Likely">L</span> 40 · <span class="g S" title="Suspected">S</span> 4. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
+<p><strong>516 numbers</strong> from 20 chapters. Grades: <span class="g C" title="Confirmed">C</span> 472 · <span class="g L" title="Likely">L</span> 40 · <span class="g S" title="Suspected">S</span> 4. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
 <table>
 <thead>
 <tr>
@@ -3864,11 +3864,11 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td>N-YJS-1</td>
 <td><a href="15-yjs-collaboration.html">15</a></td>
-<td>unit and fuzz tests passing</td>
-<td>22 of 22</td>
+<td>unit, fuzz and differential tests passing</td>
+<td>30 of 30</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>Node v22.23.4, Yjs 13.6.33</td>
-<td><code>x3d.loom@0689f1a:x3d.yjs/test</code></td>
+<td><code>x3d.loom@a9640eb:x3d.yjs/test</code></td>
 </tr>
 <tr>
 <td>N-YJS-2</td>
@@ -3901,7 +3901,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>N-YJS-5</td>
 <td><a href="15-yjs-collaboration.html">15</a></td>
 <td>apply latency, median, X_ITE</td>
-<td>0.30 ms</td>
+<td>0.40 ms</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>same, in-process link</td>
 <td>same</td>
@@ -3928,7 +3928,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>N-YJS-8</td>
 <td><a href="15-yjs-collaboration.html">15</a></td>
 <td>bytes per field update</td>
-<td>44 to 47</td>
+<td>51 to 54</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>Node v22.23.4, Yjs 13.6.33</td>
 <td><code>x3d.yjs/receipts/bench.md</code></td>
@@ -3937,7 +3937,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>N-YJS-9</td>
 <td><a href="15-yjs-collaboration.html">15</a></td>
 <td>state size per node</td>
-<td>155 to 168 bytes</td>
+<td>158 to 165 bytes</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>same</td>
 <td>same</td>
@@ -3946,7 +3946,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>N-YJS-10</td>
 <td><a href="15-yjs-collaboration.html">15</a></td>
 <td>local setField at 50,000 nodes with observer</td>
-<td>147,518 per second</td>
+<td>191,547 per second</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>Intel Xeon 2.10 GHz x4</td>
 <td>same</td>
@@ -3954,8 +3954,8 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td>N-YJS-11</td>
 <td><a href="15-yjs-collaboration.html">15</a></td>
-<td>structural add+remove pairs at 500 / 5,000 / 50,000 nodes</td>
-<td>280 / 24 / 2 per second</td>
+<td>structural add+remove pairs, flat scene, incremental index, at 500 / 5,000 / 50,000 nodes</td>
+<td>844 / 44 / 1 per second</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>same</td>
 <td>same</td>
@@ -3964,7 +3964,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>N-YJS-12</td>
 <td><a href="15-yjs-collaboration.html">15</a></td>
 <td>loadXML at 50,000 nodes</td>
-<td>535.5 ms</td>
+<td>555.7 ms</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>same</td>
 <td>same</td>
@@ -3973,7 +3973,25 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>N-YJS-13</td>
 <td><a href="15-yjs-collaboration.html">15</a></td>
 <td>remote apply at 500 nodes</td>
-<td>149,687 per second</td>
+<td>87,774 per second</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-YJS-16</td>
+<td><a href="15-yjs-collaboration.html">15</a></td>
+<td>add+remove pairs, fan-out 10, incremental, at 511 / 5,111 / 51,111 nodes</td>
+<td>6,572 / 6,967 / 6,687 per second</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-YJS-17</td>
+<td><a href="15-yjs-collaboration.html">15</a></td>
+<td>same edit with the full rebuild</td>
+<td>305.3 / 15.6 / 1.5 per second</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>same</td>
 <td>same</td>
@@ -3982,7 +4000,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>N-YJS-14</td>
 <td><a href="15-yjs-collaboration.html">15</a></td>
 <td>orphan nodes over 200 fuzz seeds</td>
-<td>5,127</td>
+<td>5,096</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>same</td>
 <td>same</td>
@@ -3991,7 +4009,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>N-YJS-15</td>
 <td><a href="15-yjs-collaboration.html">15</a></td>
 <td>reported conflicts over 200 seeds: def-clash, sfnode-slot, duplicate</td>
-<td>206, 31, 15</td>
+<td>223, 34, 15</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>same</td>
 <td>same</td>

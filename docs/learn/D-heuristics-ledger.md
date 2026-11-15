@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**312 heuristics.** Grades: [C] 255 · [L] 50 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**313 heuristics.** Grades: [C] 256 · [L] 50 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -264,13 +264,14 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-ANM-9 | [15](15-animation-timelines.md) | Give an achromatic ColorInterpolator end the partner's hue when you model HSV, as X_ITE's `Color3.lerp` does. | C | 0.0167 off on 4 channels, then 1.8e-6 | `X_ITE 16.6.0` |
 | H-ANM-10 | [15](15-animation-timelines.md) | Keep authored key times per channel, not per timeline, or every channel inherits every other's keys. | C | 16,031 keys against 2,467 | `x3d.anim/receipts/gsap-orrery.json` |
 | H-ANM-11 | [15](15-animation-timelines.md) | Move the world under a fixed camera when a scene must run on every body; a Viewpoint under an animated Transform is not followed everywhere. | C | probe 13456, 2912, 2912 on the fixed build | `x3d.loom` PR #75 |
-| H-YJS-1 | [15](15-yjs-collaboration.md) | Store the tree as a flat table with a parent register; never nest a node's Map inside its parent's. | [C] | move-with-edit test | `x3d.loom@0689f1a` tests |
+| H-YJS-1 | [15](15-yjs-collaboration.md) | Store the tree as a flat table with a parent register; never nest a node's Map inside its parent's. | [C] | move-with-edit test | `x3d.loom@a9640eb` tests |
 | H-YJS-2 | [15](15-yjs-collaboration.md) | Fuzz the export text, not the Yjs state: converged state can still print differently. | [C] | attribute-order bug, 9 of 12 seeds | same, Node v22.23.4 |
 | H-YJS-3 | [15](15-yjs-collaboration.md) | Treat order-hint arrays as hints: walk by the register, with a visited set. | [C] | runaway-delete bug | bench, 200 seeds |
-| H-YJS-4 | [15](15-yjs-collaboration.md) | Skip the structure diff for field-only transactions. | [C] | 147,518 vs 2 ops/s at 50,000 nodes | `tools/bench.js` |
+| H-YJS-4 | [15](15-yjs-collaboration.md) | Skip structure work for field-only transactions, and keep an incremental index for the rest; keep the O(n) rebuild as the test oracle. | [C] | 6,687 vs 1.5 pairs/s at 51,111 nodes, fan-out 10 | `tools/bench.js` |
+| H-YJS-9 | [15](15-yjs-collaboration.md) | Test an incremental structure with a differential check against the full rebuild after every operation, not only at the end. | [C] | 8 seeds x 250 operations, plus 600 of 600 copies in the bench | `x3d.loom@a9640eb:x3d.yjs/test` |
 | H-YJS-5 | [15](15-yjs-collaboration.md) | Match SAI nodes by DEF name, never by object identity. | [C] | X_ITE 16.6.0 wrappers | `tools/e2e.js` |
 | H-YJS-6 | [15](15-yjs-collaboration.md) | Give every peer a control step that must differ (offline edits) before trusting a zero-difference picture. | [C] | 16,633 pixels differ | `receipts/e2e-xite.json` |
-| H-YJS-8 | [15](15-yjs-collaboration.md) | Keep user DEF names out of the render path: render every node as `y_<uid>` so a DEF clash between peers cannot misdirect a USE or a ROUTE. | [L] | by construction; the unit test checks the clash export names, no renderer run with a clash | `x3d.loom@0689f1a:x3d.yjs/src/yx3d.js` |
+| H-YJS-8 | [15](15-yjs-collaboration.md) | Keep user DEF names out of the render path: render every node as `y_<uid>` so a DEF clash between peers cannot misdirect a USE or a ROUTE. | [L] | by construction; the unit test checks the clash export names, no renderer run with a clash | `x3d.loom@a9640eb:x3d.yjs/src/yx3d.js` |
 | H-YJS-7 | [15](15-yjs-collaboration.md) | Validate the agent's ops against the document before they enter it; return refusals as results. | [L] | `Nope` DEF refused; no validator run on agent output yet | `src/agent.js` |
 | H-ZOD-1 | [16](16-typed-x3d-zod.md) | Generate the Zod from the schema file and pin the file's sha1; a hand-copied schema drifts without a signal. | C | `gen.json` records sha1 `c6765a4` and the generated file is regenerated and compared in a test | `x3d.zod` `tools/gen.mjs`, test `zod-002` |
 | H-ZOD-2 | [16](16-typed-x3d-zod.md) | Annotate every generated Zod schema with an explicit generated TS type; do not let TypeScript infer a 364-definition recursive graph. | C | inferred form failed with "excessively deep" on the first attempt; annotated form checks in about 8 s | `typescript 7.0.2` |
