@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**435 numbers** from 16 chapters. Grades: [C] 391 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**449 numbers** from 17 chapters. Grades: [C] 405 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -410,6 +410,20 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-MET-10 | [14](14-methods.md) | heuristics graded L | 30 | C | `learn_lib.py` count | `docs/learn/D-heuristics-ledger.md` |
 | N-MET-11 | [14](14-methods.md) | heuristics graded S | 7 | C | `learn_lib.py` count | `docs/learn/D-heuristics-ledger.md` |
 | N-MET-12 | [14](14-methods.md) | methods in this chapter | 7 | C | read | this file |
+| N-ANM-1 | [15](15-animation-timelines.md) | Our interpolator model vs X_ITE, worst of 87 channels | 1.83e-06 | [C] | `X_ITE 16.6.0`, Chromium 153 SwiftShader | section 3 |
+| N-ANM-2 | [15](15-animation-timelines.md) | Bridge reader vs X_ITE, worst | 1.86e-06 | [C] | same rig plus three.js r187 body | section 3 |
+| N-ANM-3 | [15](15-animation-timelines.md) | X_ITE vs GSAP itself, worst | 0.0263 | [C] | same rig, gsap 3.15.1 | section 3 |
+| N-ANM-4 | [15](15-animation-timelines.md) | X_ITE vs Theatre itself, worst | 0.00695 | [C] | same rig, @theatre/core 0.7.2 | section 3 |
+| N-ANM-5 | [15](15-animation-timelines.md) | Live path read-back error, worst | 2.78e-17 | [C] | same rig | section 3 |
+| N-ANM-6 | [15](15-animation-timelines.md) | Pictures bridge vs X_ITE, worst PSNR and IoU | 34.02 dB, 0.9968 (orrery); 46.95 and 55.01 dB elsewhere | [C] | same rig, 320x240 | section 3 |
+| N-ANM-7 | [15](15-animation-timelines.md) | Keys written, GSAP and Theatre | 219 (orbit), 273 (Theatre), 2,467 (orrery) | [C] | `x3d.anim/receipts/*.json` | section 3 |
+| N-ANM-8 | [15](15-animation-timelines.md) | Colour error without HSV, then with | 0.059 then 7.6e-8 | [C] | X_ITE 16.6.0 | section 4 |
+| N-ANM-9 | [15](15-animation-timelines.md) | bounce.out floor at 60 fps | 0.0145 at 120, 47, 24 keys | [C] | gsap 3.15.1, Node 22 | D-ANM-2 |
+| N-ANM-10 | [15](15-animation-timelines.md) | steps(6) error | 0.139 | [C] | same | section 4 |
+| N-ANM-11 | [15](15-animation-timelines.md) | power2.inOut keys at tol x0.25, x1, x4 | 54, 28, 15 (error 0.00052, 0.00196, 0.00713) | [C] | gsap 3.15.1, Node 22 | D-ANM-2 |
+| N-ANM-12 | [15](15-animation-timelines.md) | Unit tests in `x3d.anim` | 17 of 17 pass, no browser | [C] | Node 22.23.4 | D-ANM-4 |
+| N-ANM-13 | [15](15-animation-timelines.md) | Orrery keys, global vs per-channel authored times | 16,031 vs 2,467 | [C] | `x3d.anim` bake, 76 channels | section 4 |
+| N-ANM-14 | [15](15-animation-timelines.md) | Colour error before the achromatic-hue rule, orrery | 0.0167 on 4 channels | [C] | X_ITE 16.6.0 | section 4 |
 | N-YJS-1 | [15](15-yjs-collaboration.md) | unit and fuzz tests passing | 22 of 22 | [C] | Node v22.23.4, Yjs 13.6.33 | `x3d.loom@0689f1a:x3d.yjs/test` |
 | N-YJS-2 | [15](15-yjs-collaboration.md) | fuzz seeds converged | 200 of 200 | [C] | same, 3 peers x 300 ops | `x3d.yjs/receipts/bench.md` |
 | N-YJS-3 | [15](15-yjs-collaboration.md) | different pixels after add, move, remove | 0 of 145,116 each | [C] | X_ITE 16.6.0, Chromium 153, SwiftShader | `x3d.yjs/receipts/e2e-xite.json` |
