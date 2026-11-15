@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**418 numbers** from 15 chapters. Grades: [C] 374 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**420 numbers** from 15 chapters. Grades: [C] 376 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -410,19 +410,21 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-MET-10 | [14](14-methods.md) | heuristics graded L | 30 | C | `learn_lib.py` count | `docs/learn/D-heuristics-ledger.md` |
 | N-MET-11 | [14](14-methods.md) | heuristics graded S | 7 | C | `learn_lib.py` count | `docs/learn/D-heuristics-ledger.md` |
 | N-MET-12 | [14](14-methods.md) | methods in this chapter | 7 | C | read | this file |
-| N-YJS-1 | [15](15-yjs-collaboration.md) | unit and fuzz tests passing | 22 of 22 | [C] | Node v22.23.4, Yjs 13.6.33 | `x3d.loom@0689f1a:x3d.yjs/test` |
+| N-YJS-1 | [15](15-yjs-collaboration.md) | unit, fuzz and differential tests passing | 30 of 30 | [C] | Node v22.23.4, Yjs 13.6.33 | `x3d.loom@a9640eb:x3d.yjs/test` |
 | N-YJS-2 | [15](15-yjs-collaboration.md) | fuzz seeds converged | 200 of 200 | [C] | same, 3 peers x 300 ops | `x3d.yjs/receipts/bench.md` |
 | N-YJS-3 | [15](15-yjs-collaboration.md) | different pixels after add, move, remove | 0 of 145,116 each | [C] | X_ITE 16.6.0, Chromium 153, SwiftShader | `x3d.yjs/receipts/e2e-xite.json` |
 | N-YJS-4 | [15](15-yjs-collaboration.md) | different pixels, offline control | 16,633 | [C] | same | same |
-| N-YJS-5 | [15](15-yjs-collaboration.md) | apply latency, median, X_ITE | 0.30 ms | [C] | same, in-process link | same |
+| N-YJS-5 | [15](15-yjs-collaboration.md) | apply latency, median, X_ITE | 0.40 ms | [C] | same, in-process link | same |
 | N-YJS-6 | [15](15-yjs-collaboration.md) | apply latency, median, three.js bridge | 0.20 ms | [C] | three r187, SwiftShader | `x3d.yjs/receipts/e2e-threejs-bridge.json` |
 | N-YJS-7 | [15](15-yjs-collaboration.md) | incremental vs fresh picture, bridge | 0 of 153,600 pixels | [C] | same | same |
-| N-YJS-8 | [15](15-yjs-collaboration.md) | bytes per field update | 44 to 47 | [C] | Node v22.23.4, Yjs 13.6.33 | `x3d.yjs/receipts/bench.md` |
-| N-YJS-9 | [15](15-yjs-collaboration.md) | state size per node | 155 to 168 bytes | [C] | same | same |
-| N-YJS-10 | [15](15-yjs-collaboration.md) | local setField at 50,000 nodes with observer | 147,518 per second | [C] | Intel Xeon 2.10 GHz x4 | same |
-| N-YJS-11 | [15](15-yjs-collaboration.md) | structural add+remove pairs at 500 / 5,000 / 50,000 nodes | 280 / 24 / 2 per second | [C] | same | same |
-| N-YJS-12 | [15](15-yjs-collaboration.md) | loadXML at 50,000 nodes | 535.5 ms | [C] | same | same |
-| N-YJS-13 | [15](15-yjs-collaboration.md) | remote apply at 500 nodes | 149,687 per second | [C] | same | same |
-| N-YJS-14 | [15](15-yjs-collaboration.md) | orphan nodes over 200 fuzz seeds | 5,127 | [C] | same | same |
-| N-YJS-15 | [15](15-yjs-collaboration.md) | reported conflicts over 200 seeds: def-clash, sfnode-slot, duplicate | 206, 31, 15 | [C] | same | same |
+| N-YJS-8 | [15](15-yjs-collaboration.md) | bytes per field update | 51 to 54 | [C] | Node v22.23.4, Yjs 13.6.33 | `x3d.yjs/receipts/bench.md` |
+| N-YJS-9 | [15](15-yjs-collaboration.md) | state size per node | 158 to 165 bytes | [C] | same | same |
+| N-YJS-10 | [15](15-yjs-collaboration.md) | local setField at 50,000 nodes with observer | 191,547 per second | [C] | Intel Xeon 2.10 GHz x4 | same |
+| N-YJS-11 | [15](15-yjs-collaboration.md) | structural add+remove pairs, flat scene, incremental index, at 500 / 5,000 / 50,000 nodes | 844 / 44 / 1 per second | [C] | same | same |
+| N-YJS-12 | [15](15-yjs-collaboration.md) | loadXML at 50,000 nodes | 555.7 ms | [C] | same | same |
+| N-YJS-13 | [15](15-yjs-collaboration.md) | remote apply at 500 nodes | 87,774 per second | [C] | same | same |
+| N-YJS-16 | [15](15-yjs-collaboration.md) | add+remove pairs, fan-out 10, incremental, at 511 / 5,111 / 51,111 nodes | 6,572 / 6,967 / 6,687 per second | [C] | same | same |
+| N-YJS-17 | [15](15-yjs-collaboration.md) | same edit with the full rebuild | 305.3 / 15.6 / 1.5 per second | [C] | same | same |
+| N-YJS-14 | [15](15-yjs-collaboration.md) | orphan nodes over 200 fuzz seeds | 5,096 | [C] | same | same |
+| N-YJS-15 | [15](15-yjs-collaboration.md) | reported conflicts over 200 seeds: def-clash, sfnode-slot, duplicate | 223, 34, 15 | [C] | same | same |
 <!-- END GENERATED -->

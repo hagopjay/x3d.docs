@@ -130,5 +130,5 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-YJS-2 | [15](15-yjs-collaboration.md) | L3 | Break the export | 2026-11-15 Node v22.23.4, Yjs 13.6.33 |
 | D-YJS-3 | [15](15-yjs-collaboration.md) | L2 | Two browsers | 2026-11-15 Chromium 153.0.8010.12 SwiftShader, X_ITE 16.6.0 |
 | D-YJS-4 | [15](15-yjs-collaboration.md) | L2 | Price a structural edit | 2026-11-15 Node v22.23.4, Intel Xeon 2.10 GHz x4 |
-| D-YJS-5 | [15](15-yjs-collaboration.md) | L1 | Predict the winner | 2026-11-15 `x3d.loom@0689f1a` tests |
+| D-YJS-5 | [15](15-yjs-collaboration.md) | L1 | Predict the winner | 2026-11-15 `x3d.loom@a9640eb` tests |
 <!-- END GENERATED -->

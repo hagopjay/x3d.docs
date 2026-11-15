@@ -15,7 +15,6 @@ Every `repo@sha` cited anywhere in the chapters, with the chapters that cite it.
 | `x3d.docs` | `f172f67` | 01, 02, 03, 04, 05, 06, 08, 10, 11, 13, 14 |
 | `x3d.lab` | `70551e8` | 12 |
 | `x3d.loom` | `0244784` | 02 |
-| `x3d.loom` | `0689f1a` | 15 |
 | `x3d.loom` | `108a282` | 08 |
 | `x3d.loom` | `1192dd4` | 08 |
 | `x3d.loom` | `162ab18` | 01, 02, 03, 06, 08, 13 |
@@ -27,6 +26,7 @@ Every `repo@sha` cited anywhere in the chapters, with the chapters that cite it.
 | `x3d.loom` | `8a1e769` | 08 |
 | `x3d.loom` | `95eda37` | 08 |
 | `x3d.loom` | `a6e3d31` | 08 |
+| `x3d.loom` | `a9640eb` | 15 |
 | `x3d.loom` | `babba96` | 02 |
 | `x3d.loom` | `bfeba57` | 08 |
 | `x3d.loom` | `c80cecd` | 08 |
