@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**131 drills**, 120 with a recorded run (`Checked`), 11 not yet run. Levels: L1 22, L2 70, L3 39.
+**133 drills**, 122 with a recorded run (`Checked`), 11 not yet run. Levels: L1 23, L2 71, L3 39.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -79,6 +79,8 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-BAB-73 | [08](08-babylon-bridge.md) | L3 | Transpose the matrix of a GeoLocation | 2026-11-15 `x3d.loom@1192dd4`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 |
 | D-BAB-74 | [08](08-babylon-bridge.md) | L2 | How much of a patch does a ring keep | 2026-11-15 python3 -I (0.4487) |
 | D-BAB-75 | [08](08-babylon-bridge.md) | L2 | Keep the Background on every pass | 2026-11-15 `x3d.loom@c9b7695`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 |
+| D-BAB-76 | [08](08-babylon-bridge.md) | L2 | What the skin of one vertex becomes | 2026-11-15 python3 -I ((0.5, 0.5, 0.0)) |
+| D-BAB-77 | [08](08-babylon-bridge.md) | L1 | How many heights make 125,000 triangles | 2026-11-15 python3 -I (251) |
 | D-CAS-1 | [09](09-castle-engine.md) | L2 | Count the parse-only nodes and name the denominator | 2026-11-14 `castle-engine@48ce617`, Python 3.13.18 |
 | D-CAS-2 | [09](09-castle-engine.md) | L2 | Count loaders and savers without trusting a number | 2026-11-14 `castle-engine@48ce617`, Python 3.13.18 |
 | D-CAS-3 | [09](09-castle-engine.md) | L2 | Re-derive the headline FLIP and what it hides | 2026-11-14 `x3d.castle@d70e00c` receipt, Python 3.13.18 |
