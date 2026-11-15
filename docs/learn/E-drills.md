@@ -135,11 +135,6 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-ANM-5 | [15](15-animation-timelines.md) | L3 | Break the HSV rule | not run again after the first run that found it; the 0.059 figure is from that run. |
 | D-ANM-6 | [15](15-animation-timelines.md) | L2 | Euler convention | `2026-11-15 Node 22.23.4` |
 | D-ANM-7 | [15](15-animation-timelines.md) | L2 | Count the keys of the orrery | `2026-11-15 X_ITE 16.6.0, three.js r187, Chromium 153.0.8010.12 SwiftShader` |
-| D-YJS-1 | [15](15-yjs-collaboration.md) | L1 | Run the suite | 2026-11-15 Node v22.23.4, Yjs 13.6.33, pycrdt 0.14.13 |
-| D-YJS-2 | [15](15-yjs-collaboration.md) | L3 | Break the export | 2026-11-15 Node v22.23.4, Yjs 13.6.33 |
-| D-YJS-3 | [15](15-yjs-collaboration.md) | L2 | Two browsers | 2026-11-15 Chromium 153.0.8010.12 SwiftShader, X_ITE 16.6.0 |
-| D-YJS-4 | [15](15-yjs-collaboration.md) | L2 | Price a structural edit | 2026-11-15 Node v22.23.4, Intel Xeon 2.10 GHz x4 |
-| D-YJS-5 | [15](15-yjs-collaboration.md) | L1 | Predict the winner | 2026-11-15 `x3d.loom@a9640eb` tests |
 | D-ZOD-1 | [16](16-typed-x3d-zod.md) | L1 | Run the suite | 2026-11-15 Node v22.23.4, zod 4.6.7, ajv 8.20.0 |
 | D-ZOD-2 | [16](16-typed-x3d-zod.md) | L2 | Regenerate and compare | 2026-11-15 Node v22.23.4, schema sha1 `c6765a4` |
 | D-ZOD-3 | [16](16-typed-x3d-zod.md) | L3 | Put the tuple bug back | 2026-11-15 Node v22.23.4, zod 4.6.7, ajv 8.20.0 |
@@ -170,4 +165,9 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-WGC-4 | [20](20-webgpu-compute.md) | L2 | Do the skeleton by hand | 2026-11-15 Node v22.23.4, `x3d.loom@7c818e3` (same computation printed all fifteen coordinates equal to the expected list) |
 | D-WGC-5 | [20](20-webgpu-compute.md) | L1 | Read three clocks | 2026-11-15 recorded receipt |
 | D-WGC-6 | [20](20-webgpu-compute.md) | L3 | Break the sort | 2026-11-15 `tools/mutation-check.sh` (that mutant is number 12 of the 14) |
+| D-YJS-1 | [21](21-yjs-collaboration.md) | L1 | Run the suite | 2026-11-15 Node v22.23.4, Yjs 13.6.33, pycrdt 0.14.13 |
+| D-YJS-2 | [21](21-yjs-collaboration.md) | L3 | Break the export | 2026-11-15 Node v22.23.4, Yjs 13.6.33 |
+| D-YJS-3 | [21](21-yjs-collaboration.md) | L2 | Two browsers | 2026-11-15 Chromium 153.0.8010.12 SwiftShader, X_ITE 16.6.0 |
+| D-YJS-4 | [21](21-yjs-collaboration.md) | L2 | Price a structural edit | 2026-11-15 Node v22.23.4, Intel Xeon 2.10 GHz x4 |
+| D-YJS-5 | [21](21-yjs-collaboration.md) | L1 | Predict the winner | 2026-11-15 `x3d.loom@a9640eb` tests |
 <!-- END GENERATED -->

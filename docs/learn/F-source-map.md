@@ -39,7 +39,7 @@ Every `repo@sha` cited anywhere in the chapters, with the chapters that cite it.
 | `x3d.loom` | `95eda37` | 08 |
 | `x3d.loom` | `9f969d2` | 08 |
 | `x3d.loom` | `a6e3d31` | 08 |
-| `x3d.loom` | `a9640eb` | 15 |
+| `x3d.loom` | `a9640eb` | 21 |
 | `x3d.loom` | `b6a3650` | 19 |
 | `x3d.loom` | `babba96` | 02 |
 | `x3d.loom` | `bfeba57` | 08 |

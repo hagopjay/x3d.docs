@@ -1,4 +1,4 @@
-# 15. Many hands on one scene: Yjs, CRDTs and the X3D scene graph
+# 21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph
 
 > **Say it:** A scene graph can be held as a Yjs document so that people, browsers and an LLM agent edit one X3D scene at the same time and always converge, provided the tree is stored as a flat node table with a parent register and the export is made order-independent. **[C]**
 
