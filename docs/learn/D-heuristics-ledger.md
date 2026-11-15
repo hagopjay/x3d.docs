@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**240 heuristics.** Grades: [C] 194 · [L] 39 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**248 heuristics.** Grades: [C] 200 · [L] 41 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -247,4 +247,12 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-MET-6 | [14](14-methods.md) | Prefer the lowest grade the evidence allows; a copied number is [L] at best. | L | grade mix below | Appendix C count |
 | H-MET-7 | [14](14-methods.md) | Cut a failing scene to the smallest file that still fails before reporting it. | L | practice in chapter 03 | `x3d_mcp fork b4efcd3` |
 | H-MET-8 | [14](14-methods.md) | Two independent readings agree only if tests pin a raw value; compare against stored values, not only each other. | C | chapter 07 gallery lesson | `x3d.xray@8fa6845` |
+| H-YJS-1 | [15](15-yjs-collaboration.md) | Store the tree as a flat table with a parent register; never nest a node's Map inside its parent's. | [C] | move-with-edit test | `x3d.loom@0689f1a` tests |
+| H-YJS-2 | [15](15-yjs-collaboration.md) | Fuzz the export text, not the Yjs state: converged state can still print differently. | [C] | attribute-order bug, 9 of 12 seeds | same, Node v22.23.4 |
+| H-YJS-3 | [15](15-yjs-collaboration.md) | Treat order-hint arrays as hints: walk by the register, with a visited set. | [C] | runaway-delete bug | bench, 200 seeds |
+| H-YJS-4 | [15](15-yjs-collaboration.md) | Skip the structure diff for field-only transactions. | [C] | 147,518 vs 2 ops/s at 50,000 nodes | `tools/bench.js` |
+| H-YJS-5 | [15](15-yjs-collaboration.md) | Match SAI nodes by DEF name, never by object identity. | [C] | X_ITE 16.6.0 wrappers | `tools/e2e.js` |
+| H-YJS-6 | [15](15-yjs-collaboration.md) | Give every peer a control step that must differ (offline edits) before trusting a zero-difference picture. | [C] | 16,633 pixels differ | `receipts/e2e-xite.json` |
+| H-YJS-8 | [15](15-yjs-collaboration.md) | Keep user DEF names out of the render path: render every node as `y_<uid>` so a DEF clash between peers cannot misdirect a USE or a ROUTE. | [L] | by construction; the unit test checks the clash export names, no renderer run with a clash | `x3d.loom@0689f1a:x3d.yjs/src/yx3d.js` |
+| H-YJS-7 | [15](15-yjs-collaboration.md) | Validate the agent's ops against the document before they enter it; return refusals as results. | [L] | `Nope` DEF refused; no validator run on agent output yet | `src/agent.js` |
 <!-- END GENERATED -->
