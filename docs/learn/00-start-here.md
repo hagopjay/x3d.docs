@@ -73,6 +73,7 @@ add a dated row, never overwrite the old one.
 | [13](13-physics.md) | Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports | A valid X3D physics scene says nothing about whether the simulation is stable, deterministic or right; the physics analogue of the validator is a run record whose hashes replay, whose references are exact, and whose c... | 23 | 11 | 28 | 66 KB |
 | [14](14-methods.md) | Methods: how to learn, test and extend this base | You learn X3D here by predicting a result, running the tool, comparing, grading the gap and recording a rule with a falsifier; a heuristic you cannot falsify is not in the ledger. **[L]** | 8 | 5 | 12 | 10 KB |
 | [15](15-yjs-collaboration.md) | Many hands on one scene: Yjs, CRDTs and the X3D scene graph | A scene graph can be held as a Yjs document so that people, browsers and an LLM agent edit one X3D scene at the same time and always converge, provided the tree is stored as a flat node table with a parent register an... | 8 | 5 | 15 | 16 KB |
+| [16](16-typed-x3d-zod.md) | Typed X3D: Zod, JSON Schema and the model that can be held to it | The Web3D X3D 4.0 JSON Schema can be compiled into Zod schemas and TypeScript types (364 definitions, one in-memory correction), so a model's X3D JSON is checked in code with the exact path of every fault, shrunk to t... | 12 | 6 | 18 | 25 KB |
 <!-- END CHAPTER-TABLE -->
 
 ## What every chapter contains
