@@ -19,7 +19,7 @@ blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;backgr
 .nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
 details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
 .foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
-</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="15-yjs-collaboration.html">15. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a class="cur" href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="D-heuristics-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/D-heuristics-ledger.md">GitHub</a></div><h1>Appendix D. Heuristics ledger</h1>
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a class="cur" href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="D-heuristics-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/D-heuristics-ledger.md">GitHub</a></div><h1>Appendix D. Heuristics ledger</h1>
 <p>Merged from the <em>Heuristics</em> table of every chapter. Edit the chapter, not this file.</p>
 <!-- BEGIN GENERATED -->
 <p><strong>325 heuristics.</strong> Grades: <span class="g C" title="Confirmed">C</span> 267 · <span class="g L" title="Likely">L</span> 51 · <span class="g S" title="Suspected">S</span> 7. Retired rules are struck through in their chapter, never deleted.</p>
@@ -2092,78 +2092,6 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><code>x3d.loom</code> PR #75</td>
 </tr>
 <tr>
-<td>H-YJS-1</td>
-<td><a href="15-yjs-collaboration.html">15</a></td>
-<td>Store the tree as a flat table with a parent register; never nest a node's Map inside its parent's.</td>
-<td><span class="g C" title="Confirmed">C</span></td>
-<td>move-with-edit test</td>
-<td><code>x3d.loom@a9640eb</code> tests</td>
-</tr>
-<tr>
-<td>H-YJS-2</td>
-<td><a href="15-yjs-collaboration.html">15</a></td>
-<td>Fuzz the export text, not the Yjs state: converged state can still print differently.</td>
-<td><span class="g C" title="Confirmed">C</span></td>
-<td>attribute-order bug, 9 of 12 seeds</td>
-<td>same, Node v22.23.4</td>
-</tr>
-<tr>
-<td>H-YJS-3</td>
-<td><a href="15-yjs-collaboration.html">15</a></td>
-<td>Treat order-hint arrays as hints: walk by the register, with a visited set.</td>
-<td><span class="g C" title="Confirmed">C</span></td>
-<td>runaway-delete bug</td>
-<td>bench, 200 seeds</td>
-</tr>
-<tr>
-<td>H-YJS-4</td>
-<td><a href="15-yjs-collaboration.html">15</a></td>
-<td>Skip structure work for field-only transactions, and keep an incremental index for the rest; keep the O(n) rebuild as the test oracle.</td>
-<td><span class="g C" title="Confirmed">C</span></td>
-<td>6,687 vs 1.5 pairs/s at 51,111 nodes, fan-out 10</td>
-<td><code>tools/bench.js</code></td>
-</tr>
-<tr>
-<td>H-YJS-9</td>
-<td><a href="15-yjs-collaboration.html">15</a></td>
-<td>Test an incremental structure with a differential check against the full rebuild after every operation, not only at the end.</td>
-<td><span class="g C" title="Confirmed">C</span></td>
-<td>8 seeds x 250 operations, plus 600 of 600 copies in the bench</td>
-<td><code>x3d.loom@a9640eb:x3d.yjs/test</code></td>
-</tr>
-<tr>
-<td>H-YJS-5</td>
-<td><a href="15-yjs-collaboration.html">15</a></td>
-<td>Match SAI nodes by DEF name, never by object identity.</td>
-<td><span class="g C" title="Confirmed">C</span></td>
-<td>X_ITE 16.6.0 wrappers</td>
-<td><code>tools/e2e.js</code></td>
-</tr>
-<tr>
-<td>H-YJS-6</td>
-<td><a href="15-yjs-collaboration.html">15</a></td>
-<td>Give every peer a control step that must differ (offline edits) before trusting a zero-difference picture.</td>
-<td><span class="g C" title="Confirmed">C</span></td>
-<td>16,633 pixels differ</td>
-<td><code>receipts/e2e-xite.json</code></td>
-</tr>
-<tr>
-<td>H-YJS-8</td>
-<td><a href="15-yjs-collaboration.html">15</a></td>
-<td>Keep user DEF names out of the render path: render every node as <code>y_&lt;uid&gt;</code> so a DEF clash between peers cannot misdirect a USE or a ROUTE.</td>
-<td><span class="g L" title="Likely">L</span></td>
-<td>by construction; the unit test checks the clash export names, no renderer run with a clash</td>
-<td><code>x3d.loom@a9640eb:x3d.yjs/src/yx3d.js</code></td>
-</tr>
-<tr>
-<td>H-YJS-7</td>
-<td><a href="15-yjs-collaboration.html">15</a></td>
-<td>Validate the agent's ops against the document before they enter it; return refusals as results.</td>
-<td><span class="g L" title="Likely">L</span></td>
-<td><code>Nope</code> DEF refused; no validator run on agent output yet</td>
-<td><code>src/agent.js</code></td>
-</tr>
-<tr>
 <td>H-ZOD-1</td>
 <td><a href="16-typed-x3d-zod.html">16</a></td>
 <td>Generate the Zod from the schema file and pin the file's sha1; a hand-copied schema drifts without a signal.</td>
@@ -2634,6 +2562,78 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>real canvas never presented</td>
 <td>Chromium 153, SwiftShader</td>
+</tr>
+<tr>
+<td>H-YJS-1</td>
+<td><a href="21-yjs-collaboration.html">21</a></td>
+<td>Store the tree as a flat table with a parent register; never nest a node's Map inside its parent's.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>move-with-edit test</td>
+<td><code>x3d.loom@a9640eb</code> tests</td>
+</tr>
+<tr>
+<td>H-YJS-2</td>
+<td><a href="21-yjs-collaboration.html">21</a></td>
+<td>Fuzz the export text, not the Yjs state: converged state can still print differently.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>attribute-order bug, 9 of 12 seeds</td>
+<td>same, Node v22.23.4</td>
+</tr>
+<tr>
+<td>H-YJS-3</td>
+<td><a href="21-yjs-collaboration.html">21</a></td>
+<td>Treat order-hint arrays as hints: walk by the register, with a visited set.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>runaway-delete bug</td>
+<td>bench, 200 seeds</td>
+</tr>
+<tr>
+<td>H-YJS-4</td>
+<td><a href="21-yjs-collaboration.html">21</a></td>
+<td>Skip structure work for field-only transactions, and keep an incremental index for the rest; keep the O(n) rebuild as the test oracle.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>6,687 vs 1.5 pairs/s at 51,111 nodes, fan-out 10</td>
+<td><code>tools/bench.js</code></td>
+</tr>
+<tr>
+<td>H-YJS-9</td>
+<td><a href="21-yjs-collaboration.html">21</a></td>
+<td>Test an incremental structure with a differential check against the full rebuild after every operation, not only at the end.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>8 seeds x 250 operations, plus 600 of 600 copies in the bench</td>
+<td><code>x3d.loom@a9640eb:x3d.yjs/test</code></td>
+</tr>
+<tr>
+<td>H-YJS-5</td>
+<td><a href="21-yjs-collaboration.html">21</a></td>
+<td>Match SAI nodes by DEF name, never by object identity.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>X_ITE 16.6.0 wrappers</td>
+<td><code>tools/e2e.js</code></td>
+</tr>
+<tr>
+<td>H-YJS-6</td>
+<td><a href="21-yjs-collaboration.html">21</a></td>
+<td>Give every peer a control step that must differ (offline edits) before trusting a zero-difference picture.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>16,633 pixels differ</td>
+<td><code>receipts/e2e-xite.json</code></td>
+</tr>
+<tr>
+<td>H-YJS-8</td>
+<td><a href="21-yjs-collaboration.html">21</a></td>
+<td>Keep user DEF names out of the render path: render every node as <code>y_&lt;uid&gt;</code> so a DEF clash between peers cannot misdirect a USE or a ROUTE.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>by construction; the unit test checks the clash export names, no renderer run with a clash</td>
+<td><code>x3d.loom@a9640eb:x3d.yjs/src/yx3d.js</code></td>
+</tr>
+<tr>
+<td>H-YJS-7</td>
+<td><a href="21-yjs-collaboration.html">21</a></td>
+<td>Validate the agent's ops against the document before they enter it; return refusals as results.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>Nope</code> DEF refused; no validator run on agent output yet</td>
+<td><code>src/agent.js</code></td>
 </tr>
 </tbody>
 </table>

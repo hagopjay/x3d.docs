@@ -38,7 +38,7 @@ A model that writes X3D has two failure modes: it writes something the standard 
 |---|---|
 | the JSON Schema as code; node restriction; four-validator corpus run; fuzz; the mistakes a model makes | calling a model (nothing here does); ROUTE and DEF/USE meaning; X3D 4.1 content (the schema stops at 4.0) |
 
-Read next: deeper, [03 Validator and gates](03-validator-and-gates.md) (the rungs this gate sits beside); wider, [15 Yjs](15-yjs-collaboration.md) (another place an agent's output must be checked before it enters a scene).
+Read next: deeper, [03 Validator and gates](03-validator-and-gates.md) (the rungs this gate sits beside); wider, [21 Yjs](21-yjs-collaboration.md) (another place an agent's output must be checked before it enters a scene).
 
 ---
 

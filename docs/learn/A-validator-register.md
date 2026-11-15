@@ -7,7 +7,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
-| `same` | 70 | 05, 06, 07, 09, 10, 11, 12, 15, 16, 17, 18, 20 | C:69 L:1 |
+| `same` | 70 | 05, 06, 07, 09, 10, 11, 12, 15, 16, 17, 18, 20, 21 | C:69 L:1 |
 | `same rig` | 36 | 08, 09, 13, 15 | C:36 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
@@ -33,7 +33,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d_mcp fork b4efcd3, seed 20261029` | 3 | 01, 03 | C:3 |
 | `Chromium 153 SwiftShader` | 2 | 18 | C:2 |
 | `Chromium 153, SwiftShader (carried)` | 2 | 11, 12 | L:2 |
-| `Node v22.23.4, Yjs 13.6.33` | 2 | 15 | C:2 |
+| `Node v22.23.4, Yjs 13.6.33` | 2 | 21 | C:2 |
 | `X_ITE 16.6.0, Chromium 153.0.8010.12 SwiftShader, three.js r187` | 2 | 08 | C:2 |
 | `X_ITE 16.7.0, Chromium 153, SwiftShader, 320 x 240` | 2 | 01 | C:2 |
 | `esbuild 0.25.12` | 2 | 16, 19 | C:2 |
@@ -68,7 +68,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `Chromium 153.0.8010.12, SwiftShader, three-mesh-bvh 0.9.18` | 1 | 08 | C:1 |
 | `D-LAW-2 script (judgement of the column)` | 1 | 02 | L:1 |
 | `D-LAW-7 script` | 1 | 02 | C:1 |
-| `Intel Xeon 2.10 GHz x4` | 1 | 15 | C:1 |
+| `Intel Xeon 2.10 GHz x4` | 1 | 21 | C:1 |
 | `JSON parse 2026-11-14` | 1 | 11 | C:1 |
 | `JSON parse, 2026-11-14` | 1 | 12 | C:1 |
 | `JSON parse, Khronos glTF-Validator 2.0.0-dev.3.10, 2026-11-14` | 1 | 12 | C:1 |
@@ -109,7 +109,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `X_ITE 16.6.0 private getVertices, SwiftShader` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0, 640 x 360, SwiftShader` | 1 | 08 | L:1 |
 | `X_ITE 16.6.0, Chromium 153 SwiftShader` | 1 | 15 | C:1 |
-| `X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 15 | C:1 |
+| `X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 21 | C:1 |
 | `X_ITE 16.6.0, Chromium 153.0.8010.12` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader` | 1 | 17 | C:1 |
 | `X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader, three.js r187` | 1 | 08 | C:1 |
@@ -244,12 +244,12 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `same rig, wall-clock wait` | 1 | 13 | C:1 |
 | `same rigs` | 1 | 17 | C:1 |
 | `same validator, receipt` | 1 | 09 | C:1 |
-| `same, 3 peers x 300 ops` | 1 | 15 | C:1 |
+| `same, 3 peers x 300 ops` | 1 | 21 | C:1 |
 | `same, 44 shader workers` | 1 | 12 | C:1 |
 | `same, 4x Xeon 2.10 GHz` | 1 | 20 | C:1 |
 | `same, GPU timestamp` | 1 | 20 | C:1 |
 | `same, X_ITE on ANGLE Vulkan, Chromium 159` | 1 | 12 | C:1 |
-| `same, in-process link` | 1 | 15 | C:1 |
+| `same, in-process link` | 1 | 21 | C:1 |
 | `same, seed 7` | 1 | 07 | C:1 |
 | `same; bpy 5.3.0 CPU 256 spp OIDN` | 1 | 18 | C:1 |
 | `scratch copy of x3d_mcp fork b4efcd3` | 1 | 03 | C:1 |
@@ -267,7 +267,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `test_eda_infer, test_eda_js_parity, Node 22.23.4` | 1 | 07 | C:1 |
 | `tests/suite/x3d_test_suite.py on bpy 5.3.0` | 1 | 10 | C:1 |
 | `tests/tuples.test.ts` | 1 | 16 | C:1 |
-| `three r187, SwiftShader` | 1 | 15 | C:1 |
+| `three r187, SwiftShader` | 1 | 21 | C:1 |
 | `tools/corpus.py, x3d_mcp fork fbe165f` | 1 | 16 | C:1 |
 | `tools/fuzz.mjs, seed 1, 966 source scenes` | 1 | 16 | C:1 |
 | `unittest discover, Git 2.43.0, Python 3.13.18` | 1 | 07 | C:1 |
