@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**120 drills**, 110 with a recorded run (`Checked`), 10 not yet run. Levels: L1 19, L2 64, L3 37.
+**125 drills**, 115 with a recorded run (`Checked`), 10 not yet run. Levels: L1 21, L2 66, L3 38.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -127,4 +127,9 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-MET-3 | [14](14-methods.md) | L3 | Break the linter | 2026-11-14 `check_learn.py` at this commit. |
 | D-MET-4 | [14](14-methods.md) | L2 | Pin audit | not run. |
 | D-MET-5 | [14](14-methods.md) | L3 | Teach-back | not run. |
+| D-YJS-1 | [15](15-yjs-collaboration.md) | L1 | Run the suite | 2026-11-15 Node v22.23.4, Yjs 13.6.33, pycrdt 0.14.13 |
+| D-YJS-2 | [15](15-yjs-collaboration.md) | L3 | Break the export | 2026-11-15 Node v22.23.4, Yjs 13.6.33 |
+| D-YJS-3 | [15](15-yjs-collaboration.md) | L2 | Two browsers | 2026-11-15 Chromium 153.0.8010.12 SwiftShader, X_ITE 16.6.0 |
+| D-YJS-4 | [15](15-yjs-collaboration.md) | L2 | Price a structural edit | 2026-11-15 Node v22.23.4, Intel Xeon 2.10 GHz x4 |
+| D-YJS-5 | [15](15-yjs-collaboration.md) | L1 | Predict the winner | 2026-11-15 `x3d.loom@0689f1a` tests |
 <!-- END GENERATED -->
