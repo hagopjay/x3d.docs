@@ -436,7 +436,7 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-ZOD-2 | [16](16-typed-x3d-zod.md) | generated Zod file | 597,222 bytes | [C] | `gen.mjs` | `x3d.zod/src/generated/x3d.zod.ts` |
 | N-ZOD-3 | [16](16-typed-x3d-zod.md) | strict objects / unions / tuples / enums emitted | 887 / 301 / 88 / 150 | [C] | `gen.mjs` | `x3d.zod/receipts/gen.json` |
 | N-ZOD-4 | [16](16-typed-x3d-zod.md) | node tests | 32 of 32 pass | [C] | Node v22.23.4, zod 4.6.7, ajv 8.20.0 | `x3d.zod/tests` |
-| N-ZOD-5 | [16](16-typed-x3d-zod.md) | full schema minified / starter lean / animated lean | 502,810 / 19,153 / 25,635 bytes | [C] | `restrictSchema` and `llm_schema.py` agree | `x3d.zod/src/restrict.ts`, `x3d_mcp@c86caf7` |
+| N-ZOD-5 | [16](16-typed-x3d-zod.md) | full schema minified / starter lean / animated lean | 502,810 / 19,153 / 25,635 bytes | [C] | `restrictSchema` and `llm_schema.py` agree | `x3d.zod/src/restrict.ts`, `x3d_mcp@60b9474` |
 | N-ZOD-6 | [16](16-typed-x3d-zod.md) | repository scenes found / checked by all four validators | 1,533 / 1,432 | [C] | `tools/corpus.py`, x3d_mcp fork fbe165f | `x3d.zod/receipts/corpus-summary.json` |
 | N-ZOD-7 | [16](16-typed-x3d-zod.md) | scenes where Zod, ajv and jsonschema agree | 1,432 of 1,432 | [C] | same | same |
 | N-ZOD-8 | [16](16-typed-x3d-zod.md) | XSD accepts and JSON accepts / XSD accepts and JSON rejects | 918 / 128 | [C] | `validate_xml`, `validate_json` | same |
