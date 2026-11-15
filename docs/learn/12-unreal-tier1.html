@@ -1155,9 +1155,19 @@ render pipeline's numbers can be compared against.</p>
 <td><span class="g L" title="Likely">L</span> (lane count not checked on this machine)</td>
 </tr>
 <tr>
-<td>ray-marched Mandelbulb, 3840 x 2160, 4 rays per pixel</td>
-<td>about 79 fps per frame that saved nothing (the 10 fps average included PNG saves)</td>
-<td><span class="g L" title="Likely">L</span> (read from per-frame lines; a render-only timing cell exists)</td>
+<td>ray-marched Mandelbulb, 3840 x 2160, 4 rays per pixel, render only</td>
+<td>94.0 fps, 3.12 G rays/s (the burn's first 10 fps average had PNG saves inside its timer)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>the same fractal at 7680 x 4320, 64 rays per pixel (2.1 G rays)</td>
+<td>0.67 s</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>all-pairs N-body, 262,144 bodies, 2,400 steps</td>
+<td>1.48 x 10^12 pair interactions/s; 29.7 TFLOPS at the customary 20 flops per interaction (about 30 % of the FMA figure: each interaction needs a reciprocal square root, which the FMA shader never calls)</td>
+<td><span class="g C" title="Confirmed">C</span> for the rate; <span class="g L" title="Likely">L</span> for the reason</td>
 </tr>
 </tbody>
 </table>
@@ -1200,7 +1210,7 @@ from the hardware's limits, so no tier-1 result on this rig is limited by the GP
 </tr>
 <tr>
 <td>6</td>
-<td>Time only what is measured: a save inside a frame timer cut a 79 fps figure to 10</td>
+<td>Time only what is measured: a save inside a frame timer cut a 94 fps figure to 10</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 </tr>
 </tbody>
@@ -1731,10 +1741,26 @@ from the hardware's limits, so no tier-1 result on this rig is limited by the GP
 </tr>
 <tr>
 <td>N-UNR-36</td>
-<td>Mandelbulb 4K, 4 rays per pixel, frames with no save</td>
-<td>about 79 fps</td>
-<td><span class="g L" title="Likely">L</span></td>
-<td>same wgpu-py run, per-frame lines</td>
+<td>Mandelbulb 4K, 4 rays per pixel, render only</td>
+<td>94.0 fps (3.12 G rays/s)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>wgpu-py 0.33.0 Vulkan, RTX PRO 6000 Blackwell SE, 2026-11-15</td>
+<td>Section 11.5</td>
+</tr>
+<tr>
+<td>N-UNR-38</td>
+<td>Mandelbulb 8K at 64 rays per pixel</td>
+<td>0.67 s</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>Section 11.5</td>
+</tr>
+<tr>
+<td>N-UNR-39</td>
+<td>all-pairs N-body, 262,144 bodies: interaction rate</td>
+<td>1.48 x 10^12 /s (29.7 TFLOPS at 20 flops each)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
 <td>Section 11.5</td>
 </tr>
 <tr>

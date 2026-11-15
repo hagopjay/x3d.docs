@@ -444,7 +444,9 @@ render pipeline's numbers can be compared against.
 | FP32 fused multiply-add shader, 60 s | 98.1 TFLOPS average (best batch 98.2) | [C] |
 | during it: utilisation, power, SM clock | 100 %, 541 W peak, 2,430 MHz | [C] (nvidia-smi, 0.5 s samples) |
 | theoretical FP32 at that clock | about 117 TFLOPS (about 24,000 FP32 lanes x 2 x 2.43 GHz) | [L] (lane count not checked on this machine) |
-| ray-marched Mandelbulb, 3840 x 2160, 4 rays per pixel | about 79 fps per frame that saved nothing (the 10 fps average included PNG saves) | [L] (read from per-frame lines; a render-only timing cell exists) |
+| ray-marched Mandelbulb, 3840 x 2160, 4 rays per pixel, render only | 94.0 fps, 3.12 G rays/s (the burn's first 10 fps average had PNG saves inside its timer) | [C] |
+| the same fractal at 7680 x 4320, 64 rays per pixel (2.1 G rays) | 0.67 s | [C] |
+| all-pairs N-body, 262,144 bodies, 2,400 steps | 1.48 x 10^12 pair interactions/s; 29.7 TFLOPS at the customary 20 flops per interaction (about 30 % of the FMA figure: each interaction needs a reciprocal square root, which the FMA shader never calls) | [C] for the rate; [L] for the reason |
 
 Unreal's stills on the same machine used 7.5 to 12.6 GB of the card's 95.6 GB, at about 10 s per 1080p Lumen still. The pipeline is far
 from the hardware's limits, so no tier-1 result on this rig is limited by the GPU. [C] for the memory figures.
@@ -458,7 +460,7 @@ from the hardware's limits, so no tier-1 result on this rig is limited by the GP
 | 3 | Name grades so the engine's job-name sanitiser keeps them apart: `+3` and `-3` both become `_3`; use `p3` / `m3` (the lab now refuses a collision) | [C] |
 | 4 | A render rung that turns depth of field and fringe off needs grades to turn them back on in their own cvars | [C] |
 | 5 | An exposure fit that compares two images returns exactly 0 when no pixel is lit in both; fall back to a percentile match | [C] |
-| 6 | Time only what is measured: a save inside a frame timer cut a 79 fps figure to 10 | [C] |
+| 6 | Time only what is measured: a save inside a frame timer cut a 94 fps figure to 10 | [C] |
 
 ---
 
@@ -604,7 +606,9 @@ from the hardware's limits, so no tier-1 result on this rig is limited by the GP
 | N-UNR-33 | E3 object share of the frame | 11.7 % | [C] | same | Section 11.2 |
 | N-UNR-34 | FP32 FMA throughput from Python on Vulkan, 60 s | 98.1 TFLOPS (best 98.2) | [C] | wgpu-py 0.33.0 Vulkan, RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-15 | Section 11.5 |
 | N-UNR-35 | power and SM clock peak during it | 541 W, 2,430 MHz | [C] | nvidia-smi, 0.5 s samples, 2026-11-15 | Section 11.5 |
-| N-UNR-36 | Mandelbulb 4K, 4 rays per pixel, frames with no save | about 79 fps | [L] | same wgpu-py run, per-frame lines | Section 11.5 |
+| N-UNR-36 | Mandelbulb 4K, 4 rays per pixel, render only | 94.0 fps (3.12 G rays/s) | [C] | wgpu-py 0.33.0 Vulkan, RTX PRO 6000 Blackwell SE, 2026-11-15 | Section 11.5 |
+| N-UNR-38 | Mandelbulb 8K at 64 rays per pixel | 0.67 s | [C] | same | Section 11.5 |
+| N-UNR-39 | all-pairs N-body, 262,144 bodies: interaction rate | 1.48 x 10^12 /s (29.7 TFLOPS at 20 flops each) | [C] | same | Section 11.5 |
 | N-UNR-37 | tier-1 bounds: IoU / repeat / spread margin | 0.95 / 0.02 / 0.05 | [C] | `x3d.lab` PR #32, `tier1_proof_cells.py` | Section 11.4 |
 
 ---

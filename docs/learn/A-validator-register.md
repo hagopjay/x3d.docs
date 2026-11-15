@@ -7,7 +7,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
-| `same` | 24 | 05, 06, 07, 09, 10, 11, 12 | C:23 L:1 |
+| `same` | 26 | 05, 06, 07, 09, 10, 11, 12 | C:25 L:1 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `same rig` | 12 | 08, 09, 13 | C:12 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
@@ -193,7 +193,6 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `same rig, two runs of the 10 fixtures` | 1 | 08 | C:1 |
 | `same rig, wall-clock wait` | 1 | 13 | C:1 |
 | `same validator, receipt` | 1 | 09 | C:1 |
-| `same wgpu-py run, per-frame lines` | 1 | 12 | L:1 |
 | `same, 44 shader workers` | 1 | 12 | C:1 |
 | `same, X_ITE on ANGLE Vulkan, Chromium 159` | 1 | 12 | C:1 |
 | `same, seed 7` | 1 | 07 | C:1 |
@@ -217,6 +216,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `verifier pass in a private note` | 1 | 10 | S:1 |
 | `wc -l, grep` | 1 | 07 | C:1 |
 | `wc, gzip -9, sha256sum` | 1 | 06 | C:1 |
+| `wgpu-py 0.33.0 Vulkan, RTX PRO 6000 Blackwell SE, 2026-11-15` | 1 | 12 | C:1 |
 | `wgpu-py 0.33.0 Vulkan, RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-15` | 1 | 12 | C:1 |
 | `x3d-blender-io@ab99988 catalogue` | 1 | 03 | C:1 |
 | `x3d.demo@d10b457 directory read` | 1 | 05 | C:1 |
