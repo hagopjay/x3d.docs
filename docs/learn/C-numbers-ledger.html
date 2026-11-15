@@ -22,7 +22,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a class="cur" href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="C-numbers-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/C-numbers-ledger.md">GitHub</a></div><h1>Appendix C. Numbers ledger</h1>
 <p>Merged from the <em>Numbers register</em> of every chapter by <code>tools-shared/build_learn.py</code>. Edit the chapter, not this file.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>332 numbers</strong> from 14 chapters. Grades: <span class="g C" title="Confirmed">C</span> 288 · <span class="g L" title="Likely">L</span> 40 · <span class="g S" title="Suspected">S</span> 4. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
+<p><strong>347 numbers</strong> from 14 chapters. Grades: <span class="g C" title="Confirmed">C</span> 303 · <span class="g L" title="Likely">L</span> 40 · <span class="g S" title="Suspected">S</span> 4. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
 <table>
 <thead>
 <tr>
@@ -1794,6 +1794,60 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td>N-BAB-43</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
+<td>three.js bridge status, batch 2</td>
+<td>drawn 53, reader-checked 29, reader 46, todo 95, upstream 37</td>
+<td>C</td>
+<td><code>driver.py status</code></td>
+<td>x3d.loom@38530ab:x3d.threejs/bridge/NODES.json</td>
+</tr>
+<tr>
+<td>N-BAB-44</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>all compared pictures after batch 2</td>
+<td>61 pictures; IoU 0.90 to 1.00; PSNR 25.32 to 80.17 dB over 47 that differ, median 50.24; 14 at 99 dB (12 identical, 2 empty frames)</td>
+<td>C</td>
+<td>X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader, three.js r187</td>
+<td>x3d.loom@38530ab:x3d.threejs/bridge/receipts/*.json</td>
+</tr>
+<tr>
+<td>N-BAB-45</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>pictures new in batch 2</td>
+<td>31 pictures over 27 fixtures; 8 pixel-identical; IoU 0.91 to 1.00</td>
+<td>C</td>
+<td>same rig</td>
+<td>same receipts</td>
+</tr>
+<tr>
+<td>N-BAB-46</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>ElevationGrid triangulation</td>
+<td>diagonal (a, c, d) (a, d, b): 99 dB; the other diagonal: mad 2.70, 29.13 dB</td>
+<td>C</td>
+<td>same rig, same fixture twice</td>
+<td>x3d.loom@38530ab:x3d.threejs/bridge/src/nodes/Geometry.js</td>
+</tr>
+<tr>
+<td>N-BAB-47</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Extrusion before and after BR.ifsExtras (first fixture)</td>
+<td>IoU 0.98 to 0.99; mad 0.41 to 0.16; PSNR 39.98 to 38.65 dB; star fixture after: 0.99, 0.20, 37.51 dB</td>
+<td>C</td>
+<td>same rig</td>
+<td>x3d.loom@38530ab:x3d.threejs/bridge/receipts/Extrusion.json</td>
+</tr>
+<tr>
+<td>N-BAB-48</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>lines of the three.js body</td>
+<td>body-three.js 461 (was 284 for 12 core nodes), nodes/Geometry.js 115</td>
+<td>C</td>
+<td><code>wc -l</code></td>
+<td>x3d.loom@38530ab:x3d.threejs/bridge/src</td>
+</tr>
+<tr>
+<td>N-BAB-49</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
 <td>float32 resolution at geocentric radius 6.4e6 m</td>
 <td>about 0.5 m</td>
 <td>C</td>
@@ -1801,16 +1855,16 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>x3d.loom@bfeba57:x3d.webgpu/bridge/src/nodes/GeoCoordinate.js</td>
 </tr>
 <tr>
-<td>N-BAB-44</td>
+<td>N-BAB-50</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>great-circle midpoint, latitude 0 to 60, WGS84</td>
 <td>latitude 30.0832518, height -2663.0003 m</td>
 <td>C</td>
 <td>Python, X_ITE 16.6.0</td>
-<td>x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/GeoPositionInterpolator.test.json (D-BAB-11)</td>
+<td>x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/GeoPositionInterpolator.test.json (D-BAB-12)</td>
 </tr>
 <tr>
-<td>N-BAB-45</td>
+<td>N-BAB-51</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>GeoTransform rotation 90 degrees about local up, geoCenter 111.32 m east</td>
 <td>box 10 m east of the centre drawn 10 m north of it</td>
@@ -1819,7 +1873,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/GeoTransform.test.json</td>
 </tr>
 <tr>
-<td>N-BAB-46</td>
+<td>N-BAB-52</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>GeoViewpoint speed, height 500 m, speedFactor 3</td>
 <td>153</td>
@@ -1828,7 +1882,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/GeoViewpoint.test.json</td>
 </tr>
 <tr>
-<td>N-BAB-47</td>
+<td>N-BAB-53</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>Shaded, 16 cubed Gaussian ball, directional light, unrotated, red along a row (ours, X_ITE)</td>
 <td>6/42/80/115/139/154/162 and 0/39/75/108/135/159/159</td>
@@ -1837,7 +1891,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/_volume-smooth-lit.test.json</td>
 </tr>
 <tr>
-<td>N-BAB-48</td>
+<td>N-BAB-54</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>same ball turned 0.9 rad about Z, Shaded, five probes (ours, X_ITE)</td>
 <td>lit side 156 and 36 (ours, X_ITE) at the same probe</td>
@@ -1846,7 +1900,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>rig runs of 2026-11-15, not in a fixture</td>
 </tr>
 <tr>
-<td>N-BAB-49</td>
+<td>N-BAB-55</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>plain Gaussian ball, core 243, centre pixel</td>
 <td>18 (bridge), 23 (X_ITE)</td>
@@ -1855,16 +1909,16 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>rig run of 2026-11-15</td>
 </tr>
 <tr>
-<td>N-BAB-50</td>
+<td>N-BAB-56</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>block of 204 filling half the width, 16 voxels, centre pixel</td>
 <td>70 in both engines; 204 at 8 voxels (nearest) and 97 at 32 voxels</td>
 <td>C</td>
 <td>SwiftShader</td>
-<td>D-BAB-12</td>
+<td>D-BAB-13</td>
 </tr>
 <tr>
-<td>N-BAB-51</td>
+<td>N-BAB-57</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>ProjectionVolumeStyle AVERAGE of a uniform grey 204 volume</td>
 <td>38</td>
@@ -1873,7 +1927,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/ProjectionVolumeStyle.test.json</td>
 </tr>
 <tr>
-<td>N-BAB-52</td>
+<td>N-BAB-58</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>BlendedVolumeStyle defaults, voxels 204 and 102</td>
 <td>153 (ALPHA0: 215, ONE_MINUS_ALPHA0: 91)</td>
@@ -1882,7 +1936,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/BlendedVolumeStyle.test.json</td>
 </tr>
 <tr>
-<td>N-BAB-53</td>
+<td>N-BAB-59</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>batch 45 fixture steps passed (ours / X_ITE)</td>
 <td>Geo 305 and 300; Blended 63 and 53, Composed 17 and 17, Projection 32 and 32</td>
@@ -2663,6 +2717,87 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>none</td>
 <td>this chapter</td>
+</tr>
+<tr>
+<td>N-UNR-19</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>light calibration constant K</td>
+<td>1.01736 (assumed 1.2)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>UE 5.8.4 on RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-14</td>
+<td>notebook 07 step 8 (recorded run, not in a repo)</td>
+</tr>
+<tr>
+<td>N-UNR-20</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>stilllife vs X_ITE 16.7.0: match / IoU / SSIM</td>
+<td>1.000 / 0.997 / 0.8195</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same, X_ITE on ANGLE Vulkan, Chromium 159</td>
+<td>notebook 07 step 10</td>
+</tr>
+<tr>
+<td>N-UNR-21</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>stilllife luma ratio Unreal / X_ITE and Unreal / Cycles</td>
+<td>0.715 / 0.601</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>notebook 07 step 10</td>
+</tr>
+<tr>
+<td>N-UNR-22</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>cold start (first shader compile) / warm start</td>
+<td>312.7 s / 15.3 s</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same, 44 shader workers</td>
+<td>notebook 07 step 6</td>
+</tr>
+<tr>
+<td>N-UNR-23</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>1080p Lumen still, stilllife / peak VRAM</td>
+<td>10 s / 7.5 GB</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>notebook 07 step 9</td>
+</tr>
+<tr>
+<td>N-UNR-24</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>instances dropped by Interchange from the instanced glb</td>
+<td>1,711</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>Interchange log</td>
+</tr>
+<tr>
+<td>N-UNR-25</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>odyssey White Room: clipped pixels at the calibrated EV / picked offset</td>
+<td>86 % / -14 EV</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>exposure bracket</td>
+</tr>
+<tr>
+<td>N-UNR-26</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>Khronos controls: picked offset</td>
+<td>+2 EV</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>exposure bracket</td>
+</tr>
+<tr>
+<td>N-UNR-27</td>
+<td><a href="12-unreal-tier1.html">12</a></td>
+<td>scorecard of the first leg</td>
+<td>40 PASS, 3 WARN, 0 FAIL, 1 SKIP</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>notebook 07 step 11</td>
 </tr>
 <tr>
 <td>N-PHY-1</td>

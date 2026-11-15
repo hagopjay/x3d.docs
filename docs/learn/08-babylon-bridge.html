@@ -20,7 +20,7 @@ blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;backgr
 details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
 .foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a class="cur" href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="08-babylon-bridge.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/08-babylon-bridge.md">GitHub</a></div><h1>08. The Babylon bridge</h1>
-<details class="toc"><summary>On this page (47 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-why-a-second-renderer-and-why-the-file-stays-the-master">2. Why: a second renderer, and why the file stays the master</a><a class="l2" href="#3-architecture-the-reader-is-the-brain-babylon-is-the-body">3. Architecture: the reader is the brain, Babylon is the body</a><a class="l2" href="#4-node-coverage-recounted-at-x3dloom162ab18">4. Node coverage, recounted at x3d.loom@162ab18</a><a class="l3" href="#41-volume-rendering-ten-nodes-one-lattice-x3dloom-batch-43">4.1 Volume rendering: ten nodes, one lattice (x3d.loom batch 43)</a><a class="l2" href="#5-the-playbook-merged-50-traps-ranked">5. The playbook, merged: 50 traps, ranked</a><a class="l2" href="#6-the-parity-method-psnr-against-x_ite-on-a-software-gpu">6. The parity method: PSNR against X_ITE on a software GPU</a><a class="l2" href="#7-the-ports-and-what-each-taught">7. The ports and what each taught</a><a class="l2" href="#8-a-look-may-add-never-assert-a-fallback-must-say-so">8. A look may add, never assert; a fallback must say so</a><a class="l2" href="#9-shader-porting-hash-keyed-glsl-to-hand-written-wgsl">9. Shader porting: hash-keyed GLSL to hand-written WGSL</a><a class="l2" href="#10-the-adapter-and-blocklist-trap">10. The adapter and blocklist trap</a><a class="l2" href="#11-porting-a-new-demo-sixteen-steps-append-only">11. Porting a new demo: sixteen steps, append-only</a><a class="l2" href="#12-no-speed-claim-exists-and-what-one-would-take">12. No speed claim exists, and what one would take</a><a class="l2" href="#13-nurbs-in-the-bridge-shared-maths-x_ites-tessellation-rule-and-where-x_ite-is-wrong">13. NURBS in the bridge: shared maths, X_ITE&#x27;s tessellation rule, and where X_ITE is wrong</a><a class="l3" href="#131-what-was-built-and-why-it-is-one-library">13.1 What was built and why it is one library</a><a class="l3" href="#132-the-tessellation-rule-is-x_ites-on-purpose-the-maths-is-the-standards">13.2 The tessellation rule is X_ITE&#x27;s on purpose; the maths is the standard&#x27;s</a><a class="l3" href="#133-where-x_ite-1660-is-wrong-and-where-it-is-only-different">13.3 Where X_ITE 16.6.0 is wrong, and where it is only different</a><a class="l3" href="#134-two-schema-findings-and-one-test-rig-trap">13.4 Two schema findings and one test-rig trap</a><a class="l2" href="#14-a-second-body-the-reader-on-threejs">14. A second body: the reader on three.js</a><a class="l3" href="#141-why-this-is-easy-and-what-is-not">14.1 Why this is easy, and what is not</a><a class="l3" href="#142-what-the-first-run-taught">14.2 What the first run taught</a><a class="l3" href="#143-x_ite-lighting-is-a-target-not-a-rule">14.3 X_ITE lighting is a target, not a rule</a><a class="l3" href="#144-batch-1-lights-fog-textures-and-how-x_ites-formulas-were-found">14.4 Batch 1: lights, fog, textures, and how X_ITE&#x27;s formulas were found</a><a class="l2" href="#15-geospatial-and-the-last-volume-styles-a-position-is-a-point-and-two-engines-disagree-on-a-rotated-volume">15. Geospatial and the last volume styles: a position is a point, and two engines disagree on a rotated volume</a><a class="l3" href="#151-the-earth-is-the-scene-and-float32-cannot-hold-it">15.1 The earth is the scene, and float32 cannot hold it</a><a class="l3" href="#152-geotransform-does-not-move-its-children-to-the-centre">15.2 GeoTransform does not move its children to the centre</a><a class="l3" href="#153-a-great-circle-with-a-linear-radius">15.3 A great circle with a linear radius</a><a class="l3" href="#154-three-volume-styles-three-surprises">15.4 Three volume styles, three surprises</a><a class="l3" href="#155-smooth-volumes-dim-shells-and-a-rotated-volume-x_ite-lights-wrongly">15.5 Smooth volumes: dim shells, and a rotated volume X_ITE lights wrongly</a><a class="l3" href="#156-two-test-rig-slips">15.6 Two test-rig slips</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-bab-1-recount-the-bridges-coverage">D-BAB-1 Recount the bridge&#x27;s coverage</a><a class="l3" href="#d-bab-2-re-derive-the-primers-68">D-BAB-2 Re-derive the primer&#x27;s 68</a><a class="l3" href="#d-bab-3-break-a-shader-key-then-predict-which-half-moves">D-BAB-3 Break a shader key, then predict which half moves</a><a class="l3" href="#d-bab-4-move-a-psnr-by-changing-its-window">D-BAB-4 Move a PSNR by changing its window</a><a class="l3" href="#d-bab-5-census-a-corpus-before-you-promise-a-port">D-BAB-5 Census a corpus before you promise a port</a><a class="l3" href="#d-bab-9-opacity-of-a-stack-of-slices">D-BAB-9 Opacity of a stack of slices</a><a class="l3" href="#d-bab-6-check-the-weights-radius-100-not-124">D-BAB-6 Check the weights: radius 1.00, not 1.24</a><a class="l3" href="#d-bab-7-re-run-one-nurbs-node-against-x_ite">D-BAB-7 Re-run one NURBS node against X_ITE</a><a class="l3" href="#d-bab-8-predict-a-sets-triangle-counts">D-BAB-8 Predict a set&#x27;s triangle counts</a><a class="l3" href="#d-bab-10-break-the-first-viewpoint-rule-and-read-the-picture">D-BAB-10 Break the first-Viewpoint rule and read the picture</a><a class="l3" href="#d-bab-11-midpoint-of-latitude-0-to-latitude-60">D-BAB-11 Midpoint of latitude 0 to latitude 60</a><a class="l3" href="#d-bab-12-why-a-block-of-204-draws-70">D-BAB-12 Why a block of 204 draws 70</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<details class="toc"><summary>On this page (49 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-why-a-second-renderer-and-why-the-file-stays-the-master">2. Why: a second renderer, and why the file stays the master</a><a class="l2" href="#3-architecture-the-reader-is-the-brain-babylon-is-the-body">3. Architecture: the reader is the brain, Babylon is the body</a><a class="l2" href="#4-node-coverage-recounted-at-x3dloom162ab18">4. Node coverage, recounted at x3d.loom@162ab18</a><a class="l3" href="#41-volume-rendering-ten-nodes-one-lattice-x3dloom-batch-43">4.1 Volume rendering: ten nodes, one lattice (x3d.loom batch 43)</a><a class="l2" href="#5-the-playbook-merged-50-traps-ranked">5. The playbook, merged: 50 traps, ranked</a><a class="l2" href="#6-the-parity-method-psnr-against-x_ite-on-a-software-gpu">6. The parity method: PSNR against X_ITE on a software GPU</a><a class="l2" href="#7-the-ports-and-what-each-taught">7. The ports and what each taught</a><a class="l2" href="#8-a-look-may-add-never-assert-a-fallback-must-say-so">8. A look may add, never assert; a fallback must say so</a><a class="l2" href="#9-shader-porting-hash-keyed-glsl-to-hand-written-wgsl">9. Shader porting: hash-keyed GLSL to hand-written WGSL</a><a class="l2" href="#10-the-adapter-and-blocklist-trap">10. The adapter and blocklist trap</a><a class="l2" href="#11-porting-a-new-demo-sixteen-steps-append-only">11. Porting a new demo: sixteen steps, append-only</a><a class="l2" href="#12-no-speed-claim-exists-and-what-one-would-take">12. No speed claim exists, and what one would take</a><a class="l2" href="#13-nurbs-in-the-bridge-shared-maths-x_ites-tessellation-rule-and-where-x_ite-is-wrong">13. NURBS in the bridge: shared maths, X_ITE&#x27;s tessellation rule, and where X_ITE is wrong</a><a class="l3" href="#131-what-was-built-and-why-it-is-one-library">13.1 What was built and why it is one library</a><a class="l3" href="#132-the-tessellation-rule-is-x_ites-on-purpose-the-maths-is-the-standards">13.2 The tessellation rule is X_ITE&#x27;s on purpose; the maths is the standard&#x27;s</a><a class="l3" href="#133-where-x_ite-1660-is-wrong-and-where-it-is-only-different">13.3 Where X_ITE 16.6.0 is wrong, and where it is only different</a><a class="l3" href="#134-two-schema-findings-and-one-test-rig-trap">13.4 Two schema findings and one test-rig trap</a><a class="l2" href="#14-a-second-body-the-reader-on-threejs">14. A second body: the reader on three.js</a><a class="l3" href="#141-why-this-is-easy-and-what-is-not">14.1 Why this is easy, and what is not</a><a class="l3" href="#142-what-the-first-run-taught">14.2 What the first run taught</a><a class="l3" href="#143-x_ite-lighting-is-a-target-not-a-rule">14.3 X_ITE lighting is a target, not a rule</a><a class="l3" href="#144-batch-1-lights-fog-textures-and-how-x_ites-formulas-were-found">14.4 Batch 1: lights, fog, textures, and how X_ITE&#x27;s formulas were found</a><a class="l3" href="#145-batch-2-geometry-sets-lines-points-billboard-lod-and-clipplane">14.5 Batch 2: geometry sets, lines, points, Billboard, LOD and ClipPlane</a><a class="l2" href="#15-geospatial-and-the-last-volume-styles-a-position-is-a-point-and-two-engines-disagree-on-a-rotated-volume">15. Geospatial and the last volume styles: a position is a point, and two engines disagree on a rotated volume</a><a class="l3" href="#151-the-earth-is-the-scene-and-float32-cannot-hold-it">15.1 The earth is the scene, and float32 cannot hold it</a><a class="l3" href="#152-geotransform-does-not-move-its-children-to-the-centre">15.2 GeoTransform does not move its children to the centre</a><a class="l3" href="#153-a-great-circle-with-a-linear-radius">15.3 A great circle with a linear radius</a><a class="l3" href="#154-three-volume-styles-three-surprises">15.4 Three volume styles, three surprises</a><a class="l3" href="#155-smooth-volumes-dim-shells-and-a-rotated-volume-x_ite-lights-wrongly">15.5 Smooth volumes: dim shells, and a rotated volume X_ITE lights wrongly</a><a class="l3" href="#156-two-test-rig-slips">15.6 Two test-rig slips</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-bab-1-recount-the-bridges-coverage">D-BAB-1 Recount the bridge&#x27;s coverage</a><a class="l3" href="#d-bab-2-re-derive-the-primers-68">D-BAB-2 Re-derive the primer&#x27;s 68</a><a class="l3" href="#d-bab-3-break-a-shader-key-then-predict-which-half-moves">D-BAB-3 Break a shader key, then predict which half moves</a><a class="l3" href="#d-bab-4-move-a-psnr-by-changing-its-window">D-BAB-4 Move a PSNR by changing its window</a><a class="l3" href="#d-bab-5-census-a-corpus-before-you-promise-a-port">D-BAB-5 Census a corpus before you promise a port</a><a class="l3" href="#d-bab-9-opacity-of-a-stack-of-slices">D-BAB-9 Opacity of a stack of slices</a><a class="l3" href="#d-bab-6-check-the-weights-radius-100-not-124">D-BAB-6 Check the weights: radius 1.00, not 1.24</a><a class="l3" href="#d-bab-7-re-run-one-nurbs-node-against-x_ite">D-BAB-7 Re-run one NURBS node against X_ITE</a><a class="l3" href="#d-bab-8-predict-a-sets-triangle-counts">D-BAB-8 Predict a set&#x27;s triangle counts</a><a class="l3" href="#d-bab-10-break-the-first-viewpoint-rule-and-read-the-picture">D-BAB-10 Break the first-Viewpoint rule and read the picture</a><a class="l3" href="#d-bab-11-swap-the-elevationgrid-diagonal-and-predict-the-number">D-BAB-11 Swap the ElevationGrid diagonal and predict the number</a><a class="l3" href="#d-bab-12-midpoint-of-latitude-0-to-latitude-60">D-BAB-12 Midpoint of latitude 0 to latitude 60</a><a class="l3" href="#d-bab-13-why-a-block-of-204-draws-70">D-BAB-13 Why a block of 204 draws 70</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
 <blockquote>
 <p><strong>Say it:</strong> one X3D file is the master, our own reader runs its events, and Babylon on WebGPU only paints the result; every picture is a claim against X_ITE on a named rig, every fallback says so on screen, and nothing about speed has been measured. <strong><span class="g C" title="Confirmed">C</span></strong></p>
 </blockquote>
@@ -1448,6 +1448,59 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tbody>
 </table>
 <p>Rig for every number: Chromium 153.0.8010.12, SwiftShader, 320 x 240, X_ITE 16.6.0 with its notifications off (the &quot;Loading done&quot; toast had drawn 4000 extra pixels into a picture), three.js r187. A first read of the X_ITE source is not proof: the TextureTransform product looked like the Transform order and was 29 dB wrong until the variants were measured. The 30 compared pictures of both batches: IoU 0.90 to 1.00, PSNR 32.4 to 70.1 dB over the 24 that differ (median 50.1), 6 identical <span class="g C" title="Confirmed">C</span>.</p>
+<h3 id="145-batch-2-geometry-sets-lines-points-billboard-lod-and-clipplane">14.5 Batch 2: geometry sets, lines, points, Billboard, LOD and ClipPlane</h3>
+<p>Batch 2 (<code>x3d.loom@38530ab</code>) drew 30 more nodes by the tracker's count, from 27 new scene fixtures (the rest ride along: Group, Normal, Collision, StaticGroup); the tracker reads drawn 53, reader-checked 29, reader 46, todo 95, upstream 37 [C, <code>driver.py status</code>]. Eleven of the 26 needed no node-specific body code: seven bridge nodes return vertex data from a <code>geometry()</code> hook (QuadSet, IndexedQuadSet, TriangleFanSet, IndexedTriangleFanSet, IndexedTriangleStripSet, TriangleSet2D, ArcClose2D) and four return a polyline from <code>lines()</code> (LineSet, Arc2D, Circle2D, Polyline2D); the three.js body calls the same hook the Babylon body calls and wraps the arrays in a <code>BufferGeometry</code> or <code>LineSegments</code> [C, <code>grep</code> over <code>bridge/src/nodes/</code>]. Of the 31 new pictures, 8 are pixel-identical to X_ITE (TriangleSet, ElevationGrid, IndexedLineSet, LineSet, PointSet, Rectangle2D, Circle2D, Polyline2D at 99 dB), the rest are within IoU 0.91 to 1.00.</p>
+<p>What was learned, in the order it happened:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>what</th>
+<th>result</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>A node the reader already defines cannot be defined again: <code>BR.node</code> throws &quot;already in the reader&quot; at load and the page then says only <code>Body is not defined</code>. The Hall reader already turns Extrusion, Rectangle2D and Disk2D into an IndexedFaceSet at parse time, and defines PointSet; the first Extrusion and PointSet nodes written here killed the bundle.</td>
+<td>both removed; Extrusion drew through the existing path</td>
+<td>C</td>
+</tr>
+<tr>
+<td>2</td>
+<td>ElevationGrid has two valid triangulations; X_ITE cuts each square from its first corner to the far one, <code>(a, c, d)</code> and <code>(a, d, b)</code>.</td>
+<td>99 dB (identical) against mad 2.7 and 29.1 dB with the other diagonal</td>
+<td>C</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>Body.geometryData</code> was lifted verbatim from the Babylon body and carries its omissions: IndexedFaceSet normals are always flat, a Normal node is ignored and colours are always per corner. Extrusion, which the reader turns into an IndexedFaceSet with a creaseAngle, therefore drew faceted. A small <code>BR.ifsExtras</code> adds Normal, creaseAngle and per-face colour.</td>
+<td>Extrusion IoU 0.98 to 0.99, mad 0.41 to 0.16, foreground mean exact; PSNR moved 39.98 to 38.65 dB (edge pixels) on the first fixture; after its fourth shape became a real star the row reads IoU 0.99, mad 0.20, 37.51 dB; the new IndexedFaceSetNormals fixture is 80.17 dB with all three features lit</td>
+<td>C</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Billboard, LOD and ClipPlane port as per-frame functions of the camera (<code>updateView()</code>); the Babylon maths was engine-neutral and carried over.</td>
+<td>Billboard 63.13 dB (identical silhouette), LOD 38.99, 64.48 and 55.16 dB at three distances, ClipPlane 50.24, 55.61 and 49.40 dB</td>
+<td>C</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Lines and points are <code>LineSegments</code> and <code>Points</code> with a 1-pixel material in the Material's emissive colour (white with no Material, replaced by Color); X_ITE draws them the same way here.</td>
+<td>IndexedLineSet, LineSet and PointSet 99 dB</td>
+<td>C</td>
+</tr>
+<tr>
+<td>6</td>
+<td>A first IndexedFaceSetNormals fixture used normals pointing up under the headlight, so every face was black in both engines and the &quot;pass&quot; meant nothing (6108 foreground pixels against 9236 once the normals were slanted).</td>
+<td>fixture changed</td>
+<td>C</td>
+</tr>
+</tbody>
+</table>
+<p>A 35-agent adversarial review of the batch (three reviewers over code, runtime behaviour and claims; every finding tried by a verifier) reported 29 confirmed defects, four rated high: an ElevationGrid Normal read per vertex instead of per square, a render-loop throw when a group is rebuilt in a world with no ClipPlane, change hooks of line and point nodes never called, and children events ignored on Billboard, LOD, Anchor, Collision and StaticGroup; 3 reports were refuted. All were fixed before the merge request, and three of them became unit tests.</p>
+<p>Not matched: IndexedTriangleSet and IndexedQuadSet generated normals sit at IoU 0.95 (a dim rim; the cause was not isolated), and PhysicalMaterial is reference-only at IoU 0.91, 25.32 dB, because X_ITE adds an environment glow that three.js has no counterpart for without an environment map. The unit tests (<code>node --test tools/</code>, 7 pass) load the body bundle in node with a stub window and check ElevationGrid winding, creaseAngle and TriangleSet counts without a browser.</p>
 <h2 id="15-geospatial-and-the-last-volume-styles-a-position-is-a-point-and-two-engines-disagree-on-a-rotated-volume">15. Geospatial and the last volume styles: a position is a point, and two engines disagree on a rotated volume</h2>
 <p>Batch 45 bridged ten nodes: GeoOrigin, GeoCoordinate, GeoLocation, GeoTransform, GeoViewpoint, GeoElevationGrid, GeoPositionInterpolator, and the volume styles BlendedVolumeStyle, ComposedVolumeStyle and ProjectionVolumeStyle. Read at <code>x3d.loom@bfeba57</code> (the batch-45 pull request branch); reference engine <code>X_ITE 16.6.0</code>; rig for every number in this section: <code>Chromium 153.0.8010.12</code>, SwiftShader (no real GPU), <code>Babylon 9.32.0</code>, 320 x 240 pictures. The reasoning is in <code>x3d.webgpu/bridge/WHY-geospatial-batch.md</code>.</p>
 <pre><code class="language-text"> geoCoords (lat, lon, height)  --GD or UTM or GC--&gt;  geocentric metres (6.4e6, float64)
@@ -1467,7 +1520,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <h3 id="154-three-volume-styles-three-surprises">15.4 Three volume styles, three surprises</h3>
 <p>ComposedVolumeStyle is a chain: each child gets the colour the one before returned and replaces it, so [red, blue] draws blue and [blue, red] draws red <span class="g C" title="Confirmed">C</span>. BlendedVolumeStyle computes clamp(c x w1 + b x w2) on all four channels, alpha included, so the default weights halve a faint volume and the slice is dropped under 1/255 <span class="g C" title="Confirmed">C</span>. ProjectionVolumeStyle is not a ray cast: each of the 400 slice fragments marches 16 steps of its own, from a start whose offset along the view is doubled, so a uniform grey 204 volume under AVERAGE (divided by 16, always) draws 38 <span class="g C" title="Confirmed">C</span>. X_ITE cannot draw the schema weight names ALPHA1 and ONE_MINUS_ALPHA1 (a stray space in the shader text makes the volume vanish), and it draws nothing when two Blended nodes meet; the bridge reads the schema names and draws any number <span class="g C" title="Confirmed">C</span>.</p>
 <h3 id="155-smooth-volumes-dim-shells-and-a-rotated-volume-x_ite-lights-wrongly">15.5 Smooth volumes: dim shells, and a rotated volume X_ITE lights wrongly</h3>
-<p>The cube fixtures of batch 43 could not show what smooth data does. A 16 cubed Gaussian ball was drawn under four lit styles. Unrotated, the engines agree within about 8 levels on Shaded and 12 on ToneMapped along a row <span class="g C" title="Confirmed">C</span>. A smooth ball draws as a dim shell in both engines: the transition layer is already opaque before the bright core, so a ball whose core is 243 draws 18 grey, and a block of 204 that fills half the width of a 16 voxel volume draws 70 (the arithmetic is D-BAB-12) <span class="g C" title="Confirmed">C</span>. When the Transform above the volume rotates it, X_ITE lights it differently: a ball should look the same in any orientation, the bridge's does and X_ITE's does not (rotation about Z moves the lit side, about Y it goes almost black, only a half turn is unchanged) [C, observation]. The cause is not isolated: the gradient seems to be turned the wrong way <span class="g S" title="Suspected">S</span>. The bridge keeps the rotation-independent picture and the fixture checks that volume in the bridge only.</p>
+<p>The cube fixtures of batch 43 could not show what smooth data does. A 16 cubed Gaussian ball was drawn under four lit styles. Unrotated, the engines agree within about 8 levels on Shaded and 12 on ToneMapped along a row <span class="g C" title="Confirmed">C</span>. A smooth ball draws as a dim shell in both engines: the transition layer is already opaque before the bright core, so a ball whose core is 243 draws 18 grey, and a block of 204 that fills half the width of a 16 voxel volume draws 70 (the arithmetic is D-BAB-13) <span class="g C" title="Confirmed">C</span>. When the Transform above the volume rotates it, X_ITE lights it differently: a ball should look the same in any orientation, the bridge's does and X_ITE's does not (rotation about Z moves the lit side, about Y it goes almost black, only a half turn is unchanged) [C, observation]. The cause is not isolated: the gradient seems to be turned the wrong way <span class="g S" title="Suspected">S</span>. The bridge keeps the rotation-independent picture and the fixture checks that volume in the bridge only.</p>
 <h3 id="156-two-test-rig-slips">15.6 Two test-rig slips</h3>
 <p>A plain list handed to a double field (<code>GeoOrigin.geoCoords</code>) made X_ITE draw nothing and then crash the page; the runner now builds an SFVec3d and names the type in the step <span class="g C" title="Confirmed">C</span>. And a case that X_ITE cannot compile (ALPHA1) left the rig waiting ten minutes, so it is described and not part of the fixture <span class="g C" title="Confirmed">C</span>.</p>
 <h2 id="heuristics">Heuristics</h2>
@@ -1666,27 +1719,69 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>H-BAB-27</td>
-<td>Convert and subtract the GeoOrigin in float64, and hand a float32 matrix only the small remainder; never draw a geocentric point directly.</td>
+<td>Before defining a node for a new body, grep every reader extension for it; a second definition throws at load and the page reports only that the body class is missing.</td>
 <td>C</td>
-<td>6.4e6 m has 0.5 m resolution in float32 (N-BAB-43)</td>
-<td><code>GeoCoordinate.js</code> <code>BR.geo</code></td>
+<td><code>BR.node</code> threw for Extrusion and PointSet; the page said <code>Body is not defined</code></td>
+<td><code>x3d.loom@38530ab</code>, <code>grep</code> over <code>demo/src/*/reader*.js</code></td>
 </tr>
 <tr>
 <td>H-BAB-28</td>
-<td>Read a GeoTransform as L^-1 M L, not as &quot;children at geoCenter&quot;; test it with a rotation about the local up.</td>
+<td>Load the body bundle in node with a stub window before a browser run: load errors and data-code bugs show at once and become unit tests.</td>
 <td>C</td>
-<td>default fields give the identity; box 10 m east goes to 10 m north (N-BAB-45)</td>
-<td><code>GeoTransform.test.json</code></td>
+<td>the missing-body failure reproduced in node; 7 tests pass</td>
+<td><code>node --test tools/</code>, <code>x3d.loom@38530ab</code></td>
 </tr>
 <tr>
 <td>H-BAB-29</td>
-<td>Test a lit volume style on smooth data, rotated and unrotated; a cube hides both the dim shell and the rotation error.</td>
+<td>Where two triangulations are both valid, render both against the reference and keep the one that is pixel-identical.</td>
 <td>C</td>
-<td>ball under Shaded: unrotated agree, rotated differ (N-BAB-47, N-BAB-48)</td>
-<td><code>_volume-smooth-lit</code></td>
+<td>ElevationGrid 99 dB against 29.13 dB</td>
+<td>X_ITE 16.6.0, SwiftShader</td>
 </tr>
 <tr>
 <td>H-BAB-30</td>
+<td>A function lifted from another engine's body carries that body's omissions: list the features it never used (creaseAngle, Normal, per-face colour) and give each a fixture.</td>
+<td>C</td>
+<td>Extrusion faceted until <code>BR.ifsExtras</code>; IndexedFaceSetNormals 80.17 dB</td>
+<td><code>x3d.loom@38530ab</code></td>
+</tr>
+<tr>
+<td>H-BAB-31</td>
+<td>Check that a passing fixture can fail: if both engines draw black or nothing, the match proves nothing.</td>
+<td>C</td>
+<td>6108 against 9236 foreground pixels after the normals were changed</td>
+<td>IndexedFaceSetNormals receipt</td>
+</tr>
+<tr>
+<td>H-BAB-32</td>
+<td>Review each batch with independent adversarial reviewers before the merge request: they find what the picture comparison cannot (dynamic changes, input-event paths, stale lists), and a verifier per finding keeps the false ones out.</td>
+<td>C</td>
+<td>29 confirmed, 3 refuted; the 45 fixtures had passed before the review</td>
+<td>workflow run of 35 agents over <code>x3d.loom@8a1e769</code>, fixes in <code>38530ab</code></td>
+</tr>
+<tr>
+<td>H-BAB-33</td>
+<td>Convert and subtract the GeoOrigin in float64, and hand a float32 matrix only the small remainder; never draw a geocentric point directly.</td>
+<td>C</td>
+<td>6.4e6 m has 0.5 m resolution in float32 (N-BAB-49)</td>
+<td><code>GeoCoordinate.js</code> <code>BR.geo</code></td>
+</tr>
+<tr>
+<td>H-BAB-34</td>
+<td>Read a GeoTransform as L^-1 M L, not as &quot;children at geoCenter&quot;; test it with a rotation about the local up.</td>
+<td>C</td>
+<td>default fields give the identity; box 10 m east goes to 10 m north (N-BAB-51)</td>
+<td><code>GeoTransform.test.json</code></td>
+</tr>
+<tr>
+<td>H-BAB-35</td>
+<td>Test a lit volume style on smooth data, rotated and unrotated; a cube hides both the dim shell and the rotation error.</td>
+<td>C</td>
+<td>ball under Shaded: unrotated agree, rotated differ (N-BAB-53, N-BAB-54)</td>
+<td><code>_volume-smooth-lit</code></td>
+</tr>
+<tr>
+<td>H-BAB-36</td>
 <td>Give a test-rig <code>set</code> of a double field its type; a plain list becomes NaN in X_ITE and looks like an X_ITE defect.</td>
 <td>C</td>
 <td>geoCoords set drew nothing until SFVec3d was built</td>
@@ -1802,7 +1897,15 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <li><strong>Answer:</strong> the body keeps its default pose (0 0 10, field of view 0.7854) while the fixture's Viewpoint sits at 0 0 8, so the box is drawn smaller than X_ITE draws it: the Box fixture measured IoU 0.64 (5773 pixels against 9021) before the lines existed, and 1.00 after.</li>
 <li><strong>Checked:</strong> 2026-11-14 <code>x3d.loom@108a282</code>, <code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, three.js r187</li>
 </ul>
-<h3 id="d-bab-11-midpoint-of-latitude-0-to-latitude-60">D-BAB-11 Midpoint of latitude 0 to latitude 60</h3>
+<h3 id="d-bab-11-swap-the-elevationgrid-diagonal-and-predict-the-number">D-BAB-11 Swap the ElevationGrid diagonal and predict the number</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> In <code>x3d.threejs/bridge/src/nodes/Geometry.js</code> change <code>tri.push(a, c, d, a, d, b)</code> to <code>tri.push(a, c, b, b, c, d)</code>, run the ElevationGrid fixture and predict whether the silhouette or the shading moves before you look.</li>
+<li><strong>Verify:</strong> <code>NODE_PATH=/opt/node22/lib/node_modules node tools/run-tests.js ElevationGrid</code> from <code>x3d.threejs/bridge</code>, with X_ITE 16.6.0 and three.js r187 in place; restore the line afterwards.</li>
+<li><strong>Answer:</strong> the silhouette does not move (both triangulations cover the same squares, IoU 0.97 and above); the shading does, because the flat facets of a creaseAngle 0 grid follow the diagonal: mad 2.70 and 29.13 dB against 99 dB (identical) with X_ITE's diagonal.</li>
+<li><strong>Checked:</strong> 2026-11-14 <code>x3d.loom@38530ab</code>, <code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, three.js r187</li>
+</ul>
+<h3 id="d-bab-12-midpoint-of-latitude-0-to-latitude-60">D-BAB-12 Midpoint of latitude 0 to latitude 60</h3>
 <ul>
 <li><strong>Level:</strong> L2</li>
 <li><strong>Task:</strong> Interpolate halfway between (lat 0, lon 0, h 0) and (lat 60, lon 0, h 0) the way X_ITE 16.6.0 does: convert both to geocentric (WGS84), take the great-circle direction halfway, take the radius halfway, convert back. What are the latitude and the height?</li>
@@ -1810,7 +1913,7 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <li><strong>Answer:</strong> latitude 30.0832518, height -2663.0003 m; the radii are 6378137.0 and 6362132.224 m. The path is not (30, 0, 0).</li>
 <li><strong>Checked:</strong> 2026-11-15 python3 -I</li>
 </ul>
-<h3 id="d-bab-12-why-a-block-of-204-draws-70">D-BAB-12 Why a block of 204 draws 70</h3>
+<h3 id="d-bab-13-why-a-block-of-204-draws-70">D-BAB-13 Why a block of 204 draws 70</h3>
 <ul>
 <li><strong>Level:</strong> L3</li>
 <li><strong>Task:</strong> A 16 cubed volume of dimensions 0.8 has voxels of 204 in the middle 8 along the viewing axis and 0 outside, linear filtering. X_ITE blends 400 slices spaced 0.8 x sqrt(3) / 399 apart with source alpha, no correction, the default ramp g = (v x 256 / 255 - 0.5 / 255) giving colour g and alpha g. Predict the centre pixel (0 to 255), and say why it is not 204.</li>
@@ -1827,7 +1930,7 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <li><strong>Behaviour was never compared <span class="g L" title="Likely">L</span>.</strong> No event traces, pointer tapes or audio pass; fixtures compare ROUTE chains in two engines, not whole pages. The noise floor of X_ITE against itself (TBD-13) is unmeasured, so no dB threshold here is a standard.</li>
 <li><strong>Carried, not re-checked <span class="g S" title="Suspected">S</span>:</strong> law-40 coverage by page, the Gobbler review defect, all effort figures in <code>PATHS.md</code> and <code>BABYLON.md</code> (person-weeks are guesses), the 1,396 <code>gl.*</code> call sites. Private run logs, device owners' details and unpublished material are left out on purpose.</li>
 <li><strong>NURBS section read at the batch-44 branch, not main <span class="g L" title="Likely">L</span>:</strong> <code>x3d.loom@4887a98</code> carried the pull request when written; counts are from the batch run of 2026-11-14 (our reader and X_ITE 16.6.0 on SwiftShader). Not covered: real GPU timing, GeoCoordinate control points, NurbsTextureCoordinate, trimming, picking of NURBS lines. The chord reading of the Extrusion Y axis is Likely: read from memory of 19775-1, not re-checked against the text.</li>
-<li><strong>The three.js bridge is 18 scene fixtures, not a port <span class="g L" title="Likely">L</span>.</strong> 23 of 260 nodes are drawn; MultiTexture, movie and cube-map textures, Billboard, ClipPlane, picking and pointer sensors are not, and <code>global=FALSE</code> light scope is not implemented. All pixel numbers are SwiftShader at 320 x 240; no timing, no real GPU, no WebGPU renderer. The person-day figures in <code>ESTIMATE.md</code> are guesses <span class="g S" title="Suspected">S</span>; the item list of what three.js gives and lacks is read from its documentation, not run <span class="g L" title="Likely">L</span>.</li>
+<li><strong>The three.js bridge is 45 scene fixtures, not a port <span class="g L" title="Likely">L</span>.</strong> 53 of 260 nodes are drawn; MultiTexture, movie and cube-map textures, Text, Inline, picking and pointer sensors are not, <code>global=FALSE</code> light scope is not implemented, and 32 Babylon fixtures that probe <code>__body</code> internals run here for their pictures only. All pixel numbers are SwiftShader at 320 x 240; no timing, no real GPU, no WebGPU renderer. The person-day figures in <code>ESTIMATE.md</code> are guesses <span class="g S" title="Suspected">S</span>; the item list of what three.js gives and lacks is read from its documentation, not run <span class="g L" title="Likely">L</span>.</li>
 <li><strong>Geospatial section read at the batch-45 branch, not main <span class="g L" title="Likely">L</span>:</strong> counts are from the batch run of 2026-11-15 on SwiftShader; geocentric (no GeoOrigin) pictures are not made (32 bit world matrix), GeoViewpoint navigation is computed, not wired, and WM, the angle unit and the geoid are not implemented in X_ITE 16.6.0 or the bridge. The rotated-volume error of X_ITE is observed on one Gaussian ball and its cause is not isolated <span class="g S" title="Suspected">S</span>.</li>
 </ul>
 <h2 id="numbers-register">Numbers register</h2>
@@ -2181,6 +2284,54 @@ console.log(worst, w.at(0.5), u.at(0.5));
 </tr>
 <tr>
 <td>N-BAB-43</td>
+<td>three.js bridge status, batch 2</td>
+<td>drawn 53, reader-checked 29, reader 46, todo 95, upstream 37</td>
+<td>C</td>
+<td><code>driver.py status</code></td>
+<td>x3d.loom@38530ab:x3d.threejs/bridge/NODES.json</td>
+</tr>
+<tr>
+<td>N-BAB-44</td>
+<td>all compared pictures after batch 2</td>
+<td>61 pictures; IoU 0.90 to 1.00; PSNR 25.32 to 80.17 dB over 47 that differ, median 50.24; 14 at 99 dB (12 identical, 2 empty frames)</td>
+<td>C</td>
+<td>X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader, three.js r187</td>
+<td>x3d.loom@38530ab:x3d.threejs/bridge/receipts/*.json</td>
+</tr>
+<tr>
+<td>N-BAB-45</td>
+<td>pictures new in batch 2</td>
+<td>31 pictures over 27 fixtures; 8 pixel-identical; IoU 0.91 to 1.00</td>
+<td>C</td>
+<td>same rig</td>
+<td>same receipts</td>
+</tr>
+<tr>
+<td>N-BAB-46</td>
+<td>ElevationGrid triangulation</td>
+<td>diagonal (a, c, d) (a, d, b): 99 dB; the other diagonal: mad 2.70, 29.13 dB</td>
+<td>C</td>
+<td>same rig, same fixture twice</td>
+<td>x3d.loom@38530ab:x3d.threejs/bridge/src/nodes/Geometry.js</td>
+</tr>
+<tr>
+<td>N-BAB-47</td>
+<td>Extrusion before and after BR.ifsExtras (first fixture)</td>
+<td>IoU 0.98 to 0.99; mad 0.41 to 0.16; PSNR 39.98 to 38.65 dB; star fixture after: 0.99, 0.20, 37.51 dB</td>
+<td>C</td>
+<td>same rig</td>
+<td>x3d.loom@38530ab:x3d.threejs/bridge/receipts/Extrusion.json</td>
+</tr>
+<tr>
+<td>N-BAB-48</td>
+<td>lines of the three.js body</td>
+<td>body-three.js 461 (was 284 for 12 core nodes), nodes/Geometry.js 115</td>
+<td>C</td>
+<td><code>wc -l</code></td>
+<td>x3d.loom@38530ab:x3d.threejs/bridge/src</td>
+</tr>
+<tr>
+<td>N-BAB-49</td>
 <td>float32 resolution at geocentric radius 6.4e6 m</td>
 <td>about 0.5 m</td>
 <td>C</td>
@@ -2188,15 +2339,15 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <td>x3d.loom@bfeba57:x3d.webgpu/bridge/src/nodes/GeoCoordinate.js</td>
 </tr>
 <tr>
-<td>N-BAB-44</td>
+<td>N-BAB-50</td>
 <td>great-circle midpoint, latitude 0 to 60, WGS84</td>
 <td>latitude 30.0832518, height -2663.0003 m</td>
 <td>C</td>
 <td>Python, X_ITE 16.6.0</td>
-<td>x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/GeoPositionInterpolator.test.json (D-BAB-11)</td>
+<td>x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/GeoPositionInterpolator.test.json (D-BAB-12)</td>
 </tr>
 <tr>
-<td>N-BAB-45</td>
+<td>N-BAB-51</td>
 <td>GeoTransform rotation 90 degrees about local up, geoCenter 111.32 m east</td>
 <td>box 10 m east of the centre drawn 10 m north of it</td>
 <td>C</td>
@@ -2204,7 +2355,7 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <td>x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/GeoTransform.test.json</td>
 </tr>
 <tr>
-<td>N-BAB-46</td>
+<td>N-BAB-52</td>
 <td>GeoViewpoint speed, height 500 m, speedFactor 3</td>
 <td>153</td>
 <td>C</td>
@@ -2212,7 +2363,7 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <td>x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/GeoViewpoint.test.json</td>
 </tr>
 <tr>
-<td>N-BAB-47</td>
+<td>N-BAB-53</td>
 <td>Shaded, 16 cubed Gaussian ball, directional light, unrotated, red along a row (ours, X_ITE)</td>
 <td>6/42/80/115/139/154/162 and 0/39/75/108/135/159/159</td>
 <td>C</td>
@@ -2220,7 +2371,7 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <td>x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/_volume-smooth-lit.test.json</td>
 </tr>
 <tr>
-<td>N-BAB-48</td>
+<td>N-BAB-54</td>
 <td>same ball turned 0.9 rad about Z, Shaded, five probes (ours, X_ITE)</td>
 <td>lit side 156 and 36 (ours, X_ITE) at the same probe</td>
 <td>C</td>
@@ -2228,7 +2379,7 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <td>rig runs of 2026-11-15, not in a fixture</td>
 </tr>
 <tr>
-<td>N-BAB-49</td>
+<td>N-BAB-55</td>
 <td>plain Gaussian ball, core 243, centre pixel</td>
 <td>18 (bridge), 23 (X_ITE)</td>
 <td>C</td>
@@ -2236,15 +2387,15 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <td>rig run of 2026-11-15</td>
 </tr>
 <tr>
-<td>N-BAB-50</td>
+<td>N-BAB-56</td>
 <td>block of 204 filling half the width, 16 voxels, centre pixel</td>
 <td>70 in both engines; 204 at 8 voxels (nearest) and 97 at 32 voxels</td>
 <td>C</td>
 <td>SwiftShader</td>
-<td>D-BAB-12</td>
+<td>D-BAB-13</td>
 </tr>
 <tr>
-<td>N-BAB-51</td>
+<td>N-BAB-57</td>
 <td>ProjectionVolumeStyle AVERAGE of a uniform grey 204 volume</td>
 <td>38</td>
 <td>C</td>
@@ -2252,7 +2403,7 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <td>x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/ProjectionVolumeStyle.test.json</td>
 </tr>
 <tr>
-<td>N-BAB-52</td>
+<td>N-BAB-58</td>
 <td>BlendedVolumeStyle defaults, voxels 204 and 102</td>
 <td>153 (ALPHA0: 215, ONE_MINUS_ALPHA0: 91)</td>
 <td>C</td>
@@ -2260,7 +2411,7 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <td>x3d.loom@bfeba57:x3d.webgpu/bridge/fixtures/BlendedVolumeStyle.test.json</td>
 </tr>
 <tr>
-<td>N-BAB-53</td>
+<td>N-BAB-59</td>
 <td>batch 45 fixture steps passed (ours / X_ITE)</td>
 <td>Geo 305 and 300; Blended 63 and 53, Composed 17 and 17, Projection 32 and 32</td>
 <td>C</td>
@@ -2276,6 +2427,7 @@ console.log(worst, w.at(0.5), u.at(0.5));
 <li><code>x3d.loom@4887a98</code> (batch 44, read and run 2026-11-14): <code>x3d.webgpu/bridge/{BATCH-44.md,WHY-nurbs-batch.md,knowledge/NURBS-FINDINGS.md,src/nurbs.js,src/nodes/Nurbs*.js,fixtures/Nurbs*,receipts/Nurbs*}</code>.</li>
 <li><code>x3d.loom@108a282</code> (scaffold, read and run 2026-11-14): <code>x3d.threejs/bridge/{README.md,ESTIMATE.md,src/body-three.js,tools/*,fixtures/*,receipts/*,NODES.json}</code>; the Babylon files it reads at bundle time are those of <code>x3d.loom@ed1bed8</code>.</li>
 <li><code>x3d.loom@95eda37</code> (batch 1, read and run 2026-11-14): <code>x3d.threejs/bridge/{src/body-three.js,fixtures/{PointLight,PointLightAttenuation,SpotLight,Fog,PixelTexture,ImageTexture,TextureTransform,TexturedPrimitives}.*,receipts/*}</code>; X_ITE formulas read in <code>x_ite.js</code> 16.6.0 (<code>Fog2.glsl</code>, <code>TextureTransform</code>, <code>QuadSphereOptions</code>, <code>CylinderOptions</code>).</li>
+<li><code>x3d.loom@38530ab</code> (batch 2, read and run 2026-11-14): <code>x3d.threejs/bridge/{src/body-three.js,src/nodes/Geometry.js,tools/tooling.test.js,fixtures/*,receipts/*}</code>; X_ITE 16.6.0 read for the ElevationGrid and line behaviour only through renders.</li>
 <li>Private-source gap: a private primer of 8 November and private notes on each port were pointers only. Figures here were re-derived from the repository or read from a named receipt; the rest are graded <span class="g S" title="Suspected">S</span> or <span class="g L" title="Likely">L</span> and labelled carried. No private document, link, identifier or chat wording is reproduced.</li>
 <li>Siblings: <a href="01-the-tether.html">01</a>, <a href="03-validator-and-gates.html">03</a>, <a href="04-mcp-for-agents.html">04</a>, <a href="07-xray.html">07</a>, <a href="09-castle-engine.html">09</a>, <a href="11-gltf-usd-khronos.html">11</a>, <a href="13-physics.html">13</a>.</li>
 </ul>

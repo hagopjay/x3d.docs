@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**110 drills**, 100 with a recorded run (`Checked`), 10 not yet run. Levels: L1 19, L2 56, L3 35.
+**113 drills**, 103 with a recorded run (`Checked`), 10 not yet run. Levels: L1 19, L2 59, L3 35.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -70,8 +70,9 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-BAB-7 | [08](08-babylon-bridge.md) | L2 | Re-run one NURBS node against X_ITE | 2026-11-14 `x3d.loom@4887a98`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, Babylon 9.32.0 |
 | D-BAB-8 | [08](08-babylon-bridge.md) | L3 | Predict a set's triangle counts | 2026-11-14 `x3d.loom@4887a98`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, Babylon 9.32.0 |
 | D-BAB-10 | [08](08-babylon-bridge.md) | L2 | Break the first-Viewpoint rule and read the picture | 2026-11-14 `x3d.loom@108a282`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 |
-| D-BAB-11 | [08](08-babylon-bridge.md) | L2 | Midpoint of latitude 0 to latitude 60 | 2026-11-15 python3 -I |
-| D-BAB-12 | [08](08-babylon-bridge.md) | L3 | Why a block of 204 draws 70 | 2026-11-15 python3 -I (70.35); the rig gives 70 in both engines |
+| D-BAB-11 | [08](08-babylon-bridge.md) | L2 | Swap the ElevationGrid diagonal and predict the number | 2026-11-14 `x3d.loom@38530ab`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187 |
+| D-BAB-12 | [08](08-babylon-bridge.md) | L2 | Midpoint of latitude 0 to latitude 60 | 2026-11-15 python3 -I |
+| D-BAB-13 | [08](08-babylon-bridge.md) | L3 | Why a block of 204 draws 70 | 2026-11-15 python3 -I (70.35); the rig gives 70 in both engines |
 | D-CAS-1 | [09](09-castle-engine.md) | L2 | Count the parse-only nodes and name the denominator | 2026-11-14 `castle-engine@48ce617`, Python 3.13.18 |
 | D-CAS-2 | [09](09-castle-engine.md) | L2 | Count loaders and savers without trusting a number | 2026-11-14 `castle-engine@48ce617`, Python 3.13.18 |
 | D-CAS-3 | [09](09-castle-engine.md) | L2 | Re-derive the headline FLIP and what it hides | 2026-11-14 `x3d.castle@d70e00c` receipt, Python 3.13.18 |
@@ -101,6 +102,8 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-UNR-4 | [12](12-unreal-tier1.md) | L1 | Instancing arithmetic | 2026-11-14 grep on `x3d-blender-io@ab99988` and Python 3. |
 | D-UNR-5 | [12](12-unreal-tier1.md) | L3 | Break a PSNR comparison | 2026-11-14 numpy for all three numbers (offset 38.63 dB, noise 34.31 dB, square 22.71 dB). |
 | D-UNR-6 | [12](12-unreal-tier1.md) | L3 | Write the pass and fail line for a gate | not run (no Unreal here). |
+| D-UNR-7 | [12](12-unreal-tier1.md) | L2 | Pick an exposure from a bracket | 2026-11-15 pytest 9 on the PR #29 branch (11 new tests pass). |
+| D-UNR-8 | [12](12-unreal-tier1.md) | L2 | Count what Interchange kept | 2026-11-15 UE 5.8.4 Interchange on RTX PRO 6000 (one run). |
 | D-PHY-1 | [13](13-physics.md) | L2 | Symplectic against explicit Euler on a pendulum | `2026-11-14 python3 -I numpy 2.5.3`: explicit 10.8933 and 11.0130, symplectic 0.0002 and 0.0150. |
 | D-PHY-2 | [13](13-physics.md) | L2 | The exact reference for a stepped scheme | `2026-11-14 python3 -I numpy 2.5.3`: sim 5.074562500, discrete 5.074562500, continuum 5.095000000, gap -0.020437. |
 | D-PHY-3 | [13](13-physics.md) | L2 | XPBD bead on a wire: substeps against residual and energy | `2026-11-14 python3 -I numpy 2.5.3`: 7.31e-03, 3.19e-04, 2.03e-05, 8.16e-07; dE -8.7945, -4.3632, -1.4550, -0.3125. |
