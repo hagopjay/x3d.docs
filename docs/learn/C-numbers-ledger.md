@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**403 numbers** from 14 chapters. Grades: [C] 359 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**415 numbers** from 15 chapters. Grades: [C] 371 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -410,4 +410,16 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-MET-10 | [14](14-methods.md) | heuristics graded L | 30 | C | `learn_lib.py` count | `docs/learn/D-heuristics-ledger.md` |
 | N-MET-11 | [14](14-methods.md) | heuristics graded S | 7 | C | `learn_lib.py` count | `docs/learn/D-heuristics-ledger.md` |
 | N-MET-12 | [14](14-methods.md) | methods in this chapter | 7 | C | read | this file |
+| N-ANM-1 | [15](15-animation-timelines.md) | Our interpolator model vs X_ITE, worst of 11 channels | 3.41e-07 | [C] | `X_ITE 16.6.0`, Chromium 153 SwiftShader | section 3 |
+| N-ANM-2 | [15](15-animation-timelines.md) | Bridge reader vs X_ITE, worst | 5.7e-07 | [C] | same rig plus three.js r187 body | section 3 |
+| N-ANM-3 | [15](15-animation-timelines.md) | X_ITE vs GSAP itself, worst | 0.0137 | [C] | same rig, gsap 3.15.1 | section 3 |
+| N-ANM-4 | [15](15-animation-timelines.md) | X_ITE vs Theatre itself, worst | 0.00695 | [C] | same rig, @theatre/core 0.7.2 | section 3 |
+| N-ANM-5 | [15](15-animation-timelines.md) | Live path read-back error, worst | 2.78e-17 | [C] | same rig | section 3 |
+| N-ANM-6 | [15](15-animation-timelines.md) | Pictures bridge vs X_ITE, worst PSNR and IoU | 46.95 dB, 0.993 | [C] | same rig, 320x240 | section 3 |
+| N-ANM-7 | [15](15-animation-timelines.md) | Keys written, GSAP and Theatre | 231 and 281 | [C] | `x3d.anim/receipts/*.json` | section 3 |
+| N-ANM-8 | [15](15-animation-timelines.md) | Colour error without HSV, then with | 0.059 then 7.6e-8 | [C] | X_ITE 16.6.0 | section 4 |
+| N-ANM-9 | [15](15-animation-timelines.md) | bounce.out floor at 60 fps | 0.0145 at 120, 47, 24 keys | [C] | gsap 3.15.1, Node 22 | D-ANM-2 |
+| N-ANM-10 | [15](15-animation-timelines.md) | steps(6) error | 0.139 | [C] | same | section 4 |
+| N-ANM-11 | [15](15-animation-timelines.md) | power2.inOut keys at tol x0.25, x1, x4 | 54, 28, 15 (error 0.00052, 0.00196, 0.00713) | [C] | gsap 3.15.1, Node 22 | D-ANM-2 |
+| N-ANM-12 | [15](15-animation-timelines.md) | Unit tests in `x3d.anim` | 12 of 12 pass, no browser | [C] | Node 22.23.4 | D-ANM-4 |
 <!-- END GENERATED -->

@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**119 drills**, 109 with a recorded run (`Checked`), 10 not yet run. Levels: L1 19, L2 63, L3 37.
+**125 drills**, 114 with a recorded run (`Checked`), 11 not yet run. Levels: L1 20, L2 67, L3 38.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -126,4 +126,10 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-MET-3 | [14](14-methods.md) | L3 | Break the linter | 2026-11-14 `check_learn.py` at this commit. |
 | D-MET-4 | [14](14-methods.md) | L2 | Pin audit | not run. |
 | D-MET-5 | [14](14-methods.md) | L3 | Teach-back | not run. |
+| D-ANM-1 | [15](15-animation-timelines.md) | L2 | Red to blue at half time | `2026-11-15 X_ITE 16.6.0, Chromium 153.0.8010.12 SwiftShader`: [0.9999999999999991, 0, 1] |
+| D-ANM-2 | [15](15-animation-timelines.md) | L2 | What a tolerance buys | `2026-11-15 gsap 3.15.1, Node 22.23.4` |
+| D-ANM-3 | [15](15-animation-timelines.md) | L1 | Which Theatre package may be in a shipped page | `2026-11-15 npm registry, 0.7.2` |
+| D-ANM-4 | [15](15-animation-timelines.md) | L2 | Run the whole rig | `2026-11-15 X_ITE 16.6.0, three.js r187, Chromium 153.0.8010.12 SwiftShader` |
+| D-ANM-5 | [15](15-animation-timelines.md) | L3 | Break the HSV rule | not run again after the first run that found it; the 0.059 figure is from that run. |
+| D-ANM-6 | [15](15-animation-timelines.md) | L2 | Euler convention | `2026-11-15 Node 22.23.4` |
 <!-- END GENERATED -->
