@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**194 heuristics.** Grades: [C] 149 · [L] 38 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**198 heuristics.** Grades: [C] 153 · [L] 38 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -120,6 +120,10 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-BAB-24 | [08](08-babylon-bridge.md) | Read the reference engine's formula in its source before tuning a look, patch your engine's shader chunk once with it, and make the patch throw when the engine's text moves. | C | six formulas, 36 to 63 dB; a moved chunk would fail at load | `X_ITE 16.6.0` source, three.js r187, SwiftShader |
 | H-BAB-25 | [08](08-babylon-bridge.md) | When a formula's order or sign is uncertain, render every variant against the reference in one run and keep the one that wins by the widest margin. | C | TextureTransform: 50.1 dB against 21.2 to 25.7 dB for the other seven | `X_ITE 16.6.0`, three.js r187, 8 variants over two runs, SwiftShader |
 | H-BAB-26 | [08](08-babylon-bridge.md) | Turn the reference engine's own notifications and timing overlays off before taking a picture. | C | a "Loading done" toast added about 4000 differing pixels | `X_ITE 16.6.0` `setBrowserOption`, 320 x 240 |
+| H-BAB-27 | [08](08-babylon-bridge.md) | Convert and subtract the GeoOrigin in float64, and hand a float32 matrix only the small remainder; never draw a geocentric point directly. | C | 6.4e6 m has 0.5 m resolution in float32 (N-BAB-43) | `GeoCoordinate.js` `BR.geo` |
+| H-BAB-28 | [08](08-babylon-bridge.md) | Read a GeoTransform as L^-1 M L, not as "children at geoCenter"; test it with a rotation about the local up. | C | default fields give the identity; box 10 m east goes to 10 m north (N-BAB-45) | `GeoTransform.test.json` |
+| H-BAB-29 | [08](08-babylon-bridge.md) | Test a lit volume style on smooth data, rotated and unrotated; a cube hides both the dim shell and the rotation error. | C | ball under Shaded: unrotated agree, rotated differ (N-BAB-47, N-BAB-48) | `_volume-smooth-lit` |
+| H-BAB-30 | [08](08-babylon-bridge.md) | Give a test-rig `set` of a double field its type; a plain list becomes NaN in X_ITE and looks like an X_ITE defect. | C | geoCoords set drew nothing until SFVec3d was built | `tools/run-tests.js` |
 | H-CAS-1 | [09](09-castle-engine.md) | Judge a Castle load by its warnings and a shape census against the declared count; never by "it loaded" or an exit code. | C | classic reader warns once and skips the rest of the file | `castle-engine@48ce617:x3dnodes_encoding_classic.inc:569-573` |
 | H-CAS-2 | [09](09-castle-engine.md) | Quote node coverage by rung and definition (registered, parse-only, name present in a peer, behaves); never a bare "98 of 328". | C | 99 registrations, 98 concrete, five denominators in circulation | `castle-engine@48ce617`; `x_ite@16.7.1` dist |
 | H-CAS-3 | [09](09-castle-engine.md) | Treat name presence in a peer as the weakest rung; do not turn 97 of 99 into "X_ITE implements them". | C | the scan reads class names, not behaviour | `x_ite@16.7.1` dist |

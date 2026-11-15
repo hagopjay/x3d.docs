@@ -3,7 +3,7 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-228 distinct instrument strings across the numbers registers.
+235 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
@@ -18,6 +18,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `rdflib 7.6.0` | 4 | 05 | C:4 |
 | `read, not re-run` | 4 | 06, 07 | L:4 |
 | `Python 3, 2026-11-14` | 3 | 12 | C:3 |
+| `SwiftShader` | 3 | 08 | C:3 |
+| `both engines` | 3 | 08 | C:3 |
 | `count` | 3 | 02 | C:3 |
 | `driver.py status` | 3 | 08 | C:3 |
 | `inline Python` | 3 | 09 | C:3 |
@@ -40,6 +42,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d_mcp fork b4efcd3, libxml2 2.14.6` | 2 | 04 | C:2 |
 | `x3d_mcp upstream 74da0ec, x3d_mcp fork b4efcd3` | 2 | 04 | C:2 |
 | `xite_names.py` | 2 | 09 | C:2 |
+| `BR.geo.speedOf; X_ITE formula (height + 10) / 10 x factor` | 1 | 08 | C:1 |
 | `Babylon 9.32.0 body vs X_ITE 16.6.0, SwiftShader` | 1 | 08 | C:1 |
 | `D-LAW-2 script (judgement of the column)` | 1 | 02 | L:1 |
 | `D-LAW-7 script` | 1 | 02 | C:1 |
@@ -55,6 +58,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `Node (D-BAB-6); X_ITE SAI` | 1 | 08 | C:1 |
 | `PR descriptions via the masterclass; not re-derived` | 1 | 04 | L:1 |
 | `Python 3.13.18 ast` | 1 | 10 | C:1 |
+| `Python, X_ITE 16.6.0` | 1 | 08 | C:1 |
+| `SwiftShader, 320 x 240` | 1 | 08 | C:1 |
 | `X3DUOM 4.0 via NODES.json` | 1 | 08 | C:1 |
 | `X3DUOM 4.1 (4fc10e8e15c0), X3DUOM 4.0 (7e426a238656)` | 1 | 03 | C:1 |
 | `X3DUOM 4.1 (sha256 4fc10e8e15c0), ElementTree` | 1 | 06 | C:1 |
@@ -110,6 +115,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `driver.py status, x3d.loom@162ab18` | 1 | 08 | C:1 |
 | `examples/eda_1_signal_and_noise.py` | 1 | 07 | C:1 |
 | `examples/eda_1_signal_and_noise.py --calibrate, seeds 1000 to 1149` | 1 | 07 | C:1 |
+| `float32 spacing at 6.4e6` | 1 | 08 | C:1 |
 | `formats.py, 2026-11-14` | 1 | 09 | C:1 |
 | `gh run view, 2026-11-14` | 1 | 09 | C:1 |
 | `git show --stat babba96` | 1 | 02 | C:1 |
@@ -177,6 +183,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `row count` | 1 | 09 | C:1 |
 | `rule in section 3` | 1 | 10 | C:1 |
 | `run of an X3D33 export` | 1 | 10 | C:1 |
+| `run-tests.js` | 1 | 08 | C:1 |
 | `same rig, one run` | 1 | 08 | C:1 |
 | `same rig, two runs of the 10 fixtures` | 1 | 08 | C:1 |
 | `same rig, wall-clock wait` | 1 | 13 | C:1 |
