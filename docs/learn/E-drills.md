@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**139 drills**, 128 with a recorded run (`Checked`), 11 not yet run. Levels: L1 24, L2 74, L3 41.
+**145 drills**, 132 with a recorded run (`Checked`), 13 not yet run. Levels: L1 25, L2 77, L3 43.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -146,4 +146,10 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-ZOD-4 | [16](16-typed-x3d-zod.md) | L2 | The upstream file has the NavigationInfo bug | 2026-11-15 ajv 8.20.0, zod 4.6.7, schema sha1 `c6765a4` |
 | D-ZOD-5 | [16](16-typed-x3d-zod.md) | L2 | Size a vocabulary | 2026-11-15 Node v22.23.4 and Python 3.13, schema sha1 `c6765a4` |
 | D-ZOD-6 | [16](16-typed-x3d-zod.md) | L3 | Find the stack limit | 2026-11-15 Node v22.23.4, zod 4.6.7 |
+| D-PTR-1 | [18](18-three-pathtracer.md) | L1 | The vertical angle that Cycles drew | `2026-11-15 python3 -I numpy 2.5.4` |
+| D-PTR-2 | [18](18-three-pathtracer.md) | L2 | Apply the bound | `2026-11-15 python3 -I` |
+| D-PTR-3 | [18](18-three-pathtracer.md) | L2 | Re-score a strip | `2026-11-15 python3 -I flip-evaluator 1.7` |
+| D-PTR-4 | [18](18-three-pathtracer.md) | L2 | Find what overwrites X_ITE | `2026-11-15 grep, headless Chromium 153` |
+| D-PTR-5 | [18](18-three-pathtracer.md) | L3 | Break a light conversion | `not run` |
+| D-PTR-6 | [18](18-three-pathtracer.md) | L3 | Isolate the e1 gap | `not run` |
 <!-- END GENERATED -->

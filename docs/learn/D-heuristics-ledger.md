@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**277 heuristics.** Grades: [C] 227 · [L] 43 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**287 heuristics.** Grades: [C] 234 · [L] 46 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -284,4 +284,14 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-ZOD-10 | [16](16-typed-x3d-zod.md) | Return "not checked" for a document the validator could not process; never fold a crash into valid or invalid. | C | Zod overflowed on 240 and 300 nested Transforms | `stack_depth` test `zod-008` |
 | H-ZOD-11 | [16](16-typed-x3d-zod.md) | Put the schema gate first and the semantic layer last; neither implies the other. | C | 8 of 9 caught by JSON, 2 of 9 by semantic, 9 of 9 by the union | `matrix.json` in the demo |
 | H-ZOD-12 | [16](16-typed-x3d-zod.md) | Do not read "valid" as "correct": a ROUTE to a node that does not exist passes both schema gates. | C | mistake 9 | `x3d_mcp fork fbe165f` `validate_semantic` |
+| H-PTR-1 | [18](18-three-pathtracer.md) | Put every renderer in a comparison through the same camera maths before comparing numbers; check the framing by eye first, it costs one picture. | [C] | Cycles drew 1.0092 rad where 0.7854 was asked; first table passed all three scenes, matched table failed e1 | bpy 5.3.0; flip-evaluator 1.7 |
+| H-PTR-2 | [18](18-three-pathtracer.md) | Apply X3D `fieldOfView` to the smaller picture axis, never the horizontal one, when building any camera outside an X3D browser. | [C] | 19775-1 23.4.2; D-PTR-1 | numpy 2.5.4 |
+| H-PTR-3 | [18](18-three-pathtracer.md) | Set a physically based renderer's lights to I for PhysicalMaterial scenes and I x PI only when matching classic rho x I shading. | [L] | X_ITE PBR lights rho/pi x I; Cornell 1 bounce 0.142 from X_ITE | X_ITE 16.6.0; run-pt.js |
+| H-PTR-4 | [18](18-three-pathtracer.md) | Remove any mesh a bridge draws for a Background before path tracing, and set the miss colour instead; a lit sky sphere turns the frame white. | [C] | e3 first run: frame FLIP 0.93 with the sphere, 0.09 to 0.50 without | run-pt.js |
+| H-PTR-5 | [18](18-three-pathtracer.md) | Stop the body's own animation-frame loop before accumulating samples, or a raster frame overwrites the accumulated picture. | [L] | the loop is `requestAnimationFrame(loop)` in `body-three.js`; the first shots survived by timing luck | `x3d.loom@5f59349` |
+| H-PTR-6 | [18](18-three-pathtracer.md) | Keep your own reference to X_ITE's `window.X3D` before loading any bundle that defines `X3D`; the bridge's SAI shim overwrites it. | [C] | `getBrowser` returned null until fixed; D-PTR-4 | headless Chromium 153 |
+| H-PTR-7 | [18](18-three-pathtracer.md) | State the noise floor next to every FLIP pass, and call a pass smaller than the floor "inside noise". | [C] | floor 0.055; e3 passes by 0.005 | two 96-sample Cornell runs |
+| H-PTR-8 | [18](18-three-pathtracer.md) | Time GPU work after a `gl.finish()` and a pixel read; a timer that stops at the last draw call times the queue, not the work. | [C] | `tTrace` 0.8 s before, 104 s after, for 96 samples | Chromium 153 SwiftShader |
+| H-PTR-9 | [18](18-three-pathtracer.md) | Treat an emissive surface as a light in a path tracer and as paint in X_ITE; offer the switch rather than choose silently. | [C] | Cornell panel; demo switch | run-pt.js; Demo 25 |
+| H-PTR-10 | [18](18-three-pathtracer.md) | Do not read a path-traced mismatch as an X3D defect until a direct-light run (1 bounce) shows whether the gap is transport or conversion. | [L] | Cornell 0.142 at 1 bounce, 0.265 at 6 | run-pt.js |
 <!-- END GENERATED -->
