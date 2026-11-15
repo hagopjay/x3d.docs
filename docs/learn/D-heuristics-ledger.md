@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**313 heuristics.** Grades: [C] 256 · [L] 50 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**325 heuristics.** Grades: [C] 267 · [L] 51 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -320,4 +320,16 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-GTO-12 | [19](19-gltf-tooling.md) | Read the consumer's decoder row before choosing a compression; "the engine loads glTF" does not mean it loads meshopt or Draco. | [L] | Castle 7.0-alpha.3 and Unreal Interchange 5.5 to 5.8 read neither meshopt nor KTX2 (section 8) | package source, section 8 |
 | H-GTO-13 | [19](19-gltf-tooling.md) | Prove a browser path equals the CLI path with a SHA-256 of the output, not with a screenshot. | [C] | 4 of 4 parity tests identical in `Chromium 153.0.8010.12` | `tests/web.test.mjs` |
 | H-GTO-14 | [19](19-gltf-tooling.md) | Print a lossy profile's pass with what the pass means: bounds held, identity not. A bare PASS on `stock-instance` reads as success. | [C] | `stock-instance` on the cathedral: PASS with 1,216 tokens lost | `x3dgltf verify` |
+| H-WGC-1 | [20](20-webgpu-compute.md) | Report sustained ms per frame beside rAF dt; a compute queue can be far behind while rAF reads the display interval. | [C] | 256^3 volume: rAF 16.7 ms, sustained 355.7 ms | `x3d.compute` receipt, SwiftShader |
+| H-WGC-2 | [20](20-webgpu-compute.md) | Give each kernel a CPU twin, and where you can afford it use a different algorithm, not a port. | [C] | NURBS twin is recursive Cox-de Boor; max position diff 7.2e-7 | `x3d.loom@7c818e3`, SwiftShader |
+| H-WGC-3 | [20](20-webgpu-compute.md) | Plant a bug in every gate and require an explicit red; count a crash or a missing target as a failure of the check. | [C] | first script counted crashes; now 14 of 14 | `tools/mutation-check.sh` |
+| H-WGC-4 | [20](20-webgpu-compute.md) | Compare small quantities relatively with a magnitude floor; an absolute tolerance hides errors in values near 1/sigma squared. | [C] | conic mutant survived absolute 1e-3 | `compareRel`, receipt |
+| H-WGC-5 | [20](20-webgpu-compute.md) | Run one case with every parameter non-default; a default fixture cannot see a field the kernel ignores. | [C] | particle case B, n = 4093 | receipt |
+| H-WGC-6 | [20](20-webgpu-compute.md) | Work one expected value out by hand; a twin shares your convention errors. | [C] | FK chain, vertex 4 at (-0.5, 0.5, 0) | `SK.handChain()`, receipt |
+| H-WGC-7 | [20](20-webgpu-compute.md) | Put `timestampWrites` on the first and last pass only; a middle pass with the field and no indices is a validation error. | [C] | splat passes | Chromium 153, WebGPU |
+| H-WGC-8 | [20](20-webgpu-compute.md) | An auto pipeline layout drops statically unused bindings; touch the binding or write an explicit layout. | [C] | `_ = B.n;` in `bitonic_local_sort` | Chromium 153, WebGPU |
+| H-WGC-9 | [20](20-webgpu-compute.md) | Profile the sort before the projection; for large splat clouds the sort is the frame. | [C] | 98.2 percent at 1,048,576 | receipt, SwiftShader |
+| H-WGC-10 | [20](20-webgpu-compute.md) | Do not choose a sort variant from pass counts or from a software adapter; measure on the target GPU. | [C] | tiled 78 passes, 3.0 to 3.6x slower | receipt, SwiftShader |
+| H-WGC-11 | [20](20-webgpu-compute.md) | Log in the kernel header every X3D field the kernel ignores, and make the loader refuse inputs it cannot do. | [L] | review finding on ignored particle fields | review of the first version (`x3d.loom@7c69356`), read and fixed |
+| H-WGC-12 | [20](20-webgpu-compute.md) | Test pages that must screenshot a WebGPU canvas on a software adapter need an offscreen render path. | [C] | real canvas never presented | Chromium 153, SwiftShader |
 <!-- END GENERATED -->

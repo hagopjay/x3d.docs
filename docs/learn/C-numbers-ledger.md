@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**516 numbers** from 20 chapters. Grades: [C] 472 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**533 numbers** from 21 chapters. Grades: [C] 489 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -523,4 +523,21 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-GTO-22 | [19](19-gltf-tooling.md) | asterion `lossless` | 4,404.4 to 4,851.9 KiB (110.2%) | [C] | `x3dgltf optimize` | x3d.loom@b6a3650:x3d.gltf/receipts/matrix/cells/asterion.lossless.json |
 | N-GTO-23 | [19](19-gltf-tooling.md) | still life `web-ktx2-etc1s` | 1,645.4 to 509.1 KiB (30.9%) | [C] | `ktx2-encoder 0.6.0` | x3d.loom@b6a3650:x3d.gltf/receipts/matrix/cells/stilllife-addon.web-ktx2-etc1s.json |
 | N-GTO-24 | [19](19-gltf-tooling.md) | matrix cells run | 132 (108 shipping, 24 trap) | [C] | `x3dgltf matrix` | x3d.loom@b6a3650:x3d.gltf/receipts/matrix/matrix.json |
+| N-WGC-1 | [20](20-webgpu-compute.md) | correctness suites passing | 5 of 5 | [C] | Chromium 153.0.8010.12 SwiftShader, `x3d.loom@7c818e3` | `x3d.compute/receipts/full-swiftshader.json` |
+| N-WGC-2 | [20](20-webgpu-compute.md) | full receipt run time | 391.1 s | [C] | same, 4x Xeon 2.10 GHz | same |
+| N-WGC-3 | [20](20-webgpu-compute.md) | planted bugs caught | 14 of 14, with 5 of 5 green baselines | [C] | same | `x3d.compute/receipts/mutation-check.txt` |
+| N-WGC-4 | [20](20-webgpu-compute.md) | review findings received | 41 | [C] | 92-agent review of the first version | `x3d.compute/receipts/review-2026-11-15-untriaged.json` |
+| N-WGC-5 | [20](20-webgpu-compute.md) | particles, worst abs diff, 4,096 x 120 steps | 5.75e-4 | [C] | same | receipt, particles |
+| N-WGC-6 | [20](20-webgpu-compute.md) | skinning, worst abs diff, 65,536-vertex tube | 3.8e-6 | [C] | same | receipt, skinning |
+| N-WGC-7 | [20](20-webgpu-compute.md) | NURBS worst position and normal diff, 8 patches | 7.2e-7 and 1.5e-5 | [C] | same | receipt, nurbs |
+| N-WGC-8 | [20](20-webgpu-compute.md) | splat projection, worst relative diff | 7.9e-5 | [C] | same | receipt, splats |
+| N-WGC-9 | [20](20-webgpu-compute.md) | particle step, 262,144 particles | 9.47 ms | [C] | same, GPU timestamp | receipt |
+| N-WGC-10 | [20](20-webgpu-compute.md) | skinning, 1,048,576 vertices, 24 joints | 105.4 ms | [C] | same | receipt |
+| N-WGC-11 | [20](20-webgpu-compute.md) | volume 256^3, 512x512, 384 steps: GPU, sustained, rAF | 375.5, 355.7, 16.7 ms | [C] | same | receipt |
+| N-WGC-12 | [20](20-webgpu-compute.md) | NURBS 512x512 grid | 156.5 ms | [C] | same | receipt |
+| N-WGC-13 | [20](20-webgpu-compute.md) | splats 1,048,576: project, naive sort, tiled sort | 55.6, 3,043, 9,138 ms | [C] | same | receipt |
+| N-WGC-14 | [20](20-webgpu-compute.md) | sort share of project plus naive sort at 1,048,576 | 98.2 percent | [C] | same | receipt |
+| N-WGC-15 | [20](20-webgpu-compute.md) | bitonic passes at 1,048,576, naive and tiled | 210 and 78 | [C] | same | receipt |
+| N-WGC-16 | [20](20-webgpu-compute.md) | edge-case splat cloud (3,000): visible, behind near, off screen | 1,051, 944, 1,005 | [C] | same | receipt, splats |
+| N-WGC-17 | [20](20-webgpu-compute.md) | hand-worked chain, max error against the GPU | 6.1e-17 | [C] | same | receipt, skinning |
 <!-- END GENERATED -->

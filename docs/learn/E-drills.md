@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**157 drills**, 144 with a recorded run (`Checked`), 13 not yet run. Levels: L1 28, L2 83, L3 46.
+**163 drills**, 150 with a recorded run (`Checked`), 13 not yet run. Levels: L1 30, L2 85, L3 48.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -164,4 +164,10 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-GTO-4 | [19](19-gltf-tooling.md) | L3 | A gate that can fail | 2026-11-15 `node --test`, Node v22.23.4 |
 | D-GTO-5 | [19](19-gltf-tooling.md) | L3 | Which stock step takes the animation channel | 2026-11-15 `x3dgltf step-probe`, glTF-Transform 4.5.1 |
 | D-GTO-6 | [19](19-gltf-tooling.md) | L2 | Rank the wire | 2026-11-15 `x3dgltf matrix`, Node `zlib` gzip 9 and brotli 11 |
+| D-WGC-1 | [20](20-webgpu-compute.md) | L1 | Run the gate | 2026-11-15 Chromium 153.0.8010.12 SwiftShader, `x3d.loom@7c818e3` |
+| D-WGC-2 | [20](20-webgpu-compute.md) | L3 | Plant a bug | 2026-11-15 Chromium 153.0.8010.12 SwiftShader, `x3d.loom@7c818e3` |
+| D-WGC-3 | [20](20-webgpu-compute.md) | L2 | Price the sort | 2026-11-15 recorded receipt, Node v22.23.4 |
+| D-WGC-4 | [20](20-webgpu-compute.md) | L2 | Do the skeleton by hand | 2026-11-15 Node v22.23.4, `x3d.loom@7c818e3` (same computation printed all fifteen coordinates equal to the expected list) |
+| D-WGC-5 | [20](20-webgpu-compute.md) | L1 | Read three clocks | 2026-11-15 recorded receipt |
+| D-WGC-6 | [20](20-webgpu-compute.md) | L3 | Break the sort | 2026-11-15 `tools/mutation-check.sh` (that mutant is number 12 of the 14) |
 <!-- END GENERATED -->

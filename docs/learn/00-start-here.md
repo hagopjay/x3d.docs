@@ -78,6 +78,7 @@ add a dated row, never overwrite the old one.
 | [17](17-physics-engines.md) | Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver | The same RigidBodyPhysics file can be stepped by four engines, and the only way to tell them apart is to run each against a closed-form answer, a repeat, a second host and a sensor that must fire; the winner differs p... | 11 | 6 | 17 | 28 KB |
 | [18](18-three-pathtracer.md) | Path-tracing X3D: three-gpu-pathtracer as a light-transport reference | A path tracer is a second opinion on how an X3D scene is lit, not a better X_ITE: it agrees with X_ITE when it is limited to direct light (Cornell box, 1 bounce, FLIP 0.142), moves toward Cycles as bounces are added,... | 10 | 6 | 15 | 22 KB |
 | [19](19-gltf-tooling.md) | glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them | a glb from the Blender add-on can be cut to about a third of its size, or to a tenth of it on a mesh-heavy scene, and still be proven to carry every DEF name, camera, light, material and animation channel it started w... | 14 | 6 | 24 | 55 KB |
+| [20](20-webgpu-compute.md) | Compute on the GPU: WebGPU kernels for X3D workloads | Five X3D features (ParticleSystem, HAnim skinning, VolumeData, NURBS patches, GaussianSplats) have per-frame arithmetic that maps to WGSL compute kernels one thread per item, and each kernel is trustworthy only becaus... | 12 | 6 | 17 | 24 KB |
 <!-- END CHAPTER-TABLE -->
 
 ## What every chapter contains
