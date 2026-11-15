@@ -22,7 +22,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a class="cur" href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="D-heuristics-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/D-heuristics-ledger.md">GitHub</a></div><h1>Appendix D. Heuristics ledger</h1>
 <p>Merged from the <em>Heuristics</em> table of every chapter. Edit the chapter, not this file.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>214 heuristics.</strong> Grades: <span class="g C" title="Confirmed">C</span> 169 · <span class="g L" title="Likely">L</span> 38 · <span class="g S" title="Suspected">S</span> 7. Retired rules are struck through in their chapter, never deleted.</p>
+<p><strong>225 heuristics.</strong> Grades: <span class="g C" title="Confirmed">C</span> 180 · <span class="g L" title="Likely">L</span> 38 · <span class="g S" title="Suspected">S</span> 7. Retired rules are struck through in their chapter, never deleted.</p>
 <table>
 <thead>
 <tr>
@@ -1020,6 +1020,46 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><code>tools/run-tests.js</code></td>
 </tr>
 <tr>
+<td>H-BAB-70</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Put a node's defaults in the fixture beside its non-default settings: render <code>&lt;TextureProperties/&gt;</code> as well as the NEAREST variant before reading a default's name as a behaviour.</td>
+<td>C</td>
+<td>FASTEST read as nearest: 28.23 dB; measured smooth: 67.60 dB</td>
+<td><code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, three.js r187, TextureProperties fixture</td>
+</tr>
+<tr>
+<td>H-BAB-71</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Bracket a reference engine's threshold with inputs on both sides in one scene (4 x 4, 16 x 16 and 32 x 32 images) before writing the rule.</td>
+<td>C</td>
+<td>4 x 4 hard texels, 16 and 32 smooth; the edge between 4 and 16 is not bisected</td>
+<td><code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, three.js r187</td>
+</tr>
+<tr>
+<td>H-BAB-72</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Pick between blend orders by region means as well as frame dB: one cube of three told the placements apart.</td>
+<td>C</td>
+<td>ADD cube red mean 181.1, 226.2, 214.1 against 214.9; frame dB 28.15, 27.84, 35.03</td>
+<td><code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, three.js r187, MultiTexture fixture</td>
+</tr>
+<tr>
+<td>H-BAB-73</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Test a background or cube map from every direction with an asymmetric marker on each face, so a turned or mirrored face cannot pass.</td>
+<td>C</td>
+<td>six faces identical on the first run with a white bottom-left and black top-right pixel</td>
+<td><code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, three.js r187, TextureBackground fixture</td>
+</tr>
+<tr>
+<td>H-BAB-74</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Make sure a <code>set</code> step changes the reference engine's picture too: a harness conversion gap looks like an engine difference.</td>
+<td>C</td>
+<td>MFColor <code>set</code> drew X_ITE black until the runner converted it</td>
+<td><code>X_ITE 16.6.0</code>, Chromium 153.0.8010.12 SwiftShader, three.js r187, <code>tools/run-tests.js</code></td>
+</tr>
+<tr>
 <td>H-BAB-37</td>
 <td><a href="08-babylon-bridge.html">08</a></td>
 <td>Take a distance for a level of detail in the camera's frame, not the node's: a parent scale changes it.</td>
@@ -1066,6 +1106,54 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C</td>
 <td>Contact body1, body2, geometry1, geometry2</td>
 <td><code>Contact.test.json</code></td>
+</tr>
+<tr>
+<td>H-BAB-75</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Put the reference engine's rule for a node in a one-node probe before writing its body: X_ITE draws a cube map only through a TextureCoordinateGenerator, and a fixture without one measures nothing.</td>
+<td>C</td>
+<td>magenta and blue split until the generator was in the scene</td>
+<td><code>CubeMaps.js</code>, <code>ImageCubeMapTexture.x3d</code></td>
+</tr>
+<tr>
+<td>H-BAB-76</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Let the renderer own the <code>#version</code> line: take the author's <code>#version 300 es</code> out of a RawShaderMaterial source and pass it as <code>glslVersion</code>, and use <code>data:</code> urls in fixtures (CDATA loses its line breaks in X_ITE).</td>
+<td>C</td>
+<td>the shader pictures are empty with the line left in (IoU 0)</td>
+<td><code>Shaders.js</code>, <code>ComposedShader.x3d</code></td>
+</tr>
+<tr>
+<td>H-BAB-77</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Test a frame-dependent node on a frame that is not the identity: a fixture on a <code>rotateYUp</code> origin cannot tell the right basis from the wrong one.</td>
+<td>C</td>
+<td>swapped basis 98 of 98 steps; on the new fixture IoU 0 and 18.49 dB</td>
+<td><code>GeoViewpointFrame.test.json</code></td>
+</tr>
+<tr>
+<td>H-BAB-78</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Write a fixture for every path a review fixes: each of the 69 findings of batch 4 was on a path (second finger, USE'd node, replaced world) that no fixture drove.</td>
+<td>C</td>
+<td>InlineUse: both copies draw, load FALSE takes both away, TRUE brings both back</td>
+<td><code>InlineUse.test.json</code></td>
+</tr>
+<tr>
+<td>H-BAB-79</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Guard an include before it is fetched: depth, fan-out, size, and a cycle on the chain's own urls.</td>
+<td>C</td>
+<td>8 deep, 512 loads, 32 MB (128 MB unzipped)</td>
+<td><code>body-three.js</code> <code>loadInline</code></td>
+</tr>
+<tr>
+<td>H-BAB-80</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>A security fix in a shared file is told to the lane that owns it: the scheme test of an Anchor must drop what a URL parser drops (tab, line break, leading control characters).</td>
+<td>C</td>
+<td><code>java&lt;tab&gt;script:</code> ran past the test</td>
+<td><code>Anchor.js</code></td>
 </tr>
 <tr>
 <td>H-CAS-1</td>

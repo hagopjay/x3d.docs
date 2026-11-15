@@ -3,20 +3,20 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-243 distinct instrument strings across the numbers registers.
+245 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
+| `same rig` | 27 | 08, 09, 13 | C:27 |
 | `same` | 19 | 05, 06, 07, 09, 10, 11, 12 | C:18 L:1 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
-| `same rig` | 12 | 08, 09, 13 | C:12 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
+| `driver.py status` | 6 | 08 | C:6 |
 | `learn_lib.py count` | 6 | 14 | C:6 |
 | `both engines` | 5 | 08 | C:5 |
 | `bpy 5.3.0` | 5 | 10, 11 | C:2 L:3 |
 | `Khronos glTF-Validator 2.0.0-dev.3.10` | 4 | 09, 10, 11 | C:4 |
 | `build_learn.py at this commit` | 4 | 14 | C:4 |
-| `driver.py status` | 4 | 08 | C:4 |
 | `rdflib 7.6.0` | 4 | 05 | C:4 |
 | `read, not re-run` | 4 | 06, 07 | L:4 |
 | `Python 3, 2026-11-14` | 3 | 12 | C:3 |
@@ -27,6 +27,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `wc -l` | 3 | 08, 10 | C:3 |
 | `x3d_mcp fork b4efcd3, seed 20261029` | 3 | 01, 03 | C:3 |
 | `Chromium 153, SwiftShader (carried)` | 2 | 11, 12 | L:2 |
+| `X_ITE 16.6.0, Chromium 153.0.8010.12 SwiftShader, three.js r187` | 2 | 08 | C:2 |
 | `X_ITE 16.7.0, Chromium 153, SwiftShader, 320 x 240` | 2 | 01 | C:2 |
 | `file size, 2026-11-14` | 2 | 12 | C:2 |
 | `marker scan, X_ITE 16.7.0` | 2 | 06 | C:2 |
@@ -217,6 +218,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `verifier pass in a private note` | 1 | 10 | S:1 |
 | `wc -l, grep` | 1 | 07 | C:1 |
 | `wc, gzip -9, sha256sum` | 1 | 06 | C:1 |
+| `workflow run 2026-11-15` | 1 | 08 | C:1 |
 | `x3d-blender-io@ab99988 catalogue` | 1 | 03 | C:1 |
 | `x3d.demo@d10b457 directory read` | 1 | 05 | C:1 |
 | `x3d.loom PR #56, X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 13 | C:1 |
