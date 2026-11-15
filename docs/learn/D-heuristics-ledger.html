@@ -2030,9 +2030,9 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td>H-ENG-2</td>
 <td><a href="16-physics-engines.html">16</a></td>
-<td>When a library accepts a friction value, run a ramp sweep; a box that sticks at 45 degrees for every mu is a unit error, not a surface property.</td>
+<td>When a library accepts a friction value, run a ramp sweep; a cube that holds until it topples, for every mu, is a unit error, not a surface property.</td>
 <td><span class="g C" title="Confirmed">C</span></td>
-<td>cannon-es raw 45 and 45 degrees against 11.3 and 26.6</td>
+<td>cannon-es raw 45 and 45 degrees (the tipping angle) against slip angles 11.3 and 26.6</td>
 <td><code>tools/friction-sweep.js</code>; cannon-es 0.20.0</td>
 </tr>
 <tr>
@@ -2048,8 +2048,8 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><a href="16-physics-engines.html">16</a></td>
 <td>Let a CollisionSensor read every sub-step of a tick, not the last; test it with many drop heights that land on different sub-steps.</td>
 <td><span class="g C" title="Confirmed">C</span></td>
-<td>24 of 24 in frame mode against 5 to 11 in last mode</td>
-<td><code>tools/sensor-impact.js</code>; Chromium 153.0.8010.12</td>
+<td>24 of 24 in frame mode against 5 to 11 in last mode (Rapier's last count includes stale contacts)</td>
+<td><code>tools/sensor-impact.js</code>, <code>test/engines.test.js</code>; Node v22.23.4 (X_ITE row: Chromium 153.0.8010.12)</td>
 </tr>
 <tr>
 <td>H-ENG-5</td>
@@ -2094,9 +2094,9 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td>H-ENG-10</td>
 <td><a href="16-physics-engines.html">16</a></td>
-<td>Put every unmapped node into a visible notes list instead of dropping it; a quiet drop reads as a pass.</td>
+<td>Put every unmapped node type into a visible notes list instead of dropping it, and list ignored fields too; a quiet drop reads as a pass.</td>
 <td><span class="g L" title="Likely">L</span></td>
-<td><code>ctx.notes</code> lists Universal and DoubleAxis limits and motors for Rapier</td>
+<td><code>ctx.notes</code> lists Universal and DoubleAxis limits and motors, but <code>stopBounce</code> is dropped without a note</td>
 <td><code>engines.js</code>, <code>engine-rapier.js</code> read</td>
 </tr>
 <tr>

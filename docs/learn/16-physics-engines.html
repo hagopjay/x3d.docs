@@ -141,9 +141,9 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>one description of the scene for every engine</td>
 </tr>
 <tr>
-<td>unsupported node</td>
-<td>pushed to <code>ctx.notes</code> and shown in <code>BR.physEngines.notes</code>, never dropped silently</td>
-<td>a lossy mapping is visible</td>
+<td>unsupported node type</td>
+<td>pushed to <code>ctx.notes</code> and shown in <code>BR.physEngines.notes</code></td>
+<td>a lossy mapping of a whole node is visible (single fields are not)</td>
 </tr>
 <tr>
 <td>mass and inertia</td>
@@ -167,7 +167,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 </tbody>
 </table>
-<p>Joint coverage (README, read and exercised by the tests): BallJoint, SingleAxisHingeJoint with limits, SliderJoint with limits, MotorJoint torque, UniversalJoint and DoubleAxisHingeJoint with the twist locked only (angle limits and motors listed in <code>notes</code>, Rapier). Shapes: Box, Sphere, Cylinder and Cone natively in Rapier; cannon-es takes Cylinder and Cone as a 12-segment <code>Cylinder</code>.</p>
+<p>Joint coverage: BallJoint, SingleAxisHingeJoint with limits and SliderJoint with limits are exercised by the tests and scenes; MotorJoint torque, UniversalJoint and DoubleAxisHingeJoint are mapped in code but not tested (Rapier locks the twist only, angle limits and motors are listed in <code>notes</code>). Fields are not all mapped: <code>stopBounce</code>, <code>stopErrorCorrection</code> and motor angle targets are read by the built-in engine only and no note says so. Shapes: Box, Sphere, Cylinder and Cone natively in Rapier; cannon-es takes Cylinder and Cone as a 12-segment <code>Cylinder</code>.</p>
 <hr />
 <h2 id="3-fidelity-against-closed-forms">3. Fidelity against closed forms</h2>
 <p>Seven plain X3D 4.0 scenes (<code>fixtures/</code>), each with an analytic answer, run through the same reader in Node. X_ITE 16.6.0 ran the same text in Chromium 153 (two loads each).</p>
@@ -241,8 +241,8 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 </tbody>
 </table>
-<p>Reading it: Rapier is within 0.4 % of every closed form here. The built-in engine is as good except for a 0.9 % sag in the stack and a hinge that relaxes (angle 0.714 rad at 3 s against 1.000 held by Rapier). cannon-es adds energy (+14.0 % on an elastic hit, +10 % on the bounce apex). X_ITE 16.6.0 ignores the hinge limit and does not repeat. <strong><span class="g C" title="Confirmed">C</span></strong> (instruments: <code>x3d.loom@56340c2</code> <code>tools/fidelity-node.js</code>, <code>tools/fidelity-xite.js</code>; rig above.)</p>
-<p>The friction column &quot;cannon-es raw&quot; is the stock library: the box does not move at all (acceleration 0) on a ramp where 3.19 m/s2 is right. Section 8 explains it.</p>
+<p>Reading it: Rapier is within 0.4 % of every closed form here. The built-in engine is as good except for a stack that sits 8.7 mm low at the middle box and 10 mm at the top (0.4 % of the top height) and limits that relax after impact (hinge 0.714 rad and slider 1.424 m at 3 s, against 1.000 and 1.500 held by Rapier; cannon-es falls back further, to 0.445 rad and 0.502 m). cannon-es adds energy (+14.0 % on an elastic hit, +10 % on the bounce apex). X_ITE 16.6.0 ignores the hinge limit and does not repeat. <strong><span class="g C" title="Confirmed">C</span></strong> (instruments: <code>x3d.loom@56340c2</code> <code>tools/fidelity-node.js</code>, <code>tools/fidelity-xite.js</code>; rig above.)</p>
+<p>The column &quot;cannon-es raw&quot; is the stock library: the cube does not move at all (acceleration 0) on a ramp where 3.19 m/s2 is right. Section 8 explains it.</p>
 <hr />
 <h2 id="4-determinism">4. Determinism</h2>
 <table>
@@ -375,7 +375,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 </tbody>
 </table>
-<p>Cause: in <code>last</code> mode the sensor reads the contacts of the final sub-step of a tick, and a bouncing ball is in contact on one sub-step only; the impact falls in an earlier one in most ticks. <code>frame</code> merges the contacts of every sub-step in the tick. Rapier's contacts are speculative (a fast body is stopped by a contact still <code>dist</code> away), so a manifold counts when a point touches or the solver pushed on it in that step (<code>contactImpulse &gt; 0</code>). <strong><span class="g C" title="Confirmed">C</span></strong> (<code>tools/sensor-impact.js</code>; sampled as a page would hear it, a rising <code>isActive</code> after each tick.)</p>
+<p>Cause: in <code>last</code> mode the sensor reads the contacts of the final sub-step of a tick, and a bouncing ball is in contact on one sub-step only; the impact falls in an earlier one in most ticks. <code>frame</code> merges the contacts of every sub-step in the tick. Rapier's contacts are speculative (a fast body is stopped by a contact still <code>dist</code> away; in 2 of 4 probed drops the impact step had dist +0.011 and +0.009 m), so a manifold counts when a point touches or the solver pushed on it in that step (<code>contactImpulse &gt; 0</code>). Rapier also keeps a manifold for a few steps after the ball leaves, so its <code>last</code> count (11 of 24) includes stale contacts and is not comparable with the other <code>last</code> rows; <code>frame</code> mode asks only whether a contact happened in the tick. <strong><span class="g C" title="Confirmed">C</span></strong> (<code>tools/sensor-impact.js</code>; sampled as a page would hear it, a rising <code>isActive</code> after each tick.)</p>
 <hr />
 <h2 id="7-chains-and-limits-three-scenes">7. Chains and limits: three scenes</h2>
 <table>
@@ -411,11 +411,11 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>1.10</td>
 </tr>
 <tr>
-<td>gate: cart thrown into stops at 0.90 and 3.70 m</td>
+<td>gate: cart thrown into a slider limit at 3.70 m (it starts at 0.90 m)</td>
 <td>max separation (m)</td>
-<td>3.64</td>
-<td>3.61</td>
-<td>3.64</td>
+<td>3.70</td>
+<td>3.70</td>
+<td>3.71</td>
 </tr>
 <tr>
 <td>avalanche: 40 bodies, 10 each sphere, box, cylinder, cone, into a funnel</td>
@@ -426,7 +426,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 </tbody>
 </table>
-<p>The cradle is the hard case. Rapier's contact solver takes the approach speeds at the start of a step, so inside one step an impulse cannot hop from ball 1 to 2 to 3; four sub-steps give it time. Raising solver iterations (10 to 20) and <code>numInternalPgsIterations</code> (1 to 8) left the rise at 0.22 m, and so did <code>contact_natural_frequency</code> (60 to 960). cannon-es injects energy at every one of the four contacts. The built-in engine is close to the target, because a fixed 1/240 s step with sequential impulses lets the impulse propagate across steps. <strong><span class="g C" title="Confirmed">C</span></strong> (<code>lib/demo-scenes.js</code>, <code>tools/record-demo.js</code>; Node v22.23.4; the replays are on the demo page <code>x3d.demo</code> <code>docs/demos/rigid-engines/v1/</code>, where X_ITE's Bullet runs live beside them.)</p>
+<p>The cradle is the hard case. The rises are measured <strong><span class="g C" title="Confirmed">C</span></strong>. Rapier with 1, 2 and 3 sub-steps gives 0.22, 0.21 and 0.22 m and with 4 and 8 gives 0.65 and 0.64 m; solver iterations 10 to 20, <code>numInternalPgsIterations</code> 1 to 8 and <code>contact_natural_frequency</code> 60 to 960 left it at 0.22 m (an ad hoc sweep, not committed; solver iterations 1 and 4 do change it). The explanation that Rapier's contact solver works from the approach speeds at the start of a step, so an impulse cannot hop through four contacts inside one step, is a hypothesis consistent with that pattern and was not isolated <strong><span class="g S" title="Suspected">S</span></strong>; the cannon-es excess is measured (1.78 m for a 0.71 m lift, 2.5 times the energy), but +14 % per elastic hit would compound to about 1.7 times over four contacts, so the per-contact figure alone does not explain it <strong><span class="g S" title="Suspected">S</span></strong>. Gate numbers: the cart reaches 3.70 m in the built-in and Rapier recordings and 3.71 m in cannon-es, at the slider limit, with the red block placed just beyond it. (<code>lib/demo-scenes.js</code>, <code>tools/record-demo.js</code>; Node v22.23.4; the replays are on the demo page <code>x3d.demo</code> <code>docs/demos/rigid-engines/v1/</code>, where X_ITE's Bullet runs live beside them.)</p>
 <hr />
 <h2 id="8-two-defects-the-measurements-found">8. Two defects the measurements found</h2>
 <table>
@@ -443,8 +443,8 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td>friction in the wrong unit</td>
 <td>cannon-es 0.20.0</td>
-<td>a box stays put on a ramp up to 45 degrees whatever mu is (stock: 45 and 45 degrees where 11.3 and 26.6 are right)</td>
-<td>the Gauss-Seidel solver returns an impulse, the friction bound is built as a force, so at 1/240 s it is 240 times too large, and it is applied per contact point</td>
+<td>a cube does not slip on a ramp at any angle up to its tipping angle whatever mu is (stock sweep: 45 and 45 degrees, where the cube topples, against slip angles of 11.3 and 26.6)</td>
+<td>the Gauss-Seidel solver returns an impulse, the friction bound is built as a force, so at 1/240 s it is about 240 times too large (cause read in the cannon-es 0.20.0 source, symptom measured)</td>
 <td>the adapter wraps <code>solver.solve</code> with <code>bound = mu * m_reduced * abs(g.n) * dt / points</code>; patched result 12 and 25 degrees (built-in and Rapier 12 and 27)</td>
 </tr>
 <tr>
@@ -461,7 +461,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
                                   |
                                   v   adapter:  bound = mu * m_red * |g.n| * dt / n_points
 </code></pre>
-<p>Both were found by comparing a number to its closed form, not by reading code: the ramp acceleration of 0 and the escape count of exactly 10. <strong><span class="g C" title="Confirmed">C</span></strong> (<code>tools/friction-sweep.js</code>; <code>test/engines.test.js</code>; <code>RigidBodyCollection.js</code> read at <code>x3d.loom@1e884b6</code>.)</p>
+<p>Both were found by comparing a number to its closed form: the ramp acceleration of 0 and the escape count of exactly 10. <strong><span class="g C" title="Confirmed">C</span></strong> (<code>tools/friction-sweep.js</code>; <code>test/engines.test.js</code>; <code>RigidBodyCollection.js</code> read at <code>x3d.loom@1e884b6</code>.)</p>
 <hr />
 <h2 id="9-which-engine-for-which-job">9. Which engine for which job</h2>
 <table>
@@ -481,12 +481,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td>repeatable, explainable, small scenes</td>
 <td>built-in</td>
-<td>fastest at 25 bodies in Chromium (0.387 ms); within 0.4 % on the closed forms except stack sag and hinge relaxation</td>
+<td>faster than Rapier at 25 bodies in Chromium (0.387 against 0.462 ms; cannon-es is faster still, 0.313 ms); within 0.4 % on the closed forms except a 10 mm stack sag and relaxing limits</td>
 </tr>
 <tr>
 <td>stacks, many bodies, chains, limits</td>
 <td>Rapier (<code>sub: 4</code> for chains)</td>
-<td>within 0.4 % on all seven scenes; 2.4x faster than built-in at 250 bodies in Chromium</td>
+<td>within 0.4 % on all seven scenes and the only engine that holds a hinge and a slider limit after impact; 2.4x faster than built-in at 250 bodies in Chromium</td>
 </tr>
 <tr>
 <td>lightweight second opinion</td>
@@ -494,9 +494,9 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>1.9x faster than built-in at 250 bodies; accept +14 % energy on elastic hits</td>
 </tr>
 <tr>
-<td>a CollisionSensor must not miss</td>
-<td>any engine with <code>contactMode: 'frame'</code></td>
-<td>24 of 24 for Rapier and cannon-es</td>
+<td>a CollisionSensor that should see an impact</td>
+<td>Rapier or cannon-es with <code>contactMode: 'frame'</code></td>
+<td>24 of 24 on this one scene (first impact of one sphere, 60 Hz ticks); not available for the built-in engine, which ignores the mode (6 of 24); no fast or thin bodies tested</td>
 </tr>
 </tbody>
 </table>
@@ -522,9 +522,9 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>H-ENG-2</td>
-<td>When a library accepts a friction value, run a ramp sweep; a box that sticks at 45 degrees for every mu is a unit error, not a surface property.</td>
+<td>When a library accepts a friction value, run a ramp sweep; a cube that holds until it topples, for every mu, is a unit error, not a surface property.</td>
 <td><span class="g C" title="Confirmed">C</span></td>
-<td>cannon-es raw 45 and 45 degrees against 11.3 and 26.6</td>
+<td>cannon-es raw 45 and 45 degrees (the tipping angle) against slip angles 11.3 and 26.6</td>
 <td><code>tools/friction-sweep.js</code>; cannon-es 0.20.0</td>
 </tr>
 <tr>
@@ -538,8 +538,8 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>H-ENG-4</td>
 <td>Let a CollisionSensor read every sub-step of a tick, not the last; test it with many drop heights that land on different sub-steps.</td>
 <td><span class="g C" title="Confirmed">C</span></td>
-<td>24 of 24 in frame mode against 5 to 11 in last mode</td>
-<td><code>tools/sensor-impact.js</code>; Chromium 153.0.8010.12</td>
+<td>24 of 24 in frame mode against 5 to 11 in last mode (Rapier's last count includes stale contacts)</td>
+<td><code>tools/sensor-impact.js</code>, <code>test/engines.test.js</code>; Node v22.23.4 (X_ITE row: Chromium 153.0.8010.12)</td>
 </tr>
 <tr>
 <td>H-ENG-5</td>
@@ -578,9 +578,9 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>H-ENG-10</td>
-<td>Put every unmapped node into a visible notes list instead of dropping it; a quiet drop reads as a pass.</td>
+<td>Put every unmapped node type into a visible notes list instead of dropping it, and list ignored fields too; a quiet drop reads as a pass.</td>
 <td><span class="g L" title="Likely">L</span></td>
-<td><code>ctx.notes</code> lists Universal and DoubleAxis limits and motors for Rapier</td>
+<td><code>ctx.notes</code> lists Universal and DoubleAxis limits and motors, but <code>stopBounce</code> is dropped without a note</td>
 <td><code>engines.js</code>, <code>engine-rapier.js</code> read</td>
 </tr>
 <tr>
@@ -599,7 +599,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <li><strong>Level:</strong> L2</li>
 <li><strong>Task:</strong> Run the friction sweep and say which of the four engines is wrong at mu 0.2 and mu 0.5, and by how many degrees.</li>
 <li><strong>Verify:</strong> <code>cd x3d.physics/rigid-engines &amp;&amp; npm install &amp;&amp; export NODE_PATH=$PWD/node_modules &amp;&amp; node tools/friction-sweep.js</code></li>
-<li><strong>Answer:</strong> <code>cannon-raw</code> slides from 45 degrees in both cases (analytic 11.3 and 26.6, so 33.7 and 18.4 degrees wrong); built-in and Rapier 12 and 27; patched cannon 12 and 25.</li>
+<li><strong>Answer:</strong> <code>cannon-raw</code> first moves at 45 degrees in both cases, which is where the unit cube topples (slip angles are 11.3 and 26.6, so it holds 33.7 and 18.4 degrees too long); built-in and Rapier 12 and 27; patched cannon 12 and 25.</li>
 <li><strong>Checked:</strong> <code>2026-11-15 x3d.loom@56340c2, Node v22.23.4, cannon-es 0.20.0</code>: mu 0.5 builtin 27, rapier 27, cannon 25, cannon-raw 45.</li>
 </ul>
 <h3 id="d-eng-2-find-the-escaped-cones">D-ENG-2 Find the escaped cones</h3>
@@ -639,7 +639,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <li><strong>Level:</strong> L1</li>
 <li><strong>Task:</strong> From <code>results/speed.json</code> compute how many times faster Rapier and cannon-es are than the built-in engine at 250 bodies, in Chromium and in Node.</li>
 <li><strong>Verify:</strong> <code>python3 -c &quot;import json;d=json.load(open('results/speed.json'))['N250'];print({h:{e:round(d[h]['builtin']/d[h][e],2) for e in ('rapier','cannon')} for h in ('chromium','node')})&quot;</code></li>
-<li><strong>Answer:</strong> Chromium 2.42 and 1.85; Node 10.04 and 6.21. The Node ratio is 4x larger, which is why the host matters.</li>
+<li><strong>Answer:</strong> Chromium 2.42 and 1.85; Node 10.04 and 6.21. The Node ratios are 3.4 to 4.1 times the Chromium ratios because Node slows only the built-in engine (4.0x at 250 bodies), which is why the host matters.</li>
 <li><strong>Checked:</strong> <code>2026-11-15 x3d.loom@56340c2</code>: Chromium {rapier 2.42, cannon 1.85}.</li>
 </ul>
 <hr />
@@ -647,10 +647,11 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <ul>
 <li><strong><span class="g C" title="Confirmed">C</span> One machine, software GPU.</strong> Every Chromium number is Chromium 153.0.8010.12 on SwiftShader; wall times are CPU times of one machine and are not frame rates. Cross-machine determinism was not tested.</li>
 <li><strong><span class="g C" title="Confirmed">C</span> Seven small analytic scenes.</strong> The ranking says nothing about large mixed scenes, deep stacks, meshes or fast thin objects; no CCD test was run.</li>
-<li><strong><span class="g C" title="Confirmed">C</span> The demo scenes were recorded in Node only.</strong> Node against Chromium equality was checked on the seven analytic scenes, not on the avalanche, cradle and gate.</li>
+<li><strong><span class="g C" title="Confirmed">C</span> The demo scenes were recorded in Node only.</strong> Node against Chromium equality was checked on the seven analytic scenes, not on the avalanche, cradle and gate; each demo recording was run twice in Node and matched bit for bit (<code>repeat_identical</code> in <code>data/stats.json</code>).</li>
+<li><strong><span class="g C" title="Confirmed">C</span> Rapier's <code>last</code> sensor count is inflated by stale manifolds</strong> and the 11 of 24 is not comparable with the other <code>last</code> rows.</li>
 <li><strong><span class="g L" title="Likely">L</span> X_ITE numbers are 16.6.0, two loads each.</strong> Bullet's step follows frame time, so a third load gives a third number; the table shows a range of two.</li>
 <li><strong><span class="g L" title="Likely">L</span> Rapier's cradle result depends on a sub-step count that was chosen by trial.</strong> Four was the first value that worked (eight gave 0.64 m); no study of the cost to other scenes was made.</li>
-<li><strong><span class="g L" title="Likely">L</span> Joint coverage is partial.</strong> Universal and DoubleAxis hinge angle limits and motors are not mapped in Rapier; cannon-es motors and limits were tested only through the hinge, slider and motor scenes listed above.</li>
+<li><strong><span class="g L" title="Likely">L</span> Joint coverage is partial.</strong> Universal and DoubleAxis hinge angle limits and motors are not mapped in Rapier; MotorJoint, UniversalJoint and DoubleAxisHingeJoint are mapped in code but no test or scene exercises them.</li>
 <li><strong><span class="g S" title="Suspected">S</span> Why the built-in engine's hinge relaxes</strong> (0.714 rad at 3 s with stopBounce 0) was not investigated; only the measurement is stated.</li>
 <li><strong><span class="g C" title="Confirmed">C</span> The Cone fix is proposed, not applied or run.</strong> It is a one-condition change in a shared bridge file owned by another thread.</li>
 <li><strong><span class="g L" title="Likely">L</span> Licences.</strong> Rapier is Apache-2.0 and cannon-es MIT as stated by their packages; nothing is vendored in the repository.</li>
@@ -703,8 +704,8 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>N-ENG-5</td>
-<td>Ramp angle where a box starts to slide at mu 0.2 and 0.5 (analytic 11.3, 26.6): cannon-es raw</td>
-<td>45 and 45 degrees</td>
+<td>Ramp angle where a unit cube first moves at mu 0.2 and 0.5 (analytic slip 11.3, 26.6): cannon-es raw</td>
+<td>45 and 45 degrees (tipping, not slipping)</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>cannon-es 0.20.0</td>
 <td><code>results/friction-sweep.json</code></td>
@@ -795,7 +796,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>0.62, 0.22, 0.65, 1.78 m</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>Node v22.23.4, Rapier 0.21.0</td>
-<td><code>data/stats.json</code> of <code>x3d.demo</code> demo <code>rigid-engines/v1</code>; <code>test/engines.test.js</code></td>
+<td><code>data/stats.json</code> of <code>x3d.demo</code> demo <code>rigid-engines/v1</code> (fields <code>last_ball_peak_rise_m</code>, <code>last_ball_peak_rise_m_1_sub_step</code>)</td>
 </tr>
 <tr>
 <td>N-ENG-17</td>
