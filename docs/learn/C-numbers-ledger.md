@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**507 numbers** from 20 chapters. Grades: [C] 463 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**509 numbers** from 20 chapters. Grades: [C] 465 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -432,21 +432,23 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-ANM-12 | [15](15-animation-timelines.md) | Unit tests in `x3d.anim` | 17 of 17 pass, no browser | [C] | Node 22.23.4 | D-ANM-4 |
 | N-ANM-13 | [15](15-animation-timelines.md) | Orrery keys, global vs per-channel authored times | 16,031 vs 2,467 | [C] | `x3d.anim` bake, 76 channels | section 4 |
 | N-ANM-14 | [15](15-animation-timelines.md) | Colour error before the achromatic-hue rule, orrery | 0.0167 on 4 channels | [C] | X_ITE 16.6.0 | section 4 |
-| N-YJS-1 | [15](15-yjs-collaboration.md) | unit and fuzz tests passing | 22 of 22 | [C] | Node v22.23.4, Yjs 13.6.33 | `x3d.loom@0689f1a:x3d.yjs/test` |
+| N-YJS-1 | [15](15-yjs-collaboration.md) | unit, fuzz and differential tests passing | 30 of 30 | [C] | Node v22.23.4, Yjs 13.6.33 | `x3d.loom@a9640eb:x3d.yjs/test` |
 | N-YJS-2 | [15](15-yjs-collaboration.md) | fuzz seeds converged | 200 of 200 | [C] | same, 3 peers x 300 ops | `x3d.yjs/receipts/bench.md` |
 | N-YJS-3 | [15](15-yjs-collaboration.md) | different pixels after add, move, remove | 0 of 145,116 each | [C] | X_ITE 16.6.0, Chromium 153, SwiftShader | `x3d.yjs/receipts/e2e-xite.json` |
 | N-YJS-4 | [15](15-yjs-collaboration.md) | different pixels, offline control | 16,633 | [C] | same | same |
-| N-YJS-5 | [15](15-yjs-collaboration.md) | apply latency, median, X_ITE | 0.30 ms | [C] | same, in-process link | same |
+| N-YJS-5 | [15](15-yjs-collaboration.md) | apply latency, median, X_ITE | 0.40 ms | [C] | same, in-process link | same |
 | N-YJS-6 | [15](15-yjs-collaboration.md) | apply latency, median, three.js bridge | 0.20 ms | [C] | three r187, SwiftShader | `x3d.yjs/receipts/e2e-threejs-bridge.json` |
 | N-YJS-7 | [15](15-yjs-collaboration.md) | incremental vs fresh picture, bridge | 0 of 153,600 pixels | [C] | same | same |
-| N-YJS-8 | [15](15-yjs-collaboration.md) | bytes per field update | 44 to 47 | [C] | Node v22.23.4, Yjs 13.6.33 | `x3d.yjs/receipts/bench.md` |
-| N-YJS-9 | [15](15-yjs-collaboration.md) | state size per node | 155 to 168 bytes | [C] | same | same |
-| N-YJS-10 | [15](15-yjs-collaboration.md) | local setField at 50,000 nodes with observer | 147,518 per second | [C] | Intel Xeon 2.10 GHz x4 | same |
-| N-YJS-11 | [15](15-yjs-collaboration.md) | structural add+remove pairs at 500 / 5,000 / 50,000 nodes | 280 / 24 / 2 per second | [C] | same | same |
-| N-YJS-12 | [15](15-yjs-collaboration.md) | loadXML at 50,000 nodes | 535.5 ms | [C] | same | same |
-| N-YJS-13 | [15](15-yjs-collaboration.md) | remote apply at 500 nodes | 149,687 per second | [C] | same | same |
-| N-YJS-14 | [15](15-yjs-collaboration.md) | orphan nodes over 200 fuzz seeds | 5,127 | [C] | same | same |
-| N-YJS-15 | [15](15-yjs-collaboration.md) | reported conflicts over 200 seeds: def-clash, sfnode-slot, duplicate | 206, 31, 15 | [C] | same | same |
+| N-YJS-8 | [15](15-yjs-collaboration.md) | bytes per field update | 51 to 54 | [C] | Node v22.23.4, Yjs 13.6.33 | `x3d.yjs/receipts/bench.md` |
+| N-YJS-9 | [15](15-yjs-collaboration.md) | state size per node | 158 to 165 bytes | [C] | same | same |
+| N-YJS-10 | [15](15-yjs-collaboration.md) | local setField at 50,000 nodes with observer | 191,547 per second | [C] | Intel Xeon 2.10 GHz x4 | same |
+| N-YJS-11 | [15](15-yjs-collaboration.md) | structural add+remove pairs, flat scene, incremental index, at 500 / 5,000 / 50,000 nodes | 844 / 44 / 1 per second | [C] | same | same |
+| N-YJS-12 | [15](15-yjs-collaboration.md) | loadXML at 50,000 nodes | 555.7 ms | [C] | same | same |
+| N-YJS-13 | [15](15-yjs-collaboration.md) | remote apply at 500 nodes | 87,774 per second | [C] | same | same |
+| N-YJS-16 | [15](15-yjs-collaboration.md) | add+remove pairs, fan-out 10, incremental, at 511 / 5,111 / 51,111 nodes | 6,572 / 6,967 / 6,687 per second | [C] | same | same |
+| N-YJS-17 | [15](15-yjs-collaboration.md) | same edit with the full rebuild | 305.3 / 15.6 / 1.5 per second | [C] | same | same |
+| N-YJS-14 | [15](15-yjs-collaboration.md) | orphan nodes over 200 fuzz seeds | 5,096 | [C] | same | same |
+| N-YJS-15 | [15](15-yjs-collaboration.md) | reported conflicts over 200 seeds: def-clash, sfnode-slot, duplicate | 223, 34, 15 | [C] | same | same |
 | N-ZOD-1 | [16](16-typed-x3d-zod.md) | definitions in the Web3D JSON Schema / of them scene nodes | 364 / 261 | [C] | `x3d.zod` `gen.mjs`, schema sha1 `c6765a4` | `x3d.loom@d8e02ef:x3d.zod/receipts/gen.json` |
 | N-ZOD-2 | [16](16-typed-x3d-zod.md) | generated Zod file | 597,222 bytes | [C] | `gen.mjs` | `x3d.zod/src/generated/x3d.zod.ts` |
 | N-ZOD-3 | [16](16-typed-x3d-zod.md) | strict objects / unions / tuples / enums emitted | 887 / 301 / 88 / 150 | [C] | `gen.mjs` | `x3d.zod/receipts/gen.json` |

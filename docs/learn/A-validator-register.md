@@ -7,7 +7,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
-| `same` | 68 | 05, 06, 07, 09, 10, 11, 12, 15, 16, 17, 18, 20 | C:67 L:1 |
+| `same` | 70 | 05, 06, 07, 09, 10, 11, 12, 15, 16, 17, 18, 20 | C:69 L:1 |
 | `same rig` | 36 | 08, 09, 13, 15 | C:36 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |

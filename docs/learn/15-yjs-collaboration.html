@@ -46,11 +46,11 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>sources read</td>
-<td><code>x3d.loom@0689f1a:x3d.yjs/{README.md,src/yx3d.js,src/sai-adapter.js,src/agent.js,src/link.js,python/yx3d_py.py,test/,tools/,receipts/}</code>; <code>x3d_mcp:src/tools/scene_ops.py</code> (op vocabulary, read not run)</td>
+<td><code>x3d.loom@a9640eb:x3d.yjs/{README.md,src/yx3d.js,src/sai-adapter.js,src/agent.js,src/link.js,python/yx3d_py.py,test/,tools/,receipts/}</code>; <code>x3d_mcp:src/tools/scene_ops.py</code> (op vocabulary, read not run)</td>
 </tr>
 <tr>
 <td>instruments used</td>
-<td>Node v22.23.4 with Yjs 13.6.33 on an Intel Xeon 2.10 GHz x4 (no GPU); X_ITE 16.6.0 and Chromium 153.0.8010.12 with SwiftShader (software GL); three.js r187 through the <code>x3d.threejs</code> bridge shared reader; pycrdt 0.14.13; <code>x3d.loom@0689f1a</code> tests and receipts</td>
+<td>Node v22.23.4 with Yjs 13.6.33 on an Intel Xeon 2.10 GHz x4 (no GPU); X_ITE 16.6.0 and Chromium 153.0.8010.12 with SwiftShader (software GL); three.js r187 through the <code>x3d.threejs</code> bridge shared reader; pycrdt 0.14.13; <code>x3d.loom@a9640eb</code> tests and receipts</td>
 </tr>
 </tbody>
 </table>
@@ -190,7 +190,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>orphans pile up</td>
-<td>5,127 orphan nodes over 200 seeds (about 26 per seed)</td>
+<td>5,096 orphan nodes over 200 seeds (about 25 per seed)</td>
 <td>a subtree deleted or cut by a cycle keeps its concurrent children</td>
 <td>counted and reported, not collected: a limit, the Honest limits section</td>
 </tr>
@@ -250,7 +250,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tbody>
 </table>
 <p>At the end the node names reachable in X_ITE (walked through the SAI) equal the document's node uids on both browsers (23 of 23), and <code>toXML()</code> is identical on A, B and the agent's document. The offline row is the control that shows the comparison can fail.</p>
-<p>Apply cost, A's <code>setField</code> to the SAI field value read on B (20 edits, polled with <code>setTimeout(0)</code>): median 0.30 ms, max 2.5 ms. This is apply cost on a no-network link. A real relay adds its round trip.</p>
+<p>Apply cost, A's <code>setField</code> to the SAI field value read on B (20 edits, polled with <code>setTimeout(0)</code>): median 0.40 ms, max 2.3 ms. This is apply cost on a no-network link. A real relay adds its round trip.</p>
 <h2 id="5-the-bridges">5. The bridges</h2>
 <p>The three.js bridge shares its reader with the Babylon bridge, and its shim speaks the subset of the SAI the adapter needs (<code>getNamedNode</code>, <code>getFieldDefinitions</code>, property get and set, <code>rootNodes</code>, <code>addRootNode</code>). The adapter probes the first node (<code>getField</code> exists in X_ITE only) and picks a mode.</p>
 <table>
@@ -279,7 +279,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 </tbody>
 </table>
-<p>Run on the three.js bridge (r187, shared reader, SwiftShader): 20 field edits median 0.20 ms, max 2.8 ms; seven steps (fields, colour, add at root, append, move, remove, agent) each ended with the bridge's node set equal to the document's; the picture after incremental application and the picture after loading the final text from scratch differ in 0 of 153,600 pixels. Two X_ITE facts found on the way: SAI wrappers are not identity-stable (match nodes by DEF name, not <code>===</code>), and an SFNode read through <code>field.getValue()</code> hands back an internal object, while property access (<code>node.appearance</code>) hands back the real SAI node.</p>
+<p>Run on the three.js bridge (r187, shared reader, SwiftShader): 20 field edits median 0.20 ms, max 2.1 ms; seven steps (fields, colour, add at root, append, move, remove, agent) each ended with the bridge's node set equal to the document's; the picture after incremental application and the picture after loading the final text from scratch differ in 0 of 153,600 pixels. Two X_ITE facts found on the way: SAI wrappers are not identity-stable (match nodes by DEF name, not <code>===</code>), and an SFNode read through <code>field.getValue()</code> hands back an internal object, while property access (<code>node.appearance</code>) hands back the real SAI node.</p>
 <h2 id="6-an-llm-peer">6. An LLM peer</h2>
 <p>The agent is one more Yjs peer. <code>agentApply(doc, ops, id)</code> takes JSON ops against DEF names (<code>modify_node</code>, <code>add_node</code>, <code>remove_node</code>, <code>move_node</code>, the same verbs as <code>x3d_mcp/src/tools/scene_ops.py</code>), checks each, applies it as one transaction tagged <code>agent:&lt;id&gt;</code>, and returns a per-op result. A hallucinated DEF returns <code>{ok:false, error:&quot;no node DEF Nope&quot;}</code> and touches nothing. The tag lets a UI show who changed what. A Python peer (<code>python/yx3d_py.py</code>, pycrdt) reads and writes the same layout, so an x3d_mcp server can join a session by exchanging update bytes: the test sends a JS state to Python, edits <code>translation</code> there while JS edits <code>scale</code>, and both ends hold both edits.</p>
 <p>Nothing here makes the agent's edit valid X3D: a field value is any string. The tether (<a href="01-the-tether.html">01</a>) still applies: run the canonical <code>toXML()</code> through the validator before an agent's session is accepted.</p>
@@ -329,7 +329,8 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <th>nodes</th>
 <th>local setField/s</th>
 <th>with observer (field-only path)</th>
-<th>structural pairs (add+remove)/s</th>
+<th>add+remove pairs/s, incremental</th>
+<th>add+remove pairs/s, full rebuild</th>
 <th>bytes per field update</th>
 <th>remote apply/s</th>
 </tr>
@@ -337,32 +338,66 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tbody>
 <tr>
 <td>500</td>
-<td>118,065</td>
-<td>208,333</td>
-<td>280</td>
-<td>44</td>
-<td>149,687</td>
+<td>89,496</td>
+<td>162,639</td>
+<td>844</td>
+<td>296.8</td>
+<td>51</td>
+<td>87,774</td>
 </tr>
 <tr>
 <td>5,000</td>
-<td>172,055</td>
-<td>213,463</td>
-<td>24</td>
-<td>47</td>
-<td>132,644</td>
+<td>140,378</td>
+<td>183,330</td>
+<td>44</td>
+<td>21.7</td>
+<td>54</td>
+<td>84,005</td>
 </tr>
 <tr>
 <td>50,000</td>
-<td>191,079</td>
-<td>147,518</td>
-<td>2</td>
-<td>47</td>
-<td>106,608</td>
+<td>196,851</td>
+<td>191,547</td>
+<td>1</td>
+<td>1.4</td>
+<td>52</td>
+<td>147,739</td>
 </tr>
 </tbody>
 </table>
-<p>Reading it: field edits, the thing a drag produces, are flat in scene size and cheap on the wire (44 to 47 bytes). Structural edits are not: <code>observe()</code> rebuilds the resolved index before and after, so cost grows with the scene (about 3.6 ms per pair at 500 nodes, 500 ms at 50,000). Field-only transactions skip that work. An incremental diff from the Yjs events is the fix and is not done. The state is about 160 bytes per node because each node is a Map with a fields Map and a kids Array.</p>
-<p>Convergence fuzz (<code>tools/bench.js</code>): 200 seeds, 3 peers, 300 random operations each (field set, add, remove, move, SFNode-slot add, partial syncs): 200 of 200 converged to identical text in 3.3 s.</p>
+<p>The scene above is flat: all 10,000 units hang from the root, so every structural edit re-resolves one 10,000-entry child list. With bounded fan-out the cost stops following the scene (groups of 10, one Box added under a leaf group and removed):</p>
+<table>
+<thead>
+<tr>
+<th>nodes</th>
+<th>depth</th>
+<th>pairs/s incremental</th>
+<th>pairs/s full rebuild</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>511</td>
+<td>2</td>
+<td>6,572</td>
+<td>305.3</td>
+</tr>
+<tr>
+<td>5,111</td>
+<td>3</td>
+<td>6,967</td>
+<td>15.6</td>
+</tr>
+<tr>
+<td>51,111</td>
+<td>4</td>
+<td>6,687</td>
+<td>1.5</td>
+</tr>
+</tbody>
+</table>
+<p>Reading it: field edits, the thing a drag produces, are flat in scene size and cheap on the wire (51 to 54 bytes). A structural edit used to rebuild the resolved index twice (O(n)); <code>observe()</code> now keeps an incremental index and re-resolves only the child lists of the parents a transaction touched, plus the subtrees whose reachability flipped, so the cost follows the fan-out of those parents. The O(n) rebuild survives as <code>observe(cb, {full:true})</code>, the oracle the tests compare against after every operation. The state is about 160 bytes per node because each node is a Map with a fields Map and a kids Array.</p>
+<p>Convergence fuzz (<code>tools/bench.js</code>): 200 seeds, 3 peers, 300 random operations each (field set, add, remove, move, SFNode-slot add, partial syncs): 200 of 200 converged to identical text, and the incremental index equalled the full rebuild on 600 of 600 peer copies, in 7.2 s.</p>
 <h2 id="heuristics">Heuristics</h2>
 <table>
 <thead>
@@ -380,7 +415,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>Store the tree as a flat table with a parent register; never nest a node's Map inside its parent's.</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>move-with-edit test</td>
-<td><code>x3d.loom@0689f1a</code> tests</td>
+<td><code>x3d.loom@a9640eb</code> tests</td>
 </tr>
 <tr>
 <td>H-YJS-2</td>
@@ -398,10 +433,17 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>H-YJS-4</td>
-<td>Skip the structure diff for field-only transactions.</td>
+<td>Skip structure work for field-only transactions, and keep an incremental index for the rest; keep the O(n) rebuild as the test oracle.</td>
 <td><span class="g C" title="Confirmed">C</span></td>
-<td>147,518 vs 2 ops/s at 50,000 nodes</td>
+<td>6,687 vs 1.5 pairs/s at 51,111 nodes, fan-out 10</td>
 <td><code>tools/bench.js</code></td>
+</tr>
+<tr>
+<td>H-YJS-9</td>
+<td>Test an incremental structure with a differential check against the full rebuild after every operation, not only at the end.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>8 seeds x 250 operations, plus 600 of 600 copies in the bench</td>
+<td><code>x3d.loom@a9640eb:x3d.yjs/test</code></td>
 </tr>
 <tr>
 <td>H-YJS-5</td>
@@ -422,7 +464,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>Keep user DEF names out of the render path: render every node as <code>y_&lt;uid&gt;</code> so a DEF clash between peers cannot misdirect a USE or a ROUTE.</td>
 <td><span class="g L" title="Likely">L</span></td>
 <td>by construction; the unit test checks the clash export names, no renderer run with a clash</td>
-<td><code>x3d.loom@0689f1a:x3d.yjs/src/yx3d.js</code></td>
+<td><code>x3d.loom@a9640eb:x3d.yjs/src/yx3d.js</code></td>
 </tr>
 <tr>
 <td>H-YJS-7</td>
@@ -440,7 +482,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <li><strong>Level:</strong> L1</li>
 <li><strong>Task:</strong> Run the unit, fuzz and Python-peer tests and count them.</li>
 <li><strong>Verify:</strong> <code>node --test test/*.test.js</code></li>
-<li><strong>Answer:</strong> 22 tests, 22 pass, 0 fail (the Python-peer test is skipped if pycrdt is missing).</li>
+<li><strong>Answer:</strong> 30 tests, 30 pass, 0 fail (the Python-peer test is skipped if pycrdt is missing).</li>
 <li><strong>Checked:</strong> 2026-11-15 Node v22.23.4, Yjs 13.6.33, pycrdt 0.14.13</li>
 </ul>
 <h3 id="d-yjs-2-break-the-export">D-YJS-2 Break the export</h3>
@@ -462,9 +504,9 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <h3 id="d-yjs-4-price-a-structural-edit">D-YJS-4 Price a structural edit</h3>
 <ul>
 <li><strong>Level:</strong> L2</li>
-<li><strong>Task:</strong> Run <code>node tools/bench.js</code>. At which node count does an add+remove pair drop below 30 per second with an observer attached?</li>
-<li><strong>Verify:</strong> read the second table.</li>
-<li><strong>Answer:</strong> between 500 nodes (280/s) and 5,000 nodes (24/s); at 50,000 it is 2/s.</li>
+<li><strong>Task:</strong> Run <code>node tools/bench.js</code>. In the flat scene, at which node count does an add+remove pair drop below 60 per second with the incremental index, and why does the balanced scene not drop?</li>
+<li><strong>Verify:</strong> read the second and third tables.</li>
+<li><strong>Answer:</strong> between 500 nodes (844/s) and 5,000 nodes (44/s); at 50,000 it is 1/s, because the root holds 10,000 children and every edit re-resolves that list. With fan-out 10 the rate stays 6,572 to 6,967 per second from 511 to 51,111 nodes.</li>
 <li><strong>Checked:</strong> 2026-11-15 Node v22.23.4, Intel Xeon 2.10 GHz x4</li>
 </ul>
 <h3 id="d-yjs-5-predict-the-winner">D-YJS-5 Predict the winner</h3>
@@ -473,13 +515,13 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <li><strong>Task:</strong> Two peers concurrently add a Sphere and a Cone as the <code>geometry</code> of one Shape. What does each peer draw, and what does <code>tree().conflicts</code> say?</li>
 <li><strong>Verify:</strong> section 2 table and <code>test/yx3d.test.js</code>.</li>
 <li><strong>Answer:</strong> both peers draw the same one (array order decides); one <code>sfnode-slot</code> conflict is reported; the other node is kept in the document, not drawn.</li>
-<li><strong>Checked:</strong> 2026-11-15 <code>x3d.loom@0689f1a</code> tests</li>
+<li><strong>Checked:</strong> 2026-11-15 <code>x3d.loom@a9640eb</code> tests</li>
 </ul>
 <h2 id="honest-limits">Honest limits</h2>
 <ul>
 <li><strong><span class="g C" title="Confirmed">C</span></strong> Latency figures are apply cost on an in-process link. No WebSocket or WebRTC run was made; wire latency is not measured.</li>
 <li><strong><span class="g C" title="Confirmed">C</span></strong> Fields merge as whole strings: two peers dragging different axes of one <code>translation</code> get one winner.</li>
-<li><strong><span class="g C" title="Confirmed">C</span></strong> Structural edits cost O(n) per transaction; 2 per second at 50,000 nodes.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> Structural edits cost O(fan-out of the touched parents): a flat scene with 10,000 children under one parent still manages about 1 add+remove pair per second; a child list is re-resolved whole, not patched from the Yjs delta.</li>
 <li><strong><span class="g C" title="Confirmed">C</span></strong> Orphans (cycles, concurrent edits under deleted subtrees) accumulate and are not collected.</li>
 <li><strong><span class="g C" title="Confirmed">C</span></strong> The bridge adapter reloads the world for remove, move, inserts that are not appends, and field types <code>parseValue</code> does not read (MFVec3f, MFColor and others).</li>
 <li><strong><span class="g L" title="Likely">L</span></strong> The Babylon body was not run through the adapter; it shares the shim with the three.js body, so the same behaviour is expected.</li>
@@ -501,11 +543,11 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tbody>
 <tr>
 <td>N-YJS-1</td>
-<td>unit and fuzz tests passing</td>
-<td>22 of 22</td>
+<td>unit, fuzz and differential tests passing</td>
+<td>30 of 30</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>Node v22.23.4, Yjs 13.6.33</td>
-<td><code>x3d.loom@0689f1a:x3d.yjs/test</code></td>
+<td><code>x3d.loom@a9640eb:x3d.yjs/test</code></td>
 </tr>
 <tr>
 <td>N-YJS-2</td>
@@ -534,7 +576,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td>N-YJS-5</td>
 <td>apply latency, median, X_ITE</td>
-<td>0.30 ms</td>
+<td>0.40 ms</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>same, in-process link</td>
 <td>same</td>
@@ -558,7 +600,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td>N-YJS-8</td>
 <td>bytes per field update</td>
-<td>44 to 47</td>
+<td>51 to 54</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>Node v22.23.4, Yjs 13.6.33</td>
 <td><code>x3d.yjs/receipts/bench.md</code></td>
@@ -566,7 +608,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td>N-YJS-9</td>
 <td>state size per node</td>
-<td>155 to 168 bytes</td>
+<td>158 to 165 bytes</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>same</td>
 <td>same</td>
@@ -574,15 +616,15 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td>N-YJS-10</td>
 <td>local setField at 50,000 nodes with observer</td>
-<td>147,518 per second</td>
+<td>191,547 per second</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>Intel Xeon 2.10 GHz x4</td>
 <td>same</td>
 </tr>
 <tr>
 <td>N-YJS-11</td>
-<td>structural add+remove pairs at 500 / 5,000 / 50,000 nodes</td>
-<td>280 / 24 / 2 per second</td>
+<td>structural add+remove pairs, flat scene, incremental index, at 500 / 5,000 / 50,000 nodes</td>
+<td>844 / 44 / 1 per second</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>same</td>
 <td>same</td>
@@ -590,7 +632,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td>N-YJS-12</td>
 <td>loadXML at 50,000 nodes</td>
-<td>535.5 ms</td>
+<td>555.7 ms</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>same</td>
 <td>same</td>
@@ -598,7 +640,23 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td>N-YJS-13</td>
 <td>remote apply at 500 nodes</td>
-<td>149,687 per second</td>
+<td>87,774 per second</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-YJS-16</td>
+<td>add+remove pairs, fan-out 10, incremental, at 511 / 5,111 / 51,111 nodes</td>
+<td>6,572 / 6,967 / 6,687 per second</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-YJS-17</td>
+<td>same edit with the full rebuild</td>
+<td>305.3 / 15.6 / 1.5 per second</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>same</td>
 <td>same</td>
@@ -606,7 +664,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td>N-YJS-14</td>
 <td>orphan nodes over 200 fuzz seeds</td>
-<td>5,127</td>
+<td>5,096</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>same</td>
 <td>same</td>
@@ -614,7 +672,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td>N-YJS-15</td>
 <td>reported conflicts over 200 seeds: def-clash, sfnode-slot, duplicate</td>
-<td>206, 31, 15</td>
+<td>223, 34, 15</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>same</td>
 <td>same</td>
@@ -622,5 +680,5 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tbody>
 </table>
 <h2 id="sources-and-provenance">Sources and provenance</h2>
-<p><code>x3d.loom@0689f1a</code> folder <code>x3d.yjs</code> (branch of the first pull request), read and run on 2026-11-15; <code>x3d_mcp</code> op vocabulary read from <code>src/tools/scene_ops.py</code>, not run; Yjs 13.6.33 from npm; pycrdt 0.14.13 from PyPI; Yjs: Kevin Jahns and contributors (MIT).</p>
+<p><code>x3d.loom@a9640eb</code> folder <code>x3d.yjs</code> (branch of the first pull request), read and run on 2026-11-15; <code>x3d_mcp</code> op vocabulary read from <code>src/tools/scene_ops.py</code>, not run; Yjs 13.6.33 from npm; pycrdt 0.14.13 from PyPI; Yjs: Kevin Jahns and contributors (MIT).</p>
 <div class="pn"><a href="15-animation-timelines.html">&larr; 15-animation-timelines</a><a href="16-typed-x3d-zod.html">16-typed-x3d-zod &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>
