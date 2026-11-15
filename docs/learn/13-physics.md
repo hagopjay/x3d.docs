@@ -690,4 +690,6 @@ grep -c Interpolator docs/demos/ten-minute-physics/v6/23-sweep-and-prune.x3d
 
 Read on 2026-11-14. Private memory notes on the port programme and on the Loom fold-back were used only as leads and none of their content was needed; every figure above comes from a repository file, a recorded receipt cited by path, or a run this session. Not used: the project-file screenshots of the ports (images are not copied), and anything on unpublished lab material. The ports' upstream method descriptions belong to Matthias Müller (Ten Minute Physics); this chapter reproduces no upstream code.
 
+See also: [17 Pluggable physics engines](17-physics-engines.md) (Rapier, cannon-es and the built-in solver behind RigidBodyCollection, measured against X_ITE 16.6.0).
+
 Siblings: [01 The tether](01-the-tether.md), [02 Loom laws](02-loom-laws.md), [03 Validator and gates](03-validator-and-gates.md), [06 XITE, the oracle](06-xite-the-oracle.md), [10 Blender pipeline](10-blender-pipeline.md).
