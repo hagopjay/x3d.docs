@@ -647,6 +647,46 @@ An impact lasts one sub-step in both engines: X_ITE gave true, false, true withi
 
 A scene sweep of 60 or more picture fixtures in one process crashes the page; the full regression (142 picture fixtures and 45 event fixtures) runs in chunks of 8 and passes after batches 46 and 47 [C].
 
+## 18. Batch 48: eight nodes the reader had already eaten
+
+Batch 48 gave fixtures to the eight nodes the Library hall port had drawn but nobody had tested: Collision, CoordinateInterpolator, CoordinateInterpolator2D, Disk2D, Extrusion, MultiTextureCoordinate, PointProperties and Rectangle2D. Read at `x3d.loom@cd71796` (the batch-48 and batch-49 pull request); reference engine `X_ITE 16.6.0`; rig for every number in this section: `Chromium 153.0.8010.12`, SwiftShader (no real GPU), `Babylon 9.32.0`. The reasoning is in `x3d.webgpu/bridge/WHY-hall-nodes-batch.md`.
+
+### 18.1 A reader that converts a node deletes it
+
+The hall reader turned Disk2D, Rectangle2D and Extrusion into an IndexedFaceSet while parsing, so the scene graph never held the original node and its fields (innerRadius, size, crossSection, spine) read as nothing through the SAI [C]. The bridge now owns any node type for which it registers a `geometry` hook: the node stays in the graph, and the hall maths is called through `R.hallGeom` to make the triangles. Pictures stay the same (silhouette overlap with X_ITE 0.93 for Extrusion, 0.97 for Rectangle2D, 0.98 for Disk2D) and events and `changed` work again [C].
+
+```text
+parse:   Disk2D { innerRadius 0.2 outerRadius 1 }   (kept as a real node, fields alive)
+draw:    spec.geometry(node) -> R.hallGeom.disk(node) -> {pos, nrm, uv, idx} -> BR.hallFaces -> mesh
+event:   set innerRadius -> spec.changed -> body.regeo -> redraw
+```
+
+### 18.2 Defaults and plumbing the tests found
+
+PointProperties: the hall default for pointSizeMinValue was 0; the standard and X_ITE say 1, with scale 1, max 1 and attenuation 1 0 0 [C]. On this rig ours drew 12 point quads where X_ITE drew 3 for the same PointSet, so the fixture asserts the vertex count and the defaults and not a picture [C]. CoordinateInterpolator2D gave zeros because `toSAI('MFVec2f')` read a flat typed array as if it held pairs; it reads two numbers at a time now, which fixed every 2D interpolator output [C]. Collision draws its children (the hall body was missing from the bundle) and, like X_ITE, fires no isActive or collideTime without navigation collision [C]. MultiTextureCoordinate gives each stage of a MultiTexture its own matrix, the TextureTransform composed with an affine fit of channel i from channel 0; where the channels are not related by an affine map the fit is a least-squares approximation and is logged as a gap [L].
+
+Steps ours and X_ITE: Collision 29 and 29, CoordinateInterpolator 20 and 20, CoordinateInterpolator2D 20 and 20, PointProperties 22 and 22, Extrusion 45 and 45, Rectangle2D 31 and 31, Disk2D 39 and 39, MultiTextureCoordinate 13 and 12 [C].
+
+### 18.3 What a review finds that a green sweep cannot
+
+After the fixtures and the 144-picture sweep were green, four reviewers each took a lens (reader regressions, body and kit, NURBS maths, lifecycle and events) and two skeptics tried to refute every claim; 23 of 24 held up [C]. Almost all were places no fixture puts the node, or changes that arrive by event: a Rectangle2D as a picking geometry read as nothing once the reader stopped converting it; a ROUTE into `set_spine` was refused because the field was initialize-only; an interpolator output read before any event threw; a PointSet with PointProperties and no Coordinate aborted the whole scene build; a MultiTexture stage that could not be drawn shifted every later stage by one; a moved Coordinate redrew a NurbsCurve but not the surface swept along it [C]. All were fixed except the ones logged as gaps: contours that cross each other, `trimmingContour.push` through the SAI proxy, camera-space texture coordinate generators inside a MultiTextureCoordinate, and a repainted PixelTexture stage [L].
+
+## 19. Batch 49: the end of NURBS, and three places where reading the source was not enough
+
+Batch 49 bridged NurbsTextureCoordinate, NurbsSweptSurface and NurbsTrimmedSurface, the last three NURBS nodes. Read at `x3d.loom@cd71796`; reference engine `X_ITE 16.6.0`; rig as in section 18. The reasoning is in `x3d.webgpu/bridge/WHY-nurbs-finish-batch.md`.
+
+### 19.1 NurbsTextureCoordinate has no weights in X_ITE
+
+X_ITE builds each texture control point as (x, y, 0, w) but samples the surface with `haveWeights` false, so nothing divides by the weight: the coordinates are the plain B-spline of the points [C]. A centre weight of 3 leaves the uv grid regular in steps of 0.125 [C]. The standard says rational; the bridge copies X_ITE and logs the difference. My first version divided by the weights from reading the source and failed at once (0.114 against 0.125), so the receipt is the measurement, not the reading [C].
+
+### 19.2 NurbsSweptSurface is an Extrusion with crease angle pi
+
+The cross-section curve is carried along the trajectory frame by frame and the normals are smoothed everywhere. A trajectory that is not a NurbsCurve, a missing cross-section, or a one point trajectory draws nothing in both engines. Triangle counts are equal (160 and 36 for the two shapes on screen) and positions agree to 0.02 [C].
+
+### 19.3 NurbsTrimmedSurface keeps what an odd number of contours contain
+
+A point is kept when an odd number of contours contain it. A contour inside another is a hole whichever way it runs, two identical squares leave nothing, a contour around the whole domain keeps everything and no contours is untrimmed [C]. The two engines cut the grid at the contour into different triangles, so the fixture compares area and bounding box of the kept part (equal to three decimals in all eight cases) and the silhouette [C]. All 260 node types in the tracker now have a reader; what remains is logged gaps, not missing nodes [C].
+
 ## Heuristics
 
 | ID | Rule (imperative, at most 30 words) | Grade | Evidence | Instrument |
@@ -704,6 +744,11 @@ A scene sweep of 60 or more picture fixtures in one process crashes the page; th
 | H-BAB-78 | Write a fixture for every path a review fixes: each of the 69 findings of batch 4 was on a path (second finger, USE'd node, replaced world) that no fixture drove. | C | InlineUse: both copies draw, load FALSE takes both away, TRUE brings both back | `InlineUse.test.json` |
 | H-BAB-79 | Guard an include before it is fetched: depth, fan-out, size, and a cycle on the chain's own urls. | C | 8 deep, 512 loads, 32 MB (128 MB unzipped) | `body-three.js` `loadInline` |
 | H-BAB-80 | A security fix in a shared file is told to the lane that owns it: the scheme test of an Anchor must drop what a URL parser drops (tab, line break, leading control characters). | C | `java<tab>script:` ran past the test | `Anchor.js` |
+| H-BAB-81 | When a reader rewrites a node at parse time, give the bridge ownership of that node type instead of patching around it: the fields come back and so do events. | C | Disk2D, Rectangle2D and Extrusion fields read as nothing; IoU 0.93 to 0.98 after | `x3d.loom@cd71796`, `lifecycle.test.js` |
+| H-BAB-82 | Measure a weight rule in the reference engine with a fixture that has a non-uniform weight; the source can read as rational and be sampled as plain. | C | NurbsTextureCoordinate centre weight 3 leaves X_ITE's uv regular; reading the source gave 0.114 against 0.125 | `NurbsTextureCoordinate.test.json`, X_ITE 16.6.0 |
+| H-BAB-83 | Compare two triangulations of a cut shape by area and bounding box, not by corners. | C | trimmed surface: all eight cases equal to three decimals though the triangles differ | `NurbsTrimmedSurface.test.json` |
+| H-BAB-84 | Give every list-valued shared-code fix (a SAI conversion, a default) a sweep of all earlier fixtures before the merge request. | C | one change to `toSAI('MFVec2f')` touches every 2D interpolator | chunked regression sweep, chunks of 8 |
+| H-BAB-85 | After a batch is green, review it with lenses that ask where the node is used and what arrives by event, and have two skeptics try to refute each claim; the picture sweep cannot see either. | C | 23 of 24 claims held; none was visible to 144 picture and 48 event fixtures | workflow run of 52 agents over the uncommitted batch 48 and 49 diff |
 
 ## Drills
 
@@ -849,6 +894,12 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 - **Verify:** `NODE_PATH=/opt/node22/lib/node_modules node tools/run-tests.js --shots /tmp/shots GeoLocation GeoTransform` from `x3d.threejs/bridge`; restore the line afterwards.
 - **Answer:** the row-vector matrix keeps its translation in elements 12 to 14, which is where a column-major three.js matrix keeps it; transposed, the translation lands in the bottom row and is lost. GeoLocation fails 9 of 22 steps (the position reads 0 0 0 where 6378137 0 0 is expected; boxes sit at the origin) and GeoTransform fails 5 of 34 steps.
 - **Checked:** 2026-11-15 `x3d.loom@1192dd4`, `X_ITE 16.6.0`, Chromium 153.0.8010.12 SwiftShader, three.js r187
+### D-BAB-74 How much of a patch does a ring keep
+- **Level:** L2
+- **Task:** A trimmed patch has an outer square contour from 0.1 to 0.9 in both parametric directions and, inside it, a 16 sided polygon of radius 0.25 centred at 0.5 0.5. Using the odd rule, what fraction of the parametric domain is kept?
+- **Verify:** `python3 -I -c "import math;print(0.8*0.8-0.5*16*0.25**2*math.sin(2*math.pi/16))"`
+- **Answer:** 0.4487. The square covers 0.64 of the domain and the hole removes 0.1913 of it because a point inside both contours has an even count.
+- **Checked:** 2026-11-15 python3 -I (0.4487)
 
 ## Honest limits
 
@@ -952,6 +1003,11 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 | N-BAB-87 | review of batch 4 | 171 agents, 83 raw findings, 69 survived two skeptics (10 high, 36 medium, 23 low); by lens 16 regression, 15 pointer, 15 input, 12 cube and shader, 11 Inline and Text | C | workflow run 2026-11-15 | x3d.loom pull request #70 |
 | N-BAB-88 | GeoViewpoint frame, right basis against swapped | IoU 1.00 and 64.48 dB against IoU 0 and 18.49 dB (the batch-46 fixture: 98 of 98 either way) | C | same rig | receipts/GeoViewpointFrame.json |
 | N-BAB-89 | GeoLocation with the matrix transposed (D-BAB-73) | 9 of 22 steps fail; the position reads 0 0 0 where 6378137 0 0 is expected | C | same rig | receipts/GeoLocation.json |
+| N-BAB-90 | Disk2D, Rectangle2D, Extrusion silhouette overlap with X_ITE | 0.98, 0.97, 0.93 | C | SwiftShader, 320 x 240 | x3d.loom@cd71796:x3d.webgpu/bridge/receipts |
+| N-BAB-91 | PointProperties default pointSizeMin, scale, max | 1, 1, 1 in the standard and X_ITE; hall default was 0 | C | X_ITE 16.6.0 | PointProperties.test.json |
+| N-BAB-92 | NurbsTextureCoordinate uv step with centre weight 3, 8 cells | 0.125 in X_ITE (regular); rational form would give 0.114 | C | X_ITE 16.6.0 | NurbsTextureCoordinate.test.json |
+| N-BAB-93 | NurbsSweptSurface triangles, octagon along a bend and triangle along an arc | 160 and 36, equal in both engines | C | both engines | NurbsSweptSurface.test.json |
+| N-BAB-94 | NurbsTrimmedSurface untrimmed 8 x 8 patch triangles | 128 in both engines | C | both engines | NurbsTrimmedSurface.test.json |
 
 ## Sources and provenance
 

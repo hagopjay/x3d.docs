@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**225 heuristics.** Grades: [C] 180 · [L] 38 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**230 heuristics.** Grades: [C] 185 · [L] 38 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -147,6 +147,11 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-BAB-78 | [08](08-babylon-bridge.md) | Write a fixture for every path a review fixes: each of the 69 findings of batch 4 was on a path (second finger, USE'd node, replaced world) that no fixture drove. | C | InlineUse: both copies draw, load FALSE takes both away, TRUE brings both back | `InlineUse.test.json` |
 | H-BAB-79 | [08](08-babylon-bridge.md) | Guard an include before it is fetched: depth, fan-out, size, and a cycle on the chain's own urls. | C | 8 deep, 512 loads, 32 MB (128 MB unzipped) | `body-three.js` `loadInline` |
 | H-BAB-80 | [08](08-babylon-bridge.md) | A security fix in a shared file is told to the lane that owns it: the scheme test of an Anchor must drop what a URL parser drops (tab, line break, leading control characters). | C | `java<tab>script:` ran past the test | `Anchor.js` |
+| H-BAB-81 | [08](08-babylon-bridge.md) | When a reader rewrites a node at parse time, give the bridge ownership of that node type instead of patching around it: the fields come back and so do events. | C | Disk2D, Rectangle2D and Extrusion fields read as nothing; IoU 0.93 to 0.98 after | `x3d.loom@cd71796`, `lifecycle.test.js` |
+| H-BAB-82 | [08](08-babylon-bridge.md) | Measure a weight rule in the reference engine with a fixture that has a non-uniform weight; the source can read as rational and be sampled as plain. | C | NurbsTextureCoordinate centre weight 3 leaves X_ITE's uv regular; reading the source gave 0.114 against 0.125 | `NurbsTextureCoordinate.test.json`, X_ITE 16.6.0 |
+| H-BAB-83 | [08](08-babylon-bridge.md) | Compare two triangulations of a cut shape by area and bounding box, not by corners. | C | trimmed surface: all eight cases equal to three decimals though the triangles differ | `NurbsTrimmedSurface.test.json` |
+| H-BAB-84 | [08](08-babylon-bridge.md) | Give every list-valued shared-code fix (a SAI conversion, a default) a sweep of all earlier fixtures before the merge request. | C | one change to `toSAI('MFVec2f')` touches every 2D interpolator | chunked regression sweep, chunks of 8 |
+| H-BAB-85 | [08](08-babylon-bridge.md) | After a batch is green, review it with lenses that ask where the node is used and what arrives by event, and have two skeptics try to refute each claim; the picture sweep cannot see either. | C | 23 of 24 claims held; none was visible to 144 picture and 48 event fixtures | workflow run of 52 agents over the uncommitted batch 48 and 49 diff |
 | H-CAS-1 | [09](09-castle-engine.md) | Judge a Castle load by its warnings and a shape census against the declared count; never by "it loaded" or an exit code. | C | classic reader warns once and skips the rest of the file | `castle-engine@48ce617:x3dnodes_encoding_classic.inc:569-573` |
 | H-CAS-2 | [09](09-castle-engine.md) | Quote node coverage by rung and definition (registered, parse-only, name present in a peer, behaves); never a bare "98 of 328". | C | 99 registrations, 98 concrete, five denominators in circulation | `castle-engine@48ce617`; `x_ite@16.7.1` dist |
 | H-CAS-3 | [09](09-castle-engine.md) | Treat name presence in a peer as the weakest rung; do not turn 97 of 99 into "X_ITE implements them". | C | the scan reads class names, not behaviour | `x_ite@16.7.1` dist |
