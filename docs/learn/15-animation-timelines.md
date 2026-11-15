@@ -61,20 +61,21 @@ Where the keys go, for one eased channel (value against time; `|` a kept sample)
 
 ## 3. What the numbers say
 
-Cases: a GSAP timeline (6 channels, 3.4 s, 7 tweens, eases power2, sine, back, bounce, elastic, expo) and a Theatre state (5 channels, 4 s, Bezier handles). 41 fractions of the cycle, sampled with the clock frozen and `set_fraction` written to every interpolator. Instrument for all rows: `X_ITE 16.6.0` and the three.js r187 bridge, `Chromium 153.0.8010.12, SwiftShader`.
+Cases: a 24-satellite GSAP orrery (76 channels, 6.91 s, 30 fps, camera held fixed, the world Transform moves), a GSAP timeline (6 channels, 3.4 s, 7 tweens, eases power2, sine, back, bounce, elastic, expo) and a Theatre state (5 channels, 4 s, Bezier handles). 41 fractions of the cycle, sampled with the clock frozen and `set_fraction` written to every interpolator. Instrument for all rows: `X_ITE 16.6.0` and the three.js r187 bridge, `Chromium 153.0.8010.12, SwiftShader`.
 
 | channel | keys | bake error (own grid) | X_ITE vs the tool |
 |---|---|---|---|
-| GSAP Box.translation | 37 | 0.00458 | 0.0041 |
-| GSAP Box.rotation (rad) | 61 | 0.00221 | 0.00186 |
-| GSAP BoxMat.diffuseColor | 29 | 0.0037 | 0.00189 |
-| GSAP BoxMat.transparency (bounce) | 49 | 0.00814 | 0.000875 |
-| GSAP Ball.translation (elastic) | 29 | 0.0139 | 0.0137 |
+| GSAP Box.translation | 34 | 0.00423 | 0.00423 |
+| GSAP Box.rotation (rad) | 58 | 0.00217 | 0.00209 |
+| GSAP BoxMat.diffuseColor | 25 | 0.0037 | 0.00189 |
+| GSAP BoxMat.transparency (bounce) | 50 | 0.00814 | 0.000875 |
+| GSAP Ball.translation (elastic) | 28 | 0.0138 | 0.0122 |
 | Theatre Box.translation | 59 | 0.00755 | 0.00695 |
-| Theatre Box.rotation (rad) | 65 | 0.00143 | 0.0014 |
-| Theatre BoxMat.diffuseColor | 77 | 0.00536 | 0.00326 |
+| Theatre Box.rotation (rad) | 64 | 0.00203 | 0.002 |
+| Theatre BoxMat.diffuseColor | 73 | 0.00536 | 0.00326 |
+| GSAP orrery, worst of 76 channels (S17.translation, 35 keys) | 2,467 keys in all | 0.0286 | 0.0263 |
 
-Three agreements, each a different question: our model of the interpolators against X_ITE (worst 3.4e-7, includes HSV and slerp); the bridge's reader against X_ITE (worst 5.7e-7); the live path, the tool's state written through the SAI and read back from X_ITE (worst 2.8e-17). Pictures, bridge against X_ITE, 12 pairs at 25, 60 and 95 percent through the interpolator path and the live path: worst 46.95 dB, foreground IoU at least 0.993.
+Three agreements, each a different question: our model of the interpolators against X_ITE (worst 1.83e-6, orrery; includes HSV and slerp); the bridge's reader against X_ITE (worst 1.86e-6, orrery); the live path, the tool's state written through the SAI and read back from X_ITE (worst 2.8e-17). Pictures, bridge against X_ITE, 18 pairs at 25, 60 and 95 percent through the interpolator path and the live path: worst 34.02 dB (orrery; 46.95 and 55.01 dB on the other two), foreground IoU at least 0.993.
 
 ## 4. The bake, in the order it bites
 
@@ -84,6 +85,9 @@ Three agreements, each a different question: our model of the interpolators agai
 | the sample grid sets an error floor that `tol` cannot lower | `bounce.out`, 2 s, 60 fps: 120, 47 and 24 keys at tol x0.25, x1, x4 all give max error 0.0145 | [C] |
 | a smooth ease obeys `tol` | `power2.inOut`: 54, 28, 15 keys for max error 0.00052, 0.00196, 0.00713 | [C] |
 | steps cannot be straight segments | `steps(6)`: 14 keys, max error 0.139 at every tolerance | [C] |
+| **X_ITE gives an achromatic colour end the other end's hue** (`Color3.lerp`: s = 0 takes the partner's hue, short way round) | 4 orrery colour channels 0.0167 off until modelled, then 1.8e-6 | [C] |
+| authored key times belong to one channel, not to the whole timeline | orrery 16,031 keys with global times, 2,467 with per-channel times, same tolerance | [C] |
+| a bound Viewpoint under an animated Transform: X_ITE follows the parent, the three.js body did not (fixed on x3d.loom PR #75) | probe 13456, 2912, 2912 on the fixed build; demo moves the world, not the camera | [C] |
 | Euler to quaternion to axis-angle | angle by `atan2`, not `acos` (acos loses 1e-8 near 0) | [C] |
 
 ## 5. Licences, plainly
@@ -108,6 +112,9 @@ Engineering notes, not legal advice. **[L]** (registry metadata read; the GSAP l
 | H-ANM-6 | Never import the studio package into an exporter; read the saved state JSON. | L | AGPL-3.0-only vs Apache-2.0 | registry metadata |
 | H-ANM-7 | Skip the keys with the GSAP `_gsap` record when you copy a target tree: it is circular. | C | stack overflow in the first run | `gsap 3.15.1` |
 | H-ANM-8 | Give HTML ids unique names: a section id and a canvas id collide and `getElementById` returns the first. | C | two blank widgets in the demo page | Chromium 153 |
+| H-ANM-9 | Give an achromatic ColorInterpolator end the partner's hue when you model HSV, as X_ITE's `Color3.lerp` does. | C | 0.0167 off on 4 channels, then 1.8e-6 | `X_ITE 16.6.0` |
+| H-ANM-10 | Keep authored key times per channel, not per timeline, or every channel inherits every other's keys. | C | 16,031 keys against 2,467 | `x3d.anim/receipts/gsap-orrery.json` |
+| H-ANM-11 | Move the world under a fixed camera when a scene must run on every body; a Viewpoint under an animated Transform is not followed everywhere. | C | probe 13456, 2912, 2912 on the fixed build | `x3d.loom` PR #75 |
 
 ## Drills
 
@@ -136,7 +143,7 @@ Engineering notes, not legal advice. **[L]** (registry metadata read; the GSAP l
 - **Level:** L2
 - **Task:** Run the unit tests and the verifier and read the worst bridge-vs-X_ITE value.
 - **Verify:** `cd x3d.loom/x3d.anim && npm ci && npm test && CHROMIUM_EXECUTABLE=... node tools/verify.js`
-- **Answer:** 12 of 12 tests pass; worst bridge vs X_ITE 5.7e-7 (Theatre), 4.28e-7 (GSAP).
+- **Answer:** 17 of 17 tests pass; worst bridge vs X_ITE 7.13e-7 (Theatre), 5.51e-7 (GSAP orbit), 1.86e-6 (orrery).
 - **Checked:** `2026-11-15 X_ITE 16.6.0, three.js r187, Chromium 153.0.8010.12 SwiftShader`
 
 ### D-ANM-5 Break the HSV rule
@@ -153,10 +160,17 @@ Engineering notes, not legal advice. **[L]** (registry metadata read; the GSAP l
 - **Answer:** fixed X, then Y, then Z (q = qz*qy*qx); the round trip is within 1e-9 rad.
 - **Checked:** `2026-11-15 Node 22.23.4`
 
+### D-ANM-7 Count the keys of the orrery
+- **Level:** L2
+- **Task:** Read `receipts/gsap-orrery.json` and give the channel count, total keys and the worst bridge-vs-X_ITE value. Then say what changed from 16,031 keys.
+- **Verify:** `node tools/verify.js` then `receipts/gsap-orrery.json`.
+- **Answer:** 76 channels, 2,467 keys, worst bridge vs X_ITE 1.86e-6; per-channel authored times replaced one global list.
+- **Checked:** `2026-11-15 X_ITE 16.6.0, three.js r187, Chromium 153.0.8010.12 SwiftShader`
+
 ## Honest limits
 
 - **[C]** Steps and holds are not representable: a straight segment cannot jump. A hold needs a duplicate key time or a BooleanSequencer; not built.
-- **[C]** Two cases only, one object stage; no skinned or morphing scenes, no CoordinateInterpolator.
+- **[C]** Three cases (two on a one-object stage, one 24-satellite orrery); no skinned or morphing scenes, no CoordinateInterpolator.
 - **[C]** The live path was verified on X_ITE and the three.js body; the Babylon body shares the reader and SAI but was not run.
 - **[S]** Theatre handle semantics for a second-segment ease at a connected key are taken from `@theatre/core` itself, not re-derived; one state fixture only.
 - **[C]** Rotations pass through Euler on the way back to Theatre and GSAP, so that direction is approximate (0.05 degree tolerance).
@@ -168,18 +182,20 @@ Engineering notes, not legal advice. **[L]** (registry metadata read; the GSAP l
 
 | ID | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|
-| N-ANM-1 | Our interpolator model vs X_ITE, worst of 11 channels | 3.41e-07 | [C] | `X_ITE 16.6.0`, Chromium 153 SwiftShader | section 3 |
-| N-ANM-2 | Bridge reader vs X_ITE, worst | 5.7e-07 | [C] | same rig plus three.js r187 body | section 3 |
-| N-ANM-3 | X_ITE vs GSAP itself, worst | 0.0137 | [C] | same rig, gsap 3.15.1 | section 3 |
+| N-ANM-1 | Our interpolator model vs X_ITE, worst of 87 channels | 1.83e-06 | [C] | `X_ITE 16.6.0`, Chromium 153 SwiftShader | section 3 |
+| N-ANM-2 | Bridge reader vs X_ITE, worst | 1.86e-06 | [C] | same rig plus three.js r187 body | section 3 |
+| N-ANM-3 | X_ITE vs GSAP itself, worst | 0.0263 | [C] | same rig, gsap 3.15.1 | section 3 |
 | N-ANM-4 | X_ITE vs Theatre itself, worst | 0.00695 | [C] | same rig, @theatre/core 0.7.2 | section 3 |
 | N-ANM-5 | Live path read-back error, worst | 2.78e-17 | [C] | same rig | section 3 |
-| N-ANM-6 | Pictures bridge vs X_ITE, worst PSNR and IoU | 46.95 dB, 0.993 | [C] | same rig, 320x240 | section 3 |
-| N-ANM-7 | Keys written, GSAP and Theatre | 231 and 281 | [C] | `x3d.anim/receipts/*.json` | section 3 |
+| N-ANM-6 | Pictures bridge vs X_ITE, worst PSNR and IoU | 34.02 dB, 0.9968 (orrery); 46.95 and 55.01 dB elsewhere | [C] | same rig, 320x240 | section 3 |
+| N-ANM-7 | Keys written, GSAP and Theatre | 219 (orbit), 273 (Theatre), 2,467 (orrery) | [C] | `x3d.anim/receipts/*.json` | section 3 |
 | N-ANM-8 | Colour error without HSV, then with | 0.059 then 7.6e-8 | [C] | X_ITE 16.6.0 | section 4 |
 | N-ANM-9 | bounce.out floor at 60 fps | 0.0145 at 120, 47, 24 keys | [C] | gsap 3.15.1, Node 22 | D-ANM-2 |
 | N-ANM-10 | steps(6) error | 0.139 | [C] | same | section 4 |
 | N-ANM-11 | power2.inOut keys at tol x0.25, x1, x4 | 54, 28, 15 (error 0.00052, 0.00196, 0.00713) | [C] | gsap 3.15.1, Node 22 | D-ANM-2 |
-| N-ANM-12 | Unit tests in `x3d.anim` | 12 of 12 pass, no browser | [C] | Node 22.23.4 | D-ANM-4 |
+| N-ANM-12 | Unit tests in `x3d.anim` | 17 of 17 pass, no browser | [C] | Node 22.23.4 | D-ANM-4 |
+| N-ANM-13 | Orrery keys, global vs per-channel authored times | 16,031 vs 2,467 | [C] | `x3d.anim` bake, 76 channels | section 4 |
+| N-ANM-14 | Colour error before the achromatic-hue rule, orrery | 0.0167 on 4 channels | [C] | X_ITE 16.6.0 | section 4 |
 
 ---
 
@@ -187,7 +203,7 @@ Engineering notes, not legal advice. **[L]** (registry metadata read; the GSAP l
 
 | repo@sha | path | read how |
 |---|---|---|
-| `x3d.loom@1d1109e` | `x3d.anim/*` (README, src, tools, test, receipts) | run |
+| `x3d.loom@3acc825` | `x3d.anim/*` (README, src, tools, test, receipts) | run |
 | npm registry | `@theatre/core`, `@theatre/studio`, `gsap` metadata | read |
 | `x3d.demo` | `docs/demos/timeline-theatre-gsap/v1` | run in headless Chromium |
 
