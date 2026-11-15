@@ -410,23 +410,6 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-MET-10 | [14](14-methods.md) | heuristics graded L | 30 | C | `learn_lib.py` count | `docs/learn/D-heuristics-ledger.md` |
 | N-MET-11 | [14](14-methods.md) | heuristics graded S | 7 | C | `learn_lib.py` count | `docs/learn/D-heuristics-ledger.md` |
 | N-MET-12 | [14](14-methods.md) | methods in this chapter | 7 | C | read | this file |
-| N-ENG-1 | [15](15-physics-engines.md) | Drop bounce apex above contact, analytic 1.125 m: built-in, Rapier, cannon-es | 1.125, 1.121, 1.235 m | [C] | Node v22.23.4, Rapier 0.21.0, cannon-es 0.20.0 | `x3d.loom@56340c2:x3d.physics/rigid-engines/results/fidelity-node.json` |
-| N-ENG-2 | [15](15-physics-engines.md) | Same drop in X_ITE 16.6.0, two loads | 0.784 and 0.522 m | [C] | X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader | `results/fidelity-xite.json` |
-| N-ENG-3 | [15](15-physics-engines.md) | Elastic head-on hit, energy error: built-in, Rapier, cannon-es, X_ITE | 0.39, 0.38, 14.02, 9.55 / 3.06 % | [C] | same rigs | `fidelity-node.json`, `fidelity-xite.json` |
-| N-ENG-4 | [15](15-physics-engines.md) | Slope mu 0.2, acceleration, analytic 3.19 m/s2: built-in, Rapier, cannon-es, cannon-es raw | 3.20, 3.20, 3.43, 0 | [C] | Node v22.23.4 | `fidelity-node.json` |
-| N-ENG-5 | [15](15-physics-engines.md) | Ramp angle where a box starts to slide at mu 0.2 and 0.5 (analytic 11.3, 26.6): cannon-es raw | 45 and 45 degrees | [C] | cannon-es 0.20.0 | `results/friction-sweep.json` |
-| N-ENG-6 | [15](15-physics-engines.md) | Same, cannon-es with the adapter patch | 12 and 25 degrees | [C] | cannon-es 0.20.0 plus `engine-cannon.js` | `results/friction-sweep.json` |
-| N-ENG-7 | [15](15-physics-engines.md) | Pendulum period error against the physical-pendulum formula: built-in, Rapier, cannon-es | 0.27, 0.19, 0.44 % | [C] | Node v22.23.4 | `fidelity-node.json` |
-| N-ENG-8 | [15](15-physics-engines.md) | Hinge limit 1.0 rad, max angle: Rapier, X_ITE | 1.000 and 3.121 rad | [C] | Node v22.23.4; X_ITE 16.6.0 | `fidelity-node.json`, `fidelity-xite.json` |
-| N-ENG-9 | [15](15-physics-engines.md) | Runs repeatable bit for bit, and equal under jittered ticks | 21 of 21 and 21 of 21 | [C] | Node v22.23.4 | `results/determinism.json` |
-| N-ENG-10 | [15](15-physics-engines.md) | Position difference Node against Chromium; whole-trace matches; max orientation difference | 0 m in 21 of 21; 9 of 21; 1.1e-16 | [C] | Node v22.23.4, Chromium 153.0.8010.12 | `results/determinism.json` |
-| N-ENG-11 | [15](15-physics-engines.md) | Wall ms per 1/240 s step at 250 bodies, Chromium: built-in, Rapier, cannon-es | 3.966, 1.642, 2.142 | [C] | Chromium 153.0.8010.12 SwiftShader, best of 3 | `results/speed.json` |
-| N-ENG-12 | [15](15-physics-engines.md) | Same at 25 bodies, Chromium | 0.387, 0.462, 0.313 | [C] | same | `results/speed.json` |
-| N-ENG-13 | [15](15-physics-engines.md) | Same at 250 bodies, Node | 15.989, 1.593, 2.574 | [C] | Node v22.23.4 | `results/speed.json` |
-| N-ENG-14 | [15](15-physics-engines.md) | CollisionSensor first impact seen of 24 drops: X_ITE, built-in last, Rapier last, cannon-es last | 4, 6, 11, 5 | [C] | Chromium 153 / Node v22.23.4 | `results/sensor-impact.json` |
-| N-ENG-15 | [15](15-physics-engines.md) | Same in frame mode: Rapier and cannon-es | 24 and 24 | [C] | Node v22.23.4 | `results/sensor-impact.json`, `test/engines.test.js` |
-| N-ENG-16 | [15](15-physics-engines.md) | Cradle, last ball peak rise for a 0.71 m lift: built-in, Rapier 1 sub-step, Rapier 4 sub-steps, cannon-es | 0.62, 0.22, 0.65, 1.78 m | [C] | Node v22.23.4, Rapier 0.21.0 | `data/stats.json` of `x3d.demo` demo `rigid-engines/v1`; `test/engines.test.js` |
-| N-ENG-17 | [15](15-physics-engines.md) | Avalanche, 40 bodies, bodies out of the funnel: built-in, Rapier, cannon-es | 10, 0, 0 | [C] | Node v22.23.4 | `data/stats.json` |
 | N-YJS-1 | [15](15-yjs-collaboration.md) | unit and fuzz tests passing | 22 of 22 | [C] | Node v22.23.4, Yjs 13.6.33 | `x3d.loom@0689f1a:x3d.yjs/test` |
 | N-YJS-2 | [15](15-yjs-collaboration.md) | fuzz seeds converged | 200 of 200 | [C] | same, 3 peers x 300 ops | `x3d.yjs/receipts/bench.md` |
 | N-YJS-3 | [15](15-yjs-collaboration.md) | different pixels after add, move, remove | 0 of 145,116 each | [C] | X_ITE 16.6.0, Chromium 153, SwiftShader | `x3d.yjs/receipts/e2e-xite.json` |
@@ -442,4 +425,21 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-YJS-13 | [15](15-yjs-collaboration.md) | remote apply at 500 nodes | 149,687 per second | [C] | same | same |
 | N-YJS-14 | [15](15-yjs-collaboration.md) | orphan nodes over 200 fuzz seeds | 5,127 | [C] | same | same |
 | N-YJS-15 | [15](15-yjs-collaboration.md) | reported conflicts over 200 seeds: def-clash, sfnode-slot, duplicate | 206, 31, 15 | [C] | same | same |
+| N-ENG-1 | [16](16-physics-engines.md) | Drop bounce apex above contact, analytic 1.125 m: built-in, Rapier, cannon-es | 1.125, 1.121, 1.235 m | [C] | Node v22.23.4, Rapier 0.21.0, cannon-es 0.20.0 | `x3d.loom@56340c2:x3d.physics/rigid-engines/results/fidelity-node.json` |
+| N-ENG-2 | [16](16-physics-engines.md) | Same drop in X_ITE 16.6.0, two loads | 0.784 and 0.522 m | [C] | X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader | `results/fidelity-xite.json` |
+| N-ENG-3 | [16](16-physics-engines.md) | Elastic head-on hit, energy error: built-in, Rapier, cannon-es, X_ITE | 0.39, 0.38, 14.02, 9.55 / 3.06 % | [C] | same rigs | `fidelity-node.json`, `fidelity-xite.json` |
+| N-ENG-4 | [16](16-physics-engines.md) | Slope mu 0.2, acceleration, analytic 3.19 m/s2: built-in, Rapier, cannon-es, cannon-es raw | 3.20, 3.20, 3.43, 0 | [C] | Node v22.23.4 | `fidelity-node.json` |
+| N-ENG-5 | [16](16-physics-engines.md) | Ramp angle where a box starts to slide at mu 0.2 and 0.5 (analytic 11.3, 26.6): cannon-es raw | 45 and 45 degrees | [C] | cannon-es 0.20.0 | `results/friction-sweep.json` |
+| N-ENG-6 | [16](16-physics-engines.md) | Same, cannon-es with the adapter patch | 12 and 25 degrees | [C] | cannon-es 0.20.0 plus `engine-cannon.js` | `results/friction-sweep.json` |
+| N-ENG-7 | [16](16-physics-engines.md) | Pendulum period error against the physical-pendulum formula: built-in, Rapier, cannon-es | 0.27, 0.19, 0.44 % | [C] | Node v22.23.4 | `fidelity-node.json` |
+| N-ENG-8 | [16](16-physics-engines.md) | Hinge limit 1.0 rad, max angle: Rapier, X_ITE | 1.000 and 3.121 rad | [C] | Node v22.23.4; X_ITE 16.6.0 | `fidelity-node.json`, `fidelity-xite.json` |
+| N-ENG-9 | [16](16-physics-engines.md) | Runs repeatable bit for bit, and equal under jittered ticks | 21 of 21 and 21 of 21 | [C] | Node v22.23.4 | `results/determinism.json` |
+| N-ENG-10 | [16](16-physics-engines.md) | Position difference Node against Chromium; whole-trace matches; max orientation difference | 0 m in 21 of 21; 9 of 21; 1.1e-16 | [C] | Node v22.23.4, Chromium 153.0.8010.12 | `results/determinism.json` |
+| N-ENG-11 | [16](16-physics-engines.md) | Wall ms per 1/240 s step at 250 bodies, Chromium: built-in, Rapier, cannon-es | 3.966, 1.642, 2.142 | [C] | Chromium 153.0.8010.12 SwiftShader, best of 3 | `results/speed.json` |
+| N-ENG-12 | [16](16-physics-engines.md) | Same at 25 bodies, Chromium | 0.387, 0.462, 0.313 | [C] | same | `results/speed.json` |
+| N-ENG-13 | [16](16-physics-engines.md) | Same at 250 bodies, Node | 15.989, 1.593, 2.574 | [C] | Node v22.23.4 | `results/speed.json` |
+| N-ENG-14 | [16](16-physics-engines.md) | CollisionSensor first impact seen of 24 drops: X_ITE, built-in last, Rapier last, cannon-es last | 4, 6, 11, 5 | [C] | Chromium 153 / Node v22.23.4 | `results/sensor-impact.json` |
+| N-ENG-15 | [16](16-physics-engines.md) | Same in frame mode: Rapier and cannon-es | 24 and 24 | [C] | Node v22.23.4 | `results/sensor-impact.json`, `test/engines.test.js` |
+| N-ENG-16 | [16](16-physics-engines.md) | Cradle, last ball peak rise for a 0.71 m lift: built-in, Rapier 1 sub-step, Rapier 4 sub-steps, cannon-es | 0.62, 0.22, 0.65, 1.78 m | [C] | Node v22.23.4, Rapier 0.21.0 | `data/stats.json` of `x3d.demo` demo `rigid-engines/v1`; `test/engines.test.js` |
+| N-ENG-17 | [16](16-physics-engines.md) | Avalanche, 40 bodies, bodies out of the funnel: built-in, Rapier, cannon-es | 10, 0, 0 | [C] | Node v22.23.4 | `data/stats.json` |
 <!-- END GENERATED -->

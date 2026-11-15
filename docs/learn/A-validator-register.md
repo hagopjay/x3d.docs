@@ -7,12 +7,12 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
-| `same` | 42 | 05, 06, 07, 09, 10, 11, 12, 15 | C:41 L:1 |
+| `same` | 42 | 05, 06, 07, 09, 10, 11, 12, 15, 16 | C:41 L:1 |
 | `same rig` | 30 | 08, 09, 13 | C:30 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
 | `both engines` | 7 | 08 | C:7 |
-| `Node v22.23.4` | 6 | 15 | C:6 |
+| `Node v22.23.4` | 6 | 16 | C:6 |
 | `driver.py status` | 6 | 08 | C:6 |
 | `learn_lib.py count` | 6 | 14 | C:6 |
 | `bpy 5.3.0` | 5 | 10, 11 | C:2 L:3 |
@@ -50,9 +50,9 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `xite_names.py` | 2 | 09 | C:2 |
 | `BR.geo.speedOf; X_ITE formula (height + 10) / 10 x factor` | 1 | 08 | C:1 |
 | `Babylon 9.32.0 body vs X_ITE 16.6.0, SwiftShader` | 1 | 08 | C:1 |
-| `Chromium 153 / Node v22.23.4` | 1 | 15 | C:1 |
+| `Chromium 153 / Node v22.23.4` | 1 | 16 | C:1 |
 | `Chromium 153.0.8010.12 SwiftShader, X_ITE 16.6.0, three.js r187` | 1 | 08 | C:1 |
-| `Chromium 153.0.8010.12 SwiftShader, best of 3` | 1 | 15 | C:1 |
+| `Chromium 153.0.8010.12 SwiftShader, best of 3` | 1 | 16 | C:1 |
 | `D-LAW-2 script (judgement of the column)` | 1 | 02 | L:1 |
 | `D-LAW-7 script` | 1 | 02 | C:1 |
 | `Intel Xeon 2.10 GHz x4` | 1 | 15 | C:1 |
@@ -66,10 +66,10 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `NODES.json, merge log` | 1 | 08 | C:1 |
 | `Node (D-BAB-6); X_ITE 16.6.0 SwiftShader` | 1 | 08 | C:1 |
 | `Node (D-BAB-6); X_ITE SAI` | 1 | 08 | C:1 |
-| `Node v22.23.4, Chromium 153.0.8010.12` | 1 | 15 | C:1 |
-| `Node v22.23.4, Rapier 0.21.0` | 1 | 15 | C:1 |
-| `Node v22.23.4, Rapier 0.21.0, cannon-es 0.20.0` | 1 | 15 | C:1 |
-| `Node v22.23.4; X_ITE 16.6.0` | 1 | 15 | C:1 |
+| `Node v22.23.4, Chromium 153.0.8010.12` | 1 | 16 | C:1 |
+| `Node v22.23.4, Rapier 0.21.0` | 1 | 16 | C:1 |
+| `Node v22.23.4, Rapier 0.21.0, cannon-es 0.20.0` | 1 | 16 | C:1 |
+| `Node v22.23.4; X_ITE 16.6.0` | 1 | 16 | C:1 |
 | `PR descriptions via the masterclass; not re-derived` | 1 | 04 | L:1 |
 | `Python 3.13.18 ast` | 1 | 10 | C:1 |
 | `Python, X_ITE 16.6.0` | 1 | 08 | C:1 |
@@ -94,7 +94,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `X_ITE 16.6.0, 640 x 360, SwiftShader` | 1 | 08 | L:1 |
 | `X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 15 | C:1 |
 | `X_ITE 16.6.0, Chromium 153.0.8010.12` | 1 | 08 | C:1 |
-| `X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader` | 1 | 15 | C:1 |
+| `X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader` | 1 | 16 | C:1 |
 | `X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader, three.js r187` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0, SwiftShader rig` | 1 | 08 | C:1 |
 | `X_ITE 16.6.0, SwiftShader, parsed from the report` | 1 | 08 | C:1 |
@@ -117,8 +117,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `batch 42 SingleAxisHingeJoint probe; X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 13 | C:1 |
 | `bpy 5.3.0 Cycles CPU 16 spp, x3d_mcp fork b4efcd3` | 1 | 10 | C:1 |
 | `bpy 5.3.0, Khronos glTF-Validator 2.0.0-dev.3.10, carried` | 1 | 11 | L:1 |
-| `cannon-es 0.20.0` | 1 | 15 | C:1 |
-| `cannon-es 0.20.0 plus engine-cannon.js` | 1 | 15 | C:1 |
+| `cannon-es 0.20.0` | 1 | 16 | C:1 |
+| `cannon-es 0.20.0 plus engine-cannon.js` | 1 | 16 | C:1 |
 | `carried from a private note` | 1 | 09 | S:1 |
 | `carried from the bake-stage skill text` | 1 | 10 | S:1 |
 | `census.js on git archive 60824ce` | 1 | 08 | C:1 |
@@ -212,7 +212,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `same rig, same fixture twice` | 1 | 08 | C:1 |
 | `same rig, two runs of the 10 fixtures` | 1 | 08 | C:1 |
 | `same rig, wall-clock wait` | 1 | 13 | C:1 |
-| `same rigs` | 1 | 15 | C:1 |
+| `same rigs` | 1 | 16 | C:1 |
 | `same validator, receipt` | 1 | 09 | C:1 |
 | `same, 3 peers x 300 ops` | 1 | 15 | C:1 |
 | `same, 44 shader workers` | 1 | 12 | C:1 |

@@ -126,15 +126,15 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-MET-3 | [14](14-methods.md) | L3 | Break the linter | 2026-11-14 `check_learn.py` at this commit. |
 | D-MET-4 | [14](14-methods.md) | L2 | Pin audit | not run. |
 | D-MET-5 | [14](14-methods.md) | L3 | Teach-back | not run. |
-| D-ENG-1 | [15](15-physics-engines.md) | L2 | The ramp that sticks | `2026-11-15 x3d.loom@56340c2, Node v22.23.4, cannon-es 0.20.0`: mu 0.5 builtin 27, rapier 27, cannon 25, cannon-raw 45. |
-| D-ENG-2 | [15](15-physics-engines.md) | L1 | Find the escaped cones | `2026-11-15 x3d.loom@1e884b6`: one match, the condition above. |
-| D-ENG-3 | [15](15-physics-engines.md) | L3 | Make the sensor miss | `2026-11-15 x3d.loom@56340c2`: the test passes with `frame`; `results/sensor-impact.json` holds 11 and 5 for `last`. |
-| D-ENG-4 | [15](15-physics-engines.md) | L2 | Four sub-steps for a cradle | `2026-11-15 x3d.loom@56340c2, Rapier 0.21.0`: test passes; sweep printed 0.22 for every iteration setting, 0.65 and 0.64 for 4 and 8 sub-steps. |
-| D-ENG-5 | [15](15-physics-engines.md) | L2 | Same bits under jitter | `2026-11-15 x3d.loom@56340c2, Node v22.23.4`: 3 of 3 pass. |
-| D-ENG-6 | [15](15-physics-engines.md) | L1 | Rank by host | `2026-11-15 x3d.loom@56340c2`: Chromium {rapier 2.42, cannon 1.85}. |
 | D-YJS-1 | [15](15-yjs-collaboration.md) | L1 | Run the suite | 2026-11-15 Node v22.23.4, Yjs 13.6.33, pycrdt 0.14.13 |
 | D-YJS-2 | [15](15-yjs-collaboration.md) | L3 | Break the export | 2026-11-15 Node v22.23.4, Yjs 13.6.33 |
 | D-YJS-3 | [15](15-yjs-collaboration.md) | L2 | Two browsers | 2026-11-15 Chromium 153.0.8010.12 SwiftShader, X_ITE 16.6.0 |
 | D-YJS-4 | [15](15-yjs-collaboration.md) | L2 | Price a structural edit | 2026-11-15 Node v22.23.4, Intel Xeon 2.10 GHz x4 |
 | D-YJS-5 | [15](15-yjs-collaboration.md) | L1 | Predict the winner | 2026-11-15 `x3d.loom@0689f1a` tests |
+| D-ENG-1 | [16](16-physics-engines.md) | L2 | The ramp that sticks | `2026-11-15 x3d.loom@56340c2, Node v22.23.4, cannon-es 0.20.0`: mu 0.5 builtin 27, rapier 27, cannon 25, cannon-raw 45. |
+| D-ENG-2 | [16](16-physics-engines.md) | L1 | Find the escaped cones | `2026-11-15 x3d.loom@1e884b6`: one match, the condition above. |
+| D-ENG-3 | [16](16-physics-engines.md) | L3 | Make the sensor miss | `2026-11-15 x3d.loom@56340c2`: the test passes with `frame`; `results/sensor-impact.json` holds 11 and 5 for `last`. |
+| D-ENG-4 | [16](16-physics-engines.md) | L2 | Four sub-steps for a cradle | `2026-11-15 x3d.loom@56340c2, Rapier 0.21.0`: test passes; sweep printed 0.22 for every iteration setting, 0.65 and 0.64 for 4 and 8 sub-steps. |
+| D-ENG-5 | [16](16-physics-engines.md) | L2 | Same bits under jitter | `2026-11-15 x3d.loom@56340c2, Node v22.23.4`: 3 of 3 pass. |
+| D-ENG-6 | [16](16-physics-engines.md) | L1 | Rank by host | `2026-11-15 x3d.loom@56340c2`: Chromium {rapier 2.42, cannon 1.85}. |
 <!-- END GENERATED -->
