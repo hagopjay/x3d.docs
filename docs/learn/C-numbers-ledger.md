@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**354 numbers** from 14 chapters. Grades: [C] 310 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**359 numbers** from 14 chapters. Grades: [C] 315 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -226,6 +226,11 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-BAB-64 | [08](08-babylon-bridge.md) | unit cube resting on a fixed ground, contacts kept | Bullet 2 of the 4 lower corners; bridge 4 | C | X_ITE 16.6.0, SwiftShader rig | x3d.loom@80388ce:x3d.webgpu/bridge/fixtures/CollisionSensor.test.json |
 | N-BAB-65 | [08](08-babylon-bridge.md) | resting distance of a ball on the ground | X_ITE 3e-8; bridge up to 5 mm (slop) | C | both engines | WHY-physics-sensing-batch.md section 5 |
 | N-BAB-66 | [08](08-babylon-bridge.md) | full regression after the shim fix and batch 47 | 142 picture fixtures and 45 event fixtures pass, in chunks of 8 | C | our engine, SwiftShader | x3d.loom@80388ce |
+| N-BAB-67 | [08](08-babylon-bridge.md) | Disk2D, Rectangle2D, Extrusion silhouette overlap with X_ITE | 0.98, 0.97, 0.93 | C | SwiftShader, 320 x 240 | x3d.loom@cd71796:x3d.webgpu/bridge/receipts |
+| N-BAB-68 | [08](08-babylon-bridge.md) | PointProperties default pointSizeMin, scale, max | 1, 1, 1 in the standard and X_ITE; hall default was 0 | C | X_ITE 16.6.0 | PointProperties.test.json |
+| N-BAB-69 | [08](08-babylon-bridge.md) | NurbsTextureCoordinate uv step with centre weight 3, 8 cells | 0.125 in X_ITE (regular); rational form would give 0.114 | C | X_ITE 16.6.0 | NurbsTextureCoordinate.test.json |
+| N-BAB-70 | [08](08-babylon-bridge.md) | NurbsSweptSurface triangles, octagon along a bend and triangle along an arc | 160 and 36, equal in both engines | C | both engines | NurbsSweptSurface.test.json |
+| N-BAB-71 | [08](08-babylon-bridge.md) | NurbsTrimmedSurface untrimmed 8 x 8 patch triangles | 128 in both engines | C | both engines | NurbsTrimmedSurface.test.json |
 | N-CAS-1 | [09](09-castle-engine.md) | registered model formats; of them with `OnSave` | 21; 7 | C | `formats.py`, 2026-11-14 | `castle-engine@48ce617:src/` |
 | N-CAS-2 | [09](09-castle-engine.md) | parse-only groups; registrations in them (one abstract) | 11; 99 | C | `xite_names.py` | `castle-engine@48ce617:src/scene/x3d/castleinternalnodesunsupported.pas` |
 | N-CAS-3 | [09](09-castle-engine.md) | parse-only names with a same-named non-abstract class in X_ITE | 97 of 99 | C | `xite_names.py`, `x_ite@16.7.1` npm dist | `x_ite@16.7.1:dist/x_ite.js`, `dist/assets/components/` |
