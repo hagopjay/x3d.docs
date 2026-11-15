@@ -1,0 +1,659 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="15-yjs-collaboration.html">15. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a class="cur" href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="18-three-pathtracer.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/18-three-pathtracer.md">GitHub</a></div><h1>18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</h1>
+<details class="toc"><summary>On this page (18 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-what-a-path-tracer-changes-about-x3d-lighting">2. What a path tracer changes about X3D lighting</a><a class="l2" href="#3-the-adapter-three-conversions-that-carry-the-result">3. The adapter: three conversions that carry the result</a><a class="l2" href="#4-the-numbers-and-the-bound-that-moved">4. The numbers, and the bound that moved</a><a class="l3" href="#41-the-first-table-was-wrong">4.1 The first table was wrong</a><a class="l2" href="#5-running-it">5. Running it</a><a class="l2" href="#6-the-demo-and-what-it-is-for">6. The demo, and what it is for</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-ptr-1-the-vertical-angle-that-cycles-drew">D-PTR-1 The vertical angle that Cycles drew</a><a class="l3" href="#d-ptr-2-apply-the-bound">D-PTR-2 Apply the bound</a><a class="l3" href="#d-ptr-3-re-score-a-strip">D-PTR-3 Re-score a strip</a><a class="l3" href="#d-ptr-4-find-what-overwrites-x_ite">D-PTR-4 Find what overwrites X_ITE</a><a class="l3" href="#d-ptr-5-break-a-light-conversion">D-PTR-5 Break a light conversion</a><a class="l3" href="#d-ptr-6-isolate-the-e1-gap">D-PTR-6 Isolate the e1 gap</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> A path tracer is a second opinion on how an X3D scene is lit, not a better X_ITE: it agrees with X_ITE when it is limited to direct light (Cornell box, 1 bounce, FLIP 0.142), moves toward Cycles as bounces are added, and fails a &quot;within the reference spread&quot; bound on a scene whose lighting it does not model (PBR grid, 0.743 against a bound of 0.349). <strong><span class="g C" title="Confirmed">C</span></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>PTR</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="02-loom-laws.html">02 Loom laws</a>, <a href="06-xite-the-oracle.html">06 XITE, the oracle</a>, <a href="08-babylon-bridge.html">08 Babylon bridge</a> (the three.js bridge sections), <a href="12-unreal-tier1.html">12 Unreal tier 1</a> (the metric and the bound)</td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>state what a path tracer adds to an X3D scene and what it drops; convert X3D light units for a physically based renderer; run <code>run-pt.js</code> and read its FLIP table; spot a camera mismatch between two reference renderers; explain why the first Cycles numbers were wrong</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td><code>x3d.loom@5f59349:x3d.threejs/pathtracer/{README.md,run-pt.js,src/pt-adapter.js,flip_score.py,build_results.py,cycles_job.py,results/results.json}</code>; <code>x3d.lab@a7af249:notebooks/unreal/colab_g4/{leg_e_cells.py,scenes/*.x3d}</code>; <code>x3d.lab@a7af249:src/x3dlab/blender_worker.py</code>; three-gpu-pathtracer 0.0.28 <code>build/index.module.js</code> (light and bounce code, read)</td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td>Chromium 153.0.8010.12 on SwiftShader (software Vulkan, no real GPU); three r187; three-gpu-pathtracer 0.0.28; three-mesh-bvh 0.9.18; X_ITE 16.6.0; bpy 5.3.0 (Cycles, CPU); flip-evaluator 1.7; numpy 2.5.4; Pillow 13.0.0</td>
+</tr>
+</tbody>
+</table>
+<p>This chapter teaches one integration: the three.js bridge (<a href="08-babylon-bridge.html">chapter 8</a>, section 14) builds a three.js scene from an X3D file; <a href="https://github.com/gkjohnson/three-gpu-pathtracer">three-gpu-pathtracer</a> then traces light through that scene on the GPU, in the browser. The result is a reference for light transport that sits beside X_ITE (what an X3D browser draws), Cycles (what a production path tracer draws) and Unreal (<a href="12-unreal-tier1.html">chapter 12</a>). The chapter is about the comparison: what had to be converted, what the numbers say, and the two mistakes that were made and caught on the way.</p>
+<hr />
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text"> X3D file (Leg E: e1 PBR grid, e2 Cornell box, e3 light ladder)
+    |
+    +--&gt; X_ITE 16.6.0 --------------------------------&gt; PICTURE X   (what an X3D browser draws)
+    |
+    +--&gt; reader + three.js body (x3d.threejs/bridge) --&gt; three Scene
+    |         |                                             |
+    |         +--&gt; bridge raster (lights x PI, Phong) ----&gt; PICTURE R   (the bridge's own picture)
+    |         |
+    |         +--&gt; src/pt-adapter.js (lights, materials, background re-set)
+    |                   |
+    |                   +--&gt; three-gpu-pathtracer (BVH, N bounces, S samples) ---&gt; PICTURE P
+    |
+    +--&gt; x3d-blender-io import --&gt; Cycles (bpy, camera = X3D fieldOfView) --&gt; PICTURE C
+
+ metric: object-pixel FLIP over X, R, P, C  (flip-evaluator LDR, pixels where either is not sky)
+ test  : max(P-X, P-C) &lt;= X-C + 0.05   (the Unreal lane's tier-1 bound, ch12 section 11)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>stage</th>
+<th>file</th>
+<th>what it owns</th>
+<th>what it leaves out</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>scene</td>
+<td><code>x3d.threejs/bridge</code></td>
+<td>reader, body, Transform, lights, materials</td>
+<td>not edited by this work</td>
+</tr>
+<tr>
+<td>adapter</td>
+<td><code>x3d.threejs/pathtracer/src/pt-adapter.js</code></td>
+<td>light units, Phong to physical, background, frame loop</td>
+<td>ground colours, light radius cut-off, ambient</td>
+</tr>
+<tr>
+<td>runner</td>
+<td><code>run-pt.js</code></td>
+<td>static server, Chromium, X_ITE and path-traced pictures, timings</td>
+<td>no real-GPU timing</td>
+</tr>
+<tr>
+<td>score</td>
+<td><code>flip_score.py</code>, <code>build_results.py</code></td>
+<td>object-pixel FLIP, bound test, strips</td>
+<td>one camera per scene</td>
+</tr>
+<tr>
+<td>Cycles</td>
+<td><code>cycles_job.py</code></td>
+<td>the lab's Blender worker with the camera matched</td>
+<td>Blender's default view transform not isolated</td>
+</tr>
+<tr>
+<td>demo</td>
+<td><code>x3d.demo</code> Demo 25</td>
+<td>live wipe against X_ITE, bounce slider, emissive switch</td>
+<td>speed claims</td>
+</tr>
+</tbody>
+</table>
+<p>In scope: three scenes, one camera each, 320 x 240, 96 samples. Out of scope: real-GPU speed, denoising, the WebGPU path tracer, volumes and textures in the path tracer, animation.</p>
+<p><strong>Read next:</strong> <a href="12-unreal-tier1.html">12 Unreal tier 1</a> for the metric and the bound this chapter reuses; <a href="06-xite-the-oracle.html">06 XITE, the oracle</a> for why X_ITE is the baseline.</p>
+<hr />
+<h2 id="2-what-a-path-tracer-changes-about-x3d-lighting">2. What a path tracer changes about X3D lighting</h2>
+<p>X3D 4.0 lighting (19775-1, clause 17) is local: each light shades each surface by its own N.L and the material, with fog and an optional ambient term. Nothing in the standard says light bounces. A path tracer solves the rendering equation by sampling paths, so everything X3D leaves out comes back in.</p>
+<table>
+<thead>
+<tr>
+<th>X3D idea</th>
+<th>X_ITE 16.6.0</th>
+<th>path tracer</th>
+<th>consequence in the pictures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>light bounces</td>
+<td>none</td>
+<td>every bounce</td>
+<td>red and green wall colour on the Cornell boxes</td>
+</tr>
+<tr>
+<td>shadows</td>
+<td>only if the file asks (<code>shadows</code>)</td>
+<td>always</td>
+<td>the PBR grid throws shadows in the path-traced picture only</td>
+</tr>
+<tr>
+<td><code>emissiveColor</code></td>
+<td>colours the surface, lights nothing</td>
+<td>the surface is a light</td>
+<td>the Cornell ceiling panel lights the room</td>
+</tr>
+<tr>
+<td><code>ambientIntensity</code></td>
+<td>a fixed term</td>
+<td>none; the bounced light is the ambient</td>
+<td>dark corners in e1</td>
+</tr>
+<tr>
+<td>light <code>radius</code></td>
+<td>hard cut-off</td>
+<td>not applied</td>
+<td>none in the three scenes (radius covers the room)</td>
+</tr>
+<tr>
+<td>PhysicalMaterial, no environment</td>
+<td>a default glow</td>
+<td>black metals</td>
+<td>metals read darker in the path tracer</td>
+</tr>
+<tr>
+<td>classic Material (Phong)</td>
+<td>rho x I</td>
+<td>converted (section 3)</td>
+<td>a fit, not a match</td>
+</tr>
+</tbody>
+</table>
+<p>Grades: the X_ITE rows and the path-tracer rows are <strong><span class="g C" title="Confirmed">C</span></strong> where a picture shows them (Cornell panel, e1 shadows) and <strong><span class="g L" title="Likely">L</span></strong> for the radius and ambient rows (read in code, not isolated by a fixture).</p>
+<hr />
+<h2 id="3-the-adapter-three-conversions-that-carry-the-result">3. The adapter: three conversions that carry the result</h2>
+<p><code>src/pt-adapter.js</code> is shared by the runner and by the demo page. It does five things; three change numbers.</p>
+<p><strong>3.1 Light units.</strong> The bridge sets every light to intensity x PI and bakes the X3D attenuation polynomial into a patched shader. The path tracer reads <code>light.decay</code> and <code>light.distance</code> itself, so each light is re-set in physical terms. X_ITE lights PhysicalMaterial as rho/pi x I and classic Material as rho x I; three.js's Lambert is rho/pi x I, so a PBR scene needs the light at I, not I x PI.</p>
+<table>
+<thead>
+<tr>
+<th>X3D attenuation (a0 a1 a2)</th>
+<th>path-tracer decay</th>
+<th>intensity</th>
+<th>scenes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 0 0</td>
+<td>0</td>
+<td>I / a0</td>
+<td>e3 bay 2</td>
+</tr>
+<tr>
+<td>0 0 1</td>
+<td>2</td>
+<td>I / a2</td>
+<td>e2, e3 bay 3</td>
+</tr>
+<tr>
+<td>0 1 0</td>
+<td>1</td>
+<td>I / a1</td>
+<td>none</td>
+</tr>
+<tr>
+<td>anything else</td>
+<td>2</td>
+<td>fitted at half the radius, logged</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-js">// src/pt-adapter.js, the whole decision
+if (a[1] === 0 &amp;&amp; a[2] === 0) { o.decay = 0; o.intensity = I / Math.max(a[0], 1e-6); }
+else if (a[0] === 0 &amp;&amp; a[1] === 0) { o.decay = 2; o.intensity = I / a[2]; }
+</code></pre>
+<p><strong>3.2 Classic Material.</strong> MeshPhong becomes MeshPhysical with the diffuse colour times PI, so that rho/pi x I x PI lands on rho x I. It is a fit: the path tracer then also returns PI times too much indirect light from those surfaces. It matters only in e3 (five converted materials) and is logged in every result file.</p>
+<p><strong>3.3 Background.</strong> The body draws a Background as sphere meshes. A path tracer treats them as lit geometry (e3's sky came out white). The adapter removes them and uses the first <code>skyColor</code> as the miss colour; ground colours and angles are not drawn.</p>
+<p><strong>3.4 The frame loop and <code>window.X3D</code>.</strong> The body runs its own <code>requestAnimationFrame</code> loop; <code>freeze()</code> stops it, or a raster frame overwrites the path tracer's canvas. The bridge's SAI shim also assigns <code>window.X3D</code>; a page that loads X_ITE first must keep its own reference (<code>const XITE = window.X3D</code>) or X_ITE's <code>getBrowser</code> is gone. This cost an hour on the demo page.</p>
+<p><strong>3.5 Settings.</strong> <code>bounces</code> 1 or 6, 96 samples, 2 x 2 tiles, <code>filterGlossyFactor</code> 0.5, no environment, no tone mapping, linear output (the bridge's colour-management-off choice, so the picture is comparable with X_ITE's raw numbers).</p>
+<hr />
+<h2 id="4-the-numbers-and-the-bound-that-moved">4. The numbers, and the bound that moved</h2>
+<p>Object-pixel FLIP is the Unreal lane's metric (<a href="12-unreal-tier1.html">chapter 12</a>, section 11): flip-evaluator LDR, mean over the pixels where either picture differs from the scene's sky colour (the Unreal lane keys a magenta background). Lower is closer.</p>
+<table>
+<thead>
+<tr>
+<th>scene</th>
+<th>P(6 b) vs X</th>
+<th>P vs C</th>
+<th>P(1 b) vs X</th>
+<th>R vs X</th>
+<th>C vs X</th>
+<th>bound X-C+0.05</th>
+<th>P within</th>
+<th>R within</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>e1 PBR grid</td>
+<td>0.641</td>
+<td>0.743</td>
+<td>0.664</td>
+<td>0.476</td>
+<td>0.299</td>
+<td>0.349</td>
+<td><strong>no</strong></td>
+<td>no</td>
+</tr>
+<tr>
+<td>e2 Cornell</td>
+<td>0.265</td>
+<td>0.380</td>
+<td>0.142</td>
+<td>0.595</td>
+<td>0.468</td>
+<td>0.517</td>
+<td>yes</td>
+<td>no</td>
+</tr>
+<tr>
+<td>e3 light ladder</td>
+<td>0.490</td>
+<td>0.751</td>
+<td>0.490</td>
+<td>0.693</td>
+<td>0.705</td>
+<td>0.755</td>
+<td>yes (by 0.005)</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<p>Instrument: Chromium 153.0.8010.12 SwiftShader, three r187, three-gpu-pathtracer 0.0.28, X_ITE 16.6.0, bpy 5.3.0 CPU 256 samples with OpenImageDenoise, 320 x 240, 96 samples; <code>x3d.loom@5f59349:x3d.threejs/pathtracer/results/results.json</code>. Noise floor: two 96-sample Cornell runs differ by 0.055 <span class="g C" title="Confirmed">C</span>. The light-ladder pass is inside the noise floor and is not a result.</p>
+<p>What the table says, ranked by how much it changes a decision:</p>
+<ol>
+<li><strong>The bridge's own raster picture fails the bound on all three scenes.</strong> It sits 0.48 to 0.69 from X_ITE across the three scenes. <span class="g C" title="Confirmed">C</span> The cause named in the Unreal lane's notes is the PI factor on PBR lights; this chapter did not isolate it, so it is <strong><span class="g L" title="Likely">L</span></strong>.</li>
+<li><strong>One bounce is X_ITE.</strong> The Cornell box at 1 bounce is 0.142 from X_ITE, 0.265 at 6 bounces, and the 6-bounce picture is closer to Cycles (0.380) than the 1-bounce picture is (0.494). <span class="g C" title="Confirmed">C</span></li>
+<li><strong>The PBR grid is not explained.</strong> The path tracer is 0.743 from Cycles against a bound of 0.349. Suspected, not isolated: no ambient term, the shadows, how the bridge sets metals. <strong><span class="g S" title="Suspected">S</span></strong></li>
+<li><strong>The light ladder cannot separate renderers.</strong> Four bays of white panels over black: object share is 16.4 percent and every picture is 0.49 to 0.79 from every other. <span class="g C" title="Confirmed">C</span></li>
+</ol>
+<h3 id="41-the-first-table-was-wrong">4.1 The first table was wrong</h3>
+<p>The first run used the lab's Cycles render as it came. It reported the path tracer inside the bound on all three scenes (e1 0.636, e2 0.279, e3 0.501 against X; bounds 0.644, 0.468, 0.819). The Cycles pictures were drawn smaller than X_ITE's. The add-on sets the Blender camera from an X3D <code>fieldOfView</code> at Blender's 16:9 default; rendering at 320 x 240 then keeps the horizontal angle (1.2695 rad) and widens the vertical one to 1.0092 rad where X3D asked 0.7854. X3D <code>fieldOfView</code> applies to the smaller picture axis (19775-1, 23.4.2), vertical at 4:3. Every Cycles number was inflated, the spread X-C with it, and the bound with that. <code>cycles_job.py</code> patches one worker line in memory (sensor fit vertical, angle = <code>fieldOfView</code>); with the camera matched e1 fails. <span class="g C" title="Confirmed">C</span></p>
+<pre><code class="language-text"> spread X-C, e1      first run  0.594   (Cycles framed wide)
+                     matched    0.299
+ bound X-C + 0.05    first run  0.644 -&gt; P-C 0.617 passed
+                     matched    0.349 -&gt; P-C 0.743 fails
+</code></pre>
+<p>The Unreal lane compared against the same Cycles pictures made the same way. Whether its Leg E numbers carry the same framing offset has not been checked here. <strong><span class="g S" title="Suspected">S</span></strong></p>
+<hr />
+<h2 id="5-running-it">5. Running it</h2>
+<pre><code class="language-bash">cd x3d.loom/x3d.threejs/pathtracer &amp;&amp; npm i
+export CHROMIUM_EXECUTABLE=/path/to/chromium          # any Chromium; SwiftShader is fine
+node run-pt.js --out out6 --samples 96 --bounces 6 --xite scenes/e1-pbr-grid.x3d scenes/e2-cornell-box.x3d scenes/e3-light-ladder.x3d
+node run-pt.js --out out1 --samples 96 --bounces 1 scenes/e1-pbr-grid.x3d scenes/e2-cornell-box.x3d scenes/e3-light-ladder.x3d
+python cycles_job.py LAB/src/x3dlab/blender_worker.py ADDON/source cyc   # python with bpy
+python build_results.py out6 out1 cyc OUT [DEMODIR]                       # table, strips, the Demo 25 page
+</code></pre>
+<p>On SwiftShader a scene takes 100 to 190 s at 96 samples (about 1 s per sample, plus a shader build of about 50 s); <code>tTrace</code> is measured after a <code>gl.finish()</code> and a one-pixel read, because without it the timer stops before the GPU has done the work (first runs reported 0.8 s for 96 samples). Real-GPU speed is not measured.</p>
+<p>The result files per run (<code>results/runs/f6</code>, <code>f1</code>) carry the light-conversion log, the GL renderer string and the page errors. A run with page errors is not counted.</p>
+<hr />
+<h2 id="6-the-demo-and-what-it-is-for">6. The demo, and what it is for</h2>
+<p>Demo 25 (<code>x3d.demo</code> <code>docs/demos/three-pathtracer/v1/</code>) puts X_ITE and the path tracer in one frame with a draggable wipe, a bounce slider, an &quot;emissive surfaces cast light&quot; switch and the three scenes. It is built to show three things at a glance: one bounce agrees with X_ITE; bounces add light X3D does not carry; an emissive surface is paint to X_ITE and a lamp to a path tracer. It reports the visitor's own GPU string and samples per second and makes no speed claim. Checked headless on SwiftShader only: 181 samples, X_ITE scene loaded, path-traced canvas non-black. <strong><span class="g C" title="Confirmed">C</span></strong> for that check; <strong><span class="g S" title="Suspected">S</span></strong> for behaviour on a real GPU, a phone, or a browser without float render targets (the page falls back to the pictures).</p>
+<hr />
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule (imperative, at most 30 words)</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-PTR-1</td>
+<td>Put every renderer in a comparison through the same camera maths before comparing numbers; check the framing by eye first, it costs one picture.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Cycles drew 1.0092 rad where 0.7854 was asked; first table passed all three scenes, matched table failed e1</td>
+<td>bpy 5.3.0; flip-evaluator 1.7</td>
+</tr>
+<tr>
+<td>H-PTR-2</td>
+<td>Apply X3D <code>fieldOfView</code> to the smaller picture axis, never the horizontal one, when building any camera outside an X3D browser.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>19775-1 23.4.2; D-PTR-1</td>
+<td>numpy 2.5.4</td>
+</tr>
+<tr>
+<td>H-PTR-3</td>
+<td>Set a physically based renderer's lights to I for PhysicalMaterial scenes and I x PI only when matching classic rho x I shading.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>X_ITE PBR lights rho/pi x I; Cornell 1 bounce 0.142 from X_ITE</td>
+<td>X_ITE 16.6.0; run-pt.js</td>
+</tr>
+<tr>
+<td>H-PTR-4</td>
+<td>Remove any mesh a bridge draws for a Background before path tracing, and set the miss colour instead; a lit sky sphere turns the frame white.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>e3 first run: frame FLIP 0.93 with the sphere, 0.09 to 0.50 without</td>
+<td>run-pt.js</td>
+</tr>
+<tr>
+<td>H-PTR-5</td>
+<td>Stop the body's own animation-frame loop before accumulating samples, or a raster frame overwrites the accumulated picture.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>the loop is <code>requestAnimationFrame(loop)</code> in <code>body-three.js</code>; the first shots survived by timing luck</td>
+<td><code>x3d.loom@5f59349</code></td>
+</tr>
+<tr>
+<td>H-PTR-6</td>
+<td>Keep your own reference to X_ITE's <code>window.X3D</code> before loading any bundle that defines <code>X3D</code>; the bridge's SAI shim overwrites it.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>getBrowser</code> returned null until fixed; D-PTR-4</td>
+<td>headless Chromium 153</td>
+</tr>
+<tr>
+<td>H-PTR-7</td>
+<td>State the noise floor next to every FLIP pass, and call a pass smaller than the floor &quot;inside noise&quot;.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>floor 0.055; e3 passes by 0.005</td>
+<td>two 96-sample Cornell runs</td>
+</tr>
+<tr>
+<td>H-PTR-8</td>
+<td>Time GPU work after a <code>gl.finish()</code> and a pixel read; a timer that stops at the last draw call times the queue, not the work.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>tTrace</code> 0.8 s before, 104 s after, for 96 samples</td>
+<td>Chromium 153 SwiftShader</td>
+</tr>
+<tr>
+<td>H-PTR-9</td>
+<td>Treat an emissive surface as a light in a path tracer and as paint in X_ITE; offer the switch rather than choose silently.</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Cornell panel; demo switch</td>
+<td>run-pt.js; Demo 25</td>
+</tr>
+<tr>
+<td>H-PTR-10</td>
+<td>Do not read a path-traced mismatch as an X3D defect until a direct-light run (1 bounce) shows whether the gap is transport or conversion.</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>Cornell 0.142 at 1 bounce, 0.265 at 6</td>
+<td>run-pt.js</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="drills">Drills</h2>
+<p>Code below was run with <code>python3 -I</code>, numpy 2.5.4 and Pillow 13.0.0 on 2026-11-15, software only; paths are relative to <code>x3d.loom/x3d.threejs/pathtracer</code>.</p>
+<h3 id="d-ptr-1-the-vertical-angle-that-cycles-drew">D-PTR-1 The vertical angle that Cycles drew</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> The add-on gave a Blender camera a horizontal angle of 1.2695 rad. At 320 x 240, what vertical angle does that draw, and what had X3D asked for (<code>fieldOfView=&quot;0.7854&quot;</code>)?</li>
+<li><strong>Verify:</strong></li>
+</ul>
+<pre><code class="language-python">import math
+ax = 1.2695
+print(2 * math.atan(math.tan(ax / 2) * 240 / 320))
+</code></pre>
+<ul>
+<li><strong>Answer:</strong> 1.0092 rad drawn against 0.7854 asked, 28.5 percent wider. At 16:9 the same horizontal angle gives 0.7854, which is why the add-on's value looks right at Blender's default resolution.</li>
+<li><strong>Checked:</strong> <code>2026-11-15 python3 -I numpy 2.5.4</code></li>
+</ul>
+<h3 id="d-ptr-2-apply-the-bound">D-PTR-2 Apply the bound</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> From <code>results/results.json</code>, list the scenes where the path tracer passes <code>max(P-X, P-C) &lt;= X-C + 0.05</code> and the scenes where the bridge raster does.</li>
+<li><strong>Verify:</strong></li>
+</ul>
+<pre><code class="language-python">import json
+r = json.load(open(&quot;results/results.json&quot;))[&quot;scenes&quot;]
+for n, v in r.items(): print(n, max(v[&quot;pt6_vs_xite&quot;], v[&quot;pt6_vs_cycles&quot;]), max(v[&quot;raster_vs_xite&quot;], v[&quot;raster_vs_cycles&quot;]), v[&quot;bound&quot;])
+</code></pre>
+<ul>
+<li><strong>Answer:</strong> Path tracer: e2 (0.380 against 0.518) and e3 (0.751 against 0.755), not e1 (0.743 against 0.349). Raster: none (0.501, 0.595, 0.789).</li>
+<li><strong>Checked:</strong> <code>2026-11-15 python3 -I</code></li>
+</ul>
+<h3 id="d-ptr-3-re-score-a-strip">D-PTR-3 Re-score a strip</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> <code>results/strips/e2-cornell-box.webp</code> holds four 320 x 240 panels (X_ITE, Cycles, raster, path tracer). Cut them and compute path-tracer-against-X_ITE object FLIP with a black background. Why does it not equal 0.265?</li>
+<li><strong>Verify:</strong></li>
+</ul>
+<pre><code class="language-python">from PIL import Image; from flip_score import score
+im = Image.open(&quot;results/strips/e2-cornell-box.webp&quot;).convert(&quot;RGB&quot;)
+for i, n in enumerate(&quot;xcrp&quot;): im.crop((320 * i, 0, 320 * i + 320, 240)).save(f&quot;/tmp/{n}.png&quot;)
+print(score(&quot;/tmp/x.png&quot;, &quot;/tmp/p.png&quot;, [0, 0, 0]))
+</code></pre>
+<ul>
+<li><strong>Answer:</strong> 0.264. The strip is lossy webp (quality 88), so the value moves by about 0.001 from 0.265 measured on the PNGs; it is a reproduction check, not a new measurement.</li>
+<li><strong>Checked:</strong> <code>2026-11-15 python3 -I flip-evaluator 1.7</code></li>
+</ul>
+<h3 id="d-ptr-4-find-what-overwrites-x_ite">D-PTR-4 Find what overwrites X_ITE</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Load the bridge bundle and X_ITE on one page. Find the line in the bundle that makes <code>X3D.getBrowser('#xc')</code> return nothing, and write the one-line fix.</li>
+<li><strong>Verify:</strong> <code>grep -n &quot;window.X3D = X3D&quot; docs/demos/three-pathtracer/v1/vendor/bundle-body.js</code> (in <code>x3d.demo</code>).</li>
+<li><strong>Answer:</strong> line 12271 in the 2026-11-15 bundle assigns the SAI shim to <code>window.X3D</code>. Fix: <code>const XITE = window.X3D;</code> straight after the X_ITE script tag and use <code>XITE.getBrowser</code>.</li>
+<li><strong>Checked:</strong> <code>2026-11-15 grep, headless Chromium 153</code></li>
+</ul>
+<h3 id="d-ptr-5-break-a-light-conversion">D-PTR-5 Break a light conversion</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> In <code>src/pt-adapter.js</code> set the light intensity to I x PI for PBR scenes (<code>lights: 'classic'</code>) and re-run e2 at 96 samples and 6 bounces. Predict the direction of the change in P-vs-X before you run it, then run <code>build_results.py</code> and compare.</li>
+<li><strong>Verify:</strong> <code>node run-pt.js --out o --lights classic --samples 96 --bounces 6 --xite scenes/e2-cornell-box.x3d</code>, then <code>flip_score.py</code> on the X and P pictures.</li>
+<li><strong>Answer:</strong> expected: much brighter, FLIP up from 0.265 (the earlier run with an unscaled path-traced light was blown out at 16 and 64 samples in the first pictures). Not scored in this chapter.</li>
+<li><strong>Checked:</strong> <code>not run</code></li>
+</ul>
+<h3 id="d-ptr-6-isolate-the-e1-gap">D-PTR-6 Isolate the e1 gap</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Design three runs that separate the suspected causes of e1's 0.743 (no ambient term, shadows, metal handling) and say which picture each is compared with.</li>
+<li><strong>Verify:</strong> compare against Cycles with the world colour and shadow settings you control; each run changes one thing.</li>
+<li><strong>Answer:</strong> none yet; this is the open item. A reasonable first cut: Cycles with shadows disabled on the lights, the path tracer with an environment colour equal to the sky, and a metallic-0 copy of the grid.</li>
+<li><strong>Checked:</strong> <code>not run</code></li>
+</ul>
+<hr />
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li>No real-GPU timing: every time here is software Vulkan (SwiftShader), about one sample per second. Nothing is claimed about speed on a GPU. <strong><span class="g C" title="Confirmed">C</span></strong></li>
+<li>One camera per scene, one run per cell except the Cornell noise pair; no confidence intervals. <strong><span class="g C" title="Confirmed">C</span></strong></li>
+<li>Cycles goes through Blender's default view transform; the X_ITE and path-traced pictures do not. That offset is not isolated and inflates every Cycles number by an unknown amount. <strong><span class="g S" title="Suspected">S</span></strong></li>
+<li>The first table (section 4.1) is published history, not a result; the Unreal lane's Leg E Cycles pictures were made the same way and may carry the same framing offset. <strong><span class="g S" title="Suspected">S</span></strong></li>
+<li>The cause of the bridge raster's distance from X_ITE (the PI factor) is read from the Unreal lane's notes and not isolated here. <strong><span class="g L" title="Likely">L</span></strong></li>
+<li>WebGLPathTracer is marked deprecated in 0.0.28 in favour of WebGPUPathTracer (console warning); a WebGPU run is not done. <strong><span class="g C" title="Confirmed">C</span></strong></li>
+<li>The path tracer draws no textures other than what the bridge builds as three.js maps, no volumes, no fog, no animation. Not tested. <strong><span class="g S" title="Suspected">S</span></strong></li>
+<li>FLIP says how far two pictures are, not which is right; a scene can pass by being far from everything. <strong><span class="g C" title="Confirmed">C</span></strong></li>
+</ul>
+<hr />
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-PTR-1</td>
+<td>e2 Cornell, path tracer 6 bounces vs X_ITE, object FLIP</td>
+<td>0.265</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Chromium 153 SwiftShader; X_ITE 16.6.0; 96 spp</td>
+<td><code>x3d.loom@5f59349:x3d.threejs/pathtracer/results/results.json</code></td>
+</tr>
+<tr>
+<td>N-PTR-2</td>
+<td>e2 Cornell, path tracer 1 bounce vs X_ITE</td>
+<td>0.142</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-PTR-3</td>
+<td>e2 Cornell, path tracer vs Cycles</td>
+<td>0.380</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same; bpy 5.3.0 CPU 256 spp OIDN</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-PTR-4</td>
+<td>e2 Cornell, Cycles vs X_ITE (spread)</td>
+<td>0.468</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-PTR-5</td>
+<td>e1 PBR grid, path tracer vs Cycles</td>
+<td>0.743</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-PTR-6</td>
+<td>e1 pass bound (X-C + 0.05)</td>
+<td>0.349</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-PTR-7</td>
+<td>e3 light ladder, path tracer vs Cycles; bound</td>
+<td>0.751; 0.755</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-PTR-8</td>
+<td>e2 bridge raster vs X_ITE</td>
+<td>0.595</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-PTR-9</td>
+<td>Noise floor: two 96 spp Cornell runs against each other</td>
+<td>0.055</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td><code>results/runs/</code> notes; README</td>
+</tr>
+<tr>
+<td>N-PTR-10</td>
+<td>Cycles vertical angle drawn at 4:3 from the add-on's horizontal 1.2695 rad</td>
+<td>1.0092 rad (asked 0.7854)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>numpy 2.5.4 (D-PTR-1)</td>
+<td><code>cycles_job.py</code> docstring</td>
+</tr>
+<tr>
+<td>N-PTR-11</td>
+<td>First (wrong) e1 spread X-C and bound before the camera match</td>
+<td>0.594; 0.644</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same rig, unmatched Cycles</td>
+<td>commit history of <code>x3d.loom</code> PR #76</td>
+</tr>
+<tr>
+<td>N-PTR-12</td>
+<td>Path-tracer time per 96-sample scene on SwiftShader</td>
+<td>59 to 111 s trace, 100 to 190 s with shader build</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Chromium 153 SwiftShader</td>
+<td><code>results/runs/f6/*.json</code></td>
+</tr>
+<tr>
+<td>N-PTR-13</td>
+<td>Object share of e3 light ladder</td>
+<td>16.4 percent of pixels</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td><code>results/results.json</code></td>
+</tr>
+<tr>
+<td>N-PTR-14</td>
+<td>e3 frame FLIP with a lit sky sphere vs without</td>
+<td>0.93 vs 0.09</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>first and final run files</td>
+</tr>
+<tr>
+<td>N-PTR-15</td>
+<td>Demo 25 headless check: samples reached; X_ITE root nodes</td>
+<td>181; 12</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Chromium 153 SwiftShader</td>
+<td><code>x3d.demo</code> PR 29 description</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<table>
+<thead>
+<tr>
+<th>repo@sha</th>
+<th>path</th>
+<th>read how</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x3d.loom@5f59349</code></td>
+<td><code>x3d.threejs/pathtracer/*</code> (adapter, runner, scoring, results, README)</td>
+<td>run</td>
+</tr>
+<tr>
+<td><code>x3d.lab@a7af249</code></td>
+<td><code>notebooks/unreal/colab_g4/leg_e_cells.py</code>, <code>scenes/*.x3d</code>, <code>src/x3dlab/blender_worker.py</code></td>
+<td>read; the worker run with one line patched (<code>cycles_job.py</code>)</td>
+</tr>
+<tr>
+<td><code>x3d.demo@272f4fd</code></td>
+<td><code>docs/demos/three-pathtracer/v1/</code></td>
+<td>run headless</td>
+</tr>
+<tr>
+<td>three-gpu-pathtracer 0.0.28, three-mesh-bvh 0.9.18, three r187</td>
+<td><code>build/index.module.js</code></td>
+<td>read (decay, distance, bounces, deprecation)</td>
+</tr>
+<tr>
+<td><code>x3d.docs@acd4e25</code></td>
+<td><code>docs/learn/12-unreal-tier1.md</code></td>
+<td>read (metric and bound)</td>
+</tr>
+</tbody>
+</table>
+<p>Run on 2026-11-15. The Unreal lane's Leg E numbers were used as the definition of the metric and bound only; no number of that lane is repeated here.</p>
+<p>Siblings: <a href="02-loom-laws.html">02 Loom laws</a>, <a href="06-xite-the-oracle.html">06 XITE, the oracle</a>, <a href="08-babylon-bridge.html">08 Babylon bridge</a>, <a href="12-unreal-tier1.html">12 Unreal tier 1</a>.</p>
+<div class="pn"><a href="17-physics-engines.html">&larr; 17-physics-engines</a><a href="A-validator-register.html">A-validator-register &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

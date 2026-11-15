@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**276 heuristics.** Grades: [C] 224 · [L] 45 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**286 heuristics.** Grades: [C] 231 · [L] 48 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -283,4 +283,14 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-ENG-9 | [17](17-physics-engines.md) | Set the body origin to the centre of mass and pass principal inertia explicitly when an engine derives its own; otherwise it silently overrides the X3D rule. | [L] | Rapier mass set as additional properties with collider density 0; pendulum period error 0.19 % | `engine-rapier.js` read; `tools/fidelity-node.js` |
 | H-ENG-10 | [17](17-physics-engines.md) | Put every unmapped node type into a visible notes list instead of dropping it, and list ignored fields too; a quiet drop reads as a pass. | [L] | `ctx.notes` lists Universal and DoubleAxis limits and motors, but `stopBounce` is dropped without a note | `engines.js`, `engine-rapier.js` read |
 | H-ENG-11 | [17](17-physics-engines.md) | Restore the original function when switching an adapter off, and keep it callable under another name. | [L] | `builtinTick` kept; `use('builtin')` drops the engine state | `engines.js` read |
+| H-PTR-1 | [18](18-three-pathtracer.md) | Put every renderer in a comparison through the same camera maths before comparing numbers; check the framing by eye first, it costs one picture. | [C] | Cycles drew 1.0092 rad where 0.7854 was asked; first table passed all three scenes, matched table failed e1 | bpy 5.3.0; flip-evaluator 1.7 |
+| H-PTR-2 | [18](18-three-pathtracer.md) | Apply X3D `fieldOfView` to the smaller picture axis, never the horizontal one, when building any camera outside an X3D browser. | [C] | 19775-1 23.4.2; D-PTR-1 | numpy 2.5.4 |
+| H-PTR-3 | [18](18-three-pathtracer.md) | Set a physically based renderer's lights to I for PhysicalMaterial scenes and I x PI only when matching classic rho x I shading. | [L] | X_ITE PBR lights rho/pi x I; Cornell 1 bounce 0.142 from X_ITE | X_ITE 16.6.0; run-pt.js |
+| H-PTR-4 | [18](18-three-pathtracer.md) | Remove any mesh a bridge draws for a Background before path tracing, and set the miss colour instead; a lit sky sphere turns the frame white. | [C] | e3 first run: frame FLIP 0.93 with the sphere, 0.09 to 0.50 without | run-pt.js |
+| H-PTR-5 | [18](18-three-pathtracer.md) | Stop the body's own animation-frame loop before accumulating samples, or a raster frame overwrites the accumulated picture. | [L] | the loop is `requestAnimationFrame(loop)` in `body-three.js`; the first shots survived by timing luck | `x3d.loom@5f59349` |
+| H-PTR-6 | [18](18-three-pathtracer.md) | Keep your own reference to X_ITE's `window.X3D` before loading any bundle that defines `X3D`; the bridge's SAI shim overwrites it. | [C] | `getBrowser` returned null until fixed; D-PTR-4 | headless Chromium 153 |
+| H-PTR-7 | [18](18-three-pathtracer.md) | State the noise floor next to every FLIP pass, and call a pass smaller than the floor "inside noise". | [C] | floor 0.055; e3 passes by 0.005 | two 96-sample Cornell runs |
+| H-PTR-8 | [18](18-three-pathtracer.md) | Time GPU work after a `gl.finish()` and a pixel read; a timer that stops at the last draw call times the queue, not the work. | [C] | `tTrace` 0.8 s before, 104 s after, for 96 samples | Chromium 153 SwiftShader |
+| H-PTR-9 | [18](18-three-pathtracer.md) | Treat an emissive surface as a light in a path tracer and as paint in X_ITE; offer the switch rather than choose silently. | [C] | Cornell panel; demo switch | run-pt.js; Demo 25 |
+| H-PTR-10 | [18](18-three-pathtracer.md) | Do not read a path-traced mismatch as an X3D defect until a direct-light run (1 bounce) shows whether the gap is transport or conversion. | [L] | Cornell 0.142 at 1 bounce, 0.265 at 6 | run-pt.js |
 <!-- END GENERATED -->
