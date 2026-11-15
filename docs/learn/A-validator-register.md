@@ -3,12 +3,12 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-252 distinct instrument strings across the numbers registers.
+253 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
 | `same` | 33 | 05, 06, 07, 09, 10, 11, 12 | C:32 L:1 |
-| `same rig` | 27 | 08, 09, 13 | C:27 |
+| `same rig` | 30 | 08, 09, 13 | C:30 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
 | `both engines` | 7 | 08 | C:7 |
@@ -48,6 +48,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `xite_names.py` | 2 | 09 | C:2 |
 | `BR.geo.speedOf; X_ITE formula (height + 10) / 10 x factor` | 1 | 08 | C:1 |
 | `Babylon 9.32.0 body vs X_ITE 16.6.0, SwiftShader` | 1 | 08 | C:1 |
+| `Chromium 153.0.8010.12 SwiftShader, X_ITE 16.6.0, three.js r187` | 1 | 08 | C:1 |
 | `D-LAW-2 script (judgement of the column)` | 1 | 02 | L:1 |
 | `D-LAW-7 script` | 1 | 02 | C:1 |
 | `JSON parse 2026-11-14` | 1 | 11 | C:1 |
