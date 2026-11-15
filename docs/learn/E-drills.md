@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**139 drills**, 128 with a recorded run (`Checked`), 11 not yet run. Levels: L1 25, L2 73, L3 41.
+**145 drills**, 132 with a recorded run (`Checked`), 13 not yet run. Levels: L1 26, L2 76, L3 43.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -140,6 +140,12 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-YJS-3 | [15](15-yjs-collaboration.md) | L2 | Two browsers | 2026-11-15 Chromium 153.0.8010.12 SwiftShader, X_ITE 16.6.0 |
 | D-YJS-4 | [15](15-yjs-collaboration.md) | L2 | Price a structural edit | 2026-11-15 Node v22.23.4, Intel Xeon 2.10 GHz x4 |
 | D-YJS-5 | [15](15-yjs-collaboration.md) | L1 | Predict the winner | 2026-11-15 `x3d.loom@0689f1a` tests |
+| D-PTR-1 | [18](18-three-pathtracer.md) | L1 | The vertical angle that Cycles drew | `2026-11-15 python3 -I numpy 2.5.4` |
+| D-PTR-2 | [18](18-three-pathtracer.md) | L2 | Apply the bound | `2026-11-15 python3 -I` |
+| D-PTR-3 | [18](18-three-pathtracer.md) | L2 | Re-score a strip | `2026-11-15 python3 -I flip-evaluator 1.7` |
+| D-PTR-4 | [18](18-three-pathtracer.md) | L2 | Find what overwrites X_ITE | `2026-11-15 grep, headless Chromium 153` |
+| D-PTR-5 | [18](18-three-pathtracer.md) | L3 | Break a light conversion | `not run` |
+| D-PTR-6 | [18](18-three-pathtracer.md) | L3 | Isolate the e1 gap | `not run` |
 | D-WGC-1 | [20](20-webgpu-compute.md) | L1 | Run the gate | 2026-11-15 Chromium 153.0.8010.12 SwiftShader, `x3d.loom@7c818e3` |
 | D-WGC-2 | [20](20-webgpu-compute.md) | L3 | Plant a bug | 2026-11-15 Chromium 153.0.8010.12 SwiftShader, `x3d.loom@7c818e3` |
 | D-WGC-3 | [20](20-webgpu-compute.md) | L2 | Price the sort | 2026-11-15 recorded receipt, Node v22.23.4 |
