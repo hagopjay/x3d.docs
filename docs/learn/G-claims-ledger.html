@@ -1,0 +1,601 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Appendix G. Claim ledger · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a class="cur" href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="G-claims-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/G-claims-ledger.md">GitHub</a></div><h1>Appendix G. Claim ledger</h1>
+<p>Every number or rule that carries a quote from a named source, merged from <code>docs/learn/claims/*.jsonl</code> and the last checker receipt. Edit the ledger, not this file.</p>
+<!-- BEGIN GENERATED -->
+<p><strong>70 claims</strong> in 2 chapter ledgers. Verdicts: verified 69 · check 0 · reworded 0 · unchecked 1. Register coverage: 64 of 173 numbers in Value cells carry a quote (37.0%), 63 verified. Verdicts come from <code>tools-shared/check_claims.py</code> (find the quote, compare the value) at the pins named; the receipt is <code>claims/receipt.json</code>.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Ch</th>
+<th>Value</th>
+<th>Verdict</th>
+<th>Source (line opens the quote)</th>
+<th>Line</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-JEV-11</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>499</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/7a7d657/x3d.s1/receipts/corpus-2026-11-16.json#L29"><code>x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json</code></a></td>
+<td>29</td>
+</tr>
+<tr>
+<td>N-JEV-11</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>57468875</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/7a7d657/x3d.s1/receipts/corpus-2026-11-16.json#L25"><code>x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json</code></a></td>
+<td>25</td>
+</tr>
+<tr>
+<td>N-JEV-11</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>507786</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/7a7d657/x3d.s1/receipts/corpus-2026-11-16.json#L40"><code>x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json</code></a></td>
+<td>40</td>
+</tr>
+<tr>
+<td>N-JEV-11</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>113.18</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/7a7d657/x3d.s1/receipts/corpus-2026-11-16.json#L10"><code>x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json</code></a></td>
+<td>10</td>
+</tr>
+<tr>
+<td>N-JEV-12</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>1.73</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/7a7d657/x3d.s1/receipts/corpus-2026-11-16.json#L22"><code>x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json</code></a></td>
+<td>22</td>
+</tr>
+<tr>
+<td>N-JEV-12</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>0.79</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/7a7d657/x3d.s1/receipts/corpus-2026-11-16.json#L23"><code>x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json</code></a></td>
+<td>23</td>
+</tr>
+<tr>
+<td>N-JEV-13</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>58</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/7a7d657/x3d.s1/receipts/corpus-2026-11-16.json#L28"><code>x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json</code></a></td>
+<td>28</td>
+</tr>
+<tr>
+<td>N-JEV-13</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>0</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/7a7d657/x3d.s1/receipts/corpus-2026-11-16.json#L43"><code>x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json</code></a></td>
+<td>43</td>
+</tr>
+<tr>
+<td>N-JEV-14</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>36743</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/7a7d657/x3d.s1/receipts/corpus-2026-11-16.json#L44"><code>x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json</code></a></td>
+<td>44</td>
+</tr>
+<tr>
+<td>N-JEV-14</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>0</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/7a7d657/x3d.s1/receipts/corpus-2026-11-16.json#L12"><code>x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json</code></a></td>
+<td>12</td>
+</tr>
+<tr>
+<td>N-JEV-15</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>422</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/7a7d657/x3d.s1/receipts/corpus-2026-11-16.json#L8"><code>x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json</code></a></td>
+<td>8</td>
+</tr>
+<tr>
+<td>N-JEV-15</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>108</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/7a7d657/x3d.s1/receipts/corpus-2026-11-16.json#L5"><code>x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json</code></a></td>
+<td>5</td>
+</tr>
+<tr>
+<td>N-JEV-15</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>31</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/7a7d657/x3d.s1/receipts/corpus-2026-11-16.json#L4"><code>x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json</code></a></td>
+<td>4</td>
+</tr>
+<tr>
+<td>N-JEV-15</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>5</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/7a7d657/x3d.s1/receipts/corpus-2026-11-16.json#L6"><code>x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json</code></a></td>
+<td>6</td>
+</tr>
+<tr>
+<td>N-JEV-15</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>3</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/7a7d657/x3d.s1/receipts/corpus-2026-11-16.json#L7"><code>x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json</code></a></td>
+<td>7</td>
+</tr>
+<tr>
+<td>N-JEV-16</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>0.061</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/7a7d657/x3d.s1/receipts/corpus-2026-11-16.json#L20"><code>x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json</code></a></td>
+<td>20</td>
+</tr>
+<tr>
+<td>N-JEV-16</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>0.288</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/7a7d657/x3d.s1/receipts/corpus-2026-11-16.json#L38"><code>x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json</code></a></td>
+<td>38</td>
+</tr>
+<tr>
+<td>N-JEV-16</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>19.796</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/7a7d657/x3d.s1/receipts/corpus-2026-11-16.json#L39"><code>x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json</code></a></td>
+<td>39</td>
+</tr>
+<tr>
+<td>N-JEV-26</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>570</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d_mcp/blob/dcf0815/evaluation/exact_fix/results.json#L16919"><code>x3d_mcp@dcf0815:evaluation/exact_fix/results.json</code></a></td>
+<td>16919</td>
+</tr>
+<tr>
+<td>N-JEV-26</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>81</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d_mcp/blob/dcf0815/evaluation/exact_fix/results.json#L16965"><code>x3d_mcp@dcf0815:evaluation/exact_fix/results.json</code></a></td>
+<td>16965</td>
+</tr>
+<tr>
+<td>N-JEV-26</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>523</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d_mcp/blob/dcf0815/evaluation/exact_fix/results.json#L16960"><code>x3d_mcp@dcf0815:evaluation/exact_fix/results.json</code></a></td>
+<td>16960</td>
+</tr>
+<tr>
+<td>N-JEV-26</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>257</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d_mcp/blob/dcf0815/evaluation/exact_fix/results.json#L16950"><code>x3d_mcp@dcf0815:evaluation/exact_fix/results.json</code></a></td>
+<td>16950</td>
+</tr>
+<tr>
+<td>H-JEV-3</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>0.371</td>
+<td>verified</td>
+<td><code>self:docs/learn/03-validator-and-gates.md</code></td>
+<td>479</td>
+</tr>
+<tr>
+<td>N-JEV-1</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>0.042</td>
+<td>unchecked</td>
+<td><code>external:vendor models page, read 2026-11-16</code></td>
+<td></td>
+</tr>
+<tr>
+<td>N-TRC-1</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>1614</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L13"><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></a></td>
+<td>13</td>
+</tr>
+<tr>
+<td>N-TRC-1</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>182</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L15"><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></a></td>
+<td>15</td>
+</tr>
+<tr>
+<td>N-TRC-1</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>1379</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L17"><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></a></td>
+<td>17</td>
+</tr>
+<tr>
+<td>N-TRC-2</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>47</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L18"><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></a></td>
+<td>18</td>
+</tr>
+<tr>
+<td>N-TRC-2</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>6</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L16"><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></a></td>
+<td>16</td>
+</tr>
+<tr>
+<td>N-TRC-3</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>248929</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L30"><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></a></td>
+<td>30</td>
+</tr>
+<tr>
+<td>N-TRC-3</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>364127</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L31"><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></a></td>
+<td>31</td>
+</tr>
+<tr>
+<td>N-TRC-3</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>100392</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L45"><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></a></td>
+<td>45</td>
+</tr>
+<tr>
+<td>N-TRC-4</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>57.6</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L50"><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></a></td>
+<td>50</td>
+</tr>
+<tr>
+<td>N-TRC-5</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>43.7</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L58"><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></a></td>
+<td>58</td>
+</tr>
+<tr>
+<td>N-TRC-6</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>15.9</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L82"><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></a></td>
+<td>82</td>
+</tr>
+<tr>
+<td>N-TRC-7</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>43903</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L41"><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></a></td>
+<td>41</td>
+</tr>
+<tr>
+<td>N-TRC-7</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>37797</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L42"><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></a></td>
+<td>42</td>
+</tr>
+<tr>
+<td>N-TRC-8</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>1</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L43"><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></a></td>
+<td>43</td>
+</tr>
+<tr>
+<td>N-TRC-9</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>28465</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L495"><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></a></td>
+<td>495</td>
+</tr>
+<tr>
+<td>N-TRC-9</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>32608</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L494"><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></a></td>
+<td>494</td>
+</tr>
+<tr>
+<td>N-TRC-10</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>878</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L497"><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></a></td>
+<td>497</td>
+</tr>
+<tr>
+<td>N-TRC-10</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>1142</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L496"><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></a></td>
+<td>496</td>
+</tr>
+<tr>
+<td>N-TRC-11</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>394</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_grounding.json#L5"><code>x3d.ml@305fd60:measure/results/m_grounding.json</code></a></td>
+<td>5</td>
+</tr>
+<tr>
+<td>N-TRC-11</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>8250</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_grounding.json#L4"><code>x3d.ml@305fd60:measure/results/m_grounding.json</code></a></td>
+<td>4</td>
+</tr>
+<tr>
+<td>N-TRC-11</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>4.78</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_grounding.json#L6"><code>x3d.ml@305fd60:measure/results/m_grounding.json</code></a></td>
+<td>6</td>
+</tr>
+<tr>
+<td>N-TRC-11</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>201</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_grounding.json#L2"><code>x3d.ml@305fd60:measure/results/m_grounding.json</code></a></td>
+<td>2</td>
+</tr>
+<tr>
+<td>N-TRC-12</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>1120</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_tamper.json#L53"><code>x3d.ml@305fd60:measure/results/m_tamper.json</code></a></td>
+<td>53</td>
+</tr>
+<tr>
+<td>N-TRC-13</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>319</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_tamper.json#L93"><code>x3d.ml@305fd60:measure/results/m_tamper.json</code></a></td>
+<td>93</td>
+</tr>
+<tr>
+<td>N-TRC-14</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>0</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_tamper.json#L78"><code>x3d.ml@305fd60:measure/results/m_tamper.json</code></a></td>
+<td>78</td>
+</tr>
+<tr>
+<td>N-TRC-14</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>0</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_tamper.json#L88"><code>x3d.ml@305fd60:measure/results/m_tamper.json</code></a></td>
+<td>88</td>
+</tr>
+<tr>
+<td>N-TRC-15</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>0.35</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_tamper.json#L451"><code>x3d.ml@305fd60:measure/results/m_tamper.json</code></a></td>
+<td>451</td>
+</tr>
+<tr>
+<td>N-TRC-15</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>0.72</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_tamper.json#L452"><code>x3d.ml@305fd60:measure/results/m_tamper.json</code></a></td>
+<td>452</td>
+</tr>
+<tr>
+<td>N-TRC-15</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>0.59</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_tamper.json#L453"><code>x3d.ml@305fd60:measure/results/m_tamper.json</code></a></td>
+<td>453</td>
+</tr>
+<tr>
+<td>N-TRC-12</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>20261116</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_tamper.json#L4"><code>x3d.ml@305fd60:measure/results/m_tamper.json</code></a></td>
+<td>4</td>
+</tr>
+<tr>
+<td>N-TRC-12</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>656</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_tamper.json#L449"><code>x3d.ml@305fd60:measure/results/m_tamper.json</code></a></td>
+<td>449</td>
+</tr>
+<tr>
+<td>N-TRC-16</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>1204</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/docs/TRACE-REVIEW.md#L5"><code>x3d.ml@305fd60:docs/TRACE-REVIEW.md</code></a></td>
+<td>5</td>
+</tr>
+<tr>
+<td>N-TRC-16</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>43</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/docs/TRACE-REVIEW.md#L6"><code>x3d.ml@305fd60:docs/TRACE-REVIEW.md</code></a></td>
+<td>6</td>
+</tr>
+<tr>
+<td>N-TRC-17</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>55</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/docs/DESIGN.md#L241"><code>x3d.ml@305fd60:docs/DESIGN.md</code></a></td>
+<td>241</td>
+</tr>
+<tr>
+<td>N-TRC-17</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>135</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/docs/DESIGN.md#L241"><code>x3d.ml@305fd60:docs/DESIGN.md</code></a></td>
+<td>241</td>
+</tr>
+<tr>
+<td>N-TRC-18</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>1767</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/js/README.md#L12"><code>x3d.ml@305fd60:js/README.md</code></a></td>
+<td>12</td>
+</tr>
+<tr>
+<td>N-TRC-18</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>968</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.ml/blob/305fd60/js/README.md#L12"><code>x3d.ml@305fd60:js/README.md</code></a></td>
+<td>12</td>
+</tr>
+<tr>
+<td>N-TRC-19</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>5782</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/be7c481/x3d.s1/README.md#L89"><code>x3d.loom@be7c481:x3d.s1/README.md</code></a></td>
+<td>89</td>
+</tr>
+<tr>
+<td>N-TRC-19</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>5808</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/be7c481/x3d.s1/README.md#L89"><code>x3d.loom@be7c481:x3d.s1/README.md</code></a></td>
+<td>89</td>
+</tr>
+<tr>
+<td>N-TRC-19</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>806</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/be7c481/x3d.s1/README.md#L89"><code>x3d.loom@be7c481:x3d.s1/README.md</code></a></td>
+<td>89</td>
+</tr>
+<tr>
+<td>N-TRC-19</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>5357</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/be7c481/x3d.s1/README.md#L89"><code>x3d.loom@be7c481:x3d.s1/README.md</code></a></td>
+<td>89</td>
+</tr>
+<tr>
+<td>N-TRC-19</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>501</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/be7c481/x3d.s1/README.md#L88"><code>x3d.loom@be7c481:x3d.s1/README.md</code></a></td>
+<td>88</td>
+</tr>
+<tr>
+<td>N-TRC-20</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>501</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.loom/blob/be7c481/x3d.s1/README.md#L91"><code>x3d.loom@be7c481:x3d.s1/README.md</code></a></td>
+<td>91</td>
+</tr>
+<tr>
+<td>N-TRC-21</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>36</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d_mcp/blob/e55375f/docs/scene-evidence.md#L100"><code>x3d_mcp@e55375f:docs/scene-evidence.md</code></a></td>
+<td>100</td>
+</tr>
+<tr>
+<td>N-TRC-22</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>71</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d_mcp/blob/e55375f/docs/scene-evidence.md#L91"><code>x3d_mcp@e55375f:docs/scene-evidence.md</code></a></td>
+<td>91</td>
+</tr>
+<tr>
+<td>N-TRC-22</td>
+<td><a href="23-traceability-lineage.html">23</a></td>
+<td>92280</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d_mcp/blob/e55375f/docs/scene-evidence.md#L91"><code>x3d_mcp@e55375f:docs/scene-evidence.md</code></a></td>
+<td>91</td>
+</tr>
+</tbody>
+</table>
+<!-- END GENERATED -->
+<div class="pn"><a href="F-source-map.html">&larr; F-source-map</a><span></span></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

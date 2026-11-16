@@ -11,11 +11,13 @@ Nothing here executes chapter content; it only parses the strict tables defined 
 import argparse
 import collections
 import html
+import json
 import pathlib
 import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
+import claims_lib as CL  # noqa: E402
 import learn_lib as L  # noqa: E402
 
 LEARN = L.LEARN
@@ -29,6 +31,7 @@ APPENDICES = {
     "D-heuristics-ledger.md": "Appendix D. Heuristics ledger",
     "E-drills.md": "Appendix E. Drill index",
     "F-source-map.md": "Appendix F. Source map",
+    "G-claims-ledger.md": "Appendix G. Claim ledger",
 }
 EXTRA = {"AUTHORING.md": "Authoring contract", "CHANGELOG.md": "Changelog"}
 
@@ -101,6 +104,15 @@ def build_ledgers(chs):
     for c in chs:
         for m in re.finditer(r"([A-Za-z0-9_][A-Za-z0-9_.\-]*)@([0-9a-f]{7,12})\b", c.text):
             refs[m.group(1)][m.group(2)].add(c.num)
+    for lp in sorted((LEARN / "claims").glob("*.jsonl")) if (LEARN / "claims").is_dir() else []:   # pins that only a claim ledger names
+        for line in lp.read_text(encoding="utf-8").splitlines():
+            try:
+                src = json.loads(line).get("source", "") if line.strip().startswith("{") else ""
+            except ValueError:
+                continue
+            m = re.match(r"^([A-Za-z0-9_][A-Za-z0-9_.\-]*)@([0-9a-f]{7,12}):", src or "")
+            if m:
+                refs[m.group(1)][m.group(2)].add(lp.name[:2])
     rows = []
     for repo in sorted(refs):
         for sha in sorted(refs[repo]):
@@ -121,6 +133,39 @@ def build_ledgers(chs):
     gen = f"{len(rows)} distinct instrument strings across the numbers registers.\n\n" + table(["Instrument as written", "Numbers", "Chapters", "Grades"], rows)
     put_block(LEARN / "A-validator-register.md", APPENDICES["A-validator-register.md"],
               "Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.", gen)
+
+
+PUBLIC_REPOS = CL.PUBLIC_REPOS
+
+
+def build_claims_ledger(chs):
+    """Appendix G from docs/learn/claims/receipt.json (written by check_claims.py --receipt). No receipt, no appendix."""
+    import json
+    rp = LEARN / "claims" / "receipt.json"
+    if not rp.exists():
+        return
+    rec = json.loads(rp.read_text(encoding="utf-8"))
+    by = {c.num: c for c in chs}
+    ents = rec["entries"]
+    vc = collections.Counter(e["verdict"] for e in ents)
+    tv = sum(c["values"] for c in rec["coverage"])
+    tq = sum(c["values_with_quote"] for c in rec["coverage"])
+    tvv = sum(c["values_verified"] for c in rec["coverage"])
+    rows = []
+    for e in ents:
+        m = re.match(r"^([A-Za-z0-9_][A-Za-z0-9_.\-]*)@([0-9a-f]{7,40}):(.+)$", e["source"])
+        if m and m.group(1) in PUBLIC_REPOS and e["line"]:
+            src = f"[`{m.group(1)}@{m.group(2)}:{m.group(3)}`](https://github.com/{CL.OWNERS.get(m.group(1), CL.OWNER)}/{m.group(1)}/blob/{m.group(2)}/{m.group(3)}#L{e['line']})"
+        else:
+            src = f"`{e['source']}`"
+        ch = by.get(e["chapter"])
+        rows.append([e["id"], f"[{e['chapter']}]({ch.name})" if ch else e["chapter"], json.dumps(e["value"]), e["verdict"], src, e["line"] or ""])
+    gen = (f"**{len(ents)} claims** in {len(rec['coverage'])} chapter ledgers. Verdicts: verified {vc['verified']} · check {vc['check']} · reworded {vc['reworded']} · unchecked {vc['unchecked']}. "
+           f"Register coverage: {tq} of {tv} numbers in Value cells carry a quote ({tq / tv:.1%}), {tvv} verified. "
+           "Verdicts come from `tools-shared/check_claims.py` (find the quote, compare the value) at the pins named; the receipt is `claims/receipt.json`.\n\n"
+           + table(["ID", "Ch", "Value", "Verdict", "Source (line opens the quote)", "Line"], rows))
+    put_block(LEARN / "G-claims-ledger.md", APPENDICES["G-claims-ledger.md"],
+              "Every number or rule that carries a quote from a named source, merged from `docs/learn/claims/*.jsonl` and the last checker receipt. Edit the ledger, not this file.", gen)
 
 
 def build_chapter_table(chs):
@@ -246,6 +291,7 @@ def main():
     a = ap.parse_args()
     chs = L.chapters()
     build_ledgers(chs)
+    build_claims_ledger(chs)
     build_chapter_table(chs)
     print(f"{len(chs)} chapters; heuristics {sum(len(c.heuristics) for c in chs)}, drills {sum(len(c.drills) for c in chs)}, "
           f"numbers {sum(len(c.numbers) for c in chs)}, bytes {sum(c.bytes for c in chs)}")

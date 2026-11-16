@@ -1,0 +1,858 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>23. Traceability: a quote beside every value, and the lineage stack around it · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a class="cur" href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="23-traceability-lineage.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/23-traceability-lineage.md">GitHub</a></div><h1>23. Traceability: a quote beside every value, and the lineage stack around it</h1>
+<details class="toc"><summary>On this page (20 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-the-method-in-six-lines">2. The method in six lines</a><a class="l2" href="#3-what-a-scene-changes">3. What a scene changes</a><a class="l2" href="#4-what-the-corpus-says">4. What the corpus says</a><a class="l2" href="#5-the-record-and-the-audit">5. The record and the audit</a><a class="l2" href="#6-the-lineage-stack-and-where-each-layer-lives">6. The lineage stack, and where each layer lives</a><a class="l2" href="#7-the-review-how-to-find-what-the-author-cannot-see">7. The review: how to find what the author cannot see</a><a class="l2" href="#8-using-it">8. Using it</a><a class="l2" href="#9-what-is-missing-ranked">9. What is missing, ranked</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-trc-1-the-grade-a-verdict-allows">D-TRC-1 The grade a verdict allows</a><a class="l3" href="#d-trc-2-four-claims-two-wrong">D-TRC-2 Four claims, two wrong</a><a class="l3" href="#d-trc-3-first-hit-or-the-fields-node">D-TRC-3 First hit or the field&#x27;s node</a><a class="l3" href="#d-trc-4-break-the-verifier-then-extend-it">D-TRC-4 Break the verifier, then extend it</a><a class="l3" href="#d-trc-5-edit-the-record">D-TRC-5 Edit the record</a><a class="l3" href="#d-trc-6-coverage-that-lies">D-TRC-6 Coverage that lies</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> Make whoever writes a value copy the exact words it came from, and let plain code answer three questions (is the quote in the source, is the value in the quote, where is it); then record the answer in the scene's own hash chain, recompute it on audit, and say out loud what it cannot show: that the quote is the right place, that the value is true, or who wrote the record. <strong><span class="g C" title="Confirmed">C</span></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>TRC</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="01-the-tether.html">01 The tether</a> for the thesis; <a href="03-validator-and-gates.html">03 Validator and gates</a> for the exact stages a verdict sits next to; <a href="22-typed-judgments-jev.html">22 Typed judgments</a> for why a model's answer may only flag</td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>(1) write a claim as <code>{field, value, quote, source}</code> and read the four verdicts and the grade each one allows; (2) say why &quot;first hit&quot; fails on a scene and what picks the node instead; (3) record a trace in a scene's <code>x3dprov</code> chain and audit it, and say which edits the audit catches and which no hash can; (4) place any new number in the seven-layer lineage stack and name the layer that is missing; (5) test a verifier by someone who has not seen its code</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td><code>x3d.ml@305fd60</code> (<code>src/x3dtrace.py</code>, <code>src/x3dprov_trace.py</code>, <code>docs/TRACE.md</code>, <code>docs/TRACE-REVIEW.md</code>, <code>measure/</code>); <code>x3d_mcp@e55375f</code> (<code>src/tools/scene_evidence.py</code>, <code>docs/scene-evidence.md</code>); <code>x3d.loom@be7c481</code> (<code>x3d.s1/README.md</code>, <code>x3d.s1/receipts/evidence-2026-11-16.json</code>); <code>x3d-blender-io@044bea3</code> (<code>source/lineage.py</code>); <code>x3d.castle@5b13f70</code> (<code>docs/ledger/</code>); the article &quot;How I Added Traceability in Structured Data Extraction with AI&quot; (Medium, November 2026, by Umair Ali Khan) and the GAIK toolkit (MIT, commit 394a94b), read as saved pages and source, run for the vectors</td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td><code>x3dtrace</code> engine sha256 prefix <code>dcba70d739007c0d</code>, Python 3.13.18, 4 vCPU x86_64 Linux container; <code>x3d_mcp@e55375f</code> tests with Python 3.13.18; Node 22 for the browser port vectors; no model API was called, no GPU, nothing timed on a renderer</td>
+</tr>
+</tbody>
+</table>
+<p>The method is simple to state and easy to get subtly wrong. A writer (a model, a tool, a person) returns each value together with a short exact quote of the place it read it from. Code then finds the quote in the source, checks that the value is inside the quote, and says where. No model is asked to judge. This chapter teaches the method as it was built for X3D, shows what a scene changes about it, measures it on the public corpus, and records the 49 defects that an independent reviewer and later reading found in the first build. It ends with the lineage stack the method is one layer of.</p>
+<hr />
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text">   source text (prompt, spec, log, the scene itself)          scene (X3D)
+        |                                                         |
+        |  writer copies the exact words beside each value        |
+        v                                                         v
+   claim = { field, value, quote, source }  ---- BIND ----&gt;  field -&gt; node -&gt; attribute
+        |
+        |  FIND     is the quote an unbroken run of whole words in the source?
+        |  COMPARE  is the value inside the quote (units, vectors, colours, words)?
+        |  LOCATE   span, line and column, node path, DEF, world box
+        v
+   item = verdict + status + value_status + derivation + locus + selectors
+        |
+        v
+   trace step in the scene's own &lt;head&gt; hash chain (x3dprov)  ----&gt;  audit: recompute items
+        |
+        +--&gt; PROV-O Quotation    +--&gt; OpenLineage column lineage     [section 6]
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>in scope</th>
+<th>out of scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>the quote method as built in <code>x3dtrace</code>; its X3D differences; its record and audit; measured behaviour on the public corpus; the review that broke it; the lineage stack and where each layer lives</td>
+<td>a model writing the quotes (not measured, needs model calls); signing and anchoring (not built); claims about world extents; PDF page boxes (the report keeps GAIK's field names; nothing here fills them)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>verdict</th>
+<th>meaning</th>
+<th>the highest grade a claim may carry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>verified</code></td>
+<td>quote found, value inside it</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td><code>reworded</code></td>
+<td>value is a close reading (unit, colour name, number word)</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td><code>check</code></td>
+<td>quote not found, or value not in it</td>
+<td><span class="g S" title="Suspected">S</span></td>
+</tr>
+<tr>
+<td><code>unchecked</code></td>
+<td>no quote, or the source cannot be read here</td>
+<td><span class="g L" title="Likely">L</span> with a quote, <span class="g S" title="Suspected">S</span> without</td>
+</tr>
+</tbody>
+</table>
+<p>Read next: deeper, <a href="22-typed-judgments-jev.html">22 Typed judgments</a> for the rule that a model's answer never turns a witness green; wider, <a href="G-claims-ledger.html">G Claim ledger</a> for the same method applied to this base's own numbers.</p>
+<hr />
+<h2 id="2-the-method-in-six-lines">2. The method in six lines</h2>
+<ol>
+<li><strong>Copy, do not summarise.</strong> The writer returns the value and, beside it, the exact words it read it from. A paraphrase is <code>check</code>: that is a rule, not a defect.</li>
+<li><strong>FIND.</strong> The quote must be an unbroken run of whole tokens in the named source. Punctuation, case and spacing are ignored in prose; a number keeps its sign, decimal point and exponent (<code>-1.5</code> is not <code>1 5</code>, <code>1e-5</code> is one number); identifiers keep their case.</li>
+<li><strong>COMPARE.</strong> The value must be in the quote. Numbers compare as numbers within a tolerance (<code>1e-6</code> by default); vectors compare per component, in order; a conversion is accepted only when the quote itself carries the evidence (<code>90 degrees</code> for 1.5708 rad, <code>50 %</code> for 0.5, <code>2 ft</code> for 0.6096 m, <code>#ff8000</code>, <code>red</code>, <code>seven</code>).</li>
+<li><strong>LOCATE.</strong> Character span, line and column; for a scene also the node path, the DEF path and a world-space box. The record also carries W3C Web Annotation selectors (TextQuote with prefix and suffix, TextPosition, XPath).</li>
+<li><strong>Verdict and grade cap.</strong> <code>verified</code>, <code>reworded</code>, <code>check</code>, <code>unchecked</code> (table in section 1). The cap is a ceiling: it says what the evidence allows, not what the claim deserves.</li>
+<li><strong>Coverage.</strong> The share of the scene's value-bearing attributes that came with a quote is <code>coverage</code>; the share whose quote was verified is <code>verified_coverage</code>, the number to trust, because a fabricated quote still counts as cited.</li>
+</ol>
+<p>The article's insight is that this turns &quot;the model said so&quot; into a testable statement with a location, and that the test needs no model. What it does not do is as important: a verified quote proves the words are there and hold the value, not that they are the right words, that the source is right, or that the scene was built from them.</p>
+<hr />
+<h2 id="3-what-a-scene-changes">3. What a scene changes</h2>
+<table>
+<thead>
+<tr>
+<th>in the article (a PDF)</th>
+<th>in an X3D scene</th>
+<th>what the engine does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a value sits at a page position</td>
+<td>a value is an attribute of a node</td>
+<td>records an XPath 1.0 <code>field</code> (<code>/X3D/Scene/Transform[@DEF='Pier3']/@rotation</code>) and the DEF path</td>
+</tr>
+<tr>
+<td>a box on the page</td>
+<td>an axis-aligned box in world space, after every ancestor Transform, one per <code>USE</code> instance</td>
+<td><code>aabb_e6</code> in integer millionths of a scene unit, naming the ancestor that owns it</td>
+</tr>
+<tr>
+<td>a repeated quote is occasional</td>
+<td>the same attribute text appears on many nodes</td>
+<td>the field's node picks the occurrence, not the first hit</td>
+</tr>
+<tr>
+<td>numbers are scalars</td>
+<td>vectors, colours in 0..1, axis-angle rotations</td>
+<td>compared per component in order; a permuted vector is <code>check</code></td>
+</tr>
+<tr>
+<td>units are in the text</td>
+<td>metres, radians, kilograms and newtons unless a <code>UNIT</code> statement says otherwise</td>
+<td>a conversion only when the quote carries the unit; the caller passes the scene's <code>UNIT</code> as <code>length_scale</code></td>
+</tr>
+<tr>
+<td>one document</td>
+<td>prompt, spec, <code>Inline</code> files, logs, the scene</td>
+<td>several named sources; a quote found elsewhere than cited is status <code>moved</code></td>
+</tr>
+<tr>
+<td>source and answer differ</td>
+<td>the scene can be the source of a quote about itself</td>
+<td>both directions are stored the same way</td>
+</tr>
+<tr>
+<td>a scan has no text</td>
+<td>a texture or a <code>.glb</code> payload has no text</td>
+<td>kind <code>binary</code>, verdict <code>unchecked</code></td>
+</tr>
+</tbody>
+</table>
+<p>A worked case. The prompt says &quot;6 m tall on a 0.4 m x 0.4 m footing&quot;. The scene stores <code>&lt;Box size=&quot;0.4 2 0.4&quot;/&gt;</code> inside a Transform that scales y by 3. No attribute holds the number 6: the value is emergent. The engine will <code>verify</code> the footing, will not verify &quot;6&quot;, and records the world box of the pier (0.4 x 6 x 0.4) so a later claim kind could check it. That claim kind is not built (section 9).</p>
+<p>Eight facts the engine encodes, each with tests in <code>tests/test_x3dtrace.py</code>: the sign belongs to the number; order is part of a vector; an exponent is one number; DEF names are case-sensitive; an axis-angle has four numbers, and &quot;90 degrees about the vertical axis&quot; supplies the axis and the unit for all four; a scene's <code>UNIT</code> statement is read, but the caller must pass it as the policy's <code>length_scale</code> (a documented gap); a leading zero marks an identifier (<code>007</code> is not &quot;Part 7&quot;); and, added late, <strong>a version is not a date</strong>. <code>16.7.0</code> was once read as day, month and year, so <code>version = &quot;7.16.0&quot;</code> verified it (section 7, BUG-47).</p>
+<hr />
+<h2 id="4-what-the-corpus-says">4. What the corpus says</h2>
+<p>Corpus: every tracked <code>.x3d</code> file of seven public repositories (six contribute a unique scene; x3d.lab contributes none), de-duplicated by sha256: 1,614 files, 182 duplicates, 1,379 scenes parsed, 47 that do not parse, 6 that are not XML; 248,929 elements, 364,127 attributes, 100,392 value-bearing attributes. One author's repositories, many scenes machine-generated: prevalence figures are this corpus's, not X3D's. <span class="g C" title="Confirmed">C</span></p>
+<pre><code class="language-text"> quote written as ...                       repeats inside its own scene
+ -----------------------------------------------------------------------------
+ value only            &quot;1 1 1&quot;              |##############################  57.6%
+ attr=&quot;value&quot;                               |######################          43.7%
+ attr=&quot;value&quot; + 3 neighbouring tokens       |###########                     22.4%
+ whole start tag                            |############                    23.7%
+ start tag + 3 tokens                       |########                        15.9%
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>question</th>
+<th>answer</th>
+<th>instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>repeated <code>attr=&quot;value&quot;</code> quotes where first-hit lands on the wrong node</td>
+<td>37,797 of 43,903 (86.1%)</td>
+<td><code>measure/m_corpus.py</code>, engine <code>dcba70d7</code>, Python 3.13.18</td>
+</tr>
+<tr>
+<td>same, choosing the occurrence inside the node the claim's <code>field</code> names</td>
+<td>1 of 43,903 (a hand-made probe with a namespaced duplicate attribute on one node)</td>
+<td>same</td>
+</tr>
+<tr>
+<td>shapes that get a world box</td>
+<td>28,465 of 32,608 (87.3%); Text, Extrusion and NURBS have none</td>
+<td>same</td>
+</tr>
+<tr>
+<td>scenes whose shapes are all boxed</td>
+<td>878 of 1,142</td>
+<td>same</td>
+</tr>
+<tr>
+<td>value attributes of model-written scenes for which a phrase of the prompt could be quoted (lexical matcher: 134 verified, 260 reworded)</td>
+<td>394 of 8,250 (4.78%) over 201 recorded runs</td>
+<td><code>measure/m_grounding.py</code>, engine <code>dcba70d7</code></td>
+</tr>
+</tbody>
+</table>
+<p>The two halves of the first finding matter together: a first-hit rule, which is what the article's method and GAIK use, is wrong on most repeated scene quotes, and choosing by the field's node makes it right on all but a contrived one. The last row says that at most about one value in twenty of a model-written scene can be backed by a quote from its prompt. It is an upper bound on quoting, not a measure of grounding: the matcher is lexical, so a value that follows from the prompt without its words counts as unsupported, and a loose match counts as supported. It says what lineage must cover for the rest: a value nobody quoted needs a different class (chosen, derived, default), not a missing quote. Graded <span class="g L" title="Likely">L</span> for the reading, <span class="g C" title="Confirmed">C</span> for the count.</p>
+<hr />
+<h2 id="5-the-record-and-the-audit">5. The record and the audit</h2>
+<p><code>trace_claims</code> appends one <code>trace</code> step to the scene's <code>x3dprov</code> chain (a hash chain kept in <code>&lt;head&gt;&lt;meta&gt;</code>), then a <code>summary</code> step so the trace has a successor. Everything hashed holds only text, integers and booleans, so Python and JavaScript hash alike: floats travel as their shortest text, boxes as integer micro-units, coverage as parts per million, items inline up to 64 KiB and otherwise in a sidecar named by the report hash.</p>
+<p><code>audit_trace</code> runs <code>verify()</code>, then for each trace step: the scene is unchanged by it, items hash to <code>report_sha256</code>, claims to <code>claims_sha256</code>, every supplied source still hashes to its recorded value, no field is traced twice, each XPath field resolves to one node whose text equals the value, and the whole check is <strong>re-run</strong> and compared item by item. Because the verdicts are recomputable, a flipped verdict is caught even in the last step, where a bare hash chain cannot see it.</p>
+<p>Tamper measurement: 40 scenes sampled at random (seed 20261116), up to 25 claims each, 656 claims; an attack is caught when the audit status is not <code>verified</code>.</p>
+<table>
+<thead>
+<tr>
+<th>edit</th>
+<th>attempts</th>
+<th>caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>item edited in the sidecar</td>
+<td>1,120</td>
+<td>1,120</td>
+</tr>
+<tr>
+<td>same, trace step patched to match</td>
+<td>1,120</td>
+<td>1,120</td>
+</tr>
+<tr>
+<td>item edited inline</td>
+<td>320</td>
+<td>320</td>
+</tr>
+<tr>
+<td>claim edited; claim edited and re-hashed</td>
+<td>155; 155</td>
+<td>155; 155</td>
+</tr>
+<tr>
+<td>forged trace step, later step untouched</td>
+<td>80</td>
+<td>80</td>
+</tr>
+<tr>
+<td>scene edited</td>
+<td>319</td>
+<td>319</td>
+</tr>
+<tr>
+<td><strong>consistent forgery, last step, unsealed</strong></td>
+<td>80</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td><strong>trace and later steps re-chained</strong></td>
+<td>80</td>
+<td><strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The two zero rows are the stated limit. Rewriting the claims, the report and every later step consistently produces a different but internally honest trace, and no hash-only scheme can tell. Only something outside the chain can: a signature, a commit, a C2PA assertion. That is layer 7 of the stack (section 6) and it is not built. Sealing (the default) puts a <code>summary</code> step after the trace so the trace is not the last link; an unsealed trace whose last step is rewritten consistently falls in the first zero row. Cost per claim over the 656 claims: 0.35 ms to check, 0.72 ms to check and record, 0.59 ms to audit, on one core.</p>
+<hr />
+<h2 id="6-the-lineage-stack-and-where-each-layer-lives">6. The lineage stack, and where each layer lives</h2>
+<pre><code class="language-text">  layer       what it answers                       where it lives
+  ------------------------------------------------------------------------------------
+  7 anchor    who and when, outside the chain       NOT BUILT (signature, commit, C2PA)
+  6 views     the facts in a standard form          x3d.ml: PROV-O, OpenLineage
+  5 ledger    what is claimed, with its grade       x3d_mcp: claim_append; x3d.docs: G
+  4 evidence  is the quote there, does it hold it   x3d.ml: x3dtrace; x3d_mcp: scene_evidence
+  3 chain     what ran on this scene, in order      x3d.ml: x3dprov
+  2 receipts  the run card of one tool run          x3d.lab run cards; x3d.loom receipts
+  1 bytes     these exact bytes                     sha256 of every file
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>repository</th>
+<th>what was added</th>
+<th>what it shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x3d.ml</td>
+<td>the engine, the <code>trace</code> step and audit, PROV-O and OpenLineage views, the independent test suite, the measurements</td>
+<td>layers 3 to 6, and the defect register of section 7</td>
+</tr>
+<tr>
+<td>x3d_mcp</td>
+<td><code>scene_evidence</code>: claims against sources and against the scene itself (BIND), answer with offsets and node handles, never the quote</td>
+<td>the method as a tool a model can call without being handed the document's own words</td>
+</tr>
+<tr>
+<td>x3d-blender-io</td>
+<td><code>source/lineage.py</code>: per DEF'd attribute, the Blender datablock, the conversions applied, the line and column, and a verdict from an independent recompute of the emitter's arithmetic</td>
+<td>lineage by construction: the exporter knows where each number came from, so the check recomputes instead of quoting</td>
+</tr>
+<tr>
+<td>x3d.castle</td>
+<td><code>docs/ledger/</code>: nine numbers the docs state, each tied to the words that state it and to the file that holds it</td>
+<td>its first run found the README saying the exporter is about 1,700 lines of Pascal and another doc about 2,500, where the file has 2,412</td>
+</tr>
+<tr>
+<td>x3d.loom</td>
+<td>an evidence check in <code>x3d.s1</code> (stdlib, no model call) with planted-claim measurement</td>
+<td>a false-verify rate with a rule-of-three bound, and one blind spot reported (a paraphrase of an instruction verifies as a quote)</td>
+</tr>
+<tr>
+<td>x3d.docs</td>
+<td>the claim ledger of Appendix G and this chapter's own ledger</td>
+<td>the method applied to this base</td>
+</tr>
+</tbody>
+</table>
+<p>Two of these are different in kind. The exporter and the music project already have lineage by construction (a pointer from every written value to the datablock or score token it came from): there a quote is unnecessary and the check is a recompute. A quote is for the values nobody can recompute, which are the ones a model or a person typed.</p>
+<hr />
+<h2 id="7-the-review-how-to-find-what-the-author-cannot-see">7. The review: how to find what the author cannot see</h2>
+<p>The first build of the engine passed its author's tests. A second reviewer was given the engine's stated intent (docstring, method description, behaviour notes on GAIK) and <strong>not its code</strong>, and wrote 1,204 tests from that. The first run found 43 defects (138 expected-failure tests). They were then fixed or recorded; later reading found six more. The register is <code>docs/TRACE-REVIEW.md</code> in x3d.ml; the repro for each is in <code>tests/test_x3dtrace.py</code>.</p>
+<table>
+<thead>
+<tr>
+<th>severity</th>
+<th>example</th>
+<th>state</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HIGH</td>
+<td>the opposite rotation is <code>verified</code> (the axis flipped, the same angle)</td>
+<td>fixed</td>
+</tr>
+<tr>
+<td>HIGH</td>
+<td>nested USE doubling makes the world-box walk exponential: 17 levels took 13 s</td>
+<td>fixed</td>
+</tr>
+<tr>
+<td>HIGH</td>
+<td>a quote number beyond float range (<code>1e999</code>) raises in the colour comparison, and a non-finite scene attribute raises in <code>check_claims</code></td>
+<td>fixed</td>
+</tr>
+<tr>
+<td>HIGH</td>
+<td>unit conflicts are skipped for vector components (a 2 ft cube verifies <code>2 2 2</code> in a metre scene)</td>
+<td>fixed</td>
+</tr>
+<tr>
+<td>HIGH</td>
+<td>a dotted version is read as a date: <code>16.7.0</code> is verified by <code>version = &quot;7.16.0&quot;</code> (BUG-47)</td>
+<td>fixed</td>
+</tr>
+<tr>
+<td>MEDIUM</td>
+<td>a field below a DEF (<code>//*[@DEF='BuoyC']/Shape/Sphere/@radius</code>) did not pick the node, so the first of three equal quotes was used (BUG-49)</td>
+<td>fixed</td>
+</tr>
+<tr>
+<td>HIGH</td>
+<td>a vector is verified from numbers scattered through prose: <code>1 2 3</code> by &quot;1 apple, 2 pears and then 3 cows&quot; (BUG-45)</td>
+<td><strong>open</strong></td>
+</tr>
+<tr>
+<td>MEDIUM</td>
+<td>coverage counts a claim only when its <code>field</code> is the inventory XPath (BUG-50)</td>
+<td><strong>open</strong></td>
+</tr>
+<tr>
+<td>LOW</td>
+<td>a leading <code>v</code> on a version reads as a mismatch (BUG-48); a stray number blocks zero-fill (BUG-46)</td>
+<td><strong>open</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Eight items are open and each has an expected-failure test, so a later fix shows as a pass. Four are decisions or low-severity gaps the engine's author left on purpose (a shorter vector against a longer attribute; <code>round_to_printed</code> direction; trusting the recorded policy on replay; the cost of <code>suggest_claims</code>). The lesson is not the count. It is that <strong>a verifier is itself a claim</strong>: it needs a reviewer who has not seen its code, a conformance file that says where it differs from the method it adapts (55 of 135 rows differ on purpose, each with a reason), and a place to keep the failures that remain.</p>
+<hr />
+<h2 id="8-using-it">8. Using it</h2>
+<table>
+<thead>
+<tr>
+<th>step</th>
+<th>command or call</th>
+<th>what comes back</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>list what could carry a quote</td>
+<td><code>python3 src/x3dtrace.py inventory scene.x3d</code></td>
+<td>every value-bearing attribute with its XPath</td>
+</tr>
+<tr>
+<td>check claims against sources</td>
+<td><code>python3 src/x3dtrace.py check claims.json --source spec=spec.txt</code></td>
+<td>one line per claim, exit 1 if any is <code>check</code> or <code>unchecked</code></td>
+</tr>
+<tr>
+<td>record and audit</td>
+<td><code>trace_claims(xml, claims, {&quot;spec&quot;: text})</code>, <code>audit_trace(xml, {&quot;spec&quot;: text}, scene=True)</code></td>
+<td><code>verified</code>, <code>stale</code> (scene edited), or <code>broken-chain</code></td>
+</tr>
+<tr>
+<td>from a model, through MCP</td>
+<td><code>scene_evidence(content, claims, sources, expect=&quot;inventory&quot;)</code></td>
+<td>verdicts, offsets, node handles, coverage; the quote is never repeated</td>
+</tr>
+<tr>
+<td>in a browser</td>
+<td><code>js/x3dtrace.js</code></td>
+<td>FIND and COMPARE for one claim, 1,767 of 1,767 test rows agree with the Python engine</td>
+</tr>
+</tbody>
+</table>
+<p>Write <code>field</code> as the inventory XPath (or <code>DEF@attr</code>) so a repeated quote lands on the right node and coverage counts the claim. Use the <code>strict</code> policy (or only <code>ambiguous_quote_is_check</code>) when a repeated quote with no prefix, suffix or field must fail.</p>
+<hr />
+<h2 id="9-what-is-missing-ranked">9. What is missing, ranked</h2>
+<ol>
+<li><strong>Claims about emergent values</strong> (&quot;6 m tall&quot;): a claim kind whose field is a world extent, checked against the recorded box. The box data is already stored per item.</li>
+<li><strong>A gap rule for vectors in prose</strong> (BUG-45): components spread over prose may reach <code>reworded</code>, not <code>verified</code>.</li>
+<li><strong>A class for every unquoted value</strong>: specified, chosen, derived, default. Only 4.78% of model-written values have a prompt phrase to quote, so &quot;no quote&quot; must become an answer.</li>
+<li><strong>An anchor</strong> (layer 7): a signature, a commit or a C2PA assertion, so the consistent forgery is no longer undetectable.</li>
+<li><strong>A model writing the quotes</strong>, measured: how often does it copy exactly? This needs model calls; it has not been run.</li>
+</ol>
+<hr />
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-TRC-1</td>
+<td>Make the writer copy the exact words beside each value, and check them in code; never ask a model whether a quote is right.</td>
+<td>C</td>
+<td>0 of 806 wrong numbers, 0 of 5,357 words outside the quote, 0 of 5,808 fabricated quotes verified; 5,782 of 5,808 true claims verified</td>
+<td><code>x3d.loom@be7c481</code> <code>tools/evidence_measure.py</code>, Python 3.13.18, 501 scenes</td>
+</tr>
+<tr>
+<td>H-TRC-2</td>
+<td>Read <code>verified</code> as &quot;the words are there and hold the value&quot;, never as &quot;true&quot; or &quot;the right place&quot;.</td>
+<td>C</td>
+<td>501 of 501 paraphrased instruction-like strings verified as quotes; a repeated quote verifies at the first hit unless a node or context picks one</td>
+<td><code>x3d.loom@be7c481</code> receipt; <code>x3d.ml@305fd60</code> tests</td>
+</tr>
+<tr>
+<td>H-TRC-3</td>
+<td>Pick the occurrence by the field's node; first hit is wrong on most repeated scene quotes.</td>
+<td>C</td>
+<td>37,797 of 43,903 repeated <code>attr=&quot;value&quot;</code> quotes (86.1%)</td>
+<td><code>x3d.ml@305fd60</code> <code>measure/m_corpus.py</code></td>
+</tr>
+<tr>
+<td>H-TRC-4</td>
+<td>Write <code>field</code> as the inventory XPath or <code>DEF@attr</code>; read <code>occurrences</code> and <code>disambiguated_by</code> on every item.</td>
+<td>C</td>
+<td><code>//*[@DEF=..]/Shape/Sphere/@radius</code> once used the first of three equal quotes (BUG-49); coverage counts the inventory form only (BUG-50, open)</td>
+<td><code>x3d.ml@305fd60</code> tests, drill D-TRC-3</td>
+</tr>
+<tr>
+<td>H-TRC-5</td>
+<td>Accept a unit or colour conversion only when the quote carries the evidence for it, and record which conversion was applied.</td>
+<td>C</td>
+<td><code>derivation</code> lists <code>deg2rad</code>, <code>axis</code>, <code>colorname</code>; a 2 ft cube no longer verifies <code>2 2 2</code></td>
+<td><code>x3d.ml@305fd60</code> tests</td>
+</tr>
+<tr>
+<td>H-TRC-6</td>
+<td>Compare a vector per component, in order, and treat a vector read from prose as weaker than one copied from a scene attribute.</td>
+<td>C</td>
+<td>BUG-3 fixed (the opposite rotation); BUG-10 open in part (<code>2 2</code> accepted for <code>2 2 2</code>); BUG-45 open: <code>1 2 3</code> verified by &quot;1 apple, 2 pears and then 3 cows&quot;</td>
+<td><code>x3d.ml@305fd60</code> tests, drill D-TRC-4</td>
+</tr>
+<tr>
+<td>H-TRC-7</td>
+<td>Report <code>verified_coverage</code>, not <code>coverage</code>.</td>
+<td>C</td>
+<td>4 claims on a 4-attribute scene: coverage 1.0, verified coverage 0.5</td>
+<td>drill D-TRC-6</td>
+</tr>
+<tr>
+<td>H-TRC-8</td>
+<td>Seal the trace and audit by recomputing the check, not by comparing hashes alone.</td>
+<td>C</td>
+<td>7 of 9 edit families caught 100% (3,269 of 3,269 attempts); the audit re-runs the verdicts</td>
+<td><code>x3d.ml@305fd60</code> <code>measure/m_tamper.py</code>, seed 20261116</td>
+</tr>
+<tr>
+<td>H-TRC-9</td>
+<td>Say that a hash chain cannot show who wrote a consistent rewrite; put an anchor outside the chain before calling a record tamper-proof.</td>
+<td>C</td>
+<td>0 of 160 consistent forgeries caught</td>
+<td>same</td>
+</tr>
+<tr>
+<td>H-TRC-10</td>
+<td>Never read a version as a date; compare it as text.</td>
+<td>C</td>
+<td><code>16.7.0</code> was verified by <code>7.16.0</code>, <code>5.8.4</code> by <code>4.8.5</code>, <code>2.6.4</code> by <code>4.6.2</code> (BUG-47, fixed)</td>
+<td><code>x3d.ml@305fd60</code> tests, drill D-TRC-4</td>
+</tr>
+<tr>
+<td>H-TRC-11</td>
+<td>Give a model the offsets and node handles of a check, not the quotes: the answer must not carry the document's own words.</td>
+<td>C</td>
+<td><code>scene_evidence</code> repeats no quote or value unless <code>text=&quot;quoted&quot;</code>; hostile scene, quote and field tests pass</td>
+<td><code>x3d_mcp@e55375f</code> <code>tests/test_scene_evidence.py</code>, 36 tests</td>
+</tr>
+<tr>
+<td>H-TRC-12</td>
+<td>Have the verifier reviewed by someone who has not seen its code, and keep the open failures as expected-failure tests.</td>
+<td>C</td>
+<td>43 defects in the first build from 1,204 tests; 8 still open, each with a test that passes when fixed</td>
+<td><code>x3d.ml@305fd60</code> <code>docs/TRACE-REVIEW.md</code></td>
+</tr>
+<tr>
+<td>H-TRC-13</td>
+<td>Where the exporter knows where a number came from, record the datablock and the conversion and recompute; use a quote only for values nobody can recompute.</td>
+<td>L</td>
+<td>a mutation test shows that an emitter that skips the sRGB step is caught by the recompute</td>
+<td><code>x3d-blender-io@044bea3</code> <code>tests/test_lineage.py</code>, 15 pure tests, read, not rerun here</td>
+</tr>
+<tr>
+<td>H-TRC-14</td>
+<td>Measure a verifier's false-verify rate with planted claims of known truth and quote an upper bound, not only a zero.</td>
+<td>C</td>
+<td>each zero row carries a rule-of-three upper bound in the receipt</td>
+<td><code>x3d.loom@be7c481</code> <code>x3d.s1/receipts/evidence-2026-11-16.json</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="drills">Drills</h2>
+<p>Each drill needs a checkout of <code>x3d.ml</code> (the engine is standard library only; <code>D-TRC-5</code> also needs <code>lxml</code>). Run Python as <code>python3 -I</code>.</p>
+<h3 id="d-trc-1-the-grade-a-verdict-allows">D-TRC-1 The grade a verdict allows</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> Which grade does the engine allow a <code>verified</code>, a <code>reworded</code>, a <code>check</code> and an <code>unchecked</code> item without a quote?</li>
+<li><strong>Verify:</strong> <code>python3 -I -c &quot;import sys;sys.path.insert(0,'src');import x3dtrace as T;print(T.grade_cap('verified',True),T.grade_cap('reworded',True),T.grade_cap('check',True),T.grade_cap('unchecked',False))&quot;</code></li>
+<li><strong>Answer:</strong> Confirmed, Likely, Suspected, Suspected.</li>
+<li><strong>Checked:</strong> 2026-11-16 <code>x3dtrace</code> dcba70d7, Python 3.13.18</li>
+</ul>
+<h3 id="d-trc-2-four-claims-two-wrong">D-TRC-2 Four claims, two wrong</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Save the spec as <code>spec.txt</code> and the four claims as <code>claims.json</code> (the fields are inventory XPaths). Run the check and say why claims 3 and 4 fail. The scene is shown so you can see what the fields point at; <code>python3 -I src/x3dtrace.py inventory scene.x3d</code> prints the same four fields.</li>
+<li><strong>Verify:</strong> <code>python3 -I src/x3dtrace.py check claims.json --source spec=spec.txt</code> (exit status 1)</li>
+</ul>
+<pre><code class="language-xml">&lt;X3D profile=&quot;Immersive&quot; version=&quot;4.0&quot;&gt;&lt;Scene&gt;
+&lt;Transform DEF=&quot;Pier3&quot; rotation=&quot;0 1 0 1.5708&quot;&gt;&lt;Shape&gt;&lt;Box size=&quot;0.4 2 0.4&quot;/&gt;&lt;/Shape&gt;&lt;/Transform&gt;
+&lt;Transform DEF=&quot;Deck&quot; translation=&quot;0 2 0&quot;&gt;&lt;Shape&gt;&lt;Box size=&quot;6 0.2 2&quot;/&gt;&lt;/Shape&gt;&lt;/Transform&gt;
+&lt;/Scene&gt;&lt;/X3D&gt;
+</code></pre>
+<p><code>spec.txt</code>: <code>Pier 3 is a box 0.4 m x 2 m x 0.4 m, turned 90 degrees about the vertical axis.</code> and <code>The deck is 6 m long and 2 m wide.</code></p>
+<pre><code class="language-json">[{&quot;field&quot;:&quot;/X3D/Scene/Transform[@DEF='Pier3']/@rotation&quot;,&quot;value&quot;:&quot;0 1 0 1.5708&quot;,&quot;quote&quot;:&quot;turned 90 degrees about the vertical axis&quot;,&quot;source&quot;:&quot;spec&quot;},
+ {&quot;field&quot;:&quot;/X3D/Scene/Transform[@DEF='Pier3']/Shape/Box/@size&quot;,&quot;value&quot;:&quot;0.4 2 0.4&quot;,&quot;quote&quot;:&quot;0.4 m x 2 m x 0.4 m&quot;,&quot;source&quot;:&quot;spec&quot;},
+ {&quot;field&quot;:&quot;/X3D/Scene/Transform[@DEF='Deck']/Shape/Box/@size&quot;,&quot;value&quot;:&quot;6 0.2 2&quot;,&quot;quote&quot;:&quot;6 m long and 2 m wide&quot;,&quot;source&quot;:&quot;spec&quot;},
+ {&quot;field&quot;:&quot;/X3D/Scene/Transform[@DEF='Deck']/@translation&quot;,&quot;value&quot;:&quot;0 2 0&quot;,&quot;quote&quot;:&quot;the deck sits two metres up&quot;,&quot;source&quot;:&quot;spec&quot;}]
+</code></pre>
+<ul>
+<li><strong>Answer:</strong> 2 verified, 2 check. Claim 1 is verified through <code>axis:vertical</code> and <code>deg2rad</code>. Claim 3 is <code>check</code>: the quote holds 6 and 2 but not 0.2, so the value is not in the quote. Claim 4 is <code>check</code>: that sentence is not in the spec.</li>
+<li><strong>Checked:</strong> 2026-11-16 <code>x3dtrace</code> dcba70d7, Python 3.13.18</li>
+</ul>
+<h3 id="d-trc-3-first-hit-or-the-fields-node">D-TRC-3 First hit or the field's node</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> A scene holds three buoys, <code>BuoyA</code>, <code>BuoyB</code>, <code>BuoyC</code>, each with <code>&lt;Sphere radius=&quot;0.5&quot;/&gt;</code> and <code>translation</code> 0, 3 and 6 on x. Check the quote <code>radius=&quot;0.5&quot;</code> for the claim whose field is <code>/X3D/Scene/Transform[@DEF='BuoyC']/Shape/Sphere/@radius</code>, with the scene as the source. On which line does the quote land, how many occurrences does the item report, and what does <code>disambiguated_by</code> say? Repeat with the field <code>x</code>.</li>
+<li><strong>Verify:</strong> <code>check_claims([claim], [Source('scene', text, 'x3d')])</code> and print <code>occurrences</code>, <code>disambiguated_by</code>, <code>locus['line']</code>.</li>
+<li><strong>Answer:</strong> With the BuoyC field: line 4 (BuoyC), 3 occurrences, <code>disambiguated_by</code> <code>field</code>. With <code>x</code>: line 2 (BuoyA), 3 occurrences, nothing disambiguated, still <code>verified</code>: that is first hit. Under the strict policy the second is <code>check</code>.</li>
+<li><strong>Checked:</strong> 2026-11-16 <code>x3dtrace</code> dcba70d7, Python 3.13.18</li>
+</ul>
+<h3 id="d-trc-4-break-the-verifier-then-extend-it">D-TRC-4 Break the verifier, then extend it</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> (a) Check the value <code>16.7.0</code> against <code>version = &quot;7.16.0&quot;</code>, <code>X_ITE 16.7.0</code> and <code>v16.7.0</code>. (b) Check the vector <code>1 2 3</code> against <code>1 apple, 2 pears and then 3 cows</code>, <code>1 x 2 x 3</code> and <code>(1, 2, 3)</code>. (c) Sketch the rule that fixes the open one without breaking the two that must stay <code>verified</code>, and say which verdict the scattered case should reach.</li>
+<li><strong>Verify:</strong> <code>check_claims([{&quot;field&quot;:&quot;f&quot;,&quot;value&quot;:V,&quot;quote&quot;:Q,&quot;source&quot;:&quot;s&quot;}], [Source(&quot;s&quot;, Q, &quot;text&quot;)])</code> for each pair; <code>tests/test_x3dtrace.py -k scattered</code> holds the open test.</li>
+<li><strong>Answer:</strong> (a) <code>check</code>, <code>verified</code>, <code>check</code> (the leading <code>v</code> is BUG-48, open). (b) <code>verified</code> for all three: the first is BUG-45, open. (c) Components may be separated only by whitespace, commas, <code>x</code>, <code>by</code>, <code>and</code> and a unit word; anything else caps the item at <code>reworded</code>, because a value assembled from scattered numbers is Likely at best. The rule must keep <code>5 m east and 7 m north</code> for <code>5 0 7</code> at <code>reworded</code>.</li>
+<li><strong>Checked:</strong> 2026-11-16 <code>x3dtrace</code> dcba70d7, Python 3.13.18</li>
+</ul>
+<h3 id="d-trc-5-edit-the-record">D-TRC-5 Edit the record</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Take the Pier3 scene of D-TRC-2 with a <code>&lt;head&gt;&lt;meta name=&quot;title&quot; content=&quot;pier&quot;/&gt;&lt;/head&gt;</code> before the <code>&lt;Scene&gt;</code>, add a <code>generate</code> step with <code>add_step</code>, trace the first claim with <code>trace_claims</code>, then audit it three ways: as written, with the quote edited in the stored step, and with the scene's <code>rotation</code> edited. What status does each audit give?</li>
+<li><strong>Verify:</strong> <code>T.audit_trace(xml, {&quot;spec&quot;: spec}, scene=True)[&quot;status&quot;]</code> with <code>x3dprov_trace as T</code> and <code>x3dprov as P</code> from <code>src/</code>.</li>
+<li><strong>Answer:</strong> <code>verified</code>, <code>broken-chain</code>, <code>stale</code>.</li>
+<li><strong>Checked:</strong> 2026-11-16 <code>x3dtrace</code> dcba70d7, <code>x3dprov</code> of <code>x3d.ml@305fd60</code>, Python 3.13.18, lxml 6</li>
+</ul>
+<h3 id="d-trc-6-coverage-that-lies">D-TRC-6 Coverage that lies</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> For D-TRC-2, pass the scene's inventory as <code>expected_fields</code>. What are <code>coverage</code> and <code>verified_coverage</code>? Then write the Pier3 claims with <code>//*[@DEF='Pier3']/...</code> fields and read both again. Which number would have misled you?</li>
+<li><strong>Verify:</strong> <code>check_claims(claims, sources, TracePolicy(), [r['field'] for r in inventory(scene)])</code> and print <code>rep.coverage</code>, <code>rep.verified_coverage</code>.</li>
+<li><strong>Answer:</strong> 1.0 and 0.5: all four attributes came with a quote, two were verified. With the DEF form for the two Pier3 claims: 0.5 and 0.0, because the DEF form is not counted (BUG-50, open). <code>coverage</code> alone would have said everything was cited.</li>
+<li><strong>Checked:</strong> 2026-11-16 <code>x3dtrace</code> dcba70d7, Python 3.13.18</li>
+</ul>
+<hr />
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> No model was called. Nothing here measures how often a model copies a quote exactly; that experiment needs model calls and has not been run.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> The corpus is one author's seven repositories; many scenes are machine-generated. Prevalence figures describe it, not X3D.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> The record is unsigned. The 0 of 160 is the limit of any hash-only scheme, not a bug in this one.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> <code>verified</code> is a statement about words. A source can be wrong and a quote can be the wrong sentence; a repeated quote is resolved only by a field, a prefix, a suffix or a line.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> Eight review findings are open (section 7). The two that can raise a grade wrongly are BUG-45 (a vector from scattered numbers) and the choice, in BUG-10 and BUG-20, to accept a shorter vector and a rounded value.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> The browser port covers FIND, COMPARE and the choice by prefix, suffix and line; it has no scene index, so it takes the first occurrence when only a field would choose, and HTML5-only named entities are not decoded. All 1,767 vector rows agree; none of them depends on the field choice, which the port's own fuzz run does hit in about 1.1% of its rows.</li>
+<li><strong><span class="g L" title="Likely">L</span></strong> The grounding figure (4.78%) is an upper bound on how many values of 201 recorded model runs a verbatim prompt quote could back, found by a lexical matcher. It is not a measure of grounding in the wide sense: a value that follows from the prompt without its words counts as unsupported.</li>
+<li><strong><span class="g L" title="Likely">L</span></strong> GAIK was read and run for its vectors at commit 394a94b; the implementation here is independent. Nothing was sent upstream.</li>
+<li><strong><span class="g S" title="Suspected">S</span></strong> The seven-layer stack is a design vocabulary, not a standard. Layer 7 has no implementation.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> Timings are single runs on one shared container; the third digit moves between runs.</li>
+</ul>
+<hr />
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-TRC-1</td>
+<td>tracked <code>.x3d</code> files; duplicates dropped; scenes parsed</td>
+<td>1,614; 182; 1,379</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>measure/m_corpus.py</code>, engine <code>dcba70d7</code>, Python 3.13.18</td>
+<td><code>x3d.ml@305fd60:measure/results/m_corpus.json</code></td>
+</tr>
+<tr>
+<td>N-TRC-2</td>
+<td>parse failures; not XML</td>
+<td>47; 6</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-TRC-3</td>
+<td>elements; attributes; value-bearing attributes</td>
+<td>248,929; 364,127; 100,392</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-TRC-4</td>
+<td>repeated quotes, value only</td>
+<td>57.6%</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-TRC-5</td>
+<td>repeated quotes, <code>attr=&quot;value&quot;</code></td>
+<td>43.7%</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-TRC-6</td>
+<td>repeated quotes, start tag plus 3 tokens</td>
+<td>15.9%</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-TRC-7</td>
+<td>repeated <code>attr=&quot;value&quot;</code> quotes; first hit on the wrong node</td>
+<td>43,903; 37,797 (86.1%)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-TRC-8</td>
+<td>wrong when the field's node chooses</td>
+<td>1 of 43,903</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-TRC-9</td>
+<td>shapes with a world box</td>
+<td>28,465 of 32,608 (87.3%)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-TRC-10</td>
+<td>scenes with every shape boxed</td>
+<td>878 of 1,142</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-TRC-11</td>
+<td>value attributes of model-written scenes for which a prompt phrase could be quoted</td>
+<td>394 of 8,250 (4.78%), 201 runs</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>measure/m_grounding.py</code>, lexical matcher (an upper bound on quoting)</td>
+<td><code>x3d.ml@305fd60:measure/results/m_grounding.json</code></td>
+</tr>
+<tr>
+<td>N-TRC-12</td>
+<td>tamper: attempts caught, item edited in sidecar</td>
+<td>1,120 of 1,120</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>measure/m_tamper.py</code>, seed 20261116, 40 scenes, 656 claims</td>
+<td><code>x3d.ml@305fd60:measure/results/m_tamper.json</code></td>
+</tr>
+<tr>
+<td>N-TRC-13</td>
+<td>tamper: scene edited</td>
+<td>319 of 319</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-TRC-14</td>
+<td>tamper: consistent forgeries caught (two families, 80 each)</td>
+<td>0 of 160</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-TRC-15</td>
+<td>cost per claim: check; check and record; audit</td>
+<td>0.35; 0.72; 0.59 ms</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same, one core</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-TRC-16</td>
+<td>independent review: tests written without the code; defects in the first build</td>
+<td>1,204; 43</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>tests/test_x3dtrace.py</code>, Python 3.13.18</td>
+<td><code>x3d.ml@305fd60:docs/TRACE-REVIEW.md</code></td>
+</tr>
+<tr>
+<td>N-TRC-17</td>
+<td>conformance rows where x3dtrace differs from GAIK on purpose</td>
+<td>55 of 135</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>tests/fixtures/trace_conformance.json</code></td>
+<td><code>x3d.ml@305fd60:docs/DESIGN.md</code></td>
+</tr>
+<tr>
+<td>N-TRC-18</td>
+<td>browser port rows agreeing with the engine</td>
+<td>1,767 of 1,767</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>js/test_vectors.js</code>, Node 22; the committed file holds 968 of them</td>
+<td><code>x3d.ml@305fd60:js/README.md</code></td>
+</tr>
+<tr>
+<td>N-TRC-19</td>
+<td>planted claims, <code>x3d.s1</code>: true claims verified; wrong number verified; word outside quote verified; fabricated quote verified</td>
+<td>5,782 of 5,808; 0 of 806; 0 of 5,357; 0 of 5,808</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d.s1</code> <code>tools/evidence_measure.py</code>, Python 3.13.18, 501 scenes</td>
+<td><code>x3d.loom@be7c481:x3d.s1/README.md</code></td>
+</tr>
+<tr>
+<td>N-TRC-20</td>
+<td>paraphrased instruction-like strings verified as quotes (blind spot)</td>
+<td>501 of 501</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-TRC-21</td>
+<td><code>scene_evidence</code> tool tests</td>
+<td>36</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>pytest, Python 3.13.18</td>
+<td><code>x3d_mcp@e55375f:docs/scene-evidence.md</code></td>
+</tr>
+<tr>
+<td>N-TRC-22</td>
+<td><code>scene_evidence</code>, 600-block scene (92,280 B) with 100 claims, BIND on</td>
+<td>71 ms</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>evaluation/time_scene_evidence.py</code>, median of 7 calls, engine <code>dcba70d7</code>, 4 cores</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-TRC-23</td>
+<td><code>x3d-blender-io</code> lineage tests: pure Python; with Blender</td>
+<td>15; 4</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Python 3.13.18; bpy 5.3.0 as recorded in the commit message</td>
+<td><code>x3d-blender-io@044bea3:source/lineage.py</code></td>
+</tr>
+<tr>
+<td>N-TRC-24</td>
+<td>open review findings, each with an expected-failure test</td>
+<td>8</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>tests/test_x3dtrace.py</code></td>
+<td><code>x3d.ml@305fd60:docs/TRACE-REVIEW.md</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<p>Read on 2026-11-16: the article &quot;How I Added Traceability in Structured Data Extraction with AI&quot; (Medium, November 2026, by Umair Ali Khan), as supplied; the GAIK toolkit (https://github.com/GAIK-project/gaik-toolkit, MIT, commit 394a94b) for its source-tracing component, read and run for its vectors, nothing sent upstream; the W3C Web Annotation Data Model, PROV-O and the OpenLineage column-lineage facet (1-2-0), whose schemas are vendored in <code>x3d.ml</code>; the C2PA specification 2.5, read for its hard-binding and region model (it names no X3D: a search of the text for &quot;x3d&quot; finds nothing). The repositories and commits are named in the header table and in the Source column. The engine is an independent implementation written from a behavioural description; the MIT notice and the list of deliberate differences are in <code>NOTICE-x3dtrace.md</code> of <code>x3d.ml</code>. The claim ledger for this chapter is <code>claims/23-traceability-lineage.jsonl</code>: each number above that is literal in a public file has a line with the words it was read from, pinned at the commit shown. Derived figures (the 86.1% share, the 87.3%, the 4.78%) are quoted from the files that state them or stay uncovered.</p>
+<div class="pn"><a href="22-typed-judgments-jev.html">&larr; 22-typed-judgments-jev</a><a href="A-validator-register.html">A-validator-register &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

@@ -128,3 +128,57 @@ run, or run the tool again. If you cannot, grade it [S] and say "carried from a 
 7. **Demote on contradiction**: a later measurement that disagrees with a [C] row downgrades the row and records both numbers.
 
 New demos or measurements land as new versions; an earlier measurement is never overwritten, it is superseded by a dated row.
+
+## 7. Claim ledger (optional per chapter; from chapter 23 on, a chapter ships with one)
+
+A Numbers register says *what* a chapter claims. A ledger says *where it was read*: one JSON line per value with the quote that holds it.
+`tools-shared/check_claims.py` then does in code what a reviewer would do by hand, with no model and no network unless you ask for it:
+
+| step | question | how |
+|---|---|---|
+| FIND | is the quote in the cited source, pinned at the sha? | token run match: lowercase words, punctuation and spacing ignored, a number keeps its sign and decimal point |
+| COMPARE | is the value inside the quote? | numbers as numbers (4.200 may be 4.2 or 4200; 1.234,5 and 1,234.5 both read 1234.5), lists in order, text by words |
+| LOCATE | where is it? | line and character span; Appendix G links the line at the pinned sha |
+
+File: `docs/learn/claims/<chapter file stem>.jsonl` (for example `22-typed-judgments-jev.jsonl`). One JSON object per line; blank lines and lines
+starting with `#` are skipped; an optional first object `{"_meta": {...}}` carries `schema` (`claims/0.1`), `coverage_floor` and a note.
+A chapter without a ledger file is unchanged: nothing below applies to it.
+
+| field | required | meaning |
+|---|---|---|
+| `id` | yes | an existing row of the chapter (`N-<CODE>-n`, `H-<CODE>-n`) or `Q-<CODE>-n` for a claim in prose that has no row (its number must occur in the chapter text) |
+| `value` | yes | a number, a list of numbers (an SFVec3f or colour), a string, or null |
+| `quote` | yes, except private | at most 40 words copied from the source; it must occur as an unbroken run of words |
+| `source` | yes | `repo@sha:path` (a repo on the public list in `claims_lib.PUBLIC_REPOS`), `self:docs/learn/NN-slug.md`, `external:<label>` or `private:<name>` |
+| `grade` | no | `C`, `L` or `S`; if present it must equal the register's grade for `id` |
+| `line` | no | a hint, required when the quote occurs more than once in the source (a repeated quote with no hint is `check`) |
+| `in` | no | which register cell holds the value: `value` (default), `quantity`, `instrument` or `source` |
+| `transform` | no | a declared conversion from the quote's number to the value, `{"scale": 100, "round": 1}`; without it a converted number is `check` |
+| `from` | no | a carry edge: the row this number was taken from; the value must be in that row and the grade may not rise |
+| `quote_sha256`, `quote_words` | private only | digest of the quote's token run and its length; the quote itself is never written (`claims_lib.seal`) |
+
+Verdicts, as in the source-tracing component of the GAIK toolkit that `claims_lib.py` is adapted from (MIT; its notice is kept in that file): **verified** (quote found once, value inside it),
+**check** (quote not found, found in more than one place, found at another line than the hint, longer than 40 words, or the value is not inside it),
+**reworded** (a text value that is not inside its quote), **unchecked** (the source cannot be read here: external, private, or no checkout).
+A `check` is a lint error. An `unchecked` is a warning offline and an error under `--require-resolved`.
+
+Rules that keep the ledger honest:
+
+1. **Grade caps follow the source.** `private:` is never above [S] (a private note is a lead); `external:` is never above [L] (read, not run); only `repo@sha:path` and `self:` can carry [C], and only when the verdict is verified.
+2. **A carried number never rises.** `from` names the origin row; the origin must contain the value; the carrier's grade is at most the origin's.
+3. **Coverage is a figure, not a goal in itself.** It is the share of numbers in Value cells that have a ledger line with that number: `values_with_quote / values`. A `coverage_floor` in `_meta` fails the lint when coverage drops below it; lowering it shows in the diff. Derived numbers (a ratio, a recompute) stay uncovered unless the receipt that holds them is quoted.
+4. **`verified` does not say the quote is the right place.** It says the value is in the words and the words are in the file at that sha. A quote that appears twice needs a `line`. Quotes that name no key (a bare `499`) are weak: quote the key too.
+5. **Public hygiene.** Ledgers are served with the site. They go through the same leak sweep as chapters. A private source publishes a digest, never words; `check_claims.py --private DIR` lets its owner re-find the words by digest, and COMPARE cannot be re-run in public.
+6. **Pins.** In CI use `--fetch --strict-pins`: every `repo@sha:path` is read at its sha from the public repository, so a pin that was rewritten or never existed is `check`, not silently read at HEAD.
+
+Commands:
+
+```bash
+python3 docs/tools-shared/check_learn.py --warn --summary            # offline: ledger <-> register links, value in quote, leak sweep
+python3 docs/tools-shared/check_claims.py --fetch --strict-pins --summary --receipt docs/learn/claims/receipt.json
+python3 docs/tools-shared/build_learn.py                             # Appendix G from the receipt
+python3 -I -B -m unittest discover -s docs/tools-shared -p 'test_claims.py'
+```
+
+What this cannot do (same limits as the method it adapts): it cannot tell that a quote is the wrong place when the value is there; it reads
+text only (a number in a figure, a PDF scan or a binary has no ledger line); it does not judge a derived figure; and `4.200` stays ambiguous.

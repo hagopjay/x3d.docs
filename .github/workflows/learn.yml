@@ -1,0 +1,42 @@
+# Proposed: .github/workflows/learn.yml in hagopjay/x3d.docs (default branch gh-pages). Advisory until a status check is made required.
+name: learn
+on:
+  pull_request:
+    paths: ["docs/learn/**", "docs/tools-shared/**", ".github/workflows/learn.yml"]
+  push:
+    branches: [gh-pages]
+    paths: ["docs/learn/**", "docs/tools-shared/**"]
+permissions:
+  contents: read
+concurrency:
+  group: learn-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: install pinned renderer deps
+        run: pip install markdown-it-py==4.3.0 mdit-py-plugins==0.7.0
+      - name: no bytecode in git
+        run: test -z "$(git ls-files '*.pyc' '*/__pycache__/*')"
+      - name: lint chapters, ledgers and leak sweep (offline)
+        run: python3 -I -B docs/tools-shared/check_learn.py --warn --summary
+      - name: unit tests of the claim checker (one test reads a pinned file over the network)
+        env:
+          X3D_CLAIMS_NET: "1"
+        run: python3 -I -B -m unittest discover -s docs/tools-shared -p 'test_claims.py'
+      - name: claim ledger, FIND + COMPARE at the pinned shas (public repos, network)
+        run: >
+          python3 -I -B docs/tools-shared/check_claims.py --fetch --strict-pins --summary
+          --cache "$RUNNER_TEMP/claims-cache" --receipt "$RUNNER_TEMP/receipt.json"
+      - name: committed receipt is current
+        run: diff -u docs/learn/claims/receipt.json "$RUNNER_TEMP/receipt.json"
+      - name: rebuild; committed ledgers and HTML are current
+        run: |
+          python3 -B docs/tools-shared/build_learn.py
+          git diff --exit-code -- docs

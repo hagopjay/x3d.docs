@@ -1,0 +1,47 @@
+{"_meta": {"schema": "claims/0.1", "chapter": "23", "note": "rows whose numbers are literal in a public file at the pinned sha; derived shares (86.1%, 87.3%, counts of open items) stay uncovered", "coverage_floor": 0.8}}
+{"id": "N-TRC-1", "value": 1614, "quote": "\"tracked_x3d_files\": 1614", "source": "x3d.ml@305fd60:measure/results/m_corpus.json", "grade": "C"}
+{"id": "N-TRC-1", "value": 182, "quote": "\"duplicates_dropped\": 182", "source": "x3d.ml@305fd60:measure/results/m_corpus.json", "grade": "C"}
+{"id": "N-TRC-1", "value": 1379, "quote": "\"unique_scenes_parsed_ok\": 1379", "source": "x3d.ml@305fd60:measure/results/m_corpus.json", "grade": "C"}
+{"id": "N-TRC-2", "value": 47, "quote": "\"parse_failures\": 47", "source": "x3d.ml@305fd60:measure/results/m_corpus.json", "grade": "C"}
+{"id": "N-TRC-2", "value": 6, "quote": "\"not_xml_text\": 6", "source": "x3d.ml@305fd60:measure/results/m_corpus.json", "grade": "C"}
+{"id": "N-TRC-3", "value": 248929, "quote": "\"elements\": 248929", "source": "x3d.ml@305fd60:measure/results/m_corpus.json", "grade": "C"}
+{"id": "N-TRC-3", "value": 364127, "quote": "\"attributes\": 364127", "source": "x3d.ml@305fd60:measure/results/m_corpus.json", "grade": "C"}
+{"id": "N-TRC-3", "value": 100392, "quote": "\"inventory_attributes\": 100392", "source": "x3d.ml@305fd60:measure/results/m_corpus.json", "grade": "C"}
+{"id": "N-TRC-4", "value": 57.6, "quote": "\"share_ambiguous\": 0.5763", "source": "x3d.ml@305fd60:measure/results/m_corpus.json", "grade": "C", "transform": {"scale": 100, "round": 1}}
+{"id": "N-TRC-5", "value": 43.7, "quote": "\"share_ambiguous\": 0.4373", "source": "x3d.ml@305fd60:measure/results/m_corpus.json", "grade": "C", "transform": {"scale": 100, "round": 1}}
+{"id": "N-TRC-6", "value": 15.9, "quote": "\"share_ambiguous\": 0.1594", "source": "x3d.ml@305fd60:measure/results/m_corpus.json", "grade": "C", "transform": {"scale": 100, "round": 1}}
+{"id": "N-TRC-7", "value": 43903, "quote": "\"attr_ambiguous\": 43903", "source": "x3d.ml@305fd60:measure/results/m_corpus.json", "grade": "C"}
+{"id": "N-TRC-7", "value": 37797, "quote": "\"attr_first_hit_wrong\": 37797", "source": "x3d.ml@305fd60:measure/results/m_corpus.json", "grade": "C"}
+{"id": "N-TRC-8", "value": 1, "quote": "\"attr_field_locator_wrong\": 1", "source": "x3d.ml@305fd60:measure/results/m_corpus.json", "grade": "C"}
+{"id": "N-TRC-9", "value": 28465, "quote": "\"shapes_with_box\": 28465", "source": "x3d.ml@305fd60:measure/results/m_corpus.json", "grade": "C"}
+{"id": "N-TRC-9", "value": 32608, "quote": "\"shapes_total\": 32608", "source": "x3d.ml@305fd60:measure/results/m_corpus.json", "grade": "C"}
+{"id": "N-TRC-10", "value": 878, "quote": "\"scenes_all_shapes_boxed\": 878", "source": "x3d.ml@305fd60:measure/results/m_corpus.json", "grade": "C"}
+{"id": "N-TRC-10", "value": 1142, "quote": "\"scenes_with_shapes\": 1142", "source": "x3d.ml@305fd60:measure/results/m_corpus.json", "grade": "C"}
+{"id": "N-TRC-11", "value": 394, "quote": "\"supported\": 394", "source": "x3d.ml@305fd60:measure/results/m_grounding.json", "grade": "L", "line": 5}
+{"id": "N-TRC-11", "value": 8250, "quote": "\"values\": 8250", "source": "x3d.ml@305fd60:measure/results/m_grounding.json", "grade": "L", "line": 4}
+{"id": "N-TRC-11", "value": 4.78, "quote": "\"supported_share\": 0.0478", "source": "x3d.ml@305fd60:measure/results/m_grounding.json", "grade": "L", "transform": {"scale": 100, "round": 2}}
+{"id": "N-TRC-11", "value": 201, "quote": "\"items\": 201", "source": "x3d.ml@305fd60:measure/results/m_grounding.json", "grade": "L"}
+{"id": "N-TRC-12", "value": 1120, "quote": "\"A:sidecar_items_edited\": { \"n\": 1120, \"detected\": 1120", "source": "x3d.ml@305fd60:measure/results/m_tamper.json", "grade": "C"}
+{"id": "N-TRC-13", "value": 319, "quote": "\"F:scene_edited\": { \"n\": 319, \"detected\": 319", "source": "x3d.ml@305fd60:measure/results/m_tamper.json", "grade": "C"}
+{"id": "N-TRC-14", "value": 0, "quote": "\"E1:consistent_forgery_last_step_unsealed\": { \"n\": 80, \"detected\": 0", "source": "x3d.ml@305fd60:measure/results/m_tamper.json", "grade": "C", "line": 78}
+{"id": "N-TRC-14", "value": 0, "quote": "\"E3:trace_and_later_steps_rechained\": { \"n\": 80, \"detected\": 0", "source": "x3d.ml@305fd60:measure/results/m_tamper.json", "grade": "C", "line": 88}
+{"id": "N-TRC-15", "value": 0.35, "quote": "\"ms_per_claim_engine_check\": 0.346", "source": "x3d.ml@305fd60:measure/results/m_tamper.json", "grade": "C", "transform": {"round": 2}}
+{"id": "N-TRC-15", "value": 0.72, "quote": "\"ms_per_claim_trace_claims\": 0.719", "source": "x3d.ml@305fd60:measure/results/m_tamper.json", "grade": "C", "transform": {"round": 2}}
+{"id": "N-TRC-15", "value": 0.59, "quote": "\"ms_per_claim_audit\": 0.591", "source": "x3d.ml@305fd60:measure/results/m_tamper.json", "grade": "C", "transform": {"round": 2}}
+{"id": "N-TRC-12", "value": 20261116, "quote": "\"seed\": 20261116", "source": "x3d.ml@305fd60:measure/results/m_tamper.json", "grade": "C", "in": "instrument"}
+{"id": "N-TRC-12", "value": 656, "quote": "\"claims\": 656", "source": "x3d.ml@305fd60:measure/results/m_tamper.json", "grade": "C", "in": "instrument"}
+{"id": "N-TRC-16", "value": 1204, "quote": "The suite is tests/test_x3dtrace.py (1,204 tests plus the conformance rows", "source": "x3d.ml@305fd60:docs/TRACE-REVIEW.md", "grade": "C"}
+{"id": "N-TRC-16", "value": 43, "quote": "found 43 defects", "source": "x3d.ml@305fd60:docs/TRACE-REVIEW.md", "grade": "C"}
+{"id": "N-TRC-17", "value": 55, "quote": "55 of 135 rows, each with a stated reason", "source": "x3d.ml@305fd60:docs/DESIGN.md", "grade": "C"}
+{"id": "N-TRC-17", "value": 135, "quote": "55 of 135 rows, each with a stated reason", "source": "x3d.ml@305fd60:docs/DESIGN.md", "grade": "C"}
+{"id": "N-TRC-18", "value": 1767, "quote": "the full set of 1,767 also agrees", "source": "x3d.ml@305fd60:js/README.md", "grade": "C"}
+{"id": "N-TRC-18", "value": 968, "quote": "The port agrees with the engine on all 968", "source": "x3d.ml@305fd60:js/README.md", "grade": "C", "in": "instrument"}
+{"id": "N-TRC-19", "value": 5782, "quote": "true claims 5,782 of 5,808 verified", "source": "x3d.loom@be7c481:x3d.s1/README.md", "grade": "C", "line": 89}
+{"id": "N-TRC-19", "value": 5808, "quote": "true claims 5,782 of 5,808 verified", "source": "x3d.loom@be7c481:x3d.s1/README.md", "grade": "C", "line": 89}
+{"id": "N-TRC-19", "value": 806, "quote": "wrong number 0 of 806", "source": "x3d.loom@be7c481:x3d.s1/README.md", "grade": "C"}
+{"id": "N-TRC-19", "value": 5357, "quote": "a word outside the quote 0 of 5,357", "source": "x3d.loom@be7c481:x3d.s1/README.md", "grade": "C"}
+{"id": "N-TRC-19", "value": 501, "quote": "501 scenes", "source": "x3d.loom@be7c481:x3d.s1/README.md", "grade": "C", "line": 88, "in": "instrument"}
+{"id": "N-TRC-20", "value": 501, "quote": "501 of 501 paraphrased instruction-like strings", "source": "x3d.loom@be7c481:x3d.s1/README.md", "grade": "C"}
+{"id": "N-TRC-21", "value": 36, "quote": "(36 tests)", "source": "x3d_mcp@e55375f:docs/scene-evidence.md", "grade": "C"}
+{"id": "N-TRC-22", "value": 71, "quote": "92,280 B (600 blocks) | 100 | 71 ms", "source": "x3d_mcp@e55375f:docs/scene-evidence.md", "grade": "C"}
+{"id": "N-TRC-22", "value": 92280, "quote": "92,280 B (600 blocks) | 100 | 71 ms", "source": "x3d_mcp@e55375f:docs/scene-evidence.md", "grade": "C", "in": "quantity"}

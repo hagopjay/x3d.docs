@@ -12,6 +12,7 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 import learn_lib as L  # noqa: E402
+import check_claims as CC  # noqa: E402  (claim ledger: links, value-in-quote, leak sweep; offline)
 
 MIN = {"heuristics": 8, "drills": 5, "numbers": 12, "diagrams": 2, "tables": 4}
 
@@ -105,6 +106,9 @@ def check_chapter(c):
         tgt = (c.path.parent / href).resolve()
         if not tgt.exists():
             errs.append(f"broken relative link: {href}")
+    ce, cw, _ = CC.check_chapter_claims(c)          # no ledger file: nothing happens
+    errs += ce
+    warns += [w for w in cw if ": unchecked (" not in w]
     return errs, warns
 
 
@@ -147,6 +151,15 @@ def main():
         if len(v) > 1:
             print("ERROR duplicate id", k, v)
             bad += 1
+    # two threads can claim the same chapter number or code in parallel (PR #24 renumbered a duplicate 15): fail on either
+    for label, key in (("chapter number", lambda c: c.num), ("chapter code", lambda c: c.code)):
+        seen = {}
+        for c in chs:
+            seen.setdefault(key(c), []).append(c.name)
+        for k, v in seen.items():
+            if len(v) > 1:
+                print(f"ERROR duplicate {label} {k}: {v}")
+                bad += 1
     others = [p for p in L.LEARN.glob("*.md") if not L.CHAPTER_RE.match(p.name)]
     for p in others:
         errs, warns = check_other(p)

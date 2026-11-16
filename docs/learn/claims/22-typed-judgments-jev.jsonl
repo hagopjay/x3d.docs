@@ -1,0 +1,25 @@
+{"_meta": {"schema": "claims/0.1", "chapter": "22", "note": "pilot: the rows whose numbers are literal in a public file; derived and external numbers stay uncovered", "coverage_floor": 0.0}}
+{"id": "N-JEV-11", "value": 499, "quote": "\"scenes\": 499,", "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json", "grade": "C"}
+{"id": "N-JEV-11", "value": 57468875, "quote": "\"raw_bytes_total\": 57468875", "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json", "grade": "C"}
+{"id": "N-JEV-11", "value": 507786, "quote": "\"state_bytes_total\": 507786", "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json", "grade": "C"}
+{"id": "N-JEV-11", "value": 113.18, "quote": "\"aggregate_ratio\": 113.18", "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json", "grade": "C"}
+{"id": "N-JEV-12", "value": 1.73, "quote": "\"ratio_median\": 1.73", "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json", "grade": "C"}
+{"id": "N-JEV-12", "value": 0.79, "quote": "\"ratio_p10\": 0.79", "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json", "grade": "C"}
+{"id": "N-JEV-13", "value": 58, "quote": "\"raw_over_question_limit\": 58", "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json", "grade": "S"}
+{"id": "N-JEV-13", "value": 0, "quote": "\"state_over_question_limit\": 0,", "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json", "grade": "S", "line": 43}
+{"id": "N-JEV-14", "value": 36743, "quote": "\"text_strings\": 36743", "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json", "grade": "C"}
+{"id": "N-JEV-14", "value": 0, "quote": "\"flagged_strings\": 0,", "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json", "grade": "C", "line": 12}
+{"id": "N-JEV-15", "value": 422, "quote": "\"viewpoint\": 422", "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json", "grade": "C"}
+{"id": "N-JEV-15", "value": 108, "quote": "\"has_lights\": 108,", "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json", "grade": "C"}
+{"id": "N-JEV-15", "value": 31, "quote": "\"animated\": 31,", "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json", "grade": "C"}
+{"id": "N-JEV-15", "value": 5, "quote": "\"remote_refs\": 5,", "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json", "grade": "C", "line": 6}
+{"id": "N-JEV-15", "value": 3, "quote": "\"scripts\": 3,", "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json", "grade": "C"}
+{"id": "N-JEV-16", "value": 0.061, "quote": "\"parse_ms_median\": 0.061", "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json", "grade": "C"}
+{"id": "N-JEV-16", "value": 0.288, "quote": "\"slice_ms_median\": 0.288", "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json", "grade": "C"}
+{"id": "N-JEV-16", "value": 19.796, "quote": "\"slice_ms_p95\": 19.796", "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json", "grade": "C"}
+{"id": "N-JEV-26", "value": 570, "quote": "\"errors\": 570", "source": "x3d_mcp@dcf0815:evaluation/exact_fix/results.json", "grade": "C", "in": "instrument", "note": "the committed file's number, which the row records as stale; the regenerated 577 is a run, not a file"}
+{"id": "N-JEV-26", "value": 81, "quote": "\"repair_before_repair_x3d\": { \"n\": 81, \"of\": 540", "source": "x3d_mcp@dcf0815:evaluation/exact_fix/results.json", "grade": "C", "in": "instrument"}
+{"id": "N-JEV-26", "value": 523, "quote": "\"repair_after_repair_x3d_then_hints\": { \"n\": 523, \"of\": 540", "source": "x3d_mcp@dcf0815:evaluation/exact_fix/results.json", "grade": "C", "in": "instrument"}
+{"id": "N-JEV-26", "value": 257, "quote": "\"hints_only_restores_seed_exactly\": { \"n\": 257, \"of\": 540", "source": "x3d_mcp@dcf0815:evaluation/exact_fix/results.json", "grade": "C", "in": "instrument"}
+{"id": "H-JEV-3", "value": 0.371, "quote": "0.022 ms XSD, 0.314 ms semantic, 0.371 ms gate", "source": "self:docs/learn/03-validator-and-gates.md", "grade": "L", "from": "N-VAL-8", "note": "carried from chapter 03; the origin row is [C], this rule stays [L]"}
+{"id": "N-JEV-1", "value": 0.042, "quote": "0.042 USD per million input tokens", "source": "external:vendor models page, read 2026-11-16", "grade": "L"}

@@ -1,0 +1,655 @@
+{
+ "coverage": [
+  {
+   "chapter": "22",
+   "rows": 28,
+   "rows_with_ledger": 8,
+   "values": 118,
+   "values_verified": 18,
+   "values_with_quote": 19
+  },
+  {
+   "chapter": "23",
+   "rows": 24,
+   "rows_with_ledger": 22,
+   "values": 55,
+   "values_verified": 45,
+   "values_with_quote": 45
+  }
+ ],
+ "engine": "check_claims 0.1",
+ "entries": [
+  {
+   "chapter": "22",
+   "id": "N-JEV-11",
+   "line": 29,
+   "pin": "pinned",
+   "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json",
+   "value": 499,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-11",
+   "line": 25,
+   "pin": "pinned",
+   "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json",
+   "value": 57468875,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-11",
+   "line": 40,
+   "pin": "pinned",
+   "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json",
+   "value": 507786,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-11",
+   "line": 10,
+   "pin": "pinned",
+   "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json",
+   "value": 113.18,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-12",
+   "line": 22,
+   "pin": "pinned",
+   "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json",
+   "value": 1.73,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-12",
+   "line": 23,
+   "pin": "pinned",
+   "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json",
+   "value": 0.79,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-13",
+   "line": 28,
+   "pin": "pinned",
+   "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json",
+   "value": 58,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-13",
+   "line": 43,
+   "pin": "pinned",
+   "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json",
+   "value": 0,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-14",
+   "line": 44,
+   "pin": "pinned",
+   "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json",
+   "value": 36743,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-14",
+   "line": 12,
+   "pin": "pinned",
+   "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json",
+   "value": 0,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-15",
+   "line": 8,
+   "pin": "pinned",
+   "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json",
+   "value": 422,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-15",
+   "line": 5,
+   "pin": "pinned",
+   "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json",
+   "value": 108,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-15",
+   "line": 4,
+   "pin": "pinned",
+   "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json",
+   "value": 31,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-15",
+   "line": 6,
+   "pin": "pinned",
+   "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json",
+   "value": 5,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-15",
+   "line": 7,
+   "pin": "pinned",
+   "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json",
+   "value": 3,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-16",
+   "line": 20,
+   "pin": "pinned",
+   "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json",
+   "value": 0.061,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-16",
+   "line": 38,
+   "pin": "pinned",
+   "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json",
+   "value": 0.288,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-16",
+   "line": 39,
+   "pin": "pinned",
+   "source": "x3d.loom@7a7d657:x3d.s1/receipts/corpus-2026-11-16.json",
+   "value": 19.796,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-26",
+   "line": 16919,
+   "pin": "pinned",
+   "source": "x3d_mcp@dcf0815:evaluation/exact_fix/results.json",
+   "value": 570,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-26",
+   "line": 16965,
+   "pin": "pinned",
+   "source": "x3d_mcp@dcf0815:evaluation/exact_fix/results.json",
+   "value": 81,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-26",
+   "line": 16960,
+   "pin": "pinned",
+   "source": "x3d_mcp@dcf0815:evaluation/exact_fix/results.json",
+   "value": 523,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-26",
+   "line": 16950,
+   "pin": "pinned",
+   "source": "x3d_mcp@dcf0815:evaluation/exact_fix/results.json",
+   "value": 257,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "H-JEV-3",
+   "line": 479,
+   "pin": "pinned",
+   "source": "self:docs/learn/03-validator-and-gates.md",
+   "value": 0.371,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-1",
+   "line": null,
+   "pin": null,
+   "source": "external:vendor models page, read 2026-11-16",
+   "value": 0.042,
+   "verdict": "unchecked"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-1",
+   "line": 13,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_corpus.json",
+   "value": 1614,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-1",
+   "line": 15,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_corpus.json",
+   "value": 182,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-1",
+   "line": 17,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_corpus.json",
+   "value": 1379,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-2",
+   "line": 18,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_corpus.json",
+   "value": 47,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-2",
+   "line": 16,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_corpus.json",
+   "value": 6,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-3",
+   "line": 30,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_corpus.json",
+   "value": 248929,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-3",
+   "line": 31,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_corpus.json",
+   "value": 364127,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-3",
+   "line": 45,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_corpus.json",
+   "value": 100392,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-4",
+   "line": 50,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_corpus.json",
+   "value": 57.6,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-5",
+   "line": 58,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_corpus.json",
+   "value": 43.7,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-6",
+   "line": 82,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_corpus.json",
+   "value": 15.9,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-7",
+   "line": 41,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_corpus.json",
+   "value": 43903,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-7",
+   "line": 42,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_corpus.json",
+   "value": 37797,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-8",
+   "line": 43,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_corpus.json",
+   "value": 1,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-9",
+   "line": 495,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_corpus.json",
+   "value": 28465,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-9",
+   "line": 494,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_corpus.json",
+   "value": 32608,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-10",
+   "line": 497,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_corpus.json",
+   "value": 878,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-10",
+   "line": 496,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_corpus.json",
+   "value": 1142,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-11",
+   "line": 5,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_grounding.json",
+   "value": 394,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-11",
+   "line": 4,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_grounding.json",
+   "value": 8250,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-11",
+   "line": 6,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_grounding.json",
+   "value": 4.78,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-11",
+   "line": 2,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_grounding.json",
+   "value": 201,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-12",
+   "line": 53,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_tamper.json",
+   "value": 1120,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-13",
+   "line": 93,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_tamper.json",
+   "value": 319,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-14",
+   "line": 78,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_tamper.json",
+   "value": 0,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-14",
+   "line": 88,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_tamper.json",
+   "value": 0,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-15",
+   "line": 451,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_tamper.json",
+   "value": 0.35,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-15",
+   "line": 452,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_tamper.json",
+   "value": 0.72,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-15",
+   "line": 453,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_tamper.json",
+   "value": 0.59,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-12",
+   "line": 4,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_tamper.json",
+   "value": 20261116,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-12",
+   "line": 449,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:measure/results/m_tamper.json",
+   "value": 656,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-16",
+   "line": 5,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:docs/TRACE-REVIEW.md",
+   "value": 1204,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-16",
+   "line": 6,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:docs/TRACE-REVIEW.md",
+   "value": 43,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-17",
+   "line": 241,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:docs/DESIGN.md",
+   "value": 55,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-17",
+   "line": 241,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:docs/DESIGN.md",
+   "value": 135,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-18",
+   "line": 12,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:js/README.md",
+   "value": 1767,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-18",
+   "line": 12,
+   "pin": "pinned",
+   "source": "x3d.ml@305fd60:js/README.md",
+   "value": 968,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-19",
+   "line": 89,
+   "pin": "pinned",
+   "source": "x3d.loom@be7c481:x3d.s1/README.md",
+   "value": 5782,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-19",
+   "line": 89,
+   "pin": "pinned",
+   "source": "x3d.loom@be7c481:x3d.s1/README.md",
+   "value": 5808,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-19",
+   "line": 89,
+   "pin": "pinned",
+   "source": "x3d.loom@be7c481:x3d.s1/README.md",
+   "value": 806,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-19",
+   "line": 89,
+   "pin": "pinned",
+   "source": "x3d.loom@be7c481:x3d.s1/README.md",
+   "value": 5357,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-19",
+   "line": 88,
+   "pin": "pinned",
+   "source": "x3d.loom@be7c481:x3d.s1/README.md",
+   "value": 501,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-20",
+   "line": 91,
+   "pin": "pinned",
+   "source": "x3d.loom@be7c481:x3d.s1/README.md",
+   "value": 501,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-21",
+   "line": 100,
+   "pin": "pinned",
+   "source": "x3d_mcp@e55375f:docs/scene-evidence.md",
+   "value": 36,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-22",
+   "line": 91,
+   "pin": "pinned",
+   "source": "x3d_mcp@e55375f:docs/scene-evidence.md",
+   "value": 71,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "23",
+   "id": "N-TRC-22",
+   "line": 91,
+   "pin": "pinned",
+   "source": "x3d_mcp@e55375f:docs/scene-evidence.md",
+   "value": 92280,
+   "verdict": "verified"
+  }
+ ],
+ "schema": "claims/0.1",
+ "strict_pins": true
+}
