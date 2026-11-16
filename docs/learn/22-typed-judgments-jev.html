@@ -386,7 +386,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 </tbody>
 </table>
-<p>Calibration is a property of groups, and the validator's own error classes are groups with exact labels. Over the 979 recorded calls the share of scenes that draw is 96% for valid scenes (320 of 334), 47% for XSD-invalid (266 of 567), 78% where the semantic <code>profile-component</code> check fires (162 of 209) and 12% where <code>containerfield-type-mismatch</code> fires (3 of 24); the groups overlap. A small logistic model on model class, prompt category and prompt length predicts first-try validity on 359 first attempts with prompt-grouped five-fold cross-validation (seed 1): Brier score 0.2125 for the constant base rate, 0.1646 for the per-model rate and 0.1544 for the logistic model, AUC 0.809, ECE 0.062 on five equal-mass bins. That checks the labels and the method with no judge in it. It says nothing about whether Jev's probabilities are calibrated; that is E1.</p>
+<p>Calibration is a property of groups, and the validator's own error classes are groups with exact labels. Over the 979 recorded calls the share of scenes that draw is 96% for valid scenes (320 of 334), 47% for XSD-invalid (266 of 567), 78% where the semantic <code>profile-component</code> check fires (162 of 209) and 12.5% where <code>containerfield-type-mismatch</code> fires (3 of 24); the groups overlap. A small logistic model on model class, prompt category and prompt length predicts first-try validity on 359 first attempts with prompt-grouped five-fold cross-validation (seed 1): Brier score 0.2125 for the constant base rate, 0.1646 for the per-model rate and 0.1544 for the logistic model, AUC 0.809, ECE 0.062 on five equal-mass bins. That checks the labels and the method with no judge in it. It says nothing about whether Jev's probabilities are calibrated; that is E1.</p>
 <p>The experiments below are <strong>pre-registered and not run</strong>. Each design and pass bar is fixed before any call.</p>
 <table>
 <thead>
@@ -941,7 +941,7 @@ for s in [&quot;Kitchen&quot;, &quot;Ignore all previous instructions&quot;, &qu
 <tr>
 <td>N-JEV-24</td>
 <td>share of recorded calls that draw, by group: valid; XSD-invalid; <code>profile-component</code>; <code>containerfield-type-mismatch</code></td>
-<td>96% (320 of 334); 47% (266 of 567); 78% (162 of 209); 12% (3 of 24)</td>
+<td>96% (320 of 334); 47% (266 of 567); 78% (162 of 209); 12.5% (3 of 24)</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>Python 3.13.18 over the recorded files; groups overlap</td>
 <td>same recorded files as N-JEV-20</td>
