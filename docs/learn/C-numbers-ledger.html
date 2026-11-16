@@ -19,10 +19,10 @@ blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;backgr
 .nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
 details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
 .foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
-</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a class="cur" href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="C-numbers-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/C-numbers-ledger.md">GitHub</a></div><h1>Appendix C. Numbers ledger</h1>
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a class="cur" href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="C-numbers-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/C-numbers-ledger.md">GitHub</a></div><h1>Appendix C. Numbers ledger</h1>
 <p>Merged from the <em>Numbers register</em> of every chapter by <code>tools-shared/build_learn.py</code>. Edit the chapter, not this file.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>533 numbers</strong> from 21 chapters. Grades: <span class="g C" title="Confirmed">C</span> 489 · <span class="g L" title="Likely">L</span> 40 · <span class="g S" title="Suspected">S</span> 4. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
+<p><strong>552 numbers</strong> from 22 chapters. Grades: <span class="g C" title="Confirmed">C</span> 503 · <span class="g L" title="Likely">L</span> 43 · <span class="g S" title="Suspected">S</span> 6. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
 <table>
 <thead>
 <tr>
@@ -4832,6 +4832,177 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><span class="g C" title="Confirmed">C</span></td>
 <td>same</td>
 <td>same</td>
+</tr>
+<tr>
+<td>N-JEV-1</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>vendor list price, input tokens; output</td>
+<td>0.042 USD per million; &quot;currently&quot; free</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>read, not run</td>
+<td>vendor models page and OpenAPI file, read 2026-11-16</td>
+</tr>
+<tr>
+<td>N-JEV-2</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>Choice options; Score levels; per-request and per-question context</td>
+<td>255; 2 to 10; 64k and 32k tokens</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read raw OpenAPI file and models page</td>
+<td>vendor <code>api.typesafe.ai</code> OpenAPI 3.1.0, read 2026-11-16</td>
+</tr>
+<tr>
+<td>N-JEV-3</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>documented confidence examples reproduced by the formula (within 0.02)</td>
+<td>16 of 16</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Python 3.13.18 recompute over saved docs pages</td>
+<td>vendor confidence, choice, score and pattern pages, read 2026-11-16</td>
+</tr>
+<tr>
+<td>N-JEV-4</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>article diagram: probabilities 0.159, 0.840, 0.001, printed confidence 0.596</td>
+<td>formula gives 0.760</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Python 3.13.18</td>
+<td>the article's diagram; vendor confidence page</td>
+</tr>
+<tr>
+<td>N-JEV-5</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>article cascade bill: frontier only, cascade, saving, break-even escalation</td>
+<td>30,400 USD; 6,480 USD; 78.7%; 98.7%</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Python 3.13.18 arithmetic on the article's inputs</td>
+<td>the article's diagram (inputs labelled illustrative)</td>
+</tr>
+<tr>
+<td>N-JEV-6</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>the same bill with 180,000 specialist tickets priced at 0.003 USD</td>
+<td>7,020 USD (76.9% saved)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Python 3.13.18</td>
+<td>drill D-JEV-3</td>
+</tr>
+<tr>
+<td>N-JEV-7</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>vendor cascade at 20.4% escalated: cost per 1,000 tasks, share that works, saving</td>
+<td>0.637 USD; 97.0%; 66.3% (1.1 points below the strong model)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>pandas 3.0.5, numpy 2.5.3 recompute of the vendor file</td>
+<td>vendor <code>cookbooks/sde_cascade/calendar_results.csv</code>, 1,000 rows</td>
+</tr>
+<tr>
+<td>N-JEV-8</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>vendor cascade to match the strong model: escalated, saving</td>
+<td>53.6%; 30.8%</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>pandas 3.0.5 recompute</td>
+<td>same file</td>
+</tr>
+<tr>
+<td>N-JEV-9</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>wrong cheap-model answers; of those, schema-valid</td>
+<td>74 of 1,000; 72</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>pandas 3.0.5 recompute</td>
+<td>same file</td>
+</tr>
+<tr>
+<td>N-JEV-10</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>AUC of the verifier flag for &quot;cheap answer is wrong&quot;</td>
+<td>0.862</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>pandas 3.0.5 and numpy 2.5.3</td>
+<td>same file</td>
+</tr>
+<tr>
+<td>N-JEV-11</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>public scenes measured; raw bytes; all-facets state bytes</td>
+<td>499; 57,468,875; 507,786 (113.18x)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_s1</code> 0.1.0 <code>tools/corpus_measure.py</code>, Python 3.13.18, 4 vCPU x86_64</td>
+<td><code>x3d.loom@0752865</code>, <code>x3d.docs@3aab064</code>, <code>x3d_mcp@dcf0815</code>; receipt <code>x3d.s1/receipts/corpus-2026-11-16.json</code></td>
+</tr>
+<tr>
+<td>N-JEV-12</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>median raw/state ratio; 10th percentile; scenes where state is larger; crossover</td>
+<td>1.73; 0.79; 116 of 499; 919 bytes</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_s1</code> 0.1.0, same run</td>
+<td>same receipt</td>
+</tr>
+<tr>
+<td>N-JEV-13</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>scenes over a 32,000-token question limit, raw / sliced, at 4 bytes per token</td>
+<td>58 / 0</td>
+<td><span class="g S" title="Suspected">S</span></td>
+<td><code>x3d_s1</code> 0.1.0; token conversion assumed</td>
+<td>same receipt</td>
+</tr>
+<tr>
+<td>N-JEV-14</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>scenes with free text; free-text strings; flagged by the lint</td>
+<td>498 of 499; 36,743; 0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_s1</code> 0.1.0</td>
+<td>same receipt</td>
+</tr>
+<tr>
+<td>N-JEV-15</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>D-question answers: Viewpoint, light, animated, remote, Script</td>
+<td>422, 108, 31, 5, 3 of 499</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_s1</code> 0.1.0</td>
+<td>same receipt</td>
+</tr>
+<tr>
+<td>N-JEV-16</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>parse median; slice median; slice p95</td>
+<td>0.061 ms; 0.288 ms; 19.796 ms</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_s1</code> 0.1.0, one core, Python 3.13.18</td>
+<td>same receipt</td>
+</tr>
+<tr>
+<td>N-JEV-17</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>planned input tokens, 3 judgment questions over 499 scenes; list-price cost</td>
+<td>228,108; 0.0096 USD</td>
+<td><span class="g S" title="Suspected">S</span></td>
+<td><code>x3d_s1</code> 0.1.0 triage with a stub backend; 4 bytes per token; list price</td>
+<td>same receipt</td>
+</tr>
+<tr>
+<td>N-JEV-18</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>counterfeit policy prepended: Noul recall; Choice recall</td>
+<td>82.90% to 3.88%; 85.46% to 9.69%</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>as reported, not re-checked</td>
+<td>Datadog Security Labs study of Jev as a judge (12,295 samples)</td>
+</tr>
+<tr>
+<td>N-JEV-19</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>1% error budget at 95% automation: realised error</td>
+<td>1.6% (budget exceeded)</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>as reported, not re-checked</td>
+<td>Vals AI independent evaluation of Jev, 2026-10-06</td>
 </tr>
 </tbody>
 </table>

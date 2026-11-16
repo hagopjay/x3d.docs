@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**533 numbers** from 21 chapters. Grades: [C] 489 · [L] 40 · [S] 4. Every row names its instrument; a row without one fails `check_learn.py`.
+**552 numbers** from 22 chapters. Grades: [C] 503 · [L] 43 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -540,4 +540,23 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-YJS-17 | [21](21-yjs-collaboration.md) | same edit with the full rebuild | 305.3 / 15.6 / 1.5 per second | [C] | same | same |
 | N-YJS-14 | [21](21-yjs-collaboration.md) | orphan nodes over 200 fuzz seeds | 5,096 | [C] | same | same |
 | N-YJS-15 | [21](21-yjs-collaboration.md) | reported conflicts over 200 seeds: def-clash, sfnode-slot, duplicate | 223, 34, 15 | [C] | same | same |
+| N-JEV-1 | [22](22-typed-judgments-jev.md) | vendor list price, input tokens; output | 0.042 USD per million; "currently" free | [L] | read, not run | vendor models page and OpenAPI file, read 2026-11-16 |
+| N-JEV-2 | [22](22-typed-judgments-jev.md) | Choice options; Score levels; per-request and per-question context | 255; 2 to 10; 64k and 32k tokens | [C] | read raw OpenAPI file and models page | vendor `api.typesafe.ai` OpenAPI 3.1.0, read 2026-11-16 |
+| N-JEV-3 | [22](22-typed-judgments-jev.md) | documented confidence examples reproduced by the formula (within 0.02) | 16 of 16 | [C] | Python 3.13.18 recompute over saved docs pages | vendor confidence, choice, score and pattern pages, read 2026-11-16 |
+| N-JEV-4 | [22](22-typed-judgments-jev.md) | article diagram: probabilities 0.159, 0.840, 0.001, printed confidence 0.596 | formula gives 0.760 | [C] | Python 3.13.18 | the article's diagram; vendor confidence page |
+| N-JEV-5 | [22](22-typed-judgments-jev.md) | article cascade bill: frontier only, cascade, saving, break-even escalation | 30,400 USD; 6,480 USD; 78.7%; 98.7% | [C] | Python 3.13.18 arithmetic on the article's inputs | the article's diagram (inputs labelled illustrative) |
+| N-JEV-6 | [22](22-typed-judgments-jev.md) | the same bill with 180,000 specialist tickets priced at 0.003 USD | 7,020 USD (76.9% saved) | [C] | Python 3.13.18 | drill D-JEV-3 |
+| N-JEV-7 | [22](22-typed-judgments-jev.md) | vendor cascade at 20.4% escalated: cost per 1,000 tasks, share that works, saving | 0.637 USD; 97.0%; 66.3% (1.1 points below the strong model) | [C] | pandas 3.0.5, numpy 2.5.3 recompute of the vendor file | vendor `cookbooks/sde_cascade/calendar_results.csv`, 1,000 rows |
+| N-JEV-8 | [22](22-typed-judgments-jev.md) | vendor cascade to match the strong model: escalated, saving | 53.6%; 30.8% | [C] | pandas 3.0.5 recompute | same file |
+| N-JEV-9 | [22](22-typed-judgments-jev.md) | wrong cheap-model answers; of those, schema-valid | 74 of 1,000; 72 | [C] | pandas 3.0.5 recompute | same file |
+| N-JEV-10 | [22](22-typed-judgments-jev.md) | AUC of the verifier flag for "cheap answer is wrong" | 0.862 | [C] | pandas 3.0.5 and numpy 2.5.3 | same file |
+| N-JEV-11 | [22](22-typed-judgments-jev.md) | public scenes measured; raw bytes; all-facets state bytes | 499; 57,468,875; 507,786 (113.18x) | [C] | `x3d_s1` 0.1.0 `tools/corpus_measure.py`, Python 3.13.18, 4 vCPU x86_64 | `x3d.loom@0752865`, `x3d.docs@3aab064`, `x3d_mcp@dcf0815`; receipt `x3d.s1/receipts/corpus-2026-11-16.json` |
+| N-JEV-12 | [22](22-typed-judgments-jev.md) | median raw/state ratio; 10th percentile; scenes where state is larger; crossover | 1.73; 0.79; 116 of 499; 919 bytes | [C] | `x3d_s1` 0.1.0, same run | same receipt |
+| N-JEV-13 | [22](22-typed-judgments-jev.md) | scenes over a 32,000-token question limit, raw / sliced, at 4 bytes per token | 58 / 0 | [S] | `x3d_s1` 0.1.0; token conversion assumed | same receipt |
+| N-JEV-14 | [22](22-typed-judgments-jev.md) | scenes with free text; free-text strings; flagged by the lint | 498 of 499; 36,743; 0 | [C] | `x3d_s1` 0.1.0 | same receipt |
+| N-JEV-15 | [22](22-typed-judgments-jev.md) | D-question answers: Viewpoint, light, animated, remote, Script | 422, 108, 31, 5, 3 of 499 | [C] | `x3d_s1` 0.1.0 | same receipt |
+| N-JEV-16 | [22](22-typed-judgments-jev.md) | parse median; slice median; slice p95 | 0.061 ms; 0.288 ms; 19.796 ms | [C] | `x3d_s1` 0.1.0, one core, Python 3.13.18 | same receipt |
+| N-JEV-17 | [22](22-typed-judgments-jev.md) | planned input tokens, 3 judgment questions over 499 scenes; list-price cost | 228,108; 0.0096 USD | [S] | `x3d_s1` 0.1.0 triage with a stub backend; 4 bytes per token; list price | same receipt |
+| N-JEV-18 | [22](22-typed-judgments-jev.md) | counterfeit policy prepended: Noul recall; Choice recall | 82.90% to 3.88%; 85.46% to 9.69% | [L] | as reported, not re-checked | Datadog Security Labs study of Jev as a judge (12,295 samples) |
+| N-JEV-19 | [22](22-typed-judgments-jev.md) | 1% error budget at 95% automation: realised error | 1.6% (budget exceeded) | [L] | as reported, not re-checked | Vals AI independent evaluation of Jev, 2026-10-06 |
 <!-- END GENERATED -->

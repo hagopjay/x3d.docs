@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**325 heuristics.** Grades: [C] 267 · [L] 51 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**337 heuristics.** Grades: [C] 275 · [L] 55 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -332,4 +332,16 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-YJS-6 | [21](21-yjs-collaboration.md) | Give every peer a control step that must differ (offline edits) before trusting a zero-difference picture. | [C] | 16,633 pixels differ | `receipts/e2e-xite.json` |
 | H-YJS-8 | [21](21-yjs-collaboration.md) | Keep user DEF names out of the render path: render every node as `y_<uid>` so a DEF clash between peers cannot misdirect a USE or a ROUTE. | [L] | by construction; the unit test checks the clash export names, no renderer run with a clash | `x3d.loom@a9640eb:x3d.yjs/src/yx3d.js` |
 | H-YJS-7 | [21](21-yjs-collaboration.md) | Validate the agent's ops against the document before they enter it; return refusals as results. | [L] | `Nope` DEF refused; no validator run on agent output yet | `src/agent.js` |
+| H-JEV-1 | [22](22-typed-judgments-jev.md) | Threshold the probability of the option you act on, never `confidence`: confidence is a concentration statistic and means different risk for 3 options and for 10. | C | 16 of 16 documented examples reproduce from the formula; the article's 0.596 against 0.760 | Python 3.13.18 recompute over the saved vendor pages |
+| H-JEV-2 | [22](22-typed-judgments-jev.md) | Ask code first: if the scene, a table or a validator answers a question exactly, the judge is never asked. | L | 8 of the 18 catalogue questions are class D and their answers vary across 499 scenes | `x3d_s1` 0.1.0 over `x3d.loom@0752865`, `x3d.docs@3aab064`, `x3d_mcp@dcf0815` |
+| H-JEV-3 | [22](22-typed-judgments-jev.md) | Run the cheapest decisive test first: a warm gate costs 0.371 ms, a judge call 70 to 500 ms; the cold XSD compile is the one exact stage slower, paid once. | L | chapter 03 warm medians; vendor-stated latency, independently seen at 0.10 to 0.43 s | carried from chapter 03 N-VAL-8 and N-VAL-7; vendor figure as reported |
+| H-JEV-4 | [22](22-typed-judgments-jev.md) | Count and compare in code; ask one Noul per item and add the answers up yourself. | L | vendor failure mode 2: a typed judge is not a calculator | vendor docs read on 2026-11-16, not run |
+| H-JEV-5 | [22](22-typed-judgments-jev.md) | Slice state per question, but send a scene under about 1 KB raw: below 919 bytes the sliced state is larger than the scene. | C | 116 of 499 scenes grew when sliced; every scene above 919 bytes shrank | `x3d_s1` 0.1.0, Python 3.13.18 |
+| H-JEV-6 | [22](22-typed-judgments-jev.md) | Treat every scene string as untrusted: quote, cap, strip control characters, lint, withhold flagged text, and never include script or shader bodies. | C | 498 of 499 scenes carry free text; 36,743 strings | `x3d_s1` 0.1.0 over the 499-scene corpus |
+| H-JEV-7 | [22](22-typed-judgments-jev.md) | A pattern lint is a pre-filter, never the defence: no judge answer may authorise a side effect. | C | the first-draft lint missed one of four planted phrases on a hostile test scene | `x3d_s1` 0.1.0 unit tests, Python 3.13.18 |
+| H-JEV-8 | [22](22-typed-judgments-jev.md) | Calibration is a property of groups: score a judge's probabilities against exact outcomes on at least a thousand items before setting any bar, and print the sample size beside the bar. | L | independent ECE ranges 0.011 to 0.108 across tasks; no reliability diagram published for rule questions | as reported (Vals AI); design E1 not run |
+| H-JEV-9 | [22](22-typed-judgments-jev.md) | Set a bar from the Wilson lower bound on at least 30 items, not from a bin that happened to be perfect. | C | 90 of 100 correct has point precision 0.90 but lower bound 0.826, below a 0.85 target; 98 of 100 clears it at 0.930 | Python 3.13.18, drill D-JEV-2 |
+| H-JEV-10 | [22](22-typed-judgments-jev.md) | A judge may rank and route; only an exact stage may certify, because valid is not right. | C | 72 of the cheap model's 74 wrong answers passed the schema check; Vals saw a 1% error budget exceeded at 95% automation | pandas 3.0.5 recompute of the vendor per-task file; Vals as reported |
+| H-JEV-11 | [22](22-typed-judgments-jev.md) | Quote a cascade saving at a measured escalation share: 66.3% at 20.4% escalated, 30.8% to match the strong model; the article's 78.7% has no measured share behind it. | C | recompute of the 1,000-row vendor file and of the article's bill | pandas 3.0.5 and Python 3.13.18 |
+| H-JEV-12 | [22](22-typed-judgments-jev.md) | Pin a versioned model id once thresholds are tuned; an alias is a moving target. | C | both aliases pointed at 1.14.0 on 2026-11-16, a release newer than the 1.13.0 the article describes | vendor models page and changelog, read raw on 2026-11-16 |
 <!-- END GENERATED -->
