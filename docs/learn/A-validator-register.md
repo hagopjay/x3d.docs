@@ -3,7 +3,7 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-314 distinct instrument strings across the numbers registers.
+336 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
@@ -26,6 +26,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `Python 3, 2026-11-14` | 3 | 12 | C:3 |
 | `SwiftShader` | 3 | 08 | C:3 |
 | `SwiftShader, 320 x 240` | 3 | 08 | C:3 |
+| `as reported, not re-checked` | 3 | 01, 22 | L:3 |
 | `count` | 3 | 02 | C:3 |
 | `inline Python` | 3 | 09 | C:3 |
 | `run-tests.js` | 3 | 08 | C:3 |
@@ -34,6 +35,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `Chromium 153 SwiftShader` | 2 | 18 | C:2 |
 | `Chromium 153, SwiftShader (carried)` | 2 | 11, 12 | L:2 |
 | `Node v22.23.4, Yjs 13.6.33` | 2 | 21 | C:2 |
+| `Python 3.13.18` | 2 | 22 | C:2 |
 | `X_ITE 16.6.0, Chromium 153.0.8010.12 SwiftShader, three.js r187` | 2 | 08 | C:2 |
 | `X_ITE 16.7.0, Chromium 153, SwiftShader, 320 x 240` | 2 | 01 | C:2 |
 | `esbuild 0.25.12` | 2 | 16, 19 | C:2 |
@@ -43,9 +45,11 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `marker scan, X_ITE 16.7.0` | 2 | 06 | C:2 |
 | `numpy, 2026-11-14` | 2 | 12 | C:2 |
 | `owlrl 7.6.2` | 2 | 05 | C:2 |
+| `pandas 3.0.5 recompute` | 2 | 22 | C:2 |
 | `pyshacl 0.40.2` | 2 | 05 | C:2 |
 | `pytest 9.2.0, Python 3.13.18, no Chromium` | 2 | 03, 04 | C:2 |
 | `python parse of the table, x3d.loom@162ab18` | 2 | 02 | C:2 |
+| `read, not run` | 2 | 05, 22 | C:1 L:1 |
 | `x3d.xray@8fa6845` | 2 | 07 | C:2 |
 | `x3d_mcp fork 535fdac and b4efcd3` | 2 | 01 | C:2 |
 | `x3d_mcp fork b4efcd3, 24 seeds` | 2 | 01 | C:2 |
@@ -53,6 +57,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d_mcp fork b4efcd3, in-process` | 2 | 04 | C:2 |
 | `x3d_mcp fork b4efcd3, libxml2 2.14.6` | 2 | 04 | C:2 |
 | `x3d_mcp upstream 74da0ec, x3d_mcp fork b4efcd3` | 2 | 04 | C:2 |
+| `x3d_s1 0.1.0` | 2 | 22 | C:2 |
 | `x3dgltf matrix` | 2 | 19 | C:2 |
 | `x3dgltf matrix, Node zlib` | 2 | 19 | C:2 |
 | `x3dgltf optimize` | 2 | 19 | C:2 |
@@ -87,7 +92,14 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `Node v22.23.4, zod 4.6.7, ajv 8.20.0` | 1 | 16 | C:1 |
 | `Node v22.23.4; X_ITE 16.6.0` | 1 | 17 | C:1 |
 | `PR descriptions via the masterclass; not re-derived` | 1 | 04 | L:1 |
+| `Python 3.13.18 arithmetic on the article's inputs` | 1 | 22 | C:1 |
 | `Python 3.13.18 ast` | 1 | 10 | C:1 |
+| `Python 3.13.18 over the recorded files; groups overlap` | 1 | 22 | C:1 |
+| `Python 3.13.18 recompute over saved docs pages` | 1 | 22 | C:1 |
+| `Python 3.13.18 stdlib over the recorded files; draw means non-blank fraction at least 0.005, the repository's convention` | 1 | 22 | C:1 |
+| `Python 3.13.18, numpy 2.5.5, hand-written logistic regression; feasibility of labels only, not a Jev result` | 1 | 22 | C:1 |
+| `Python 3.13.18, x3d_mcp@dcf0815 validators warm, 4 vCPU, one process; render time recorded` | 1 | 22 | C:1 |
+| `Python 3.13.18, x3d_mcp@dcf0815, seed 0, 39 clean scenes` | 1 | 22 | C:1 |
 | `Python, X_ITE 16.6.0` | 1 | 08 | C:1 |
 | `UE 5.8.4 Vulkan SM6+RT, X_ITE 16.7.0 ANGLE Vulkan, Cycles 5.2.3, flip-evaluator LDR object pixels, RTX PRO 6000 Blackwell SE, 2026-11-15` | 1 | 12 | C:1 |
 | `UE 5.8.4 on RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-14` | 1 | 12 | C:1 |
@@ -130,7 +142,6 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `arithmetic on N-MCP-4` | 1 | 04 | C:1 |
 | `arithmetic on add_light.glsl` | 1 | 09 | C:1 |
 | `as recorded, not re-run` | 1 | 02 | L:1 |
-| `as reported, not re-checked` | 1 | 01 | L:1 |
 | `batch 42 SingleAxisHingeJoint probe; X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 13 | C:1 |
 | `bpy 5.3.0 Cycles CPU 16 spp, x3d_mcp fork b4efcd3` | 1 | 10 | C:1 |
 | `bpy 5.3.0, Khronos glTF-Validator 2.0.0-dev.3.10, carried` | 1 | 11 | L:1 |
@@ -199,6 +210,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `nvidia-smi, 0.5 s samples, 2026-11-15` | 1 | 12 | C:1 |
 | `one container, 4 cores, no GPU` | 1 | 16 | C:1 |
 | `our engine, SwiftShader` | 1 | 08 | C:1 |
+| `pandas 3.0.5 and numpy 2.5.3` | 1 | 22 | C:1 |
+| `pandas 3.0.5, numpy 2.5.3 recompute of the vendor file` | 1 | 22 | C:1 |
 | `parsed from the reports; X_ITE 16.6.0, 320 x 240, SwiftShader` | 1 | 08 | C:1 |
 | `phase3_check.py receipts` | 1 | 09 | C:1 |
 | `physics.py docstring; last-run.json` | 1 | 02 | C:1 |
@@ -213,8 +226,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `read in BATCH-NN.md` | 1 | 08 | L:1 |
 | `read in code` | 1 | 07 | C:1 |
 | `read in the exact file` | 1 | 06 | C:1 |
+| `read raw OpenAPI file and models page` | 1 | 22 | C:1 |
 | `read via python json count, x3d.loom@162ab18` | 1 | 13 | C:1 |
-| `read, not run` | 1 | 05 | C:1 |
 | `read, not run: x3d.loom@162ab18:x3d.physics/physx-bridge/evidence/p1-analytic.json` | 1 | 13 | L:1 |
 | `read, physx-bridge/tests/analytic.test.ts evidence` | 1 | 13 | L:1 |
 | `read, ten-minute-physics/ERRATA-v1-v4.md` | 1 | 13 | L:1 |
@@ -223,6 +236,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `receipt read` | 1 | 09 | C:1 |
 | `receipt read, arithmetic` | 1 | 09 | C:1 |
 | `recorded reports parsed; Blender 5.2.2 and 5.1.0, add-on v2.6.1` | 1 | 03 | C:1 |
+| `recorded verdicts` | 1 | 22 | C:1 |
+| `recorded verdicts and renders, fork eb4b4b4` | 1 | 22 | C:1 |
 | `regex over section 8, 2 false hits removed` | 1 | 02 | C:1 |
 | `regex over src/nodes/*.js` | 1 | 08 | L:1 |
 | `regex over unminified dist/` | 1 | 06 | C:1 |
@@ -295,6 +310,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d.loom@162ab18:kit/loomkit/physics.py` | 1 | 13 | C:1 |
 | `x3d.onto, as reported` | 1 | 01 | L:1 |
 | `x3d.xray@8fa6845 on x3d.castle@d70e00c` | 1 | 07 | C:1 |
+| `x3d.zod fuzz tool, 4 mutants per document, seed 1, then x3d_mcp@dcf0815 stages in order; survivors unlabelled` | 1 | 22 | C:1 |
 | `x3d.zod gen.mjs, schema sha1 c6765a4` | 1 | 16 | C:1 |
 | `x3d_mcp fork 13121b6` | 1 | 05 | C:1 |
 | `x3d_mcp fork 535fdac, seed 20261029` | 1 | 01 | C:1 |
@@ -318,6 +334,12 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d_mcp fork fbe165f, Zod 4.6.7` | 1 | 16 | C:1 |
 | `x3d_mcp upstream 74da0ec, Python ast` | 1 | 03 | C:1 |
 | `x3d_mcp upstream 74da0ec, list_tools()` | 1 | 04 | C:1 |
+| `x3d_mcp@dcf0815 evaluation/exact_fix_eval.py, 11 s; the committed results.json states 25; 570; 81; 523; 257` | 1 | 22 | C:1 |
+| `x3d_s1 0.1.0 tools/corpus_measure.py, Python 3.13.18, 4 vCPU x86_64` | 1 | 22 | C:1 |
+| `x3d_s1 0.1.0 triage with a stub backend; 4 bytes per token; list price` | 1 | 22 | S:1 |
+| `x3d_s1 0.1.0, one core, Python 3.13.18` | 1 | 22 | C:1 |
+| `x3d_s1 0.1.0, same run` | 1 | 22 | C:1 |
+| `x3d_s1 0.1.0; token conversion assumed` | 1 | 22 | S:1 |
 | `x3dgltf matrix, draco3dgltf 1.5.9` | 1 | 19 | C:1 |
 | `x3dgltf optimize, glTF-Transform 4.5.1` | 1 | 19 | C:1 |
 | `xite_names.py, x_ite@16.7.1 npm dist` | 1 | 09 | C:1 |

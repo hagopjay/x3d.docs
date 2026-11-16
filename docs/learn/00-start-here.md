@@ -79,6 +79,7 @@ add a dated row, never overwrite the old one.
 | [19](19-gltf-tooling.md) | glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them | a glb from the Blender add-on can be cut to about a third of its size, or to a tenth of it on a mesh-heavy scene, and still be proven to carry every DEF name, camera, light, material and animation channel it started w... | 14 | 6 | 24 | 55 KB |
 | [20](20-webgpu-compute.md) | Compute on the GPU: WebGPU kernels for X3D workloads | Five X3D features (ParticleSystem, HAnim skinning, VolumeData, NURBS patches, GaussianSplats) have per-frame arithmetic that maps to WGSL compute kernels one thread per item, and each kernel is trustworthy only becaus... | 12 | 6 | 17 | 24 KB |
 | [21](21-yjs-collaboration.md) | Many hands on one scene: Yjs, CRDTs and the X3D scene graph | A scene graph can be held as a Yjs document so that people, browsers and an LLM agent edit one X3D scene at the same time and always converge, provided the tree is stored as a flat node table with a parent register an... | 9 | 5 | 17 | 18 KB |
+| [22](22-typed-judgments-jev.md) | Typed judgments: what Jev teaches X3D, and what it must never be trusted with | A typed judge such as Jev belongs behind exact code, not in front of it: answer by lookup what code can answer, run the validator twin for the rest, calibrate the judge's probabilities (not its "confidence") against v... | 14 | 6 | 28 | 38 KB |
 <!-- END CHAPTER-TABLE -->
 
 ## What every chapter contains

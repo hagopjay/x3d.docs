@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**163 drills**, 150 with a recorded run (`Checked`), 13 not yet run. Levels: L1 30, L2 85, L3 48.
+**169 drills**, 156 with a recorded run (`Checked`), 13 not yet run. Levels: L1 32, L2 88, L3 49.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -170,4 +170,10 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-YJS-3 | [21](21-yjs-collaboration.md) | L2 | Two browsers | 2026-11-15 Chromium 153.0.8010.12 SwiftShader, X_ITE 16.6.0 |
 | D-YJS-4 | [21](21-yjs-collaboration.md) | L2 | Price a structural edit | 2026-11-15 Node v22.23.4, Intel Xeon 2.10 GHz x4 |
 | D-YJS-5 | [21](21-yjs-collaboration.md) | L1 | Predict the winner | 2026-11-15 `x3d.loom@a9640eb` tests |
+| D-JEV-1 | [22](22-typed-judgments-jev.md) | L1 | The article's confidence | 2026-11-16 Python 3.13.18 |
+| D-JEV-2 | [22](22-typed-judgments-jev.md) | L2 | A bar from a lower bound | 2026-11-16 Python 3.13.18 |
+| D-JEV-3 | [22](22-typed-judgments-jev.md) | L2 | The cascade bill | 2026-11-16 Python 3.13.18 |
+| D-JEV-4 | [22](22-typed-judgments-jev.md) | L3 | Would a raw scene fit a question? | 2026-11-16 Python 3.13.18, `x3d.docs@3aab064` |
+| D-JEV-5 | [22](22-typed-judgments-jev.md) | L2 | A pattern lint, and what it misses | 2026-11-16 Python 3.13.18 |
+| D-JEV-6 | [22](22-typed-judgments-jev.md) | L1 | How steady is a repeated answer? | 2026-11-16 Python 3.13.18 |
 <!-- END GENERATED -->

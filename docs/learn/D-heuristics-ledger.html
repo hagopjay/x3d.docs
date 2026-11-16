@@ -19,10 +19,10 @@ blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;backgr
 .nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
 details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
 .foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
-</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a class="cur" href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="D-heuristics-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/D-heuristics-ledger.md">GitHub</a></div><h1>Appendix D. Heuristics ledger</h1>
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a class="cur" href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="D-heuristics-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/D-heuristics-ledger.md">GitHub</a></div><h1>Appendix D. Heuristics ledger</h1>
 <p>Merged from the <em>Heuristics</em> table of every chapter. Edit the chapter, not this file.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>325 heuristics.</strong> Grades: <span class="g C" title="Confirmed">C</span> 267 · <span class="g L" title="Likely">L</span> 51 · <span class="g S" title="Suspected">S</span> 7. Retired rules are struck through in their chapter, never deleted.</p>
+<p><strong>339 heuristics.</strong> Grades: <span class="g C" title="Confirmed">C</span> 277 · <span class="g L" title="Likely">L</span> 55 · <span class="g S" title="Suspected">S</span> 7. Retired rules are struck through in their chapter, never deleted.</p>
 <table>
 <thead>
 <tr>
@@ -2634,6 +2634,118 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><span class="g L" title="Likely">L</span></td>
 <td><code>Nope</code> DEF refused; no validator run on agent output yet</td>
 <td><code>src/agent.js</code></td>
+</tr>
+<tr>
+<td>H-JEV-1</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>Threshold the probability of the option you act on, never <code>confidence</code>: confidence is a concentration statistic and means different risk for 3 options and for 10.</td>
+<td>C</td>
+<td>16 of 16 documented examples reproduce from the formula; the article's 0.596 against 0.760</td>
+<td>Python 3.13.18 recompute over the saved vendor pages</td>
+</tr>
+<tr>
+<td>H-JEV-2</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>Ask code first: if the scene, a table or a validator answers a question exactly, the judge is never asked.</td>
+<td>L</td>
+<td>8 of the 18 catalogue questions are class D and their answers vary across 499 scenes</td>
+<td><code>x3d_s1</code> 0.1.0 over <code>x3d.loom@0752865</code>, <code>x3d.docs@3aab064</code>, <code>x3d_mcp@dcf0815</code></td>
+</tr>
+<tr>
+<td>H-JEV-3</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>Run the cheapest decisive test first: a warm gate costs 0.371 ms, a judge call 70 to 500 ms; the cold XSD compile is the one exact stage slower, paid once.</td>
+<td>L</td>
+<td>chapter 03 warm medians; vendor-stated latency, independently seen at 0.10 to 0.43 s</td>
+<td>carried from chapter 03 N-VAL-8 and N-VAL-7; vendor figure as reported</td>
+</tr>
+<tr>
+<td>H-JEV-4</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>Count and compare in code; ask one Noul per item and add the answers up yourself.</td>
+<td>L</td>
+<td>vendor failure mode 2: a typed judge is not a calculator</td>
+<td>vendor docs read on 2026-11-16, not run</td>
+</tr>
+<tr>
+<td>H-JEV-5</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>Slice state per question, but send a scene under about 1 KB raw: below 919 bytes the sliced state is larger than the scene.</td>
+<td>C</td>
+<td>116 of 499 scenes grew when sliced; every scene above 919 bytes shrank</td>
+<td><code>x3d_s1</code> 0.1.0, Python 3.13.18</td>
+</tr>
+<tr>
+<td>H-JEV-6</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>Treat every scene string as untrusted: quote, cap, strip control characters, lint, withhold flagged text, and never include script or shader bodies.</td>
+<td>C</td>
+<td>498 of 499 scenes carry free text; 36,743 strings</td>
+<td><code>x3d_s1</code> 0.1.0 over the 499-scene corpus</td>
+</tr>
+<tr>
+<td>H-JEV-7</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>A pattern lint is a pre-filter, never the defence: no judge answer may authorise a side effect.</td>
+<td>C</td>
+<td>the first-draft lint missed one of four planted phrases on a hostile test scene</td>
+<td><code>x3d_s1</code> 0.1.0 unit tests, Python 3.13.18</td>
+</tr>
+<tr>
+<td>H-JEV-8</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>Calibration is a property of groups: score a judge's probabilities against exact outcomes on at least a thousand items before setting any bar, and print the sample size beside the bar.</td>
+<td>L</td>
+<td>independent ECE ranges 0.011 to 0.108 across tasks; no reliability diagram published for rule questions</td>
+<td>as reported (Vals AI); design E1 not run</td>
+</tr>
+<tr>
+<td>H-JEV-9</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>Set a bar from the Wilson lower bound on at least 30 items, not from a bin that happened to be perfect.</td>
+<td>C</td>
+<td>90 of 100 correct has point precision 0.90 but lower bound 0.826, below a 0.85 target; 98 of 100 clears it at 0.930</td>
+<td>Python 3.13.18, drill D-JEV-2</td>
+</tr>
+<tr>
+<td>H-JEV-10</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>A judge may rank and route; only an exact stage may certify, because valid is not right.</td>
+<td>C</td>
+<td>72 of the cheap model's 74 wrong answers passed the schema check; Vals saw a 1% error budget exceeded at 95% automation</td>
+<td>pandas 3.0.5 recompute of the vendor per-task file; Vals as reported</td>
+</tr>
+<tr>
+<td>H-JEV-11</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>Quote a cascade saving at a measured escalation share: 66.3% at 20.4% escalated, 30.8% to match the strong model; the article's 78.7% has no measured share behind it.</td>
+<td>C</td>
+<td>recompute of the 1,000-row vendor file and of the article's bill</td>
+<td>pandas 3.0.5 and Python 3.13.18</td>
+</tr>
+<tr>
+<td>H-JEV-12</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>Pin a versioned model id once thresholds are tuned; an alias is a moving target.</td>
+<td>C</td>
+<td>both aliases pointed at 1.14.0 on 2026-11-16, a release newer than the 1.13.0 the article describes</td>
+<td>vendor models page and changelog, read raw on 2026-11-16</td>
+</tr>
+<tr>
+<td>H-JEV-13</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>Price every stage on your own data before placing a judge in front of it: a judge can only save time ahead of a stage that costs more than the judge.</td>
+<td>C</td>
+<td>over 174 replay scenes the XSD and semantic stages total 578 ms and the recorded render 761.9 s (about 1,300 times); a 70 to 500 ms judge ahead of the validators adds time, ahead of the render it can save it</td>
+<td>Python 3.13.18; <code>x3d_mcp@dcf0815</code> validators, warm; render time recorded in <code>x3d.ml@8e2e8da</code></td>
+</tr>
+<tr>
+<td>H-JEV-14</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>Name the validator commit and the oracle with every label: the same scenes count 54 to 63 valid across seven commits, and 17 of 91 scenes that pass XSD and semantic checks draw nothing.</td>
+<td>C</td>
+<td>recorded verdicts at seven fork commits over 174 scenes; recorded X_ITE render per scene</td>
+<td>Python 3.13.18 over <code>x3d.ml@8e2e8da</code> <code>drift/verdicts_by_fork_commit.json</code> and <code>demo/data/replay.json</code></td>
 </tr>
 </tbody>
 </table>
