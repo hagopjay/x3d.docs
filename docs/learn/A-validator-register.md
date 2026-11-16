@@ -3,7 +3,7 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-327 distinct instrument strings across the numbers registers.
+336 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
@@ -94,7 +94,12 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `PR descriptions via the masterclass; not re-derived` | 1 | 04 | L:1 |
 | `Python 3.13.18 arithmetic on the article's inputs` | 1 | 22 | C:1 |
 | `Python 3.13.18 ast` | 1 | 10 | C:1 |
+| `Python 3.13.18 over the recorded files; groups overlap` | 1 | 22 | C:1 |
 | `Python 3.13.18 recompute over saved docs pages` | 1 | 22 | C:1 |
+| `Python 3.13.18 stdlib over the recorded files; draw means non-blank fraction at least 0.005, the repository's convention` | 1 | 22 | C:1 |
+| `Python 3.13.18, numpy 2.5.5, hand-written logistic regression; feasibility of labels only, not a Jev result` | 1 | 22 | C:1 |
+| `Python 3.13.18, x3d_mcp@dcf0815 validators warm, 4 vCPU, one process; render time recorded` | 1 | 22 | C:1 |
+| `Python 3.13.18, x3d_mcp@dcf0815, seed 0, 39 clean scenes` | 1 | 22 | C:1 |
 | `Python, X_ITE 16.6.0` | 1 | 08 | C:1 |
 | `UE 5.8.4 Vulkan SM6+RT, X_ITE 16.7.0 ANGLE Vulkan, Cycles 5.2.3, flip-evaluator LDR object pixels, RTX PRO 6000 Blackwell SE, 2026-11-15` | 1 | 12 | C:1 |
 | `UE 5.8.4 on RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-14` | 1 | 12 | C:1 |
@@ -231,6 +236,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `receipt read` | 1 | 09 | C:1 |
 | `receipt read, arithmetic` | 1 | 09 | C:1 |
 | `recorded reports parsed; Blender 5.2.2 and 5.1.0, add-on v2.6.1` | 1 | 03 | C:1 |
+| `recorded verdicts` | 1 | 22 | C:1 |
+| `recorded verdicts and renders, fork eb4b4b4` | 1 | 22 | C:1 |
 | `regex over section 8, 2 false hits removed` | 1 | 02 | C:1 |
 | `regex over src/nodes/*.js` | 1 | 08 | L:1 |
 | `regex over unminified dist/` | 1 | 06 | C:1 |
@@ -303,6 +310,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d.loom@162ab18:kit/loomkit/physics.py` | 1 | 13 | C:1 |
 | `x3d.onto, as reported` | 1 | 01 | L:1 |
 | `x3d.xray@8fa6845 on x3d.castle@d70e00c` | 1 | 07 | C:1 |
+| `x3d.zod fuzz tool, 4 mutants per document, seed 1, then x3d_mcp@dcf0815 stages in order; survivors unlabelled` | 1 | 22 | C:1 |
 | `x3d.zod gen.mjs, schema sha1 c6765a4` | 1 | 16 | C:1 |
 | `x3d_mcp fork 13121b6` | 1 | 05 | C:1 |
 | `x3d_mcp fork 535fdac, seed 20261029` | 1 | 01 | C:1 |
@@ -326,6 +334,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d_mcp fork fbe165f, Zod 4.6.7` | 1 | 16 | C:1 |
 | `x3d_mcp upstream 74da0ec, Python ast` | 1 | 03 | C:1 |
 | `x3d_mcp upstream 74da0ec, list_tools()` | 1 | 04 | C:1 |
+| `x3d_mcp@dcf0815 evaluation/exact_fix_eval.py, 11 s; the committed results.json states 25; 570; 81; 523; 257` | 1 | 22 | C:1 |
 | `x3d_s1 0.1.0 tools/corpus_measure.py, Python 3.13.18, 4 vCPU x86_64` | 1 | 22 | C:1 |
 | `x3d_s1 0.1.0 triage with a stub backend; 4 bytes per token; list price` | 1 | 22 | S:1 |
 | `x3d_s1 0.1.0, one core, Python 3.13.18` | 1 | 22 | C:1 |

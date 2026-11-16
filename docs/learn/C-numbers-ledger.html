@@ -22,7 +22,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a class="cur" href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="C-numbers-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/C-numbers-ledger.md">GitHub</a></div><h1>Appendix C. Numbers ledger</h1>
 <p>Merged from the <em>Numbers register</em> of every chapter by <code>tools-shared/build_learn.py</code>. Edit the chapter, not this file.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>552 numbers</strong> from 22 chapters. Grades: <span class="g C" title="Confirmed">C</span> 503 · <span class="g L" title="Likely">L</span> 43 · <span class="g S" title="Suspected">S</span> 6. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
+<p><strong>561 numbers</strong> from 22 chapters. Grades: <span class="g C" title="Confirmed">C</span> 512 · <span class="g L" title="Likely">L</span> 43 · <span class="g S" title="Suspected">S</span> 6. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
 <table>
 <thead>
 <tr>
@@ -5003,6 +5003,87 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><span class="g L" title="Likely">L</span></td>
 <td>as reported, not re-checked</td>
 <td>Vals AI independent evaluation of Jev, 2026-10-06</td>
+</tr>
+<tr>
+<td>N-JEV-20</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>recorded model calls (17 and 24 October); valid; draw; cut at the output limit; valid among the cut</td>
+<td>979; 334; 649; 221; 0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Python 3.13.18 stdlib over the recorded files; draw means non-blank fraction at least 0.005, the repository's convention</td>
+<td><code>x3d.ml@8e2e8da</code> <code>demo/data/live.json</code>, <code>demo/v4/parts/run24.txt</code></td>
+</tr>
+<tr>
+<td>N-JEV-21</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>174 replay scenes: XSD median; semantic median; validators total; recorded render median; recorded render total; ratio</td>
+<td>0.11 ms; 0.54 ms; 578 ms; 4,561 ms; 761.9 s; about 1,300</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Python 3.13.18, <code>x3d_mcp@dcf0815</code> validators warm, 4 vCPU, one process; render time recorded</td>
+<td><code>x3d.ml@8e2e8da</code> <code>demo/data/replay.json</code></td>
+</tr>
+<tr>
+<td>N-JEV-22</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>replay scenes passing XSD and semantic checks; of those drawing nothing; scenes the strict gate accepts; drawing scenes it rejects</td>
+<td>91; 17 (18.7%); 54; 61 of 115</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>recorded verdicts and renders, fork <code>eb4b4b4</code></td>
+<td>same file</td>
+</tr>
+<tr>
+<td>N-JEV-23</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>valid scenes of the same 174 at seven validator commits (<code>8c0a457</code>, <code>c9c9788</code>, <code>688174f</code>, <code>76fc439</code>, <code>d61d4de</code>, <code>eb4b4b4</code>, <code>d5598c4</code>)</td>
+<td>55, 55, 54, 63, 63, 54, 54</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>recorded verdicts</td>
+<td><code>x3d.ml@8e2e8da</code> <code>drift/verdicts_by_fork_commit.json</code></td>
+</tr>
+<tr>
+<td>N-JEV-24</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>share of recorded calls that draw, by group: valid; XSD-invalid; <code>profile-component</code>; <code>containerfield-type-mismatch</code></td>
+<td>96% (320 of 334); 47% (266 of 567); 78% (162 of 209); 12% (3 of 24)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Python 3.13.18 over the recorded files; groups overlap</td>
+<td>same recorded files as N-JEV-20</td>
+</tr>
+<tr>
+<td>N-JEV-25</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>first-try validity predictor, 359 first attempts, prompt-grouped 5-fold CV, seed 1: Brier constant, per-model, logistic; AUC; ECE</td>
+<td>0.2125, 0.1646, 0.1544; 0.809; 0.062</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Python 3.13.18, numpy 2.5.5, hand-written logistic regression; feasibility of labels only, not a Jev result</td>
+<td>same recorded files as N-JEV-20</td>
+</tr>
+<tr>
+<td>N-JEV-26</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>exact-fix corpus regenerated at HEAD: seeds; errors; valid before; valid after hints; seed restored</td>
+<td>24; 577; 76 of 540; 522 of 540; 268 of 540</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_mcp@dcf0815</code> <code>evaluation/exact_fix_eval.py</code>, 11 s; the committed <code>results.json</code> states 25; 570; 81; 523; 257</td>
+<td><code>x3d_mcp@dcf0815</code></td>
+</tr>
+<tr>
+<td>N-JEV-27</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>playground defect operators: applied cases behaving as declared; browser operators passing XSD and semantic checks</td>
+<td>312 of 312; 65 of 65</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Python 3.13.18, <code>x3d_mcp@dcf0815</code>, seed 0, 39 clean scenes</td>
+<td><code>x3d_mcp@dcf0815</code> <code>playground/mutate.py</code></td>
+</tr>
+<tr>
+<td>N-JEV-28</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>mutants of 755 clean scenes: first rejecting stage JSON typing; XSD; semantic; accepted by all</td>
+<td>813 (26.9%); 67 (2.2%); 150 (5.0%); 1,990 (65.9%) of 3,020</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d.zod</code> fuzz tool, 4 mutants per document, seed 1, then <code>x3d_mcp@dcf0815</code> stages in order; survivors unlabelled</td>
+<td><code>x3d.loom@0752865</code> <code>x3d.zod</code></td>
 </tr>
 </tbody>
 </table>

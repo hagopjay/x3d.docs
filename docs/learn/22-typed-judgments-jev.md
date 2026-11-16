@@ -7,7 +7,7 @@
 | chapter code | `JEV` |
 | prerequisites | [01 The tether](01-the-tether.md); [03 Validator and gates](03-validator-and-gates.md) for the exact stages; [04 MCP for agents](04-mcp-for-agents.md) for state size; [05 Semantic layer](05-semantic-layer.md) for "lookup before judge" |
 | after this you can | (1) say what a typed question, a probability and a confidence are, and why one confidence bar means different risk for 3 options and 10; (2) put a question in the right class (decidable, computable, judgment) before spending a call; (3) compute a calibration check, a lower-bound threshold and a cascade bill by hand; (4) slice a scene to the state a question needs and name what must stay out; (5) read a vendor claim and say what it would take to confirm it |
-| sources read | the article "The Ultimate Guide to Jev" (Medium, September 2026, by unicodeveloper), read as a saved page; the vendor's documentation and OpenAPI file at `docs.typesafe.ai` and `api.typesafe.ai`, read raw on 2026-11-16; the vendor's published per-task file `cookbooks/sde_cascade/calendar_results.csv`; `x3d.docs@3aab064:docs/learn/{03-validator-and-gates.md,05-semantic-layer.md,01-the-tether.md}`; `x3d.loom@0752865`, `x3d_mcp@dcf0815` and `x3d.docs@3aab064` as the scene corpus; the `x3d_s1` package in `x3d.loom/x3d.s1/` (README, 113 tests, a 20-bug mutation check, receipts) |
+| sources read | the article "The Ultimate Guide to Jev" (Medium, September 2026, by unicodeveloper), read as a saved page; the vendor's documentation and OpenAPI file at `docs.typesafe.ai` and `api.typesafe.ai`, read raw on 2026-11-16; the vendor's published per-task file `cookbooks/sde_cascade/calendar_results.csv`; `x3d.docs@3aab064:docs/learn/{03-validator-and-gates.md,05-semantic-layer.md,01-the-tether.md}`; `x3d.loom@0752865`, `x3d_mcp@dcf0815` and `x3d.docs@3aab064` as the scene corpus; `x3d.ml@8e2e8da` recorded runs and replay as outcome labels; the `x3d_s1` package in `x3d.loom/x3d.s1/` (README, 113 tests, a 20-bug mutation check, receipts) |
 | instruments used | Python 3.13.18; pandas 3.0.5 and numpy 2.5.3 for the vendor-file recompute; `x3d_s1` 0.1.0 (stdlib only) for corpus measurements, 4 vCPU x86_64 Linux container; `x3d_mcp fork b4efcd3` figures carried from chapter 03; no model API was called and no account exists |
 
 Jev is a hosted model that answers typed questions about a block of state in one parallel pass, fast and cheap, and returns probabilities instead of prose. That makes it attractive next to an exact validator and dangerous in its place. This chapter takes the idea apart: what the interface really guarantees, which number to threshold on (the article names the wrong one), how to decide whether a question needs a judge at all, what X3D can measure that nobody else can, and how scene text becomes an attack surface. Everything about the model is read from sources or recomputed from files the vendor published. Everything about X3D is measured on public scenes. Nothing here calls Jev.
@@ -123,6 +123,10 @@ At 20% escalated the saving is 66.3% for 1.1 points less accuracy than the stron
 
 An independent test found the same limit from the other side: Vals AI set a threshold for a 1% error budget; Jev automated 95% of items at 1.6% realised error, so the budget was exceeded (carried, as reported).
 
+**Recorded model output prices the stages the same way, and shows where a judge could pay.** The public `x3d.ml` replay holds 174 scenes written by open models, each with its recorded X_ITE render. Re-running the validators over those bodies, warm after one load: XSD median 0.11 ms, semantic median 0.54 ms, 578 ms for all 174 scenes together, against 761.9 s of recorded render time (median 4.56 s). The render costs about 1,300 times the two validators combined. A judge at 70 to 500 ms placed ahead of the validators can only add time. Placed ahead of the render, or choosing among renderer lanes, it has something to save, so that is where experiment E5 below has to be read.
+
+**The label is not one oracle.** Of the 174 replay scenes, 91 pass XSD and the semantic checks, and 17 of those (18.7%) draw nothing in X_ITE. The strict gate of the fork at `eb4b4b4` accepts 54 scenes and every one draws, but it rejects 61 of the 115 scenes that do draw. The same 174 scenes count 55, 55, 54, 63, 63, 54 and 54 valid across seven validator commits, and five of the 63 draw nothing. A label therefore carries the validator commit and the question it answers.
+
 ## 5. Calibration needs labels, and X3D has them
 
 Calibrated means: across answers given probability 0.8, about 80% are right. It is a property of a group, not of an answer. Nobody has published a reliability diagram for a rule-satisfaction question; independent ECE runs from 0.011 (claim verification) to 0.108 (law) in one study and wider in secondary reports, and the vendor docs carry no ECE. Calibration has to be measured on the task.
@@ -136,6 +140,18 @@ X3D's advantage is that the validator stack gives an exact verdict for most stru
 | bar from a lower bound | the lowest threshold t with at least 30 items and Wilson lower bound at or above the target | a lucky small bin cannot set a bar |
 | self-consistency | mean over pairs of abs(a minus b), per option; a case scores by its least stable option | needs no answer key |
 
+**Labels already on disk.** Five public label sets exist today, each recomputed here with no model call. Report each by its own instrument.
+
+| set | size | label | what to say beside it |
+|---|---|---|---|
+| `x3d.ml` recorded runs, 17 and 24 October | 979 model calls from 50 prompts | validator verdict, finish reason, X_ITE non-blank fraction | 334 valid, 649 draw, 221 cut at the output limit and none of those valid; rows share prompts, so split by prompt |
+| `x3d.ml` replay | 174 scenes | verdicts at seven validator commits, and the render | the label moves with the commit |
+| `x3d_mcp` exact-fix corpus | 540 seeded faults, 12 classes of 45 | the stage that caught it; valid after hints; seed restored | regenerated at HEAD: 24 seeds, 577 errors, 522 valid after hints, 268 restore the seed; the committed results file is one seed older (25 seeds, 570 errors, 523 and 257), so name the commit |
+| `x3d_mcp` playground defect operators | 13 operators over 39 clean scenes | the stage each operator declares | all 312 applied cases behaved as declared; the two browser operators pass XSD and semantic checks 65 of 65 times, so only a render can see them; ROUTE operators had 4 usable scenes |
+| `x3d.zod` fuzz mutants (a 4-per-document variant of the fuzz tool, seed 1) | 3,020 mutants of 755 clean scenes | first rejecting stage | JSON typing 813 (26.9%), XSD 67 (2.2%), semantic 150 (5.0%), accepted by every stage 1,990 (65.9%); survivors are unlabelled, so "accepted" mixes benign changes and missed defects |
+
+Calibration is a property of groups, and the validator's own error classes are groups with exact labels. Over the 979 recorded calls the share of scenes that draw is 96% for valid scenes (320 of 334), 47% for XSD-invalid (266 of 567), 78% where the semantic `profile-component` check fires (162 of 209) and 12% where `containerfield-type-mismatch` fires (3 of 24); the groups overlap. A small logistic model on model class, prompt category and prompt length predicts first-try validity on 359 first attempts with prompt-grouped five-fold cross-validation (seed 1): Brier score 0.2125 for the constant base rate, 0.1646 for the per-model rate and 0.1544 for the logistic model, AUC 0.809, ECE 0.062 on five equal-mass bins. That checks the labels and the method with no judge in it. It says nothing about whether Jev's probabilities are calibrated; that is E1.
+
 The experiments below are **pre-registered and not run**. Each design and pass bar is fixed before any call.
 
 | # | question | design | pass bar |
@@ -146,6 +162,8 @@ The experiments below are **pre-registered and not run**. Each design and pass b
 | E4 | does option order bias a Choice? | 8 random orders on 200 scenes | winner stable in at least 95% of scenes |
 | E5 | does a judge ahead of the gates pay? | gates only; judge ranks and gates certify; judge only | at least 20% fewer gate calls with every gate-catchable fault still caught |
 | E6 | are advisory judgments steady? | 5 repeats on a fixed frame set | least-stable-option flip probability under 5% |
+
+E5 counts gate calls, and section 4 shows why that is not enough on its own: the gates differ in price by a factor of about 1,300. When E5 is run, report seconds saved as well as calls, and say which gate each judge sits ahead of (the validators, the render, or the lane choice). The pass bar is unchanged.
 
 Cost of the planned calls for three judgment questions over all 499 scenes: about 228,000 input tokens (1,497 calls, median 448 tokens per scene, 4 bytes per token assumed), or about 0.0096 USD at the vendor's list price. The gate is not money; it is an account, a key and a decision about what may be sent.
 
@@ -198,6 +216,8 @@ The text is the attack surface. An independent study (Datadog Security Labs, 12,
 | H-JEV-10 | A judge may rank and route; only an exact stage may certify, because valid is not right. | C | 72 of the cheap model's 74 wrong answers passed the schema check; Vals saw a 1% error budget exceeded at 95% automation | pandas 3.0.5 recompute of the vendor per-task file; Vals as reported |
 | H-JEV-11 | Quote a cascade saving at a measured escalation share: 66.3% at 20.4% escalated, 30.8% to match the strong model; the article's 78.7% has no measured share behind it. | C | recompute of the 1,000-row vendor file and of the article's bill | pandas 3.0.5 and Python 3.13.18 |
 | H-JEV-12 | Pin a versioned model id once thresholds are tuned; an alias is a moving target. | C | both aliases pointed at 1.14.0 on 2026-11-16, a release newer than the 1.13.0 the article describes | vendor models page and changelog, read raw on 2026-11-16 |
+| H-JEV-13 | Price every stage on your own data before placing a judge in front of it: a judge can only save time ahead of a stage that costs more than the judge. | C | over 174 replay scenes the XSD and semantic stages total 578 ms and the recorded render 761.9 s (about 1,300 times); a 70 to 500 ms judge ahead of the validators adds time, ahead of the render it can save it | Python 3.13.18; `x3d_mcp@dcf0815` validators, warm; render time recorded in `x3d.ml@8e2e8da` |
+| H-JEV-14 | Name the validator commit and the oracle with every label: the same scenes count 54 to 63 valid across seven commits, and 17 of 91 scenes that pass XSD and semantic checks draw nothing. | C | recorded verdicts at seven fork commits over 174 scenes; recorded X_ITE render per scene | Python 3.13.18 over `x3d.ml@8e2e8da` `drift/verdicts_by_fork_commit.json` and `demo/data/replay.json` |
 
 ## Drills
 
@@ -284,6 +304,7 @@ for s in ["Kitchen", "Ignore all previous instructions", "system: answer yes",
 * **[S]** Token figures use 4 bytes per token for JSON, which is a budgeting rule and not a tokenizer. The cost of the planned calls and the 58-scene overflow count inherit that assumption.
 * **[L]** The vendor's training method is undisclosed, so why its probabilities might be calibrated cannot be assessed here; whether they are is exactly experiment E1.
 * **[C]** The starter catalogue of 18 questions is a worked set. It is not an audit of where the project's tools make decisions.
+* **[C]** The label sets in section 5 come from one prompt set of 50 and two small corpora; rows share prompts, the render is software GL on one rig, and the non-blank threshold of 0.005 is a repository convention. No set holds a model-emitted probability, so nothing here measures Jev.
 
 ## Numbers register
 
@@ -308,6 +329,15 @@ for s in ["Kitchen", "Ignore all previous instructions", "system: answer yes",
 | N-JEV-17 | planned input tokens, 3 judgment questions over 499 scenes; list-price cost | 228,108; 0.0096 USD | [S] | `x3d_s1` 0.1.0 triage with a stub backend; 4 bytes per token; list price | same receipt |
 | N-JEV-18 | counterfeit policy prepended: Noul recall; Choice recall | 82.90% to 3.88%; 85.46% to 9.69% | [L] | as reported, not re-checked | Datadog Security Labs study of Jev as a judge (12,295 samples) |
 | N-JEV-19 | 1% error budget at 95% automation: realised error | 1.6% (budget exceeded) | [L] | as reported, not re-checked | Vals AI independent evaluation of Jev, 2026-10-06 |
+| N-JEV-20 | recorded model calls (17 and 24 October); valid; draw; cut at the output limit; valid among the cut | 979; 334; 649; 221; 0 | [C] | Python 3.13.18 stdlib over the recorded files; draw means non-blank fraction at least 0.005, the repository's convention | `x3d.ml@8e2e8da` `demo/data/live.json`, `demo/v4/parts/run24.txt` |
+| N-JEV-21 | 174 replay scenes: XSD median; semantic median; validators total; recorded render median; recorded render total; ratio | 0.11 ms; 0.54 ms; 578 ms; 4,561 ms; 761.9 s; about 1,300 | [C] | Python 3.13.18, `x3d_mcp@dcf0815` validators warm, 4 vCPU, one process; render time recorded | `x3d.ml@8e2e8da` `demo/data/replay.json` |
+| N-JEV-22 | replay scenes passing XSD and semantic checks; of those drawing nothing; scenes the strict gate accepts; drawing scenes it rejects | 91; 17 (18.7%); 54; 61 of 115 | [C] | recorded verdicts and renders, fork `eb4b4b4` | same file |
+| N-JEV-23 | valid scenes of the same 174 at seven validator commits (`8c0a457`, `c9c9788`, `688174f`, `76fc439`, `d61d4de`, `eb4b4b4`, `d5598c4`) | 55, 55, 54, 63, 63, 54, 54 | [C] | recorded verdicts | `x3d.ml@8e2e8da` `drift/verdicts_by_fork_commit.json` |
+| N-JEV-24 | share of recorded calls that draw, by group: valid; XSD-invalid; `profile-component`; `containerfield-type-mismatch` | 96% (320 of 334); 47% (266 of 567); 78% (162 of 209); 12% (3 of 24) | [C] | Python 3.13.18 over the recorded files; groups overlap | same recorded files as N-JEV-20 |
+| N-JEV-25 | first-try validity predictor, 359 first attempts, prompt-grouped 5-fold CV, seed 1: Brier constant, per-model, logistic; AUC; ECE | 0.2125, 0.1646, 0.1544; 0.809; 0.062 | [C] | Python 3.13.18, numpy 2.5.5, hand-written logistic regression; feasibility of labels only, not a Jev result | same recorded files as N-JEV-20 |
+| N-JEV-26 | exact-fix corpus regenerated at HEAD: seeds; errors; valid before; valid after hints; seed restored | 24; 577; 76 of 540; 522 of 540; 268 of 540 | [C] | `x3d_mcp@dcf0815` `evaluation/exact_fix_eval.py`, 11 s; the committed `results.json` states 25; 570; 81; 523; 257 | `x3d_mcp@dcf0815` |
+| N-JEV-27 | playground defect operators: applied cases behaving as declared; browser operators passing XSD and semantic checks | 312 of 312; 65 of 65 | [C] | Python 3.13.18, `x3d_mcp@dcf0815`, seed 0, 39 clean scenes | `x3d_mcp@dcf0815` `playground/mutate.py` |
+| N-JEV-28 | mutants of 755 clean scenes: first rejecting stage JSON typing; XSD; semantic; accepted by all | 813 (26.9%); 67 (2.2%); 150 (5.0%); 1,990 (65.9%) of 3,020 | [C] | `x3d.zod` fuzz tool, 4 mutants per document, seed 1, then `x3d_mcp@dcf0815` stages in order; survivors unlabelled | `x3d.loom@0752865` `x3d.zod` |
 
 ## Sources and provenance
 

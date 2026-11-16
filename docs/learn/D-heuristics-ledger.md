@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**337 heuristics.** Grades: [C] 275 · [L] 55 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**339 heuristics.** Grades: [C] 277 · [L] 55 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -344,4 +344,6 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-JEV-10 | [22](22-typed-judgments-jev.md) | A judge may rank and route; only an exact stage may certify, because valid is not right. | C | 72 of the cheap model's 74 wrong answers passed the schema check; Vals saw a 1% error budget exceeded at 95% automation | pandas 3.0.5 recompute of the vendor per-task file; Vals as reported |
 | H-JEV-11 | [22](22-typed-judgments-jev.md) | Quote a cascade saving at a measured escalation share: 66.3% at 20.4% escalated, 30.8% to match the strong model; the article's 78.7% has no measured share behind it. | C | recompute of the 1,000-row vendor file and of the article's bill | pandas 3.0.5 and Python 3.13.18 |
 | H-JEV-12 | [22](22-typed-judgments-jev.md) | Pin a versioned model id once thresholds are tuned; an alias is a moving target. | C | both aliases pointed at 1.14.0 on 2026-11-16, a release newer than the 1.13.0 the article describes | vendor models page and changelog, read raw on 2026-11-16 |
+| H-JEV-13 | [22](22-typed-judgments-jev.md) | Price every stage on your own data before placing a judge in front of it: a judge can only save time ahead of a stage that costs more than the judge. | C | over 174 replay scenes the XSD and semantic stages total 578 ms and the recorded render 761.9 s (about 1,300 times); a 70 to 500 ms judge ahead of the validators adds time, ahead of the render it can save it | Python 3.13.18; `x3d_mcp@dcf0815` validators, warm; render time recorded in `x3d.ml@8e2e8da` |
+| H-JEV-14 | [22](22-typed-judgments-jev.md) | Name the validator commit and the oracle with every label: the same scenes count 54 to 63 valid across seven commits, and 17 of 91 scenes that pass XSD and semantic checks draw nothing. | C | recorded verdicts at seven fork commits over 174 scenes; recorded X_ITE render per scene | Python 3.13.18 over `x3d.ml@8e2e8da` `drift/verdicts_by_fork_commit.json` and `demo/data/replay.json` |
 <!-- END GENERATED -->

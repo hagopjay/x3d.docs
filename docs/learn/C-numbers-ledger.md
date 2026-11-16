@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**552 numbers** from 22 chapters. Grades: [C] 503 · [L] 43 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
+**561 numbers** from 22 chapters. Grades: [C] 512 · [L] 43 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -559,4 +559,13 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-JEV-17 | [22](22-typed-judgments-jev.md) | planned input tokens, 3 judgment questions over 499 scenes; list-price cost | 228,108; 0.0096 USD | [S] | `x3d_s1` 0.1.0 triage with a stub backend; 4 bytes per token; list price | same receipt |
 | N-JEV-18 | [22](22-typed-judgments-jev.md) | counterfeit policy prepended: Noul recall; Choice recall | 82.90% to 3.88%; 85.46% to 9.69% | [L] | as reported, not re-checked | Datadog Security Labs study of Jev as a judge (12,295 samples) |
 | N-JEV-19 | [22](22-typed-judgments-jev.md) | 1% error budget at 95% automation: realised error | 1.6% (budget exceeded) | [L] | as reported, not re-checked | Vals AI independent evaluation of Jev, 2026-10-06 |
+| N-JEV-20 | [22](22-typed-judgments-jev.md) | recorded model calls (17 and 24 October); valid; draw; cut at the output limit; valid among the cut | 979; 334; 649; 221; 0 | [C] | Python 3.13.18 stdlib over the recorded files; draw means non-blank fraction at least 0.005, the repository's convention | `x3d.ml@8e2e8da` `demo/data/live.json`, `demo/v4/parts/run24.txt` |
+| N-JEV-21 | [22](22-typed-judgments-jev.md) | 174 replay scenes: XSD median; semantic median; validators total; recorded render median; recorded render total; ratio | 0.11 ms; 0.54 ms; 578 ms; 4,561 ms; 761.9 s; about 1,300 | [C] | Python 3.13.18, `x3d_mcp@dcf0815` validators warm, 4 vCPU, one process; render time recorded | `x3d.ml@8e2e8da` `demo/data/replay.json` |
+| N-JEV-22 | [22](22-typed-judgments-jev.md) | replay scenes passing XSD and semantic checks; of those drawing nothing; scenes the strict gate accepts; drawing scenes it rejects | 91; 17 (18.7%); 54; 61 of 115 | [C] | recorded verdicts and renders, fork `eb4b4b4` | same file |
+| N-JEV-23 | [22](22-typed-judgments-jev.md) | valid scenes of the same 174 at seven validator commits (`8c0a457`, `c9c9788`, `688174f`, `76fc439`, `d61d4de`, `eb4b4b4`, `d5598c4`) | 55, 55, 54, 63, 63, 54, 54 | [C] | recorded verdicts | `x3d.ml@8e2e8da` `drift/verdicts_by_fork_commit.json` |
+| N-JEV-24 | [22](22-typed-judgments-jev.md) | share of recorded calls that draw, by group: valid; XSD-invalid; `profile-component`; `containerfield-type-mismatch` | 96% (320 of 334); 47% (266 of 567); 78% (162 of 209); 12% (3 of 24) | [C] | Python 3.13.18 over the recorded files; groups overlap | same recorded files as N-JEV-20 |
+| N-JEV-25 | [22](22-typed-judgments-jev.md) | first-try validity predictor, 359 first attempts, prompt-grouped 5-fold CV, seed 1: Brier constant, per-model, logistic; AUC; ECE | 0.2125, 0.1646, 0.1544; 0.809; 0.062 | [C] | Python 3.13.18, numpy 2.5.5, hand-written logistic regression; feasibility of labels only, not a Jev result | same recorded files as N-JEV-20 |
+| N-JEV-26 | [22](22-typed-judgments-jev.md) | exact-fix corpus regenerated at HEAD: seeds; errors; valid before; valid after hints; seed restored | 24; 577; 76 of 540; 522 of 540; 268 of 540 | [C] | `x3d_mcp@dcf0815` `evaluation/exact_fix_eval.py`, 11 s; the committed `results.json` states 25; 570; 81; 523; 257 | `x3d_mcp@dcf0815` |
+| N-JEV-27 | [22](22-typed-judgments-jev.md) | playground defect operators: applied cases behaving as declared; browser operators passing XSD and semantic checks | 312 of 312; 65 of 65 | [C] | Python 3.13.18, `x3d_mcp@dcf0815`, seed 0, 39 clean scenes | `x3d_mcp@dcf0815` `playground/mutate.py` |
+| N-JEV-28 | [22](22-typed-judgments-jev.md) | mutants of 755 clean scenes: first rejecting stage JSON typing; XSD; semantic; accepted by all | 813 (26.9%); 67 (2.2%); 150 (5.0%); 1,990 (65.9%) of 3,020 | [C] | `x3d.zod` fuzz tool, 4 mutants per document, seed 1, then `x3d_mcp@dcf0815` stages in order; survivors unlabelled | `x3d.loom@0752865` `x3d.zod` |
 <!-- END GENERATED -->
