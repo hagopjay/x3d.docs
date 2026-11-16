@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**169 drills**, 156 with a recorded run (`Checked`), 13 not yet run. Levels: L1 32, L2 88, L3 49.
+**175 drills**, 162 with a recorded run (`Checked`), 13 not yet run. Levels: L1 34, L2 91, L3 50.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -176,4 +176,10 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-JEV-4 | [22](22-typed-judgments-jev.md) | L3 | Would a raw scene fit a question? | 2026-11-16 Python 3.13.18, `x3d.docs@3aab064` |
 | D-JEV-5 | [22](22-typed-judgments-jev.md) | L2 | A pattern lint, and what it misses | 2026-11-16 Python 3.13.18 |
 | D-JEV-6 | [22](22-typed-judgments-jev.md) | L1 | How steady is a repeated answer? | 2026-11-16 Python 3.13.18 |
+| D-TRC-1 | [23](23-traceability-lineage.md) | L1 | The grade a verdict allows | 2026-11-16 `x3dtrace` dcba70d7, Python 3.13.18 |
+| D-TRC-2 | [23](23-traceability-lineage.md) | L2 | Four claims, two wrong | 2026-11-16 `x3dtrace` dcba70d7, Python 3.13.18 |
+| D-TRC-3 | [23](23-traceability-lineage.md) | L2 | First hit or the field's node | 2026-11-16 `x3dtrace` dcba70d7, Python 3.13.18 |
+| D-TRC-4 | [23](23-traceability-lineage.md) | L3 | Break the verifier, then extend it | 2026-11-16 `x3dtrace` dcba70d7, Python 3.13.18 |
+| D-TRC-5 | [23](23-traceability-lineage.md) | L2 | Edit the record | 2026-11-16 `x3dtrace` dcba70d7, `x3dprov` of `x3d.ml@305fd60`, Python 3.13.18, lxml 6 |
+| D-TRC-6 | [23](23-traceability-lineage.md) | L1 | Coverage that lies | 2026-11-16 `x3dtrace` dcba70d7, Python 3.13.18 |
 <!-- END GENERATED -->

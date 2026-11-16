@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**561 numbers** from 22 chapters. Grades: [C] 512 · [L] 43 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
+**585 numbers** from 23 chapters. Grades: [C] 535 · [L] 44 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -568,4 +568,28 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-JEV-26 | [22](22-typed-judgments-jev.md) | exact-fix corpus regenerated at HEAD: seeds; errors; valid before; valid after hints; seed restored | 24; 577; 76 of 540; 522 of 540; 268 of 540 | [C] | `x3d_mcp@dcf0815` `evaluation/exact_fix_eval.py`, 11 s; the committed `results.json` states 25; 570; 81; 523; 257 | `x3d_mcp@dcf0815` |
 | N-JEV-27 | [22](22-typed-judgments-jev.md) | playground defect operators: applied cases behaving as declared; browser operators passing XSD and semantic checks | 312 of 312; 65 of 65 | [C] | Python 3.13.18, `x3d_mcp@dcf0815`, seed 0, 39 clean scenes | `x3d_mcp@dcf0815` `playground/mutate.py` |
 | N-JEV-28 | [22](22-typed-judgments-jev.md) | mutants of 755 clean scenes: first rejecting stage JSON typing; XSD; semantic; accepted by all | 813 (26.9%); 67 (2.2%); 150 (5.0%); 1,990 (65.9%) of 3,020 | [C] | `x3d.zod` fuzz tool, 4 mutants per document, seed 1, then `x3d_mcp@dcf0815` stages in order; survivors unlabelled | `x3d.loom@0752865` `x3d.zod` |
+| N-TRC-1 | [23](23-traceability-lineage.md) | tracked `.x3d` files; duplicates dropped; scenes parsed | 1,614; 182; 1,379 | [C] | `measure/m_corpus.py`, engine `dcba70d7`, Python 3.13.18 | `x3d.ml@305fd60:measure/results/m_corpus.json` |
+| N-TRC-2 | [23](23-traceability-lineage.md) | parse failures; not XML | 47; 6 | [C] | same | same |
+| N-TRC-3 | [23](23-traceability-lineage.md) | elements; attributes; value-bearing attributes | 248,929; 364,127; 100,392 | [C] | same | same |
+| N-TRC-4 | [23](23-traceability-lineage.md) | repeated quotes, value only | 57.6% | [C] | same | same |
+| N-TRC-5 | [23](23-traceability-lineage.md) | repeated quotes, `attr="value"` | 43.7% | [C] | same | same |
+| N-TRC-6 | [23](23-traceability-lineage.md) | repeated quotes, start tag plus 3 tokens | 15.9% | [C] | same | same |
+| N-TRC-7 | [23](23-traceability-lineage.md) | repeated `attr="value"` quotes; first hit on the wrong node | 43,903; 37,797 (86.1%) | [C] | same | same |
+| N-TRC-8 | [23](23-traceability-lineage.md) | wrong when the field's node chooses | 1 of 43,903 | [C] | same | same |
+| N-TRC-9 | [23](23-traceability-lineage.md) | shapes with a world box | 28,465 of 32,608 (87.3%) | [C] | same | same |
+| N-TRC-10 | [23](23-traceability-lineage.md) | scenes with every shape boxed | 878 of 1,142 | [C] | same | same |
+| N-TRC-11 | [23](23-traceability-lineage.md) | value attributes of model-written scenes for which a prompt phrase could be quoted | 394 of 8,250 (4.78%), 201 runs | [L] | `measure/m_grounding.py`, lexical matcher (an upper bound on quoting) | `x3d.ml@305fd60:measure/results/m_grounding.json` |
+| N-TRC-12 | [23](23-traceability-lineage.md) | tamper: attempts caught, item edited in sidecar | 1,120 of 1,120 | [C] | `measure/m_tamper.py`, seed 20261116, 40 scenes, 656 claims | `x3d.ml@305fd60:measure/results/m_tamper.json` |
+| N-TRC-13 | [23](23-traceability-lineage.md) | tamper: scene edited | 319 of 319 | [C] | same | same |
+| N-TRC-14 | [23](23-traceability-lineage.md) | tamper: consistent forgeries caught (two families, 80 each) | 0 of 160 | [C] | same | same |
+| N-TRC-15 | [23](23-traceability-lineage.md) | cost per claim: check; check and record; audit | 0.35; 0.72; 0.59 ms | [C] | same, one core | same |
+| N-TRC-16 | [23](23-traceability-lineage.md) | independent review: tests written without the code; defects in the first build | 1,204; 43 | [C] | `tests/test_x3dtrace.py`, Python 3.13.18 | `x3d.ml@305fd60:docs/TRACE-REVIEW.md` |
+| N-TRC-17 | [23](23-traceability-lineage.md) | conformance rows where x3dtrace differs from GAIK on purpose | 55 of 135 | [C] | `tests/fixtures/trace_conformance.json` | `x3d.ml@305fd60:docs/DESIGN.md` |
+| N-TRC-18 | [23](23-traceability-lineage.md) | browser port rows agreeing with the engine | 1,767 of 1,767 | [C] | `js/test_vectors.js`, Node 22; the committed file holds 968 of them | `x3d.ml@305fd60:js/README.md` |
+| N-TRC-19 | [23](23-traceability-lineage.md) | planted claims, `x3d.s1`: true claims verified; wrong number verified; word outside quote verified; fabricated quote verified | 5,782 of 5,808; 0 of 806; 0 of 5,357; 0 of 5,808 | [C] | `x3d.s1` `tools/evidence_measure.py`, Python 3.13.18, 501 scenes | `x3d.loom@be7c481:x3d.s1/README.md` |
+| N-TRC-20 | [23](23-traceability-lineage.md) | paraphrased instruction-like strings verified as quotes (blind spot) | 501 of 501 | [C] | same | same |
+| N-TRC-21 | [23](23-traceability-lineage.md) | `scene_evidence` tool tests | 36 | [C] | pytest, Python 3.13.18 | `x3d_mcp@e55375f:docs/scene-evidence.md` |
+| N-TRC-22 | [23](23-traceability-lineage.md) | `scene_evidence`, 600-block scene (92,280 B) with 100 claims, BIND on | 71 ms | [C] | `evaluation/time_scene_evidence.py`, median of 7 calls, engine `dcba70d7`, 4 cores | same |
+| N-TRC-23 | [23](23-traceability-lineage.md) | `x3d-blender-io` lineage tests: pure Python; with Blender | 15; 4 | [C] | Python 3.13.18; bpy 5.3.0 as recorded in the commit message | `x3d-blender-io@044bea3:source/lineage.py` |
+| N-TRC-24 | [23](23-traceability-lineage.md) | open review findings, each with an expected-failure test | 8 | [C] | `tests/test_x3dtrace.py` | `x3d.ml@305fd60:docs/TRACE-REVIEW.md` |
 <!-- END GENERATED -->

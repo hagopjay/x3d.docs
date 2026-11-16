@@ -19,8 +19,8 @@ blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;backgr
 .nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
 details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
 .foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
-</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><h4>About</h4><a class="cur" href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="AUTHORING.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/AUTHORING.md">GitHub</a></div><h1>AUTHORING: how this knowledge base is written, checked and grown</h1>
-<details class="toc"><summary>On this page (6 sections)</summary><a class="l2" href="#1-grades-every-claim-carries-one">1. Grades (every claim carries one)</a><a class="l2" href="#2-name-the-instrument-behind-every-number">2. Name the instrument behind every number</a><a class="l2" href="#3-chapter-template-strict-the-linter-checks-the-headings">3. Chapter template (strict; the linter checks the headings)</a><a class="l2" href="#4-style">4. Style</a><a class="l2" href="#5-public-repo-hygiene-this-repo-is-public-the-linter-and-the-leak-sweep-enforce-this">5. Public-repo hygiene (this repo is PUBLIC; the linter and the leak sweep enforce this)</a><a class="l2" href="#6-how-the-base-grows-the-augmentation-loop">6. How the base grows (the augmentation loop)</a></details>
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a class="cur" href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="AUTHORING.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/AUTHORING.md">GitHub</a></div><h1>AUTHORING: how this knowledge base is written, checked and grown</h1>
+<details class="toc"><summary>On this page (7 sections)</summary><a class="l2" href="#1-grades-every-claim-carries-one">1. Grades (every claim carries one)</a><a class="l2" href="#2-name-the-instrument-behind-every-number">2. Name the instrument behind every number</a><a class="l2" href="#3-chapter-template-strict-the-linter-checks-the-headings">3. Chapter template (strict; the linter checks the headings)</a><a class="l2" href="#4-style">4. Style</a><a class="l2" href="#5-public-repo-hygiene-this-repo-is-public-the-linter-and-the-leak-sweep-enforce-this">5. Public-repo hygiene (this repo is PUBLIC; the linter and the leak sweep enforce this)</a><a class="l2" href="#6-how-the-base-grows-the-augmentation-loop">6. How the base grows (the augmentation loop)</a><a class="l2" href="#7-claim-ledger-optional-per-chapter-from-chapter-23-on-a-chapter-ships-with-one">7. Claim ledger (optional per chapter; from chapter 23 on, a chapter ships with one)</a></details>
 <p>This file is the contract for every chapter under <code>docs/learn/</code>. A chapter that breaks it fails <code>tools-shared/check_learn.py</code>.
 It is also the <em>method</em>: the way a claim enters this base is the same way a claim enters an X3D pipeline we trust.</p>
 <p><strong>Thesis the whole base serves:</strong> <em>X3D is the 3D format an AI can be held accountable to.</em> Machine-readable rules (XSD, DTD,
@@ -196,4 +196,118 @@ run, or run the tool again. If you cannot, grade it <span class="g S" title="Sus
 <li><strong>Demote on contradiction</strong>: a later measurement that disagrees with a <span class="g C" title="Confirmed">C</span> row downgrades the row and records both numbers.</li>
 </ol>
 <p>New demos or measurements land as new versions; an earlier measurement is never overwritten, it is superseded by a dated row.</p>
+<h2 id="7-claim-ledger-optional-per-chapter-from-chapter-23-on-a-chapter-ships-with-one">7. Claim ledger (optional per chapter; from chapter 23 on, a chapter ships with one)</h2>
+<p>A Numbers register says <em>what</em> a chapter claims. A ledger says <em>where it was read</em>: one JSON line per value with the quote that holds it.
+<code>tools-shared/check_claims.py</code> then does in code what a reviewer would do by hand, with no model and no network unless you ask for it:</p>
+<table>
+<thead>
+<tr>
+<th>step</th>
+<th>question</th>
+<th>how</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FIND</td>
+<td>is the quote in the cited source, pinned at the sha?</td>
+<td>token run match: lowercase words, punctuation and spacing ignored, a number keeps its sign and decimal point</td>
+</tr>
+<tr>
+<td>COMPARE</td>
+<td>is the value inside the quote?</td>
+<td>numbers as numbers (4.200 may be 4.2 or 4200; 1.234,5 and 1,234.5 both read 1234.5), lists in order, text by words</td>
+</tr>
+<tr>
+<td>LOCATE</td>
+<td>where is it?</td>
+<td>line and character span; Appendix G links the line at the pinned sha</td>
+</tr>
+</tbody>
+</table>
+<p>File: <code>docs/learn/claims/&lt;chapter file stem&gt;.jsonl</code> (for example <code>22-typed-judgments-jev.jsonl</code>). One JSON object per line; blank lines and lines
+starting with <code>#</code> are skipped; an optional first object <code>{&quot;_meta&quot;: {...}}</code> carries <code>schema</code> (<code>claims/0.1</code>), <code>coverage_floor</code> and a note.
+A chapter without a ledger file is unchanged: nothing below applies to it.</p>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>required</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>yes</td>
+<td>an existing row of the chapter (<code>N-&lt;CODE&gt;-n</code>, <code>H-&lt;CODE&gt;-n</code>) or <code>Q-&lt;CODE&gt;-n</code> for a claim in prose that has no row (its number must occur in the chapter text)</td>
+</tr>
+<tr>
+<td><code>value</code></td>
+<td>yes</td>
+<td>a number, a list of numbers (an SFVec3f or colour), a string, or null</td>
+</tr>
+<tr>
+<td><code>quote</code></td>
+<td>yes, except private</td>
+<td>at most 40 words copied from the source; it must occur as an unbroken run of words</td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td>yes</td>
+<td><code>repo@sha:path</code> (a repo on the public list in <code>claims_lib.PUBLIC_REPOS</code>), <code>self:docs/learn/NN-slug.md</code>, <code>external:&lt;label&gt;</code> or <code>private:&lt;name&gt;</code></td>
+</tr>
+<tr>
+<td><code>grade</code></td>
+<td>no</td>
+<td><code>C</code>, <code>L</code> or <code>S</code>; if present it must equal the register's grade for <code>id</code></td>
+</tr>
+<tr>
+<td><code>line</code></td>
+<td>no</td>
+<td>a hint, required when the quote occurs more than once in the source (a repeated quote with no hint is <code>check</code>)</td>
+</tr>
+<tr>
+<td><code>in</code></td>
+<td>no</td>
+<td>which register cell holds the value: <code>value</code> (default), <code>quantity</code>, <code>instrument</code> or <code>source</code></td>
+</tr>
+<tr>
+<td><code>transform</code></td>
+<td>no</td>
+<td>a declared conversion from the quote's number to the value, <code>{&quot;scale&quot;: 100, &quot;round&quot;: 1}</code>; without it a converted number is <code>check</code></td>
+</tr>
+<tr>
+<td><code>from</code></td>
+<td>no</td>
+<td>a carry edge: the row this number was taken from; the value must be in that row and the grade may not rise</td>
+</tr>
+<tr>
+<td><code>quote_sha256</code>, <code>quote_words</code></td>
+<td>private only</td>
+<td>digest of the quote's token run and its length; the quote itself is never written (<code>claims_lib.seal</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>Verdicts, as in the source-tracing component of the GAIK toolkit that <code>claims_lib.py</code> is adapted from (MIT; its notice is kept in that file): <strong>verified</strong> (quote found once, value inside it),
+<strong>check</strong> (quote not found, found in more than one place, found at another line than the hint, longer than 40 words, or the value is not inside it),
+<strong>reworded</strong> (a text value that is not inside its quote), <strong>unchecked</strong> (the source cannot be read here: external, private, or no checkout).
+A <code>check</code> is a lint error. An <code>unchecked</code> is a warning offline and an error under <code>--require-resolved</code>.</p>
+<p>Rules that keep the ledger honest:</p>
+<ol>
+<li><strong>Grade caps follow the source.</strong> <code>private:</code> is never above <span class="g S" title="Suspected">S</span> (a private note is a lead); <code>external:</code> is never above <span class="g L" title="Likely">L</span> (read, not run); only <code>repo@sha:path</code> and <code>self:</code> can carry <span class="g C" title="Confirmed">C</span>, and only when the verdict is verified.</li>
+<li><strong>A carried number never rises.</strong> <code>from</code> names the origin row; the origin must contain the value; the carrier's grade is at most the origin's.</li>
+<li><strong>Coverage is a figure, not a goal in itself.</strong> It is the share of numbers in Value cells that have a ledger line with that number: <code>values_with_quote / values</code>. A <code>coverage_floor</code> in <code>_meta</code> fails the lint when coverage drops below it; lowering it shows in the diff. Derived numbers (a ratio, a recompute) stay uncovered unless the receipt that holds them is quoted.</li>
+<li><strong><code>verified</code> does not say the quote is the right place.</strong> It says the value is in the words and the words are in the file at that sha. A quote that appears twice needs a <code>line</code>. Quotes that name no key (a bare <code>499</code>) are weak: quote the key too.</li>
+<li><strong>Public hygiene.</strong> Ledgers are served with the site. They go through the same leak sweep as chapters. A private source publishes a digest, never words; <code>check_claims.py --private DIR</code> lets its owner re-find the words by digest, and COMPARE cannot be re-run in public.</li>
+<li><strong>Pins.</strong> In CI use <code>--fetch --strict-pins</code>: every <code>repo@sha:path</code> is read at its sha from the public repository, so a pin that was rewritten or never existed is <code>check</code>, not silently read at HEAD.</li>
+</ol>
+<p>Commands:</p>
+<pre><code class="language-bash">python3 docs/tools-shared/check_learn.py --warn --summary            # offline: ledger &lt;-&gt; register links, value in quote, leak sweep
+python3 docs/tools-shared/check_claims.py --fetch --strict-pins --summary --receipt docs/learn/claims/receipt.json
+python3 docs/tools-shared/build_learn.py                             # Appendix G from the receipt
+python3 -I -B -m unittest discover -s docs/tools-shared -p 'test_claims.py'
+</code></pre>
+<p>What this cannot do (same limits as the method it adapts): it cannot tell that a quote is the wrong place when the value is there; it reads
+text only (a number in a figure, a PDF scan or a binary has no ledger line); it does not judge a derived figure; and <code>4.200</code> stays ambiguous.</p>
 <p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

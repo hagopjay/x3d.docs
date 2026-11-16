@@ -10,7 +10,7 @@ a viewer (`view.html?scene=…`) and validated X3D 4.0 scenes under `scenes/`.
 
 ## X3D Elucidation (`docs/learn/`)
 
-The deep-learning base for people who already believe in X3D: thirteen chapters, a methods chapter and six appendices. Every number names its validator, renderer
+The deep-learning base for people who already believe in X3D: twenty-three chapters (one of them the methods chapter) and seven appendices. Every number names its validator, renderer
 or rig; every claim carries a grade (Confirmed, Likely, Suspected); every chapter ends in drills with answer keys. Start at `docs/learn/00-start-here.md`
 (site: `learn/index.html`). Rules for writing and growing it: `docs/learn/AUTHORING.md`. Rebuild and lint:
 
