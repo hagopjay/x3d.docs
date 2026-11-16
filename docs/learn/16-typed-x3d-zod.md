@@ -7,7 +7,7 @@
 | chapter code | `ZOD` |
 | prerequisites | [01 The tether](01-the-tether.md); [03 Validator and gates](03-validator-and-gates.md) for the XSD and semantic rungs; [04 MCP for agents](04-mcp-for-agents.md) for the tool surface |
 | after this you can | (1) generate Zod and TS types from the Web3D JSON Schema and say which JSON Schema keywords the generator models; (2) turn a model's text into a verdict with a path, and into a repair prompt; (3) build a node-restricted schema and say what lean mode costs; (4) say what the JSON gate catches that the XSD cannot, and the reverse; (5) read the corpus table and know which disagreements are the standards' |
-| sources read | `x3d.loom@d8e02ef:x3d.zod/{tools/gen.mjs,src/index.ts,src/restrict.ts,tools/xml2json.py,tools/corpus.py,tools/fuzz.mjs,tests/,receipts/}`; `x3d_mcp@c86caf7:src/validation/{llm_schema.py,validate.py}` and `src/tools/validate_tool.py`; `x3d.demo@9c96896:docs/demos/typed-x3d/v1/` |
+| sources read | `x3d.loom@d8e02ef:x3d.zod/{tools/gen.mjs,src/index.ts,src/restrict.ts,tools/xml2json.py,tools/corpus.py,tools/fuzz.mjs,tests/,receipts/}`; `x3d_mcp@60b9474:src/validation/{llm_schema.py,validate.py}` and `src/tools/validate_tool.py`; `x3d.demo@9c96896:docs/demos/typed-x3d/v1/` |
 | instruments used | Web3D `x3d-4.0-JSONSchema.json` sha1 `c6765a4` (1,023,286 bytes) with the `NavigationInfo.@type` correction applied in memory; `zod 4.6.7`; `ajv 8.20.0` (Draft 2020-12, formats off); `jsonschema 4.26.0` (Python 3.13); `typescript 7.0.2`; `esbuild 0.25.12`; Node v22.23.4; `x3d_mcp fork fbe165f` for `validate_xml`, `validate_json`, `validate_semantic` and `json_to_xml`; `X_ITE 16.6.0` on Chromium with SwiftShader; one container with 4 CPU cores and no GPU |
 
 A model that writes X3D has two failure modes: it writes something the standard forbids, and it writes something the standard allows that is wrong. The first is a typing problem and typing problems are cheap to catch if the schema is code. This chapter is the typing layer: how the JSON Schema becomes Zod, what it can and cannot see, and what four validators say when they all look at the same 1,533 scenes.
@@ -217,7 +217,7 @@ Commands run from `x3d.loom/x3d.zod` after `npm ci`.
 ### D-ZOD-5 Size a vocabulary
 - **Level:** L2
 - **Task:** Restrict the schema to the starter vocabulary, lean on and off, and give the sizes. Then check that the Python tool agrees.
-- **Verify:** `restrictSchema(schema, {nodes, lean})` in Node and `restricted_schema(PRESETS["starter"], lean)` in `x3d_mcp@c86caf7:src/validation/llm_schema.py`; compare `sha1` of the key-sorted compact JSON, first 12 hex digits.
+- **Verify:** `restrictSchema(schema, {nodes, lean})` in Node and `restricted_schema(PRESETS["starter"], lean)` in `x3d_mcp@60b9474:src/validation/llm_schema.py`; compare `sha1` of the key-sorted compact JSON, first 12 hex digits.
 - **Answer:** 32,744 and 19,153 bytes; digests `339dee2fc602` (full keys) and `2e7ef1bfc403` (lean) on both sides.
 - **Checked:** 2026-11-15 Node v22.23.4 and Python 3.13, schema sha1 `c6765a4`
 
@@ -246,7 +246,7 @@ Commands run from `x3d.loom/x3d.zod` after `npm ci`.
 | N-ZOD-2 | generated Zod file | 597,222 bytes | [C] | `gen.mjs` | `x3d.zod/src/generated/x3d.zod.ts` |
 | N-ZOD-3 | strict objects / unions / tuples / enums emitted | 887 / 301 / 88 / 150 | [C] | `gen.mjs` | `x3d.zod/receipts/gen.json` |
 | N-ZOD-4 | node tests | 32 of 32 pass | [C] | Node v22.23.4, zod 4.6.7, ajv 8.20.0 | `x3d.zod/tests` |
-| N-ZOD-5 | full schema minified / starter lean / animated lean | 502,810 / 19,153 / 25,635 bytes | [C] | `restrictSchema` and `llm_schema.py` agree | `x3d.zod/src/restrict.ts`, `x3d_mcp@c86caf7` |
+| N-ZOD-5 | full schema minified / starter lean / animated lean | 502,810 / 19,153 / 25,635 bytes | [C] | `restrictSchema` and `llm_schema.py` agree | `x3d.zod/src/restrict.ts`, `x3d_mcp@60b9474` |
 | N-ZOD-6 | repository scenes found / checked by all four validators | 1,533 / 1,432 | [C] | `tools/corpus.py`, x3d_mcp fork fbe165f | `x3d.zod/receipts/corpus-summary.json` |
 | N-ZOD-7 | scenes where Zod, ajv and jsonschema agree | 1,432 of 1,432 | [C] | same | same |
 | N-ZOD-8 | XSD accepts and JSON accepts / XSD accepts and JSON rejects | 918 / 128 | [C] | `validate_xml`, `validate_json` | same |
@@ -263,4 +263,4 @@ Commands run from `x3d.loom/x3d.zod` after `npm ci`.
 
 ## Sources and provenance
 
-`x3d.loom@d8e02ef` folder `x3d.zod` (branch of the first pull request), read and run on 2026-11-15; `x3d_mcp@c86caf7` (`src/validation/llm_schema.py`, the `x3d_json_schema` tool, 11 tests; the full suite was 1,377 passed and 27 skipped before the digest tests, Python 3.13) and its validators at `fbe165f`; `x3d.demo@9c96896` for the page and `matrix.json`. The schema file is the Web3D Consortium's published `x3d-4.0-JSONSchema.json`; Zod by Colin McDonnell and contributors; ajv by Evgeny Poberezkin and contributors. The corpus is the `.x3d` files in the nine project repositories as checked out on 2026-11-15.
+`x3d.loom@d8e02ef` folder `x3d.zod` (branch of the first pull request), read and run on 2026-11-15; `x3d_mcp@60b9474` (`src/validation/llm_schema.py`, the `x3d_json_schema` tool, 11 tests; the full suite was 1,377 passed and 27 skipped before the digest tests, Python 3.13) and its validators at `fbe165f`; `x3d.demo@9c96896` for the page and `matrix.json`. The schema file is the Web3D Consortium's published `x3d-4.0-JSONSchema.json`; Zod by Colin McDonnell and contributors; ajv by Evgeny Poberezkin and contributors. The corpus is the `.x3d` files in the nine project repositories as checked out on 2026-11-15.

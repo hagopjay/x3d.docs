@@ -51,7 +51,7 @@ Every `repo@sha` cited anywhere in the chapters, with the chapters that cite it.
 | `x3d.xray` | `8fa6845` | 06, 07, 14 |
 | `x3d_mcp` | `13121b6` | 05 |
 | `x3d_mcp` | `535fdac` | 01 |
+| `x3d_mcp` | `60b9474` | 16 |
 | `x3d_mcp` | `74da0ec` | 03, 04 |
 | `x3d_mcp` | `b4efcd3` | 01, 03, 04, 05, 06, 07, 09, 10 |
-| `x3d_mcp` | `c86caf7` | 16 |
 <!-- END GENERATED -->

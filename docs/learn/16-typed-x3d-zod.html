@@ -46,7 +46,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>sources read</td>
-<td><code>x3d.loom@d8e02ef:x3d.zod/{tools/gen.mjs,src/index.ts,src/restrict.ts,tools/xml2json.py,tools/corpus.py,tools/fuzz.mjs,tests/,receipts/}</code>; <code>x3d_mcp@c86caf7:src/validation/{llm_schema.py,validate.py}</code> and <code>src/tools/validate_tool.py</code>; <code>x3d.demo@9c96896:docs/demos/typed-x3d/v1/</code></td>
+<td><code>x3d.loom@d8e02ef:x3d.zod/{tools/gen.mjs,src/index.ts,src/restrict.ts,tools/xml2json.py,tools/corpus.py,tools/fuzz.mjs,tests/,receipts/}</code>; <code>x3d_mcp@60b9474:src/validation/{llm_schema.py,validate.py}</code> and <code>src/tools/validate_tool.py</code>; <code>x3d.demo@9c96896:docs/demos/typed-x3d/v1/</code></td>
 </tr>
 <tr>
 <td>instruments used</td>
@@ -587,7 +587,7 @@ npm run gen &amp;&amp; npm run typecheck &amp;&amp; npm test
 <ul>
 <li><strong>Level:</strong> L2</li>
 <li><strong>Task:</strong> Restrict the schema to the starter vocabulary, lean on and off, and give the sizes. Then check that the Python tool agrees.</li>
-<li><strong>Verify:</strong> <code>restrictSchema(schema, {nodes, lean})</code> in Node and <code>restricted_schema(PRESETS[&quot;starter&quot;], lean)</code> in <code>x3d_mcp@c86caf7:src/validation/llm_schema.py</code>; compare <code>sha1</code> of the key-sorted compact JSON, first 12 hex digits.</li>
+<li><strong>Verify:</strong> <code>restrictSchema(schema, {nodes, lean})</code> in Node and <code>restricted_schema(PRESETS[&quot;starter&quot;], lean)</code> in <code>x3d_mcp@60b9474:src/validation/llm_schema.py</code>; compare <code>sha1</code> of the key-sorted compact JSON, first 12 hex digits.</li>
 <li><strong>Answer:</strong> 32,744 and 19,153 bytes; digests <code>339dee2fc602</code> (full keys) and <code>2e7ef1bfc403</code> (lean) on both sides.</li>
 <li><strong>Checked:</strong> 2026-11-15 Node v22.23.4 and Python 3.13, schema sha1 <code>c6765a4</code></li>
 </ul>
@@ -660,7 +660,7 @@ npm run gen &amp;&amp; npm run typecheck &amp;&amp; npm test
 <td>502,810 / 19,153 / 25,635 bytes</td>
 <td><span class="g C" title="Confirmed">C</span></td>
 <td><code>restrictSchema</code> and <code>llm_schema.py</code> agree</td>
-<td><code>x3d.zod/src/restrict.ts</code>, <code>x3d_mcp@c86caf7</code></td>
+<td><code>x3d.zod/src/restrict.ts</code>, <code>x3d_mcp@60b9474</code></td>
 </tr>
 <tr>
 <td>N-ZOD-6</td>
@@ -769,5 +769,5 @@ npm run gen &amp;&amp; npm run typecheck &amp;&amp; npm test
 </tbody>
 </table>
 <h2 id="sources-and-provenance">Sources and provenance</h2>
-<p><code>x3d.loom@d8e02ef</code> folder <code>x3d.zod</code> (branch of the first pull request), read and run on 2026-11-15; <code>x3d_mcp@c86caf7</code> (<code>src/validation/llm_schema.py</code>, the <code>x3d_json_schema</code> tool, 11 tests; the full suite was 1,377 passed and 27 skipped before the digest tests, Python 3.13) and its validators at <code>fbe165f</code>; <code>x3d.demo@9c96896</code> for the page and <code>matrix.json</code>. The schema file is the Web3D Consortium's published <code>x3d-4.0-JSONSchema.json</code>; Zod by Colin McDonnell and contributors; ajv by Evgeny Poberezkin and contributors. The corpus is the <code>.x3d</code> files in the nine project repositories as checked out on 2026-11-15.</p>
+<p><code>x3d.loom@d8e02ef</code> folder <code>x3d.zod</code> (branch of the first pull request), read and run on 2026-11-15; <code>x3d_mcp@60b9474</code> (<code>src/validation/llm_schema.py</code>, the <code>x3d_json_schema</code> tool, 11 tests; the full suite was 1,377 passed and 27 skipped before the digest tests, Python 3.13) and its validators at <code>fbe165f</code>; <code>x3d.demo@9c96896</code> for the page and <code>matrix.json</code>. The schema file is the Web3D Consortium's published <code>x3d-4.0-JSONSchema.json</code>; Zod by Colin McDonnell and contributors; ajv by Evgeny Poberezkin and contributors. The corpus is the <code>.x3d</code> files in the nine project repositories as checked out on 2026-11-15.</p>
 <div class="pn"><a href="15-animation-timelines.html">&larr; 15-animation-timelines</a><a href="17-physics-engines.html">17-physics-engines &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>
