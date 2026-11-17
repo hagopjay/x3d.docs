@@ -1,0 +1,833 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>24. Math Lab: one model owner, two transports · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><a class="cur" href="24-math-lab-static-host.html">24. Math Lab: one model owner, two transports</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="24-math-lab-static-host.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/24-math-lab-static-host.md">GitHub</a></div><h1>24. Math Lab: one model owner, two transports</h1>
+<details class="toc"><summary>On this page (20 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-the-architecture-and-who-owns-what">2. The architecture and who owns what</a><a class="l2" href="#3-why-the-model-owner-stays-single-pyodide-as-a-static-transport">3. Why the model owner stays single: Pyodide as a static transport</a><a class="l2" href="#4-a-float-hash-is-a-same-runtime-identity">4. A float hash is a same-runtime identity</a><a class="l2" href="#5-a-receipt-is-true-for-one-dependency-major-version">5. A receipt is true for one dependency major version</a><a class="l2" href="#6-the-overlay-hid-a-validated-scene">6. The overlay hid a validated scene</a><a class="l2" href="#7-generate-versus-execute-the-manim-boundary">7. Generate versus execute: the Manim boundary</a><a class="l2" href="#8-using-it">8. Using it</a><a class="l2" href="#9-what-was-not-tested-ranked-by-how-likely-it-is-to-matter">9. What was not tested, ranked by how likely it is to matter</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-mlb-1-which-lessons-are-bit-identical">D-MLB-1 Which lessons are bit-identical</a><a class="l3" href="#d-mlb-2-totals-and-the-worst-difference">D-MLB-2 Totals and the worst difference</a><a class="l3" href="#d-mlb-3-what-one-ulp-is-and-what-a-tolerance-has-to-accept">D-MLB-3 What one ulp is, and what a tolerance has to accept</a><a class="l3" href="#d-mlb-4-same-model-two-transports">D-MLB-4 Same model, two transports</a><a class="l3" href="#d-mlb-5-the-portability-contract">D-MLB-5 The portability contract</a><a class="l3" href="#d-mlb-6-receipt-versus-fresh-run">D-MLB-6 Receipt versus fresh run</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> Keep one program that owns the model and let it travel (a local server, or the same files inside the page on WebAssembly); then never trust a float hash across the two, never trust a copied receipt across a dependency major version, and never trust a node count as proof that a scene can be seen. <strong><span class="g C" title="Confirmed">C</span></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>MLB</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="01-the-tether.html">01 The tether</a> for the thesis; <a href="03-validator-and-gates.html">03 Validator and gates</a> for what a validator pass does and does not say; <a href="23-traceability-lineage.html">23 Traceability and lineage</a> for why an identity hash is a claim with a scope</td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>(1) draw the Math Lab pipeline (kernel, sample, native X3D 4.0 and Manim source text) and say which part owns the numbers; (2) explain why a static host needs no second implementation and what contract makes that true; (3) predict which kernels give a different float hash under Pyodide, and compare across runtimes with a stated tolerance; (4) write a receipt that names every dependency major version; (5) add a screenshot witness for an overlay and say what a node count cannot show; (6) draw the line between generating Manim source and executing it</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td><code>x3d.mathslab@24c9bbd</code> (<code>docs/PAGES.md</code>, <code>docs/FOLDBACK.md</code>, <code>VALIDATION.md</code>, <code>receipts/runtime-parity.json</code>, <code>receipts/browser-smoke-pages.json</code>, <code>receipts/browser-smoke-server.json</code>, <code>receipts/x3d-validation.json</code>, <code>receipts/math-mcp.json</code>, <code>receipts/release-checks.json</code>, <code>mathlab/mcp_server.py</code>, <code>tests/test_pages.py</code>, <code>web/app.js</code>); <code>x3d.loom</code> launch note <code>LEARNINGS-mathlab.md</code> (the five findings, as written on 2026-11-17 against <code>x3d.mathslab</code> at its launch commit <code>78c3aa4</code>)</td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td>CPython 3.13.18 (Linux x86_64, glibc); Pyodide 0.27.7 = CPython 3.12.7 on WebAssembly; Chromium 153.0.8010.12 via Playwright 1.63.0, software GL; mcp 2.3.0 (and 1.29.0 in the older receipts); SciPy 1.17.0; Node 22.23.4; the X3D validator pin recorded in <code>receipts/x3d-validation.json</code> (<code>x3d_mcp</code> commit <code>b5c9956</code>, XSD 4.0, semantic vocabulary 4.1). Nothing was re-run for the five findings; the drills below re-read the recorded receipts with Python 3.13.18</td>
+</tr>
+</tbody>
+</table>
+<p>Math Lab is a set of six lessons (linear maps, derivative, integral, Fourier series, Lorenz, gradient descent) in which one Python kernel per lesson produces numbers and everything the learner sees is generated from those numbers. It was first a local application and then put on a static host. Moving it taught five things that apply to any X3D project that wants to run on a page with no server behind it. This chapter states each with its number, its instrument and its grade, and it marks what was not tested.</p>
+<hr />
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text">   lesson parameters (JSON, 32 KiB cap, finite numbers only)
+        |
+        v
+   decode_request  -- one gate, one 4 MiB response budget, both transports
+        |
+        v
+   kernel  mathlab/*.py   pure standard library; the ONLY owner of the numbers
+        |
+        v
+   sample  (floats + metrics)  ---- identity: sample_sha256  (same-runtime identity, section 4)
+        |
+        +--&gt; X3D 4.0 adapter -&gt; native scene (8 root nodes) -&gt; X_ITE in the browser
+        |                              \-&gt; validated: XSD 4.0 + semantic checks (section 7)
+        +--&gt; Manim source text (a string; never imported, never run on the public page)
+
+   transport A  server mode : loopback HTTP /api/*  -&gt; local CPython 3.13.18
+   transport B  Pages mode  : web/static-api.js -&gt; Pyodide 0.27.7 (CPython 3.12.7) in page
+   selector: /api/health answers &quot;x3d.mathlab&quot; on 127.0.0.1 or localhost, else Pyodide
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>in scope</th>
+<th>out of scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>the pipeline above; why the model owner stays single; the stdlib-only contract; the parity measurement between the two Pythons; the receipt that named one dependency major version; the overlay that hid a validated scene; the generate/execute split for Manim</td>
+<td>the lessons' mathematics (the repository has its own independent checks in <code>receipts/independent-math.json</code>, not read here); hardware GPU timing; browsers other than Chromium; the Manim video itself (not rendered); whether Pages is live (that depends on a repository setting)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>the five findings</th>
+<th>grade</th>
+<th>section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>one model owner survives a move to static hosting</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>3</td>
+</tr>
+<tr>
+<td>a float hash is a same-runtime identity</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>4</td>
+</tr>
+<tr>
+<td>a receipt is true for one dependency major version</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>5</td>
+</tr>
+<tr>
+<td>a scene can pass every structural check and be partly hidden</td>
+<td><span class="g L" title="Likely">L</span> for the pixels, <span class="g C" title="Confirmed">C</span> for the code read</td>
+<td>6</td>
+</tr>
+<tr>
+<td>generate Manim source on the public host, execute it only locally</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<p>Read next: deeper, <a href="23-traceability-lineage.html">23 Traceability and lineage</a> for the same question (what exactly does an identity or a receipt bind) answered with a hash chain; wider, <a href="21-yjs-collaboration.html">21 Many hands on one scene</a> for a second case where two runtimes must agree on one scene.</p>
+<hr />
+<h2 id="2-the-architecture-and-who-owns-what">2. The architecture and who owns what</h2>
+<table>
+<thead>
+<tr>
+<th>stage</th>
+<th>file or tool</th>
+<th>what it owns</th>
+<th>what it must not do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>request gate</td>
+<td><code>decode_request</code> (32 KiB, strict JSON, finite numbers); 4 MiB response budget</td>
+<td>refusing a bad request before a kernel sees it</td>
+<td>differ between transports</td>
+</tr>
+<tr>
+<td>kernel</td>
+<td><code>mathlab/*.py</code>, one per lesson</td>
+<td>every number: samples, metrics, closed-form references</td>
+<td>import anything outside the standard library (needed for transport B)</td>
+</tr>
+<tr>
+<td>sample</td>
+<td>the kernel's output plus <code>sample_sha256</code></td>
+<td>identity of one run in one runtime</td>
+<td>stand as an identity across runtimes (section 4)</td>
+</tr>
+<tr>
+<td>X3D adapter</td>
+<td>native X3D 4.0 writer</td>
+<td>geometry, DEF names, metadata that records the parameters and the sample identity</td>
+<td>re-derive a number the kernel owns</td>
+</tr>
+<tr>
+<td>Manim bridge</td>
+<td>source-text generator</td>
+<td>a Python program as a string, from the same sample</td>
+<td>import or execute Manim on the public page (section 7)</td>
+</tr>
+<tr>
+<td>renderer</td>
+<td>X_ITE in the page</td>
+<td>pixels</td>
+<td>be the only evidence that a scene is correct</td>
+</tr>
+<tr>
+<td>transport</td>
+<td>loopback HTTP, or <code>web/static-api.js</code> calling Pyodide</td>
+<td>moving the same request and response</td>
+<td>hold model logic</td>
+</tr>
+</tbody>
+</table>
+<p>The rule behind the table is the one this base keeps meeting: a number should have one author. When the page needs the model, the cheapest way to give it a second author is to port the kernel to JavaScript, and the cost of that choice shows up later as drift. Math Lab avoided it by making the kernels portable instead of porting them. <strong><span class="g C" title="Confirmed">C</span></strong> (design read in <code>docs/PAGES.md</code>; the contract is tested, section 3.)</p>
+<hr />
+<h2 id="3-why-the-model-owner-stays-single-pyodide-as-a-static-transport">3. Why the model owner stays single: Pyodide as a static transport</h2>
+<p>Pages mode fetches the same <code>mathlab/*.py</code> files, writes them into the Pyodide file system and calls them behind the same request gate and the same 4 MiB budget. There is no second implementation of any lesson. <code>pyodide.js</code> is pinned by an SRI sha384 and loaded from a pinned version path. <strong><span class="g C" title="Confirmed">C</span></strong> (<code>x3d.mathslab@24c9bbd:docs/PAGES.md</code>, read.)</p>
+<p>What makes this safe is a portability contract, not luck. <code>tests/test_pages.py</code> has four tests:</p>
+<table>
+<thead>
+<tr>
+<th>test</th>
+<th>what it fails on</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>test_every_installed_module_exists</code></td>
+<td>the list of files copied into the browser names a file that is not there</td>
+</tr>
+<tr>
+<td><code>test_installed_modules_import_only_stdlib_and_each_other</code></td>
+<td>a kernel imports a third-party package (the kernels use no SciPy; the independent check in <code>receipts/independent-math.json</code> is separate)</td>
+</tr>
+<tr>
+<td><code>test_installed_set_covers_server_dependencies</code></td>
+<td>a module the server needs is missing from the browser set</td>
+</tr>
+<tr>
+<td><code>test_manim_is_never_installed_in_the_browser</code></td>
+<td>Manim, or the MCP wrapper <code>mcp_server</code>, would be shipped to the page</td>
+</tr>
+</tbody>
+</table>
+<p>The measurement, from the two recorded browser passes (same 6 lessons, same probe, Chromium 153.0.8010.12 via Playwright 1.63.0, software GL, Linux):</p>
+<pre><code class="language-text">                           server mode (CPython 3.13.18)     Pages mode (Pyodide 0.27.7)
+ lessons rendered                 6 of 6                            6 of 6
+ root nodes per scene             8                                 8
+ console errors                   0                                 0
+ first native scene               1.833 s                           5.159 s  (incl. ~10 MB)
+ each lesson switch               1.950 - 2.196 s                   2.219 - 2.550 s
+ parameter nudge changes model id yes (MODEL cea87d14.. -&gt; 5c97982f..)   same two ids
+ Manim download                   mathlab-gradient.py, 104,672 B, has a Scene class   same
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>fact</th>
+<th>value</th>
+<th>grade</th>
+<th>instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lessons rendered from Pyodide</td>
+<td>6 of 6, 0 console errors</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>receipts/browser-smoke-pages.json</code>, Chromium 153.0.8010.12, Playwright 1.63.0, software GL</td>
+</tr>
+<tr>
+<td>first native scene, Pages vs server</td>
+<td>5.159 s vs 1.833 s</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>receipts/browser-smoke-pages.json</code>, <code>receipts/browser-smoke-server.json</code></td>
+</tr>
+<tr>
+<td>lesson switch, Pages vs server</td>
+<td>2.219 to 2.550 s vs 1.950 to 2.196 s, each including a 1.5 s settle wait in the probe</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+</tr>
+<tr>
+<td>first scene, as quoted in the launch note</td>
+<td>4.6 to 5.0 s</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>the launch note; the retained receipt holds 5.159 s, a different run, so the receipt is the number to quote</td>
+</tr>
+<tr>
+<td>runtime download</td>
+<td>about 10 MB, needs the network on first load</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>docs/PAGES.md</code>, a stated size, not measured separately</td>
+</tr>
+</tbody>
+</table>
+<p>Two honest remarks. The timings include a network download over the sandbox proxy and a software renderer, so they bound the cost of the transport and say nothing about a user's machine. And the Pages numbers are not a claim that Pyodide is fast: the first scene took 2.8 times the server's time, and no profile separates the runtime download from the rest.</p>
+<hr />
+<h2 id="4-a-float-hash-is-a-same-runtime-identity">4. A float hash is a same-runtime identity</h2>
+<p>Both transports run the same source files at default parameters. The source hashes match everywhere. The samples do not always match, and the pattern is clean:</p>
+<table>
+<thead>
+<tr>
+<th>lesson</th>
+<th style="text-align:right">floats compared</th>
+<th style="text-align:right">differing</th>
+<th style="text-align:right">max absolute difference</th>
+<th><code>sample_sha256</code> equal</th>
+<th>numeric functions used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>linear</td>
+<td style="text-align:right">990</td>
+<td style="text-align:right">18</td>
+<td style="text-align:right">2.220e-16</td>
+<td>no</td>
+<td><code>sin</code>, <code>cos</code>, <code>exp</code></td>
+</tr>
+<tr>
+<td>derivative</td>
+<td style="text-align:right">759</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4.441e-16</td>
+<td>no</td>
+<td><code>sin</code>, <code>cos</code>, <code>exp</code></td>
+</tr>
+<tr>
+<td>integral</td>
+<td style="text-align:right">1,206</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+<td>yes</td>
+<td>+, *, sqrt</td>
+</tr>
+<tr>
+<td>fourier</td>
+<td style="text-align:right">2,314</td>
+<td style="text-align:right">20</td>
+<td style="text-align:right">3.331e-16</td>
+<td>no</td>
+<td><code>sin</code>, <code>cos</code>, <code>exp</code></td>
+</tr>
+<tr>
+<td>lorenz</td>
+<td style="text-align:right">6,073</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+<td>yes</td>
+<td>+, *, sqrt</td>
+</tr>
+<tr>
+<td>gradient</td>
+<td style="text-align:right">5,041</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+<td>yes</td>
+<td>+, *, sqrt</td>
+</tr>
+<tr>
+<td><strong>total</strong></td>
+<td style="text-align:right"><strong>16,383</strong></td>
+<td style="text-align:right"><strong>43</strong></td>
+<td style="text-align:right"><strong>4.441e-16</strong></td>
+<td>3 of 6</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Instrument: <code>x3d.mathslab@24c9bbd:receipts/runtime-parity.json</code>; native CPython 3.13.18 on glibc against Pyodide 0.27.7 (CPython 3.12.7 on WebAssembly) in Chromium via Playwright 1.63.0; the floats were walked recursively over the whole sample. <strong><span class="g C" title="Confirmed">C</span></strong></p>
+<p>Reading it:</p>
+<ul>
+<li>The three identical lessons together hold 12,320 floats, all equal bit for bit. The three that differ differ in 43 of 4,063 floats (18 + 5 + 20 of 990 + 759 + 2,314), each by at most 4.441e-16.</li>
+<li><code>math.ulp(1.0)</code> is 2.220e-16 and <code>math.ulp(2.0)</code> is 4.441e-16 (run, drill D-MLB-3), so the largest difference is one or two units in the last place depending on the magnitude of the value. The receipt says &quot;about one ulp&quot;; that is the right order and the receipt does not record the magnitudes. <strong><span class="g C" title="Confirmed">C</span></strong> for the ulp values, <strong><span class="g L" title="Likely">L</span></strong> for &quot;one or two&quot;.</li>
+<li>The split follows the functions used. Addition, multiplication and square root are correctly rounded by IEEE 754, so two runtimes agree. <code>sin</code>, <code>cos</code> and <code>exp</code> are not required to be correctly rounded and each runtime's math library may round a last bit differently. That is the explanation the receipt gives, and the three-and-three split fits it; it was not tested by swapping the math library, so it is <strong><span class="g L" title="Likely">L</span></strong>.</li>
+<li>The consequence is about identity, not accuracy. An identity hash over floats binds the data to the runtime that produced it. Two correct runtimes can disagree on the hash and be equally right.</li>
+</ul>
+<pre><code class="language-text">   what to compare            same runtime               across runtimes
+   ---------------------------------------------------------------------------------
+   source files               sha256 of the bytes        sha256 of the bytes   (matched: 6 of 6)
+   samples                    sample_sha256 (replay)     floats within a stated tolerance
+   X3D text                   byte hash                  byte hash, if floats print alike
+</code></pre>
+<p>The tolerance has to be stated and has to be chosen on purpose: the one in the drill (1e-12 absolute) accepts the recorded differences with room to spare and rejects a 1e-9 perturbation. That tolerance is a teaching choice, not a Math Lab setting. <strong><span class="g S" title="Suspected">S</span></strong> as a recommendation for a real project.</p>
+<hr />
+<h2 id="5-a-receipt-is-true-for-one-dependency-major-version">5. A receipt is true for one dependency major version</h2>
+<p>The first delivered validation named <code>mcp</code> 1.29.0 and recorded 89 passing tests plus a passing stdio probe. The first fresh run under <code>mcp</code> 2.3.0 failed 4 of those 89:</p>
+<table>
+<thead>
+<tr>
+<th>change in <code>mcp</code> 2.x</th>
+<th>effect</th>
+<th>fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mcp.server.fastmcp</code> renamed (<code>MCPServer</code> in <code>mcp.server.mcpserver</code>)</td>
+<td>the server module no longer imported</td>
+<td>a try/except import of either name in <code>mathlab/mcp_server.py</code></td>
+</tr>
+<tr>
+<td>tool annotation attributes became snake_case (<code>readOnlyHint</code> became <code>read_only_hint</code>)</td>
+<td>tests that read the old spelling failed</td>
+<td>tests and the probe read both spellings</td>
+</tr>
+</tbody>
+</table>
+<p>After a change of about four lines, 93 of 93 tests pass and the stdio probe passes 6 of 6, now recorded as <code>mcp_sdk: 2.3.0</code>. <strong><span class="g C" title="Confirmed">C</span></strong> Instrument: <code>python -m unittest discover</code> under CPython 3.13.18 with mcp 2.3.0; records <code>x3d.mathslab@24c9bbd:receipts/release-checks.json</code> (&quot;Ran 93 tests&quot;), <code>receipts/math-mcp.json</code>, and <code>docs/FOLDBACK.md</code> (the lesson). The older figures (89 passed, SDK 1.29.0) are in <code>VALIDATION.md</code> at the same commit and are still true of that environment.</p>
+<pre><code class="language-text">   receipt A (old):  tests = 89 pass    mcp = 1.29.0    &lt;- true, and invisible to anyone on 2.x
+   fresh run (new):  tests = 89, 4 fail mcp = 2.3.0     &lt;- the witness
+   receipt B (new):  tests = 93 pass    mcp = 2.3.0     probe 6 of 6
+</code></pre>
+<p>The point is not that <code>mcp</code> broke compatibility; a major version is allowed to. The point is that the old receipt was a true statement about an environment it did not name, so nobody could see it had expired. A receipt that records every dependency's major version fails loudly when the environment changes, and a fresh-environment run is a witness that a copied receipt can never be.</p>
+<hr />
+<h2 id="6-the-overlay-hid-a-validated-scene">6. The overlay hid a validated scene</h2>
+<p>The page draws the 3D canvas full size and puts an equation card over its lower part. All structural checks were green: eight root nodes, a valid X3D document, a passing validator run. At 1440 by 900 pixels the Lorenz, gradient and integral scenes were partly behind the card, by about 100 pixels at the bottom. <strong><span class="g L" title="Likely">L</span></strong> for the size: the before and after screenshots were taken with Playwright 1.63.0 and recorded in the launch note, and are not retained in the repository; <code>docs/FOLDBACK.md</code> records the lesson in words.</p>
+<p>The fix has two parts, both visible in the code: size the canvas to the region the card leaves free, and zoom the authored viewpoint after the world loads (<code>viewpoint.fieldOfView *= 0.75</code> in <code>web/app.js</code>). The comment in the code says the change is view-only: the X3D document, its bounds and its identity are untouched. <strong><span class="g C" title="Confirmed">C</span></strong> (code read, <code>x3d.mathslab@24c9bbd:web/app.js</code>; not re-run.)</p>
+<table>
+<thead>
+<tr>
+<th>check</th>
+<th>passes while the scene is hidden</th>
+<th>what it is a witness for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>node count (8 root nodes)</td>
+<td>yes</td>
+<td>the adapter produced the expected structure</td>
+</tr>
+<tr>
+<td>XSD 4.0 plus semantic checks, 6 worlds, 2 negative twins caught</td>
+<td>yes</td>
+<td>the file is valid and two named defects are caught</td>
+</tr>
+<tr>
+<td>identity hash matches the export</td>
+<td>yes</td>
+<td>the bytes are the ones the kernel produced</td>
+</tr>
+<tr>
+<td>screenshot at a stated size, compared before and after</td>
+<td><strong>no</strong></td>
+<td>what a person sees at that size</td>
+</tr>
+</tbody>
+</table>
+<p>The validation receipt is explicit about its reach: it names the tool pin (<code>x3d_mcp</code> commit <code>b5c9956</code>, XSD 4.0, semantic vocabulary 4.1, direct function calls, no network and no model), it caught an invalid numeric radius at the XSD stage and a missing ROUTE source at the semantic stage, and it says per-file checks &quot;do not establish Math Lab mapping fidelity, physical validity, visible rendering or GPU performance&quot;. <strong><span class="g C" title="Confirmed">C</span></strong> (<code>receipts/x3d-validation.json</code>, read.) Visibility belongs to a rendering witness. Chapter 06 covers the renderer as an oracle; this finding is the reason a page with an overlay needs one that looks at pixels.</p>
+<hr />
+<h2 id="7-generate-versus-execute-the-manim-boundary">7. Generate versus execute: the Manim boundary</h2>
+<p>Manim renders a video by running Python. A public static host should not offer that. The Pages build therefore does two things and refuses a third:</p>
+<table>
+<thead>
+<tr>
+<th>action</th>
+<th>on the public page</th>
+<th>where it happens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>generate Manim source text from the shared sample</td>
+<td>yes</td>
+<td>in the page, same generator as the server (download <code>mathlab-gradient.py</code>, 104,672 bytes, contains a <code>Scene</code> class)</td>
+</tr>
+<tr>
+<td>import Manim</td>
+<td>never</td>
+<td><code>test_manim_is_never_installed_in_the_browser</code></td>
+</tr>
+<tr>
+<td>execute the source, render a video</td>
+<td>no</td>
+<td>local only: needs a local Manim install and a local server</td>
+</tr>
+</tbody>
+</table>
+<p>There is no code-execution endpoint on a static host because there is no server; the in-browser Python can evaluate only the six enumerated lessons. <strong><span class="g L" title="Likely">L</span></strong> The boundary is designed and tested at the module-list level (the browser module list excludes the MCP wrapper and Manim); it was not attacked, for example by trying to make the page evaluate a string. The video path itself was not run in this measurement (section 9). The rule it teaches is general: split generation from execution, and let only generation ship to a public host.</p>
+<pre><code class="language-text">   shared sample --&gt; generate source text --&gt; [ public page: show / download ]
+                                        \
+                                         `--&gt; execute: local only, trusted scene, own limits
+</code></pre>
+<hr />
+<h2 id="8-using-it">8. Using it</h2>
+<table>
+<thead>
+<tr>
+<th>step</th>
+<th>command or place</th>
+<th>what comes back</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>list the portability tests</td>
+<td><code>python3 -I -m unittest tests.test_pages -v</code> from the repository root</td>
+<td>four tests, each a contract in section 3</td>
+</tr>
+<tr>
+<td>read the parity receipt</td>
+<td><code>python3 -I -c &quot;import json;print(json.load(open('receipts/runtime-parity.json'))['finding'])&quot;</code></td>
+<td>the one-sentence finding</td>
+</tr>
+<tr>
+<td>find which lessons disagree</td>
+<td>read <code>lessons.&lt;name&gt;.bit_identical</code> in the same file</td>
+<td>false for linear, derivative and fourier</td>
+</tr>
+<tr>
+<td>compare the two transports</td>
+<td>read <code>receipts/browser-smoke-pages.json</code> and <code>receipts/browser-smoke-server.json</code>, field <code>lessons[].model</code></td>
+<td>equal model ids for integral, lorenz, gradient; different for the other three</td>
+</tr>
+<tr>
+<td>one pass over every lesson</td>
+<td><code>tools/browser_smoke.js</code> in <code>x3d.mathslab</code></td>
+<td>a JSON receipt with a parameter nudge, a download check and console errors, against either transport</td>
+</tr>
+<tr>
+<td>the transport selector</td>
+<td><code>web/app.js</code>, <code>/api/health</code> probe</td>
+<td>the loopback server answers <code>x3d.mathlab</code>; any other host uses Pyodide</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="9-what-was-not-tested-ranked-by-how-likely-it-is-to-matter">9. What was not tested, ranked by how likely it is to matter</h2>
+<ol>
+<li><strong>Hardware GPU.</strong> Every render and timing is Chromium 153 on software GL. Frame time and GPU memory are unmeasured.</li>
+<li><strong>Other browsers and devices.</strong> Firefox, Safari and a phone were not run. Pyodide and WebGL differences are the likely places for a gap.</li>
+<li><strong>Parity away from default parameters.</strong> The 16,383 floats are at default parameters only. A different parameter reaches different inputs to <code>sin</code>, <code>cos</code> and <code>exp</code>; the size of the difference there is unmeasured, and the tolerance in section 4 is a guess for it.</li>
+<li><strong>Manim video.</strong> Only source generation ran. No video was rendered, so nothing here shows that the generated source renders as the X3D scene looks.</li>
+<li><strong>A deployed Pages site.</strong> The files and the design were read and the page was served from a local static server for the receipts. Pages goes live only when the repository owner enables it (Settings, Pages, main, root).</li>
+<li><strong>The math itself.</strong> This chapter does not re-check the lessons' mathematics.</li>
+</ol>
+<hr />
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-MLB-1</td>
+<td>Run the model owner's own code in the page instead of porting it; write &quot;standard library only&quot; as a contract and test it.</td>
+<td>C</td>
+<td>6 of 6 lessons rendered from Pyodide behind the same gate; 4 portability tests</td>
+<td><code>x3d.mathslab@24c9bbd:receipts/browser-smoke-pages.json</code>, <code>tests/test_pages.py</code></td>
+</tr>
+<tr>
+<td>H-MLB-2</td>
+<td>Never compare numeric data across runtimes by hash; compare floats with a tolerance you state, and keep the hash for same-runtime replay.</td>
+<td>C</td>
+<td>3 of 6 lessons hash differently across CPython 3.13.18 and Pyodide 0.27.7; 43 of 16,383 floats differ by at most 4.441e-16</td>
+<td><code>receipts/runtime-parity.json</code>, Playwright 1.63.0</td>
+</tr>
+<tr>
+<td>H-MLB-3</td>
+<td>Expect <code>sin</code>, <code>cos</code>, <code>exp</code> to be the first functions to differ across runtimes; +, *, sqrt are correctly rounded and agree.</td>
+<td>L</td>
+<td>the three lessons that differ use the first set, the three that agree use the second; the math library was not swapped to confirm</td>
+<td>same</td>
+</tr>
+<tr>
+<td>H-MLB-4</td>
+<td>Write every dependency's major version into the receipt, and treat a fresh-environment run as the witness.</td>
+<td>C</td>
+<td>4 of 89 tests failed under mcp 2.3.0; the receipts named 1.29.0; 93 of 93 pass after the shim</td>
+<td><code>python -m unittest discover</code>, CPython 3.13.18, mcp 2.3.0</td>
+</tr>
+<tr>
+<td>H-MLB-5</td>
+<td>Add a screenshot witness for any overlay, at a stated window size; do not read a node count or a validator pass as visibility.</td>
+<td>L</td>
+<td>a validated scene was partly behind a card at 1440x900; node counts and X3D validation were green</td>
+<td>launch note, Playwright 1.63.0; fix read in <code>web/app.js</code></td>
+</tr>
+<tr>
+<td>H-MLB-6</td>
+<td>Change the view, not the document, when you reframe for an overlay: keep the X3D bytes and the identity unchanged.</td>
+<td>C</td>
+<td><code>fieldOfView *= 0.75</code> applied after load; the code says the document, bounds and identity are untouched</td>
+<td><code>x3d.mathslab@24c9bbd:web/app.js</code>, read</td>
+</tr>
+<tr>
+<td>H-MLB-7</td>
+<td>Split generate from execute; ship only generation to a public static host and keep a test that the execution library is never installed there.</td>
+<td>L</td>
+<td>Manim source is generated in the page; <code>test_manim_is_never_installed_in_the_browser</code></td>
+<td><code>tests/test_pages.py</code>; not attacked</td>
+</tr>
+<tr>
+<td>H-MLB-8</td>
+<td>Put the transport behind one selector and one response shape, so the controller code is the same for both.</td>
+<td>C</td>
+<td><code>/api/health</code> probe picks loopback or Pyodide; the two smoke receipts have identical <code>lessons[]</code> fields</td>
+<td><code>web/app.js</code>, both smoke receipts</td>
+</tr>
+<tr>
+<td>H-MLB-9</td>
+<td>Quote a timing from a recorded receipt, not from a note, and name the transport, the browser and the renderer.</td>
+<td>C</td>
+<td>the note says 4.6 to 5.0 s for the first scene; the retained receipt says 5.159 s</td>
+<td><code>receipts/browser-smoke-pages.json</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="drills">Drills</h2>
+<p>Each drill needs a checkout of <code>x3d.mathslab</code> at <code>24c9bbd</code> (or later) and <code>python3 -I</code>. They read recorded receipts; none renders anything.</p>
+<h3 id="d-mlb-1-which-lessons-are-bit-identical">D-MLB-1 Which lessons are bit-identical</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> From the parity receipt, list the lessons whose samples are bit-identical across CPython and Pyodide, and the number of floats they hold together.</li>
+<li><strong>Verify:</strong> <code>python3 -I -c &quot;import json;p=json.load(open('receipts/runtime-parity.json'))['lessons'];print([k for k,v in p.items() if v['bit_identical']],sum(v['floats'] for v in p.values() if v['bit_identical']))&quot;</code></li>
+<li><strong>Answer:</strong> <code>['integral', 'lorenz', 'gradient']</code> and 12320.</li>
+<li><strong>Checked:</strong> 2026-11-17 <code>x3d.mathslab@24c9bbd</code> receipt, Python 3.13.18</li>
+</ul>
+<h3 id="d-mlb-2-totals-and-the-worst-difference">D-MLB-2 Totals and the worst difference</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Over all six lessons, how many floats were compared, how many differ, and what is the largest absolute difference? Which lessons carry all the differences?</li>
+<li><strong>Verify:</strong> <code>python3 -I -c &quot;import json;p=json.load(open('receipts/runtime-parity.json'))['lessons'];print(sum(v['floats'] for v in p.values()),sum(v['differing_floats'] for v in p.values()),max(v['max_abs_diff'] for v in p.values()))&quot;</code></li>
+<li><strong>Answer:</strong> 16383 floats, 43 differ (18 linear, 5 derivative, 20 fourier), maximum 4.441e-16.</li>
+<li><strong>Checked:</strong> 2026-11-17 <code>x3d.mathslab@24c9bbd</code> receipt, Python 3.13.18</li>
+</ul>
+<h3 id="d-mlb-3-what-one-ulp-is-and-what-a-tolerance-has-to-accept">D-MLB-3 What one ulp is, and what a tolerance has to accept</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Print <code>math.ulp</code> at 1.0, 2.0 and 4.0. Then take 200 values <code>sin(i/10)</code>, move one of them by one unit in the last place with <code>math.nextafter</code>, and compare the two lists three ways: by a hash of <code>repr</code>, by an absolute tolerance of 1e-12, and again after adding 1e-9 to one value.</li>
+<li><strong>Verify:</strong> <code>python3 -I -c &quot;import math,hashlib;xs=[math.sin(i/10) for i in range(1,201)];ys=list(xs);ys[7]=math.nextafter(ys[7],2.0);h=lambda v:hashlib.sha256(repr(v).encode()).hexdigest();print(math.ulp(1.0),math.ulp(2.0),math.ulp(4.0),h(xs)==h(ys),all(abs(a-b)&lt;=1e-12 for a,b in zip(xs,ys)));zs=list(xs);zs[7]+=1e-9;print(all(abs(a-b)&lt;=1e-12 for a,b in zip(xs,zs)))&quot;</code></li>
+<li><strong>Answer:</strong> <code>2.220446049250313e-16 4.440892098500626e-16 8.881784197001252e-16</code>, then <code>False True</code> (hash differs, tolerance accepts one ulp), then <code>False</code> (tolerance rejects a 1e-9 shift). The recorded maximum, 4.441e-16, is 2 ulp at 1.0 or 1 ulp for values in [2, 4).</li>
+<li><strong>Checked:</strong> 2026-11-17 Python 3.13.18, standard library only</li>
+</ul>
+<h3 id="d-mlb-4-same-model-two-transports">D-MLB-4 Same model, two transports</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Compare <code>lessons[].model</code> between the Pages and the server smoke receipts. For how many lessons is the model identity equal, and which are they? Does that agree with D-MLB-1? Then read <code>first_native_scene_s</code> in both.</li>
+<li><strong>Verify:</strong> <code>python3 -I -c &quot;import json;a=json.load(open('receipts/browser-smoke-pages.json'));b=json.load(open('receipts/browser-smoke-server.json'));print([x['model']==y['model'] for x,y in zip(a['lessons'],b['lessons'])],a['first_native_scene_s'],b['first_native_scene_s'])&quot;</code></li>
+<li><strong>Answer:</strong> <code>[False, False, True, False, True, True]</code>, 5.159 and 1.833. Equal for lessons 3, 5 and 6 (integral, lorenz, gradient), the same three as D-MLB-1: the model id in the page is the sample hash, so it inherits the runtime scope.</li>
+<li><strong>Checked:</strong> 2026-11-17 <code>x3d.mathslab@24c9bbd</code> receipts, Python 3.13.18</li>
+</ul>
+<h3 id="d-mlb-5-the-portability-contract">D-MLB-5 The portability contract</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> Name the four tests in <code>tests/test_pages.py</code> and say which one stops Manim reaching the page.</li>
+<li><strong>Verify:</strong> <code>grep -n &quot;def test_&quot; tests/test_pages.py</code></li>
+<li><strong>Answer:</strong> <code>test_every_installed_module_exists</code>, <code>test_installed_modules_import_only_stdlib_and_each_other</code>, <code>test_installed_set_covers_server_dependencies</code>, <code>test_manim_is_never_installed_in_the_browser</code> (the last one).</li>
+<li><strong>Checked:</strong> 2026-11-17 <code>x3d.mathslab@24c9bbd</code>, <code>grep</code></li>
+</ul>
+<h3 id="d-mlb-6-receipt-versus-fresh-run">D-MLB-6 Receipt versus fresh run</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> (a) Find where the older validation names the <code>mcp</code> version and test count, and where the newer receipt records the SDK. (b) Find the line that lets the server import under both 1.x and 2.x. (c) Write the receipt row that would have made the 2.x failure visible on day one, and say what a reader on 2.3.0 should have done on reading the old receipt.</li>
+<li><strong>Verify:</strong> <code>grep -n &quot;1.29.0\|89 passed&quot; VALIDATION.md</code>; <code>grep -n &quot;mcp_sdk&quot; receipts/math-mcp.json</code>; <code>sed -n 15,19p mathlab/mcp_server.py</code></li>
+<li><strong>Answer:</strong> (a) <code>VALIDATION.md</code> names SDK 1.29.0 and 89 tests; <code>receipts/math-mcp.json</code> has <code>&quot;mcp_sdk&quot;: &quot;2.3.0&quot;</code>. (b) the <code>try: from mcp.server.fastmcp import FastMCP</code> / <code>except ModuleNotFoundError: from mcp.server.mcpserver import MCPServer as FastMCP</code> pair. (c) a row such as <code>mcp 1.29.0 (major 1)</code> beside the test count; a reader on 2.3.0 should treat the receipt as not applying and re-run, which finds 4 failures out of 89.</li>
+<li><strong>Checked:</strong> not run (read only; the 4-of-89 failure itself was not reproduced here)</li>
+</ul>
+<hr />
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> Nothing was re-run for the five findings. The numbers are read from receipts in <code>x3d.mathslab@24c9bbd</code> and from the launch note; the drills re-read the receipts and compute small facts (ulp values, totals) with Python 3.13.18.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> All renders and timings are Chromium 153.0.8010.12 via Playwright 1.63.0 on software GL, one machine, single runs. No hardware GPU, no Firefox, Safari or phone.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> Parity was measured at default parameters only. A different parameter point may give larger differences; this is unmeasured.</li>
+<li><strong><span class="g L" title="Likely">L</span></strong> The explanation of the parity split (correctly rounded operations agree, transcendental functions may not) fits the pattern and is the receipt's own reading; the math library was not swapped to test it.</li>
+<li><strong><span class="g L" title="Likely">L</span></strong> The overlay's size (about 100 px) and the effect of the fix come from before and after screenshots recorded in the launch note; the screenshots are not retained in the repository. The code that applies the fix was read.</li>
+<li><strong><span class="g L" title="Likely">L</span></strong> The generate/execute boundary was checked by a module-list test, not attacked. Manim video was not rendered.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> Two sources disagree slightly: the launch note gives 4.6 to 5.0 s for the first scene and 2.1 to 2.5 s per switch; the retained receipts give 5.159 s and 2.219 to 2.550 s. This chapter uses the receipts; the note's figures are graded <span class="g L" title="Likely">L</span>.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> The launch note cites the launch commit <code>78c3aa4</code>; the receipts were read at <code>24c9bbd</code>, a later commit of the same repository.</li>
+<li><strong><span class="g S" title="Suspected">S</span></strong> The 1e-12 tolerance is a teaching value for a stdlib kernel of this size, not a recommendation measured on other data.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> The X3D validation reaches XSD 4.0 and a semantic subset on six default worlds; it is unsigned and is not a formal acceptance receipt. The X3D validator pin is <code>x3d_mcp</code> commit <code>b5c9956</code>, which is not one of the two validator strings in Appendix A (<code>x3d_mcp fork b4efcd3</code>, <code>x3d_mcp upstream 74da0ec</code>).</li>
+</ul>
+<hr />
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-MLB-1</td>
+<td>floats compared across CPython 3.13.18 and Pyodide 0.27.7, six lessons</td>
+<td>16,383</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>default parameters, Playwright 1.63.0 Chromium</td>
+<td><code>x3d.mathslab@24c9bbd:receipts/runtime-parity.json</code></td>
+</tr>
+<tr>
+<td>N-MLB-2</td>
+<td>floats that differ, total (linear 18, derivative 5, fourier 20)</td>
+<td>43</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-MLB-3</td>
+<td>floats in the three bit-identical lessons (integral, lorenz, gradient)</td>
+<td>12,320</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-MLB-4</td>
+<td>largest absolute float difference</td>
+<td>4.441e-16</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-MLB-5</td>
+<td>lessons whose <code>sample_sha256</code> is equal across runtimes</td>
+<td>3 of 6</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-MLB-6</td>
+<td><code>math.ulp</code> at 1.0; at 2.0</td>
+<td>2.220446049250313e-16; 4.440892098500626e-16</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>math.ulp</code>, Python 3.13.18</td>
+<td>drill D-MLB-3, run</td>
+</tr>
+<tr>
+<td>N-MLB-7</td>
+<td>lessons rendered from Pyodide; console errors</td>
+<td>6 of 6; 0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Chromium 153.0.8010.12, Playwright 1.63.0, software GL</td>
+<td><code>x3d.mathslab@24c9bbd:receipts/browser-smoke-pages.json</code></td>
+</tr>
+<tr>
+<td>N-MLB-8</td>
+<td>first native scene, Pages; server</td>
+<td>5.159 s; 1.833 s</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same, both receipts</td>
+<td><code>receipts/browser-smoke-pages.json</code>, <code>receipts/browser-smoke-server.json</code></td>
+</tr>
+<tr>
+<td>N-MLB-9</td>
+<td>lesson switch, Pages; server (each includes a 1.5 s settle wait)</td>
+<td>2.219 to 2.550 s; 1.950 to 2.196 s</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-MLB-10</td>
+<td>first native scene, as written in the launch note</td>
+<td>4.6 to 5.0 s</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>the launch note; superseded by N-MLB-8</td>
+<td><code>x3d.loom</code> <code>LEARNINGS-mathlab.md</code></td>
+</tr>
+<tr>
+<td>N-MLB-11</td>
+<td>Pyodide runtime download, first load</td>
+<td>about 10 MB</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>stated in <code>docs/PAGES.md</code>, not separately measured</td>
+<td><code>x3d.mathslab@24c9bbd:docs/PAGES.md</code></td>
+</tr>
+<tr>
+<td>N-MLB-12</td>
+<td>tests failed under mcp 2.3.0 out of the old suite</td>
+<td>4 of 89</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>python -m unittest discover</code>, CPython 3.13.18, mcp 2.3.0</td>
+<td><code>x3d.mathslab@24c9bbd:docs/FOLDBACK.md</code></td>
+</tr>
+<tr>
+<td>N-MLB-13</td>
+<td>tests passing after the shim; stdio probe checks</td>
+<td>93 of 93; 6 of 6</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td><code>x3d.mathslab@24c9bbd:receipts/release-checks.json</code>, <code>receipts/math-mcp.json</code></td>
+</tr>
+<tr>
+<td>N-MLB-14</td>
+<td>mcp version in the older receipt; in the newer receipt</td>
+<td>1.29.0; 2.3.0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read</td>
+<td><code>x3d.mathslab@24c9bbd:VALIDATION.md</code>, <code>receipts/math-mcp.json</code></td>
+</tr>
+<tr>
+<td>N-MLB-15</td>
+<td>request cap; response budget</td>
+<td>32 KiB; 4 MiB</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read, not run here</td>
+<td><code>x3d.mathslab@24c9bbd:docs/PAGES.md</code></td>
+</tr>
+<tr>
+<td>N-MLB-16</td>
+<td>root nodes per scene</td>
+<td>8</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Chromium 153.0.8010.12, Playwright 1.63.0</td>
+<td><code>x3d.mathslab@24c9bbd:receipts/browser-smoke-pages.json</code></td>
+</tr>
+<tr>
+<td>N-MLB-17</td>
+<td>generated Manim source, gradient lesson</td>
+<td>104,672 bytes</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-MLB-18</td>
+<td>X3D validation: worlds passed; negative twins caught</td>
+<td>6; 2</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_mcp</code> commit <code>b5c9956</code>, XSD 4.0, semantic vocabulary 4.1, direct calls</td>
+<td><code>x3d.mathslab@24c9bbd:receipts/x3d-validation.json</code></td>
+</tr>
+<tr>
+<td>N-MLB-19</td>
+<td>overlay: canvas hidden by the equation card at 1440x900</td>
+<td>about 100 px</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>before and after screenshots, Playwright 1.63.0, in the launch note, not retained</td>
+<td><code>x3d.loom</code> <code>LEARNINGS-mathlab.md</code></td>
+</tr>
+<tr>
+<td>N-MLB-20</td>
+<td>field-of-view scale applied after load</td>
+<td>0.75</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read</td>
+<td><code>x3d.mathslab@24c9bbd:web/app.js</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<p>Read on 2026-11-17: the public repository <code>x3d.mathslab</code> (https://github.com/hagopjay/x3d.mathslab) at <code>24c9bbd</code>, files listed in the header; the launch note <code>LEARNINGS-mathlab.md</code> of <code>x3d.loom</code> (five findings, written against the repository's launch commit <code>78c3aa4</code>). Nothing was re-run for the findings. Python 3.13.18 was used only to read the recorded receipts and to compute the ulp values in drill D-MLB-3. The X3D validator is the pin recorded in the receipt, not one of Appendix A's two named validators. Gaps: the before and after screenshots of section 6 are held outside the public repository and are therefore graded <span class="g L" title="Likely">L</span>; the Manim video path and any hardware GPU run do not exist yet.</p>
+<div class="pn"><a href="23-traceability-lineage.html">&larr; 23-traceability-lineage</a><a href="A-validator-register.html">A-validator-register &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

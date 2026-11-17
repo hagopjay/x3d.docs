@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**177 drills**, 164 with a recorded run (`Checked`), 13 not yet run. Levels: L1 34, L2 93, L3 50.
+**183 drills**, 169 with a recorded run (`Checked`), 14 not yet run. Levels: L1 36, L2 96, L3 51.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -184,4 +184,10 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-TRC-4 | [23](23-traceability-lineage.md) | L3 | Break the verifier, then extend it | 2026-11-16 `x3dtrace` dcba70d7, Python 3.13.18 |
 | D-TRC-5 | [23](23-traceability-lineage.md) | L2 | Edit the record | 2026-11-16 `x3dtrace` dcba70d7, `x3dprov` of `x3d.ml@305fd60`, Python 3.13.18, lxml 6 |
 | D-TRC-6 | [23](23-traceability-lineage.md) | L1 | Coverage that lies | 2026-11-16 `x3dtrace` dcba70d7, Python 3.13.18 |
+| D-MLB-1 | [24](24-math-lab-static-host.md) | L1 | Which lessons are bit-identical | 2026-11-17 `x3d.mathslab@24c9bbd` receipt, Python 3.13.18 |
+| D-MLB-2 | [24](24-math-lab-static-host.md) | L2 | Totals and the worst difference | 2026-11-17 `x3d.mathslab@24c9bbd` receipt, Python 3.13.18 |
+| D-MLB-3 | [24](24-math-lab-static-host.md) | L2 | What one ulp is, and what a tolerance has to accept | 2026-11-17 Python 3.13.18, standard library only |
+| D-MLB-4 | [24](24-math-lab-static-host.md) | L2 | Same model, two transports | 2026-11-17 `x3d.mathslab@24c9bbd` receipts, Python 3.13.18 |
+| D-MLB-5 | [24](24-math-lab-static-host.md) | L1 | The portability contract | 2026-11-17 `x3d.mathslab@24c9bbd`, `grep` |
+| D-MLB-6 | [24](24-math-lab-static-host.md) | L3 | Receipt versus fresh run | not run (read only; the 4-of-89 failure itself was not reproduced here) |
 <!-- END GENERATED -->

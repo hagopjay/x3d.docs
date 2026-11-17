@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**359 heuristics.** Grades: [C] 296 · [L] 56 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**368 heuristics.** Grades: [C] 302 · [L] 59 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -366,4 +366,13 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-TRC-12 | [23](23-traceability-lineage.md) | Have the verifier reviewed by someone who has not seen its code, and keep the open failures as expected-failure tests. | C | 43 defects in the first build from 1,204 tests; 8 still open, each with a test that passes when fixed | `x3d.ml@305fd60` `docs/TRACE-REVIEW.md` |
 | H-TRC-13 | [23](23-traceability-lineage.md) | Where the exporter knows where a number came from, record the datablock and the conversion and recompute; use a quote only for values nobody can recompute. | L | a mutation test shows that an emitter that skips the sRGB step is caught by the recompute | `x3d-blender-io@044bea3` `tests/test_lineage.py`, 15 pure tests, read, not rerun here |
 | H-TRC-14 | [23](23-traceability-lineage.md) | Measure a verifier's false-verify rate with planted claims of known truth and quote an upper bound, not only a zero. | C | each zero row carries a rule-of-three upper bound in the receipt | `x3d.loom@be7c481` `x3d.s1/receipts/evidence-2026-11-16.json` |
+| H-MLB-1 | [24](24-math-lab-static-host.md) | Run the model owner's own code in the page instead of porting it; write "standard library only" as a contract and test it. | C | 6 of 6 lessons rendered from Pyodide behind the same gate; 4 portability tests | `x3d.mathslab@24c9bbd:receipts/browser-smoke-pages.json`, `tests/test_pages.py` |
+| H-MLB-2 | [24](24-math-lab-static-host.md) | Never compare numeric data across runtimes by hash; compare floats with a tolerance you state, and keep the hash for same-runtime replay. | C | 3 of 6 lessons hash differently across CPython 3.13.18 and Pyodide 0.27.7; 43 of 16,383 floats differ by at most 4.441e-16 | `receipts/runtime-parity.json`, Playwright 1.63.0 |
+| H-MLB-3 | [24](24-math-lab-static-host.md) | Expect `sin`, `cos`, `exp` to be the first functions to differ across runtimes; +, *, sqrt are correctly rounded and agree. | L | the three lessons that differ use the first set, the three that agree use the second; the math library was not swapped to confirm | same |
+| H-MLB-4 | [24](24-math-lab-static-host.md) | Write every dependency's major version into the receipt, and treat a fresh-environment run as the witness. | C | 4 of 89 tests failed under mcp 2.3.0; the receipts named 1.29.0; 93 of 93 pass after the shim | `python -m unittest discover`, CPython 3.13.18, mcp 2.3.0 |
+| H-MLB-5 | [24](24-math-lab-static-host.md) | Add a screenshot witness for any overlay, at a stated window size; do not read a node count or a validator pass as visibility. | L | a validated scene was partly behind a card at 1440x900; node counts and X3D validation were green | launch note, Playwright 1.63.0; fix read in `web/app.js` |
+| H-MLB-6 | [24](24-math-lab-static-host.md) | Change the view, not the document, when you reframe for an overlay: keep the X3D bytes and the identity unchanged. | C | `fieldOfView *= 0.75` applied after load; the code says the document, bounds and identity are untouched | `x3d.mathslab@24c9bbd:web/app.js`, read |
+| H-MLB-7 | [24](24-math-lab-static-host.md) | Split generate from execute; ship only generation to a public static host and keep a test that the execution library is never installed there. | L | Manim source is generated in the page; `test_manim_is_never_installed_in_the_browser` | `tests/test_pages.py`; not attacked |
+| H-MLB-8 | [24](24-math-lab-static-host.md) | Put the transport behind one selector and one response shape, so the controller code is the same for both. | C | `/api/health` probe picks loopback or Pyodide; the two smoke receipts have identical `lessons[]` fields | `web/app.js`, both smoke receipts |
+| H-MLB-9 | [24](24-math-lab-static-host.md) | Quote a timing from a recorded receipt, not from a note, and name the transport, the browser and the renderer. | C | the note says 4.6 to 5.0 s for the first scene; the retained receipt says 5.159 s | `receipts/browser-smoke-pages.json` |
 <!-- END GENERATED -->
