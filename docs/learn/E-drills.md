@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**177 drills**, 164 with a recorded run (`Checked`), 13 not yet run. Levels: L1 34, L2 93, L3 50.
+**187 drills**, 174 with a recorded run (`Checked`), 13 not yet run. Levels: L1 35, L2 99, L3 53.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -184,4 +184,14 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-TRC-4 | [23](23-traceability-lineage.md) | L3 | Break the verifier, then extend it | 2026-11-16 `x3dtrace` dcba70d7, Python 3.13.18 |
 | D-TRC-5 | [23](23-traceability-lineage.md) | L2 | Edit the record | 2026-11-16 `x3dtrace` dcba70d7, `x3dprov` of `x3d.ml@305fd60`, Python 3.13.18, lxml 6 |
 | D-TRC-6 | [23](23-traceability-lineage.md) | L1 | Coverage that lies | 2026-11-16 `x3dtrace` dcba70d7, Python 3.13.18 |
+| D-ACC-1 | [25](25-accretion-gated-growth.md) | L1 | Count the vocabulary | 2026-11-17 `x3d.accrete@93063bf`, Python 3.13.18 |
+| D-ACC-2 | [25](25-accretion-gated-growth.md) | L2 | Before and after the review | 2026-11-17 `x3d.accrete@52ba996` and `@93063bf`, Python 3.13.18, lxml 6.1.3 |
+| D-ACC-3 | [25](25-accretion-gated-growth.md) | L2 | The float32 floor and the lexer | 2026-11-17 `x3d.accrete@52ba996` and `@93063bf`, pinned `x3d_mcp@b5c9956`, lxml 6.1.3 |
+| D-ACC-4 | [25](25-accretion-gated-growth.md) | L2 | The vocabulary trap | 2026-11-17 `x3d.accrete@93063bf`, `x3d_mcp@b5c9956`, Python 3.13.18 |
+| D-ACC-5 | [25](25-accretion-gated-growth.md) | L3 | Forge the last entry | 2026-11-17 `x3d.accrete@93063bf`, Python 3.13.18 |
+| D-ACC-6 | [25](25-accretion-gated-growth.md) | L3 | The rebinding guard | 2026-11-17 `x3d.accrete@52ba996` and `@93063bf`, Python 3.13.18, curl |
+| D-ACC-7 | [25](25-accretion-gated-growth.md) | L2 | Same code, different history | 2026-11-17 `x3d.accrete@93063bf`, Python 3.13.18, 4 vCPU |
+| D-ACC-8 | [25](25-accretion-gated-growth.md) | L3 | Fuzz the gate | 2026-11-17 `x3d.accrete@93063bf`, Python 3.13.18 (the rename extension: not run) |
+| D-ACC-9 | [25](25-accretion-gated-growth.md) | L2 | Profile an append | 2026-11-17 `x3d.accrete@93063bf`, Python 3.13.18, lxml 6.1.3 |
+| D-ACC-10 | [25](25-accretion-gated-growth.md) | L2 | Browser parity | 2026-11-17 `x3d.accrete@93063bf`, Node 22.23.4, Chromium 153.0.8010.12 (Playwright, software GL) |
 <!-- END GENERATED -->

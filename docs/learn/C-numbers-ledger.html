@@ -19,10 +19,10 @@ blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;backgr
 .nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
 details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
 .foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
-</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a class="cur" href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="C-numbers-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/C-numbers-ledger.md">GitHub</a></div><h1>Appendix C. Numbers ledger</h1>
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><a href="25-accretion-gated-growth.html">25. Accretion: an append-only X3D world grown one gated patch at a time</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a class="cur" href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="C-numbers-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/C-numbers-ledger.md">GitHub</a></div><h1>Appendix C. Numbers ledger</h1>
 <p>Merged from the <em>Numbers register</em> of every chapter by <code>tools-shared/build_learn.py</code>. Edit the chapter, not this file.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>591 numbers</strong> from 23 chapters. Grades: <span class="g C" title="Confirmed">C</span> 541 · <span class="g L" title="Likely">L</span> 44 · <span class="g S" title="Suspected">S</span> 6. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
+<p><strong>617 numbers</strong> from 24 chapters. Grades: <span class="g C" title="Confirmed">C</span> 561 · <span class="g L" title="Likely">L</span> 50 · <span class="g S" title="Suspected">S</span> 6. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
 <table>
 <thead>
 <tr>
@@ -5354,6 +5354,240 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><span class="g C" title="Confirmed">C</span></td>
 <td><code>tests/test_x3dtrace.py</code></td>
 <td><code>x3d.ml@305fd60:docs/TRACE-REVIEW.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-1</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>unit tests: as supplied; with static viewer and review fixes</td>
+<td>85; 99</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>python3 -I -m unittest discover -s tests -p 'test_*.py'</code>, Python 3.13.18, lxml 6.1.3</td>
+<td><code>x3d.accrete@93063bf:tests/test_review_fixes.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-2</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>tests per file at <code>93063bf</code>: gate; generator; adapter; http; world; review fixes; static export</td>
+<td>28; 13; 15; 9; 20; 7; 7</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>grep -c &quot;    def test_&quot; tests/test_*.py</code></td>
+<td><code>x3d.accrete@93063bf:tests/test_static_export.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-3</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>node types in the gate vocabulary, plus ROUTE</td>
+<td>24</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>len(FIELDS)</code> is 25, Python 3.13.18</td>
+<td><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-4</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>raw fragment cap; canonical cap (KiB)</td>
+<td>12; 24</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>contract table, matches <code>accretion/gate.py</code> constants per the review</td>
+<td><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-5</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>source nodes; nesting depth; expanded geometry instances</td>
+<td>80; 16; 160</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ACC-6</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>float32 floor for sizes and scales</td>
+<td>1.1754944e-38</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>FLOAT32_MIN_NORMAL</code> in the gate</td>
+<td><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-7</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>review: lanes; findings; verifiers per finding; agents</td>
+<td>6; 45; 2; 80</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>review method as written, not repeated</td>
+<td><code>x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-8</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>review mutation-fuzz runs, uncaught exceptions</td>
+<td>30,000; 0</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>review file, script not in the repository</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ACC-9</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>own mutation run: runs; pass; fail; exceptions; passes with a foreign tag</td>
+<td>5,000; 402; 4,598; 0; 0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>drill D-ACC-8, seed 20261117, Python 3.13.18</td>
+<td><code>x3d.accrete@93063bf:accretion/gate.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-10</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>box size 1e-320 and scale 1e-40: gate, XSD, semantic verdicts as supplied; after the fix</td>
+<td>pass, pass, pass; fail</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>drill D-ACC-3, <code>x3d_mcp@b5c9956</code>, lxml 6.1.3</td>
+<td><code>x3d.accrete@52ba996:accretion/gate.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-11</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td><code>PhysicalMaterial</code> verdicts: gate; XSD; semantic</td>
+<td>pass; pass; fail (<code>profile-component</code>)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>drill D-ACC-4, <code>x3d_mcp@b5c9956</code></td>
+<td><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-12</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>foreign Host header on <code>/api/world</code>: as supplied; after the fix (HTTP status)</td>
+<td>200; 403</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>drill D-ACC-6, curl</td>
+<td><code>x3d.accrete@93063bf:tests/test_review_fixes.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-13</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td><code>HEAD /api/status</code>: as supplied; after the fix (HTTP status)</td>
+<td>404; 200</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ACC-14</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>forged last entry verifies without a checkpoint; with the shipped one</td>
+<td>true; false</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>drill D-ACC-5</td>
+<td><code>x3d.accrete@93063bf:accretion/world.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-15</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>shipped checkpoint head; hash prefix</td>
+<td>24; 307fab65</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>examples/checkpoint.json</code></td>
+<td><code>x3d.accrete@93063bf:examples/checkpoint.json</code></td>
+</tr>
+<tr>
+<td>N-ACC-16</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>96-entry build wall time, four runs (s)</td>
+<td>3.84; 4.01; 4.40; 4.02</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>python3 tools/build_demo.py --count 96</code>, 4 vCPU</td>
+<td><code>x3d.accrete@93063bf:tools/build_demo.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-17</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>two builds of 96: identical seeds; identical raw fragments; distinct tail hashes over four builds</td>
+<td>1 of 96; 1 of 96; 4 of 4</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>drill D-ACC-7</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ACC-18</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>browser verification of the committed payload: entries checked; console errors</td>
+<td>96 of 96; 0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>node tools/pages_smoke.js</code>, Chromium 153.0.8010.12, software GL</td>
+<td><code>x3d.accrete@93063bf:tools/pages_smoke.js</code></td>
+</tr>
+<tr>
+<td>N-ACC-19</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>static payload: files; bytes</td>
+<td>197; 4,280,343</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>find web/static-world -type f</code></td>
+<td><code>x3d.accrete@93063bf:web/static-world/manifest.json</code></td>
+</tr>
+<tr>
+<td>N-ACC-20</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>parity cases: archives compared; of which tampered; float formatter values</td>
+<td>8; 7; 8</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>BrowserVerifierParity</code>, Node 22.23.4</td>
+<td><code>x3d.accrete@93063bf:tests/test_static_export.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-21</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>profile of 96 appends: total; <code>validate_scene</code>; <code>_get_schema</code>; <code>strict_json</code> calls; <code>strict_json</code> time (s)</td>
+<td>5.151; 2.970; 1.394; 19,008; 1.073</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>python3 -m cProfile -s cumtime tools/build_demo.py --count 96</code></td>
+<td><code>x3d.accrete@93063bf:accretion/world.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-22</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>README benchmark at 100 entries: append total (s); verify (ms); JSON bytes; X3D bytes</td>
+<td>4.333; 28.118; 1,819,603; 266,921</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>reports/store-scaling.json</code> as quoted in the README, not re-run</td>
+<td><code>x3d.accrete@93063bf:README.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-23</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>projected 1,000-entry run; stop rule (s)</td>
+<td>154.386; 90</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>estimate only, not run</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ACC-24</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>loaded records; detail budgets; entry cap</td>
+<td>512; 24, 48, 96; 10,000</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>README text, matches <code>serve.py</code> constants per the review</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ACC-25</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>review sweep: candidates; seeds; failures</td>
+<td>1200; 40; 0</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>review file, not re-run</td>
+<td><code>x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-26</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>vendored files matching upstream blobs; upstream commits ahead of the pin</td>
+<td>19 of 19; 10</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>review file, not re-run</td>
+<td>same</td>
 </tr>
 </tbody>
 </table>

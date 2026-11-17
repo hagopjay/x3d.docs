@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**591 numbers** from 23 chapters. Grades: [C] 541 · [L] 44 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
+**617 numbers** from 24 chapters. Grades: [C] 561 · [L] 50 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -598,4 +598,30 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-TRC-22 | [23](23-traceability-lineage.md) | `scene_evidence`, 600-block scene (92,280 B) with 100 claims, BIND on | 71 ms | [C] | `evaluation/time_scene_evidence.py`, median of 7 calls, engine `dcba70d7`, 4 cores | same |
 | N-TRC-23 | [23](23-traceability-lineage.md) | `x3d-blender-io` lineage tests: pure Python; with Blender | 15; 4 | [C] | Python 3.13.18; bpy 5.3.0 as recorded in the commit message | `x3d-blender-io@044bea3:source/lineage.py` |
 | N-TRC-24 | [23](23-traceability-lineage.md) | open review findings, each with an expected-failure test | 8 | [C] | `tests/test_x3dtrace.py` | `x3d.ml@305fd60:docs/TRACE-REVIEW.md` |
+| N-ACC-1 | [25](25-accretion-gated-growth.md) | unit tests: as supplied; with static viewer and review fixes | 85; 99 | [C] | `python3 -I -m unittest discover -s tests -p 'test_*.py'`, Python 3.13.18, lxml 6.1.3 | `x3d.accrete@93063bf:tests/test_review_fixes.py` |
+| N-ACC-2 | [25](25-accretion-gated-growth.md) | tests per file at `93063bf`: gate; generator; adapter; http; world; review fixes; static export | 28; 13; 15; 9; 20; 7; 7 | [C] | `grep -c "    def test_" tests/test_*.py` | `x3d.accrete@93063bf:tests/test_static_export.py` |
+| N-ACC-3 | [25](25-accretion-gated-growth.md) | node types in the gate vocabulary, plus ROUTE | 24 | [C] | `len(FIELDS)` is 25, Python 3.13.18 | `x3d.accrete@93063bf:docs/GATE-CONTRACT.md` |
+| N-ACC-4 | [25](25-accretion-gated-growth.md) | raw fragment cap; canonical cap (KiB) | 12; 24 | [C] | contract table, matches `accretion/gate.py` constants per the review | `x3d.accrete@93063bf:docs/GATE-CONTRACT.md` |
+| N-ACC-5 | [25](25-accretion-gated-growth.md) | source nodes; nesting depth; expanded geometry instances | 80; 16; 160 | [C] | same | same |
+| N-ACC-6 | [25](25-accretion-gated-growth.md) | float32 floor for sizes and scales | 1.1754944e-38 | [C] | `FLOAT32_MIN_NORMAL` in the gate | `x3d.accrete@93063bf:docs/GATE-CONTRACT.md` |
+| N-ACC-7 | [25](25-accretion-gated-growth.md) | review: lanes; findings; verifiers per finding; agents | 6; 45; 2; 80 | [L] | review method as written, not repeated | `x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md` |
+| N-ACC-8 | [25](25-accretion-gated-growth.md) | review mutation-fuzz runs, uncaught exceptions | 30,000; 0 | [L] | review file, script not in the repository | same |
+| N-ACC-9 | [25](25-accretion-gated-growth.md) | own mutation run: runs; pass; fail; exceptions; passes with a foreign tag | 5,000; 402; 4,598; 0; 0 | [C] | drill D-ACC-8, seed 20261117, Python 3.13.18 | `x3d.accrete@93063bf:accretion/gate.py` |
+| N-ACC-10 | [25](25-accretion-gated-growth.md) | box size 1e-320 and scale 1e-40: gate, XSD, semantic verdicts as supplied; after the fix | pass, pass, pass; fail | [C] | drill D-ACC-3, `x3d_mcp@b5c9956`, lxml 6.1.3 | `x3d.accrete@52ba996:accretion/gate.py` |
+| N-ACC-11 | [25](25-accretion-gated-growth.md) | `PhysicalMaterial` verdicts: gate; XSD; semantic | pass; pass; fail (`profile-component`) | [C] | drill D-ACC-4, `x3d_mcp@b5c9956` | `x3d.accrete@93063bf:docs/GATE-CONTRACT.md` |
+| N-ACC-12 | [25](25-accretion-gated-growth.md) | foreign Host header on `/api/world`: as supplied; after the fix (HTTP status) | 200; 403 | [C] | drill D-ACC-6, curl | `x3d.accrete@93063bf:tests/test_review_fixes.py` |
+| N-ACC-13 | [25](25-accretion-gated-growth.md) | `HEAD /api/status`: as supplied; after the fix (HTTP status) | 404; 200 | [C] | same | same |
+| N-ACC-14 | [25](25-accretion-gated-growth.md) | forged last entry verifies without a checkpoint; with the shipped one | true; false | [C] | drill D-ACC-5 | `x3d.accrete@93063bf:accretion/world.py` |
+| N-ACC-15 | [25](25-accretion-gated-growth.md) | shipped checkpoint head; hash prefix | 24; 307fab65 | [C] | `examples/checkpoint.json` | `x3d.accrete@93063bf:examples/checkpoint.json` |
+| N-ACC-16 | [25](25-accretion-gated-growth.md) | 96-entry build wall time, four runs (s) | 3.84; 4.01; 4.40; 4.02 | [C] | `python3 tools/build_demo.py --count 96`, 4 vCPU | `x3d.accrete@93063bf:tools/build_demo.py` |
+| N-ACC-17 | [25](25-accretion-gated-growth.md) | two builds of 96: identical seeds; identical raw fragments; distinct tail hashes over four builds | 1 of 96; 1 of 96; 4 of 4 | [C] | drill D-ACC-7 | same |
+| N-ACC-18 | [25](25-accretion-gated-growth.md) | browser verification of the committed payload: entries checked; console errors | 96 of 96; 0 | [C] | `node tools/pages_smoke.js`, Chromium 153.0.8010.12, software GL | `x3d.accrete@93063bf:tools/pages_smoke.js` |
+| N-ACC-19 | [25](25-accretion-gated-growth.md) | static payload: files; bytes | 197; 4,280,343 | [C] | `find web/static-world -type f` | `x3d.accrete@93063bf:web/static-world/manifest.json` |
+| N-ACC-20 | [25](25-accretion-gated-growth.md) | parity cases: archives compared; of which tampered; float formatter values | 8; 7; 8 | [C] | `BrowserVerifierParity`, Node 22.23.4 | `x3d.accrete@93063bf:tests/test_static_export.py` |
+| N-ACC-21 | [25](25-accretion-gated-growth.md) | profile of 96 appends: total; `validate_scene`; `_get_schema`; `strict_json` calls; `strict_json` time (s) | 5.151; 2.970; 1.394; 19,008; 1.073 | [C] | `python3 -m cProfile -s cumtime tools/build_demo.py --count 96` | `x3d.accrete@93063bf:accretion/world.py` |
+| N-ACC-22 | [25](25-accretion-gated-growth.md) | README benchmark at 100 entries: append total (s); verify (ms); JSON bytes; X3D bytes | 4.333; 28.118; 1,819,603; 266,921 | [L] | `reports/store-scaling.json` as quoted in the README, not re-run | `x3d.accrete@93063bf:README.md` |
+| N-ACC-23 | [25](25-accretion-gated-growth.md) | projected 1,000-entry run; stop rule (s) | 154.386; 90 | [L] | estimate only, not run | same |
+| N-ACC-24 | [25](25-accretion-gated-growth.md) | loaded records; detail budgets; entry cap | 512; 24, 48, 96; 10,000 | [C] | README text, matches `serve.py` constants per the review | same |
+| N-ACC-25 | [25](25-accretion-gated-growth.md) | review sweep: candidates; seeds; failures | 1200; 40; 0 | [L] | review file, not re-run | `x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md` |
+| N-ACC-26 | [25](25-accretion-gated-growth.md) | vendored files matching upstream blobs; upstream commits ahead of the pin | 19 of 19; 10 | [L] | review file, not re-run | same |
 <!-- END GENERATED -->

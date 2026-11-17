@@ -42,7 +42,7 @@ OWNER = "hagopjay"                                   # GitHub owner of every cit
 OWNERS = {"castle-engine": "castle-engine"}          # repos cited as repo@sha that live under another owner
 # Repos a public ledger may cite as repo@sha:path (raw fetch must work without a token). Anything else is cited as private:<name>.
 PUBLIC_REPOS = frozenset({"x3d.ml", "x3d.docs", "x3d.loom", "x3d_mcp", "x3d-blender-io", "x3d.lab", "x3d.castle", "x3d.music",
-                          "x3d.mashtots", "x3d.demo", "x3d.xray", "castle-engine"})
+                          "x3d.mashtots", "x3d.demo", "x3d.xray", "castle-engine", "x3d.accrete"})
 MAX_FETCH_BYTES = 8_000_000
 KIND_GRADE_CAP = {"private": "S", "external": "L"}   # a private note is a lead, an external page is read-not-run (AUTHORING section 5)
 RANK = {"C": 3, "L": 2, "S": 1}

@@ -1,0 +1,1057 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>25. Accretion: an append-only X3D world grown one gated patch at a time · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><a class="cur" href="25-accretion-gated-growth.html">25. Accretion: an append-only X3D world grown one gated patch at a time</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="25-accretion-gated-growth.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/25-accretion-gated-growth.md">GitHub</a></div><h1>25. Accretion: an append-only X3D world grown one gated patch at a time</h1>
+<details class="toc"><summary>On this page (28 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-four-roles-one-rule-only-the-gate-decides">2. Four roles, one rule: only the gate decides</a><a class="l2" href="#3-the-gate-three-instruments-in-a-fixed-order">3. The gate: three instruments in a fixed order</a><a class="l2" href="#4-the-ledger-one-transaction-one-chain">4. The ledger: one transaction, one chain</a><a class="l2" href="#5-what-the-chain-proves-and-what-it-cannot">5. What the chain proves and what it cannot</a><a class="l2" href="#6-the-review-45-findings-and-what-held">6. The review: 45 findings, and what held</a><a class="l3" href="#61-the-vocabulary-disagreement-trap-f1">6.1 The vocabulary-disagreement trap (F1)</a><a class="l3" href="#62-the-float32-floor-g1">6.2 The float32 floor (G1)</a><a class="l3" href="#63-the-lexer-g4">6.3 The lexer (G4)</a><a class="l3" href="#64-a-loopback-server-needs-a-host-check-h2">6.4 A loopback server needs a Host check (H2)</a><a class="l2" href="#7-the-static-viewer-port-with-a-parity-test-not-a-rewrite">7. The static viewer: port with a parity test, not a rewrite</a><a class="l2" href="#8-cost-and-a-claim-that-needs-its-scope">8. Cost, and a claim that needs its scope</a><a class="l2" href="#9-what-is-missing-ranked">9. What is missing, ranked</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-acc-1-count-the-vocabulary">D-ACC-1 Count the vocabulary</a><a class="l3" href="#d-acc-2-before-and-after-the-review">D-ACC-2 Before and after the review</a><a class="l3" href="#d-acc-3-the-float32-floor-and-the-lexer">D-ACC-3 The float32 floor and the lexer</a><a class="l3" href="#d-acc-4-the-vocabulary-trap">D-ACC-4 The vocabulary trap</a><a class="l3" href="#d-acc-5-forge-the-last-entry">D-ACC-5 Forge the last entry</a><a class="l3" href="#d-acc-6-the-rebinding-guard">D-ACC-6 The rebinding guard</a><a class="l3" href="#d-acc-7-same-code-different-history">D-ACC-7 Same code, different history</a><a class="l3" href="#d-acc-8-fuzz-the-gate">D-ACC-8 Fuzz the gate</a><a class="l3" href="#d-acc-9-profile-an-append">D-ACC-9 Profile an append</a><a class="l3" href="#d-acc-10-browser-parity">D-ACC-10 Browser parity</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> Grow a world by letting a deterministic planner pick the slot, any generator propose a fragment, a whitelist gate plus a pinned XSD and semantic validator admit it, and a hash-chained ledger record it; then say out loud that the chain proves self-consistency, not authorship, and that the gate is only as good as the agreement between its vocabulary and the validator's. <strong><span class="g C" title="Confirmed">C</span></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>ACC</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="01-the-tether.html">01 The tether</a> for the thesis; <a href="02-loom-laws.html">02 Loom laws</a> for witness, gate and receipt; <a href="03-validator-and-gates.html">03 Validator and gates</a> for the XSD and semantic stages; <a href="23-traceability-lineage.html">23 Traceability</a> for hash chains and what they cannot show</td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>(1) split a growing scene into planner, generator, gate and ledger and say which of them may be a model; (2) read an admission record and say what it re-checks on replay and what it does not; (3) find a vocabulary disagreement between a gate and the validator behind it with one full-pipeline test per admitted node type; (4) say where a numeric floor belongs and why Python <code>\d</code> is the wrong lexer; (5) port a verifier to a browser and prove parity with a tamper table; (6) put a Host-header guard on a loopback server</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td><code>x3d.accrete@93063bf</code> (<code>README.md</code>, <code>docs/GATE-CONTRACT.md</code>, <code>docs/REVIEW-2026-11-17.md</code>, <code>docs/PAGES.md</code>, <code>accretion/gate.py</code>, <code>accretion/world.py</code>, <code>web/verify-archive.js</code>, <code>tests/test_static_export.py</code>, <code>tools/build_demo.py</code>, <code>tools/pages_smoke.js</code>, <code>reports/store-scaling.json</code>); <code>x3d.accrete@52ba996</code> (the tree as supplied, for the before side of each fix); <code>x3d_mcp@b5c9956</code> as vendored in <code>x3d.accrete</code> (read through its adapter, not edited)</td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td>Python 3.13.18, lxml 6.1.3 (libxml2 2.14.6), jsonschema 4.26.0, Node 22.23.4, 4 vCPU Linux container, no GPU; <code>X3D XSD 4.0</code> and the upstream semantic pass (4.1 UOM tables) as vendored from <code>x3d_mcp@b5c9956</code>; <code>X_ITE 16.6.0</code> bundled in the viewer; <code>Chromium 153.0.8010.12</code> (Playwright, software GL, SwiftShader); <code>x3d.accrete@93063bf</code> for every run; no model API was called</td>
+</tr>
+</tbody>
+</table>
+<p>Accretion is a small system with a large idea: a shared 3D world nobody owns end to end, grown by many small additions, each one accepted by code and recorded where it cannot be edited quietly. This chapter reads the public reference implementation (<code>x3d.accrete</code>), re-runs what it can, and records what an independent review of 17 November 2026 found. The original design ran its generator as Claude Haiku inside a claude.ai artifact; that source was never supplied and this implementation keeps the model OFF. Everything below is about the part that does not need a model: the gate and the ledger.</p>
+<hr />
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text">   ledger prefix (hash of last entry, count n)
+        |
+        v
+   PLANNER      seed = sha256(previous_hash + &quot;:&quot; + n)   cell, level, mode, biome   [no model]
+        |  plan
+        v
+   GENERATOR    proposes a fragment for that slot        authored procedural (OFF: model)
+        |  raw X3D fragment, at most 12 KiB
+        v
+   GATE         (1) fragment gate   24 node types + ROUTE, caps, typed fields, fit wrapper
+        |       (2) pinned XSD 4.0   on the exact wrapped scene bytes
+        |       (3) pinned semantic  x3d_mcp@b5c9956, 4.1 UOM tables
+        |  all three pass, or nothing is written
+        v
+   LEDGER       SQLite, BEGIN IMMEDIATE, head/tail compare-and-swap
+                entry = plan + candidate hashes + admission record + pipeline identity
+                hash  = sha256(accretion-c14n/1 of the entry), chained by prev_hash
+        |
+        v
+   VERIFY       replay placement, recompute hashes, bind witnesses; never re-run the gate
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>in scope</th>
+<th>out of scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>the four roles and the contract between them; the gate's vocabulary and caps; the chain, its checkpoint and its limits; the 17 November review and the fixes; the static viewer and its browser verifier</td>
+<td>model-written fragments (not run; the original used Haiku and its source was not supplied); rendered acceptance (<code>render</code> is <code>not_run</code>); signatures; multi-writer deployment; GPU or cloud cost</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Loom term (<a href="02-loom-laws.html">02</a>)</th>
+<th>here</th>
+<th>note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>card, kickoff</td>
+<td>the plan: a pure function of the ledger prefix</td>
+<td>fixed before any candidate exists</td>
+</tr>
+<tr>
+<td>weave</td>
+<td>the generator</td>
+<td>replaceable; the gate does not ask who wrote the bytes</td>
+</tr>
+<tr>
+<td>witness</td>
+<td><code>fragment</code>, <code>xsd</code>, <code>semantic</code> (and <code>render</code>, not required, <code>not_run</code>)</td>
+<td>listed per entry by <code>witness_rows</code> in <code>accretion/world.py</code></td>
+</tr>
+<tr>
+<td>gate</td>
+<td>the policy: all three required witnesses must pass</td>
+<td>the policy is stored in every entry and compared on replay</td>
+</tr>
+<tr>
+<td>receipt</td>
+<td>the ledger entry, schema <code>accretion.local-admission/v1</code></td>
+<td>explicitly not a <code>loom.receipt/1</code></td>
+</tr>
+</tbody>
+</table>
+<p>The Loom mapping is the repository's own and is graded <span class="g L" title="Likely">L</span>: it follows <code>x3d.loom@7a7d657</code> as read there, and nothing here confirms that a Loom profile would accept an Accretion entry.</p>
+<p>Read next: deeper, <a href="23-traceability-lineage.html">23 Traceability</a> for the same hash-chain limits applied to a scene's provenance; wider, <a href="03-validator-and-gates.html">03 Validator and gates</a> for what the XSD and semantic stages do and miss.</p>
+<hr />
+<h2 id="2-four-roles-one-rule-only-the-gate-decides">2. Four roles, one rule: only the gate decides</h2>
+<table>
+<thead>
+<tr>
+<th>role</th>
+<th>what it owns</th>
+<th>what it must not do</th>
+<th>where</th>
+<th>model allowed?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>planner</td>
+<td>cell, level, mode (generate or augment), biome, seed</td>
+<td>read a clock or a random source</td>
+<td><code>plan_next</code> in <code>accretion/world.py</code></td>
+<td>no</td>
+</tr>
+<tr>
+<td>generator</td>
+<td>the local geometry inside its slot</td>
+<td>choose its own slot, nest global nodes</td>
+<td><code>accretion/generator.py</code> (six families: orrery, coral, ziggurat, beacon, mycelium, gyroscope)</td>
+<td>yes, here OFF</td>
+</tr>
+<tr>
+<td>gate</td>
+<td>the verdict</td>
+<td>trust the generator</td>
+<td><code>accretion/gate.py</code>, <code>accretion/mcp_adapter.py</code></td>
+<td>no</td>
+</tr>
+<tr>
+<td>ledger</td>
+<td>order, hashes, the atomic commit</td>
+<td>admit anything the gate did not pass</td>
+<td><code>WorldStore.append</code></td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<p>The planner is a pure function of the ledger prefix. <code>plan_next</code> takes the placements so far and the previous hash, and derives <code>seed = sha(previous_hash + ':' + n)</code>; the new entry is an augmentation of one of the last 32 touched cells with probability 42% (by the seed), otherwise the next cell of a square spiral. Because the seed includes the previous entry's hash, a reader can replay the whole plan from the archive alone. <span class="g C" title="Confirmed">C</span> <code>x3d.accrete@93063bf</code>, Python 3.13.18: calling <code>plan_next([], genesis)</code> twice gives equal plans (seed prefix <code>0165924b1d5d</code>, cell <code>[0, 0]</code>, word <code>vessel</code>).</p>
+<p>The same design has a cost that the README states and a run shows. The previous hash contains <code>created_utc</code>, so a second history built by the same code has the same first plan and different ones after it. <span class="g C" title="Confirmed">C</span> <code>python3 tools/build_demo.py --count 96</code>, run twice: entry 1 has the same seed in both, 1 of 96 seeds match, 1 of 96 raw fragments match, and the tail hashes differ on every build (four builds, four tails). That is not a defect: a plan is reproducible from a recorded prefix, not from the code. It is why a published checkpoint, not &quot;rebuild and compare&quot;, is the anchor (<a href="#5-what-the-chain-proves-and-what-it-cannot">section 5</a>).</p>
+<p>The generator here is authored procedural code: <code>build_demo</code> reports <code>&quot;model_calls&quot;: 0</code>. The original design had a model propose each fragment. That is a different system and it is graded as read, not run:</p>
+<table>
+<thead>
+<tr>
+<th>claim in the original design notes</th>
+<th>grade</th>
+<th>why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a model (Claude Haiku) proposes fragments inside a claude.ai artifact</td>
+<td><span class="g S" title="Suspected">S</span></td>
+<td>design note read; the private source was never supplied; nothing here calls a model</td>
+</tr>
+<tr>
+<td>38 tests in the original gate</td>
+<td><span class="g S" title="Suspected">S</span></td>
+<td>the repository says it &quot;does not reproduce its claimed 38-test result&quot;; its own suite is 99 tests</td>
+</tr>
+<tr>
+<td>a 31-node vocabulary</td>
+<td><span class="g S" title="Suspected">S</span></td>
+<td>the contract says &quot;24 node types plus ROUTE&quot;, not 31</td>
+</tr>
+<tr>
+<td>per-call prices and a 1.2M-entry capacity</td>
+<td><span class="g S" title="Suspected">S</span></td>
+<td>read in the notes, never run; this implementation measured 100 entries and refuses to project 1,000 as a result</td>
+</tr>
+</tbody>
+</table>
+<p>The repository's own caution is the right one: &quot;historical model/pricing/capacity claims in the source notes are not treated as verified behavior of this implementation.&quot;</p>
+<hr />
+<h2 id="3-the-gate-three-instruments-in-a-fixed-order">3. The gate: three instruments in a fixed order</h2>
+<pre><code class="language-text">   raw fragment (UTF-8, at most 12 KiB)
+        |
+   XML preflight   no DOCTYPE, ENTITY, CDATA, comment, PI, namespace; five standard entities only
+        |
+   vocabulary      FIELDS: 24 node types + ROUTE; every field listed, anything else fails
+        |
+   typing + caps   finite typed numbers, ranges, keys 2..32, 80 nodes, 160 expanded shapes
+        |
+   fit             conservative sphere bound r &lt;= 120 m, else refused; wrapper scales into 3 m
+        |  canonical_x3d  (the admitted, fitted fragment, not the author's text)
+        v
+   wrap_scene      &lt;X3D profile=&quot;Immersive&quot; version=&quot;4.0&quot;&gt;&lt;Scene&gt; ... &lt;/Scene&gt;&lt;/X3D&gt;
+        |
+   XSD 4.0         pinned x3d_mcp b5c9956 validate_xml on the exact bytes that are stored
+        |
+   semantic        pinned x3d_mcp b5c9956 semantic pass; &quot;pass&quot; means no level == error
+</code></pre>
+<p>The gate's contract is in <code>docs/GATE-CONTRACT.md</code>. The numbers a reader will quote:</p>
+<table>
+<thead>
+<tr>
+<th>bound</th>
+<th>value</th>
+<th>grade and instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>node types in the vocabulary</td>
+<td>24, plus ROUTE</td>
+<td><span class="g C" title="Confirmed">C</span> <code>len(FIELDS)</code> is 25 with <code>ROUTE</code> present</td>
+</tr>
+<tr>
+<td>raw source</td>
+<td>12 KiB</td>
+<td><span class="g C" title="Confirmed">C</span> contract table</td>
+</tr>
+<tr>
+<td>canonical fitted output</td>
+<td>24 KiB</td>
+<td><span class="g C" title="Confirmed">C</span> contract table</td>
+</tr>
+<tr>
+<td>source nodes</td>
+<td>80</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>nesting depth</td>
+<td>16 (source depth only)</td>
+<td><span class="g C" title="Confirmed">C</span>; chains through USE are deeper (review G5, open)</td>
+</tr>
+<tr>
+<td>expanded geometry instances</td>
+<td>160</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>ROUTEs; interpolators</td>
+<td>12; 8</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>coordinate points; indices</td>
+<td>1024; 4096</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>reject radius; slot</td>
+<td>120 m; 3 m</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>float32 floor for sizes and scales</td>
+<td>1.1754944e-38</td>
+<td><span class="g C" title="Confirmed">C</span> after the 17 November fix</td>
+</tr>
+</tbody>
+</table>
+<p>The fit is a bound, not a measurement. The contract says so: <code>bounds</code> are &quot;origin-centred sphere envelopes enclosed by axis-aligned cubes&quot;, often loose, and the complexity score &quot;is neither beauty nor scene readability nor measured rendering cost&quot;. Nothing in the gate says the fragment is visible, watertight or free of flashing (review G6: a 64 Hz light flash passes).</p>
+<p>A worked pass and a worked refusal. Run from a checkout:</p>
+<pre><code class="language-bash">python3 -I -c &quot;
+import sys; sys.path.insert(0, '.')
+from accretion.gate import gate_fragment
+ok = gate_fragment('&lt;Shape&gt;&lt;Appearance&gt;&lt;Material diffuseColor=\&quot;0.2 0.6 0.9\&quot;/&gt;&lt;/Appearance&gt;&lt;Sphere radius=\&quot;0.5\&quot;/&gt;&lt;/Shape&gt;', prefix='P1')
+bad = gate_fragment('&lt;Script url=\&quot;https://example.org/a.js\&quot;/&gt;', prefix='P1')
+print(ok['status'], [e['code'] for e in bad['errors']])&quot;
+</code></pre>
+<p>The first returns <code>pass</code> with a canonical fragment whose DEF, USE and ROUTE names carry the prefix <code>P1</code>; the second returns <code>fail</code> with named <code>GATE_*</code> diagnostics and no renderable output. A failed attempt is stored as an attempt row and does not advance the world. <span class="g C" title="Confirmed">C</span> <code>x3d.accrete@93063bf</code>.</p>
+<p>Mutation evidence. The review ran 30,000 mutation-fuzz runs (<code>nan</code>, <code>inf</code>, <code>1e999</code>, <code>1e-400</code>, empty, Unicode, truncation) on two rich fragments and reported zero uncaught exceptions and no wrong-admit of a forbidden node; that script is not in the repository, so it is <span class="g L" title="Likely">L</span> here. A smaller independent run of the same idea (drill D-ACC-8) gives, <span class="g C" title="Confirmed">C</span> with seed 20261117: 5,000 mutations of attribute values of the 24 example fragments, 402 passed, 4,598 failed, 0 uncaught exceptions, 0 passes holding a tag outside the vocabulary.</p>
+<hr />
+<h2 id="4-the-ledger-one-transaction-one-chain">4. The ledger: one transaction, one chain</h2>
+<p>An entry is a single JSON document in <code>accretion-c14n/1</code> (sorted keys, shortest-float text, integral floats collapsed, <code>NaN</code> and duplicate keys refused). Its hash is the SHA-256 of that canonical form, and it carries the previous hash, so the entries form a chain from a fixed genesis <code>sha256(&quot;accretion-observatory-v1:genesis:accretion-c14n/1&quot;)</code>.</p>
+<table>
+<thead>
+<tr>
+<th>part of an entry</th>
+<th>content</th>
+<th>bound by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>plan</code></td>
+<td>the planner's output</td>
+<td>replayed by <code>verify_archive</code></td>
+</tr>
+<tr>
+<td><code>candidate</code></td>
+<td><code>raw_sha256</code>, <code>canonical_sha256</code>, <code>scene_sha256</code></td>
+<td>recomputed from the stored bytes</td>
+</tr>
+<tr>
+<td><code>admission</code></td>
+<td>policy, its digest, the fragment record, the <code>mcp</code> record (xsd, semantic, instrument identity), <code>render: not_run</code></td>
+<td>compared to <code>POLICY</code>; witness rows rebuilt</td>
+</tr>
+<tr>
+<td><code>pipeline</code></td>
+<td>the hashes of the code files that produced the verdict</td>
+<td>digest recomputed</td>
+</tr>
+<tr>
+<td><code>prev_hash</code>, <code>hash</code>, <code>created_utc</code></td>
+<td>the chain</td>
+<td>recomputed</td>
+</tr>
+</tbody>
+</table>
+<p><code>WorldStore.append</code> takes a head and tail snapshot, plans, generates, gates, then opens <code>BEGIN IMMEDIATE</code>, re-reads the latest row, and refuses with <code>Conflict</code> if the head or tail moved. The entry and its attempt row commit together. <span class="g L" title="Likely">L</span> The review ran 6 threads against the same expected head: exactly 1 won and 5 conflicted, with 6 attempt rows recorded (1 committed, 5 conflicts); the verifier stayed valid. Read, not re-run.</p>
+<p><code>verify_archive</code> rechecks, per entry and in order: genesis, sequence, <code>prev_hash</code>, payload digest, placement replay, candidate byte digests, the exact <code>wrap_scene</code> identity, witness rows, the policy digest, the <code>pass</code> statuses and their bindings to the candidate, and the pipeline digest; then the declared checkpoint, and an external one if the caller holds it. It does not rerun the gate, the XSD or the semantic pass, and the result's own <code>scope</code> string says so.</p>
+<hr />
+<h2 id="5-what-the-chain-proves-and-what-it-cannot">5. What the chain proves and what it cannot</h2>
+<p>Self-consistency is checkable by anyone; authorship is not.</p>
+<table>
+<thead>
+<tr>
+<th>edit to a stored archive</th>
+<th>caught without an external checkpoint</th>
+<th>caught with one</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>any field of the entry (the review reports 208 scalar mutations of one payload, all rejected <span class="g L" title="Likely">L</span>)</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>swap or duplicate entries</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>truncate the tail and fix the declared checkpoint</td>
+<td><strong>no</strong></td>
+<td>yes</td>
+</tr>
+<tr>
+<td>rewrite the last entry, recompute its hash and the declared checkpoint</td>
+<td><strong>no</strong></td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p><span class="g C" title="Confirmed">C</span> Both &quot;no&quot; cells were run (drill D-ACC-5): a last entry with an edited title and a recomputed hash returns <code>valid: true</code> with no external checkpoint, and <code>TRUSTED_CHECKPOINT_MISMATCH</code> against the shipped checkpoint (<code>examples/checkpoint.json</code>, hash prefix <code>307fab65</code>, head 24). A truncated archive is valid without one and invalid with one. The README states the limit: hash continuity &quot;does not establish authorship or stop an attacker replacing the entire database and its checkpoint&quot;. The same limit measured on a scene's own chain is in <a href="23-traceability-lineage.html">23</a>: 0 of 160 consistent forgeries caught.</p>
+<p>Two things the review added, both open in the repository:</p>
+<ul>
+<li>The hash is malleable across <code>1</code> and <code>1.0</code> in fields outside the canonical forms (finding L2), and fields outside the entry hash are unauthenticated.</li>
+<li>A forged entry whose admission block is fabricated but self-consistent verifies (finding L1). The verifier checks that the record says <code>pass</code> and binds to the bytes, not that a gate ever ran. Only an independent re-run (the gate and both validators, on the stored bytes) could close that, and it is not built.</li>
+</ul>
+<p>Pre-registered and recorded evidence are different things here, and the code keeps them apart:</p>
+<table>
+<thead>
+<tr>
+<th>kind</th>
+<th>example</th>
+<th>why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pre-registered</td>
+<td>the policy and its digest in every entry; the caps; the benchmark's 90 s stop rule; the seven tamper cases named in <code>docs/PAGES.md</code></td>
+<td>fixed before the run; a later edit shows as a mismatch</td>
+</tr>
+<tr>
+<td>recorded</td>
+<td>the xsd and semantic results, the instrument identity, the pipeline file hashes</td>
+<td>what happened once; <code>verify</code> checks bindings and never re-observes it</td>
+</tr>
+<tr>
+<td>not recorded</td>
+<td>a render</td>
+<td><code>render.status</code> is <code>not_run</code>; a visible preview is not a candidate-bound render witness</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-the-review-45-findings-and-what-held">6. The review: 45 findings, and what held</h2>
+<p>Method, from the review file: 6 reviewer lanes (gate, ledger, http, adapter, web, claims), 45 findings, each re-checked by 2 verifiers (one reproducing, one trying to refute), 80 agents in all, on the tree as supplied (<code>52ba996</code>). Two findings were refuted by the verifiers (WEB-4, WEB-6). Fixes landed in <code>93063bf</code> with regression tests in <code>tests/test_review_fixes.py</code>.</p>
+<table>
+<thead>
+<tr>
+<th>finding</th>
+<th>what was wrong</th>
+<th>before (<code>52ba996</code>)</th>
+<th>after (<code>93063bf</code>)</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G1</td>
+<td>values below float32 pass the gate and the pinned validators</td>
+<td><code>Box size=&quot;1e-320 1 1&quot;</code> and <code>Transform scale=&quot;1e-40 1 1&quot;</code>: gate, XSD, semantic all <code>pass</code></td>
+<td><code>GATE_FIELD_POSITIVE</code>, <code>GATE_ZERO_SCALE</code></td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>G4</td>
+<td>numeric lexer accepts Unicode digits and spaces</td>
+<td><code>size=&quot;٢ ٢ ٢&quot;</code> (Arabic-Indic) and two numbers joined by U+00A0 all pass</td>
+<td><code>GATE_FIELD_NUMBER</code>, <code>GATE_FIELD_LENGTH</code></td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>G3</td>
+<td>SpotLight <code>beamWidth</code> default wrong</td>
+<td>a valid light with <code>cutOffAngle=&quot;0.7&quot;</code> refused (<code>GATE_SPOT_CONE</code>)</td>
+<td>default 0.589049 per the 4.0 UOM; the same fragment passes</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>H2</td>
+<td>no Host-header check</td>
+<td><code>GET /api/world</code> with <code>Host: evil.example:&lt;port&gt;</code> returns 200</td>
+<td>returns 403</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>H6</td>
+<td>HEAD not routed</td>
+<td><code>HEAD /api/status</code> returns 404</td>
+<td>200</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>H1, H3, H4, H5</td>
+<td>no socket timeout, no frame-ancestors or directory listing off, deep JSON crashes a handler, key file mode</td>
+<td>read in the review</td>
+<td>marked fixed; <code>test_review_fixes.py</code> covers H1 and H3 (timeout, headers, no listing) but not H4 or H5</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>F1</td>
+<td><code>PhysicalMaterial</code> in the vocabulary, never admissible</td>
+<td>gate passes, XSD passes, semantic fails</td>
+<td>unchanged: documented, not fixed</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>L1</td>
+<td>verify passes a fabricated-admission forgery and a truncated archive</td>
+<td>as in section 5</td>
+<td>open</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>L3</td>
+<td>append cost dominated by full-payload JSON re-parses</td>
+<td>see section 8</td>
+<td>open</td>
+<td><span class="g C" title="Confirmed">C</span> with a correction</td>
+</tr>
+<tr>
+<td>G2, G5, G6, G7</td>
+<td>uncapped triangle workload, USE depth, strobing, fit margin 1e-12</td>
+<td>read in the review</td>
+<td>open</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+</tbody>
+</table>
+<p>The review also lists what it could not break: forbidden tags and fields rejected in any case; the XML preflight failed closed on DOCTYPE, ENTITY, CDATA, comments, PIs and namespaces; USE and ROUTE graphs refused every malformed case tried; path traversal blocked; a cross-origin POST needs both the bearer key and an allowed <code>Origin</code>; no XSS from ledger text; 1,200 generated candidates over 40 seeds (every family at every tier) all passed the full pipeline (<code>x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md</code>, graded <span class="g L" title="Likely">L</span>: read, not re-run).</p>
+<h3 id="61-the-vocabulary-disagreement-trap-f1">6.1 The vocabulary-disagreement trap (F1)</h3>
+<p>The gate lists <code>PhysicalMaterial</code> as admissible, with its own typed fields. The pinned semantic pass, run on the wrapped scene under <code>profile=&quot;Immersive&quot;</code>, reports a <code>profile-component</code> error for it: the node belongs to Shape level 2, which the Immersive wrapper does not declare, and browsers that enforce the header refuse to load it.</p>
+<pre><code class="language-bash">python3 -I -c &quot;
+import sys; sys.path.insert(0, '.')
+from accretion.gate import gate_fragment
+from accretion import mcp_adapter, world
+g = gate_fragment('&lt;Shape&gt;&lt;Appearance&gt;&lt;PhysicalMaterial baseColor=\&quot;1 0 0\&quot;/&gt;&lt;/Appearance&gt;&lt;Box/&gt;&lt;/Shape&gt;', prefix='P1')
+v = mcp_adapter.validate_scene(world.wrap_scene(g['canonical_x3d']))
+print(g['status'], v['xsd']['status'], v['semantic']['status'], [f['check'] for f in v['semantic']['findings'] if f['level'] == 'error'])&quot;
+</code></pre>
+<p>Output: <code>pass pass fail ['profile-component']</code>. <span class="g C" title="Confirmed">C</span> on <code>93063bf</code> and on <code>52ba996</code>. Nothing in the unit tests of either side catches this, because the gate tests assert the gate and the adapter tests assert the adapter. Only a test that sends every admitted node type through the whole pipeline would; the generator never emits <code>PhysicalMaterial</code>, so the 1,200-candidate sweep could not either. The contract now documents the mismatch and leaves the decision open (declare <code>&lt;component name=&quot;Shape&quot; level=&quot;2&quot;/&gt;</code> in the wrapper, or drop the node).</p>
+<p>The general lesson is older than this repository: when a gate has its own vocabulary and defers to a second validator, two lists exist, and the product of the two lists is the real admission set. <a href="03-validator-and-gates.html">03</a> says the same of the XSD against the semantic pass.</p>
+<h3 id="62-the-float32-floor-g1">6.2 The float32 floor (G1)</h3>
+<p>A value like <code>1e-320</code> is a finite double and a lexically valid <code>SFFloat</code>, so the gate's finite check passed it and the pinned XSD did too (the review reports that the pinned XSD caught only <code>Sphere radius</code>, through <code>minExclusive</code> <span class="g L" title="Likely">L</span>). The 4.0 field type is single precision: below <code>1.1754944e-38</code> a value is denormal or zero when a renderer reads it. A positive size that reaches the renderer as 0 is a collapsed box; a scale that reaches it as 0 is a singular matrix. The fix puts the floor in the gate (<code>FLOAT32_MIN_NORMAL</code>), which is the only place that knows the narrowest consumer. <span class="g C" title="Confirmed">C</span></p>
+<h3 id="63-the-lexer-g4">6.3 The lexer (G4)</h3>
+<p>Python's <code>\d</code> and <code>str.split()</code> match Unicode digits and Unicode whitespace. The gate's regex used both, so <code>٢</code> read as a digit and U+00A0 as a separator, while the strict lexical form of an <code>SFFloat</code> has neither. The fix is an ASCII-only lexer (<code>[0-9]</code>, an explicit space set). The rule generalizes to any gate that parses numbers before a stricter stage: if the two parsers differ, the weaker one admits what the stronger one never intended. <span class="g C" title="Confirmed">C</span></p>
+<h3 id="64-a-loopback-server-needs-a-host-check-h2">6.4 A loopback server needs a Host check (H2)</h3>
+<p>The server bound to <code>127.0.0.1</code> and checked <code>Origin</code> on POST. A page on another origin can still read a loopback GET after DNS rebinding, because the browser sends <code>Host: attacker.example</code> and the server answered anyway; the whole ledger was readable. A Host allow-list (loopback names with the server's port) closes it. <span class="g C" title="Confirmed">C</span> Drill D-ACC-6 reproduces 200 against 403 on the two trees.</p>
+<hr />
+<h2 id="7-the-static-viewer-port-with-a-parity-test-not-a-rewrite">7. The static viewer: port with a parity test, not a rewrite</h2>
+<p><code>web/index.html</code> runs in two modes from one UI. Live mode reads <code>/api/*</code> from the local server and can grow the world with the author capability. Static mode (any other host, or <code>?static=1</code>) installs a <code>fetch</code> shim, <code>web/static-mode.js</code>, that answers the same endpoints from <code>web/static-world/</code> and refuses every POST. <code>/api/verify</code> is recomputed in the browser by <code>web/verify-archive.js</code>.</p>
+<table>
+<thead>
+<tr>
+<th>property</th>
+<th>value</th>
+<th>grade and instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tests as supplied</td>
+<td>85</td>
+<td><span class="g C" title="Confirmed">C</span> <code>python3 -I -m unittest discover -s tests -p 'test_*.py'</code> on <code>52ba996</code>, 3.1 s</td>
+</tr>
+<tr>
+<td>tests with the static viewer and review fixes</td>
+<td>99</td>
+<td><span class="g C" title="Confirmed">C</span> same command on <code>93063bf</code>, 4.5 s; +7 <code>test_review_fixes.py</code>, +7 <code>test_static_export.py</code></td>
+</tr>
+<tr>
+<td>96-entry world built by the real gate and validators</td>
+<td>3.84, 4.01, 4.40, 4.02 s over four runs</td>
+<td><span class="g C" title="Confirmed">C</span> <code>python3 tools/build_demo.py --count 96</code>, 4 vCPU</td>
+</tr>
+<tr>
+<td>in-browser verification of the committed 96-entry payload</td>
+<td>96 of 96, <code>valid: true</code>, 0 console errors, 0 HTTP errors</td>
+<td><span class="g C" title="Confirmed">C</span> <code>node tools/pages_smoke.js</code>, Chromium 153.0.8010.12, software GL, served under a <code>/x3d.accrete/</code> sub-path</td>
+</tr>
+<tr>
+<td>static payload</td>
+<td>197 files, 4,280,343 bytes</td>
+<td><span class="g C" title="Confirmed">C</span> <code>find web/static-world -type f</code></td>
+</tr>
+<tr>
+<td>browser verifier re-runs the gate, XSD or semantic pass</td>
+<td>no</td>
+<td><span class="g C" title="Confirmed">C</span> stated in the file header and in the returned <code>scope</code></td>
+</tr>
+</tbody>
+</table>
+<p>Why a port. The Python verifier is the specification; a second implementation in another language is a second chance to drift. The browser port reimplements Web Crypto SHA-256, the <code>accretion-c14n/1</code> number formatting (a port of Python's <code>repr(float)</code>, including the switch to exponent form below <code>1e-4</code> and from <code>1e16</code>), and the placement replay. The control is <code>tests/test_static_export.py</code>, class <code>BrowserVerifierParity</code>: for a valid archive and seven tampered ones (a title edit, a one-byte edit of canonical bytes, a plan cell edit, a truncation, a reorder, a forged checkpoint hash, a changed genesis) the Python and Node verdicts must have the same <code>valid</code>, <code>checked</code> and error text, compared as a whole; a second test compares the float formatter with <code>repr</code> on eight values. Tests pass on both sides: 8 of 8 archive cases agree. <span class="g C" title="Confirmed">C</span></p>
+<p>What parity does not give: the browser verifier checks the same things as Python and no more. It does not re-run any validator, and its <code>published_checkpoint</code> comes from the same origin as the data (&quot;the published checkpoint in <code>manifest.json</code> comes from the same origin and is not independent&quot;, <code>docs/PAGES.md</code>). Hosting adds no trust; the reader must compare the checkpoint with one obtained some other way.</p>
+<p>Pages is not live. <span class="g C" title="Confirmed">C</span> On 17 November 2026 <code>https://hagopjay.github.io/x3d.accrete/</code> answered 404. <code>docs/PAGES.md</code> names the missing step: the repository owner sets Settings, Pages, Source &quot;Deploy from a branch&quot;, branch <code>main</code>, folder <code>/ (root)</code>. Until then the static mode is exercised only by <code>tools/pages_smoke.js</code> against a local server that emulates the sub-path.</p>
+<hr />
+<h2 id="8-cost-and-a-claim-that-needs-its-scope">8. Cost, and a claim that needs its scope</h2>
+<p>The README says the next useful optimization is to replace &quot;repeated full-payload rescans&quot;. The review confirmed that append cost at about 100 entries is dominated by repeated full-payload JSON parsing. A profile of the whole 96-append build gives a more precise picture:</p>
+<table>
+<thead>
+<tr>
+<th>item</th>
+<th>value</th>
+<th>instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>96 appends, profiled wall time</td>
+<td>5.151 s (4.643 s inside <code>append</code>)</td>
+<td><span class="g C" title="Confirmed">C</span> <code>python3 -m cProfile -s cumtime tools/build_demo.py --count 96</code>, Python 3.13.18</td>
+</tr>
+<tr>
+<td><code>validate_scene</code> (XSD and semantic, pinned)</td>
+<td>2.970 s, of which 96 <code>_get_schema</code> calls 1.394 s</td>
+<td>same</td>
+</tr>
+<tr>
+<td><code>strict_json</code></td>
+<td>19,008 calls, 1.073 s cumulative</td>
+<td>same</td>
+</tr>
+<tr>
+<td><code>_placements</code> (replays the plan from stored payloads)</td>
+<td>289 calls, 0.814 s</td>
+<td>same</td>
+</tr>
+<tr>
+<td><code>gate_fragment</code></td>
+<td>0.218 s for 96 calls</td>
+<td>same</td>
+</tr>
+</tbody>
+</table>
+<p>So: of the append's own time outside the pinned validators (4.643 minus 2.970 is 1.673 s), the JSON re-parsing is the largest item, which supports the README claim. Of the whole append, the largest single item is that the XSD schema is parsed again on every call (1.394 s). Both are fixable and neither fix is built: a transactionally maintained planning index would remove most of the JSON work, and caching the compiled schema would remove most of the other. The profile inflates absolute times; the shares are what to read. The README's own measured run (100 entries: 4.333 s cumulative append, 28.118 ms replay verification, JSON 1,819,603 bytes, X3D 266,921 bytes, on 3.12.14) is <span class="g L" title="Likely">L</span> here: read, not re-run. Its projection to 1,000 entries (154.386 s) is an estimate that the benchmark itself refused to turn into a result because it exceeds a 90 s stop rule written in advance; the review adds that sizes and hashes in the report do not reproduce on a fresh run (finding C1, they depend on timestamps), and only timings reproduce within about 5%.</p>
+<hr />
+<h2 id="9-what-is-missing-ranked">9. What is missing, ranked</h2>
+<ol>
+<li><strong>An independent re-run on audit</strong>: re-execute the gate and both validators on the stored bytes, so a fabricated admission cannot verify (L1).</li>
+<li><strong>A full-pipeline test per admitted node type</strong> (F1): one assertion that every name in <code>FIELDS</code> has at least one fragment that passes all three stages, or is removed from the vocabulary.</li>
+<li><strong>An external anchor</strong>: a signed or published checkpoint outside the origin that serves the archive. Section 5 shows what the lack costs.</li>
+<li><strong>Plan-index columns and a cached schema</strong> (L3, L4): cut append and startup verification, then measure again before quoting any capacity.</li>
+<li><strong>A render witness bound to the candidate</strong>: <code>render</code> stays <code>not_run</code> until a pinned renderer, a camera and a pixel floor exist (see <a href="06-xite-the-oracle.html">06</a> and <a href="02-loom-laws.html">02</a> law 2).</li>
+<li><strong>A model generator, measured</strong>: the original design's central claim. It needs model calls and has not been run.</li>
+</ol>
+<hr />
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-ACC-1</td>
+<td>Split growth into planner, generator, gate and ledger; let only the generator be a model, and make the other three replayable from the ledger.</td>
+<td>C</td>
+<td><code>plan_next</code> is a pure function of prefix and hash; <code>verify_archive</code> replays it; <code>model_calls</code> is 0</td>
+<td><code>x3d.accrete@93063bf</code> <code>accretion/world.py</code>, Python 3.13.18</td>
+</tr>
+<tr>
+<td>H-ACC-2</td>
+<td>Seed the planner from the previous hash, never from a clock or a random source.</td>
+<td>C</td>
+<td>same genesis gives equal plans; 1 of 96 seeds equal across two builds because the hash holds a timestamp</td>
+<td><code>tools/build_demo.py --count 96</code>, twice</td>
+</tr>
+<tr>
+<td>H-ACC-3</td>
+<td>Whitelist fields as well as nodes, and fuzz the lexer: forbidden things must fail in any case and spelling.</td>
+<td>C</td>
+<td>5,000 mutations: 0 exceptions, 0 passes with a tag outside the vocabulary; the review reports 30,000 (read, not run)</td>
+<td><code>x3d.accrete@93063bf</code> gate, seed 20261117</td>
+</tr>
+<tr>
+<td>H-ACC-4</td>
+<td>When a gate defers to a second validator, send every admitted node type through both before shipping the vocabulary.</td>
+<td>C</td>
+<td><code>PhysicalMaterial</code>: gate pass, XSD pass, semantic <code>profile-component</code> error</td>
+<td><code>x3d.accrete@93063bf</code>, <code>x3d_mcp@b5c9956</code></td>
+</tr>
+<tr>
+<td>H-ACC-5</td>
+<td>Put a numeric floor at the narrowest type any consumer uses; a finite double is not a valid <code>SFFloat</code>.</td>
+<td>C</td>
+<td><code>Box size</code> <code>1e-320</code> and <code>scale</code> <code>1e-40</code> passed gate, XSD and semantic on <code>52ba996</code>; refused on <code>93063bf</code></td>
+<td>same, <code>FLOAT32_MIN_NORMAL</code></td>
+</tr>
+<tr>
+<td>H-ACC-6</td>
+<td>Lex numbers with an explicit ASCII set; never <code>\d</code> or bare <code>split()</code> on untrusted text.</td>
+<td>C</td>
+<td>Arabic-Indic digits and U+00A0 separators were admitted on <code>52ba996</code></td>
+<td><code>x3d.accrete@52ba996</code> and <code>93063bf</code> gate</td>
+</tr>
+<tr>
+<td>H-ACC-7</td>
+<td>Check a comparison default against the standard's tables, not memory: a wrong default is a false reject.</td>
+<td>C</td>
+<td>SpotLight <code>beamWidth</code> default was pi/4; the 4.0 table says 0.589049; <code>cutOffAngle=&quot;0.7&quot;</code> was refused</td>
+<td>same, <code>X3D XSD 4.0</code> and UOM</td>
+</tr>
+<tr>
+<td>H-ACC-8</td>
+<td>Guard a loopback server with a Host allow-list as well as an Origin check.</td>
+<td>C</td>
+<td><code>Host: evil.example</code> read the ledger (200) on <code>52ba996</code>, 403 on <code>93063bf</code></td>
+<td><code>serve.py</code>, curl, both trees</td>
+</tr>
+<tr>
+<td>H-ACC-9</td>
+<td>Say that verify proves self-consistency; hold a checkpoint from outside the origin before calling a ledger tamper-evident.</td>
+<td>C</td>
+<td>forged last entry and truncated archive both <code>valid: true</code> without a checkpoint, both rejected with one</td>
+<td><code>verify_archive</code>, drill D-ACC-5</td>
+</tr>
+<tr>
+<td>H-ACC-10</td>
+<td>Port a verifier only with a parity test over a valid input and a tamper table, comparing verdict and error text.</td>
+<td>C</td>
+<td>8 of 8 archive cases agree between Python and Node; float formatting agrees with <code>repr</code> on 8 values</td>
+<td><code>tests/test_static_export.py</code>, Node 22.23.4</td>
+</tr>
+<tr>
+<td>H-ACC-11</td>
+<td>State which of a benchmark's outputs reproduce: timings within a spread, never hashes or sizes that include timestamps.</td>
+<td>C</td>
+<td>four builds, four tail hashes; build wall time 3.84 to 4.40 s</td>
+<td><code>build_demo.py</code>, 4 vCPU</td>
+</tr>
+<tr>
+<td>H-ACC-12</td>
+<td>Profile the whole path before a &quot;dominated by X&quot; claim is written; the biggest item may sit outside the claim's scope.</td>
+<td>C</td>
+<td>JSON re-parse 1.073 s is the largest part of the store's own time; the schema parse 1.394 s is larger over the whole append</td>
+<td>cProfile, Python 3.13.18</td>
+</tr>
+<tr>
+<td>H-ACC-13</td>
+<td>Write the stop rule before the run and report a projection as an estimate, not a result.</td>
+<td>L</td>
+<td>the benchmark refused a 1,000-entry run projected at 154.386 s against a 90 s stop rule</td>
+<td><code>x3d.accrete@93063bf</code> <code>README.md</code>, read, not run</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="drills">Drills</h2>
+<p>Each drill needs a checkout of <code>x3d.accrete</code> at <code>93063bf</code>, Python 3.12 or newer with <code>lxml</code> and <code>jsonschema</code> (the repository's <code>requirements.txt</code>), and for the second tree <code>git worktree add ../accrete-as-supplied 52ba996</code>. Run Python as <code>python3 -I</code>; the snippets add the checkout to <code>sys.path</code> themselves.</p>
+<h3 id="d-acc-1-count-the-vocabulary">D-ACC-1 Count the vocabulary</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> How many keys does <code>FIELDS</code> hold, is <code>ROUTE</code> one of them, and how many node types is that?</li>
+<li><strong>Verify:</strong> <code>python3 -I -c &quot;import sys;sys.path.insert(0,'.');from accretion.gate import FIELDS;print(len(FIELDS),'ROUTE' in FIELDS)&quot;</code></li>
+<li><strong>Answer:</strong> 25 keys, <code>ROUTE</code> present, so 24 node types plus ROUTE (the contract's number, not the original design's 31).</li>
+<li><strong>Checked:</strong> 2026-11-17 <code>x3d.accrete@93063bf</code>, Python 3.13.18</li>
+</ul>
+<h3 id="d-acc-2-before-and-after-the-review">D-ACC-2 Before and after the review</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Run the whole suite on both trees and say how many tests each runs and how the 14 new ones split between files.</li>
+<li><strong>Verify:</strong> <code>python3 -I -m unittest discover -s tests -p 'test_*.py'</code> in each tree; <code>grep -c &quot;    def test_&quot; tests/test_*.py</code>.</li>
+<li><strong>Answer:</strong> 85 on <code>52ba996</code>, 99 on <code>93063bf</code>. The new ones are 7 in <code>test_review_fixes.py</code> and 7 in <code>test_static_export.py</code>; the old files keep gate 28, generator 13, adapter 15, http 9, world 20.</li>
+<li><strong>Checked:</strong> 2026-11-17 <code>x3d.accrete@52ba996</code> and <code>@93063bf</code>, Python 3.13.18, lxml 6.1.3</li>
+</ul>
+<h3 id="d-acc-3-the-float32-floor-and-the-lexer">D-ACC-3 The float32 floor and the lexer</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Gate the four fragments below on both trees and record <code>status</code> and the first error code. Then run the first through the XSD and semantic stages on the old tree.</li>
+<li><strong>Verify:</strong> <code>python3 -I -c &quot;import sys;sys.path.insert(0,'.');from accretion.gate import gate_fragment as g;[print(f[:44],g(f,prefix='P1')['status']) for f in ['&lt;Shape&gt;&lt;Box size=\&quot;1e-320 1 1\&quot;/&gt;&lt;/Shape&gt;','&lt;Transform scale=\&quot;1e-40 1 1\&quot;&gt;&lt;Shape&gt;&lt;Box/&gt;&lt;/Shape&gt;&lt;/Transform&gt;','&lt;Shape&gt;&lt;Box size=\&quot;٢ ٢ ٢\&quot;/&gt;&lt;/Shape&gt;','&lt;Shape&gt;&lt;Box size=\&quot;2 2 2\&quot;/&gt;&lt;/Shape&gt;']]&quot;</code></li>
+<li><strong>Answer:</strong> old tree: <code>pass</code> for all four (and the first also passes XSD and semantic through <code>mcp_adapter.validate_scene(world.wrap_scene(...))</code>). New tree: <code>fail</code> with <code>GATE_FIELD_POSITIVE</code>, <code>GATE_ZERO_SCALE</code>, <code>GATE_FIELD_NUMBER</code>, <code>GATE_FIELD_LENGTH</code> in that order.</li>
+<li><strong>Checked:</strong> 2026-11-17 <code>x3d.accrete@52ba996</code> and <code>@93063bf</code>, pinned <code>x3d_mcp@b5c9956</code>, lxml 6.1.3</li>
+</ul>
+<h3 id="d-acc-4-the-vocabulary-trap">D-ACC-4 The vocabulary trap</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Run the <code>PhysicalMaterial</code> snippet of section 6.1. Which stage refuses, with which check, and does the generator's sweep of six families at five tiers contain the node?</li>
+<li><strong>Verify:</strong> the snippet in section 6.1; <code>grep -n PhysicalMaterial accretion/generator.py</code>.</li>
+<li><strong>Answer:</strong> gate <code>pass</code>, XSD <code>pass</code>, semantic <code>fail</code> with <code>profile-component</code>; the generator never emits it (no match), which is why no sweep found it.</li>
+<li><strong>Checked:</strong> 2026-11-17 <code>x3d.accrete@93063bf</code>, <code>x3d_mcp@b5c9956</code>, Python 3.13.18</li>
+</ul>
+<h3 id="d-acc-5-forge-the-last-entry">D-ACC-5 Forge the last entry</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Load <code>examples/world.json</code>, edit the last entry's title, recompute its hash with <code>accretion.world.sha(payload)</code>, set the archive's declared checkpoint to it, and call <code>verify_archive</code> twice: bare, and with the shipped checkpoint (<code>examples/checkpoint.json</code>). Then pop the last entry, fix the declared checkpoint, and repeat. What does each call return?</li>
+<li><strong>Verify:</strong></li>
+</ul>
+<pre><code class="language-python">import sys, copy; sys.path.insert(0, '.')
+from accretion.codec import strict_json
+from accretion.world import verify_archive, sha
+a = strict_json(open('examples/world.json', encoding='utf-8').read()); held = dict(a['checkpoint'])
+f = copy.deepcopy(a); last = f['entries'][-1]; last['payload']['title'] = 'FORGED'
+last['hash'] = sha(last['payload']); f['checkpoint'] = {**f['checkpoint'], 'hash': last['hash']}
+print(verify_archive(f)['valid'], verify_archive(f, held)['valid'])
+t = copy.deepcopy(a); t['entries'].pop(); t['checkpoint'] = {'head': len(t['entries']), 'hash': t['entries'][-1]['hash']}
+print(verify_archive(t)['valid'], verify_archive(t, held)['valid'])
+</code></pre>
+<ul>
+<li><strong>Answer:</strong> <code>True False</code> then <code>True False</code>. The first result of each pair is the limit (valid without an anchor); the second names the code <code>TRUSTED_CHECKPOINT_MISMATCH</code>.</li>
+<li><strong>Checked:</strong> 2026-11-17 <code>x3d.accrete@93063bf</code>, Python 3.13.18</li>
+</ul>
+<h3 id="d-acc-6-the-rebinding-guard">D-ACC-6 The rebinding guard</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Start the server from each tree on its own port with an empty world, then request <code>/api/world</code> with <code>Host: evil.example:&lt;port&gt;</code>, and <code>HEAD /api/status</code> normally. Record the four status codes.</li>
+<li><strong>Verify:</strong> <code>python3 serve.py --demo-count 0 --data &lt;fresh dir&gt; --port &lt;port&gt; &amp;</code> then <code>curl -s -o /dev/null -w '%{http_code}\n' -H 'Host: evil.example:&lt;port&gt;' http://127.0.0.1:&lt;port&gt;/api/world</code> and <code>curl -s -I -o /dev/null -w '%{http_code}\n' http://127.0.0.1:&lt;port&gt;/api/status</code>.</li>
+<li><strong>Answer:</strong> <code>52ba996</code>: 200 for the foreign Host, 404 for HEAD. <code>93063bf</code>: 403 and 200. Stop both servers afterwards.</li>
+<li><strong>Checked:</strong> 2026-11-17 <code>x3d.accrete@52ba996</code> and <code>@93063bf</code>, Python 3.13.18, curl</li>
+</ul>
+<h3 id="d-acc-7-same-code-different-history">D-ACC-7 Same code, different history</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Build 96 entries twice (<code>python3 tools/build_demo.py --count 96 --output &lt;dir&gt;</code>), and compare entry 1 and entry 2 plans, the number of identical seeds, the number of identical raw fragments, and the two tail hashes. Then time one build.</li>
+<li><strong>Verify:</strong> load both <code>world.json</code> files and compare <code>entries[i]['payload']['plan']['seed']</code>, <code>raw_x3d</code> and the last <code>hash</code>; <code>python3 -I tools/verify_export.py &lt;dir&gt;/world.json</code> for each.</li>
+<li><strong>Answer:</strong> entry 1: equal seed and cell. Entry 2 onward: different. 1 of 96 seeds and 1 of 96 raw fragments equal; tail hashes differ; both archives verify <code>valid: true</code>, <code>checked: 96</code>. One build takes about 4 s (3.84 to 4.40 s over four runs).</li>
+<li><strong>Checked:</strong> 2026-11-17 <code>x3d.accrete@93063bf</code>, Python 3.13.18, 4 vCPU</li>
+</ul>
+<h3 id="d-acc-8-fuzz-the-gate">D-ACC-8 Fuzz the gate</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Take the 24 raw fragments of <code>examples/world.json</code>. For 5,000 iterations pick one at random, pick one attribute value, and replace it with one of <code>nan</code>, <code>inf</code>, <code>-inf</code>, <code>1e999</code>, <code>1e-400</code>, empty, <code>٣</code>, <code>1&lt;NBSP&gt;2</code>, <code>-0</code>, <code>0</code>, <code>1e-39</code>, <code>99999999</code>, <code>abc</code>, a space, <code>1,5</code>, <code>0x10</code>, <code>1_0</code> (or, one time in five, truncate it). Count exceptions, passes, fails, and passes whose canonical output holds a tag outside <code>FIELDS</code>. Then extend: add a mutation that renames a tag to a lower-case spelling.</li>
+<li><strong>Verify:</strong> a loop calling <code>gate_fragment(mutated, prefix='P1')</code> inside <code>try</code>, with <code>random.Random(20261117)</code>; parse <code>canonical_x3d</code> inside a wrapper element and compare tag sets.</li>
+<li><strong>Answer:</strong> 5,000 runs: 402 pass, 4,598 fail, 0 uncaught exceptions, 0 passes with a tag outside the vocabulary. The review's 30,000-run figure with the same result is <span class="g L" title="Likely">L</span>; the lower-case rename should fail with a named <code>GATE_NODE_FORBIDDEN</code>-family code, not pass.</li>
+<li><strong>Checked:</strong> 2026-11-17 <code>x3d.accrete@93063bf</code>, Python 3.13.18 (the rename extension: not run)</li>
+</ul>
+<h3 id="d-acc-9-profile-an-append">D-ACC-9 Profile an append</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Profile the 96-entry build and rank the top three costs inside <code>append</code>. Say which one the README's &quot;repeated full-payload rescans&quot; refers to and which one it does not.</li>
+<li><strong>Verify:</strong> <code>python3 -m cProfile -s cumtime tools/build_demo.py --count 96 --output &lt;dir&gt;</code>, read <code>append</code>, <code>validate_scene</code>, <code>_get_schema</code>, <code>strict_json</code>, <code>_placements</code>.</li>
+<li><strong>Answer:</strong> <code>validate_scene</code> 2.970 s (of which <code>_get_schema</code> 1.394 s), then <code>strict_json</code> 1.073 s (19,008 calls) and <code>_placements</code> 0.814 s. The README refers to the second and third; the first is the validator's own schema parse, which the claim does not mention.</li>
+<li><strong>Checked:</strong> 2026-11-17 <code>x3d.accrete@93063bf</code>, Python 3.13.18, lxml 6.1.3</li>
+</ul>
+<h3 id="d-acc-10-browser-parity">D-ACC-10 Browser parity</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Run the parity class alone, then the Pages smoke test, and say how many archive cases the first compares and what the second reports for entries checked and console errors.</li>
+<li><strong>Verify:</strong> <code>python3 -I -m unittest discover -s tests -p 'test_static_export.py' -k Parity -v</code>; <code>node tools/pages_smoke.js shot.png</code> (needs Playwright with Chromium).</li>
+<li><strong>Answer:</strong> the parity class passes 2 tests, the first over 8 archives (1 valid, 7 tampered); the smoke test prints <code>&quot;checked&quot;: 96</code>, <code>&quot;valid&quot;: true</code>, <code>&quot;errors&quot;: []</code>, and <code>verifyJson.engine</code> <code>browser-js</code>.</li>
+<li><strong>Checked:</strong> 2026-11-17 <code>x3d.accrete@93063bf</code>, Node 22.23.4, Chromium 153.0.8010.12 (Playwright, software GL)</li>
+</ul>
+<hr />
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> No model was called. The original Haiku-in-an-artifact design is <span class="g S" title="Suspected">S</span> throughout: its 38 tests, prices and 1.2M capacity were read in the design notes, never run, and its source was never supplied.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> The reference gate admits 24 node types. That is a subset chosen for safety, not a statement about X3D coverage.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> The gate's bounds are conservative envelopes, not measured extents. No render, visibility, topology or flashing check exists. <code>render</code> is <code>not_run</code> in every entry.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> <code>verify_archive</code>, in Python and in the browser, proves the stored record is self-consistent and replays the plan. It does not prove that a gate ran, who wrote the entry, or that the checkpoint is the one anyone else holds.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> The browser verifier does not re-run the gate, the XSD or the semantic validators. Pages is not live; the static mode was run only through <code>tools/pages_smoke.js</code> against a local server.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> <code>PhysicalMaterial</code> cannot be admitted and the repository leaves it so. Other findings (G2, G5, G6, G7, L1 to L5, F2 to F7, most WEB items) are open at <code>93063bf</code>.</li>
+<li><strong><span class="g L" title="Likely">L</span></strong> The 30,000-run mutation fuzz, the 1,200-candidate sweep, the 6-thread contention probe, the 19 of 19 vendored-file blob match and the upstream drift (10 commits ahead of the pin, none in <code>src/validation</code>) are read from the review file, not re-run. The review's scripts are not in the repository.</li>
+<li><strong><span class="g L" title="Likely">L</span></strong> The README's 100-entry benchmark (4.333 s, 28.118 ms, 1,819,603 and 266,921 bytes) is read from the repository and was not re-run; only timings of that kind reproduce, and then within about 5%.</li>
+<li><strong><span class="g L" title="Likely">L</span></strong> The profile shares in section 8 come from one cProfile run, which inflates absolute times. The conclusion about the schema parse is about ranking, not milliseconds.</li>
+<li><strong><span class="g L" title="Likely">L</span></strong> The Loom mapping is the repository's reading of <code>x3d.loom@7a7d657</code>. This chapter did not run a Loom profile against an Accretion entry.</li>
+<li><strong><span class="g S" title="Suspected">S</span></strong> The suggestion that caching the compiled schema and adding plan-index columns would remove most of the two largest costs is an expectation from the profile, not a measurement.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> Timings are single runs on one shared container with 4 vCPUs; the third digit moves between runs. Hashes and sizes of a freshly built world are single-run values.</li>
+</ul>
+<hr />
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-ACC-1</td>
+<td>unit tests: as supplied; with static viewer and review fixes</td>
+<td>85; 99</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>python3 -I -m unittest discover -s tests -p 'test_*.py'</code>, Python 3.13.18, lxml 6.1.3</td>
+<td><code>x3d.accrete@93063bf:tests/test_review_fixes.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-2</td>
+<td>tests per file at <code>93063bf</code>: gate; generator; adapter; http; world; review fixes; static export</td>
+<td>28; 13; 15; 9; 20; 7; 7</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>grep -c &quot;    def test_&quot; tests/test_*.py</code></td>
+<td><code>x3d.accrete@93063bf:tests/test_static_export.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-3</td>
+<td>node types in the gate vocabulary, plus ROUTE</td>
+<td>24</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>len(FIELDS)</code> is 25, Python 3.13.18</td>
+<td><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-4</td>
+<td>raw fragment cap; canonical cap (KiB)</td>
+<td>12; 24</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>contract table, matches <code>accretion/gate.py</code> constants per the review</td>
+<td><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-5</td>
+<td>source nodes; nesting depth; expanded geometry instances</td>
+<td>80; 16; 160</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ACC-6</td>
+<td>float32 floor for sizes and scales</td>
+<td>1.1754944e-38</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>FLOAT32_MIN_NORMAL</code> in the gate</td>
+<td><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-7</td>
+<td>review: lanes; findings; verifiers per finding; agents</td>
+<td>6; 45; 2; 80</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>review method as written, not repeated</td>
+<td><code>x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-8</td>
+<td>review mutation-fuzz runs, uncaught exceptions</td>
+<td>30,000; 0</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>review file, script not in the repository</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ACC-9</td>
+<td>own mutation run: runs; pass; fail; exceptions; passes with a foreign tag</td>
+<td>5,000; 402; 4,598; 0; 0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>drill D-ACC-8, seed 20261117, Python 3.13.18</td>
+<td><code>x3d.accrete@93063bf:accretion/gate.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-10</td>
+<td>box size 1e-320 and scale 1e-40: gate, XSD, semantic verdicts as supplied; after the fix</td>
+<td>pass, pass, pass; fail</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>drill D-ACC-3, <code>x3d_mcp@b5c9956</code>, lxml 6.1.3</td>
+<td><code>x3d.accrete@52ba996:accretion/gate.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-11</td>
+<td><code>PhysicalMaterial</code> verdicts: gate; XSD; semantic</td>
+<td>pass; pass; fail (<code>profile-component</code>)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>drill D-ACC-4, <code>x3d_mcp@b5c9956</code></td>
+<td><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-12</td>
+<td>foreign Host header on <code>/api/world</code>: as supplied; after the fix (HTTP status)</td>
+<td>200; 403</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>drill D-ACC-6, curl</td>
+<td><code>x3d.accrete@93063bf:tests/test_review_fixes.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-13</td>
+<td><code>HEAD /api/status</code>: as supplied; after the fix (HTTP status)</td>
+<td>404; 200</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ACC-14</td>
+<td>forged last entry verifies without a checkpoint; with the shipped one</td>
+<td>true; false</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>drill D-ACC-5</td>
+<td><code>x3d.accrete@93063bf:accretion/world.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-15</td>
+<td>shipped checkpoint head; hash prefix</td>
+<td>24; 307fab65</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>examples/checkpoint.json</code></td>
+<td><code>x3d.accrete@93063bf:examples/checkpoint.json</code></td>
+</tr>
+<tr>
+<td>N-ACC-16</td>
+<td>96-entry build wall time, four runs (s)</td>
+<td>3.84; 4.01; 4.40; 4.02</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>python3 tools/build_demo.py --count 96</code>, 4 vCPU</td>
+<td><code>x3d.accrete@93063bf:tools/build_demo.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-17</td>
+<td>two builds of 96: identical seeds; identical raw fragments; distinct tail hashes over four builds</td>
+<td>1 of 96; 1 of 96; 4 of 4</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>drill D-ACC-7</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ACC-18</td>
+<td>browser verification of the committed payload: entries checked; console errors</td>
+<td>96 of 96; 0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>node tools/pages_smoke.js</code>, Chromium 153.0.8010.12, software GL</td>
+<td><code>x3d.accrete@93063bf:tools/pages_smoke.js</code></td>
+</tr>
+<tr>
+<td>N-ACC-19</td>
+<td>static payload: files; bytes</td>
+<td>197; 4,280,343</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>find web/static-world -type f</code></td>
+<td><code>x3d.accrete@93063bf:web/static-world/manifest.json</code></td>
+</tr>
+<tr>
+<td>N-ACC-20</td>
+<td>parity cases: archives compared; of which tampered; float formatter values</td>
+<td>8; 7; 8</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>BrowserVerifierParity</code>, Node 22.23.4</td>
+<td><code>x3d.accrete@93063bf:tests/test_static_export.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-21</td>
+<td>profile of 96 appends: total; <code>validate_scene</code>; <code>_get_schema</code>; <code>strict_json</code> calls; <code>strict_json</code> time (s)</td>
+<td>5.151; 2.970; 1.394; 19,008; 1.073</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>python3 -m cProfile -s cumtime tools/build_demo.py --count 96</code></td>
+<td><code>x3d.accrete@93063bf:accretion/world.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-22</td>
+<td>README benchmark at 100 entries: append total (s); verify (ms); JSON bytes; X3D bytes</td>
+<td>4.333; 28.118; 1,819,603; 266,921</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>reports/store-scaling.json</code> as quoted in the README, not re-run</td>
+<td><code>x3d.accrete@93063bf:README.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-23</td>
+<td>projected 1,000-entry run; stop rule (s)</td>
+<td>154.386; 90</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>estimate only, not run</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ACC-24</td>
+<td>loaded records; detail budgets; entry cap</td>
+<td>512; 24, 48, 96; 10,000</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>README text, matches <code>serve.py</code> constants per the review</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ACC-25</td>
+<td>review sweep: candidates; seeds; failures</td>
+<td>1200; 40; 0</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>review file, not re-run</td>
+<td><code>x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-26</td>
+<td>vendored files matching upstream blobs; upstream commits ahead of the pin</td>
+<td>19 of 19; 10</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>review file, not re-run</td>
+<td>same</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<p>Read and run on 2026-11-17: <code>x3d.accrete</code> at <code>93063bf</code> (public, https://github.com/hagopjay/x3d.accrete) and at <code>52ba996</code> for the as-supplied side; the vendored <code>x3d_mcp</code> at <code>b5c9956</code> through the repository's adapter; the bundled X_ITE 16.6.0 viewer through <code>tools/pages_smoke.js</code>. The repository states that its source is &quot;a new reference implementation from the two supplied design notes&quot; and that the private source archive of the original application was not supplied; nothing here is derived from that archive, and the original design's figures are graded <span class="g S" title="Suspected">S</span> above. The review file <code>docs/REVIEW-2026-11-17.md</code> is a repository document; its findings are cited with its own ids and, where this chapter re-ran a finding, the run is named in a drill. The claim ledger for this chapter is <code>claims/25-accretion-gated-growth.jsonl</code>: each number above that is literal in a public file has a line with the words it was read from, pinned at the commit shown. Run results (test counts, timings, fuzz counts, verdicts of drills) have no source file to quote and stay uncovered; a reader re-checks them with the drill commands.</p>
+<div class="pn"><a href="23-traceability-lineage.html">&larr; 23-traceability-lineage</a><a href="A-validator-register.html">A-validator-register &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>
