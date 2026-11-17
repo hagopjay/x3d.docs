@@ -22,7 +22,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a class="cur" href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="C-numbers-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/C-numbers-ledger.md">GitHub</a></div><h1>Appendix C. Numbers ledger</h1>
 <p>Merged from the <em>Numbers register</em> of every chapter by <code>tools-shared/build_learn.py</code>. Edit the chapter, not this file.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>585 numbers</strong> from 23 chapters. Grades: <span class="g C" title="Confirmed">C</span> 535 · <span class="g L" title="Likely">L</span> 44 · <span class="g S" title="Suspected">S</span> 6. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
+<p><strong>591 numbers</strong> from 23 chapters. Grades: <span class="g C" title="Confirmed">C</span> 541 · <span class="g L" title="Likely">L</span> 44 · <span class="g S" title="Suspected">S</span> 6. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
 <table>
 <thead>
 <tr>
@@ -4965,7 +4965,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>D-question answers: Viewpoint, light, animated, remote, Script</td>
 <td>422, 108, 31, 5, 3 of 499</td>
 <td><span class="g C" title="Confirmed">C</span></td>
-<td><code>x3d_s1</code> 0.1.0</td>
+<td><code>x3d_s1</code> 0.1.0; the animated count is superseded by N-JEV-31</td>
 <td>same receipt</td>
 </tr>
 <tr>
@@ -5084,6 +5084,60 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><span class="g C" title="Confirmed">C</span></td>
 <td><code>x3d.zod</code> fuzz tool, 4 mutants per document, seed 1, then <code>x3d_mcp@dcf0815</code> stages in order; survivors unlabelled</td>
 <td><code>x3d.loom@0752865</code> <code>x3d.zod</code></td>
+</tr>
+<tr>
+<td>N-JEV-29</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>re-run: public scenes; raw bytes; all-facets state bytes</td>
+<td>520; 57,609,927; 565,878 (101.81x)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_s1</code> 0.2.0 <code>tools/corpus_measure.py</code>, Python 3.13.18, 4 vCPU x86_64</td>
+<td><code>x3d.docs@a9b5f33</code>, <code>x3d.loom@be7c481</code>, <code>x3d_mcp@c6681fe</code>; receipt <code>x3d.s1/receipts/corpus-current.json</code></td>
+</tr>
+<tr>
+<td>N-JEV-30</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>re-run: median raw/state ratio; 10th percentile; scenes where state is larger; largest such scene</td>
+<td>1.81; 0.73; 135 of 520; 1,049 bytes</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_s1</code> 0.2.0, same run</td>
+<td>same receipt and <code>corpus-current.scenes.csv</code></td>
+</tr>
+<tr>
+<td>N-JEV-31</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>re-run: D answers Viewpoint, light, animated, remote, Script; animated under the old code on the same scenes</td>
+<td>443, 128, 56, 6, 5 of 520; 33</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_s1</code> 0.2.0; the old-code count from <code>x3d_s1</code> 0.1.0 run on the same checkouts; an independent <code>xml.etree</code> scan also gives 56</td>
+<td>same receipt; <code>x3d.s1/README.md</code></td>
+</tr>
+<tr>
+<td>N-JEV-32</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>re-run: text strings; flagged by the lint; scenes holding the flagged strings</td>
+<td>37,882; 9; 2 (both planted hostile fixtures)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_s1</code> 0.2.0</td>
+<td>same receipt</td>
+</tr>
+<tr>
+<td>N-JEV-33</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>mutation check v2: planted bugs; killed by a named test; tests passing</td>
+<td>41; 41; 207</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_s1</code> 0.2.0 <code>tools/mutation_check.py</code>, Python 3.12 and 3.13</td>
+<td><code>x3d.s1/receipts/mutation-hardening.json</code></td>
+</tr>
+<tr>
+<td>N-JEV-34</td>
+<td><a href="22-typed-judgments-jev.html">22</a></td>
+<td>the 0.1.0 check re-run with the fixtures present and no naming rule: survivors among the earlier 41</td>
+<td>1 (&quot;lint not run on quotes&quot;)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_s1</code> mutation check v1 operators, copies that keep <code>receipts/</code></td>
+<td><code>x3d.s1/README.md</code></td>
 </tr>
 <tr>
 <td>N-TRC-1</td>

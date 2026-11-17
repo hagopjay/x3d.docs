@@ -3,7 +3,7 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-348 distinct instrument strings across the numbers registers.
+355 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
@@ -57,7 +57,6 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d_mcp fork b4efcd3, in-process` | 2 | 04 | C:2 |
 | `x3d_mcp fork b4efcd3, libxml2 2.14.6` | 2 | 04 | C:2 |
 | `x3d_mcp upstream 74da0ec, x3d_mcp fork b4efcd3` | 2 | 04 | C:2 |
-| `x3d_s1 0.1.0` | 2 | 22 | C:2 |
 | `x3dgltf matrix` | 2 | 19 | C:2 |
 | `x3dgltf matrix, Node zlib` | 2 | 19 | C:2 |
 | `x3dgltf optimize` | 2 | 19 | C:2 |
@@ -347,11 +346,19 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d_mcp upstream 74da0ec, Python ast` | 1 | 03 | C:1 |
 | `x3d_mcp upstream 74da0ec, list_tools()` | 1 | 04 | C:1 |
 | `x3d_mcp@dcf0815 evaluation/exact_fix_eval.py, 11 s; the committed results.json states 25; 570; 81; 523; 257` | 1 | 22 | C:1 |
+| `x3d_s1 0.1.0` | 1 | 22 | C:1 |
 | `x3d_s1 0.1.0 tools/corpus_measure.py, Python 3.13.18, 4 vCPU x86_64` | 1 | 22 | C:1 |
 | `x3d_s1 0.1.0 triage with a stub backend; 4 bytes per token; list price` | 1 | 22 | S:1 |
 | `x3d_s1 0.1.0, one core, Python 3.13.18` | 1 | 22 | C:1 |
 | `x3d_s1 0.1.0, same run` | 1 | 22 | C:1 |
+| `x3d_s1 0.1.0; the animated count is superseded by N-JEV-31` | 1 | 22 | C:1 |
 | `x3d_s1 0.1.0; token conversion assumed` | 1 | 22 | S:1 |
+| `x3d_s1 0.2.0` | 1 | 22 | C:1 |
+| `x3d_s1 0.2.0 tools/corpus_measure.py, Python 3.13.18, 4 vCPU x86_64` | 1 | 22 | C:1 |
+| `x3d_s1 0.2.0 tools/mutation_check.py, Python 3.12 and 3.13` | 1 | 22 | C:1 |
+| `x3d_s1 0.2.0, same run` | 1 | 22 | C:1 |
+| `x3d_s1 0.2.0; the old-code count from x3d_s1 0.1.0 run on the same checkouts; an independent xml.etree scan also gives 56` | 1 | 22 | C:1 |
+| `x3d_s1 mutation check v1 operators, copies that keep receipts/` | 1 | 22 | C:1 |
 | `x3dgltf matrix, draco3dgltf 1.5.9` | 1 | 19 | C:1 |
 | `x3dgltf optimize, glTF-Transform 4.5.1` | 1 | 19 | C:1 |
 | `xite_names.py, x_ite@16.7.1 npm dist` | 1 | 09 | C:1 |

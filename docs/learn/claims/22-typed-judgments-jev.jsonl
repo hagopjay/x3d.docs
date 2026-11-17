@@ -23,3 +23,17 @@
 {"id": "N-JEV-26", "value": 257, "quote": "\"hints_only_restores_seed_exactly\": { \"n\": 257, \"of\": 540", "source": "x3d_mcp@dcf0815:evaluation/exact_fix/results.json", "grade": "C", "in": "instrument"}
 {"id": "H-JEV-3", "value": 0.371, "quote": "0.022 ms XSD, 0.314 ms semantic, 0.371 ms gate", "source": "self:docs/learn/03-validator-and-gates.md", "grade": "L", "from": "N-VAL-8", "note": "carried from chapter 03; the origin row is [C], this rule stays [L]"}
 {"id": "N-JEV-1", "value": 0.042, "quote": "0.042 USD per million input tokens", "source": "external:vendor models page, read 2026-11-16", "grade": "L"}
+{"id": "N-JEV-29", "value": 520, "quote": "\"scenes\": 520,", "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json", "grade": "C"}
+{"id": "N-JEV-29", "value": 57609927, "quote": "\"raw_bytes_total\": 57609927", "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json", "grade": "C"}
+{"id": "N-JEV-29", "value": 565878, "quote": "\"state_bytes_total\": 565878", "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json", "grade": "C"}
+{"id": "N-JEV-29", "value": 101.81, "quote": "\"aggregate_ratio\": 101.81", "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json", "grade": "C"}
+{"id": "N-JEV-30", "value": 1.81, "quote": "\"ratio_median\": 1.81", "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json", "grade": "C"}
+{"id": "N-JEV-30", "value": 0.73, "quote": "\"ratio_p10\": 0.73", "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json", "grade": "C"}
+{"id": "N-JEV-31", "value": 443, "quote": "\"viewpoint\": 443", "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json", "grade": "C"}
+{"id": "N-JEV-31", "value": 128, "quote": "\"has_lights\": 128,", "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json", "grade": "C"}
+{"id": "N-JEV-31", "value": 56, "quote": "\"animated\": 56,", "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json", "grade": "C"}
+{"id": "N-JEV-32", "value": 37882, "quote": "\"text_strings\": 37882", "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json", "grade": "C"}
+{"id": "N-JEV-32", "value": 9, "quote": "\"flagged_strings\": 9,", "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json", "grade": "C"}
+{"id": "N-JEV-33", "value": 41, "quote": "\"killed\": 41,", "source": "x3d.loom@34bc760:x3d.s1/receipts/mutation-hardening.json", "grade": "C"}
+{"id": "N-JEV-33", "value": 41, "quote": "\"mutants\": 41,", "source": "x3d.loom@34bc760:x3d.s1/receipts/mutation-hardening.json", "grade": "C"}
+{"id": "N-JEV-31", "value": 33, "quote": "on the same 520 scenes the old code measured 530,416 state bytes and 33 animated scenes", "source": "x3d.loom@34bc760:x3d.s1/README.md", "grade": "C"}

@@ -3,7 +3,7 @@
 Every number or rule that carries a quote from a named source, merged from `docs/learn/claims/*.jsonl` and the last checker receipt. Edit the ledger, not this file.
 
 <!-- BEGIN GENERATED -->
-**70 claims** in 2 chapter ledgers. Verdicts: verified 69 · check 0 · reworded 0 · unchecked 1. Register coverage: 64 of 173 numbers in Value cells carry a quote (37.0%), 63 verified. Verdicts come from `tools-shared/check_claims.py` (find the quote, compare the value) at the pins named; the receipt is `claims/receipt.json`.
+**84 claims** in 2 chapter ledgers. Verdicts: verified 83 · check 0 · reworded 0 · unchecked 1. Register coverage: 78 of 196 numbers in Value cells carry a quote (39.8%), 77 verified. Verdicts come from `tools-shared/check_claims.py` (find the quote, compare the value) at the pins named; the receipt is `claims/receipt.json`.
 
 | ID | Ch | Value | Verdict | Source (line opens the quote) | Line |
 |---|---|---|---|---|---|
@@ -31,6 +31,20 @@ Every number or rule that carries a quote from a named source, merged from `docs
 | N-JEV-26 | [22](22-typed-judgments-jev.md) | 257 | verified | [`x3d_mcp@dcf0815:evaluation/exact_fix/results.json`](https://github.com/hagopjay/x3d_mcp/blob/dcf0815/evaluation/exact_fix/results.json#L16950) | 16950 |
 | H-JEV-3 | [22](22-typed-judgments-jev.md) | 0.371 | verified | `self:docs/learn/03-validator-and-gates.md` | 479 |
 | N-JEV-1 | [22](22-typed-judgments-jev.md) | 0.042 | unchecked | `external:vendor models page, read 2026-11-16` |  |
+| N-JEV-29 | [22](22-typed-judgments-jev.md) | 520 | verified | [`x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json`](https://github.com/hagopjay/x3d.loom/blob/34bc760/x3d.s1/receipts/corpus-current.json#L38) | 38 |
+| N-JEV-29 | [22](22-typed-judgments-jev.md) | 57609927 | verified | [`x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json`](https://github.com/hagopjay/x3d.loom/blob/34bc760/x3d.s1/receipts/corpus-current.json#L34) | 34 |
+| N-JEV-29 | [22](22-typed-judgments-jev.md) | 565878 | verified | [`x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json`](https://github.com/hagopjay/x3d.loom/blob/34bc760/x3d.s1/receipts/corpus-current.json#L49) | 49 |
+| N-JEV-29 | [22](22-typed-judgments-jev.md) | 101.81 | verified | [`x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json`](https://github.com/hagopjay/x3d.loom/blob/34bc760/x3d.s1/receipts/corpus-current.json#L10) | 10 |
+| N-JEV-30 | [22](22-typed-judgments-jev.md) | 1.81 | verified | [`x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json`](https://github.com/hagopjay/x3d.loom/blob/34bc760/x3d.s1/receipts/corpus-current.json#L31) | 31 |
+| N-JEV-30 | [22](22-typed-judgments-jev.md) | 0.73 | verified | [`x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json`](https://github.com/hagopjay/x3d.loom/blob/34bc760/x3d.s1/receipts/corpus-current.json#L32) | 32 |
+| N-JEV-31 | [22](22-typed-judgments-jev.md) | 443 | verified | [`x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json`](https://github.com/hagopjay/x3d.loom/blob/34bc760/x3d.s1/receipts/corpus-current.json#L8) | 8 |
+| N-JEV-31 | [22](22-typed-judgments-jev.md) | 128 | verified | [`x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json`](https://github.com/hagopjay/x3d.loom/blob/34bc760/x3d.s1/receipts/corpus-current.json#L5) | 5 |
+| N-JEV-31 | [22](22-typed-judgments-jev.md) | 56 | verified | [`x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json`](https://github.com/hagopjay/x3d.loom/blob/34bc760/x3d.s1/receipts/corpus-current.json#L4) | 4 |
+| N-JEV-32 | [22](22-typed-judgments-jev.md) | 37882 | verified | [`x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json`](https://github.com/hagopjay/x3d.loom/blob/34bc760/x3d.s1/receipts/corpus-current.json#L53) | 53 |
+| N-JEV-32 | [22](22-typed-judgments-jev.md) | 9 | verified | [`x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json`](https://github.com/hagopjay/x3d.loom/blob/34bc760/x3d.s1/receipts/corpus-current.json#L21) | 21 |
+| N-JEV-33 | [22](22-typed-judgments-jev.md) | 41 | verified | [`x3d.loom@34bc760:x3d.s1/receipts/mutation-hardening.json`](https://github.com/hagopjay/x3d.loom/blob/34bc760/x3d.s1/receipts/mutation-hardening.json#L15) | 15 |
+| N-JEV-33 | [22](22-typed-judgments-jev.md) | 41 | verified | [`x3d.loom@34bc760:x3d.s1/receipts/mutation-hardening.json`](https://github.com/hagopjay/x3d.loom/blob/34bc760/x3d.s1/receipts/mutation-hardening.json#L16) | 16 |
+| N-JEV-31 | [22](22-typed-judgments-jev.md) | 33 | verified | [`x3d.loom@34bc760:x3d.s1/README.md`](https://github.com/hagopjay/x3d.loom/blob/34bc760/x3d.s1/README.md#L151) | 151 |
 | N-TRC-1 | [23](23-traceability-lineage.md) | 1614 | verified | [`x3d.ml@305fd60:measure/results/m_corpus.json`](https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L13) | 13 |
 | N-TRC-1 | [23](23-traceability-lineage.md) | 182 | verified | [`x3d.ml@305fd60:measure/results/m_corpus.json`](https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L15) | 15 |
 | N-TRC-1 | [23](23-traceability-lineage.md) | 1379 | verified | [`x3d.ml@305fd60:measure/results/m_corpus.json`](https://github.com/hagopjay/x3d.ml/blob/305fd60/measure/results/m_corpus.json#L17) | 17 |

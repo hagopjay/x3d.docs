@@ -2,11 +2,11 @@
  "coverage": [
   {
    "chapter": "22",
-   "rows": 28,
-   "rows_with_ledger": 8,
-   "values": 118,
-   "values_verified": 18,
-   "values_with_quote": 19
+   "rows": 34,
+   "rows_with_ledger": 13,
+   "values": 141,
+   "values_verified": 32,
+   "values_with_quote": 33
   },
   {
    "chapter": "23",
@@ -234,6 +234,132 @@
    "source": "external:vendor models page, read 2026-11-16",
    "value": 0.042,
    "verdict": "unchecked"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-29",
+   "line": 38,
+   "pin": "pinned",
+   "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json",
+   "value": 520,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-29",
+   "line": 34,
+   "pin": "pinned",
+   "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json",
+   "value": 57609927,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-29",
+   "line": 49,
+   "pin": "pinned",
+   "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json",
+   "value": 565878,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-29",
+   "line": 10,
+   "pin": "pinned",
+   "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json",
+   "value": 101.81,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-30",
+   "line": 31,
+   "pin": "pinned",
+   "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json",
+   "value": 1.81,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-30",
+   "line": 32,
+   "pin": "pinned",
+   "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json",
+   "value": 0.73,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-31",
+   "line": 8,
+   "pin": "pinned",
+   "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json",
+   "value": 443,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-31",
+   "line": 5,
+   "pin": "pinned",
+   "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json",
+   "value": 128,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-31",
+   "line": 4,
+   "pin": "pinned",
+   "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json",
+   "value": 56,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-32",
+   "line": 53,
+   "pin": "pinned",
+   "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json",
+   "value": 37882,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-32",
+   "line": 21,
+   "pin": "pinned",
+   "source": "x3d.loom@34bc760:x3d.s1/receipts/corpus-current.json",
+   "value": 9,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-33",
+   "line": 15,
+   "pin": "pinned",
+   "source": "x3d.loom@34bc760:x3d.s1/receipts/mutation-hardening.json",
+   "value": 41,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-33",
+   "line": 16,
+   "pin": "pinned",
+   "source": "x3d.loom@34bc760:x3d.s1/receipts/mutation-hardening.json",
+   "value": 41,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "22",
+   "id": "N-JEV-31",
+   "line": 151,
+   "pin": "pinned",
+   "source": "x3d.loom@34bc760:x3d.s1/README.md",
+   "value": 33,
+   "verdict": "verified"
   },
   {
    "chapter": "23",
