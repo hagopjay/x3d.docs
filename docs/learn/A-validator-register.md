@@ -3,11 +3,11 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-378 distinct instrument strings across the numbers registers.
+389 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
-| `same` | 84 | 05, 06, 07, 09, 10, 11, 12, 15, 16, 17, 18, 20, 21, 23, 25 | C:83 L:1 |
+| `same` | 91 | 05, 06, 07, 09, 10, 11, 12, 15, 16, 17, 18, 20, 21, 23, 24, 25 | C:90 L:1 |
 | `same rig` | 36 | 08, 09, 13, 15 | C:36 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
@@ -29,6 +29,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `as reported, not re-checked` | 3 | 01, 22 | L:3 |
 | `count` | 3 | 02 | C:3 |
 | `inline Python` | 3 | 09 | C:3 |
+| `read` | 3 | 14, 24 | C:3 |
 | `run-tests.js` | 3 | 08 | C:3 |
 | `wc -l` | 3 | 08, 10 | C:3 |
 | `x3d_mcp fork b4efcd3, seed 20261029` | 3 | 01, 03 | C:3 |
@@ -71,6 +72,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `Chromium 153.0.8010.12 SwiftShader, X_ITE 16.6.0, three.js r187` | 1 | 08 | C:1 |
 | `Chromium 153.0.8010.12 SwiftShader, best of 3` | 1 | 17 | C:1 |
 | `Chromium 153.0.8010.12 SwiftShader, x3d.loom@7c818e3` | 1 | 20 | C:1 |
+| `Chromium 153.0.8010.12, Playwright 1.63.0` | 1 | 24 | C:1 |
+| `Chromium 153.0.8010.12, Playwright 1.63.0, software GL` | 1 | 24 | C:1 |
 | `Chromium 153.0.8010.12, SwiftShader, three-mesh-bvh 0.9.18` | 1 | 08 | C:1 |
 | `D-LAW-2 script (judgement of the column)` | 1 | 02 | L:1 |
 | `D-LAW-7 script` | 1 | 02 | C:1 |
@@ -147,6 +150,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `arithmetic on add_light.glsl` | 1 | 09 | C:1 |
 | `as recorded, not re-run` | 1 | 02 | L:1 |
 | `batch 42 SingleAxisHingeJoint probe; X_ITE 16.6.0, Chromium 153, SwiftShader` | 1 | 13 | C:1 |
+| `before and after screenshots, Playwright 1.63.0, in the launch note, not retained` | 1 | 24 | L:1 |
 | `bpy 5.3.0 Cycles CPU 16 spp, x3d_mcp fork b4efcd3` | 1 | 10 | C:1 |
 | `bpy 5.3.0, Khronos glTF-Validator 2.0.0-dev.3.10, carried` | 1 | 11 | L:1 |
 | `cannon-es 0.20.0` | 1 | 17 | C:1 |
@@ -166,6 +170,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `core11.py, inline Python` | 1 | 09 | C:1 |
 | `core11.py; FLIP 1.7, Cycles 256 spp, 512 px` | 1 | 09 | C:1 |
 | `count, x3d.loom@162ab18` | 1 | 02 | C:1 |
+| `default parameters, Playwright 1.63.0 Chromium` | 1 | 24 | C:1 |
 | `drill D-ACC-3, x3d_mcp@b5c9956, lxml 6.1.3` | 1 | 25 | C:1 |
 | `drill D-ACC-4, x3d_mcp@b5c9956` | 1 | 25 | C:1 |
 | `drill D-ACC-5` | 1 | 25 | C:1 |
@@ -217,6 +222,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `ls, x3d.demo@d10b457` | 1 | 13 | C:1 |
 | `lxml, NODES.json` | 1 | 08 | C:1 |
 | `marker and name scan` | 1 | 06 | C:1 |
+| `math.ulp, Python 3.13.18` | 1 | 24 | C:1 |
 | `mcp 1.30.0 server/transport_security.py (read)` | 1 | 04 | C:1 |
 | `measure/m_corpus.py, engine dcba70d7, Python 3.13.18` | 1 | 23 | C:1 |
 | `measure/m_grounding.py, lexical matcher (an upper bound on quoting)` | 1 | 23 | L:1 |
@@ -241,6 +247,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `pip index versions, npm view` | 1 | 10 | C:1 |
 | `pyshacl 0.40.2, owlrl 7.6.2` | 1 | 05 | C:1 |
 | `pytest, Python 3.13.18` | 1 | 23 | C:1 |
+| `python -m unittest discover, CPython 3.13.18, mcp 2.3.0` | 1 | 24 | C:1 |
 | `python over kit/profiles/*.json` | 1 | 02 | C:1 |
 | `python parse, x3d.loom@162ab18` | 1 | 02 | C:1 |
 | `python3 -I -m unittest discover -s tests -p 'test_*.py', Python 3.13.18, lxml 6.1.3` | 1 | 25 | C:1 |
@@ -248,12 +255,12 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `python3 -m x3dray tools` | 1 | 07 | C:1 |
 | `python3 tools/build_demo.py --count 96, 4 vCPU` | 1 | 25 | C:1 |
 | `rdflib, pyshacl 0.40.2` | 1 | 05 | C:1 |
-| `read` | 1 | 14 | C:1 |
 | `read in BATCH-NN.md` | 1 | 08 | L:1 |
 | `read in code` | 1 | 07 | C:1 |
 | `read in the exact file` | 1 | 06 | C:1 |
 | `read raw OpenAPI file and models page` | 1 | 22 | C:1 |
 | `read via python json count, x3d.loom@162ab18` | 1 | 13 | C:1 |
+| `read, not run here` | 1 | 24 | C:1 |
 | `read, not run: x3d.loom@162ab18:x3d.physics/physx-bridge/evidence/p1-analytic.json` | 1 | 13 | L:1 |
 | `read, physx-bridge/tests/analytic.test.ts evidence` | 1 | 13 | L:1 |
 | `read, ten-minute-physics/ERRATA-v1-v4.md` | 1 | 13 | L:1 |
@@ -293,6 +300,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `same, 4x Xeon 2.10 GHz` | 1 | 20 | C:1 |
 | `same, GPU timestamp` | 1 | 20 | C:1 |
 | `same, X_ITE on ANGLE Vulkan, Chromium 159` | 1 | 12 | C:1 |
+| `same, both receipts` | 1 | 24 | C:1 |
 | `same, in-process link` | 1 | 21 | C:1 |
 | `same, one core` | 1 | 23 | C:1 |
 | `same, seed 7` | 1 | 07 | C:1 |
@@ -302,6 +310,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `script over the section 5 table` | 1 | 08 | C:1 |
 | `shell over banners` | 1 | 06 | C:1 |
 | `splat_io.write_ply, 1,000 splats` | 1 | 10 | C:1 |
+| `stated in docs/PAGES.md, not separately measured` | 1 | 24 | L:1 |
 | `stated in the repo, not re-derived at its commit` | 1 | 03 | L:1 |
 | `stated in the repo, not re-run` | 1 | 04 | L:1 |
 | `stated in the teardown at 13121b6, not re-run` | 1 | 04 | L:1 |
@@ -315,6 +324,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `tests/test_x3dtrace.py` | 1 | 23 | C:1 |
 | `tests/test_x3dtrace.py, Python 3.13.18` | 1 | 23 | C:1 |
 | `tests/tuples.test.ts` | 1 | 16 | C:1 |
+| `the launch note; superseded by N-MLB-8` | 1 | 24 | L:1 |
 | `three r187, SwiftShader` | 1 | 21 | C:1 |
 | `tools/corpus.py, x3d_mcp fork fbe165f` | 1 | 16 | C:1 |
 | `tools/fuzz.mjs, seed 1, 966 source scenes` | 1 | 16 | C:1 |
@@ -346,6 +356,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `x3d.xray@8fa6845 on x3d.castle@d70e00c` | 1 | 07 | C:1 |
 | `x3d.zod fuzz tool, 4 mutants per document, seed 1, then x3d_mcp@dcf0815 stages in order; survivors unlabelled` | 1 | 22 | C:1 |
 | `x3d.zod gen.mjs, schema sha1 c6765a4` | 1 | 16 | C:1 |
+| `x3d_mcp commit b5c9956, XSD 4.0, semantic vocabulary 4.1, direct calls` | 1 | 24 | C:1 |
 | `x3d_mcp fork 13121b6` | 1 | 05 | C:1 |
 | `x3d_mcp fork 535fdac, seed 20261029` | 1 | 01 | C:1 |
 | `x3d_mcp fork b4efcd3 (read; refusals exercised at 1 s and 5 rows)` | 1 | 04 | C:1 |

@@ -19,3 +19,6 @@ pip install markdown-it-py mdit-py-plugins
 python3 docs/tools-shared/check_learn.py --warn --summary
 python3 docs/tools-shared/build_learn.py
 ```
+
+See also: [x3d.gobbler field notes](docs/x3d.gobbler/FIELD-NOTES.md): how this repo's `tools-shared` helpers are pinned by the Gobbler Atlas witness.
+See also: [Blender sci-vis integration field notes](docs/blender-scivis/FIELD-NOTES.md): provenance escape bug, precision budgets, native splat transform loss, evidence vs activity.
