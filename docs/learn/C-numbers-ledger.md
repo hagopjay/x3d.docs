@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**591 numbers** from 23 chapters. Grades: [C] 541 · [L] 44 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
+**611 numbers** from 24 chapters. Grades: [C] 558 · [L] 47 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -598,4 +598,24 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-TRC-22 | [23](23-traceability-lineage.md) | `scene_evidence`, 600-block scene (92,280 B) with 100 claims, BIND on | 71 ms | [C] | `evaluation/time_scene_evidence.py`, median of 7 calls, engine `dcba70d7`, 4 cores | same |
 | N-TRC-23 | [23](23-traceability-lineage.md) | `x3d-blender-io` lineage tests: pure Python; with Blender | 15; 4 | [C] | Python 3.13.18; bpy 5.3.0 as recorded in the commit message | `x3d-blender-io@044bea3:source/lineage.py` |
 | N-TRC-24 | [23](23-traceability-lineage.md) | open review findings, each with an expected-failure test | 8 | [C] | `tests/test_x3dtrace.py` | `x3d.ml@305fd60:docs/TRACE-REVIEW.md` |
+| N-MLB-1 | [24](24-math-lab-static-host.md) | floats compared across CPython 3.13.18 and Pyodide 0.27.7, six lessons | 16,383 | [C] | default parameters, Playwright 1.63.0 Chromium | `x3d.mathslab@24c9bbd:receipts/runtime-parity.json` |
+| N-MLB-2 | [24](24-math-lab-static-host.md) | floats that differ, total (linear 18, derivative 5, fourier 20) | 43 | [C] | same | same |
+| N-MLB-3 | [24](24-math-lab-static-host.md) | floats in the three bit-identical lessons (integral, lorenz, gradient) | 12,320 | [C] | same | same |
+| N-MLB-4 | [24](24-math-lab-static-host.md) | largest absolute float difference | 4.441e-16 | [C] | same | same |
+| N-MLB-5 | [24](24-math-lab-static-host.md) | lessons whose `sample_sha256` is equal across runtimes | 3 of 6 | [C] | same | same |
+| N-MLB-6 | [24](24-math-lab-static-host.md) | `math.ulp` at 1.0; at 2.0 | 2.220446049250313e-16; 4.440892098500626e-16 | [C] | `math.ulp`, Python 3.13.18 | drill D-MLB-3, run |
+| N-MLB-7 | [24](24-math-lab-static-host.md) | lessons rendered from Pyodide; console errors | 6 of 6; 0 | [C] | Chromium 153.0.8010.12, Playwright 1.63.0, software GL | `x3d.mathslab@24c9bbd:receipts/browser-smoke-pages.json` |
+| N-MLB-8 | [24](24-math-lab-static-host.md) | first native scene, Pages; server | 5.159 s; 1.833 s | [C] | same, both receipts | `receipts/browser-smoke-pages.json`, `receipts/browser-smoke-server.json` |
+| N-MLB-9 | [24](24-math-lab-static-host.md) | lesson switch, Pages; server (each includes a 1.5 s settle wait) | 2.219 to 2.550 s; 1.950 to 2.196 s | [C] | same | same |
+| N-MLB-10 | [24](24-math-lab-static-host.md) | first native scene, as written in the launch note | 4.6 to 5.0 s | [L] | the launch note; superseded by N-MLB-8 | `x3d.loom` `LEARNINGS-mathlab.md` |
+| N-MLB-11 | [24](24-math-lab-static-host.md) | Pyodide runtime download, first load | about 10 MB | [L] | stated in `docs/PAGES.md`, not separately measured | `x3d.mathslab@24c9bbd:docs/PAGES.md` |
+| N-MLB-12 | [24](24-math-lab-static-host.md) | tests failed under mcp 2.3.0 out of the old suite | 4 of 89 | [C] | `python -m unittest discover`, CPython 3.13.18, mcp 2.3.0 | `x3d.mathslab@24c9bbd:docs/FOLDBACK.md` |
+| N-MLB-13 | [24](24-math-lab-static-host.md) | tests passing after the shim; stdio probe checks | 93 of 93; 6 of 6 | [C] | same | `x3d.mathslab@24c9bbd:receipts/release-checks.json`, `receipts/math-mcp.json` |
+| N-MLB-14 | [24](24-math-lab-static-host.md) | mcp version in the older receipt; in the newer receipt | 1.29.0; 2.3.0 | [C] | read | `x3d.mathslab@24c9bbd:VALIDATION.md`, `receipts/math-mcp.json` |
+| N-MLB-15 | [24](24-math-lab-static-host.md) | request cap; response budget | 32 KiB; 4 MiB | [C] | read, not run here | `x3d.mathslab@24c9bbd:docs/PAGES.md` |
+| N-MLB-16 | [24](24-math-lab-static-host.md) | root nodes per scene | 8 | [C] | Chromium 153.0.8010.12, Playwright 1.63.0 | `x3d.mathslab@24c9bbd:receipts/browser-smoke-pages.json` |
+| N-MLB-17 | [24](24-math-lab-static-host.md) | generated Manim source, gradient lesson | 104,672 bytes | [C] | same | same |
+| N-MLB-18 | [24](24-math-lab-static-host.md) | X3D validation: worlds passed; negative twins caught | 6; 2 | [C] | `x3d_mcp` commit `b5c9956`, XSD 4.0, semantic vocabulary 4.1, direct calls | `x3d.mathslab@24c9bbd:receipts/x3d-validation.json` |
+| N-MLB-19 | [24](24-math-lab-static-host.md) | overlay: canvas hidden by the equation card at 1440x900 | about 100 px | [L] | before and after screenshots, Playwright 1.63.0, in the launch note, not retained | `x3d.loom` `LEARNINGS-mathlab.md` |
+| N-MLB-20 | [24](24-math-lab-static-host.md) | field-of-view scale applied after load | 0.75 | [C] | read | `x3d.mathslab@24c9bbd:web/app.js` |
 <!-- END GENERATED -->
