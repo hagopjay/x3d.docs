@@ -264,7 +264,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 </tbody>
 </table>
-<p><strong>Correction, 17 November:</strong> the &quot;is animated&quot; count of 31 is wrong. It came from a dead branch in the 0.1.0 code; on a 520-scene re-run the same code gives 33 and the fixed code gives 56, which an independent element scan also finds (section 6.1). The other four rows did not change.</p>
+<p><strong>Correction, 17 November:</strong> the &quot;is animated&quot; count of 31 is wrong. It came from a dead branch in the 0.1.0 code; on a 520-scene re-run the same code gives 33 and the fixed code gives 56, which an independent element scan also finds (section 6.1). The other four rows were not touched by the bug; their counts differ from the first run only because the corpus grew from 499 to 520 scenes.</p>
 <p>The corpus is the project's own (460 scenes from <code>x3d.loom@0752865</code>, 25 from <code>x3d.docs@3aab064</code>, 14 from <code>x3d_mcp@dcf0815</code>), so these are our rates, not X3D's. They show the questions are not constant. They measure no judge. This is H-SEM-10 (&quot;lookup before judge&quot;) made countable.</p>
 <h2 id="4-the-cheapest-decisive-test-first-and-what-a-cascade-really-saves">4. The cheapest decisive test first, and what a cascade really saves</h2>
 <p>The exact stages are two to three orders of magnitude faster than a judge call. Carried from chapter 03 (warm repeat-call medians, 300 runs, <code>x3d_mcp fork b4efcd3</code>): XSD 0.022 ms, semantic checks 0.314 ms, the whole gate 0.371 ms. The cold XSD compile is 1,456 ms (4.0) and is paid once, the one exact stage slower than a judge. Slicing a scene for a question costs a median of 0.288 ms (p95 19.8 ms, driven by one 2.8 MB scene) on this container. The vendor states 70 to 500 ms per judge call end to end; independent runs saw 0.10 to 0.43 s. Order the stages by cost and let each stop the chain when it decides.</p>
@@ -459,7 +459,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>scenes where the state is larger than the scene</td>
-<td>116 (all of them under 919 bytes)</td>
+<td>116 (all of them under 919 bytes; superseded by the 520-scene table below, where 135 grew, up to 1,049 bytes)</td>
 </tr>
 <tr>
 <td>scenes over a 32,000-token question limit, raw / sliced (4 bytes per token)</td>
@@ -524,7 +524,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 </tbody>
 </table>
-<p>The rule of section 6 survives: send a scene under about 1 KB raw, slice the rest. The old crossover (919 bytes) moved to 1,049 because the state grew with the corrected behaviour counts and the corpus changed; the 1 KB rule of thumb is unchanged. Compression ratios moved (113x to 102x) for the same reasons; the earlier figures stay in the register as dated measurements of the earlier code.</p>
+<p>The rule of section 6 survives: send a scene under about 1 KB raw, slice the rest. The old crossover (919 bytes) moved to 1,049. Two things changed at once (the corrected behaviour counts made some states larger, and 21 more scenes joined the corpus), and we did not separate their shares, so treat the cause as likely, not measured; the 1 KB rule of thumb is unchanged. Compression ratios moved (113x to 102x) for the same reasons; the earlier figures stay in the register as dated measurements of the earlier code.</p>
 <p><strong>The Observatory, as a teaching instrument.</strong> The package now includes a local, offline page (loopback only, no model, no key) that runs six controlled scenes with authored synthetic probabilities: a proof bench that renders; the same bench under a disabled <code>Switch</code>; under a zero scale; with a dangling <code>USE</code> and <code>ROUTE</code>; with instruction-like metadata; and a <code>Shape</code> with no geometry. What each teaches:</p>
 <table>
 <thead>
@@ -536,9 +536,14 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </thead>
 <tbody>
 <tr>
-<td>hidden <code>Switch</code>, zero scale, empty geometry</td>
+<td>hidden <code>Switch</code>, zero scale</td>
 <td>parses, references resolve, geometry declared</td>
 <td>whether anything is drawn: the render witness stays <code>not_run</code></td>
+</tr>
+<tr>
+<td>empty geometry</td>
+<td>parses, references resolve, zero geometry declarations</td>
+<td>whether the empty <code>Shape</code> matters to a render: the render witness stays <code>not_run</code></td>
 </tr>
 <tr>
 <td>dangling <code>USE</code> and <code>ROUTE</code></td>
@@ -557,7 +562,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 </tbody>
 </table>
-<p>Every rehearsal record carries the full sha256 of the candidate, question, state, policy and the instrument's own source, replays deterministically, and states <code>acceptance_eligible: false</code>. The page's own server answers only to its <code>127.0.0.1</code> and <code>localhost</code> names, so a hostile page that points its own name at the loopback address (DNS rebinding) is refused with a 421.</p>
+<p>Every rehearsal record carries the full sha256 of the candidate, question, state, policy and the instrument's own source, replays on the same interpreter version (the record hashes the Python version, so a record made under 3.13.18 does not verify under 3.12), and states <code>acceptance_eligible: false</code>. The page's own server answers only to its <code>127.0.0.1</code> and <code>localhost</code> names, so a hostile page that points its own name at the loopback address (DNS rebinding) is refused with a 421.</p>
 <h2 id="7-the-vendors-nine-failure-modes-read-as-an-x3d-checklist">7. The vendor's nine failure modes, read as an X3D checklist</h2>
 <table>
 <thead>
@@ -659,8 +664,8 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>H-JEV-5</td>
 <td>Slice state per question, but send a scene under about 1 KB raw: below 919 bytes the sliced state is larger than the scene.</td>
 <td>C</td>
-<td>116 of 499 scenes grew when sliced; every scene above 919 bytes shrank</td>
-<td><code>x3d_s1</code> 0.1.0, Python 3.13.18</td>
+<td>116 of 499 scenes grew when sliced; every scene above 919 bytes shrank (0.1.0, 499 scenes); superseded by N-JEV-30: with 0.2.0 on 520 scenes 135 grew and the largest was 1,049 bytes</td>
+<td><code>x3d_s1</code> 0.1.0 and 0.2.0, Python 3.13.18</td>
 </tr>
 <tr>
 <td>H-JEV-6</td>
@@ -757,7 +762,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>H-JEV-19</td>
 <td>Bind a record to full digests (candidate, question, state, policy, instrument); a 16-hex prefix is a display label, and an imported answer stays <code>unverified_import</code>.</td>
 <td>C</td>
-<td>records recompute byte for byte; a re-hashed witness edit is rejected on replay</td>
+<td>records recompute byte for byte on the interpreter version that made them (3.13.18; they fail under 3.12); a re-hashed witness edit is rejected on replay</td>
 <td><code>x3d.s1/observatory</code> <code>rehearsal.py verify</code></td>
 </tr>
 <tr>

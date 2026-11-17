@@ -2672,8 +2672,8 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><a href="22-typed-judgments-jev.html">22</a></td>
 <td>Slice state per question, but send a scene under about 1 KB raw: below 919 bytes the sliced state is larger than the scene.</td>
 <td>C</td>
-<td>116 of 499 scenes grew when sliced; every scene above 919 bytes shrank</td>
-<td><code>x3d_s1</code> 0.1.0, Python 3.13.18</td>
+<td>116 of 499 scenes grew when sliced; every scene above 919 bytes shrank (0.1.0, 499 scenes); superseded by N-JEV-30: with 0.2.0 on 520 scenes 135 grew and the largest was 1,049 bytes</td>
+<td><code>x3d_s1</code> 0.1.0 and 0.2.0, Python 3.13.18</td>
 </tr>
 <tr>
 <td>H-JEV-6</td>
@@ -2784,7 +2784,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><a href="22-typed-judgments-jev.html">22</a></td>
 <td>Bind a record to full digests (candidate, question, state, policy, instrument); a 16-hex prefix is a display label, and an imported answer stays <code>unverified_import</code>.</td>
 <td>C</td>
-<td>records recompute byte for byte; a re-hashed witness edit is rejected on replay</td>
+<td>records recompute byte for byte on the interpreter version that made them (3.13.18; they fail under 3.12); a re-hashed witness edit is rejected on replay</td>
 <td><code>x3d.s1/observatory</code> <code>rehearsal.py verify</code></td>
 </tr>
 <tr>

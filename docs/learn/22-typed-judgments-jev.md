@@ -102,7 +102,7 @@ If every D question had one answer on every scene nobody would ask. Across the c
 | contains a Script | 3 | 0.6% |
 | material model classic / none / pbr / unlit | 355 / 125 / 18 / 1 | 71% classic |
 
-**Correction, 17 November:** the "is animated" count of 31 is wrong. It came from a dead branch in the 0.1.0 code; on a 520-scene re-run the same code gives 33 and the fixed code gives 56, which an independent element scan also finds (section 6.1). The other four rows did not change.
+**Correction, 17 November:** the "is animated" count of 31 is wrong. It came from a dead branch in the 0.1.0 code; on a 520-scene re-run the same code gives 33 and the fixed code gives 56, which an independent element scan also finds (section 6.1). The other four rows were not touched by the bug; their counts differ from the first run only because the corpus grew from 499 to 520 scenes.
 
 The corpus is the project's own (460 scenes from `x3d.loom@0752865`, 25 from `x3d.docs@3aab064`, 14 from `x3d_mcp@dcf0815`), so these are our rates, not X3D's. They show the questions are not constant. They measure no judge. This is H-SEM-10 ("lookup before judge") made countable.
 
@@ -177,7 +177,7 @@ A typed judge reads what it is given, and the vendor says so: "State is data, an
 |---|---|
 | raw bytes, all scenes / all-facets state bytes | 57,468,875 / 507,786 (113x) |
 | median ratio raw to state; 10th percentile | 1.73; 0.79 |
-| scenes where the state is larger than the scene | 116 (all of them under 919 bytes) |
+| scenes where the state is larger than the scene | 116 (all of them under 919 bytes; superseded by the 520-scene table below, where 135 grew, up to 1,049 bytes) |
 | scenes over a 32,000-token question limit, raw / sliced (4 bytes per token) | 58 / 0 |
 | median state bytes; maximum | 983; 1,740 |
 | parse median; slice median and p95 | 0.061 ms; 0.288 ms and 19.8 ms |
@@ -207,18 +207,19 @@ An externally supplied upgrade of `x3d_s1` (an offline "Decision Observatory" an
 | D answers: Viewpoint / light / animated / remote / Script | 443 / 128 / 56 / 6 / 5 |
 | strings the pattern lint flagged | 9 of 37,882, all in the two planted hostile test fixtures |
 
-The rule of section 6 survives: send a scene under about 1 KB raw, slice the rest. The old crossover (919 bytes) moved to 1,049 because the state grew with the corrected behaviour counts and the corpus changed; the 1 KB rule of thumb is unchanged. Compression ratios moved (113x to 102x) for the same reasons; the earlier figures stay in the register as dated measurements of the earlier code.
+The rule of section 6 survives: send a scene under about 1 KB raw, slice the rest. The old crossover (919 bytes) moved to 1,049. Two things changed at once (the corrected behaviour counts made some states larger, and 21 more scenes joined the corpus), and we did not separate their shares, so treat the cause as likely, not measured; the 1 KB rule of thumb is unchanged. Compression ratios moved (113x to 102x) for the same reasons; the earlier figures stay in the register as dated measurements of the earlier code.
 
 **The Observatory, as a teaching instrument.** The package now includes a local, offline page (loopback only, no model, no key) that runs six controlled scenes with authored synthetic probabilities: a proof bench that renders; the same bench under a disabled `Switch`; under a zero scale; with a dangling `USE` and `ROUTE`; with instruction-like metadata; and a `Shape` with no geometry. What each teaches:
 
 | scene | what the exact code says | what stays unproven |
 |---|---|---|
-| hidden `Switch`, zero scale, empty geometry | parses, references resolve, geometry declared | whether anything is drawn: the render witness stays `not_run` |
+| hidden `Switch`, zero scale | parses, references resolve, geometry declared | whether anything is drawn: the render witness stays `not_run` |
+| empty geometry | parses, references resolve, zero geometry declarations | whether the empty `Shape` matters to a render: the render witness stays `not_run` |
 | dangling `USE` and `ROUTE` | two local-reference findings | a full semantic gate, which is a different instrument |
 | instruction-like metadata | text is excluded from the question state | nothing: the text never reaches the judge by default |
 | a slider on P(continue) from 0.20 to 0.98 | the order of work changes | the set of required witnesses does not; a high probability cannot turn a missing witness into a pass |
 
-Every rehearsal record carries the full sha256 of the candidate, question, state, policy and the instrument's own source, replays deterministically, and states `acceptance_eligible: false`. The page's own server answers only to its `127.0.0.1` and `localhost` names, so a hostile page that points its own name at the loopback address (DNS rebinding) is refused with a 421.
+Every rehearsal record carries the full sha256 of the candidate, question, state, policy and the instrument's own source, replays on the same interpreter version (the record hashes the Python version, so a record made under 3.13.18 does not verify under 3.12), and states `acceptance_eligible: false`. The page's own server answers only to its `127.0.0.1` and `localhost` names, so a hostile page that points its own name at the loopback address (DNS rebinding) is refused with a 421.
 
 ## 7. The vendor's nine failure modes, read as an X3D checklist
 
@@ -242,7 +243,7 @@ Every rehearsal record carries the full sha256 of the candidate, question, state
 | H-JEV-2 | Ask code first: if the scene, a table or a validator answers a question exactly, the judge is never asked. | L | 8 of the 18 catalogue questions are class D and their answers vary across 499 scenes | `x3d_s1` 0.1.0 over `x3d.loom@0752865`, `x3d.docs@3aab064`, `x3d_mcp@dcf0815` |
 | H-JEV-3 | Run the cheapest decisive test first: a warm gate costs 0.371 ms, a judge call 70 to 500 ms; the cold XSD compile is the one exact stage slower, paid once. | L | chapter 03 warm medians; vendor-stated latency, independently seen at 0.10 to 0.43 s | carried from chapter 03 N-VAL-8 and N-VAL-7; vendor figure as reported |
 | H-JEV-4 | Count and compare in code; ask one Noul per item and add the answers up yourself. | L | vendor failure mode 2: a typed judge is not a calculator | vendor docs read on 2026-11-16, not run |
-| H-JEV-5 | Slice state per question, but send a scene under about 1 KB raw: below 919 bytes the sliced state is larger than the scene. | C | 116 of 499 scenes grew when sliced; every scene above 919 bytes shrank | `x3d_s1` 0.1.0, Python 3.13.18 |
+| H-JEV-5 | Slice state per question, but send a scene under about 1 KB raw: below 919 bytes the sliced state is larger than the scene. | C | 116 of 499 scenes grew when sliced; every scene above 919 bytes shrank (0.1.0, 499 scenes); superseded by N-JEV-30: with 0.2.0 on 520 scenes 135 grew and the largest was 1,049 bytes | `x3d_s1` 0.1.0 and 0.2.0, Python 3.13.18 |
 | H-JEV-6 | Treat every scene string as untrusted: quote, cap, strip control characters, lint, withhold flagged text, and never include script or shader bodies. | C | 498 of 499 scenes carry free text; 36,743 strings | `x3d_s1` 0.1.0 over the 499-scene corpus |
 | H-JEV-7 | A pattern lint is a pre-filter, never the defence: no judge answer may authorise a side effect. | C | the first-draft lint missed one of four planted phrases on a hostile test scene | `x3d_s1` 0.1.0 unit tests, Python 3.13.18 |
 | H-JEV-8 | Calibration is a property of groups: score a judge's probabilities against exact outcomes on at least a thousand items before setting any bar, and print the sample size beside the bar. | L | independent ECE ranges 0.011 to 0.108 across tasks; no reliability diagram published for rule questions | as reported (Vals AI); design E1 not run |
@@ -256,7 +257,7 @@ Every rehearsal record carries the full sha256 of the candidate, question, state
 | H-JEV-16 | Count a mutant as killed only when a named test fails, and run an unmutated copy first: any other red is not evidence. | C | the 41-of-41 check passed because copies were missing fixtures; with fixtures present one mutant survived | `x3d_s1` mutation check v1 and v2, Python 3.12 and 3.13 |
 | H-JEV-17 | Missing context is not zero: an exact answer fails when its facet is absent, and a judged group abstains instead of guessing. | C | `S1_EXACT_STATE` and `S1_MISSING_FACET` tests; before the change an absent facet read as false, zero or tiny | `x3d_s1` 0.2.0 tests, 207 pass |
 | H-JEV-18 | Keep the required evidence set independent of every advisory probability: two probabilities for one candidate and profile give the same required witnesses and may differ only in their order. | C | the Observatory's noninterference test across authored probabilities 0.20 to 0.98 | `x3d.s1/observatory`, 31 tests, Python 3.12 and 3.13 |
-| H-JEV-19 | Bind a record to full digests (candidate, question, state, policy, instrument); a 16-hex prefix is a display label, and an imported answer stays `unverified_import`. | C | records recompute byte for byte; a re-hashed witness edit is rejected on replay | `x3d.s1/observatory` `rehearsal.py verify` |
+| H-JEV-19 | Bind a record to full digests (candidate, question, state, policy, instrument); a 16-hex prefix is a display label, and an imported answer stays `unverified_import`. | C | records recompute byte for byte on the interpreter version that made them (3.13.18; they fail under 3.12); a re-hashed witness edit is rejected on replay | `x3d.s1/observatory` `rehearsal.py verify` |
 | H-JEV-20 | A local tool server needs a Host-header allow-list as well as loopback binding. | C | a request with a foreign Host is answered 421 on GET and POST | `x3d.s1/observatory` server tests |
 
 ## Drills
