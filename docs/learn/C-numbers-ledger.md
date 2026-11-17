@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**585 numbers** from 23 chapters. Grades: [C] 535 · [L] 44 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
+**591 numbers** from 23 chapters. Grades: [C] 541 · [L] 44 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -554,7 +554,7 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-JEV-12 | [22](22-typed-judgments-jev.md) | median raw/state ratio; 10th percentile; scenes where state is larger; crossover | 1.73; 0.79; 116 of 499; 919 bytes | [C] | `x3d_s1` 0.1.0, same run | same receipt |
 | N-JEV-13 | [22](22-typed-judgments-jev.md) | scenes over a 32,000-token question limit, raw / sliced, at 4 bytes per token | 58 / 0 | [S] | `x3d_s1` 0.1.0; token conversion assumed | same receipt |
 | N-JEV-14 | [22](22-typed-judgments-jev.md) | scenes with free text; free-text strings; flagged by the lint | 498 of 499; 36,743; 0 | [C] | `x3d_s1` 0.1.0 | same receipt |
-| N-JEV-15 | [22](22-typed-judgments-jev.md) | D-question answers: Viewpoint, light, animated, remote, Script | 422, 108, 31, 5, 3 of 499 | [C] | `x3d_s1` 0.1.0 | same receipt |
+| N-JEV-15 | [22](22-typed-judgments-jev.md) | D-question answers: Viewpoint, light, animated, remote, Script | 422, 108, 31, 5, 3 of 499 | [C] | `x3d_s1` 0.1.0; the animated count is superseded by N-JEV-31 | same receipt |
 | N-JEV-16 | [22](22-typed-judgments-jev.md) | parse median; slice median; slice p95 | 0.061 ms; 0.288 ms; 19.796 ms | [C] | `x3d_s1` 0.1.0, one core, Python 3.13.18 | same receipt |
 | N-JEV-17 | [22](22-typed-judgments-jev.md) | planned input tokens, 3 judgment questions over 499 scenes; list-price cost | 228,108; 0.0096 USD | [S] | `x3d_s1` 0.1.0 triage with a stub backend; 4 bytes per token; list price | same receipt |
 | N-JEV-18 | [22](22-typed-judgments-jev.md) | counterfeit policy prepended: Noul recall; Choice recall | 82.90% to 3.88%; 85.46% to 9.69% | [L] | as reported, not re-checked | Datadog Security Labs study of Jev as a judge (12,295 samples) |
@@ -568,6 +568,12 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-JEV-26 | [22](22-typed-judgments-jev.md) | exact-fix corpus regenerated at HEAD: seeds; errors; valid before; valid after hints; seed restored | 24; 577; 76 of 540; 522 of 540; 268 of 540 | [C] | `x3d_mcp@dcf0815` `evaluation/exact_fix_eval.py`, 11 s; the committed `results.json` states 25; 570; 81; 523; 257 | `x3d_mcp@dcf0815` |
 | N-JEV-27 | [22](22-typed-judgments-jev.md) | playground defect operators: applied cases behaving as declared; browser operators passing XSD and semantic checks | 312 of 312; 65 of 65 | [C] | Python 3.13.18, `x3d_mcp@dcf0815`, seed 0, 39 clean scenes | `x3d_mcp@dcf0815` `playground/mutate.py` |
 | N-JEV-28 | [22](22-typed-judgments-jev.md) | mutants of 755 clean scenes: first rejecting stage JSON typing; XSD; semantic; accepted by all | 813 (26.9%); 67 (2.2%); 150 (5.0%); 1,990 (65.9%) of 3,020 | [C] | `x3d.zod` fuzz tool, 4 mutants per document, seed 1, then `x3d_mcp@dcf0815` stages in order; survivors unlabelled | `x3d.loom@0752865` `x3d.zod` |
+| N-JEV-29 | [22](22-typed-judgments-jev.md) | re-run: public scenes; raw bytes; all-facets state bytes | 520; 57,609,927; 565,878 (101.81x) | [C] | `x3d_s1` 0.2.0 `tools/corpus_measure.py`, Python 3.13.18, 4 vCPU x86_64 | `x3d.docs@a9b5f33`, `x3d.loom@be7c481`, `x3d_mcp@c6681fe`; receipt `x3d.s1/receipts/corpus-current.json` |
+| N-JEV-30 | [22](22-typed-judgments-jev.md) | re-run: median raw/state ratio; 10th percentile; scenes where state is larger; largest such scene | 1.81; 0.73; 135 of 520; 1,049 bytes | [C] | `x3d_s1` 0.2.0, same run | same receipt and `corpus-current.scenes.csv` |
+| N-JEV-31 | [22](22-typed-judgments-jev.md) | re-run: D answers Viewpoint, light, animated, remote, Script; animated under the old code on the same scenes | 443, 128, 56, 6, 5 of 520; 33 | [C] | `x3d_s1` 0.2.0; the old-code count from `x3d_s1` 0.1.0 run on the same checkouts; an independent `xml.etree` scan also gives 56 | same receipt; `x3d.s1/README.md` |
+| N-JEV-32 | [22](22-typed-judgments-jev.md) | re-run: text strings; flagged by the lint; scenes holding the flagged strings | 37,882; 9; 2 (both planted hostile fixtures) | [C] | `x3d_s1` 0.2.0 | same receipt |
+| N-JEV-33 | [22](22-typed-judgments-jev.md) | mutation check v2: planted bugs; killed by a named test; tests passing | 41; 41; 207 | [C] | `x3d_s1` 0.2.0 `tools/mutation_check.py`, Python 3.12 and 3.13 | `x3d.s1/receipts/mutation-hardening.json` |
+| N-JEV-34 | [22](22-typed-judgments-jev.md) | the 0.1.0 check re-run with the fixtures present and no naming rule: survivors among the earlier 41 | 1 ("lint not run on quotes") | [C] | `x3d_s1` mutation check v1 operators, copies that keep `receipts/` | `x3d.s1/README.md` |
 | N-TRC-1 | [23](23-traceability-lineage.md) | tracked `.x3d` files; duplicates dropped; scenes parsed | 1,614; 182; 1,379 | [C] | `measure/m_corpus.py`, engine `dcba70d7`, Python 3.13.18 | `x3d.ml@305fd60:measure/results/m_corpus.json` |
 | N-TRC-2 | [23](23-traceability-lineage.md) | parse failures; not XML | 47; 6 | [C] | same | same |
 | N-TRC-3 | [23](23-traceability-lineage.md) | elements; attributes; value-bearing attributes | 248,929; 364,127; 100,392 | [C] | same | same |
