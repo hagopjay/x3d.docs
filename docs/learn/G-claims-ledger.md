@@ -3,7 +3,7 @@
 Every number or rule that carries a quote from a named source, merged from `docs/learn/claims/*.jsonl` and the last checker receipt. Edit the ledger, not this file.
 
 <!-- BEGIN GENERATED -->
-**84 claims** in 2 chapter ledgers. Verdicts: verified 83 · check 0 · reworded 0 · unchecked 1. Register coverage: 78 of 196 numbers in Value cells carry a quote (39.8%), 77 verified. Verdicts come from `tools-shared/check_claims.py` (find the quote, compare the value) at the pins named; the receipt is `claims/receipt.json`.
+**113 claims** in 3 chapter ledgers. Verdicts: verified 112 · check 0 · reworded 0 · unchecked 1. Register coverage: 107 of 269 numbers in Value cells carry a quote (39.8%), 106 verified. Verdicts come from `tools-shared/check_claims.py` (find the quote, compare the value) at the pins named; the receipt is `claims/receipt.json`.
 
 | ID | Ch | Value | Verdict | Source (line opens the quote) | Line |
 |---|---|---|---|---|---|
@@ -91,4 +91,33 @@ Every number or rule that carries a quote from a named source, merged from `docs
 | N-TRC-21 | [23](23-traceability-lineage.md) | 36 | verified | [`x3d_mcp@e55375f:docs/scene-evidence.md`](https://github.com/hagopjay/x3d_mcp/blob/e55375f/docs/scene-evidence.md#L100) | 100 |
 | N-TRC-22 | [23](23-traceability-lineage.md) | 71 | verified | [`x3d_mcp@e55375f:docs/scene-evidence.md`](https://github.com/hagopjay/x3d_mcp/blob/e55375f/docs/scene-evidence.md#L91) | 91 |
 | N-TRC-22 | [23](23-traceability-lineage.md) | 92280 | verified | [`x3d_mcp@e55375f:docs/scene-evidence.md`](https://github.com/hagopjay/x3d_mcp/blob/e55375f/docs/scene-evidence.md#L91) | 91 |
+| N-ACC-3 | [25](25-accretion-gated-growth.md) | 24 | verified | [`x3d.accrete@93063bf:docs/GATE-CONTRACT.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/GATE-CONTRACT.md#L14) | 14 |
+| N-ACC-4 | [25](25-accretion-gated-growth.md) | 12 | verified | [`x3d.accrete@93063bf:docs/GATE-CONTRACT.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/GATE-CONTRACT.md#L31) | 31 |
+| N-ACC-4 | [25](25-accretion-gated-growth.md) | 24 | verified | [`x3d.accrete@93063bf:docs/GATE-CONTRACT.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/GATE-CONTRACT.md#L32) | 32 |
+| N-ACC-5 | [25](25-accretion-gated-growth.md) | 80 | verified | [`x3d.accrete@93063bf:docs/GATE-CONTRACT.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/GATE-CONTRACT.md#L33) | 33 |
+| N-ACC-5 | [25](25-accretion-gated-growth.md) | 16 | verified | [`x3d.accrete@93063bf:docs/GATE-CONTRACT.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/GATE-CONTRACT.md#L35) | 35 |
+| N-ACC-5 | [25](25-accretion-gated-growth.md) | 160 | verified | [`x3d.accrete@93063bf:docs/GATE-CONTRACT.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/GATE-CONTRACT.md#L36) | 36 |
+| N-ACC-6 | [25](25-accretion-gated-growth.md) | "1.1754944e-38" | verified | [`x3d.accrete@93063bf:docs/GATE-CONTRACT.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/GATE-CONTRACT.md#L77) | 77 |
+| N-ACC-7 | [25](25-accretion-gated-growth.md) | 6 | verified | [`x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L3) | 3 |
+| N-ACC-7 | [25](25-accretion-gated-growth.md) | 45 | verified | [`x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L3) | 3 |
+| N-ACC-7 | [25](25-accretion-gated-growth.md) | 2 | verified | [`x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L3) | 3 |
+| N-ACC-7 | [25](25-accretion-gated-growth.md) | 80 | verified | [`x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L3) | 3 |
+| N-ACC-8 | [25](25-accretion-gated-growth.md) | 30000 | verified | [`x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L49) | 49 |
+| N-ACC-22 | [25](25-accretion-gated-growth.md) | 4.333 | verified | [`x3d.accrete@93063bf:README.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L103) | 103 |
+| N-ACC-22 | [25](25-accretion-gated-growth.md) | 28.118 | verified | [`x3d.accrete@93063bf:README.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L104) | 104 |
+| N-ACC-22 | [25](25-accretion-gated-growth.md) | 1819603 | verified | [`x3d.accrete@93063bf:README.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L105) | 105 |
+| N-ACC-22 | [25](25-accretion-gated-growth.md) | 266921 | verified | [`x3d.accrete@93063bf:README.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L105) | 105 |
+| N-ACC-23 | [25](25-accretion-gated-growth.md) | 154.386 | verified | [`x3d.accrete@93063bf:README.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L106) | 106 |
+| N-ACC-23 | [25](25-accretion-gated-growth.md) | 90 | verified | [`x3d.accrete@93063bf:README.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L106) | 106 |
+| N-ACC-24 | [25](25-accretion-gated-growth.md) | 512 | verified | [`x3d.accrete@93063bf:README.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L54) | 54 |
+| N-ACC-24 | [25](25-accretion-gated-growth.md) | 24 | verified | [`x3d.accrete@93063bf:README.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L55) | 55 |
+| N-ACC-24 | [25](25-accretion-gated-growth.md) | 48 | verified | [`x3d.accrete@93063bf:README.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L55) | 55 |
+| N-ACC-24 | [25](25-accretion-gated-growth.md) | 96 | verified | [`x3d.accrete@93063bf:README.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L55) | 55 |
+| N-ACC-24 | [25](25-accretion-gated-growth.md) | 10000 | verified | [`x3d.accrete@93063bf:README.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L111) | 111 |
+| N-ACC-25 | [25](25-accretion-gated-growth.md) | 1200 | verified | [`x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L73) | 73 |
+| N-ACC-25 | [25](25-accretion-gated-growth.md) | 40 | verified | [`x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L73) | 73 |
+| N-ACC-25 | [25](25-accretion-gated-growth.md) | 0 | verified | [`x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L73) | 73 |
+| N-ACC-26 | [25](25-accretion-gated-growth.md) | 19 | verified | [`x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L69) | 69 |
+| N-ACC-26 | [25](25-accretion-gated-growth.md) | 10 | verified | [`x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L70) | 70 |
+| N-ACC-15 | [25](25-accretion-gated-growth.md) | 24 | verified | [`x3d.accrete@93063bf:examples/checkpoint.json`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/examples/checkpoint.json#L3) | 3 |
 <!-- END GENERATED -->

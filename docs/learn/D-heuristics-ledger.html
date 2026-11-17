@@ -19,10 +19,10 @@ blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;backgr
 .nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
 details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
 .foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
-</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><a href="24-math-lab-static-host.html">24. Math Lab: one model owner, two transports</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a class="cur" href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="D-heuristics-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/D-heuristics-ledger.md">GitHub</a></div><h1>Appendix D. Heuristics ledger</h1>
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><a href="24-math-lab-static-host.html">24. Math Lab: one model owner, two transports</a><a href="25-accretion-gated-growth.html">25. Accretion: an append-only X3D world grown one gated patch at a time</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a class="cur" href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="D-heuristics-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/D-heuristics-ledger.md">GitHub</a></div><h1>Appendix D. Heuristics ledger</h1>
 <p>Merged from the <em>Heuristics</em> table of every chapter. Edit the chapter, not this file.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>368 heuristics.</strong> Grades: <span class="g C" title="Confirmed">C</span> 302 · <span class="g L" title="Likely">L</span> 59 · <span class="g S" title="Suspected">S</span> 7. Retired rules are struck through in their chapter, never deleted.</p>
+<p><strong>381 heuristics.</strong> Grades: <span class="g C" title="Confirmed">C</span> 314 · <span class="g L" title="Likely">L</span> 60 · <span class="g S" title="Suspected">S</span> 7. Retired rules are struck through in their chapter, never deleted.</p>
 <table>
 <thead>
 <tr>
@@ -2978,6 +2978,110 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C</td>
 <td>the note says 4.6 to 5.0 s for the first scene; the retained receipt says 5.159 s</td>
 <td><code>receipts/browser-smoke-pages.json</code></td>
+</tr>
+<tr>
+<td>H-ACC-1</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>Split growth into planner, generator, gate and ledger; let only the generator be a model, and make the other three replayable from the ledger.</td>
+<td>C</td>
+<td><code>plan_next</code> is a pure function of prefix and hash; <code>verify_archive</code> replays it; <code>model_calls</code> is 0</td>
+<td><code>x3d.accrete@93063bf</code> <code>accretion/world.py</code>, Python 3.13.18</td>
+</tr>
+<tr>
+<td>H-ACC-2</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>Seed the planner from the previous hash, never from a clock or a random source.</td>
+<td>C</td>
+<td>same genesis gives equal plans; 1 of 96 seeds equal across two builds because the hash holds a timestamp</td>
+<td><code>tools/build_demo.py --count 96</code>, twice</td>
+</tr>
+<tr>
+<td>H-ACC-3</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>Whitelist fields as well as nodes, and fuzz the lexer: forbidden things must fail in any case and spelling.</td>
+<td>C</td>
+<td>5,000 mutations: 0 exceptions, 0 passes with a tag outside the vocabulary; the review reports 30,000 (read, not run)</td>
+<td><code>x3d.accrete@93063bf</code> gate, seed 20261117</td>
+</tr>
+<tr>
+<td>H-ACC-4</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>When a gate defers to a second validator, send every admitted node type through both before shipping the vocabulary.</td>
+<td>C</td>
+<td><code>PhysicalMaterial</code>: gate pass, XSD pass, semantic <code>profile-component</code> error</td>
+<td><code>x3d.accrete@93063bf</code>, <code>x3d_mcp@b5c9956</code></td>
+</tr>
+<tr>
+<td>H-ACC-5</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>Put a numeric floor at the narrowest type any consumer uses; a finite double is not a valid <code>SFFloat</code>.</td>
+<td>C</td>
+<td><code>Box size</code> <code>1e-320</code> and <code>scale</code> <code>1e-40</code> passed gate, XSD and semantic on <code>52ba996</code>; refused on <code>93063bf</code></td>
+<td>same, <code>FLOAT32_MIN_NORMAL</code></td>
+</tr>
+<tr>
+<td>H-ACC-6</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>Lex numbers with an explicit ASCII set; never <code>\d</code> or bare <code>split()</code> on untrusted text.</td>
+<td>C</td>
+<td>Arabic-Indic digits and U+00A0 separators were admitted on <code>52ba996</code></td>
+<td><code>x3d.accrete@52ba996</code> and <code>93063bf</code> gate</td>
+</tr>
+<tr>
+<td>H-ACC-7</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>Check a comparison default against the standard's tables, not memory: a wrong default is a false reject.</td>
+<td>C</td>
+<td>SpotLight <code>beamWidth</code> default was pi/4; the 4.0 table says 0.589049; <code>cutOffAngle=&quot;0.7&quot;</code> was refused</td>
+<td>same, <code>X3D XSD 4.0</code> and UOM</td>
+</tr>
+<tr>
+<td>H-ACC-8</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>Guard a loopback server with a Host allow-list as well as an Origin check.</td>
+<td>C</td>
+<td><code>Host: evil.example</code> read the ledger (200) on <code>52ba996</code>, 403 on <code>93063bf</code></td>
+<td><code>serve.py</code>, curl, both trees</td>
+</tr>
+<tr>
+<td>H-ACC-9</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>Say that verify proves self-consistency; hold a checkpoint from outside the origin before calling a ledger tamper-evident.</td>
+<td>C</td>
+<td>forged last entry and truncated archive both <code>valid: true</code> without a checkpoint, both rejected with one</td>
+<td><code>verify_archive</code>, drill D-ACC-5</td>
+</tr>
+<tr>
+<td>H-ACC-10</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>Port a verifier only with a parity test over a valid input and a tamper table, comparing verdict and error text.</td>
+<td>C</td>
+<td>8 of 8 archive cases agree between Python and Node; float formatting agrees with <code>repr</code> on 8 values</td>
+<td><code>tests/test_static_export.py</code>, Node 22.23.4</td>
+</tr>
+<tr>
+<td>H-ACC-11</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>State which of a benchmark's outputs reproduce: timings within a spread, never hashes or sizes that include timestamps.</td>
+<td>C</td>
+<td>four builds, four tail hashes; build wall time 3.84 to 4.40 s</td>
+<td><code>build_demo.py</code>, 4 vCPU</td>
+</tr>
+<tr>
+<td>H-ACC-12</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>Profile the whole path before a &quot;dominated by X&quot; claim is written; the biggest item may sit outside the claim's scope.</td>
+<td>C</td>
+<td>JSON re-parse 1.073 s is the largest part of the store's own time; the schema parse 1.394 s is larger over the whole append</td>
+<td>cProfile, Python 3.13.18</td>
+</tr>
+<tr>
+<td>H-ACC-13</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>Write the stop rule before the run and report a projection as an estimate, not a result.</td>
+<td>L</td>
+<td>the benchmark refused a 1,000-entry run projected at 154.386 s against a 90 s stop rule</td>
+<td><code>x3d.accrete@93063bf</code> <code>README.md</code>, read, not run</td>
 </tr>
 </tbody>
 </table>

@@ -1,0 +1,30 @@
+{"_meta": {"schema": "claims/0.1", "chapter": "25", "note": "rows whose numbers are literal in a public file at the pinned sha; results of runs (test counts, timings, fuzz counts, verdicts) have no file to quote and stay uncovered", "coverage_floor": 0.35}}
+{"id": "N-ACC-3", "value": 24, "quote": "This is **24 node types plus ROUTE**", "source": "x3d.accrete@93063bf:docs/GATE-CONTRACT.md", "grade": "C"}
+{"id": "N-ACC-4", "value": 12, "quote": "Raw UTF-8 source | 12 KiB", "source": "x3d.accrete@93063bf:docs/GATE-CONTRACT.md", "grade": "C"}
+{"id": "N-ACC-4", "value": 24, "quote": "Canonical fitted/namespaced output | 24 KiB", "source": "x3d.accrete@93063bf:docs/GATE-CONTRACT.md", "grade": "C"}
+{"id": "N-ACC-5", "value": 80, "quote": "Source nodes | 80, including USE and ROUTE statements", "source": "x3d.accrete@93063bf:docs/GATE-CONTRACT.md", "grade": "C"}
+{"id": "N-ACC-5", "value": 16, "quote": "Nesting depth | 16", "source": "x3d.accrete@93063bf:docs/GATE-CONTRACT.md", "grade": "C"}
+{"id": "N-ACC-5", "value": 160, "quote": "Expanded geometry instances | 160", "source": "x3d.accrete@93063bf:docs/GATE-CONTRACT.md", "grade": "C"}
+{"id": "N-ACC-6", "value": "1.1754944e-38", "quote": "Sub-single-precision magnitudes (below 1.1754944e-38) are refused for sizes and scales", "source": "x3d.accrete@93063bf:docs/GATE-CONTRACT.md", "grade": "C"}
+{"id": "N-ACC-7", "value": 6, "quote": "Method: 6 reviewer lanes (gate, ledger, http, adapter, web, claims)", "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md", "grade": "L"}
+{"id": "N-ACC-7", "value": 45, "quote": "45 findings, each re-checked by 2 verifiers", "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md", "grade": "L"}
+{"id": "N-ACC-7", "value": 2, "quote": "45 findings, each re-checked by 2 verifiers", "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md", "grade": "L"}
+{"id": "N-ACC-7", "value": 80, "quote": "80 agents total", "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md", "grade": "L"}
+{"id": "N-ACC-8", "value": 30000, "quote": "30,000 mutation-fuzz runs", "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md", "grade": "L"}
+{"id": "N-ACC-22", "value": 4.333, "quote": "At 100 entries, cumulative append time was 4.333 s", "source": "x3d.accrete@93063bf:README.md", "grade": "L"}
+{"id": "N-ACC-22", "value": 28.118, "quote": "replay verification 28.118 ms", "source": "x3d.accrete@93063bf:README.md", "grade": "L"}
+{"id": "N-ACC-22", "value": 1819603, "quote": "JSON 1,819,603 bytes", "source": "x3d.accrete@93063bf:README.md", "grade": "L"}
+{"id": "N-ACC-22", "value": 266921, "quote": "X3D 266,921 bytes", "source": "x3d.accrete@93063bf:README.md", "grade": "L"}
+{"id": "N-ACC-23", "value": 154.386, "quote": "the measured trend projected 154.386 s, above the benchmark's 90 s stop rule", "source": "x3d.accrete@93063bf:README.md", "grade": "L"}
+{"id": "N-ACC-23", "value": 90, "quote": "the measured trend projected 154.386 s, above the benchmark's 90 s stop rule", "source": "x3d.accrete@93063bf:README.md", "grade": "L"}
+{"id": "N-ACC-24", "value": 512, "quote": "The browser loads at most 512 recent records", "source": "x3d.accrete@93063bf:README.md", "grade": "C"}
+{"id": "N-ACC-24", "value": 24, "quote": "(24, 48 or 96 latest additions)", "source": "x3d.accrete@93063bf:README.md", "grade": "C"}
+{"id": "N-ACC-24", "value": 48, "quote": "(24, 48 or 96 latest additions)", "source": "x3d.accrete@93063bf:README.md", "grade": "C"}
+{"id": "N-ACC-24", "value": 96, "quote": "(24, 48 or 96 latest additions)", "source": "x3d.accrete@93063bf:README.md", "grade": "C"}
+{"id": "N-ACC-24", "value": 10000, "quote": "The current 10,000-entry cap is a configured bound", "source": "x3d.accrete@93063bf:README.md", "grade": "C"}
+{"id": "N-ACC-25", "value": 1200, "quote": "That was 1200 candidates over 40 random seeds with random biomes, 0 failures", "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md", "grade": "L"}
+{"id": "N-ACC-25", "value": 40, "quote": "That was 1200 candidates over 40 random seeds with random biomes, 0 failures", "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md", "grade": "L"}
+{"id": "N-ACC-25", "value": 0, "quote": "That was 1200 candidates over 40 random seeds with random biomes, 0 failures", "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md", "grade": "L"}
+{"id": "N-ACC-26", "value": 19, "quote": "all 19 files listed in ORIGIN.json have the same git blob SHA", "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md", "grade": "L"}
+{"id": "N-ACC-26", "value": 10, "quote": "the default branch is 10 commits ahead of the pin, with 0 behind", "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md", "grade": "L"}
+{"id": "N-ACC-15", "value": 24, "quote": "\"head\": 24", "source": "x3d.accrete@93063bf:examples/checkpoint.json", "grade": "C"}

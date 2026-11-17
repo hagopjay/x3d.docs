@@ -3,7 +3,7 @@
 Every `repo@sha` cited anywhere in the chapters, with the chapters that cite it.
 
 <!-- BEGIN GENERATED -->
-61 (repo, commit) pairs cited. A number holds only at the commit named beside it.
+64 (repo, commit) pairs cited. A number holds only at the commit named beside it.
 
 | Repo | Commit | Chapters |
 |---|---|---|
@@ -11,6 +11,8 @@ Every `repo@sha` cited anywhere in the chapters, with the chapters that cite it.
 | `x3d-blender-io` | `044bea3` | 23 |
 | `x3d-blender-io` | `54aba0c` | 12, 19 |
 | `x3d-blender-io` | `ab99988` | 03, 10, 11, 12 |
+| `x3d.accrete` | `52ba996` | 25 |
+| `x3d.accrete` | `93063bf` | 25 |
 | `x3d.castle` | `0a1073f` | 19 |
 | `x3d.castle` | `5b13f70` | 23 |
 | `x3d.castle` | `d70e00c` | 07, 09 |
@@ -38,7 +40,7 @@ Every `repo@sha` cited anywhere in the chapters, with the chapters that cite it.
 | `x3d.loom` | `5f59349` | 18 |
 | `x3d.loom` | `60824ce` | 08 |
 | `x3d.loom` | `72a4bca` | 08 |
-| `x3d.loom` | `7a7d657` | 22 |
+| `x3d.loom` | `7a7d657` | 22, 25 |
 | `x3d.loom` | `7c69356` | 20 |
 | `x3d.loom` | `7c818e3` | 20 |
 | `x3d.loom` | `80388ce` | 08 |
@@ -65,6 +67,7 @@ Every `repo@sha` cited anywhere in the chapters, with the chapters that cite it.
 | `x3d_mcp` | `60b9474` | 16 |
 | `x3d_mcp` | `74da0ec` | 03, 04 |
 | `x3d_mcp` | `b4efcd3` | 01, 03, 04, 05, 06, 07, 09, 10 |
+| `x3d_mcp` | `b5c9956` | 25 |
 | `x3d_mcp` | `c6681fe` | 22 |
 | `x3d_mcp` | `dcf0815` | 22 |
 | `x3d_mcp` | `e55375f` | 23 |

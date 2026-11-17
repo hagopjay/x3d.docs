@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**368 heuristics.** Grades: [C] 302 · [L] 59 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**381 heuristics.** Grades: [C] 314 · [L] 60 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -375,4 +375,17 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-MLB-7 | [24](24-math-lab-static-host.md) | Split generate from execute; ship only generation to a public static host and keep a test that the execution library is never installed there. | L | Manim source is generated in the page; `test_manim_is_never_installed_in_the_browser` | `tests/test_pages.py`; not attacked |
 | H-MLB-8 | [24](24-math-lab-static-host.md) | Put the transport behind one selector and one response shape, so the controller code is the same for both. | C | `/api/health` probe picks loopback or Pyodide; the two smoke receipts have identical `lessons[]` fields | `web/app.js`, both smoke receipts |
 | H-MLB-9 | [24](24-math-lab-static-host.md) | Quote a timing from a recorded receipt, not from a note, and name the transport, the browser and the renderer. | C | the note says 4.6 to 5.0 s for the first scene; the retained receipt says 5.159 s | `receipts/browser-smoke-pages.json` |
+| H-ACC-1 | [25](25-accretion-gated-growth.md) | Split growth into planner, generator, gate and ledger; let only the generator be a model, and make the other three replayable from the ledger. | C | `plan_next` is a pure function of prefix and hash; `verify_archive` replays it; `model_calls` is 0 | `x3d.accrete@93063bf` `accretion/world.py`, Python 3.13.18 |
+| H-ACC-2 | [25](25-accretion-gated-growth.md) | Seed the planner from the previous hash, never from a clock or a random source. | C | same genesis gives equal plans; 1 of 96 seeds equal across two builds because the hash holds a timestamp | `tools/build_demo.py --count 96`, twice |
+| H-ACC-3 | [25](25-accretion-gated-growth.md) | Whitelist fields as well as nodes, and fuzz the lexer: forbidden things must fail in any case and spelling. | C | 5,000 mutations: 0 exceptions, 0 passes with a tag outside the vocabulary; the review reports 30,000 (read, not run) | `x3d.accrete@93063bf` gate, seed 20261117 |
+| H-ACC-4 | [25](25-accretion-gated-growth.md) | When a gate defers to a second validator, send every admitted node type through both before shipping the vocabulary. | C | `PhysicalMaterial`: gate pass, XSD pass, semantic `profile-component` error | `x3d.accrete@93063bf`, `x3d_mcp@b5c9956` |
+| H-ACC-5 | [25](25-accretion-gated-growth.md) | Put a numeric floor at the narrowest type any consumer uses; a finite double is not a valid `SFFloat`. | C | `Box size` `1e-320` and `scale` `1e-40` passed gate, XSD and semantic on `52ba996`; refused on `93063bf` | same, `FLOAT32_MIN_NORMAL` |
+| H-ACC-6 | [25](25-accretion-gated-growth.md) | Lex numbers with an explicit ASCII set; never `\d` or bare `split()` on untrusted text. | C | Arabic-Indic digits and U+00A0 separators were admitted on `52ba996` | `x3d.accrete@52ba996` and `93063bf` gate |
+| H-ACC-7 | [25](25-accretion-gated-growth.md) | Check a comparison default against the standard's tables, not memory: a wrong default is a false reject. | C | SpotLight `beamWidth` default was pi/4; the 4.0 table says 0.589049; `cutOffAngle="0.7"` was refused | same, `X3D XSD 4.0` and UOM |
+| H-ACC-8 | [25](25-accretion-gated-growth.md) | Guard a loopback server with a Host allow-list as well as an Origin check. | C | `Host: evil.example` read the ledger (200) on `52ba996`, 403 on `93063bf` | `serve.py`, curl, both trees |
+| H-ACC-9 | [25](25-accretion-gated-growth.md) | Say that verify proves self-consistency; hold a checkpoint from outside the origin before calling a ledger tamper-evident. | C | forged last entry and truncated archive both `valid: true` without a checkpoint, both rejected with one | `verify_archive`, drill D-ACC-5 |
+| H-ACC-10 | [25](25-accretion-gated-growth.md) | Port a verifier only with a parity test over a valid input and a tamper table, comparing verdict and error text. | C | 8 of 8 archive cases agree between Python and Node; float formatting agrees with `repr` on 8 values | `tests/test_static_export.py`, Node 22.23.4 |
+| H-ACC-11 | [25](25-accretion-gated-growth.md) | State which of a benchmark's outputs reproduce: timings within a spread, never hashes or sizes that include timestamps. | C | four builds, four tail hashes; build wall time 3.84 to 4.40 s | `build_demo.py`, 4 vCPU |
+| H-ACC-12 | [25](25-accretion-gated-growth.md) | Profile the whole path before a "dominated by X" claim is written; the biggest item may sit outside the claim's scope. | C | JSON re-parse 1.073 s is the largest part of the store's own time; the schema parse 1.394 s is larger over the whole append | cProfile, Python 3.13.18 |
+| H-ACC-13 | [25](25-accretion-gated-growth.md) | Write the stop rule before the run and report a projection as an estimate, not a result. | L | the benchmark refused a 1,000-entry run projected at 154.386 s against a 90 s stop rule | `x3d.accrete@93063bf` `README.md`, read, not run |
 <!-- END GENERATED -->

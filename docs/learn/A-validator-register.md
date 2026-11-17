@@ -3,11 +3,11 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-366 distinct instrument strings across the numbers registers.
+389 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
-| `same` | 89 | 05, 06, 07, 09, 10, 11, 12, 15, 16, 17, 18, 20, 21, 23, 24 | C:88 L:1 |
+| `same` | 91 | 05, 06, 07, 09, 10, 11, 12, 15, 16, 17, 18, 20, 21, 23, 24, 25 | C:90 L:1 |
 | `same rig` | 36 | 08, 09, 13, 15 | C:36 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
@@ -51,6 +51,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `pytest 9.2.0, Python 3.13.18, no Chromium` | 2 | 03, 04 | C:2 |
 | `python parse of the table, x3d.loom@162ab18` | 2 | 02 | C:2 |
 | `read, not run` | 2 | 05, 22 | C:1 L:1 |
+| `review file, not re-run` | 2 | 25 | L:2 |
 | `x3d.xray@8fa6845` | 2 | 07 | C:2 |
 | `x3d_mcp fork 535fdac and b4efcd3` | 2 | 01 | C:2 |
 | `x3d_mcp fork b4efcd3, 24 seeds` | 2 | 01 | C:2 |
@@ -65,6 +66,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `92-agent review of the first version` | 1 | 20 | C:1 |
 | `BR.geo.speedOf; X_ITE formula (height + 10) / 10 x factor` | 1 | 08 | C:1 |
 | `Babylon 9.32.0 body vs X_ITE 16.6.0, SwiftShader` | 1 | 08 | C:1 |
+| `BrowserVerifierParity, Node 22.23.4` | 1 | 25 | C:1 |
 | `Chromium 153 / Node v22.23.4` | 1 | 17 | C:1 |
 | `Chromium 153 SwiftShader; X_ITE 16.6.0; 96 spp` | 1 | 18 | C:1 |
 | `Chromium 153.0.8010.12 SwiftShader, X_ITE 16.6.0, three.js r187` | 1 | 08 | C:1 |
@@ -75,6 +77,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `Chromium 153.0.8010.12, SwiftShader, three-mesh-bvh 0.9.18` | 1 | 08 | C:1 |
 | `D-LAW-2 script (judgement of the column)` | 1 | 02 | L:1 |
 | `D-LAW-7 script` | 1 | 02 | C:1 |
+| `FLOAT32_MIN_NORMAL in the gate` | 1 | 25 | C:1 |
 | `Intel Xeon 2.10 GHz x4` | 1 | 21 | C:1 |
 | `JSON parse 2026-11-14` | 1 | 11 | C:1 |
 | `JSON parse, 2026-11-14` | 1 | 12 | C:1 |
@@ -104,6 +107,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `Python 3.13.18, x3d_mcp@dcf0815, seed 0, 39 clean scenes` | 1 | 22 | C:1 |
 | `Python 3.13.18; bpy 5.3.0 as recorded in the commit message` | 1 | 23 | C:1 |
 | `Python, X_ITE 16.6.0` | 1 | 08 | C:1 |
+| `README text, matches serve.py constants per the review` | 1 | 25 | C:1 |
 | `UE 5.8.4 Vulkan SM6+RT, X_ITE 16.7.0 ANGLE Vulkan, Cycles 5.2.3, flip-evaluator LDR object pixels, RTX PRO 6000 Blackwell SE, 2026-11-15` | 1 | 12 | C:1 |
 | `UE 5.8.4 on RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-14` | 1 | 12 | C:1 |
 | `X3DUOM 4.0 via NODES.json` | 1 | 08 | C:1 |
@@ -158,6 +162,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `census_compare.py receipt` | 1 | 09 | C:1 |
 | `chain sketch, Python 3.13.18` | 1 | 01 | C:1 |
 | `check_learn.py at this commit` | 1 | 14 | C:1 |
+| `contract table, matches accretion/gate.py constants per the review` | 1 | 25 | C:1 |
 | `converter formula, 2026-11-14` | 1 | 12 | C:1 |
 | `converter functions, 2026-11-14` | 1 | 12 | C:1 |
 | `converter tables sha256 1a5f3229a7ee` | 1 | 05 | C:1 |
@@ -166,12 +171,21 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `core11.py; FLIP 1.7, Cycles 256 spp, 512 px` | 1 | 09 | C:1 |
 | `count, x3d.loom@162ab18` | 1 | 02 | C:1 |
 | `default parameters, Playwright 1.63.0 Chromium` | 1 | 24 | C:1 |
+| `drill D-ACC-3, x3d_mcp@b5c9956, lxml 6.1.3` | 1 | 25 | C:1 |
+| `drill D-ACC-4, x3d_mcp@b5c9956` | 1 | 25 | C:1 |
+| `drill D-ACC-5` | 1 | 25 | C:1 |
+| `drill D-ACC-6, curl` | 1 | 25 | C:1 |
+| `drill D-ACC-7` | 1 | 25 | C:1 |
+| `drill D-ACC-8, seed 20261117, Python 3.13.18` | 1 | 25 | C:1 |
 | `driver.py batch -n 10 --close, X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader` | 1 | 08 | C:1 |
 | `driver.py check over all fixtures` | 1 | 08 | C:1 |
 | `driver.py status, x3d.loom@162ab18` | 1 | 08 | C:1 |
+| `estimate only, not run` | 1 | 25 | L:1 |
 | `evaluation/time_scene_evidence.py, median of 7 calls, engine dcba70d7, 4 cores` | 1 | 23 | C:1 |
+| `examples/checkpoint.json` | 1 | 25 | C:1 |
 | `examples/eda_1_signal_and_noise.py` | 1 | 07 | C:1 |
 | `examples/eda_1_signal_and_noise.py --calibrate, seeds 1000 to 1149` | 1 | 07 | C:1 |
+| `find web/static-world -type f` | 1 | 25 | C:1 |
 | `flip-evaluator LDR, G4 stills, 2026-11-15` | 1 | 12 | C:1 |
 | `float32 spacing at 6.4e6` | 1 | 08 | C:1 |
 | `formats.py, 2026-11-14` | 1 | 09 | C:1 |
@@ -179,6 +193,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `git show --stat babba96` | 1 | 02 | C:1 |
 | `git show 0244784:LOOM-v1.md, python parse` | 1 | 02 | C:1 |
 | `gltf-validator 2.0.0-dev.3.10, bpy 5.3.0` | 1 | 10 | C:1 |
+| `grep -c " def test_" tests/test_*.py` | 1 | 25 | C:1 |
 | `grep -c '<ROUTE' and JSON parse, 2026-11-14` | 1 | 11 | C:1 |
 | `grep -lE, x3d.demo@d10b457` | 1 | 13 | C:1 |
 | `grep -o '<Transform ', 2026-11-14` | 1 | 12 | C:1 |
@@ -193,6 +208,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `js/test_vectors.js, Node 22; the committed file holds 968 of them` | 1 | 23 | C:1 |
 | `jsonschema 4.26.0` | 1 | 16 | C:1 |
 | `ktx2-encoder 0.6.0` | 1 | 19 | C:1 |
+| `len(FIELDS) is 25, Python 3.13.18` | 1 | 25 | C:1 |
 | `libxml2 2.14.6, as reported` | 1 | 01 | L:1 |
 | `libxml2 2.14.6, fork 56809ca to the PR #15 change` | 1 | 01 | L:1 |
 | `loomkit 162ab18` | 1 | 03 | C:1 |
@@ -212,6 +228,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `measure/m_grounding.py, lexical matcher (an upper bound on quoting)` | 1 | 23 | L:1 |
 | `measure/m_tamper.py, seed 20261116, 40 scenes, 656 claims` | 1 | 23 | C:1 |
 | `node --test, Node v22.23.4` | 1 | 19 | C:1 |
+| `node tools/pages_smoke.js, Chromium 153.0.8010.12, software GL` | 1 | 25 | C:1 |
 | `none` | 1 | 12 | C:1 |
 | `not run (no Blender here)` | 1 | 03 | S:1 |
 | `npm 10.9.9` | 1 | 06 | C:1 |
@@ -233,7 +250,10 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `python -m unittest discover, CPython 3.13.18, mcp 2.3.0` | 1 | 24 | C:1 |
 | `python over kit/profiles/*.json` | 1 | 02 | C:1 |
 | `python parse, x3d.loom@162ab18` | 1 | 02 | C:1 |
+| `python3 -I -m unittest discover -s tests -p 'test_*.py', Python 3.13.18, lxml 6.1.3` | 1 | 25 | C:1 |
+| `python3 -m cProfile -s cumtime tools/build_demo.py --count 96` | 1 | 25 | C:1 |
 | `python3 -m x3dray tools` | 1 | 07 | C:1 |
+| `python3 tools/build_demo.py --count 96, 4 vCPU` | 1 | 25 | C:1 |
 | `rdflib, pyshacl 0.40.2` | 1 | 05 | C:1 |
 | `read in BATCH-NN.md` | 1 | 08 | L:1 |
 | `read in code` | 1 | 07 | C:1 |
@@ -254,7 +274,10 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `regex over section 8, 2 false hits removed` | 1 | 02 | C:1 |
 | `regex over src/nodes/*.js` | 1 | 08 | L:1 |
 | `regex over unminified dist/` | 1 | 06 | C:1 |
+| `reports/store-scaling.json as quoted in the README, not re-run` | 1 | 25 | L:1 |
 | `restrictSchema and llm_schema.py agree` | 1 | 16 | C:1 |
+| `review file, script not in the repository` | 1 | 25 | L:1 |
+| `review method as written, not repeated` | 1 | 25 | L:1 |
 | `rig on nine scenes, README` | 1 | 10 | L:1 |
 | `rig, 3 repeats, Babylon 9.32 only; receipt re-read` | 1 | 09 | C:1 |
 | `root-cause pass` | 1 | 16 | C:1 |

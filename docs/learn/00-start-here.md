@@ -52,7 +52,7 @@ add a dated row, never overwrite the old one.
 | **D. Science and simulation** | sci-vis, physics | [24](24-math-lab-static-host.md), [13](13-physics.md), [10](10-blender-pipeline.md), [07](07-xray.md), [06](06-xite-the-oracle.md) | build a validated scientific scene with a conservation check |
 | **E. Skeptic's tour** | deciding whether to trust any of this | [02](02-loom-laws.md) (failure modes), [Appendix C](C-numbers-ledger.md) sorted by grade, every *Honest limits* section | find the weakest claim in the base; send a PR |
 | **F. Methods** | how to learn and extend this | [14](14-methods.md), [AUTHORING](AUTHORING.md), [Appendix E](E-drills.md) | run the drills, add a heuristic with its falsifier |
-| **G. Trust and lineage** | knowing where a number in a scene came from | [23](23-traceability-lineage.md), [22](22-typed-judgments-jev.md), [01](01-the-tether.md), [03](03-validator-and-gates.md), [Appendix G](G-claims-ledger.md) | write a claim with its quote, record and audit it, and say what no hash can show |
+| **G. Trust and lineage** | knowing where a number in a scene came from | [23](23-traceability-lineage.md), [25](25-accretion-gated-growth.md), [22](22-typed-judgments-jev.md), [01](01-the-tether.md), [03](03-validator-and-gates.md), [Appendix G](G-claims-ledger.md) | write a claim with its quote, record and audit it, and say what no hash can show |
 
 ## The chapters
 
@@ -83,6 +83,7 @@ add a dated row, never overwrite the old one.
 | [22](22-typed-judgments-jev.md) | Typed judgments: what Jev teaches X3D, and what it must never be trusted with | A typed judge such as Jev belongs behind exact code, not in front of it: answer by lookup what code can answer, run the validator twin for the rest, calibrate the judge's probabilities (not its "confidence") against v... | 20 | 8 | 34 | 49 KB |
 | [23](23-traceability-lineage.md) | Traceability: a quote beside every value, and the lineage stack around it | Make whoever writes a value copy the exact words it came from, and let plain code answer three questions (is the quote in the source, is the value in the quote, where is it); then record the answer in the scene's own... | 14 | 6 | 24 | 35 KB |
 | [24](24-math-lab-static-host.md) | Math Lab: one model owner, two transports | Keep one program that owns the model and let it travel (a local server, or the same files inside the page on WebAssembly); then never trust a float hash across the two, never trust a copied receipt across a dependency... | 9 | 6 | 20 | 32 KB |
+| [25](25-accretion-gated-growth.md) | Accretion: an append-only X3D world grown one gated patch at a time | Grow a world by letting a deterministic planner pick the slot, any generator propose a fragment, a whitelist gate plus a pinned XSD and semantic validator admit it, and a hash-chained ledger record it; then say out lo... | 13 | 10 | 26 | 46 KB |
 <!-- END CHAPTER-TABLE -->
 
 ## What every chapter contains
