@@ -19,10 +19,10 @@ blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;backgr
 .nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
 details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
 .foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
-</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><a href="24-math-lab-static-host.html">24. Math Lab: one model owner, two transports</a><a href="25-accretion-gated-growth.html">25. Accretion: an append-only X3D world grown one gated patch at a time</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a class="cur" href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="D-heuristics-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/D-heuristics-ledger.md">GitHub</a></div><h1>Appendix D. Heuristics ledger</h1>
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><a href="24-math-lab-static-host.html">24. Math Lab: one model owner, two transports</a><a href="25-accretion-gated-growth.html">25. Accretion: an append-only X3D world grown one gated patch at a time</a><a href="26-chess-lenses-oracles.html">26. Lenses on a chess board: a claim is not a picture</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a class="cur" href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="D-heuristics-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/D-heuristics-ledger.md">GitHub</a></div><h1>Appendix D. Heuristics ledger</h1>
 <p>Merged from the <em>Heuristics</em> table of every chapter. Edit the chapter, not this file.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>381 heuristics.</strong> Grades: <span class="g C" title="Confirmed">C</span> 314 · <span class="g L" title="Likely">L</span> 60 · <span class="g S" title="Suspected">S</span> 7. Retired rules are struck through in their chapter, never deleted.</p>
+<p><strong>396 heuristics.</strong> Grades: <span class="g C" title="Confirmed">C</span> 328 · <span class="g L" title="Likely">L</span> 61 · <span class="g S" title="Suspected">S</span> 7. Retired rules are struck through in their chapter, never deleted.</p>
 <table>
 <thead>
 <tr>
@@ -3082,6 +3082,126 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>L</td>
 <td>the benchmark refused a 1,000-entry run projected at 154.386 s against a 90 s stop rule</td>
 <td><code>x3d.accrete@93063bf</code> <code>README.md</code>, read, not run</td>
+</tr>
+<tr>
+<td>H-LNS-1</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>Before drawing an overlay, write its question, its exact quantity and its instrument; if one of the three is missing, the overlay is a picture, not a claim.</td>
+<td>C</td>
+<td>the lens table of <code>docs/LENSES.md</code> has an honest-label cell per lens; the legends are asserted in tests</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>H-LNS-2</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>Keep attack count, legal move, static exchange and engine line apart on one square; never merge two into one colour.</td>
+<td>C</td>
+<td>at f6: balance +1, attacker g5 pseudo-legal, move g5f6 illegal</td>
+<td>inspector, python-chess 1.11.2, drill D-LNS-5</td>
+</tr>
+<tr>
+<td>H-LNS-3</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>Return <code>null</code>, not <code>false</code>, when the question does not apply; render <code>null</code> neutrally.</td>
+<td>C</td>
+<td>defender and pawn-diagonal cases are <code>null</code> (defect 5); 4,080 such attackers in the 100-position run</td>
+<td><code>tools/inspector-test.mjs</code>, run 2026-11-18</td>
+</tr>
+<tr>
+<td>H-LNS-4</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>Test against a library that shares no code or algorithm with the module; agreement with a twin is parity, not correctness.</td>
+<td>C</td>
+<td>a board-copying SEE against an iterative swap list; 50,112 checks, 0 disagreements</td>
+<td><code>tools/concepts-test.mjs</code>, python-chess 1.11.2</td>
+</tr>
+<tr>
+<td>H-LNS-5</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>Commit the oracle's expectation file and regenerate it in the test; fail on a byte difference.</td>
+<td>C</td>
+<td>inspector expectation file, fixed seed</td>
+<td><code>tools/inspector-test.mjs</code></td>
+</tr>
+<tr>
+<td>H-LNS-6</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>Count what a random test actually met and assert floors; a test that never meets a pin says nothing about pins.</td>
+<td>C</td>
+<td>21 en passant, 21 castles, 92 promotions, 12 pinned, 698 illegal attackers</td>
+<td><code>tools/inspector-test.mjs</code> coverage block</td>
+</tr>
+<tr>
+<td>H-LNS-7</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>Give every oracle a negative control: a mutated fixture it must reject.</td>
+<td>C</td>
+<td>19 mutated concept fixtures detected; corrupted PV gives exactly 1 rejection</td>
+<td><code>tools/concepts-test.mjs</code>, <code>tools/branches-test.mjs</code></td>
+</tr>
+<tr>
+<td>H-LNS-8</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>Parse a producer's output by reading real output, and accept optional tokens in any order it can emit.</td>
+<td>C</td>
+<td><code>wdl</code> before <code>lowerbound</code> turned a bound into <code>exact</code> when the branch was deleted</td>
+<td>scratch mutation, section 4.1</td>
+</tr>
+<tr>
+<td>H-LNS-9</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>Validate any loop-step parameter; a falsy length check does not catch a zero step.</td>
+<td>C</td>
+<td><code>[1,2,3].length % 0</code> is NaN; the guard removed gives a heap abort, exit 134</td>
+<td>scratch mutation, Node v22.23.5</td>
+</tr>
+<tr>
+<td>H-LNS-10</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>Treat the neighbourhood of zero as its own test case: -4 cp, 0 cp and a missing score must look different.</td>
+<td>C</td>
+<td>labels <code>+0.0</code>, <code>-0.0</code>, <code>0.0</code>; cap below baseline for -4 cp; zero is a hairline tick</td>
+<td><code>tools/skyline-test.mjs</code> line 187, run</td>
+</tr>
+<tr>
+<td>H-LNS-11</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>Put the staleness check after the last <code>await</code>, and bump the revision before the first.</td>
+<td>C</td>
+<td><code>showBranches</code>, <code>_paintInspection</code>, header of <code>concepts.js</code></td>
+<td><code>x3d.chess@9eb14e9:viewer/js/lenses.js</code>, read</td>
+</tr>
+<tr>
+<td>H-LNS-12</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>When an analysis must describe a state, hold the state, say so on screen, and keep the guard strict.</td>
+<td>L</td>
+<td>held game test passes; the lost-lines first run is carried from a hand-off, not a receipt</td>
+<td><code>tools/transport-tests.mjs</code>, 17 of 17</td>
+</tr>
+<tr>
+<td>H-LNS-13</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>Create every overlay shape with <code>pointerEvents='false'</code>, and expose the picked point through an outputOnly PROTO field.</td>
+<td>C</td>
+<td>all overlay generators carry it; <code>hitPoint</code> in the board PROTO</td>
+<td><code>viewer/js/*.js</code>, <code>tools/gen_grid.py</code>, read</td>
+</tr>
+<tr>
+<td>H-LNS-14</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>Say in the receipt what a blocked or software-GL run cannot show; never read a pass as a frame-rate or pixel claim.</td>
+<td>C</td>
+<td>receipt <code>scope</code> line; <code>docs/LENSES.md</code> limits</td>
+<td><code>evidence/lens-smoke.json</code>, Chromium 153.0.8010.12 SwiftShader</td>
+</tr>
+<tr>
+<td>H-LNS-15</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>When prose and test disagree on a number, quote the test and grade the prose <span class="g S" title="Suspected">S</span>.</td>
+<td>C</td>
+<td>&quot;three FENs&quot; in two documents, four in the test</td>
+<td><code>tools/branches-test.mjs</code> line 298</td>
 </tr>
 </tbody>
 </table>

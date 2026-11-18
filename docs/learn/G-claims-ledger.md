@@ -3,7 +3,7 @@
 Every number or rule that carries a quote from a named source, merged from `docs/learn/claims/*.jsonl` and the last checker receipt. Edit the ledger, not this file.
 
 <!-- BEGIN GENERATED -->
-**113 claims** in 3 chapter ledgers. Verdicts: verified 112 · check 0 · reworded 0 · unchecked 1. Register coverage: 107 of 269 numbers in Value cells carry a quote (39.8%), 106 verified. Verdicts come from `tools-shared/check_claims.py` (find the quote, compare the value) at the pins named; the receipt is `claims/receipt.json`.
+**146 claims** in 4 chapter ledgers. Verdicts: verified 145 · check 0 · reworded 0 · unchecked 1. Register coverage: 139 of 329 numbers in Value cells carry a quote (42.2%), 138 verified. Verdicts come from `tools-shared/check_claims.py` (find the quote, compare the value) at the pins named; the receipt is `claims/receipt.json`.
 
 | ID | Ch | Value | Verdict | Source (line opens the quote) | Line |
 |---|---|---|---|---|---|
@@ -120,4 +120,37 @@ Every number or rule that carries a quote from a named source, merged from `docs
 | N-ACC-26 | [25](25-accretion-gated-growth.md) | 19 | verified | [`x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L69) | 69 |
 | N-ACC-26 | [25](25-accretion-gated-growth.md) | 10 | verified | [`x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L70) | 70 |
 | N-ACC-15 | [25](25-accretion-gated-growth.md) | 24 | verified | [`x3d.accrete@93063bf:examples/checkpoint.json`](https://github.com/hagopjay/x3d.accrete/blob/93063bf/examples/checkpoint.json#L3) | 3 |
+| N-LNS-2 | [26](26-chess-lenses-oracles.md) | 13 | verified | [`x3d.chess@9eb14e9:docs/LENSES.md`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L8) | 8 |
+| N-LNS-3 | [26](26-chess-lenses-oracles.md) | 609 | verified | [`x3d.chess@9eb14e9:docs/LENSES.md`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L24) | 24 |
+| N-LNS-4 | [26](26-chess-lenses-oracles.md) | 50112 | verified | [`x3d.chess@9eb14e9:docs/LENSES.md`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L25) | 25 |
+| N-LNS-4 | [26](26-chess-lenses-oracles.md) | 327 | verified | [`x3d.chess@9eb14e9:docs/LENSES.md`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L25) | 25 |
+| N-LNS-5 | [26](26-chess-lenses-oracles.md) | 20261117 | verified | [`x3d.chess@9eb14e9:tools/concepts_gen.py`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/tools/concepts_gen.py#L27) | 27 |
+| N-LNS-5 | [26](26-chess-lenses-oracles.md) | 300 | verified | [`x3d.chess@9eb14e9:tools/concepts_gen.py`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/tools/concepts_gen.py#L28) | 28 |
+| N-LNS-6 | [26](26-chess-lenses-oracles.md) | 35 | verified | [`x3d.chess@9eb14e9:docs/LENSES.md`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L26) | 26 |
+| N-LNS-6 | [26](26-chess-lenses-oracles.md) | 100 | verified | [`x3d.chess@9eb14e9:docs/LENSES.md`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L26) | 26 |
+| N-LNS-6 | [26](26-chess-lenses-oracles.md) | 64 | verified | [`x3d.chess@9eb14e9:docs/LENSES.md`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L26) | 26 |
+| N-LNS-9 | [26](26-chess-lenses-oracles.md) | 9 | verified | [`x3d.chess@9eb14e9:docs/LENSES.md`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L27) | 27 |
+| N-LNS-10 | [26](26-chess-lenses-oracles.md) | 4 | verified | [`x3d.chess@9eb14e9:tools/branches-test.mjs`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/tools/branches-test.mjs#L298) | 298 |
+| N-LNS-11 | [26](26-chess-lenses-oracles.md) | 3360 | verified | [`x3d.chess@9eb14e9:docs/LENSES.md`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L28) | 28 |
+| N-LNS-11 | [26](26-chess-lenses-oracles.md) | 64 | verified | [`x3d.chess@9eb14e9:docs/LENSES.md`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L28) | 28 |
+| N-LNS-11 | [26](26-chess-lenses-oracles.md) | 7 | verified | [`x3d.chess@9eb14e9:docs/LENSES.md`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L28) | 28 |
+| N-LNS-15 | [26](26-chess-lenses-oracles.md) | 6 | verified | [`x3d.chess@9eb14e9:docs/LENSES.md`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L7) | 7 |
+| N-LNS-15 | [26](26-chess-lenses-oracles.md) | 12 | verified | [`x3d.chess@9eb14e9:docs/LENSES.md`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L7) | 7 |
+| N-LNS-16 | [26](26-chess-lenses-oracles.md) | 6 | verified | [`x3d.chess@9eb14e9:docs/LENSES.md`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L11) | 11 |
+| N-LNS-16 | [26](26-chess-lenses-oracles.md) | 0.4 | verified | [`x3d.chess@9eb14e9:docs/LENSES.md`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L11) | 11 |
+| N-LNS-17 | [26](26-chess-lenses-oracles.md) | 0.04 | verified | [`x3d.chess@9eb14e9:viewer/js/skyline.js`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/viewer/js/skyline.js#L72) | 72 |
+| N-LNS-19 | [26](26-chess-lenses-oracles.md) | 0.16 | verified | [`x3d.chess@9eb14e9:tools/concepts-test.mjs`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/tools/concepts-test.mjs#L290) | 290 |
+| N-LNS-20 | [26](26-chess-lenses-oracles.md) | 3 | verified | [`x3d.chess@9eb14e9:viewer/js/main.js`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/viewer/js/main.js#L75) | 75 |
+| N-LNS-20 | [26](26-chess-lenses-oracles.md) | 10 | verified | [`x3d.chess@9eb14e9:viewer/js/main.js`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/viewer/js/main.js#L75) | 75 |
+| N-LNS-21 | [26](26-chess-lenses-oracles.md) | 40 | verified | [`x3d.chess@9eb14e9:viewer/js/main.js`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/viewer/js/main.js#L73) | 73 |
+| N-LNS-21 | [26](26-chess-lenses-oracles.md) | 100 | verified | [`x3d.chess@9eb14e9:viewer/js/main.js`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/viewer/js/main.js#L73) | 73 |
+| N-LNS-22 | [26](26-chess-lenses-oracles.md) | 60 | verified | [`x3d.chess@9eb14e9:viewer/js/skyline.js`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/viewer/js/skyline.js#L38) | 38 |
+| N-LNS-22 | [26](26-chess-lenses-oracles.md) | 240 | verified | [`x3d.chess@9eb14e9:viewer/js/lenses.js`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/viewer/js/lenses.js#L117) | 117 |
+| N-LNS-26 | [26](26-chess-lenses-oracles.md) | 8 | verified | [`x3d.chess@9eb14e9:evidence/lens-smoke.json`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/evidence/lens-smoke.json#L67) | 67 |
+| N-LNS-26 | [26](26-chess-lenses-oracles.md) | 192 | verified | [`x3d.chess@9eb14e9:evidence/lens-smoke.json`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/evidence/lens-smoke.json#L68) | 68 |
+| N-LNS-26 | [26](26-chess-lenses-oracles.md) | 0 | verified | [`x3d.chess@9eb14e9:evidence/lens-smoke.json`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/evidence/lens-smoke.json#L69) | 69 |
+| N-LNS-28 | [26](26-chess-lenses-oracles.md) | 13 | verified | [`x3d.chess@9eb14e9:evidence/lens-smoke.json`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/evidence/lens-smoke.json#L20) | 20 |
+| N-LNS-28 | [26](26-chess-lenses-oracles.md) | 8 | verified | [`x3d.chess@9eb14e9:evidence/lens-smoke.json`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/evidence/lens-smoke.json#L50) | 50 |
+| N-LNS-29 | [26](26-chess-lenses-oracles.md) | "153.0.8010.12" | verified | [`x3d.chess@9eb14e9:evidence/lens-smoke.json`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/evidence/lens-smoke.json#L10) | 10 |
+| N-LNS-29 | [26](26-chess-lenses-oracles.md) | "1.63.0" | verified | [`x3d.chess@9eb14e9:evidence/lens-smoke.json`](https://github.com/hagopjay/x3d.chess/blob/9eb14e9/evidence/lens-smoke.json#L9) | 9 |
 <!-- END GENERATED -->

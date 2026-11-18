@@ -3,7 +3,7 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-389 distinct instrument strings across the numbers registers.
+412 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
@@ -11,6 +11,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `same rig` | 36 | 08, 09, 13, 15 | C:36 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
+| `read` | 8 | 14, 24, 26 | C:8 |
 | `Node v22.23.4` | 7 | 17, 19 | C:7 |
 | `both engines` | 7 | 08 | C:7 |
 | `driver.py status` | 6 | 08 | C:6 |
@@ -29,8 +30,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `as reported, not re-checked` | 3 | 01, 22 | L:3 |
 | `count` | 3 | 02 | C:3 |
 | `inline Python` | 3 | 09 | C:3 |
-| `read` | 3 | 14, 24 | C:3 |
 | `run-tests.js` | 3 | 08 | C:3 |
+| `same receipt` | 3 | 26 | L:3 |
 | `wc -l` | 3 | 08, 10 | C:3 |
 | `x3d_mcp fork b4efcd3, seed 20261029` | 3 | 01, 03 | C:3 |
 | `Chromium 153 SwiftShader` | 2 | 18 | C:2 |
@@ -67,6 +68,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `BR.geo.speedOf; X_ITE formula (height + 10) / 10 x factor` | 1 | 08 | C:1 |
 | `Babylon 9.32.0 body vs X_ITE 16.6.0, SwiftShader` | 1 | 08 | C:1 |
 | `BrowserVerifierParity, Node 22.23.4` | 1 | 25 | C:1 |
+| `CHESS_TEST_PYTHON=python3 node tools/concepts-test.mjs, python-chess 1.11.2` | 1 | 26 | C:1 |
+| `CONCEPT_IDS.length, Node v22.23.5` | 1 | 26 | C:1 |
 | `Chromium 153 / Node v22.23.4` | 1 | 17 | C:1 |
 | `Chromium 153 SwiftShader; X_ITE 16.6.0; 96 spp` | 1 | 18 | C:1 |
 | `Chromium 153.0.8010.12 SwiftShader, X_ITE 16.6.0, three.js r187` | 1 | 08 | C:1 |
@@ -96,6 +99,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `Node v22.23.4, Rapier 0.21.0, cannon-es 0.20.0` | 1 | 17 | C:1 |
 | `Node v22.23.4, zod 4.6.7, ajv 8.20.0` | 1 | 16 | C:1 |
 | `Node v22.23.4; X_ITE 16.6.0` | 1 | 17 | C:1 |
+| `Node v22.23.5` | 1 | 26 | C:1 |
+| `Node v22.23.5, --max-old-space-size=200` | 1 | 26 | C:1 |
 | `PR descriptions via the masterclass; not re-derived` | 1 | 04 | L:1 |
 | `Python 3.13.18 arithmetic on the article's inputs` | 1 | 22 | C:1 |
 | `Python 3.13.18 ast` | 1 | 10 | C:1 |
@@ -162,6 +167,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `census_compare.py receipt` | 1 | 09 | C:1 |
 | `chain sketch, Python 3.13.18` | 1 | 01 | C:1 |
 | `check_learn.py at this commit` | 1 | 14 | C:1 |
+| `concepts test output line` | 1 | 26 | C:1 |
+| `concepts test, negative controls` | 1 | 26 | C:1 |
 | `contract table, matches accretion/gate.py constants per the review` | 1 | 25 | C:1 |
 | `converter formula, 2026-11-14` | 1 | 12 | C:1 |
 | `converter functions, 2026-11-14` | 1 | 12 | C:1 |
@@ -182,6 +189,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `driver.py status, x3d.loom@162ab18` | 1 | 08 | C:1 |
 | `estimate only, not run` | 1 | 25 | L:1 |
 | `evaluation/time_scene_evidence.py, median of 7 calls, engine dcba70d7, 4 cores` | 1 | 23 | C:1 |
+| `evidence/lens-smoke.json, Chromium 153.0.8010.12, SwiftShader, not re-run` | 1 | 26 | L:1 |
 | `examples/checkpoint.json` | 1 | 25 | C:1 |
 | `examples/eda_1_signal_and_noise.py` | 1 | 07 | C:1 |
 | `examples/eda_1_signal_and_noise.py --calibrate, seeds 1000 to 1149` | 1 | 07 | C:1 |
@@ -205,12 +213,14 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `grep, x_ite.min.js sha256 prefix b7df063e8cb1` | 1 | 08 | C:1 |
 | `inline Python, 15 scenes` | 1 | 09 | C:1 |
 | `inline Python, ls` | 1 | 09 | C:1 |
+| `inspector, chess.js, python-chess 1.11.2` | 1 | 26 | C:1 |
 | `js/test_vectors.js, Node 22; the committed file holds 968 of them` | 1 | 23 | C:1 |
 | `jsonschema 4.26.0` | 1 | 16 | C:1 |
 | `ktx2-encoder 0.6.0` | 1 | 19 | C:1 |
 | `len(FIELDS) is 25, Python 3.13.18` | 1 | 25 | C:1 |
 | `libxml2 2.14.6, as reported` | 1 | 01 | L:1 |
 | `libxml2 2.14.6, fork 56809ca to the PR #15 change` | 1 | 01 | L:1 |
+| `list read; tests run` | 1 | 26 | C:1 |
 | `loomkit 162ab18` | 1 | 03 | C:1 |
 | `loomkit 162ab18 evidence records` | 1 | 03 | C:1 |
 | `loomkit 162ab18, read` | 1 | 03 | C:1 |
@@ -228,7 +238,12 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `measure/m_grounding.py, lexical matcher (an upper bound on quoting)` | 1 | 23 | L:1 |
 | `measure/m_tamper.py, seed 20261116, 40 scenes, 656 claims` | 1 | 23 | C:1 |
 | `node --test, Node v22.23.4` | 1 | 19 | C:1 |
+| `node tools/branches-test.mjs, vendored Stockfish under Node` | 1 | 26 | C:1 |
+| `node tools/inspector-test.mjs, python-chess 1.11.2` | 1 | 26 | C:1 |
 | `node tools/pages_smoke.js, Chromium 153.0.8010.12, software GL` | 1 | 25 | C:1 |
+| `node tools/skyline-test.mjs` | 1 | 26 | C:1 |
+| `node tools/terrain-test.mjs, python-chess 1.11.2` | 1 | 26 | C:1 |
+| `node tools/transport-tests.mjs, Node v22.23.5` | 1 | 26 | C:1 |
 | `none` | 1 | 12 | C:1 |
 | `not run (no Blender here)` | 1 | 03 | S:1 |
 | `npm 10.9.9` | 1 | 06 | C:1 |
@@ -245,6 +260,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `physics.py docstring; last-run.json` | 1 | 02 | C:1 |
 | `physx_controls.py` | 1 | 02 | C:1 |
 | `pip index versions, npm view` | 1 | 10 | C:1 |
+| `prose loses; the test file defines four cases` | 1 | 26 | C:1 |
 | `pyshacl 0.40.2, owlrl 7.6.2` | 1 | 05 | C:1 |
 | `pytest, Python 3.13.18` | 1 | 23 | C:1 |
 | `python -m unittest discover, CPython 3.13.18, mcp 2.3.0` | 1 | 24 | C:1 |
@@ -265,6 +281,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `read, physx-bridge/tests/analytic.test.ts evidence` | 1 | 13 | L:1 |
 | `read, ten-minute-physics/ERRATA-v1-v4.md` | 1 | 13 | L:1 |
 | `read, x3d.loom@162ab18:x3d.physics/runs/physx-grand-cascade-chromium.physics.json` | 1 | 13 | L:1 |
+| `read; test near(capY(z,0)-baseRingY(z,0),SKY.MIN_H)` | 1 | 26 | C:1 |
+| `read; total derived by multiplication` | 1 | 26 | C:1 |
 | `reasoned from the [C] rows above` | 1 | 01 | L:1 |
 | `receipt read` | 1 | 09 | C:1 |
 | `receipt read, arithmetic` | 1 | 09 | C:1 |
@@ -294,6 +312,8 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `same rig, unmatched Cycles` | 1 | 18 | C:1 |
 | `same rig, wall-clock wait` | 1 | 13 | C:1 |
 | `same rigs` | 1 | 17 | C:1 |
+| `same run` | 1 | 26 | C:1 |
+| `same run, coverage block` | 1 | 26 | C:1 |
 | `same validator, receipt` | 1 | 09 | C:1 |
 | `same, 3 peers x 300 ops` | 1 | 21 | C:1 |
 | `same, 44 shader workers` | 1 | 12 | C:1 |
@@ -309,6 +329,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `scratch copy, Python 3.13.18` | 1 | 07 | C:1 |
 | `script over the section 5 table` | 1 | 08 | C:1 |
 | `shell over banners` | 1 | 06 | C:1 |
+| `skyline test line 187 and a direct call, Node v22.23.5` | 1 | 26 | C:1 |
 | `splat_io.write_ply, 1,000 splats` | 1 | 10 | C:1 |
 | `stated in docs/PAGES.md, not separately measured` | 1 | 24 | L:1 |
 | `stated in the repo, not re-derived at its commit` | 1 | 03 | L:1 |
@@ -318,6 +339,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `stats.SplitMix64` | 1 | 07 | C:1 |
 | `stats.bh_q` | 1 | 07 | C:1 |
 | `teardown method, not reproduced` | 1 | 10 | L:1 |
+| `test comment; pre-fix tree not in the checkout` | 1 | 26 | L:1 |
 | `test_eda_infer, test_eda_js_parity, Node 22.23.4` | 1 | 07 | C:1 |
 | `tests/fixtures/trace_conformance.json` | 1 | 23 | C:1 |
 | `tests/suite/x3d_test_suite.py on bpy 5.3.0` | 1 | 10 | C:1 |
@@ -326,6 +348,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `tests/tuples.test.ts` | 1 | 16 | C:1 |
 | `the launch note; superseded by N-MLB-8` | 1 | 24 | L:1 |
 | `three r187, SwiftShader` | 1 | 21 | C:1 |
+| `tools/concepts_gen.py constants, 327 minus 300` | 1 | 26 | C:1 |
 | `tools/corpus.py, x3d_mcp fork fbe165f` | 1 | 16 | C:1 |
 | `tools/fuzz.mjs, seed 1, 966 source scenes` | 1 | 16 | C:1 |
 | `unittest discover, Git 2.43.0, Python 3.13.18` | 1 | 07 | C:1 |

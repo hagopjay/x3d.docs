@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**193 drills**, 179 with a recorded run (`Checked`), 14 not yet run. Levels: L1 37, L2 102, L3 54.
+**201 drills**, 187 with a recorded run (`Checked`), 14 not yet run. Levels: L1 39, L2 106, L3 56.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -200,4 +200,12 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-ACC-8 | [25](25-accretion-gated-growth.md) | L3 | Fuzz the gate | 2026-11-17 `x3d.accrete@93063bf`, Python 3.13.18 (the rename extension: not run) |
 | D-ACC-9 | [25](25-accretion-gated-growth.md) | L2 | Profile an append | 2026-11-17 `x3d.accrete@93063bf`, Python 3.13.18, lxml 6.1.3 |
 | D-ACC-10 | [25](25-accretion-gated-growth.md) | L2 | Browser parity | 2026-11-17 `x3d.accrete@93063bf`, Node 22.23.4, Chromium 153.0.8010.12 (Playwright, software GL) |
+| D-LNS-1 | [26](26-chess-lenses-oracles.md) | L1 | Count the lenses and the concepts | 2026-11-18 `x3d.chess@9eb14e9`, Node v22.23.5 |
+| D-LNS-2 | [26](26-chess-lenses-oracles.md) | L2 | Re-run the oracles | 2026-11-18 `x3d.chess@9eb14e9`, Node v22.23.5, python-chess 1.11.2 |
+| D-LNS-3 | [26](26-chess-lenses-oracles.md) | L3 | Delete the wdl branch | 2026-11-18 `x3d.chess@9eb14e9`, Node v22.23.5, scratch copy |
+| D-LNS-4 | [26](26-chess-lenses-oracles.md) | L3 | Delete the k guard | 2026-11-18 `x3d.chess@9eb14e9`, Node v22.23.5, scratch copy |
+| D-LNS-5 | [26](26-chess-lenses-oracles.md) | L2 | One square, four answers | 2026-11-18 `x3d.chess@9eb14e9`, chess.js as vendored, python-chess 1.11.2 |
+| D-LNS-6 | [26](26-chess-lenses-oracles.md) | L2 | The neighbourhood of zero | 2026-11-18 `x3d.chess@9eb14e9`, Node v22.23.5 |
+| D-LNS-7 | [26](26-chess-lenses-oracles.md) | L2 | Count what the random test met | 2026-11-18 `x3d.chess@9eb14e9`, Node v22.23.5, python-chess 1.11.2 |
+| D-LNS-8 | [26](26-chess-lenses-oracles.md) | L1 | Read the native receipt | 2026-11-18 `x3d.chess@9eb14e9`, Python 3 |
 <!-- END GENERATED -->
