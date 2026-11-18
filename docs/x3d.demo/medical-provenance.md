@@ -31,3 +31,7 @@ Per-shape SHA-256 of the canonical claim list in each MetadataSet, plus one root
 ## v4 (`medical-provenance/v4/`): a jointed H-Anim skeleton
 
 A real `HAnimHumanoid` built from the CT bones: 35 joints, 35 segments (34 bones plus a pelvis), FMA id and claim digest on each segment, posable in the page. Valid, 0 errors (x3d_mcp `fa5dccf`); all 35 joint and 35 segment names in the XSD enumerations; forward-kinematics error 0.000000 m. Joint centres are estimated from the meshes (grade S). Ribs, sternum and cartilage have no H-Anim segment and are drawn outside it. CT scene (+X patient-right, +Z posterior) needs a 180 degree turn about Y for H-Anim. Headless Chromium, software GL, X_ITE 16.6.0; other H-Anim players not tested.
+
+## v5 (`medical-provenance/v5/`): open BodyParts3D meshes vs the CT surfaces
+
+100 of 110 torso shapes with an FMA class are paired by FMA id with the open BodyParts3D mesh (998 element files), fitted into the CT frame (scale 0.9397, rotation 10.6 degrees, similarity fit, 67 structures) and compared by mean surface distance: 27 close (under 15 mm), 56 partial, 17 far; spine median 10.8 mm. The 17 far ones are posture and extent differences, not bad meshes. Both scenes valid, 0 errors (x3d_mcp `fa5dccf`); headless Chromium, software GL, X_ITE 16.6.0. **Licence flag:** BodyParts3D headers say CC BY-SA 2.1 Japan, the current page says CC BY 4.0; the derived mesh file is shipped under the stricter reading with a notice, for the owner to confirm. Next: an articulated fit with the v4 joints.
