@@ -75,3 +75,30 @@ with the reviewer's own probe scripts before the fix and re-run after.
 
 Lesson: "unchanged" can only be claimed about a declared set, and "atomic" about every file a publication touches.
 Anything undeclared is unknown, and unknown must not pass.
+
+## Fourth review (18 Nov 2026, night)
+
+The fourth pass confirmed the round-3 repairs and asked for automatic promotion to be blocked until identity and
+numerical checks were repaired. Every item was reproduced on main with the reviewer's probes (Python 3.13.18, Node
+22, linkedom 0.18.12; no browser or GPU), fixed, and kept as a control: x3d.loom `review4_controls`, 20 new, 135
+caught in all, plain and `-O`; x3d.demo tiles3d suite 33 of 33.
+
+| # | Finding | Grade | Fix | Where |
+|---|---|---|---|---|
+| 1 | Profile read twice: the attested hash was not of the evaluated bytes | C | one read, parsed and hashed | x3d.loom #128 |
+| 2, 3 | Symlinked scorer and renamed scorer data escaped the base hash | C | tree inventory against the globs, symlink text and resolved hash, before and after the patch | same |
+| 4 | Optional pass from another candidate shown as pass | C | `stale` status | same |
+| 5, 6 | Comparator typo read as `at least`; empty controls passed | C | closed rule set; `PHYS_NO_CONTROLS` | same |
+| 7, 9 | Runs keyed by basename; waiver cap per run, profile says total | C | relative-path keys, distinct ids, total cap | same |
+| 8 | Signature + IEND passed as a decodable PNG | C | stdlib bounded decoder | same |
+| 10 | Forced receipt inside evidence inventoried itself | C | refused (`RECEIPT_INSIDE_EVIDENCE`) | same |
+| — | NaN limit, arbitrary `--prev`, forced-pair rollback, stdlib schema fallback, glob language per Python version, absent coverage key, cached-bytecode replay | C | strict JSON; predecessor must verify; originals copied aside and restored; typed profile parse; one glob language; key required; replay in a fresh clone | same |
+| — | Committed-limit metric identity (a limit matched by value, not by metric) | L | documented as open | same |
+| — | Blender timers, hover and anisotropic proximity | C | blenderizer lane | x3d-blender-io #50 |
+| G1 | Parent scale left out of geometricError (range 814.8 m, expected 1629.6 m) | C | largest axis scale applied | x3d.demo #106, tiles3d v2.3 |
+| G2 | `viewerRequestVolume` dropped silently | C | refused; recorded under `--allow-lossy` | same |
+| — | Splat page: idle pane counted, so the slow note appeared; viewer library had no deadline | C | started panes only; shared loader with deadline and Retry | blender-splat v4 |
+
+Lesson: every set Loom vouches for (the profile, the scorer, the runs, the visible witnesses) must be read once, keyed
+by full identity, and closed. An open set or a second read is where a wrong pass gets in. Real-GPU timing remains
+open, and the Web3D report remains unsent.
