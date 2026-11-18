@@ -35,3 +35,11 @@ Build-time label declutter runs on all 16 scenes.
 | Label overlaps at default view | type sphere 73 → 0, sankey 19 → 0 | build-time projection |
 
 **Remember.** A ClipPlane animates with no script when it rides a Transform while the content counter-moves. **Open.** Relief colour is still desaturated under PBR, and there is no GPU run.
+
+## v2.1 and v2.2: an honest receipt
+
+- **v2.1** (`docs/demos/d3-bridge/v2.1/`) fixed three review findings. The validator now fails loudly (exit 1 on an error, exit 2 on an empty set). Every scene declares Rendering level 5 for ClipPlane. The page no longer throws without WebGL.
+- **v2.2** (`docs/demos/d3-bridge/v2.2/`) cleans the scene files. A DEF is kept only when the file USEs it, a ROUTE names it, or the page reaches it by SAI. Names the page addresses are declared with `<EXPORT>`. A label's hidden LOD level is a `WorldInfo`, not an empty `Group`.
+- **Result** (x3d_mcp `semantic_diagnostics`, fa5dccf): v2.1 had 64 warnings and 1,305 info notes, and v2.2 has 0 and 0. 16 of 16 scenes still load with 0 console errors (headless Chromium, SwiftShader, X_ITE 16.6.0).
+
+**Remember.** A receipt that lumps the checker's grades together overstates the problem. Report errors, warnings and info separately. The reusable pass is in x3d.loom `kit/d3-x3d/hygiene.mjs`.
