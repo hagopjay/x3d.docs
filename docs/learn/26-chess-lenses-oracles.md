@@ -255,6 +255,18 @@ The receipt is `evidence/lens-smoke.json`, schema `x3dchess.browser-smoke/1`, st
 | 5 | the server transport has no analysis endpoint | engine lines work only with `engine=wasm` | [C] read |
 | 6 | the eight defects have no before-fix tree to re-run | section 4.1 reproduces two by deleting a guard; six are read from comments | [C] |
 
+## 10. When the library lacks the rule: Chess960 castling [C]
+
+chess.js 1.4 cannot castle in Chess960 and, worse, emits a wrong `O-O` for a king on b1 with rooks on a1 and f1. The port keeps chess.js for every ordinary move and adds only what is missing, then lets an independent oracle say whether that is enough.
+
+* **Hide the unsupported rule from the library.** Load every position with castling `-`, so chess.js can never emit a wrong castle, and keep the real rights (one rook file per side per colour) in a wrapper. `fen()` stays chess.js-readable for every overlay; a second `fen960()` carries Shredder letters for Stockfish and python-chess.
+* **Reuse the library's own turn passing.** A castle is two `remove` and two `put` calls plus chess.js's null move, so the move number, half-move clock and history stay right with no private bookkeeping.
+* **Check the final position, not just the path.** Moving the castling rook can open a line onto the king (king c1, rook b1, enemy rook a1). A path-only rule accepts it; the wrapper tries the castle on a scratch board and asks `isAttacked`.
+* **Compare to the oracle at every ply.** python-chess `chess960=True` played castling-biased games (260 games, 25,465 plies, 235 castles, all four kinds); the wrapper's legal-move set, SAN, FEN and seven terminal flags matched at every ply. A spot-check list could not have found the shielded-rook case or the castle-only stalemate that chess.js would call a stalemate by mistake.
+* **Keep encodings separate.** The engine speaks king-takes-own-rook (`e1h1`); the board highlights king to destination. Events carry both (`uci`, `engine_uci`), and engine lines are verified against the Shredder FEN so a castling line is drawn instead of dropped.
+
+Instrument: `x3d.chess` `tools/chess960-test.mjs` with python-chess 1.11.2, Node 22, vendored Stockfish 19 lite WASM under Node and in Chromium 153 (SwiftShader). Not measured: hardware GPU, frame rate, and the lenses' analysis of castling rights, which read the compat FEN.
+
 ---
 
 ## Heuristics
