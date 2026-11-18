@@ -19,10 +19,10 @@ blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;backgr
 .nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
 details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
 .foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
-</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><a href="24-shaders-vulkan-contracts.html">24. Shaders and Vulkan: what the explicit APIs teach an X3D renderer</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a class="cur" href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="C-numbers-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/C-numbers-ledger.md">GitHub</a></div><h1>Appendix C. Numbers ledger</h1>
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><a href="24-math-lab-static-host.html">24. Math Lab: one model owner, two transports</a><a href="25-accretion-gated-growth.html">25. Accretion: an append-only X3D world grown one gated patch at a time</a><a href="26-chess-lenses-oracles.html">26. Lenses on a chess board: a claim is not a picture</a><a href="27-shaders-vulkan-contracts.html">27. Shaders and Vulkan: what the explicit APIs teach an X3D renderer</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a class="cur" href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="C-numbers-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/C-numbers-ledger.md">GitHub</a></div><h1>Appendix C. Numbers ledger</h1>
 <p>Merged from the <em>Numbers register</em> of every chapter by <code>tools-shared/build_learn.py</code>. Edit the chapter, not this file.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>606 numbers</strong> from 24 chapters. Grades: <span class="g C" title="Confirmed">C</span> 556 · <span class="g L" title="Likely">L</span> 44 · <span class="g S" title="Suspected">S</span> 6. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
+<p><strong>682 numbers</strong> from 27 chapters. Grades: <span class="g C" title="Confirmed">C</span> 618 · <span class="g L" title="Likely">L</span> 58 · <span class="g S" title="Suspected">S</span> 6. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
 <table>
 <thead>
 <tr>
@@ -5356,8 +5356,692 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><code>x3d.ml@305fd60:docs/TRACE-REVIEW.md</code></td>
 </tr>
 <tr>
+<td>N-MLB-1</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>floats compared across CPython 3.13.18 and Pyodide 0.27.7, six lessons</td>
+<td>16,383</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>default parameters, Playwright 1.63.0 Chromium</td>
+<td><code>x3d.mathslab@24c9bbd:receipts/runtime-parity.json</code></td>
+</tr>
+<tr>
+<td>N-MLB-2</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>floats that differ, total (linear 18, derivative 5, fourier 20)</td>
+<td>43</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-MLB-3</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>floats in the three bit-identical lessons (integral, lorenz, gradient)</td>
+<td>12,320</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-MLB-4</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>largest absolute float difference</td>
+<td>4.441e-16</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-MLB-5</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>lessons whose <code>sample_sha256</code> is equal across runtimes</td>
+<td>3 of 6</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-MLB-6</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td><code>math.ulp</code> at 1.0; at 2.0</td>
+<td>2.220446049250313e-16; 4.440892098500626e-16</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>math.ulp</code>, Python 3.13.18</td>
+<td>drill D-MLB-3, run</td>
+</tr>
+<tr>
+<td>N-MLB-7</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>lessons rendered from Pyodide; console errors</td>
+<td>6 of 6; 0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Chromium 153.0.8010.12, Playwright 1.63.0, software GL</td>
+<td><code>x3d.mathslab@24c9bbd:receipts/browser-smoke-pages.json</code></td>
+</tr>
+<tr>
+<td>N-MLB-8</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>first native scene, Pages; server</td>
+<td>5.159 s; 1.833 s</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same, both receipts</td>
+<td><code>receipts/browser-smoke-pages.json</code>, <code>receipts/browser-smoke-server.json</code></td>
+</tr>
+<tr>
+<td>N-MLB-9</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>lesson switch, Pages; server (each includes a 1.5 s settle wait)</td>
+<td>2.219 to 2.550 s; 1.950 to 2.196 s</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-MLB-10</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>first native scene, as written in the launch note</td>
+<td>4.6 to 5.0 s</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>the launch note; superseded by N-MLB-8</td>
+<td><code>x3d.loom</code> <code>LEARNINGS-mathlab.md</code></td>
+</tr>
+<tr>
+<td>N-MLB-11</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>Pyodide runtime download, first load</td>
+<td>about 10 MB</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>stated in <code>docs/PAGES.md</code>, not separately measured</td>
+<td><code>x3d.mathslab@24c9bbd:docs/PAGES.md</code></td>
+</tr>
+<tr>
+<td>N-MLB-12</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>tests failed under mcp 2.3.0 out of the old suite</td>
+<td>4 of 89</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>python -m unittest discover</code>, CPython 3.13.18, mcp 2.3.0</td>
+<td><code>x3d.mathslab@24c9bbd:docs/FOLDBACK.md</code></td>
+</tr>
+<tr>
+<td>N-MLB-13</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>tests passing after the shim; stdio probe checks</td>
+<td>93 of 93; 6 of 6</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td><code>x3d.mathslab@24c9bbd:receipts/release-checks.json</code>, <code>receipts/math-mcp.json</code></td>
+</tr>
+<tr>
+<td>N-MLB-14</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>mcp version in the older receipt; in the newer receipt</td>
+<td>1.29.0; 2.3.0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read</td>
+<td><code>x3d.mathslab@24c9bbd:VALIDATION.md</code>, <code>receipts/math-mcp.json</code></td>
+</tr>
+<tr>
+<td>N-MLB-15</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>request cap; response budget</td>
+<td>32 KiB; 4 MiB</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read, not run here</td>
+<td><code>x3d.mathslab@24c9bbd:docs/PAGES.md</code></td>
+</tr>
+<tr>
+<td>N-MLB-16</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>root nodes per scene</td>
+<td>8</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Chromium 153.0.8010.12, Playwright 1.63.0</td>
+<td><code>x3d.mathslab@24c9bbd:receipts/browser-smoke-pages.json</code></td>
+</tr>
+<tr>
+<td>N-MLB-17</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>generated Manim source, gradient lesson</td>
+<td>104,672 bytes</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-MLB-18</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>X3D validation: worlds passed; negative twins caught</td>
+<td>6; 2</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>x3d_mcp</code> commit <code>b5c9956</code>, XSD 4.0, semantic vocabulary 4.1, direct calls</td>
+<td><code>x3d.mathslab@24c9bbd:receipts/x3d-validation.json</code></td>
+</tr>
+<tr>
+<td>N-MLB-19</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>overlay: canvas hidden by the equation card at 1440x900</td>
+<td>about 100 px</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>before and after screenshots, Playwright 1.63.0, in the launch note, not retained</td>
+<td><code>x3d.loom</code> <code>LEARNINGS-mathlab.md</code></td>
+</tr>
+<tr>
+<td>N-MLB-20</td>
+<td><a href="24-math-lab-static-host.html">24</a></td>
+<td>field-of-view scale applied after load</td>
+<td>0.75</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read</td>
+<td><code>x3d.mathslab@24c9bbd:web/app.js</code></td>
+</tr>
+<tr>
+<td>N-ACC-1</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>unit tests: as supplied; with static viewer and review fixes</td>
+<td>85; 99</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>python3 -I -m unittest discover -s tests -p 'test_*.py'</code>, Python 3.13.18, lxml 6.1.3</td>
+<td><code>x3d.accrete@93063bf:tests/test_review_fixes.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-2</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>tests per file at <code>93063bf</code>: gate; generator; adapter; http; world; review fixes; static export</td>
+<td>28; 13; 15; 9; 20; 7; 7</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>grep -c &quot;    def test_&quot; tests/test_*.py</code></td>
+<td><code>x3d.accrete@93063bf:tests/test_static_export.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-3</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>node types in the gate vocabulary, plus ROUTE</td>
+<td>24</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>len(FIELDS)</code> is 25, Python 3.13.18</td>
+<td><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-4</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>raw fragment cap; canonical cap (KiB)</td>
+<td>12; 24</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>contract table, matches <code>accretion/gate.py</code> constants per the review</td>
+<td><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-5</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>source nodes; nesting depth; expanded geometry instances</td>
+<td>80; 16; 160</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ACC-6</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>float32 floor for sizes and scales</td>
+<td>1.1754944e-38</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>FLOAT32_MIN_NORMAL</code> in the gate</td>
+<td><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-7</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>review: lanes; findings; verifiers per finding; agents</td>
+<td>6; 45; 2; 80</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>review method as written, not repeated</td>
+<td><code>x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-8</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>review mutation-fuzz runs, uncaught exceptions</td>
+<td>30,000; 0</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>review file, script not in the repository</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ACC-9</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>own mutation run: runs; pass; fail; exceptions; passes with a foreign tag</td>
+<td>5,000; 402; 4,598; 0; 0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>drill D-ACC-8, seed 20261117, Python 3.13.18</td>
+<td><code>x3d.accrete@93063bf:accretion/gate.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-10</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>box size 1e-320 and scale 1e-40: gate, XSD, semantic verdicts as supplied; after the fix</td>
+<td>pass, pass, pass; fail</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>drill D-ACC-3, <code>x3d_mcp@b5c9956</code>, lxml 6.1.3</td>
+<td><code>x3d.accrete@52ba996:accretion/gate.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-11</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td><code>PhysicalMaterial</code> verdicts: gate; XSD; semantic</td>
+<td>pass; pass; fail (<code>profile-component</code>)</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>drill D-ACC-4, <code>x3d_mcp@b5c9956</code></td>
+<td><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-12</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>foreign Host header on <code>/api/world</code>: as supplied; after the fix (HTTP status)</td>
+<td>200; 403</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>drill D-ACC-6, curl</td>
+<td><code>x3d.accrete@93063bf:tests/test_review_fixes.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-13</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td><code>HEAD /api/status</code>: as supplied; after the fix (HTTP status)</td>
+<td>404; 200</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ACC-14</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>forged last entry verifies without a checkpoint; with the shipped one</td>
+<td>true; false</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>drill D-ACC-5</td>
+<td><code>x3d.accrete@93063bf:accretion/world.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-15</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>shipped checkpoint head; hash prefix</td>
+<td>24; 307fab65</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>examples/checkpoint.json</code></td>
+<td><code>x3d.accrete@93063bf:examples/checkpoint.json</code></td>
+</tr>
+<tr>
+<td>N-ACC-16</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>96-entry build wall time, four runs (s)</td>
+<td>3.84; 4.01; 4.40; 4.02</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>python3 tools/build_demo.py --count 96</code>, 4 vCPU</td>
+<td><code>x3d.accrete@93063bf:tools/build_demo.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-17</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>two builds of 96: identical seeds; identical raw fragments; distinct tail hashes over four builds</td>
+<td>1 of 96; 1 of 96; 4 of 4</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>drill D-ACC-7</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ACC-18</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>browser verification of the committed payload: entries checked; console errors</td>
+<td>96 of 96; 0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>node tools/pages_smoke.js</code>, Chromium 153.0.8010.12, software GL</td>
+<td><code>x3d.accrete@93063bf:tools/pages_smoke.js</code></td>
+</tr>
+<tr>
+<td>N-ACC-19</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>static payload: files; bytes</td>
+<td>197; 4,280,343</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>find web/static-world -type f</code></td>
+<td><code>x3d.accrete@93063bf:web/static-world/manifest.json</code></td>
+</tr>
+<tr>
+<td>N-ACC-20</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>parity cases: archives compared; of which tampered; float formatter values</td>
+<td>8; 7; 8</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>BrowserVerifierParity</code>, Node 22.23.4</td>
+<td><code>x3d.accrete@93063bf:tests/test_static_export.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-21</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>profile of 96 appends: total; <code>validate_scene</code>; <code>_get_schema</code>; <code>strict_json</code> calls; <code>strict_json</code> time (s)</td>
+<td>5.151; 2.970; 1.394; 19,008; 1.073</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>python3 -m cProfile -s cumtime tools/build_demo.py --count 96</code></td>
+<td><code>x3d.accrete@93063bf:accretion/world.py</code></td>
+</tr>
+<tr>
+<td>N-ACC-22</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>README benchmark at 100 entries: append total (s); verify (ms); JSON bytes; X3D bytes</td>
+<td>4.333; 28.118; 1,819,603; 266,921</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>reports/store-scaling.json</code> as quoted in the README, not re-run</td>
+<td><code>x3d.accrete@93063bf:README.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-23</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>projected 1,000-entry run; stop rule (s)</td>
+<td>154.386; 90</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>estimate only, not run</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ACC-24</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>loaded records; detail budgets; entry cap</td>
+<td>512; 24, 48, 96; 10,000</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>README text, matches <code>serve.py</code> constants per the review</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-ACC-25</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>review sweep: candidates; seeds; failures</td>
+<td>1200; 40; 0</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>review file, not re-run</td>
+<td><code>x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md</code></td>
+</tr>
+<tr>
+<td>N-ACC-26</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>vendored files matching upstream blobs; upstream commits ahead of the pin</td>
+<td>19 of 19; 10</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>review file, not re-run</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-LNS-1</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>opt-in overlays in the change</td>
+<td>5</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-2</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>concepts in the concept lens</td>
+<td>13</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>CONCEPT_IDS.length</code>, Node v22.23.5</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-3</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>terrain checks, both modes, vs python-chess</td>
+<td>609</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>node tools/terrain-test.mjs</code>, python-chess 1.11.2</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-4</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>concepts checks; positions</td>
+<td>50,112; 327</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>CHESS_TEST_PYTHON=python3 node tools/concepts-test.mjs</code>, python-chess 1.11.2</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-5</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>concepts positions: random; classic; generator seed</td>
+<td>300; 27; 20261117</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>tools/concepts_gen.py</code> constants, 327 minus 300</td>
+<td><code>x3d.chess@9eb14e9:tools/concepts_gen.py</code></td>
+</tr>
+<tr>
+<td>N-LNS-6</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>inspector tests; random positions x squares</td>
+<td>35; 100 x 64</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>node tools/inspector-test.mjs</code>, python-chess 1.11.2</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-7</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>inspector run coverage: en passant; castle; promotion; check; pinned</td>
+<td>21; 21; 92; 20; 12</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same run, coverage block</td>
+<td><code>x3d.chess@9eb14e9:tools/inspector-test.mjs</code></td>
+</tr>
+<tr>
+<td>N-LNS-8</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>inspector run: illegal geometric attackers; attackers with no move to ask about</td>
+<td>698; 4,080</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same run</td>
+<td><code>x3d.chess@9eb14e9:tools/inspector-test.mjs</code></td>
+</tr>
+<tr>
+<td>N-LNS-9</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>branches: test groups; engine setting</td>
+<td>9; MultiPV 3, depth 8</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>node tools/branches-test.mjs</code>, vendored Stockfish under Node</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-10</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>branches real-engine cases: in the prose; in the test</td>
+<td>3; 4</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>prose loses; the test file defines four cases</td>
+<td><code>x3d.chess@9eb14e9:tools/branches-test.mjs</code></td>
+</tr>
+<tr>
+<td>N-LNS-11</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>skyline checks; board range; documents validated</td>
+<td>3,360; 1 to 64; 7</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>node tools/skyline-test.mjs</code></td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-12</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>transport tests run; passed</td>
+<td>17; 17</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>node tools/transport-tests.mjs</code>, Node v22.23.5</td>
+<td><code>x3d.chess@9eb14e9:tools/transport-tests.mjs</code></td>
+</tr>
+<tr>
+<td>N-LNS-13</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>mutated concept fixtures detected</td>
+<td>19</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>concepts test, negative controls</td>
+<td><code>x3d.chess@9eb14e9:tools/concepts-test.mjs</code></td>
+</tr>
+<tr>
+<td>N-LNS-14</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>colour-flip and file-mirror symmetry positions</td>
+<td>1,507</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>concepts test output line</td>
+<td><code>x3d.chess@9eb14e9:tools/concepts-test.mjs</code></td>
+</tr>
+<tr>
+<td>N-LNS-15</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>terrain caps: count mode; material mode</td>
+<td>6; 12</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-16</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>skyline height: pawns clamp; units per pawn</td>
+<td>6; 0.4</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-17</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>skyline hairline thickness for cp = 0</td>
+<td>0.04</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read; test <code>near(capY(z,0)-baseRingY(z,0),SKY.MIN_H)</code></td>
+<td><code>x3d.chess@9eb14e9:viewer/js/skyline.js</code></td>
+</tr>
+<tr>
+<td>N-LNS-18</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>skyline labels for +5, -5, +4, -4, 0 cp</td>
+<td>+0.1; -0.1; +0.0; -0.0; 0.0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>skyline test line 187 and a direct call, Node v22.23.5</td>
+<td><code>x3d.chess@9eb14e9:tools/skyline-test.mjs</code></td>
+</tr>
+<tr>
+<td>N-LNS-19</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>pennant spill before the fix (units off the h-file)</td>
+<td>0.16</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>test comment; pre-fix tree not in the checkout</td>
+<td><code>x3d.chess@9eb14e9:tools/concepts-test.mjs</code></td>
+</tr>
+<tr>
+<td>N-LNS-20</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>engine lines from the app button: MultiPV; depth</td>
+<td>3; 10</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read</td>
+<td><code>x3d.chess@9eb14e9:viewer/js/main.js</code></td>
+</tr>
+<tr>
+<td>N-LNS-21</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>hold wait: polls; interval (ms); total (s)</td>
+<td>40; 100; 4</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read; total derived by multiplication</td>
+<td><code>x3d.chess@9eb14e9:viewer/js/main.js</code></td>
+</tr>
+<tr>
+<td>N-LNS-22</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>ribbon window (plies); controller history cap</td>
+<td>60; 240</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read</td>
+<td><code>x3d.chess@9eb14e9:viewer/js/skyline.js</code></td>
+</tr>
+<tr>
+<td>N-LNS-23</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>f6 position: control balance; legal moves; legal destinations on f6</td>
+<td>+1; 4; 0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>inspector, chess.js, python-chess 1.11.2</td>
+<td><code>x3d.chess@9eb14e9:docs/CHESS-REVIEW.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-24</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>scratch mutation: k guard deleted, heap 200 MB: exit code</td>
+<td>134</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Node v22.23.5, <code>--max-old-space-size=200</code></td>
+<td><code>x3d.chess@9eb14e9:viewer/js/terrain.js</code></td>
+</tr>
+<tr>
+<td>N-LNS-25</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>scratch mutation: wdl branch deleted: bound read</td>
+<td>exact</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Node v22.23.5</td>
+<td><code>x3d.chess@9eb14e9:viewer/js/branches.js</code></td>
+</tr>
+<tr>
+<td>N-LNS-26</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>native run: boards; pieces; misplaced; console errors</td>
+<td>8; 192; 0; 0</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>evidence/lens-smoke.json</code>, Chromium 153.0.8010.12, SwiftShader, not re-run</td>
+<td><code>x3d.chess@9eb14e9:evidence/lens-smoke.json</code></td>
+</tr>
+<tr>
+<td>N-LNS-27</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>native run: engine-line scores (cp, White POV) at depth 10</td>
+<td>-74; -71; -70</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>same receipt</td>
+<td><code>x3d.chess@9eb14e9:evidence/lens-smoke.json</code></td>
+</tr>
+<tr>
+<td>N-LNS-28</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>native run: concepts cycled; skyline columns</td>
+<td>13; 8</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>same receipt</td>
+<td><code>x3d.chess@9eb14e9:evidence/lens-smoke.json</code></td>
+</tr>
+<tr>
+<td>N-LNS-29</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>native run rig: Chromium; Playwright</td>
+<td>153.0.8010.12; 1.63.0</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>same receipt</td>
+<td><code>x3d.chess@9eb14e9:evidence/lens-smoke.json</code></td>
+</tr>
+<tr>
+<td>N-LNS-30</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>lens defects found by adversarial review, each with a regression test</td>
+<td>8</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>list read; tests run</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
 <td>N-SVK-1</td>
-<td><a href="24-shaders-vulkan-contracts.html">24</a></td>
+<td><a href="27-shaders-vulkan-contracts.html">27</a></td>
 <td>byte for linear 0.5 under X_ITE's 2.2 encode</td>
 <td>186</td>
 <td>C</td>
@@ -5366,7 +6050,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>N-SVK-2</td>
-<td><a href="24-shaders-vulkan-contracts.html">24</a></td>
+<td><a href="27-shaders-vulkan-contracts.html">27</a></td>
 <td>byte for linear 0.5 under exact sRGB</td>
 <td>187.52 (byte 188)</td>
 <td>C</td>
@@ -5375,7 +6059,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>N-SVK-3</td>
-<td><a href="24-shaders-vulkan-contracts.html">24</a></td>
+<td><a href="27-shaders-vulkan-contracts.html">27</a></td>
 <td>X_ITE <code>GAMMA</code> constant</td>
 <td>2.2</td>
 <td>C</td>
@@ -5384,7 +6068,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>N-SVK-4</td>
-<td><a href="24-shaders-vulkan-contracts.html">24</a></td>
+<td><a href="27-shaders-vulkan-contracts.html">27</a></td>
 <td>Unlit and legacy emissive 0.5, default <code>ColorSpace</code></td>
 <td>128</td>
 <td>C</td>
@@ -5393,7 +6077,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>N-SVK-5</td>
-<td><a href="24-shaders-vulkan-contracts.html">24</a></td>
+<td><a href="27-shaders-vulkan-contracts.html">27</a></td>
 <td>rows in the X_ITE probe result</td>
 <td>41</td>
 <td>C</td>
@@ -5402,7 +6086,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>N-SVK-6</td>
-<td><a href="24-shaders-vulkan-contracts.html">24</a></td>
+<td><a href="27-shaders-vulkan-contracts.html">27</a></td>
 <td>largest 2.2-power vs sRGB gap, bytes (near linear 0.002)</td>
 <td>8.5</td>
 <td>C</td>
@@ -5411,7 +6095,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>N-SVK-7</td>
-<td><a href="24-shaders-vulkan-contracts.html">24</a></td>
+<td><a href="27-shaders-vulkan-contracts.html">27</a></td>
 <td>metal furnace, intensity 0.5, linear (2.2 inverse)</td>
 <td>0.4995</td>
 <td>C</td>
@@ -5420,7 +6104,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>N-SVK-8</td>
-<td><a href="24-shaders-vulkan-contracts.html">24</a></td>
+<td><a href="27-shaders-vulkan-contracts.html">27</a></td>
 <td>same bytes with exact sRGB inverse</td>
 <td>0.4910</td>
 <td>C</td>
@@ -5429,7 +6113,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>N-SVK-9</td>
-<td><a href="24-shaders-vulkan-contracts.html">24</a></td>
+<td><a href="27-shaders-vulkan-contracts.html">27</a></td>
 <td>dielectric 0.5 rough, intensity 1, linear</td>
 <td>0.5054</td>
 <td>C</td>
@@ -5438,7 +6122,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>N-SVK-10</td>
-<td><a href="24-shaders-vulkan-contracts.html">24</a></td>
+<td><a href="27-shaders-vulkan-contracts.html">27</a></td>
 <td>Fieldbook lab C vs Python cases</td>
 <td>745</td>
 <td>C</td>
@@ -5447,7 +6131,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>N-SVK-11</td>
-<td><a href="24-shaders-vulkan-contracts.html">24</a></td>
+<td><a href="27-shaders-vulkan-contracts.html">27</a></td>
 <td>Fieldbook lab max difference</td>
 <td>1.6653345369377348e-16</td>
 <td>C</td>
@@ -5456,7 +6140,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>N-SVK-12</td>
-<td><a href="24-shaders-vulkan-contracts.html">24</a></td>
+<td><a href="27-shaders-vulkan-contracts.html">27</a></td>
 <td>Light Lab integration checks passed</td>
 <td>15</td>
 <td>C</td>
@@ -5465,7 +6149,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>N-SVK-13</td>
-<td><a href="24-shaders-vulkan-contracts.html">24</a></td>
+<td><a href="27-shaders-vulkan-contracts.html">27</a></td>
 <td>image bytes differing across LLVM 19.1.7 and 20.1.2</td>
 <td>258 of 3,888,000</td>
 <td>C</td>
@@ -5474,7 +6158,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>N-SVK-14</td>
-<td><a href="24-shaders-vulkan-contracts.html">24</a></td>
+<td><a href="27-shaders-vulkan-contracts.html">27</a></td>
 <td>Lambert furnace, 32 elevation bins</td>
 <td>0.500201</td>
 <td>C</td>
@@ -5483,7 +6167,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tr>
 <tr>
 <td>N-SVK-15</td>
-<td><a href="24-shaders-vulkan-contracts.html">24</a></td>
+<td><a href="27-shaders-vulkan-contracts.html">27</a></td>
 <td>Fieldbook correction ledger rows</td>
 <td>19</td>
 <td>C</td>

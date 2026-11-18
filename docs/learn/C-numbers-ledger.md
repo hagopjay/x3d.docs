@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**606 numbers** from 24 chapters. Grades: [C] 556 · [L] 44 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
+**682 numbers** from 27 chapters. Grades: [C] 618 · [L] 58 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -598,19 +598,95 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-TRC-22 | [23](23-traceability-lineage.md) | `scene_evidence`, 600-block scene (92,280 B) with 100 claims, BIND on | 71 ms | [C] | `evaluation/time_scene_evidence.py`, median of 7 calls, engine `dcba70d7`, 4 cores | same |
 | N-TRC-23 | [23](23-traceability-lineage.md) | `x3d-blender-io` lineage tests: pure Python; with Blender | 15; 4 | [C] | Python 3.13.18; bpy 5.3.0 as recorded in the commit message | `x3d-blender-io@044bea3:source/lineage.py` |
 | N-TRC-24 | [23](23-traceability-lineage.md) | open review findings, each with an expected-failure test | 8 | [C] | `tests/test_x3dtrace.py` | `x3d.ml@305fd60:docs/TRACE-REVIEW.md` |
-| N-SVK-1 | [24](24-shaders-vulkan-contracts.md) | byte for linear 0.5 under X_ITE's 2.2 encode | 186 | C | X_ITE 16.7.1, Chromium 153.0.8010.12, SwiftShader | `x3d.loom@90f9862:runs/shader-vulkan-20261117/xite-furnace-colour.json` |
-| N-SVK-2 | [24](24-shaders-vulkan-contracts.md) | byte for linear 0.5 under exact sRGB | 187.52 (byte 188) | C | Python 3.13.18 | closed form |
-| N-SVK-3 | [24](24-shaders-vulkan-contracts.md) | X_ITE `GAMMA` constant | 2.2 | C | X_ITE 16.7.1 | `x_ite.js` line 67921 |
-| N-SVK-4 | [24](24-shaders-vulkan-contracts.md) | Unlit and legacy emissive 0.5, default `ColorSpace` | 128 | C | X_ITE 16.7.1, SwiftShader | `x3d.loom@90f9862:runs/shader-vulkan-20261117/xite-furnace-colour.json` |
-| N-SVK-5 | [24](24-shaders-vulkan-contracts.md) | rows in the X_ITE probe result | 41 | C | X_ITE 16.7.1, SwiftShader | `x3d.loom@90f9862:runs/shader-vulkan-20261117/xite-furnace-colour.json` |
-| N-SVK-6 | [24](24-shaders-vulkan-contracts.md) | largest 2.2-power vs sRGB gap, bytes (near linear 0.002) | 8.5 | C | Python 3.13.18 | closed form |
-| N-SVK-7 | [24](24-shaders-vulkan-contracts.md) | metal furnace, intensity 0.5, linear (2.2 inverse) | 0.4995 | C | X_ITE 16.7.1, SwiftShader | `x3d.loom@90f9862:runs/shader-vulkan-20261117/xite-furnace-colour.json` |
-| N-SVK-8 | [24](24-shaders-vulkan-contracts.md) | same bytes with exact sRGB inverse | 0.4910 | C | Python 3.13.18 | same |
-| N-SVK-9 | [24](24-shaders-vulkan-contracts.md) | dielectric 0.5 rough, intensity 1, linear | 0.5054 | C | X_ITE 16.7.1, SwiftShader | same |
-| N-SVK-10 | [24](24-shaders-vulkan-contracts.md) | Fieldbook lab C vs Python cases | 745 | C | CPython 3.13.18, GCC | Fieldbook `labs/output/validation.json`, re-run |
-| N-SVK-11 | [24](24-shaders-vulkan-contracts.md) | Fieldbook lab max difference | 1.6653345369377348e-16 | C | CPython 3.13.18, GCC | same |
-| N-SVK-12 | [24](24-shaders-vulkan-contracts.md) | Light Lab integration checks passed | 15 | C | Mesa 25.2.8 lavapipe, LLVM 20.1.2 | `x3d.loom@90f9862:runs/shader-vulkan-20261117/lightlab-rerun.json` |
-| N-SVK-13 | [24](24-shaders-vulkan-contracts.md) | image bytes differing across LLVM 19.1.7 and 20.1.2 | 258 of 3,888,000 | C | `imgdiff.py`, Mesa 25.2.8 | same |
-| N-SVK-14 | [24](24-shaders-vulkan-contracts.md) | Lambert furnace, 32 elevation bins | 0.500201 | C | Python 3.13.18; Light Lab guide | Light Lab `furnace.json` |
-| N-SVK-15 | [24](24-shaders-vulkan-contracts.md) | Fieldbook correction ledger rows | 19 | C | counted | Fieldbook `Fieldbook.md` section 17 |
+| N-MLB-1 | [24](24-math-lab-static-host.md) | floats compared across CPython 3.13.18 and Pyodide 0.27.7, six lessons | 16,383 | [C] | default parameters, Playwright 1.63.0 Chromium | `x3d.mathslab@24c9bbd:receipts/runtime-parity.json` |
+| N-MLB-2 | [24](24-math-lab-static-host.md) | floats that differ, total (linear 18, derivative 5, fourier 20) | 43 | [C] | same | same |
+| N-MLB-3 | [24](24-math-lab-static-host.md) | floats in the three bit-identical lessons (integral, lorenz, gradient) | 12,320 | [C] | same | same |
+| N-MLB-4 | [24](24-math-lab-static-host.md) | largest absolute float difference | 4.441e-16 | [C] | same | same |
+| N-MLB-5 | [24](24-math-lab-static-host.md) | lessons whose `sample_sha256` is equal across runtimes | 3 of 6 | [C] | same | same |
+| N-MLB-6 | [24](24-math-lab-static-host.md) | `math.ulp` at 1.0; at 2.0 | 2.220446049250313e-16; 4.440892098500626e-16 | [C] | `math.ulp`, Python 3.13.18 | drill D-MLB-3, run |
+| N-MLB-7 | [24](24-math-lab-static-host.md) | lessons rendered from Pyodide; console errors | 6 of 6; 0 | [C] | Chromium 153.0.8010.12, Playwright 1.63.0, software GL | `x3d.mathslab@24c9bbd:receipts/browser-smoke-pages.json` |
+| N-MLB-8 | [24](24-math-lab-static-host.md) | first native scene, Pages; server | 5.159 s; 1.833 s | [C] | same, both receipts | `receipts/browser-smoke-pages.json`, `receipts/browser-smoke-server.json` |
+| N-MLB-9 | [24](24-math-lab-static-host.md) | lesson switch, Pages; server (each includes a 1.5 s settle wait) | 2.219 to 2.550 s; 1.950 to 2.196 s | [C] | same | same |
+| N-MLB-10 | [24](24-math-lab-static-host.md) | first native scene, as written in the launch note | 4.6 to 5.0 s | [L] | the launch note; superseded by N-MLB-8 | `x3d.loom` `LEARNINGS-mathlab.md` |
+| N-MLB-11 | [24](24-math-lab-static-host.md) | Pyodide runtime download, first load | about 10 MB | [L] | stated in `docs/PAGES.md`, not separately measured | `x3d.mathslab@24c9bbd:docs/PAGES.md` |
+| N-MLB-12 | [24](24-math-lab-static-host.md) | tests failed under mcp 2.3.0 out of the old suite | 4 of 89 | [C] | `python -m unittest discover`, CPython 3.13.18, mcp 2.3.0 | `x3d.mathslab@24c9bbd:docs/FOLDBACK.md` |
+| N-MLB-13 | [24](24-math-lab-static-host.md) | tests passing after the shim; stdio probe checks | 93 of 93; 6 of 6 | [C] | same | `x3d.mathslab@24c9bbd:receipts/release-checks.json`, `receipts/math-mcp.json` |
+| N-MLB-14 | [24](24-math-lab-static-host.md) | mcp version in the older receipt; in the newer receipt | 1.29.0; 2.3.0 | [C] | read | `x3d.mathslab@24c9bbd:VALIDATION.md`, `receipts/math-mcp.json` |
+| N-MLB-15 | [24](24-math-lab-static-host.md) | request cap; response budget | 32 KiB; 4 MiB | [C] | read, not run here | `x3d.mathslab@24c9bbd:docs/PAGES.md` |
+| N-MLB-16 | [24](24-math-lab-static-host.md) | root nodes per scene | 8 | [C] | Chromium 153.0.8010.12, Playwright 1.63.0 | `x3d.mathslab@24c9bbd:receipts/browser-smoke-pages.json` |
+| N-MLB-17 | [24](24-math-lab-static-host.md) | generated Manim source, gradient lesson | 104,672 bytes | [C] | same | same |
+| N-MLB-18 | [24](24-math-lab-static-host.md) | X3D validation: worlds passed; negative twins caught | 6; 2 | [C] | `x3d_mcp` commit `b5c9956`, XSD 4.0, semantic vocabulary 4.1, direct calls | `x3d.mathslab@24c9bbd:receipts/x3d-validation.json` |
+| N-MLB-19 | [24](24-math-lab-static-host.md) | overlay: canvas hidden by the equation card at 1440x900 | about 100 px | [L] | before and after screenshots, Playwright 1.63.0, in the launch note, not retained | `x3d.loom` `LEARNINGS-mathlab.md` |
+| N-MLB-20 | [24](24-math-lab-static-host.md) | field-of-view scale applied after load | 0.75 | [C] | read | `x3d.mathslab@24c9bbd:web/app.js` |
+| N-ACC-1 | [25](25-accretion-gated-growth.md) | unit tests: as supplied; with static viewer and review fixes | 85; 99 | [C] | `python3 -I -m unittest discover -s tests -p 'test_*.py'`, Python 3.13.18, lxml 6.1.3 | `x3d.accrete@93063bf:tests/test_review_fixes.py` |
+| N-ACC-2 | [25](25-accretion-gated-growth.md) | tests per file at `93063bf`: gate; generator; adapter; http; world; review fixes; static export | 28; 13; 15; 9; 20; 7; 7 | [C] | `grep -c "    def test_" tests/test_*.py` | `x3d.accrete@93063bf:tests/test_static_export.py` |
+| N-ACC-3 | [25](25-accretion-gated-growth.md) | node types in the gate vocabulary, plus ROUTE | 24 | [C] | `len(FIELDS)` is 25, Python 3.13.18 | `x3d.accrete@93063bf:docs/GATE-CONTRACT.md` |
+| N-ACC-4 | [25](25-accretion-gated-growth.md) | raw fragment cap; canonical cap (KiB) | 12; 24 | [C] | contract table, matches `accretion/gate.py` constants per the review | `x3d.accrete@93063bf:docs/GATE-CONTRACT.md` |
+| N-ACC-5 | [25](25-accretion-gated-growth.md) | source nodes; nesting depth; expanded geometry instances | 80; 16; 160 | [C] | same | same |
+| N-ACC-6 | [25](25-accretion-gated-growth.md) | float32 floor for sizes and scales | 1.1754944e-38 | [C] | `FLOAT32_MIN_NORMAL` in the gate | `x3d.accrete@93063bf:docs/GATE-CONTRACT.md` |
+| N-ACC-7 | [25](25-accretion-gated-growth.md) | review: lanes; findings; verifiers per finding; agents | 6; 45; 2; 80 | [L] | review method as written, not repeated | `x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md` |
+| N-ACC-8 | [25](25-accretion-gated-growth.md) | review mutation-fuzz runs, uncaught exceptions | 30,000; 0 | [L] | review file, script not in the repository | same |
+| N-ACC-9 | [25](25-accretion-gated-growth.md) | own mutation run: runs; pass; fail; exceptions; passes with a foreign tag | 5,000; 402; 4,598; 0; 0 | [C] | drill D-ACC-8, seed 20261117, Python 3.13.18 | `x3d.accrete@93063bf:accretion/gate.py` |
+| N-ACC-10 | [25](25-accretion-gated-growth.md) | box size 1e-320 and scale 1e-40: gate, XSD, semantic verdicts as supplied; after the fix | pass, pass, pass; fail | [C] | drill D-ACC-3, `x3d_mcp@b5c9956`, lxml 6.1.3 | `x3d.accrete@52ba996:accretion/gate.py` |
+| N-ACC-11 | [25](25-accretion-gated-growth.md) | `PhysicalMaterial` verdicts: gate; XSD; semantic | pass; pass; fail (`profile-component`) | [C] | drill D-ACC-4, `x3d_mcp@b5c9956` | `x3d.accrete@93063bf:docs/GATE-CONTRACT.md` |
+| N-ACC-12 | [25](25-accretion-gated-growth.md) | foreign Host header on `/api/world`: as supplied; after the fix (HTTP status) | 200; 403 | [C] | drill D-ACC-6, curl | `x3d.accrete@93063bf:tests/test_review_fixes.py` |
+| N-ACC-13 | [25](25-accretion-gated-growth.md) | `HEAD /api/status`: as supplied; after the fix (HTTP status) | 404; 200 | [C] | same | same |
+| N-ACC-14 | [25](25-accretion-gated-growth.md) | forged last entry verifies without a checkpoint; with the shipped one | true; false | [C] | drill D-ACC-5 | `x3d.accrete@93063bf:accretion/world.py` |
+| N-ACC-15 | [25](25-accretion-gated-growth.md) | shipped checkpoint head; hash prefix | 24; 307fab65 | [C] | `examples/checkpoint.json` | `x3d.accrete@93063bf:examples/checkpoint.json` |
+| N-ACC-16 | [25](25-accretion-gated-growth.md) | 96-entry build wall time, four runs (s) | 3.84; 4.01; 4.40; 4.02 | [C] | `python3 tools/build_demo.py --count 96`, 4 vCPU | `x3d.accrete@93063bf:tools/build_demo.py` |
+| N-ACC-17 | [25](25-accretion-gated-growth.md) | two builds of 96: identical seeds; identical raw fragments; distinct tail hashes over four builds | 1 of 96; 1 of 96; 4 of 4 | [C] | drill D-ACC-7 | same |
+| N-ACC-18 | [25](25-accretion-gated-growth.md) | browser verification of the committed payload: entries checked; console errors | 96 of 96; 0 | [C] | `node tools/pages_smoke.js`, Chromium 153.0.8010.12, software GL | `x3d.accrete@93063bf:tools/pages_smoke.js` |
+| N-ACC-19 | [25](25-accretion-gated-growth.md) | static payload: files; bytes | 197; 4,280,343 | [C] | `find web/static-world -type f` | `x3d.accrete@93063bf:web/static-world/manifest.json` |
+| N-ACC-20 | [25](25-accretion-gated-growth.md) | parity cases: archives compared; of which tampered; float formatter values | 8; 7; 8 | [C] | `BrowserVerifierParity`, Node 22.23.4 | `x3d.accrete@93063bf:tests/test_static_export.py` |
+| N-ACC-21 | [25](25-accretion-gated-growth.md) | profile of 96 appends: total; `validate_scene`; `_get_schema`; `strict_json` calls; `strict_json` time (s) | 5.151; 2.970; 1.394; 19,008; 1.073 | [C] | `python3 -m cProfile -s cumtime tools/build_demo.py --count 96` | `x3d.accrete@93063bf:accretion/world.py` |
+| N-ACC-22 | [25](25-accretion-gated-growth.md) | README benchmark at 100 entries: append total (s); verify (ms); JSON bytes; X3D bytes | 4.333; 28.118; 1,819,603; 266,921 | [L] | `reports/store-scaling.json` as quoted in the README, not re-run | `x3d.accrete@93063bf:README.md` |
+| N-ACC-23 | [25](25-accretion-gated-growth.md) | projected 1,000-entry run; stop rule (s) | 154.386; 90 | [L] | estimate only, not run | same |
+| N-ACC-24 | [25](25-accretion-gated-growth.md) | loaded records; detail budgets; entry cap | 512; 24, 48, 96; 10,000 | [C] | README text, matches `serve.py` constants per the review | same |
+| N-ACC-25 | [25](25-accretion-gated-growth.md) | review sweep: candidates; seeds; failures | 1200; 40; 0 | [L] | review file, not re-run | `x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md` |
+| N-ACC-26 | [25](25-accretion-gated-growth.md) | vendored files matching upstream blobs; upstream commits ahead of the pin | 19 of 19; 10 | [L] | review file, not re-run | same |
+| N-LNS-1 | [26](26-chess-lenses-oracles.md) | opt-in overlays in the change | 5 | [C] | read | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-LNS-2 | [26](26-chess-lenses-oracles.md) | concepts in the concept lens | 13 | [C] | `CONCEPT_IDS.length`, Node v22.23.5 | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-LNS-3 | [26](26-chess-lenses-oracles.md) | terrain checks, both modes, vs python-chess | 609 | [C] | `node tools/terrain-test.mjs`, python-chess 1.11.2 | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-LNS-4 | [26](26-chess-lenses-oracles.md) | concepts checks; positions | 50,112; 327 | [C] | `CHESS_TEST_PYTHON=python3 node tools/concepts-test.mjs`, python-chess 1.11.2 | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-LNS-5 | [26](26-chess-lenses-oracles.md) | concepts positions: random; classic; generator seed | 300; 27; 20261117 | [C] | `tools/concepts_gen.py` constants, 327 minus 300 | `x3d.chess@9eb14e9:tools/concepts_gen.py` |
+| N-LNS-6 | [26](26-chess-lenses-oracles.md) | inspector tests; random positions x squares | 35; 100 x 64 | [C] | `node tools/inspector-test.mjs`, python-chess 1.11.2 | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-LNS-7 | [26](26-chess-lenses-oracles.md) | inspector run coverage: en passant; castle; promotion; check; pinned | 21; 21; 92; 20; 12 | [C] | same run, coverage block | `x3d.chess@9eb14e9:tools/inspector-test.mjs` |
+| N-LNS-8 | [26](26-chess-lenses-oracles.md) | inspector run: illegal geometric attackers; attackers with no move to ask about | 698; 4,080 | [C] | same run | `x3d.chess@9eb14e9:tools/inspector-test.mjs` |
+| N-LNS-9 | [26](26-chess-lenses-oracles.md) | branches: test groups; engine setting | 9; MultiPV 3, depth 8 | [C] | `node tools/branches-test.mjs`, vendored Stockfish under Node | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-LNS-10 | [26](26-chess-lenses-oracles.md) | branches real-engine cases: in the prose; in the test | 3; 4 | [C] | prose loses; the test file defines four cases | `x3d.chess@9eb14e9:tools/branches-test.mjs` |
+| N-LNS-11 | [26](26-chess-lenses-oracles.md) | skyline checks; board range; documents validated | 3,360; 1 to 64; 7 | [C] | `node tools/skyline-test.mjs` | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-LNS-12 | [26](26-chess-lenses-oracles.md) | transport tests run; passed | 17; 17 | [C] | `node tools/transport-tests.mjs`, Node v22.23.5 | `x3d.chess@9eb14e9:tools/transport-tests.mjs` |
+| N-LNS-13 | [26](26-chess-lenses-oracles.md) | mutated concept fixtures detected | 19 | [C] | concepts test, negative controls | `x3d.chess@9eb14e9:tools/concepts-test.mjs` |
+| N-LNS-14 | [26](26-chess-lenses-oracles.md) | colour-flip and file-mirror symmetry positions | 1,507 | [C] | concepts test output line | `x3d.chess@9eb14e9:tools/concepts-test.mjs` |
+| N-LNS-15 | [26](26-chess-lenses-oracles.md) | terrain caps: count mode; material mode | 6; 12 | [C] | read | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-LNS-16 | [26](26-chess-lenses-oracles.md) | skyline height: pawns clamp; units per pawn | 6; 0.4 | [C] | read | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-LNS-17 | [26](26-chess-lenses-oracles.md) | skyline hairline thickness for cp = 0 | 0.04 | [C] | read; test `near(capY(z,0)-baseRingY(z,0),SKY.MIN_H)` | `x3d.chess@9eb14e9:viewer/js/skyline.js` |
+| N-LNS-18 | [26](26-chess-lenses-oracles.md) | skyline labels for +5, -5, +4, -4, 0 cp | +0.1; -0.1; +0.0; -0.0; 0.0 | [C] | skyline test line 187 and a direct call, Node v22.23.5 | `x3d.chess@9eb14e9:tools/skyline-test.mjs` |
+| N-LNS-19 | [26](26-chess-lenses-oracles.md) | pennant spill before the fix (units off the h-file) | 0.16 | [L] | test comment; pre-fix tree not in the checkout | `x3d.chess@9eb14e9:tools/concepts-test.mjs` |
+| N-LNS-20 | [26](26-chess-lenses-oracles.md) | engine lines from the app button: MultiPV; depth | 3; 10 | [C] | read | `x3d.chess@9eb14e9:viewer/js/main.js` |
+| N-LNS-21 | [26](26-chess-lenses-oracles.md) | hold wait: polls; interval (ms); total (s) | 40; 100; 4 | [C] | read; total derived by multiplication | `x3d.chess@9eb14e9:viewer/js/main.js` |
+| N-LNS-22 | [26](26-chess-lenses-oracles.md) | ribbon window (plies); controller history cap | 60; 240 | [C] | read | `x3d.chess@9eb14e9:viewer/js/skyline.js` |
+| N-LNS-23 | [26](26-chess-lenses-oracles.md) | f6 position: control balance; legal moves; legal destinations on f6 | +1; 4; 0 | [C] | inspector, chess.js, python-chess 1.11.2 | `x3d.chess@9eb14e9:docs/CHESS-REVIEW.md` |
+| N-LNS-24 | [26](26-chess-lenses-oracles.md) | scratch mutation: k guard deleted, heap 200 MB: exit code | 134 | [C] | Node v22.23.5, `--max-old-space-size=200` | `x3d.chess@9eb14e9:viewer/js/terrain.js` |
+| N-LNS-25 | [26](26-chess-lenses-oracles.md) | scratch mutation: wdl branch deleted: bound read | exact | [C] | Node v22.23.5 | `x3d.chess@9eb14e9:viewer/js/branches.js` |
+| N-LNS-26 | [26](26-chess-lenses-oracles.md) | native run: boards; pieces; misplaced; console errors | 8; 192; 0; 0 | [L] | `evidence/lens-smoke.json`, Chromium 153.0.8010.12, SwiftShader, not re-run | `x3d.chess@9eb14e9:evidence/lens-smoke.json` |
+| N-LNS-27 | [26](26-chess-lenses-oracles.md) | native run: engine-line scores (cp, White POV) at depth 10 | -74; -71; -70 | [L] | same receipt | `x3d.chess@9eb14e9:evidence/lens-smoke.json` |
+| N-LNS-28 | [26](26-chess-lenses-oracles.md) | native run: concepts cycled; skyline columns | 13; 8 | [L] | same receipt | `x3d.chess@9eb14e9:evidence/lens-smoke.json` |
+| N-LNS-29 | [26](26-chess-lenses-oracles.md) | native run rig: Chromium; Playwright | 153.0.8010.12; 1.63.0 | [L] | same receipt | `x3d.chess@9eb14e9:evidence/lens-smoke.json` |
+| N-LNS-30 | [26](26-chess-lenses-oracles.md) | lens defects found by adversarial review, each with a regression test | 8 | [C] | list read; tests run | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-SVK-1 | [27](27-shaders-vulkan-contracts.md) | byte for linear 0.5 under X_ITE's 2.2 encode | 186 | C | X_ITE 16.7.1, Chromium 153.0.8010.12, SwiftShader | `x3d.loom@90f9862:runs/shader-vulkan-20261117/xite-furnace-colour.json` |
+| N-SVK-2 | [27](27-shaders-vulkan-contracts.md) | byte for linear 0.5 under exact sRGB | 187.52 (byte 188) | C | Python 3.13.18 | closed form |
+| N-SVK-3 | [27](27-shaders-vulkan-contracts.md) | X_ITE `GAMMA` constant | 2.2 | C | X_ITE 16.7.1 | `x_ite.js` line 67921 |
+| N-SVK-4 | [27](27-shaders-vulkan-contracts.md) | Unlit and legacy emissive 0.5, default `ColorSpace` | 128 | C | X_ITE 16.7.1, SwiftShader | `x3d.loom@90f9862:runs/shader-vulkan-20261117/xite-furnace-colour.json` |
+| N-SVK-5 | [27](27-shaders-vulkan-contracts.md) | rows in the X_ITE probe result | 41 | C | X_ITE 16.7.1, SwiftShader | `x3d.loom@90f9862:runs/shader-vulkan-20261117/xite-furnace-colour.json` |
+| N-SVK-6 | [27](27-shaders-vulkan-contracts.md) | largest 2.2-power vs sRGB gap, bytes (near linear 0.002) | 8.5 | C | Python 3.13.18 | closed form |
+| N-SVK-7 | [27](27-shaders-vulkan-contracts.md) | metal furnace, intensity 0.5, linear (2.2 inverse) | 0.4995 | C | X_ITE 16.7.1, SwiftShader | `x3d.loom@90f9862:runs/shader-vulkan-20261117/xite-furnace-colour.json` |
+| N-SVK-8 | [27](27-shaders-vulkan-contracts.md) | same bytes with exact sRGB inverse | 0.4910 | C | Python 3.13.18 | same |
+| N-SVK-9 | [27](27-shaders-vulkan-contracts.md) | dielectric 0.5 rough, intensity 1, linear | 0.5054 | C | X_ITE 16.7.1, SwiftShader | same |
+| N-SVK-10 | [27](27-shaders-vulkan-contracts.md) | Fieldbook lab C vs Python cases | 745 | C | CPython 3.13.18, GCC | Fieldbook `labs/output/validation.json`, re-run |
+| N-SVK-11 | [27](27-shaders-vulkan-contracts.md) | Fieldbook lab max difference | 1.6653345369377348e-16 | C | CPython 3.13.18, GCC | same |
+| N-SVK-12 | [27](27-shaders-vulkan-contracts.md) | Light Lab integration checks passed | 15 | C | Mesa 25.2.8 lavapipe, LLVM 20.1.2 | `x3d.loom@90f9862:runs/shader-vulkan-20261117/lightlab-rerun.json` |
+| N-SVK-13 | [27](27-shaders-vulkan-contracts.md) | image bytes differing across LLVM 19.1.7 and 20.1.2 | 258 of 3,888,000 | C | `imgdiff.py`, Mesa 25.2.8 | same |
+| N-SVK-14 | [27](27-shaders-vulkan-contracts.md) | Lambert furnace, 32 elevation bins | 0.500201 | C | Python 3.13.18; Light Lab guide | Light Lab `furnace.json` |
+| N-SVK-15 | [27](27-shaders-vulkan-contracts.md) | Fieldbook correction ledger rows | 19 | C | counted | Fieldbook `Fieldbook.md` section 17 |
 <!-- END GENERATED -->

@@ -1,0 +1,1071 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>26. Lenses on a chess board: a claim is not a picture · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><a href="24-math-lab-static-host.html">24. Math Lab: one model owner, two transports</a><a href="25-accretion-gated-growth.html">25. Accretion: an append-only X3D world grown one gated patch at a time</a><a class="cur" href="26-chess-lenses-oracles.html">26. Lenses on a chess board: a claim is not a picture</a><a href="27-shaders-vulkan-contracts.html">27. Shaders and Vulkan: what the explicit APIs teach an X3D renderer</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="26-chess-lenses-oracles.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/26-chess-lenses-oracles.md">GitHub</a></div><h1>26. Lenses on a chess board: a claim is not a picture</h1>
+<details class="toc"><summary>On this page (23 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-a-claim-is-not-a-picture-question-quantity-instrument">2. A claim is not a picture: question, quantity, instrument</a><a class="l2" href="#3-an-independent-oracle-versus-parity-with-your-own-twin">3. An independent oracle versus parity with your own twin</a><a class="l2" href="#4-eight-defects-the-adversarial-review-found-and-what-each-teaches">4. Eight defects the adversarial review found, and what each teaches</a><a class="l3" href="#41-two-defects-reproduced-by-deleting-the-guard">4.1 Two defects reproduced by deleting the guard</a><a class="l2" href="#5-async-sai-create-once-paint-synchronously-after-the-last-await">5. Async SAI: create once, paint synchronously after the last await</a><a class="l2" href="#6-hold-the-game-to-analyze">6. Hold the game to analyze</a><a class="l2" href="#7-picking-effect-shapes-must-not-catch-the-pointer">7. Picking: effect shapes must not catch the pointer</a><a class="l2" href="#8-native-browser-evidence-versus-node-evidence">8. Native browser evidence versus Node evidence</a><a class="l2" href="#9-what-is-missing-ranked">9. What is missing, ranked</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-lns-1-count-the-lenses-and-the-concepts">D-LNS-1 Count the lenses and the concepts</a><a class="l3" href="#d-lns-2-re-run-the-oracles">D-LNS-2 Re-run the oracles</a><a class="l3" href="#d-lns-3-delete-the-wdl-branch">D-LNS-3 Delete the wdl branch</a><a class="l3" href="#d-lns-4-delete-the-k-guard">D-LNS-4 Delete the k guard</a><a class="l3" href="#d-lns-5-one-square-four-answers">D-LNS-5 One square, four answers</a><a class="l3" href="#d-lns-6-the-neighbourhood-of-zero">D-LNS-6 The neighbourhood of zero</a><a class="l3" href="#d-lns-7-count-what-the-random-test-met">D-LNS-7 Count what the random test met</a><a class="l3" href="#d-lns-8-read-the-native-receipt">D-LNS-8 Read the native receipt</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> An overlay is a claim, so give each one a named question, an exact quantity and an instrument; test it against a library that shares no code with it, not against a twin; keep the geometric, the legal, the engine and the estimated apart; paint after the last <code>await</code> behind a revision and an epoch; hold the thing you analyze still; and say what a software-GL browser run cannot show. <strong><span class="g C" title="Confirmed">C</span></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>LNS</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="02-loom-laws.html">02 Loom laws</a> for witness and gate; <a href="03-validator-and-gates.html">03 Validator and gates</a> for the pinned XSD and semantic pass; <a href="06-xite-the-oracle.html">06 X_ITE, the oracle</a> for what a browser run can and cannot say; <a href="25-accretion-gated-growth.html">25 Accretion</a> for the habit of a parity test and a tamper table</td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>(1) write the question, quantity and instrument for an overlay before drawing it; (2) tell an independent oracle from a twin and say what each catches; (3) keep attack count, legal move, engine line and static exchange apart on one square; (4) write an async SAI paint that cannot commit onto a newer position; (5) say why a live game makes an analysis stale and what an honest fix costs; (6) make an overlay that does not steal picks, and read a picked square from a PROTO field; (7) split a claim between a Node run and a native-browser run</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td><code>x3d.chess@9eb14e9</code> (branch <code>claude/project-thread-2j8j26</code>, pull request 7 on <code>hagopjay/x3d.chess</code>): <code>docs/LENSES.md</code>, <code>docs/RESULTS.md</code> (section &quot;Lens overlays&quot;), <code>docs/INTEGRATION-ATLAS.md</code>, <code>docs/CHESS-REVIEW.md</code>, <code>evidence/lens-smoke.json</code>, the module headers and code of <code>viewer/js/{terrain,concepts,inspector,branches,skyline,lenses,wasm-transport,scene,main}.js</code>, <code>tools/{terrain,concepts,inspector,branches,skyline}-test.mjs</code>, <code>tools/transport-tests.mjs</code>, <code>tools/lens-smoke.mjs</code>, <code>tools/concepts_gen.py</code>, <code>tools/inspector_expect.py</code>, <code>tools/gen_grid.py</code></td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td><code>x3d.chess@9eb14e9</code>; Node v22.23.5; <code>python-chess 1.11.2</code> as the oracle; the pinned <code>x3d_mcp</code> validator vendored in <code>x3d.chess</code> (XSD 4.0, semantic vocabulary 4.1) as the repository's own tests call it; vendored Stockfish WASM run as a UCI process under Node; for the browser rows: <code>Chromium 153.0.8010.12, SwiftShader</code> (software GL) with Playwright 1.63.0, read from the recorded receipt and not re-run here; no GPU; X_ITE as vendored in the repository</td>
+</tr>
+</tbody>
+</table>
+<p>A chess viewer is a small place to learn a large lesson. Five optional overlays sit on top of a grid of live games: a terrain of attack pressure, a lens for named concepts, a square inspector, engine lines drawn as arcs, and a skyline of every board's score. Each one is easy to draw and easy to draw wrongly, because a coloured column looks the same whether it counts attackers, legal moves or an engine's opinion. This chapter reads the change that added them, re-runs the checks that can be re-run here, and records what an adversarial review found. It teaches the method; it does not advertise the viewer.</p>
+<hr />
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text">   FEN of one board (the only input every lens shares)
+        |
+        +--&gt; terrain    attack-count balance      height = abs(balance), colour = sign
+        +--&gt; concepts   13 rules, one per view    flags on squares, SEE is an estimate
+        +--&gt; inspector  relations of ONE square   attackers, defenders, legal, pins, x-rays
+        +--&gt; branches   engine MultiPV 3, d10     arcs; each PV replayed legally first
+        +--&gt; skyline    last score per board      column per board, 60-ply ribbon
+                |
+   per lens: create once -&gt; await -&gt; [revision + epoch check] -&gt; paint synchronously
+                |
+   proof tiers (strongest first)
+      python-chess oracle under Node
+      hand-derived known answers
+      pinned XSD and semantic validator
+      native Chromium smoke (SwiftShader): no GPU, no frame-rate claim
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>in scope</th>
+<th>out of scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>the five lenses' questions, quantities and instruments; the oracle design and its numbers; the eight defects the adversarial review found; the async paint pattern; the hold-to-analyze finding; picking; native versus Node evidence</td>
+<td>chess strength; engine tuning; the server transport (it has no analysis endpoint, per <code>docs/LENSES.md</code>); frame rate or any GPU measurement; the earlier chess chapters of the viewer (rule studies, export) except where a lens reuses them</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Loom term (<a href="02-loom-laws.html">02</a>)</th>
+<th>here</th>
+<th>note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>witness</td>
+<td>an independent library (python-chess), a real engine, the pinned validator, a native run</td>
+<td>each is a different instrument; none is a proof of the others</td>
+</tr>
+<tr>
+<td>gate</td>
+<td>the aggregate test plus the native smoke in CI, per the commit message of the earlier integration</td>
+<td>the CI wiring was read, not run here</td>
+</tr>
+<tr>
+<td>receipt</td>
+<td><code>evidence/lens-smoke.json</code>, schema <code>x3dchess.browser-smoke/1</code></td>
+<td>its own <code>scope</code> line says a blocked browser is not a pass</td>
+</tr>
+</tbody>
+</table>
+<p>Read next: deeper, <a href="06-xite-the-oracle.html">06 X_ITE, the oracle</a> for what a rendered browser run can say; wider, <a href="25-accretion-gated-growth.html">25 Accretion</a> for a second case of a parity test plus a tamper table.</p>
+<hr />
+<h2 id="2-a-claim-is-not-a-picture-question-quantity-instrument">2. A claim is not a picture: question, quantity, instrument</h2>
+<p>Before a lens draws anything it must say three things: the <strong>question</strong> a person would ask, the <strong>exact quantity</strong> on screen, and the <strong>instrument</strong> that produced it. <code>docs/LENSES.md</code> carries one row per lens with an &quot;honest label&quot; cell; this table is the same information cut into those three, plus the thing the lens is not.</p>
+<table>
+<thead>
+<tr>
+<th>lens</th>
+<th>question</th>
+<th>exact quantity</th>
+<th>instrument</th>
+<th>it is not</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>terrain, count mode</td>
+<td>where is attack pressure concentrated</td>
+<td>abs(white attackers minus black attackers) on the square, capped at 6</td>
+<td>geometric attackers from chess.js, via <code>controlGrid()</code> in <code>analysis.js</code>; pins still count</td>
+<td>legal mobility, an exchange value, an engine score</td>
+</tr>
+<tr>
+<td>terrain, material mode</td>
+<td>same, weighted</td>
+<td>abs(sum of white attacker values minus sum of black), P1 N3 B3 R5 Q9, K0, capped at 12</td>
+<td>same geometry, a value table</td>
+<td>static exchange evaluation</td>
+</tr>
+<tr>
+<td>concepts (13)</td>
+<td>which structural or tactical fact is true here</td>
+<td>one rule per picture, for example hanging piece, isolated pawn, outpost</td>
+<td>the repository's own board model; chess.js only validates the FEN and counts legal moves for the side to move</td>
+<td>a verdict; none looks ahead</td>
+</tr>
+<tr>
+<td>concepts, SEE</td>
+<td>what does a capture sequence on this square estimate</td>
+<td>a swap-list gain on one square</td>
+<td>iterative swap list over a private occupancy array</td>
+<td>&quot;wins&quot;: it ignores pins, checks, promotion and en passant</td>
+</tr>
+<tr>
+<td>inspector</td>
+<td>what touches this square, and which relations are legal</td>
+<td>attackers and defenders (geometric), legal destinations (chess.js), absolute pins, x-ray batteries</td>
+<td>chess.js attackers and verbose legal moves</td>
+<td>mobility; an engine view</td>
+</tr>
+<tr>
+<td>engine lines</td>
+<td>what does the engine prefer here</td>
+<td>up to three principal variations, MultiPV 3, depth 10 in the app, scores from White's side</td>
+<td>the vendored Stockfish WASM, each PV replayed legally in chess.js before drawing</td>
+<td>a move tree, a proof that an alternative loses</td>
+</tr>
+<tr>
+<td>skyline</td>
+<td>how are all boards doing at once</td>
+<td>height <code>clamp(cp/100, -6, 6) x 0.4</code> of the last accepted score record; typed mate; hollow for a bound; grey slab for no score</td>
+<td>the producer's score record, per <code>docs/PROTOCOL.md</code></td>
+<td>a win probability</td>
+</tr>
+</tbody>
+</table>
+<p>Why the split matters is visible on one square. Take the position <code>k7/8/8/r4pPK/8/8/8/8 w - f6 0 1</code>, the repository's own example in <code>docs/CHESS-REVIEW.md</code>. White's pawn on g5 can capture the pawn on f5 en passant onto f6, but the white king on h5 and the black rook on a5 stand on one rank, so removing both pawns would expose the king. Four instruments, one square (f6), four different answers:</p>
+<table>
+<thead>
+<tr>
+<th>instrument</th>
+<th>question put to f6</th>
+<th>answer</th>
+<th>where it comes from</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>attack count (terrain)</td>
+<td>white attackers minus black attackers</td>
+<td>+1: g5 attacks f6, nothing black does</td>
+<td><code>controlGrid</code>, inspector <code>control.balance</code>, python-chess <code>attackers</code> (1 white, 0 black)</td>
+</tr>
+<tr>
+<td>geometric relation (inspector)</td>
+<td>does g5 attack f6</td>
+<td>yes, pseudo-legal</td>
+<td>python-chess <code>pseudo_legal_moves</code> contains <code>g5f6</code></td>
+</tr>
+<tr>
+<td>legal move (inspector)</td>
+<td>may g5 play to f6</td>
+<td>no: <code>attackLegalToPlay</code> is <code>false</code>, and f6 is in no legal destination list</td>
+<td>chess.js and python-chess both list exactly four legal moves, none to f6: <code>g5g6 h5g6 h5h4 h5h6</code> (drill D-LNS-5)</td>
+</tr>
+<tr>
+<td>engine line</td>
+<td>what would the engine play</td>
+<td>not asked; and a PV through g5f6 would be rejected by the legal replay</td>
+<td><code>verifyLine</code> in <code>branches.js</code></td>
+</tr>
+</tbody>
+</table>
+<p>The terrain would paint f6 as white-ahead and the inspector would dim the g5 ray, and both are correct, because they answer different questions. A lens that merged them would be wrong whichever it chose. <span class="g C" title="Confirmed">C</span> <code>x3d.chess@9eb14e9</code>, Node v22.23.5, python-chess 1.11.2 (drill D-LNS-5).</p>
+<pre><code class="language-text">   same square, increasing commitment                  what can be wrong
+   ---------------------------------------------------------------------------------
+   attack count    &quot;who points at it&quot;                  ignores pins, turn, check
+   legal move      &quot;who may go there now&quot;              exact for the side to move only
+   static exchange &quot;what a swap sequence nets&quot;         ignores pins, checks, promotion
+   engine PV       &quot;what a search at depth d chose&quot;    depth, hash, bound; one run
+   skyline score   &quot;last score a producer reported&quot;    needs a bound and an identity
+</code></pre>
+<p>Three details of that ladder are code, not prose.</p>
+<ul>
+<li><code>attackLegalToPlay</code> is three-valued: <code>true</code>, <code>false</code> or <code>null</code>. It is <code>null</code> when there is no move to ask about: the target holds the enemy king (that is a check, not a move), an own piece (a defender), or an empty square that a pawn only controls diagonally. For the colour not on move it means &quot;if that colour were to move&quot;, with the en passant right dropped (header of <code>inspector.js</code>). <span class="g C" title="Confirmed">C</span></li>
+<li>A score keeps four things apart: <code>engine_cp</code>, <code>engine_mate</code>, <code>unavailable</code>, and a bound (<code>exact</code>, <code>lowerbound</code>, <code>upperbound</code>, <code>null</code>). A missing score is a grey slab, never a zero. <span class="g C" title="Confirmed">C</span> <code>branches.js</code>, <code>skyline.js</code> headers.</li>
+<li>A result is bound to the FEN it searched. A result for any other FEN is dropped (<code>acceptResult</code>). <span class="g C" title="Confirmed">C</span></li>
+</ul>
+<hr />
+<h2 id="3-an-independent-oracle-versus-parity-with-your-own-twin">3. An independent oracle versus parity with your own twin</h2>
+<p>A <strong>twin</strong> is a second implementation written by the same hand from the same idea. Agreement between module and twin shows that the two were typed the same way; it cannot show that either is right. An <strong>oracle</strong> shares no code and, ideally, no algorithm with the module. This repository's tests are explicit about it: the header of <code>tools/concepts_gen.py</code> says it computes everything with python-chess and &quot;a recursive, board-copying SEE&quot;, where the JavaScript uses &quot;an iterative swap-list over a private occupancy array&quot;, and that &quot;none of it shares code or an algorithm with the JavaScript module&quot;.</p>
+<table>
+<thead>
+<tr>
+<th>expectation source</th>
+<th>what it catches</th>
+<th>what it cannot</th>
+<th>used for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>twin (same author, same algorithm)</td>
+<td>typing slips, refactor drift</td>
+<td>a shared misreading of the rule</td>
+<td>not relied on here</td>
+</tr>
+<tr>
+<td>hand-derived answer (a comment gives the reasoning)</td>
+<td>a misreading you can state</td>
+<td>cases nobody thought of</td>
+<td>classic positions, geometry coordinates, skyline curve</td>
+</tr>
+<tr>
+<td>independent library (python-chess)</td>
+<td>any disagreement over thousands of generated cases</td>
+<td>python-chess's own bugs; rules the library does not define (a &quot;backward pawn&quot;)</td>
+<td>attack counts, legal sets, SEE</td>
+</tr>
+<tr>
+<td>real engine (vendored Stockfish WASM under Node)</td>
+<td>a parser that fails on real output; a PV that is not legal</td>
+<td>engine strength; Worker start-up in a browser</td>
+<td><code>branches.js</code></td>
+</tr>
+<tr>
+<td>pinned XSD and semantic validator</td>
+<td>invalid X3D</td>
+<td>whether it looks right</td>
+<td>every generated document</td>
+</tr>
+<tr>
+<td>negative control (a mutated fixture)</td>
+<td>an oracle that always says yes</td>
+<td>nothing by itself</td>
+<td>all of the above</td>
+</tr>
+</tbody>
+</table>
+<p>The numbers, each re-run on 2026-11-18 with Node v22.23.5 and python-chess 1.11.2 (<code>pip install chess</code>, <code>CHESS_TEST_PYTHON=python3</code>):</p>
+<table>
+<thead>
+<tr>
+<th>lens</th>
+<th>command</th>
+<th>result</th>
+<th>oracle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>terrain</td>
+<td><code>node tools/terrain-test.mjs</code></td>
+<td>609 checks, both modes, XSD and semantic pass</td>
+<td>python-chess attack counts, plus hand-derived grids</td>
+</tr>
+<tr>
+<td>concepts</td>
+<td><code>CHESS_TEST_PYTHON=python3 node tools/concepts-test.mjs</code></td>
+<td>50,112 checks over 327 positions (300 random from seed 20261117 plus 27 classic, per <code>concepts_gen.py</code> and the test)</td>
+<td>python-chess <code>attackers_mask</code>, <code>attacks_mask</code>, <code>legal_moves</code>, a board-copying SEE</td>
+</tr>
+<tr>
+<td>inspector</td>
+<td><code>CHESS_TEST_PYTHON=python3 node tools/inspector-test.mjs</code></td>
+<td>35 tests; 100 seeded positions x 64 squares; the expectation file is regenerated and compared byte for byte</td>
+<td>python-chess legal moves, attackers and pins</td>
+</tr>
+<tr>
+<td>branches</td>
+<td><code>node tools/branches-test.mjs</code></td>
+<td>9 test groups, including real Stockfish WASM at MultiPV 3, depth 8</td>
+<td>python-chess checks that every PV move is legal and that the first move of a mate line mates</td>
+</tr>
+<tr>
+<td>skyline</td>
+<td><code>node tools/skyline-test.mjs</code></td>
+<td>3,360 checks, 1 to 64 boards, 7 documents validated</td>
+<td>hand-derived curve, ribbon geometry, the pinned validator</td>
+</tr>
+<tr>
+<td>transport</td>
+<td><code>node tools/transport-tests.mjs</code></td>
+<td>17 tests, 17 pass, 0 fail</td>
+<td>scripted workers</td>
+</tr>
+</tbody>
+</table>
+<p>Four design choices in those tests are worth copying.</p>
+<ol>
+<li><strong>The oracle is pinned and the expectation is checked in.</strong> <code>inspector_expect.py</code> uses a fixed seed and its output is committed as <code>tools/inspector-expect.json</code>; the test regenerates it and fails if the bytes differ. A changed python-chess or a changed seed cannot slide past quietly. <span class="g C" title="Confirmed">C</span> <code>tools/inspector-test.mjs</code> (the assertion &quot;committed expectation file is not what the fixed-seed generator produces&quot;).</li>
+<li><strong>Coverage is counted, not hoped for.</strong> The inspector test tallies what its 6,400 square comparisons actually contained: en passant moves 21, castles 21, promotions 92, checks 20, pinned pieces 12, geometric attacks that are illegal 698, and attacks that have no move to ask about 4,080, and asserts floors (for example at least 10 en passant, at least 100 illegal attackers). A random test that never meets a pin proves nothing about pins. <span class="g C" title="Confirmed">C</span> run of 2026-11-18.</li>
+<li><strong>Metamorphic checks add cases the generator did not write.</strong> The concepts test mirrors files and flips colours on 1,507 positions and requires the same answers under the symmetry. <span class="g C" title="Confirmed">C</span> same run.</li>
+<li><strong>Negative controls.</strong> The concepts test mutates 19 fixtures and requires each to be detected; the terrain test corrupts a grid and requires disagreement with python-chess; the branches test corrupts one PV and requires exactly one rejection and two surviving lines. A green test that cannot go red is decoration. <span class="g C" title="Confirmed">C</span></li>
+</ol>
+<p>One disagreement between sources, recorded as the contract asks. <code>docs/LENSES.md</code> and <code>docs/RESULTS.md</code> say the real-engine check ran &quot;on three FENs&quot;; the test itself says <code>4 FENs x multipv 3 depth 8</code> and defines four cases (a black queen-up and a white queen-down position, and a white and a black back-rank mate in one). The code supports four; the prose is the loser and is graded <span class="g S" title="Suspected">S</span>. The documents also say depth 8 for the native run in one row and depth 10 in another: the query <code>depth=8</code> sets the game arena, while the &quot;Engine lines&quot; button asks for <code>{multipv:3, depth:10}</code> (<code>viewer/js/main.js</code>), and the receipt's labels read <code>d10</code>. Both are true; they are two different searches. <span class="g C" title="Confirmed">C</span></p>
+<hr />
+<h2 id="4-eight-defects-the-adversarial-review-found-and-what-each-teaches">4. Eight defects the adversarial review found, and what each teaches</h2>
+<p><code>docs/LENSES.md</code> states that &quot;adversarial review per module fixed real defects, each with a regression test&quot;, and lists eight. The tree at <code>9eb14e9</code> holds the fixed code and the regression tests, not the code before the fix, so what each defect did before is read from the test comments and the list (<span class="g L" title="Likely">L</span>); that the test now exists and passes is run (<span class="g C" title="Confirmed">C</span>).</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>defect (as listed)</th>
+<th>regression test</th>
+<th>what it teaches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>groupFlat</code> could loop forever on <code>k=0</code></td>
+<td><code>tools/terrain-test.mjs</code> &quot;6b&quot;: <code>groupFlat([1,2,3],0)</code> must throw &quot;positive integer&quot;; also non-integer <code>k</code>, ragged length, non-array input</td>
+<td>a loop whose step is a parameter needs the parameter validated; the test names the bad inputs one by one</td>
+</tr>
+<tr>
+<td>2</td>
+<td>a UCI <code>wdl</code> field made a lowerbound read as exact</td>
+<td><code>tools/branches-test.mjs</code> line 35: &quot;Stockfish prints wdl BEFORE the bound; the bound used to be dropped&quot;</td>
+<td>a parser must accept optional tokens in any order the producer can emit; read real output, not the grammar you remember</td>
+</tr>
+<tr>
+<td>3</td>
+<td>arc apexes sat off the drawn path</td>
+<td><code>tools/branches-test.mjs</code> lines 137 to 140: every apex lies on the x/z midpoint of consecutive squares</td>
+<td>state a geometric invariant and test it on every vertex, not on one example</td>
+</tr>
+<tr>
+<td>4</td>
+<td>a duplicate rank was labelled but never drawn</td>
+<td><code>viewer/js/branches.js</code> line 209 (<code>seenRanks</code>), test at line 134</td>
+<td>a label and a drawing must come from one list; otherwise a number appears with nothing under it</td>
+</tr>
+<tr>
+<td>5</td>
+<td>defender rays were dimmed as if illegal</td>
+<td><code>tools/inspector-test.mjs</code> lines 407 to 415</td>
+<td>&quot;not applicable&quot; is not &quot;no&quot;: the answer is three-valued, and <code>null</code> must not render as <code>false</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>small negative scores were drawn above the baseline and rounded to &quot;0.0&quot;</td>
+<td><code>tools/skyline-test.mjs</code> line 187 and <code>viewer/js/skyline.js</code> line 203</td>
+<td>sign survives rounding and clamping; test -4 centipawns, not only -250</td>
+</tr>
+<tr>
+<td>7</td>
+<td>a reported 0 cp vanished on the ribbon</td>
+<td><code>tools/skyline-test.mjs</code> lines 188 to 192: an isolated exact zero is a hairline tick, not a gap</td>
+<td>a value of zero and a missing value are different things; the sentinel must not collide with a measurement</td>
+</tr>
+<tr>
+<td>8</td>
+<td>concept flags spilled onto neighbouring squares</td>
+<td><code>tools/concepts-test.mjs</code> lines 290 to 300: every pole and vertex inside its own square (abs(dx), abs(dz) under 0.5) and on the board</td>
+<td>an annotation must be contained by the thing it annotates; the old pennant spilled 0.16 off the h-file</td>
+</tr>
+</tbody>
+</table>
+<p>Defects 2 and 5 are the same family as the <code>PhysicalMaterial</code> disagreement in <a href="25-accretion-gated-growth.html">chapter 25</a>: a component that is right under its own vocabulary and wrong under its neighbour's. Defects 6 and 7 are two ends of one problem, the neighbourhood of zero. Defect 4 is a count that was kept in two places.</p>
+<h3 id="41-two-defects-reproduced-by-deleting-the-guard">4.1 Two defects reproduced by deleting the guard</h3>
+<p>A regression test is only worth the failure it would have caught. Two of the eight can be re-created in a scratch copy by deleting the line that fixes them; the repository is not touched.</p>
+<pre><code class="language-bash"># from a checkout of x3d.chess at 9eb14e9
+T=$(mktemp -d); mkdir -p &quot;$T/viewer/js&quot;; ln -s &quot;$PWD/viewer/vendor&quot; &quot;$T/viewer/vendor&quot;
+cp viewer/js/branches.js viewer/js/terrain.js viewer/js/analysis.js &quot;$T/viewer/js/&quot;
+
+# defect 2: drop the wdl branch -&gt; the bound is lost
+sed -i '/t\[i\] === &quot;wdl&quot;/d' &quot;$T/viewer/js/branches.js&quot;
+node --input-type=module -e &quot;import('$T/viewer/js/branches.js').then(m=&gt;console.log(m.parseInfoLine('info depth 9 score cp 7 wdl 400 500 100 lowerbound nodes 5 pv e2e4').bound))&quot;
+# defect 1: drop the k guard -&gt; k=0 never terminates (here it exhausts a 200 MB heap)
+sed -i '/k must be a positive integer/d' &quot;$T/viewer/js/terrain.js&quot;
+node --max-old-space-size=200 --input-type=module -e &quot;import('$T/viewer/js/terrain.js').then(m=&gt;console.log(m.groupFlat([1,2,3],0).length))&quot;; echo exit=$?
+</code></pre>
+<p>On the unmodified tree the first prints <code>lowerbound</code>; on the mutated copy it prints <code>exact</code>. The second throws <code>RangeError: groupFlat: k must be a positive integer</code> on the real tree; on the mutated copy it aborts with <code>FATAL ERROR: Reached heap limit</code> (exit 134), because <code>a.length % 0</code> is <code>NaN</code>, which is falsy, so the length check does not catch it and the loop <code>i += 0</code> pushes an empty slice forever. A spinning loop and an out-of-memory abort are the same defect seen at different heap sizes. <span class="g C" title="Confirmed">C</span> <code>x3d.chess@9eb14e9</code>, Node v22.23.5, 2026-11-18.</p>
+<hr />
+<h2 id="5-async-sai-create-once-paint-synchronously-after-the-last-await">5. Async SAI: create once, paint synchronously after the last await</h2>
+<p>Every overlay is an X3D fragment. <code>browser.createX3DFromString</code> is asynchronous, so the paint has a gap in the middle in which the board can move, reset or be disposed. <code>lenses.js</code> fixes the shape of every lens in one sentence: &quot;created once, painted synchronously after its last <code>await</code>, and guarded by a per-lens revision plus the board's epoch&quot;.</p>
+<pre><code class="language-text">   request (FEN, square, result)
+       |  rev = ++this.rev.&lt;lens&gt;          &lt;- bumped BEFORE any await
+       |  epoch = view.epoch               &lt;- captured BEFORE any await
+       |  compute geometry (pure, sync)
+       v
+   await this._mount(name, xml)            &lt;- the ONLY await; single-flight, created once
+       |
+       |  if (!s || !alive(epoch) || rev !== this.rev.&lt;lens&gt;
+       |      || view.lastFen !== fenSearched) return false
+       v
+   write SAI fields (no await from here to the end)      &lt;- nothing can interleave
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>piece</th>
+<th>what it does</th>
+<th>where</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>single-flight mount</td>
+<td><code>mounts</code> is a map name to promise; a second request waits on the same promise; a failure deletes the entry so a retry can recreate it</td>
+<td><code>BoardLens._mount</code></td>
+<td><span class="g C" title="Confirmed">C</span> read</td>
+</tr>
+<tr>
+<td>revision</td>
+<td>a per-lens counter; a newer request wins</td>
+<td><code>rev.terrain</code>, <code>rev.concepts</code>, <code>rev.insp</code>, <code>rev.branches</code>, <code>rev.ribbon</code></td>
+<td><span class="g C" title="Confirmed">C</span> read</td>
+</tr>
+<tr>
+<td>epoch</td>
+<td>the board's generation; reset or dispose bumps it</td>
+<td><code>view.epoch</code>, <code>_alive(epoch)</code></td>
+<td><span class="g C" title="Confirmed">C</span> read</td>
+</tr>
+<tr>
+<td>FEN check</td>
+<td>branches also require <code>view.lastFen === result.fenSearched</code> after the await</td>
+<td><code>showBranches</code></td>
+<td><span class="g C" title="Confirmed">C</span> read</td>
+</tr>
+<tr>
+<td>pending set</td>
+<td><code>_track</code> keeps unfinished paints so a test or a dispose can wait for them</td>
+<td><code>BoardLens._track</code></td>
+<td><span class="g C" title="Confirmed">C</span> read</td>
+</tr>
+<tr>
+<td>inspector</td>
+<td><code>selectSquare</code> bumps the revision before the await; <code>acceptInspection</code> is the check after it</td>
+<td><code>inspector.js</code>, <code>_paintInspection</code></td>
+<td><span class="g C" title="Confirmed">C</span> read</td>
+</tr>
+</tbody>
+</table>
+<p>The rule that matters is the position of the check: <strong>after</strong> the last <code>await</code>, never before it. A check placed before the await guards nothing, because the world can change during the await. The documentation of <code>concepts.js</code> says it in a line comment (&quot;the ONLY await: the staleness check must come after it&quot;), and the same file notes that a hand-made empty report is refused rather than silently drawn.</p>
+<p>What is tested and what is not. The pure parts have strong tests: <code>inspectionStaleReason</code>, <code>skylineUpdate</code> (it rejects an older generation and a non-increasing sequence number, and a rejected update never advances the guards), <code>acceptResult</code>. The controller <code>BoardLens</code> itself, where the awaits live, is imported by no Node test (a search of <code>tools/*.mjs</code> for <code>lenses.js</code> finds no match); it is exercised only by the native smoke, which presses each lens and does not race one. So the pattern is read and is working in one browser run; it has no adversarial race test. <span class="g C" title="Confirmed">C</span> for the search, <span class="g S" title="Suspected">S</span> that the pattern holds under a real race.</p>
+<hr />
+<h2 id="6-hold-the-game-to-analyze">6. Hold the game to analyze</h2>
+<p>A live arena moves every board within a second or so. An engine search takes longer than that. The first native run is reported to have lost the lines: each search finished against a FEN that was no longer on the board, so the stale-result guard did the right thing and dropped it, and nothing was drawn. <code>docs/LENSES.md</code> records the reason in one sentence (&quot;Without a hold, a live game moves within a second and every result would be stale&quot;); the first-run observation itself is carried from the hand-off for this chapter and no receipt in the repository records the failed run, so it is <span class="g L" title="Likely">L</span>, and the sentence in <code>LENSES.md</code> is <span class="g C" title="Confirmed">C</span> as a statement of the design.</p>
+<p>The options, and what each costs:</p>
+<table>
+<thead>
+<tr>
+<th>fix</th>
+<th>cost</th>
+<th>verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>loosen the guard and draw lines on whatever FEN is now on the board</td>
+<td>the arcs describe a position the board is no longer in; the stale guard exists to forbid exactly this</td>
+<td>wrong</td>
+</tr>
+<tr>
+<td>draw lines on a frozen copy of the position beside the live board</td>
+<td>a second board, more scene, more code; not built</td>
+<td>a fair option, <span class="g S" title="Suspected">S</span></td>
+</tr>
+<tr>
+<td><strong>hold the focused game before its next move is applied, analyze, release</strong></td>
+<td>the observed game stops while held, so the lens changes what it observes</td>
+<td>chosen</td>
+</tr>
+</tbody>
+</table>
+<p>The mechanism is small. <code>WasmTransport.holdGame(id)</code> installs a promise on the game and returns the held FEN; the game loop awaits it before applying its next move; <code>releaseGame(id)</code> resolves it. The transport test is honest about the one gap: &quot;at most the in-flight move may land after the hold&quot;. So <code>main.js</code> waits for the board to catch up (up to 40 polls of 100 ms, 4 s) and if the board still differs from the held FEN it releases and refuses (&quot;The board had not caught up with its game; try again&quot;) instead of drawing. The button label says what happened (&quot;g0 paused so the position stays still&quot;) and pressing the button again clears the lines and resumes. The transport test <code>holdGame freezes a game at its current FEN until released, then play resumes</code> passes (17 of 17 in <code>transport-tests.mjs</code>), and the native receipt step <code>engine-lines</code> shows three labels on a held game, <code>#1 d10 cp -74 (White POV) Nd7</code>, <code>#2 d10 cp -71 ... h5</code>, <code>#3 d10 cp -70 ... Bd7</code>; the smoke script asserts that the game is held while the lines show and released after the second press. <span class="g C" title="Confirmed">C</span> for the test and the script text, <span class="g L" title="Likely">L</span> for the receipt run (read, not re-run).</p>
+<p>The lesson generalises: when an analysis must describe a state, make the state stop, say so on screen, and keep the guard strict. Relaxing the guard to make the picture appear would have turned a missing overlay into a wrong one.</p>
+<hr />
+<h2 id="7-picking-effect-shapes-must-not-catch-the-pointer">7. Picking: effect shapes must not catch the pointer</h2>
+<p>Every board is a PROTO with a TouchSensor inside it. An overlay drawn above the board is a new surface; if it can be hit, it takes the click that was meant for the board. Two rules keep picking working.</p>
+<ol>
+<li><strong>Every overlay and effect shape is created with <code>pointerEvents='false'</code>.</strong> It is in the generated XML of the concepts (<code>concepts.js</code> lines 417 and 418), the branches (<code>branches.js</code> line 237), the effects (<code>fx.js</code> lines 8 and 16) and the terrain (its header: one Shape with <code>pointerEvents=false, visible=false</code>). <span class="g C" title="Confirmed">C</span> read.</li>
+<li><strong>The board PROTO exposes the hit point.</strong> <code>tools/gen_grid.py</code> adds <code>&lt;field accessType='outputOnly' type='SFVec3f' name='hitPoint'/&gt;</code> to the PROTO and routes the sensor's <code>hitPoint_changed</code> into it with an <code>IS</code>/<code>connect</code>. The scene registers a field callback on that field, keeps the last point per board, and, on <code>touchTime</code>, converts it with <code>squareAt</code> (&quot;TouchSensor hit point is board-local: files along +x, rank 1 at +z&quot;) and calls the inspector. A PROTO hides its inner nodes; without an outputOnly field the scene cannot read what the sensor saw. <span class="g C" title="Confirmed">C</span> read.</li>
+</ol>
+<p>The ordering assumption is real: the handler reads the stored hit point when <code>touchTime</code> fires, so it assumes <code>hitPoint_changed</code> arrived first. The native receipt step <code>inspector-click</code> (a real mouse click at 45% by 55% of the canvas) reports board 0 selected and square <code>d4</code> inspected, which is one observation that the order holds in that browser, not a statement about the order in the standard. <span class="g L" title="Likely">L</span></p>
+<p><code>pointerEvents</code> is an X_ITE picking extension, not an X3D 4.0 field. The portable export removes it and says so: <code>export.js</code> strips the attribute and reports a loss <code>Shape.pointerEvents ... X_ITE picking extension omitted from portable X3D</code>. So the picking rule belongs to the live viewer only, and the exported file must not be expected to behave the same way in another browser. <span class="g C" title="Confirmed">C</span> read.</p>
+<hr />
+<h2 id="8-native-browser-evidence-versus-node-evidence">8. Native browser evidence versus Node evidence</h2>
+<p>Two tiers of evidence, and a sentence for what each cannot say.</p>
+<table>
+<thead>
+<tr>
+<th>tier</th>
+<th>what it ran</th>
+<th>it can say</th>
+<th>it cannot say</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Node, pure logic</td>
+<td>module functions on FENs; python-chess oracle; the pinned validator on generated documents</td>
+<td>the numbers are right for the rule; the XML is valid; PVs are legal</td>
+<td>that anything was drawn, picked, or readable</td>
+</tr>
+<tr>
+<td>Node, real engine</td>
+<td>vendored Stockfish WASM as a UCI child process (<code>NodeUciWorker</code>)</td>
+<td>the parser and the legal replay survive real output</td>
+<td>that a Worker starts in a browser (<code>docs/INTEGRATION-ATLAS.md</code>: &quot;WASM Worker initialization must run in the browser; Node UCI execution cannot close that part&quot;)</td>
+</tr>
+<tr>
+<td>native browser, software GL</td>
+<td><code>tools/lens-smoke.mjs</code> in Chromium 153.0.8010.12 with SwiftShader, Playwright 1.63.0, 8 boards, <code>?engine=wasm&amp;boards=8&amp;depth=8&amp;pool=2</code></td>
+<td>each lens mounts and toggles; 13 concepts cycled; inspector by key (<code>f4</code>) and by real click (<code>d4</code>); 3 engine labels with the game held; 8 skyline columns including a typed mate <code>+M1</code>; 192 pieces, 0 misplaced, 0 console errors</td>
+<td>frame rate, GPU precision, depth-sorting of translucent columns on real hardware, label legibility, pixel parity, behaviour with 20 boards</td>
+</tr>
+</tbody>
+</table>
+<p>The receipt is <code>evidence/lens-smoke.json</code>, schema <code>x3dchess.browser-smoke/1</code>, status <code>pass</code>, <code>errors: []</code>, started 2026-11-18T03:03:18Z. Its own scope line is the discipline in one sentence: &quot;Native X_ITE UI/geometry check when executed. A blocked browser is not a pass.&quot; The smoke asserts through the page's own state (<code>need(...)</code> on DOM text, node counts and the held flag), not through pixels; a screenshot is saved but never compared.</p>
+<p><code>docs/LENSES.md</code> closes with the honest part: terrain and concepts repaint on every move of every board when on; with 20 boards on software GL that costs frames; &quot;measure on real hardware before relying on it&quot;. The terrain and the heat overlay also share a plane, so only one should be shown at a time. Neither of those is something SwiftShader can settle. <span class="g C" title="Confirmed">C</span> read; the receipt rows <span class="g L" title="Likely">L</span> (read, not re-run here).</p>
+<hr />
+<h2 id="9-what-is-missing-ranked">9. What is missing, ranked</h2>
+<table>
+<thead>
+<tr>
+<th>rank</th>
+<th>gap</th>
+<th>why it matters</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>no race test for <code>BoardLens</code></td>
+<td>the async guards are the claim of section 5 and only a happy-path browser run touches them</td>
+<td><span class="g C" title="Confirmed">C</span> absent</td>
+</tr>
+<tr>
+<td>2</td>
+<td>no GPU run</td>
+<td>translucent columns, label size and frame cost are unmeasured</td>
+<td><span class="g C" title="Confirmed">C</span> absent</td>
+</tr>
+<tr>
+<td>3</td>
+<td>the first-run lost-lines finding has no receipt</td>
+<td>a finding that drove a design change should be recorded as a run</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>4</td>
+<td>depth and FEN count differ between prose and test</td>
+<td>small, but a reader quoting &quot;three FENs&quot; quotes the loser</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td>the server transport has no analysis endpoint</td>
+<td>engine lines work only with <code>engine=wasm</code></td>
+<td><span class="g C" title="Confirmed">C</span> read</td>
+</tr>
+<tr>
+<td>6</td>
+<td>the eight defects have no before-fix tree to re-run</td>
+<td>section 4.1 reproduces two by deleting a guard; six are read from comments</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-LNS-1</td>
+<td>Before drawing an overlay, write its question, its exact quantity and its instrument; if one of the three is missing, the overlay is a picture, not a claim.</td>
+<td>C</td>
+<td>the lens table of <code>docs/LENSES.md</code> has an honest-label cell per lens; the legends are asserted in tests</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>H-LNS-2</td>
+<td>Keep attack count, legal move, static exchange and engine line apart on one square; never merge two into one colour.</td>
+<td>C</td>
+<td>at f6: balance +1, attacker g5 pseudo-legal, move g5f6 illegal</td>
+<td>inspector, python-chess 1.11.2, drill D-LNS-5</td>
+</tr>
+<tr>
+<td>H-LNS-3</td>
+<td>Return <code>null</code>, not <code>false</code>, when the question does not apply; render <code>null</code> neutrally.</td>
+<td>C</td>
+<td>defender and pawn-diagonal cases are <code>null</code> (defect 5); 4,080 such attackers in the 100-position run</td>
+<td><code>tools/inspector-test.mjs</code>, run 2026-11-18</td>
+</tr>
+<tr>
+<td>H-LNS-4</td>
+<td>Test against a library that shares no code or algorithm with the module; agreement with a twin is parity, not correctness.</td>
+<td>C</td>
+<td>a board-copying SEE against an iterative swap list; 50,112 checks, 0 disagreements</td>
+<td><code>tools/concepts-test.mjs</code>, python-chess 1.11.2</td>
+</tr>
+<tr>
+<td>H-LNS-5</td>
+<td>Commit the oracle's expectation file and regenerate it in the test; fail on a byte difference.</td>
+<td>C</td>
+<td>inspector expectation file, fixed seed</td>
+<td><code>tools/inspector-test.mjs</code></td>
+</tr>
+<tr>
+<td>H-LNS-6</td>
+<td>Count what a random test actually met and assert floors; a test that never meets a pin says nothing about pins.</td>
+<td>C</td>
+<td>21 en passant, 21 castles, 92 promotions, 12 pinned, 698 illegal attackers</td>
+<td><code>tools/inspector-test.mjs</code> coverage block</td>
+</tr>
+<tr>
+<td>H-LNS-7</td>
+<td>Give every oracle a negative control: a mutated fixture it must reject.</td>
+<td>C</td>
+<td>19 mutated concept fixtures detected; corrupted PV gives exactly 1 rejection</td>
+<td><code>tools/concepts-test.mjs</code>, <code>tools/branches-test.mjs</code></td>
+</tr>
+<tr>
+<td>H-LNS-8</td>
+<td>Parse a producer's output by reading real output, and accept optional tokens in any order it can emit.</td>
+<td>C</td>
+<td><code>wdl</code> before <code>lowerbound</code> turned a bound into <code>exact</code> when the branch was deleted</td>
+<td>scratch mutation, section 4.1</td>
+</tr>
+<tr>
+<td>H-LNS-9</td>
+<td>Validate any loop-step parameter; a falsy length check does not catch a zero step.</td>
+<td>C</td>
+<td><code>[1,2,3].length % 0</code> is NaN; the guard removed gives a heap abort, exit 134</td>
+<td>scratch mutation, Node v22.23.5</td>
+</tr>
+<tr>
+<td>H-LNS-10</td>
+<td>Treat the neighbourhood of zero as its own test case: -4 cp, 0 cp and a missing score must look different.</td>
+<td>C</td>
+<td>labels <code>+0.0</code>, <code>-0.0</code>, <code>0.0</code>; cap below baseline for -4 cp; zero is a hairline tick</td>
+<td><code>tools/skyline-test.mjs</code> line 187, run</td>
+</tr>
+<tr>
+<td>H-LNS-11</td>
+<td>Put the staleness check after the last <code>await</code>, and bump the revision before the first.</td>
+<td>C</td>
+<td><code>showBranches</code>, <code>_paintInspection</code>, header of <code>concepts.js</code></td>
+<td><code>x3d.chess@9eb14e9:viewer/js/lenses.js</code>, read</td>
+</tr>
+<tr>
+<td>H-LNS-12</td>
+<td>When an analysis must describe a state, hold the state, say so on screen, and keep the guard strict.</td>
+<td>L</td>
+<td>held game test passes; the lost-lines first run is carried from a hand-off, not a receipt</td>
+<td><code>tools/transport-tests.mjs</code>, 17 of 17</td>
+</tr>
+<tr>
+<td>H-LNS-13</td>
+<td>Create every overlay shape with <code>pointerEvents='false'</code>, and expose the picked point through an outputOnly PROTO field.</td>
+<td>C</td>
+<td>all overlay generators carry it; <code>hitPoint</code> in the board PROTO</td>
+<td><code>viewer/js/*.js</code>, <code>tools/gen_grid.py</code>, read</td>
+</tr>
+<tr>
+<td>H-LNS-14</td>
+<td>Say in the receipt what a blocked or software-GL run cannot show; never read a pass as a frame-rate or pixel claim.</td>
+<td>C</td>
+<td>receipt <code>scope</code> line; <code>docs/LENSES.md</code> limits</td>
+<td><code>evidence/lens-smoke.json</code>, Chromium 153.0.8010.12 SwiftShader</td>
+</tr>
+<tr>
+<td>H-LNS-15</td>
+<td>When prose and test disagree on a number, quote the test and grade the prose <span class="g S" title="Suspected">S</span>.</td>
+<td>C</td>
+<td>&quot;three FENs&quot; in two documents, four in the test</td>
+<td><code>tools/branches-test.mjs</code> line 298</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="drills">Drills</h2>
+<p>Each drill runs from a checkout of <code>x3d.chess</code> at <code>9eb14e9</code> with Node 22 or newer. Drills that use the oracle need <code>pip install chess</code> (python-chess 1.11.2) and <code>CHESS_TEST_PYTHON=python3</code>. The checkout is read-only for every drill; mutations go to a <code>mktemp -d</code> copy.</p>
+<h3 id="d-lns-1-count-the-lenses-and-the-concepts">D-LNS-1 Count the lenses and the concepts</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> How many concept identifiers does <code>concepts.js</code> export, and which one is the static exchange estimate?</li>
+<li><strong>Verify:</strong> <code>node --input-type=module -e &quot;import('./viewer/js/concepts.js').then(m=&gt;console.log(m.CONCEPT_IDS.length, m.CONCEPT_IDS.join(' ')))&quot;</code></li>
+<li><strong>Answer:</strong> 13: <code>hanging see isolated doubled passed backward connected outpost openFiles halfOpenFiles rookFile kingZone bishopPair</code>. The static exchange estimate is <code>see</code>.</li>
+<li><strong>Checked:</strong> 2026-11-18 <code>x3d.chess@9eb14e9</code>, Node v22.23.5</li>
+</ul>
+<h3 id="d-lns-2-re-run-the-oracles">D-LNS-2 Re-run the oracles</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Run the terrain, concepts and skyline tests and record each tool's own count line. Then run the concepts test without <code>CHESS_TEST_PYTHON</code> and say what happens.</li>
+<li><strong>Verify:</strong> <code>node tools/terrain-test.mjs</code>, <code>CHESS_TEST_PYTHON=python3 node tools/concepts-test.mjs</code>, <code>node tools/skyline-test.mjs</code>; then <code>node tools/concepts-test.mjs</code> unset.</li>
+<li><strong>Answer:</strong> terrain <code>&quot;checks&quot;:609</code>; concepts <code>&quot;checks&quot;:50112,&quot;positions&quot;:327</code>; skyline <code>&quot;checks&quot;:3360,&quot;validated_documents&quot;:7</code>. Without the variable the concepts test prints <code>FAIL: CHESS_TEST_PYTHON is not set; the independent oracle cannot be run</code> and does not pass: the oracle is required, not optional.</li>
+<li><strong>Checked:</strong> 2026-11-18 <code>x3d.chess@9eb14e9</code>, Node v22.23.5, python-chess 1.11.2</li>
+</ul>
+<h3 id="d-lns-3-delete-the-wdl-branch">D-LNS-3 Delete the wdl branch</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Reproduce defect 2: in a scratch copy of <code>branches.js</code>, delete the <code>wdl</code> branch of <code>parseInfoLine</code>, parse <code>info depth 9 score cp 7 wdl 400 500 100 lowerbound nodes 5 pv e2e4</code>, and compare the <code>bound</code> with the real module. Then say which existing test would turn red and why.</li>
+<li><strong>Verify:</strong> the first script of section 4.1.</li>
+<li><strong>Answer:</strong> real module <code>lowerbound</code>, mutated copy <code>exact</code>. <code>tools/branches-test.mjs</code> line 36 feeds three orderings of <code>wdl</code> and the bound (<code>lowerbound</code> after <code>wdl</code>, <code>upperbound</code> before <code>wdl</code>, and no bound, expecting <code>exact</code>) and asserts each; the first would read <code>exact</code> and fail. The fix matters because an engine search that stops at a bound is not an exact score.</li>
+<li><strong>Checked:</strong> 2026-11-18 <code>x3d.chess@9eb14e9</code>, Node v22.23.5, scratch copy</li>
+</ul>
+<h3 id="d-lns-4-delete-the-k-guard">D-LNS-4 Delete the k guard</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> Reproduce defect 1: call <code>groupFlat([1,2,3],0)</code> on the real module and on a copy with the guard line deleted, under <code>--max-old-space-size=200</code>. Explain why the length check does not catch it.</li>
+<li><strong>Verify:</strong> the second script of section 4.1.</li>
+<li><strong>Answer:</strong> real module throws <code>RangeError: groupFlat: k must be a positive integer</code>; the mutated copy aborts with <code>Reached heap limit</code> and exit 134. <code>3 % 0</code> is <code>NaN</code>, which is falsy, so the line <code>if (a.length % k)</code> never fires and <code>i += 0</code> pushes empty slices without end.</li>
+<li><strong>Checked:</strong> 2026-11-18 <code>x3d.chess@9eb14e9</code>, Node v22.23.5, scratch copy</li>
+</ul>
+<h3 id="d-lns-5-one-square-four-answers">D-LNS-5 One square, four answers</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> For <code>k7/8/8/r4pPK/8/8/8/8 w - f6 0 1</code> list the legal moves, then ask the inspector about f6 and python-chess about <code>g5f6</code>. Report the control balance, the attacker's <code>attackLegalToPlay</code> and whether <code>g5f6</code> is pseudo-legal and legal.</li>
+<li><strong>Verify:</strong> <code>node --input-type=module -e &quot;import('./viewer/vendor/chess.js').then(async({Chess})=&gt;{const fen='k7/8/8/r4pPK/8/8/8/8 w - f6 0 1';console.log(new Chess(fen).moves({verbose:true}).map(m=&gt;m.from+m.to).sort().join(' '));const I=await import('./viewer/js/inspector.js');const i=I.inspect(fen,'f6');console.log(i.control.balance,i.attackedBy.w.map(a=&gt;a.square+':'+a.attackLegalToPlay).join(),i.legal.destinations.length)})&quot;</code> and <code>python3 -c &quot;import chess;b=chess.Board('k7/8/8/r4pPK/8/8/8/8 w - f6 0 1');m=chess.Move.from_uci('g5f6');print(sorted(x.uci() for x in b.legal_moves), m in b.pseudo_legal_moves, m in b.legal_moves)&quot;</code></li>
+<li><strong>Answer:</strong> legal moves <code>g5g6 h5g6 h5h4 h5h6</code>. Control balance 1; attacker <code>g5:false</code>; zero destinations on f6; <code>g5f6</code> is pseudo-legal (True) and not legal (False), because removing both pawns opens the a5 to h5 rank onto the king.</li>
+<li><strong>Checked:</strong> 2026-11-18 <code>x3d.chess@9eb14e9</code>, chess.js as vendored, python-chess 1.11.2</li>
+</ul>
+<h3 id="d-lns-6-the-neighbourhood-of-zero">D-LNS-6 The neighbourhood of zero</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Feed the skyline five scores, +5, -5, +4, -4 and 0 centipawns, and write the label and whether the cap sits above or below the baseline for each.</li>
+<li><strong>Verify:</strong> the <code>eq([5,-5,4,-4,0,-250,249]...)</code> line of <code>tools/skyline-test.mjs</code>; or build a state with <code>skylineLayout</code>, <code>skylineState</code>, <code>skylineUpdate</code> and read <code>skylinePoints(...).labels</code>.</li>
+<li><strong>Answer:</strong> labels <code>+0.1</code>, <code>-0.1</code>, <code>+0.0</code>, <code>-0.0</code>, <code>0.0</code>. With the baseline at y 4, the cap vertex is 4.04 for +5, +4 and 0 (the minimum thickness), and 3.96 for -5 and -4 (below). A small negative score keeps its downward sign instead of being drawn up and called zero.</li>
+<li><strong>Checked:</strong> 2026-11-18 <code>x3d.chess@9eb14e9</code>, Node v22.23.5</li>
+</ul>
+<h3 id="d-lns-7-count-what-the-random-test-met">D-LNS-7 Count what the random test met</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> Run the inspector test and report the coverage tally of its 100 x 64 comparisons. Which counter is named for one case but counts two?</li>
+<li><strong>Verify:</strong> <code>CHESS_TEST_PYTHON=python3 node tools/inspector-test.mjs</code></li>
+<li><strong>Answer:</strong> <code>{&quot;ep&quot;:21,&quot;castle&quot;:21,&quot;promotion&quot;:92,&quot;check&quot;:20,&quot;pinned&quot;:12,&quot;illegalAttack&quot;:698,&quot;kingTarget&quot;:4080}</code>; 35 tests pass. <code>kingTarget</code> increments whenever <code>attackLegalToPlay</code> is <code>null</code>, which includes defenders and pawn diagonals as well as king targets, so its name undersells it. The floors asserted are for example at least 10 en passant and at least 100 illegal attackers.</li>
+<li><strong>Checked:</strong> 2026-11-18 <code>x3d.chess@9eb14e9</code>, Node v22.23.5, python-chess 1.11.2</li>
+</ul>
+<h3 id="d-lns-8-read-the-native-receipt">D-LNS-8 Read the native receipt</h3>
+<ul>
+<li><strong>Level:</strong> L1</li>
+<li><strong>Task:</strong> From <code>evidence/lens-smoke.json</code>, give the browser version, the number of boards and pieces, the count of misplaced pieces, the labels of the three engine lines, and the skyline label that is a typed mate.</li>
+<li><strong>Verify:</strong> <code>python3 -c &quot;import json;d=json.load(open('evidence/lens-smoke.json'));print(d['browser_version'],d['scene']['boards'],d['scene']['pieces'],d['scene']['misplaced'],[s for s in d['steps'] if s['name']=='engine-lines'][0]['labels'],[s for s in d['steps'] if s['name']=='skyline'][0]['labels'])&quot;</code></li>
+<li><strong>Answer:</strong> <code>153.0.8010.12</code>, 8 boards, 192 pieces, 0 misplaced; labels <code>#1 d10 cp -74 (White POV) Nd7</code>, <code>#2 d10 cp -71 (White POV) h5</code>, <code>#3 d10 cp -70 (White POV) Bd7</code>; the typed mate is <code>+M1</code>.</li>
+<li><strong>Checked:</strong> 2026-11-18 <code>x3d.chess@9eb14e9</code>, Python 3</li>
+</ul>
+<hr />
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> The five Node test gates were re-run on 2026-11-18 and pass with the counts quoted. The 17 transport tests pass.</li>
+<li><strong><span class="g L" title="Likely">L</span></strong> The native browser run (<code>evidence/lens-smoke.json</code>: Chromium 153.0.8010.12, SwiftShader, Playwright 1.63.0) is read from its receipt, not re-run here; the numbers are the receipt's.</li>
+<li><strong><span class="g L" title="Likely">L</span></strong> The statement that the first native run dropped every MultiPV result because the live game moved is carried from a hand-off note; no receipt of the failed run is in the repository. The design reason in <code>docs/LENSES.md</code> is <span class="g C" title="Confirmed">C</span> as text.</li>
+<li><strong><span class="g L" title="Likely">L</span></strong> What each of the eight defects did before its fix is read from the regression-test comments and the list in <code>docs/LENSES.md</code>; the pre-fix tree is not in the checkout. Only defects 1 and 2 were re-created, by deleting a guard in a scratch copy.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> No Node test imports <code>lenses.js</code>; the async guards of section 5 have no adversarial race test, only a happy-path browser run. That they hold under a real race is <span class="g S" title="Suspected">S</span>.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> python-chess is an oracle for attack counts, legal moves and SEE; it cannot be one for &quot;backward pawn&quot;, &quot;outpost&quot; or &quot;king-zone weight&quot;, which are the repository's own definitions. The concepts test checks the rule as written, not that the rule is good chess; <code>docs/LENSES.md</code> says the definitions are &quot;counting rules, not strategic verdicts&quot;.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> A software-GL browser run says nothing about frame rate, GPU precision, translucent sorting, label legibility or 20-board cost; the repository says so itself.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> <code>docs/LENSES.md</code> and <code>docs/RESULTS.md</code> say &quot;three FENs&quot; for the real-engine test; the test has four. Documents and test also use depth 8 (arena and test) and depth 10 (the button). The tests and code are quoted; the prose is <span class="g S" title="Suspected">S</span>.</li>
+<li><strong><span class="g S" title="Suspected">S</span></strong> That a frozen copy of the position beside the live board would be a better fix than holding the game is an expectation, not a measurement.</li>
+<li><strong><span class="g C" title="Confirmed">C</span></strong> Timings were not measured and none is claimed. The CI wiring (aggregate test and native smoke) is read from the commit message, not run.</li>
+</ul>
+<hr />
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-LNS-1</td>
+<td>opt-in overlays in the change</td>
+<td>5</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-2</td>
+<td>concepts in the concept lens</td>
+<td>13</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>CONCEPT_IDS.length</code>, Node v22.23.5</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-3</td>
+<td>terrain checks, both modes, vs python-chess</td>
+<td>609</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>node tools/terrain-test.mjs</code>, python-chess 1.11.2</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-4</td>
+<td>concepts checks; positions</td>
+<td>50,112; 327</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>CHESS_TEST_PYTHON=python3 node tools/concepts-test.mjs</code>, python-chess 1.11.2</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-5</td>
+<td>concepts positions: random; classic; generator seed</td>
+<td>300; 27; 20261117</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>tools/concepts_gen.py</code> constants, 327 minus 300</td>
+<td><code>x3d.chess@9eb14e9:tools/concepts_gen.py</code></td>
+</tr>
+<tr>
+<td>N-LNS-6</td>
+<td>inspector tests; random positions x squares</td>
+<td>35; 100 x 64</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>node tools/inspector-test.mjs</code>, python-chess 1.11.2</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-7</td>
+<td>inspector run coverage: en passant; castle; promotion; check; pinned</td>
+<td>21; 21; 92; 20; 12</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same run, coverage block</td>
+<td><code>x3d.chess@9eb14e9:tools/inspector-test.mjs</code></td>
+</tr>
+<tr>
+<td>N-LNS-8</td>
+<td>inspector run: illegal geometric attackers; attackers with no move to ask about</td>
+<td>698; 4,080</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>same run</td>
+<td><code>x3d.chess@9eb14e9:tools/inspector-test.mjs</code></td>
+</tr>
+<tr>
+<td>N-LNS-9</td>
+<td>branches: test groups; engine setting</td>
+<td>9; MultiPV 3, depth 8</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>node tools/branches-test.mjs</code>, vendored Stockfish under Node</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-10</td>
+<td>branches real-engine cases: in the prose; in the test</td>
+<td>3; 4</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>prose loses; the test file defines four cases</td>
+<td><code>x3d.chess@9eb14e9:tools/branches-test.mjs</code></td>
+</tr>
+<tr>
+<td>N-LNS-11</td>
+<td>skyline checks; board range; documents validated</td>
+<td>3,360; 1 to 64; 7</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>node tools/skyline-test.mjs</code></td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-12</td>
+<td>transport tests run; passed</td>
+<td>17; 17</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td><code>node tools/transport-tests.mjs</code>, Node v22.23.5</td>
+<td><code>x3d.chess@9eb14e9:tools/transport-tests.mjs</code></td>
+</tr>
+<tr>
+<td>N-LNS-13</td>
+<td>mutated concept fixtures detected</td>
+<td>19</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>concepts test, negative controls</td>
+<td><code>x3d.chess@9eb14e9:tools/concepts-test.mjs</code></td>
+</tr>
+<tr>
+<td>N-LNS-14</td>
+<td>colour-flip and file-mirror symmetry positions</td>
+<td>1,507</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>concepts test output line</td>
+<td><code>x3d.chess@9eb14e9:tools/concepts-test.mjs</code></td>
+</tr>
+<tr>
+<td>N-LNS-15</td>
+<td>terrain caps: count mode; material mode</td>
+<td>6; 12</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-16</td>
+<td>skyline height: pawns clamp; units per pawn</td>
+<td>6; 0.4</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-17</td>
+<td>skyline hairline thickness for cp = 0</td>
+<td>0.04</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read; test <code>near(capY(z,0)-baseRingY(z,0),SKY.MIN_H)</code></td>
+<td><code>x3d.chess@9eb14e9:viewer/js/skyline.js</code></td>
+</tr>
+<tr>
+<td>N-LNS-18</td>
+<td>skyline labels for +5, -5, +4, -4, 0 cp</td>
+<td>+0.1; -0.1; +0.0; -0.0; 0.0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>skyline test line 187 and a direct call, Node v22.23.5</td>
+<td><code>x3d.chess@9eb14e9:tools/skyline-test.mjs</code></td>
+</tr>
+<tr>
+<td>N-LNS-19</td>
+<td>pennant spill before the fix (units off the h-file)</td>
+<td>0.16</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>test comment; pre-fix tree not in the checkout</td>
+<td><code>x3d.chess@9eb14e9:tools/concepts-test.mjs</code></td>
+</tr>
+<tr>
+<td>N-LNS-20</td>
+<td>engine lines from the app button: MultiPV; depth</td>
+<td>3; 10</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read</td>
+<td><code>x3d.chess@9eb14e9:viewer/js/main.js</code></td>
+</tr>
+<tr>
+<td>N-LNS-21</td>
+<td>hold wait: polls; interval (ms); total (s)</td>
+<td>40; 100; 4</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read; total derived by multiplication</td>
+<td><code>x3d.chess@9eb14e9:viewer/js/main.js</code></td>
+</tr>
+<tr>
+<td>N-LNS-22</td>
+<td>ribbon window (plies); controller history cap</td>
+<td>60; 240</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>read</td>
+<td><code>x3d.chess@9eb14e9:viewer/js/skyline.js</code></td>
+</tr>
+<tr>
+<td>N-LNS-23</td>
+<td>f6 position: control balance; legal moves; legal destinations on f6</td>
+<td>+1; 4; 0</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>inspector, chess.js, python-chess 1.11.2</td>
+<td><code>x3d.chess@9eb14e9:docs/CHESS-REVIEW.md</code></td>
+</tr>
+<tr>
+<td>N-LNS-24</td>
+<td>scratch mutation: k guard deleted, heap 200 MB: exit code</td>
+<td>134</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Node v22.23.5, <code>--max-old-space-size=200</code></td>
+<td><code>x3d.chess@9eb14e9:viewer/js/terrain.js</code></td>
+</tr>
+<tr>
+<td>N-LNS-25</td>
+<td>scratch mutation: wdl branch deleted: bound read</td>
+<td>exact</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>Node v22.23.5</td>
+<td><code>x3d.chess@9eb14e9:viewer/js/branches.js</code></td>
+</tr>
+<tr>
+<td>N-LNS-26</td>
+<td>native run: boards; pieces; misplaced; console errors</td>
+<td>8; 192; 0; 0</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td><code>evidence/lens-smoke.json</code>, Chromium 153.0.8010.12, SwiftShader, not re-run</td>
+<td><code>x3d.chess@9eb14e9:evidence/lens-smoke.json</code></td>
+</tr>
+<tr>
+<td>N-LNS-27</td>
+<td>native run: engine-line scores (cp, White POV) at depth 10</td>
+<td>-74; -71; -70</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>same receipt</td>
+<td><code>x3d.chess@9eb14e9:evidence/lens-smoke.json</code></td>
+</tr>
+<tr>
+<td>N-LNS-28</td>
+<td>native run: concepts cycled; skyline columns</td>
+<td>13; 8</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>same receipt</td>
+<td><code>x3d.chess@9eb14e9:evidence/lens-smoke.json</code></td>
+</tr>
+<tr>
+<td>N-LNS-29</td>
+<td>native run rig: Chromium; Playwright</td>
+<td>153.0.8010.12; 1.63.0</td>
+<td><span class="g L" title="Likely">L</span></td>
+<td>same receipt</td>
+<td><code>x3d.chess@9eb14e9:evidence/lens-smoke.json</code></td>
+</tr>
+<tr>
+<td>N-LNS-30</td>
+<td>lens defects found by adversarial review, each with a regression test</td>
+<td>8</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+<td>list read; tests run</td>
+<td><code>x3d.chess@9eb14e9:docs/LENSES.md</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<p>Read and run on 2026-11-18: <code>x3d.chess</code> at <code>9eb14e9</code>, the head of branch <code>claude/project-thread-2j8j26</code> (pull request 7 on <code>hagopjay/x3d.chess</code>, public), a merge of the lenses commit <code>d432fe8</code> with the main line. The Node gates were run from a checkout of that commit with Node v22.23.5 and python-chess 1.11.2; the scratch mutations of section 4.1 were made on copies and the checkout was left clean. The browser rows come from <code>evidence/lens-smoke.json</code> at the same commit and were not re-run in this session. Two things in this chapter were carried and not re-derived: the report that the first native run lost its engine lines, and the CI wiring described in the commit message. No private repository, private document or unpublished material was used.</p>
+<div class="pn"><a href="25-accretion-gated-growth.html">&larr; 25-accretion-gated-growth</a><a href="27-shaders-vulkan-contracts.html">27-shaders-vulkan-contracts &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

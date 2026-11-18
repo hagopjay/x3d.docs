@@ -15,6 +15,22 @@
    "values": 55,
    "values_verified": 45,
    "values_with_quote": 45
+  },
+  {
+   "chapter": "25",
+   "rows": 26,
+   "rows_with_ledger": 12,
+   "values": 73,
+   "values_verified": 29,
+   "values_with_quote": 29
+  },
+  {
+   "chapter": "26",
+   "rows": 30,
+   "rows_with_ledger": 18,
+   "values": 60,
+   "values_verified": 32,
+   "values_with_quote": 32
   }
  ],
  "engine": "check_claims 0.1",
@@ -773,6 +789,564 @@
    "pin": "pinned",
    "source": "x3d_mcp@e55375f:docs/scene-evidence.md",
    "value": 92280,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-3",
+   "line": 14,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:docs/GATE-CONTRACT.md",
+   "value": 24,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-4",
+   "line": 31,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:docs/GATE-CONTRACT.md",
+   "value": 12,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-4",
+   "line": 32,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:docs/GATE-CONTRACT.md",
+   "value": 24,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-5",
+   "line": 33,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:docs/GATE-CONTRACT.md",
+   "value": 80,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-5",
+   "line": 35,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:docs/GATE-CONTRACT.md",
+   "value": 16,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-5",
+   "line": 36,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:docs/GATE-CONTRACT.md",
+   "value": 160,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-6",
+   "line": 77,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:docs/GATE-CONTRACT.md",
+   "value": "1.1754944e-38",
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-7",
+   "line": 3,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md",
+   "value": 6,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-7",
+   "line": 3,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md",
+   "value": 45,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-7",
+   "line": 3,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md",
+   "value": 2,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-7",
+   "line": 3,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md",
+   "value": 80,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-8",
+   "line": 49,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md",
+   "value": 30000,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-22",
+   "line": 103,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:README.md",
+   "value": 4.333,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-22",
+   "line": 104,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:README.md",
+   "value": 28.118,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-22",
+   "line": 105,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:README.md",
+   "value": 1819603,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-22",
+   "line": 105,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:README.md",
+   "value": 266921,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-23",
+   "line": 106,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:README.md",
+   "value": 154.386,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-23",
+   "line": 106,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:README.md",
+   "value": 90,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-24",
+   "line": 54,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:README.md",
+   "value": 512,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-24",
+   "line": 55,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:README.md",
+   "value": 24,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-24",
+   "line": 55,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:README.md",
+   "value": 48,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-24",
+   "line": 55,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:README.md",
+   "value": 96,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-24",
+   "line": 111,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:README.md",
+   "value": 10000,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-25",
+   "line": 73,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md",
+   "value": 1200,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-25",
+   "line": 73,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md",
+   "value": 40,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-25",
+   "line": 73,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md",
+   "value": 0,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-26",
+   "line": 69,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md",
+   "value": 19,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-26",
+   "line": 70,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md",
+   "value": 10,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "25",
+   "id": "N-ACC-15",
+   "line": 3,
+   "pin": "pinned",
+   "source": "x3d.accrete@93063bf:examples/checkpoint.json",
+   "value": 24,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-2",
+   "line": 8,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 13,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-3",
+   "line": 24,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 609,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-4",
+   "line": 25,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 50112,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-4",
+   "line": 25,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 327,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-5",
+   "line": 27,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:tools/concepts_gen.py",
+   "value": 20261117,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-5",
+   "line": 28,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:tools/concepts_gen.py",
+   "value": 300,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-6",
+   "line": 26,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 35,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-6",
+   "line": 26,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 100,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-6",
+   "line": 26,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 64,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-9",
+   "line": 27,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 9,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-10",
+   "line": 298,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:tools/branches-test.mjs",
+   "value": 4,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-11",
+   "line": 28,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 3360,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-11",
+   "line": 28,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 64,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-11",
+   "line": 28,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 7,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-15",
+   "line": 7,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 6,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-15",
+   "line": 7,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 12,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-16",
+   "line": 11,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 6,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-16",
+   "line": 11,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 0.4,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-17",
+   "line": 72,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:viewer/js/skyline.js",
+   "value": 0.04,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-19",
+   "line": 290,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:tools/concepts-test.mjs",
+   "value": 0.16,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-20",
+   "line": 75,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:viewer/js/main.js",
+   "value": 3,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-20",
+   "line": 75,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:viewer/js/main.js",
+   "value": 10,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-21",
+   "line": 73,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:viewer/js/main.js",
+   "value": 40,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-21",
+   "line": 73,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:viewer/js/main.js",
+   "value": 100,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-22",
+   "line": 38,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:viewer/js/skyline.js",
+   "value": 60,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-22",
+   "line": 117,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:viewer/js/lenses.js",
+   "value": 240,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-26",
+   "line": 67,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:evidence/lens-smoke.json",
+   "value": 8,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-26",
+   "line": 68,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:evidence/lens-smoke.json",
+   "value": 192,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-26",
+   "line": 69,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:evidence/lens-smoke.json",
+   "value": 0,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-28",
+   "line": 20,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:evidence/lens-smoke.json",
+   "value": 13,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-28",
+   "line": 50,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:evidence/lens-smoke.json",
+   "value": 8,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-29",
+   "line": 10,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:evidence/lens-smoke.json",
+   "value": "153.0.8010.12",
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-29",
+   "line": 9,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:evidence/lens-smoke.json",
+   "value": "1.63.0",
    "verdict": "verified"
   }
  ],

@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**183 drills**, 170 with a recorded run (`Checked`), 13 not yet run. Levels: L1 35, L2 96, L3 52.
+**207 drills**, 193 with a recorded run (`Checked`), 14 not yet run. Levels: L1 40, L2 109, L3 58.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -184,10 +184,34 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-TRC-4 | [23](23-traceability-lineage.md) | L3 | Break the verifier, then extend it | 2026-11-16 `x3dtrace` dcba70d7, Python 3.13.18 |
 | D-TRC-5 | [23](23-traceability-lineage.md) | L2 | Edit the record | 2026-11-16 `x3dtrace` dcba70d7, `x3dprov` of `x3d.ml@305fd60`, Python 3.13.18, lxml 6 |
 | D-TRC-6 | [23](23-traceability-lineage.md) | L1 | Coverage that lies | 2026-11-16 `x3dtrace` dcba70d7, Python 3.13.18 |
-| D-SVK-1 | [24](24-shaders-vulkan-contracts.md) | L1 | Find the X_ITE encode | 2026-11-17 `X_ITE 16.7.1`, line 67921 read. |
-| D-SVK-2 | [24](24-shaders-vulkan-contracts.md) | L2 | Predict the three bytes | 2026-11-17 `X_ITE 16.7.1`, Chromium 153.0.8010.12, SwiftShader. |
-| D-SVK-3 | [24](24-shaders-vulkan-contracts.md) | L2 | Undo the fake loss | 2026-11-17 Python 3.13.18. |
-| D-SVK-4 | [24](24-shaders-vulkan-contracts.md) | L3 | Write the depth test | 2026-11-17 Python 3.13.18 (forward values); reversed case reasoned. |
-| D-SVK-5 | [24](24-shaders-vulkan-contracts.md) | L3 | Same shader, other driver | 2026-11-17 Mesa 25.2.8 lavapipe, LLVM 20.1.2. |
-| D-SVK-6 | [24](24-shaders-vulkan-contracts.md) | L2 | Reproduce the Fieldbook lab | 2026-11-17 CPython 3.13.18, GCC. |
+| D-MLB-1 | [24](24-math-lab-static-host.md) | L1 | Which lessons are bit-identical | 2026-11-17 `x3d.mathslab@24c9bbd` receipt, Python 3.13.18 |
+| D-MLB-2 | [24](24-math-lab-static-host.md) | L2 | Totals and the worst difference | 2026-11-17 `x3d.mathslab@24c9bbd` receipt, Python 3.13.18 |
+| D-MLB-3 | [24](24-math-lab-static-host.md) | L2 | What one ulp is, and what a tolerance has to accept | 2026-11-17 Python 3.13.18, standard library only |
+| D-MLB-4 | [24](24-math-lab-static-host.md) | L2 | Same model, two transports | 2026-11-17 `x3d.mathslab@24c9bbd` receipts, Python 3.13.18 |
+| D-MLB-5 | [24](24-math-lab-static-host.md) | L1 | The portability contract | 2026-11-17 `x3d.mathslab@24c9bbd`, `grep` |
+| D-MLB-6 | [24](24-math-lab-static-host.md) | L3 | Receipt versus fresh run | not run (read only; the 4-of-89 failure itself was not reproduced here) |
+| D-ACC-1 | [25](25-accretion-gated-growth.md) | L1 | Count the vocabulary | 2026-11-17 `x3d.accrete@93063bf`, Python 3.13.18 |
+| D-ACC-2 | [25](25-accretion-gated-growth.md) | L2 | Before and after the review | 2026-11-17 `x3d.accrete@52ba996` and `@93063bf`, Python 3.13.18, lxml 6.1.3 |
+| D-ACC-3 | [25](25-accretion-gated-growth.md) | L2 | The float32 floor and the lexer | 2026-11-17 `x3d.accrete@52ba996` and `@93063bf`, pinned `x3d_mcp@b5c9956`, lxml 6.1.3 |
+| D-ACC-4 | [25](25-accretion-gated-growth.md) | L2 | The vocabulary trap | 2026-11-17 `x3d.accrete@93063bf`, `x3d_mcp@b5c9956`, Python 3.13.18 |
+| D-ACC-5 | [25](25-accretion-gated-growth.md) | L3 | Forge the last entry | 2026-11-17 `x3d.accrete@93063bf`, Python 3.13.18 |
+| D-ACC-6 | [25](25-accretion-gated-growth.md) | L3 | The rebinding guard | 2026-11-17 `x3d.accrete@52ba996` and `@93063bf`, Python 3.13.18, curl |
+| D-ACC-7 | [25](25-accretion-gated-growth.md) | L2 | Same code, different history | 2026-11-17 `x3d.accrete@93063bf`, Python 3.13.18, 4 vCPU |
+| D-ACC-8 | [25](25-accretion-gated-growth.md) | L3 | Fuzz the gate | 2026-11-17 `x3d.accrete@93063bf`, Python 3.13.18 (the rename extension: not run) |
+| D-ACC-9 | [25](25-accretion-gated-growth.md) | L2 | Profile an append | 2026-11-17 `x3d.accrete@93063bf`, Python 3.13.18, lxml 6.1.3 |
+| D-ACC-10 | [25](25-accretion-gated-growth.md) | L2 | Browser parity | 2026-11-17 `x3d.accrete@93063bf`, Node 22.23.4, Chromium 153.0.8010.12 (Playwright, software GL) |
+| D-LNS-1 | [26](26-chess-lenses-oracles.md) | L1 | Count the lenses and the concepts | 2026-11-18 `x3d.chess@9eb14e9`, Node v22.23.5 |
+| D-LNS-2 | [26](26-chess-lenses-oracles.md) | L2 | Re-run the oracles | 2026-11-18 `x3d.chess@9eb14e9`, Node v22.23.5, python-chess 1.11.2 |
+| D-LNS-3 | [26](26-chess-lenses-oracles.md) | L3 | Delete the wdl branch | 2026-11-18 `x3d.chess@9eb14e9`, Node v22.23.5, scratch copy |
+| D-LNS-4 | [26](26-chess-lenses-oracles.md) | L3 | Delete the k guard | 2026-11-18 `x3d.chess@9eb14e9`, Node v22.23.5, scratch copy |
+| D-LNS-5 | [26](26-chess-lenses-oracles.md) | L2 | One square, four answers | 2026-11-18 `x3d.chess@9eb14e9`, chess.js as vendored, python-chess 1.11.2 |
+| D-LNS-6 | [26](26-chess-lenses-oracles.md) | L2 | The neighbourhood of zero | 2026-11-18 `x3d.chess@9eb14e9`, Node v22.23.5 |
+| D-LNS-7 | [26](26-chess-lenses-oracles.md) | L2 | Count what the random test met | 2026-11-18 `x3d.chess@9eb14e9`, Node v22.23.5, python-chess 1.11.2 |
+| D-LNS-8 | [26](26-chess-lenses-oracles.md) | L1 | Read the native receipt | 2026-11-18 `x3d.chess@9eb14e9`, Python 3 |
+| D-SVK-1 | [27](27-shaders-vulkan-contracts.md) | L1 | Find the X_ITE encode | 2026-11-17 `X_ITE 16.7.1`, line 67921 read. |
+| D-SVK-2 | [27](27-shaders-vulkan-contracts.md) | L2 | Predict the three bytes | 2026-11-17 `X_ITE 16.7.1`, Chromium 153.0.8010.12, SwiftShader. |
+| D-SVK-3 | [27](27-shaders-vulkan-contracts.md) | L2 | Undo the fake loss | 2026-11-17 Python 3.13.18. |
+| D-SVK-4 | [27](27-shaders-vulkan-contracts.md) | L3 | Write the depth test | 2026-11-17 Python 3.13.18 (forward values); reversed case reasoned. |
+| D-SVK-5 | [27](27-shaders-vulkan-contracts.md) | L3 | Same shader, other driver | 2026-11-17 Mesa 25.2.8 lavapipe, LLVM 20.1.2. |
+| D-SVK-6 | [27](27-shaders-vulkan-contracts.md) | L2 | Reproduce the Fieldbook lab | 2026-11-17 CPython 3.13.18, GCC. |
 <!-- END GENERATED -->

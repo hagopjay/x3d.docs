@@ -1,4 +1,4 @@
-# 24. Shaders and Vulkan: what the explicit APIs teach an X3D renderer
+# 27. Shaders and Vulkan: what the explicit APIs teach an X3D renderer
 
 > **Say it:** An X3D renderer is trustworthy only where its colour encode, depth range and timing scope are named and tested, and X_ITE 16.7.1 encodes output with a plain 2.2 power (byte 186 for linear 0.5, where sRGB gives 188) for the materials its `ColorSpace` option selects. **[C]**
 

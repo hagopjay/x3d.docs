@@ -19,10 +19,10 @@ blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;backgr
 .nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
 details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
 .foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
-</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><a href="24-shaders-vulkan-contracts.html">24. Shaders and Vulkan: what the explicit APIs teach an X3D renderer</a><h4>Appendices</h4><a class="cur" href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="A-validator-register.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/A-validator-register.md">GitHub</a></div><h1>Appendix A. Instrument and validator register</h1>
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><a href="24-math-lab-static-host.html">24. Math Lab: one model owner, two transports</a><a href="25-accretion-gated-growth.html">25. Accretion: an append-only X3D world grown one gated patch at a time</a><a href="26-chess-lenses-oracles.html">26. Lenses on a chess board: a claim is not a picture</a><a href="27-shaders-vulkan-contracts.html">27. Shaders and Vulkan: what the explicit APIs teach an X3D renderer</a><h4>Appendices</h4><a class="cur" href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="A-validator-register.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/A-validator-register.md">GitHub</a></div><h1>Appendix A. Instrument and validator register</h1>
 <p>Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.</p>
 <!-- BEGIN GENERATED -->
-<p>363 distinct instrument strings across the numbers registers.</p>
+<p>420 distinct instrument strings across the numbers registers.</p>
 <table>
 <thead>
 <tr>
@@ -35,9 +35,9 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tbody>
 <tr>
 <td><code>same</code></td>
-<td>82</td>
-<td>05, 06, 07, 09, 10, 11, 12, 15, 16, 17, 18, 20, 21, 23</td>
-<td>C:81 L:1</td>
+<td>91</td>
+<td>05, 06, 07, 09, 10, 11, 12, 15, 16, 17, 18, 20, 21, 23, 24, 25</td>
+<td>C:90 L:1</td>
 </tr>
 <tr>
 <td><code>same rig</code></td>
@@ -55,6 +55,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><code>numpy 2.5.3</code></td>
 <td>8</td>
 <td>13</td>
+<td>C:8</td>
+</tr>
+<tr>
+<td><code>read</code></td>
+<td>8</td>
+<td>14, 24, 26</td>
 <td>C:8</td>
 </tr>
 <tr>
@@ -90,7 +96,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td><code>Python 3.13.18</code></td>
 <td>5</td>
-<td>22, 24</td>
+<td>22, 27</td>
 <td>C:5</td>
 </tr>
 <tr>
@@ -120,7 +126,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td><code>X_ITE 16.7.1, SwiftShader</code></td>
 <td>4</td>
-<td>24</td>
+<td>27</td>
 <td>C:4</td>
 </tr>
 <tr>
@@ -184,6 +190,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C:3</td>
 </tr>
 <tr>
+<td><code>same receipt</code></td>
+<td>3</td>
+<td>26</td>
+<td>L:3</td>
+</tr>
+<tr>
 <td><code>wc -l</code></td>
 <td>3</td>
 <td>08, 10</td>
@@ -198,7 +210,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td><code>CPython 3.13.18, GCC</code></td>
 <td>2</td>
-<td>24</td>
+<td>27</td>
 <td>C:2</td>
 </tr>
 <tr>
@@ -304,6 +316,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C:1 L:1</td>
 </tr>
 <tr>
+<td><code>review file, not re-run</code></td>
+<td>2</td>
+<td>25</td>
+<td>L:2</td>
+</tr>
+<tr>
 <td><code>x3d.xray@8fa6845</code></td>
 <td>2</td>
 <td>07</td>
@@ -388,6 +406,24 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C:1</td>
 </tr>
 <tr>
+<td><code>BrowserVerifierParity, Node 22.23.4</code></td>
+<td>1</td>
+<td>25</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>CHESS_TEST_PYTHON=python3 node tools/concepts-test.mjs, python-chess 1.11.2</code></td>
+<td>1</td>
+<td>26</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>CONCEPT_IDS.length, Node v22.23.5</code></td>
+<td>1</td>
+<td>26</td>
+<td>C:1</td>
+</tr>
+<tr>
 <td><code>Chromium 153 / Node v22.23.4</code></td>
 <td>1</td>
 <td>17</td>
@@ -418,6 +454,18 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C:1</td>
 </tr>
 <tr>
+<td><code>Chromium 153.0.8010.12, Playwright 1.63.0</code></td>
+<td>1</td>
+<td>24</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>Chromium 153.0.8010.12, Playwright 1.63.0, software GL</code></td>
+<td>1</td>
+<td>24</td>
+<td>C:1</td>
+</tr>
+<tr>
 <td><code>Chromium 153.0.8010.12, SwiftShader, three-mesh-bvh 0.9.18</code></td>
 <td>1</td>
 <td>08</td>
@@ -433,6 +481,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><code>D-LAW-7 script</code></td>
 <td>1</td>
 <td>02</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>FLOAT32_MIN_NORMAL in the gate</code></td>
+<td>1</td>
+<td>25</td>
 <td>C:1</td>
 </tr>
 <tr>
@@ -486,7 +540,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td><code>Mesa 25.2.8 lavapipe, LLVM 20.1.2</code></td>
 <td>1</td>
-<td>24</td>
+<td>27</td>
 <td>C:1</td>
 </tr>
 <tr>
@@ -550,6 +604,18 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C:1</td>
 </tr>
 <tr>
+<td><code>Node v22.23.5</code></td>
+<td>1</td>
+<td>26</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>Node v22.23.5, --max-old-space-size=200</code></td>
+<td>1</td>
+<td>26</td>
+<td>C:1</td>
+</tr>
+<tr>
 <td><code>PR descriptions via the masterclass; not re-derived</code></td>
 <td>1</td>
 <td>04</td>
@@ -606,7 +672,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td><code>Python 3.13.18; Light Lab guide</code></td>
 <td>1</td>
-<td>24</td>
+<td>27</td>
 <td>C:1</td>
 </tr>
 <tr>
@@ -619,6 +685,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><code>Python, X_ITE 16.6.0</code></td>
 <td>1</td>
 <td>08</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>README text, matches serve.py constants per the review</code></td>
+<td>1</td>
+<td>25</td>
 <td>C:1</td>
 </tr>
 <tr>
@@ -816,7 +888,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td><code>X_ITE 16.7.1</code></td>
 <td>1</td>
-<td>24</td>
+<td>27</td>
 <td>C:1</td>
 </tr>
 <tr>
@@ -846,7 +918,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td><code>X_ITE 16.7.1, Chromium 153.0.8010.12, SwiftShader</code></td>
 <td>1</td>
-<td>24</td>
+<td>27</td>
 <td>C:1</td>
 </tr>
 <tr>
@@ -884,6 +956,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>1</td>
 <td>13</td>
 <td>C:1</td>
+</tr>
+<tr>
+<td><code>before and after screenshots, Playwright 1.63.0, in the launch note, not retained</code></td>
+<td>1</td>
+<td>24</td>
+<td>L:1</td>
 </tr>
 <tr>
 <td><code>bpy 5.3.0 Cycles CPU 16 spp, x3d_mcp fork b4efcd3</code></td>
@@ -952,6 +1030,24 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C:1</td>
 </tr>
 <tr>
+<td><code>concepts test output line</code></td>
+<td>1</td>
+<td>26</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>concepts test, negative controls</code></td>
+<td>1</td>
+<td>26</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>contract table, matches accretion/gate.py constants per the review</code></td>
+<td>1</td>
+<td>25</td>
+<td>C:1</td>
+</tr>
+<tr>
 <td><code>converter formula, 2026-11-14</code></td>
 <td>1</td>
 <td>12</td>
@@ -996,7 +1092,49 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td><code>counted</code></td>
 <td>1</td>
+<td>27</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>default parameters, Playwright 1.63.0 Chromium</code></td>
+<td>1</td>
 <td>24</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>drill D-ACC-3, x3d_mcp@b5c9956, lxml 6.1.3</code></td>
+<td>1</td>
+<td>25</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>drill D-ACC-4, x3d_mcp@b5c9956</code></td>
+<td>1</td>
+<td>25</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>drill D-ACC-5</code></td>
+<td>1</td>
+<td>25</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>drill D-ACC-6, curl</code></td>
+<td>1</td>
+<td>25</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>drill D-ACC-7</code></td>
+<td>1</td>
+<td>25</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>drill D-ACC-8, seed 20261117, Python 3.13.18</code></td>
+<td>1</td>
+<td>25</td>
 <td>C:1</td>
 </tr>
 <tr>
@@ -1018,9 +1156,27 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C:1</td>
 </tr>
 <tr>
+<td><code>estimate only, not run</code></td>
+<td>1</td>
+<td>25</td>
+<td>L:1</td>
+</tr>
+<tr>
 <td><code>evaluation/time_scene_evidence.py, median of 7 calls, engine dcba70d7, 4 cores</code></td>
 <td>1</td>
 <td>23</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>evidence/lens-smoke.json, Chromium 153.0.8010.12, SwiftShader, not re-run</code></td>
+<td>1</td>
+<td>26</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>examples/checkpoint.json</code></td>
+<td>1</td>
+<td>25</td>
 <td>C:1</td>
 </tr>
 <tr>
@@ -1033,6 +1189,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><code>examples/eda_1_signal_and_noise.py --calibrate, seeds 1000 to 1149</code></td>
 <td>1</td>
 <td>07</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>find web/static-world -type f</code></td>
+<td>1</td>
+<td>25</td>
 <td>C:1</td>
 </tr>
 <tr>
@@ -1075,6 +1237,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><code>gltf-validator 2.0.0-dev.3.10, bpy 5.3.0</code></td>
 <td>1</td>
 <td>10</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>grep -c &quot; def test_&quot; tests/test_*.py</code></td>
+<td>1</td>
+<td>25</td>
 <td>C:1</td>
 </tr>
 <tr>
@@ -1134,7 +1302,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <tr>
 <td><code>imgdiff.py, Mesa 25.2.8</code></td>
 <td>1</td>
-<td>24</td>
+<td>27</td>
 <td>C:1</td>
 </tr>
 <tr>
@@ -1147,6 +1315,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><code>inline Python, ls</code></td>
 <td>1</td>
 <td>09</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>inspector, chess.js, python-chess 1.11.2</code></td>
+<td>1</td>
+<td>26</td>
 <td>C:1</td>
 </tr>
 <tr>
@@ -1168,6 +1342,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C:1</td>
 </tr>
 <tr>
+<td><code>len(FIELDS) is 25, Python 3.13.18</code></td>
+<td>1</td>
+<td>25</td>
+<td>C:1</td>
+</tr>
+<tr>
 <td><code>libxml2 2.14.6, as reported</code></td>
 <td>1</td>
 <td>01</td>
@@ -1178,6 +1358,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>1</td>
 <td>01</td>
 <td>L:1</td>
+</tr>
+<tr>
+<td><code>list read; tests run</code></td>
+<td>1</td>
+<td>26</td>
+<td>C:1</td>
 </tr>
 <tr>
 <td><code>loomkit 162ab18</code></td>
@@ -1246,6 +1432,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C:1</td>
 </tr>
 <tr>
+<td><code>math.ulp, Python 3.13.18</code></td>
+<td>1</td>
+<td>24</td>
+<td>C:1</td>
+</tr>
+<tr>
 <td><code>mcp 1.30.0 server/transport_security.py (read)</code></td>
 <td>1</td>
 <td>04</td>
@@ -1273,6 +1465,42 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><code>node --test, Node v22.23.4</code></td>
 <td>1</td>
 <td>19</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>node tools/branches-test.mjs, vendored Stockfish under Node</code></td>
+<td>1</td>
+<td>26</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>node tools/inspector-test.mjs, python-chess 1.11.2</code></td>
+<td>1</td>
+<td>26</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>node tools/pages_smoke.js, Chromium 153.0.8010.12, software GL</code></td>
+<td>1</td>
+<td>25</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>node tools/skyline-test.mjs</code></td>
+<td>1</td>
+<td>26</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>node tools/terrain-test.mjs, python-chess 1.11.2</code></td>
+<td>1</td>
+<td>26</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>node tools/transport-tests.mjs, Node v22.23.5</code></td>
+<td>1</td>
+<td>26</td>
 <td>C:1</td>
 </tr>
 <tr>
@@ -1372,6 +1600,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C:1</td>
 </tr>
 <tr>
+<td><code>prose loses; the test file defines four cases</code></td>
+<td>1</td>
+<td>26</td>
+<td>C:1</td>
+</tr>
+<tr>
 <td><code>pyshacl 0.40.2, owlrl 7.6.2</code></td>
 <td>1</td>
 <td>05</td>
@@ -1381,6 +1615,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><code>pytest, Python 3.13.18</code></td>
 <td>1</td>
 <td>23</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>python -m unittest discover, CPython 3.13.18, mcp 2.3.0</code></td>
+<td>1</td>
+<td>24</td>
 <td>C:1</td>
 </tr>
 <tr>
@@ -1396,21 +1636,33 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C:1</td>
 </tr>
 <tr>
+<td><code>python3 -I -m unittest discover -s tests -p 'test_*.py', Python 3.13.18, lxml 6.1.3</code></td>
+<td>1</td>
+<td>25</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>python3 -m cProfile -s cumtime tools/build_demo.py --count 96</code></td>
+<td>1</td>
+<td>25</td>
+<td>C:1</td>
+</tr>
+<tr>
 <td><code>python3 -m x3dray tools</code></td>
 <td>1</td>
 <td>07</td>
 <td>C:1</td>
 </tr>
 <tr>
-<td><code>rdflib, pyshacl 0.40.2</code></td>
+<td><code>python3 tools/build_demo.py --count 96, 4 vCPU</code></td>
 <td>1</td>
-<td>05</td>
+<td>25</td>
 <td>C:1</td>
 </tr>
 <tr>
-<td><code>read</code></td>
+<td><code>rdflib, pyshacl 0.40.2</code></td>
 <td>1</td>
-<td>14</td>
+<td>05</td>
 <td>C:1</td>
 </tr>
 <tr>
@@ -1444,6 +1696,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C:1</td>
 </tr>
 <tr>
+<td><code>read, not run here</code></td>
+<td>1</td>
+<td>24</td>
+<td>C:1</td>
+</tr>
+<tr>
 <td><code>read, not run: x3d.loom@162ab18:x3d.physics/physx-bridge/evidence/p1-analytic.json</code></td>
 <td>1</td>
 <td>13</td>
@@ -1466,6 +1724,18 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>1</td>
 <td>13</td>
 <td>L:1</td>
+</tr>
+<tr>
+<td><code>read; test near(capY(z,0)-baseRingY(z,0),SKY.MIN_H)</code></td>
+<td>1</td>
+<td>26</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>read; total derived by multiplication</code></td>
+<td>1</td>
+<td>26</td>
+<td>C:1</td>
 </tr>
 <tr>
 <td><code>reasoned from the [C] rows above</code></td>
@@ -1522,10 +1792,28 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C:1</td>
 </tr>
 <tr>
+<td><code>reports/store-scaling.json as quoted in the README, not re-run</code></td>
+<td>1</td>
+<td>25</td>
+<td>L:1</td>
+</tr>
+<tr>
 <td><code>restrictSchema and llm_schema.py agree</code></td>
 <td>1</td>
 <td>16</td>
 <td>C:1</td>
+</tr>
+<tr>
+<td><code>review file, script not in the repository</code></td>
+<td>1</td>
+<td>25</td>
+<td>L:1</td>
+</tr>
+<tr>
+<td><code>review method as written, not repeated</code></td>
+<td>1</td>
+<td>25</td>
+<td>L:1</td>
 </tr>
 <tr>
 <td><code>rig on nine scenes, README</code></td>
@@ -1624,6 +1912,18 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C:1</td>
 </tr>
 <tr>
+<td><code>same run</code></td>
+<td>1</td>
+<td>26</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>same run, coverage block</code></td>
+<td>1</td>
+<td>26</td>
+<td>C:1</td>
+</tr>
+<tr>
 <td><code>same validator, receipt</code></td>
 <td>1</td>
 <td>09</td>
@@ -1657,6 +1957,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><code>same, X_ITE on ANGLE Vulkan, Chromium 159</code></td>
 <td>1</td>
 <td>12</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>same, both receipts</code></td>
+<td>1</td>
+<td>24</td>
 <td>C:1</td>
 </tr>
 <tr>
@@ -1708,10 +2014,22 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C:1</td>
 </tr>
 <tr>
+<td><code>skyline test line 187 and a direct call, Node v22.23.5</code></td>
+<td>1</td>
+<td>26</td>
+<td>C:1</td>
+</tr>
+<tr>
 <td><code>splat_io.write_ply, 1,000 splats</code></td>
 <td>1</td>
 <td>10</td>
 <td>C:1</td>
+</tr>
+<tr>
+<td><code>stated in docs/PAGES.md, not separately measured</code></td>
+<td>1</td>
+<td>24</td>
+<td>L:1</td>
 </tr>
 <tr>
 <td><code>stated in the repo, not re-derived at its commit</code></td>
@@ -1756,6 +2074,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>L:1</td>
 </tr>
 <tr>
+<td><code>test comment; pre-fix tree not in the checkout</code></td>
+<td>1</td>
+<td>26</td>
+<td>L:1</td>
+</tr>
+<tr>
 <td><code>test_eda_infer, test_eda_js_parity, Node 22.23.4</code></td>
 <td>1</td>
 <td>07</td>
@@ -1792,9 +2116,21 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C:1</td>
 </tr>
 <tr>
+<td><code>the launch note; superseded by N-MLB-8</code></td>
+<td>1</td>
+<td>24</td>
+<td>L:1</td>
+</tr>
+<tr>
 <td><code>three r187, SwiftShader</code></td>
 <td>1</td>
 <td>21</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>tools/concepts_gen.py constants, 327 minus 300</code></td>
+<td>1</td>
+<td>26</td>
 <td>C:1</td>
 </tr>
 <tr>
@@ -1975,6 +2311,12 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><code>x3d.zod gen.mjs, schema sha1 c6765a4</code></td>
 <td>1</td>
 <td>16</td>
+<td>C:1</td>
+</tr>
+<tr>
+<td><code>x3d_mcp commit b5c9956, XSD 4.0, semantic vocabulary 4.1, direct calls</code></td>
+<td>1</td>
+<td>24</td>
 <td>C:1</td>
 </tr>
 <tr>
@@ -2214,4 +2556,4 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </tbody>
 </table>
 <!-- END GENERATED -->
-<div class="pn"><a href="24-shaders-vulkan-contracts.html">&larr; 24-shaders-vulkan-contracts</a><a href="B-glossary.html">B-glossary &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>
+<div class="pn"><a href="27-shaders-vulkan-contracts.html">&larr; 27-shaders-vulkan-contracts</a><a href="B-glossary.html">B-glossary &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

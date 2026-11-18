@@ -19,10 +19,10 @@ blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;backgr
 .nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
 details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
 .foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
-</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><a href="24-shaders-vulkan-contracts.html">24. Shaders and Vulkan: what the explicit APIs teach an X3D renderer</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a class="cur" href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="G-claims-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/G-claims-ledger.md">GitHub</a></div><h1>Appendix G. Claim ledger</h1>
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><a href="24-math-lab-static-host.html">24. Math Lab: one model owner, two transports</a><a href="25-accretion-gated-growth.html">25. Accretion: an append-only X3D world grown one gated patch at a time</a><a href="26-chess-lenses-oracles.html">26. Lenses on a chess board: a claim is not a picture</a><a href="27-shaders-vulkan-contracts.html">27. Shaders and Vulkan: what the explicit APIs teach an X3D renderer</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a class="cur" href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="G-claims-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/G-claims-ledger.md">GitHub</a></div><h1>Appendix G. Claim ledger</h1>
 <p>Every number or rule that carries a quote from a named source, merged from <code>docs/learn/claims/*.jsonl</code> and the last checker receipt. Edit the ledger, not this file.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>84 claims</strong> in 2 chapter ledgers. Verdicts: verified 83 · check 0 · reworded 0 · unchecked 1. Register coverage: 78 of 196 numbers in Value cells carry a quote (39.8%), 77 verified. Verdicts come from <code>tools-shared/check_claims.py</code> (find the quote, compare the value) at the pins named; the receipt is <code>claims/receipt.json</code>.</p>
+<p><strong>146 claims</strong> in 4 chapter ledgers. Verdicts: verified 145 · check 0 · reworded 0 · unchecked 1. Register coverage: 139 of 329 numbers in Value cells carry a quote (42.2%), 138 verified. Verdicts come from <code>tools-shared/check_claims.py</code> (find the quote, compare the value) at the pins named; the receipt is <code>claims/receipt.json</code>.</p>
 <table>
 <thead>
 <tr>
@@ -706,6 +706,502 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>verified</td>
 <td><a href="https://github.com/hagopjay/x3d_mcp/blob/e55375f/docs/scene-evidence.md#L91"><code>x3d_mcp@e55375f:docs/scene-evidence.md</code></a></td>
 <td>91</td>
+</tr>
+<tr>
+<td>N-ACC-3</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>24</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/GATE-CONTRACT.md#L14"><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></a></td>
+<td>14</td>
+</tr>
+<tr>
+<td>N-ACC-4</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>12</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/GATE-CONTRACT.md#L31"><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></a></td>
+<td>31</td>
+</tr>
+<tr>
+<td>N-ACC-4</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>24</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/GATE-CONTRACT.md#L32"><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></a></td>
+<td>32</td>
+</tr>
+<tr>
+<td>N-ACC-5</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>80</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/GATE-CONTRACT.md#L33"><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></a></td>
+<td>33</td>
+</tr>
+<tr>
+<td>N-ACC-5</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>16</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/GATE-CONTRACT.md#L35"><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></a></td>
+<td>35</td>
+</tr>
+<tr>
+<td>N-ACC-5</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>160</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/GATE-CONTRACT.md#L36"><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></a></td>
+<td>36</td>
+</tr>
+<tr>
+<td>N-ACC-6</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>&quot;1.1754944e-38&quot;</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/GATE-CONTRACT.md#L77"><code>x3d.accrete@93063bf:docs/GATE-CONTRACT.md</code></a></td>
+<td>77</td>
+</tr>
+<tr>
+<td>N-ACC-7</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>6</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L3"><code>x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md</code></a></td>
+<td>3</td>
+</tr>
+<tr>
+<td>N-ACC-7</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>45</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L3"><code>x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md</code></a></td>
+<td>3</td>
+</tr>
+<tr>
+<td>N-ACC-7</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>2</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L3"><code>x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md</code></a></td>
+<td>3</td>
+</tr>
+<tr>
+<td>N-ACC-7</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>80</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L3"><code>x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md</code></a></td>
+<td>3</td>
+</tr>
+<tr>
+<td>N-ACC-8</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>30000</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L49"><code>x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md</code></a></td>
+<td>49</td>
+</tr>
+<tr>
+<td>N-ACC-22</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>4.333</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L103"><code>x3d.accrete@93063bf:README.md</code></a></td>
+<td>103</td>
+</tr>
+<tr>
+<td>N-ACC-22</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>28.118</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L104"><code>x3d.accrete@93063bf:README.md</code></a></td>
+<td>104</td>
+</tr>
+<tr>
+<td>N-ACC-22</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>1819603</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L105"><code>x3d.accrete@93063bf:README.md</code></a></td>
+<td>105</td>
+</tr>
+<tr>
+<td>N-ACC-22</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>266921</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L105"><code>x3d.accrete@93063bf:README.md</code></a></td>
+<td>105</td>
+</tr>
+<tr>
+<td>N-ACC-23</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>154.386</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L106"><code>x3d.accrete@93063bf:README.md</code></a></td>
+<td>106</td>
+</tr>
+<tr>
+<td>N-ACC-23</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>90</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L106"><code>x3d.accrete@93063bf:README.md</code></a></td>
+<td>106</td>
+</tr>
+<tr>
+<td>N-ACC-24</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>512</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L54"><code>x3d.accrete@93063bf:README.md</code></a></td>
+<td>54</td>
+</tr>
+<tr>
+<td>N-ACC-24</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>24</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L55"><code>x3d.accrete@93063bf:README.md</code></a></td>
+<td>55</td>
+</tr>
+<tr>
+<td>N-ACC-24</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>48</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L55"><code>x3d.accrete@93063bf:README.md</code></a></td>
+<td>55</td>
+</tr>
+<tr>
+<td>N-ACC-24</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>96</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L55"><code>x3d.accrete@93063bf:README.md</code></a></td>
+<td>55</td>
+</tr>
+<tr>
+<td>N-ACC-24</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>10000</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/README.md#L111"><code>x3d.accrete@93063bf:README.md</code></a></td>
+<td>111</td>
+</tr>
+<tr>
+<td>N-ACC-25</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>1200</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L73"><code>x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md</code></a></td>
+<td>73</td>
+</tr>
+<tr>
+<td>N-ACC-25</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>40</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L73"><code>x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md</code></a></td>
+<td>73</td>
+</tr>
+<tr>
+<td>N-ACC-25</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>0</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L73"><code>x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md</code></a></td>
+<td>73</td>
+</tr>
+<tr>
+<td>N-ACC-26</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>19</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L69"><code>x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md</code></a></td>
+<td>69</td>
+</tr>
+<tr>
+<td>N-ACC-26</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>10</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/docs/REVIEW-2026-11-17.md#L70"><code>x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md</code></a></td>
+<td>70</td>
+</tr>
+<tr>
+<td>N-ACC-15</td>
+<td><a href="25-accretion-gated-growth.html">25</a></td>
+<td>24</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.accrete/blob/93063bf/examples/checkpoint.json#L3"><code>x3d.accrete@93063bf:examples/checkpoint.json</code></a></td>
+<td>3</td>
+</tr>
+<tr>
+<td>N-LNS-2</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>13</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L8"><code>x3d.chess@9eb14e9:docs/LENSES.md</code></a></td>
+<td>8</td>
+</tr>
+<tr>
+<td>N-LNS-3</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>609</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L24"><code>x3d.chess@9eb14e9:docs/LENSES.md</code></a></td>
+<td>24</td>
+</tr>
+<tr>
+<td>N-LNS-4</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>50112</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L25"><code>x3d.chess@9eb14e9:docs/LENSES.md</code></a></td>
+<td>25</td>
+</tr>
+<tr>
+<td>N-LNS-4</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>327</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L25"><code>x3d.chess@9eb14e9:docs/LENSES.md</code></a></td>
+<td>25</td>
+</tr>
+<tr>
+<td>N-LNS-5</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>20261117</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/tools/concepts_gen.py#L27"><code>x3d.chess@9eb14e9:tools/concepts_gen.py</code></a></td>
+<td>27</td>
+</tr>
+<tr>
+<td>N-LNS-5</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>300</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/tools/concepts_gen.py#L28"><code>x3d.chess@9eb14e9:tools/concepts_gen.py</code></a></td>
+<td>28</td>
+</tr>
+<tr>
+<td>N-LNS-6</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>35</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L26"><code>x3d.chess@9eb14e9:docs/LENSES.md</code></a></td>
+<td>26</td>
+</tr>
+<tr>
+<td>N-LNS-6</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>100</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L26"><code>x3d.chess@9eb14e9:docs/LENSES.md</code></a></td>
+<td>26</td>
+</tr>
+<tr>
+<td>N-LNS-6</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>64</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L26"><code>x3d.chess@9eb14e9:docs/LENSES.md</code></a></td>
+<td>26</td>
+</tr>
+<tr>
+<td>N-LNS-9</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>9</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L27"><code>x3d.chess@9eb14e9:docs/LENSES.md</code></a></td>
+<td>27</td>
+</tr>
+<tr>
+<td>N-LNS-10</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>4</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/tools/branches-test.mjs#L298"><code>x3d.chess@9eb14e9:tools/branches-test.mjs</code></a></td>
+<td>298</td>
+</tr>
+<tr>
+<td>N-LNS-11</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>3360</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L28"><code>x3d.chess@9eb14e9:docs/LENSES.md</code></a></td>
+<td>28</td>
+</tr>
+<tr>
+<td>N-LNS-11</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>64</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L28"><code>x3d.chess@9eb14e9:docs/LENSES.md</code></a></td>
+<td>28</td>
+</tr>
+<tr>
+<td>N-LNS-11</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>7</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L28"><code>x3d.chess@9eb14e9:docs/LENSES.md</code></a></td>
+<td>28</td>
+</tr>
+<tr>
+<td>N-LNS-15</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>6</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L7"><code>x3d.chess@9eb14e9:docs/LENSES.md</code></a></td>
+<td>7</td>
+</tr>
+<tr>
+<td>N-LNS-15</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>12</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L7"><code>x3d.chess@9eb14e9:docs/LENSES.md</code></a></td>
+<td>7</td>
+</tr>
+<tr>
+<td>N-LNS-16</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>6</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L11"><code>x3d.chess@9eb14e9:docs/LENSES.md</code></a></td>
+<td>11</td>
+</tr>
+<tr>
+<td>N-LNS-16</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>0.4</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/docs/LENSES.md#L11"><code>x3d.chess@9eb14e9:docs/LENSES.md</code></a></td>
+<td>11</td>
+</tr>
+<tr>
+<td>N-LNS-17</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>0.04</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/viewer/js/skyline.js#L72"><code>x3d.chess@9eb14e9:viewer/js/skyline.js</code></a></td>
+<td>72</td>
+</tr>
+<tr>
+<td>N-LNS-19</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>0.16</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/tools/concepts-test.mjs#L290"><code>x3d.chess@9eb14e9:tools/concepts-test.mjs</code></a></td>
+<td>290</td>
+</tr>
+<tr>
+<td>N-LNS-20</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>3</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/viewer/js/main.js#L75"><code>x3d.chess@9eb14e9:viewer/js/main.js</code></a></td>
+<td>75</td>
+</tr>
+<tr>
+<td>N-LNS-20</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>10</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/viewer/js/main.js#L75"><code>x3d.chess@9eb14e9:viewer/js/main.js</code></a></td>
+<td>75</td>
+</tr>
+<tr>
+<td>N-LNS-21</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>40</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/viewer/js/main.js#L73"><code>x3d.chess@9eb14e9:viewer/js/main.js</code></a></td>
+<td>73</td>
+</tr>
+<tr>
+<td>N-LNS-21</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>100</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/viewer/js/main.js#L73"><code>x3d.chess@9eb14e9:viewer/js/main.js</code></a></td>
+<td>73</td>
+</tr>
+<tr>
+<td>N-LNS-22</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>60</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/viewer/js/skyline.js#L38"><code>x3d.chess@9eb14e9:viewer/js/skyline.js</code></a></td>
+<td>38</td>
+</tr>
+<tr>
+<td>N-LNS-22</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>240</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/viewer/js/lenses.js#L117"><code>x3d.chess@9eb14e9:viewer/js/lenses.js</code></a></td>
+<td>117</td>
+</tr>
+<tr>
+<td>N-LNS-26</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>8</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/evidence/lens-smoke.json#L67"><code>x3d.chess@9eb14e9:evidence/lens-smoke.json</code></a></td>
+<td>67</td>
+</tr>
+<tr>
+<td>N-LNS-26</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>192</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/evidence/lens-smoke.json#L68"><code>x3d.chess@9eb14e9:evidence/lens-smoke.json</code></a></td>
+<td>68</td>
+</tr>
+<tr>
+<td>N-LNS-26</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>0</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/evidence/lens-smoke.json#L69"><code>x3d.chess@9eb14e9:evidence/lens-smoke.json</code></a></td>
+<td>69</td>
+</tr>
+<tr>
+<td>N-LNS-28</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>13</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/evidence/lens-smoke.json#L20"><code>x3d.chess@9eb14e9:evidence/lens-smoke.json</code></a></td>
+<td>20</td>
+</tr>
+<tr>
+<td>N-LNS-28</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>8</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/evidence/lens-smoke.json#L50"><code>x3d.chess@9eb14e9:evidence/lens-smoke.json</code></a></td>
+<td>50</td>
+</tr>
+<tr>
+<td>N-LNS-29</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>&quot;153.0.8010.12&quot;</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/evidence/lens-smoke.json#L10"><code>x3d.chess@9eb14e9:evidence/lens-smoke.json</code></a></td>
+<td>10</td>
+</tr>
+<tr>
+<td>N-LNS-29</td>
+<td><a href="26-chess-lenses-oracles.html">26</a></td>
+<td>&quot;1.63.0&quot;</td>
+<td>verified</td>
+<td><a href="https://github.com/hagopjay/x3d.chess/blob/9eb14e9/evidence/lens-smoke.json#L9"><code>x3d.chess@9eb14e9:evidence/lens-smoke.json</code></a></td>
+<td>9</td>
 </tr>
 </tbody>
 </table>
