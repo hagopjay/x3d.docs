@@ -25,3 +25,13 @@ Gobbler.flyte (x3d.gobbler `flyte/`, PR #1) is a 24/7 agent loop that grows an X
 
 1. Why does a watcher for X3D news need a namesake filter before it ranks? *Answer: on the live snapshot, most "x3d" hits outside web3d.org were chips or the video net.*
 2. Which instrument should Witness run before Keeper commits? *Answer: the same validator that the commit path runs (here x3d_mcp b5c9956 inside x3d.accrete), not only the gate.*
+
+## After the second review (18 Nov, x3d.gobbler PR #2)
+
+| Lesson | Grade | Where it shows |
+|---|---|---|
+| One grade hides many questions. Each turn now carries facets (structure, source, target, admission, human, render, reuse), and the loop's grade stops at Likely. | Confirmed | `flyte/runs/sim-2026-11-18-r2/summary.json` |
+| A single-file X_ITE page must also inline its stylesheet's `url(assets/...)` images and its fonts, or it asks the page origin for them. Re-pin the stylesheet's SRI to the bytes actually served. | Confirmed (Chromium 157, 2 real 404s fixed) | `gobbler-flyte/build_standalone.py` |
+| The Intervention Lab teaches three rules by experiment: a digest you issue yourself adds no witness, a guard must reject known failures, and a retry is not a return. | Confirmed (native run, 12 of 12 rules) | `evidence-lab/`, `tools/lab_browser_check.cjs` |
+
+Drill 3. Why does re-running the same consumption three times leave the reuse count at 1? *Answer: reuse counts distinct (guard, target, input digest) tuples; a retry repeats one tuple.*
