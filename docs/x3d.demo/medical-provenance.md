@@ -13,3 +13,13 @@ Demo folder `docs/demos/medical-provenance/v1/` in x3d.demo. Educational proof o
 | Page | 0 console errors, no overflow at 1280 and 390 px | headless Chromium, software GL, X_ITE 16.6.0 |
 
 **Remember.** An FMA label hit proves the class exists, not that the mesh is that structure. Left/right bones lose their SNOMED ids in the chain. H-Anim has no ribs or organs. BodyParts3D's two licence texts disagree. Not done: VolumeData, DICOM, HAnimHumanoid, BodyParts3D meshes.
+
+## v2 (x3d.demo, folder `medical-provenance/v2/`)
+
+| Finding | Grade | Instrument |
+|---|---|---|
+| FMA is-a ancestors for 120 shapes; 108 non-generic classes; class filter selects e.g. all 24 ribs | C | EBI OLS4 hierarchicalAncestors |
+| Page reads each MetadataSet back from the running scene and compares with the claim file: 111 of 111 agree; one edited grade caught (110 of 111) | C | headless Chromium, X_ITE 16.6.0; self-consistency, not a signature |
+| 1033 claims (C 671, L 284, S 78); both scenes valid, 0 errors | C | x3d_mcp `fa5dccf` `validate_xml` |
+
+Next: sign or hash the claim file into the scene, HAnimHumanoid on the 37 mapped bones, BodyParts3D meshes, VolumeData from open DICOM.
