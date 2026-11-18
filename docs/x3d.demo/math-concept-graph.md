@@ -12,3 +12,6 @@ Demo folder `docs/demos/math-concept-graph/v1/` in x3d.demo. Lessons table: x3d.
 | Page loads, toggles work, no console errors | yes | headless Chromium, software GL, X_ITE 16.6.0; not timed |
 
 **Three things to remember.** OntoMathPro has no RDF endpoint (HTML listing only, 737 of 3450 labels Russian-only). OpenMath has no probability or statistics CD beyond s_dist1. PhySH is CC0 with a JSON API but is too coarse for classical lessons.
+
+## v2 (same day)
+Folder `docs/demos/math-concept-graph/v2/`. Re-run against a full private crawl: 90 links (40 Confirmed, 39 Likely, 11 Suspected), 88 terms, 26 Confirmed gaps, every lesson linked to OntoMathPro (14 with a Confirmed link, up from 11), OEIS and arXiv added, v1 errata listed. Valid by x3d_mcp `fa5dccf`; browser 0 errors in headless Chromium, SwiftShader, X_ITE 16.6.0. Rule learned: search every language label before declaring a gap. The raw crawl is quarantined and not published; a leak check found 0 matches.
