@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**201 drills**, 187 with a recorded run (`Checked`), 14 not yet run. Levels: L1 39, L2 106, L3 56.
+**207 drills**, 193 with a recorded run (`Checked`), 14 not yet run. Levels: L1 40, L2 109, L3 58.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -208,4 +208,10 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-LNS-6 | [26](26-chess-lenses-oracles.md) | L2 | The neighbourhood of zero | 2026-11-18 `x3d.chess@9eb14e9`, Node v22.23.5 |
 | D-LNS-7 | [26](26-chess-lenses-oracles.md) | L2 | Count what the random test met | 2026-11-18 `x3d.chess@9eb14e9`, Node v22.23.5, python-chess 1.11.2 |
 | D-LNS-8 | [26](26-chess-lenses-oracles.md) | L1 | Read the native receipt | 2026-11-18 `x3d.chess@9eb14e9`, Python 3 |
+| D-SVK-1 | [27](27-shaders-vulkan-contracts.md) | L1 | Find the X_ITE encode | 2026-11-17 `X_ITE 16.7.1`, line 67921 read. |
+| D-SVK-2 | [27](27-shaders-vulkan-contracts.md) | L2 | Predict the three bytes | 2026-11-17 `X_ITE 16.7.1`, Chromium 153.0.8010.12, SwiftShader. |
+| D-SVK-3 | [27](27-shaders-vulkan-contracts.md) | L2 | Undo the fake loss | 2026-11-17 Python 3.13.18. |
+| D-SVK-4 | [27](27-shaders-vulkan-contracts.md) | L3 | Write the depth test | 2026-11-17 Python 3.13.18 (forward values); reversed case reasoned. |
+| D-SVK-5 | [27](27-shaders-vulkan-contracts.md) | L3 | Same shader, other driver | 2026-11-17 Mesa 25.2.8 lavapipe, LLVM 20.1.2. |
+| D-SVK-6 | [27](27-shaders-vulkan-contracts.md) | L2 | Reproduce the Fieldbook lab | 2026-11-17 CPython 3.13.18, GCC. |
 <!-- END GENERATED -->

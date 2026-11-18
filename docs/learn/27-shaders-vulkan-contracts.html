@@ -1,0 +1,583 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>27. Shaders and Vulkan: what the explicit APIs teach an X3D renderer · X3D Elucidation</title><style>
+:root{--bg:#1a1a19;--panel:#232321;--line:#383835;--ink:#f0efec;--ink2:#c3c2b7;--ink3:#8a8a85;--link:#86b6ef;--code:#262624}
+@media (prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#faf9f6;--panel:#f1efe9;--line:#d8d5cb;--ink:#1c1c1a;--ink2:#46463f;--ink3:#77766d;--link:#1f5fb5;--code:#ebe8df}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--link)}.wrap{display:grid;grid-template-columns:1fr;max-width:1320px;margin:0 auto}
+@media(min-width:1000px){.wrap{grid-template-columns:260px minmax(0,1fr)}}
+.side{padding:1.2rem 1rem;font-size:.86rem;border-right:1px solid var(--line)}
+@media(min-width:1000px){.side{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}}
+.side b.t{display:block;font-size:1rem;margin-bottom:.3rem}.side a{display:block;color:var(--ink2);text-decoration:none;padding:.18rem 0}
+.side a:hover,.side a.cur{color:var(--ink)}.side a.cur{font-weight:600}.side h4{margin:1rem 0 .3rem;color:var(--ink3);font:600 .72rem/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+main{padding:1.6rem 1.25rem 5rem;min-width:0;max-width:1000px}
+h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 1rem}h2{font-size:1.4rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;margin-top:2.4rem}h3{font-size:1.1rem;margin-top:1.8rem}
+code{background:var(--code);padding:.08rem .3rem;border-radius:3px;font-size:.9em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8rem 1rem;overflow:auto;line-height:1.35;font-size:.82rem}pre code{background:none;padding:0;font-size:inherit}
+table{border-collapse:collapse;display:block;overflow:auto;margin:1rem 0;font-size:.88rem;max-width:100%}th,td{border:1px solid var(--line);padding:.32rem .55rem;vertical-align:top;text-align:left}th{background:var(--panel);position:sticky;top:0}
+blockquote{margin:1rem 0;padding:.4rem 1rem;border-left:3px solid #d95926;background:var(--panel)}blockquote p{margin:.3rem 0}
+.g{font:700 .68rem/1.5 ui-monospace,Consolas,monospace;display:inline-block;min-width:1.5em;text-align:center;padding:0 .3em;border-radius:3px;vertical-align:.08em}
+.g.C{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}.g.L{border:1px solid var(--ink)}.g.S{border:1px dashed var(--ink3);color:var(--ink2)}
+.nav{color:var(--ink3);font-size:.88rem;display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}.pn{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.4rem .9rem;margin:1rem 0;font-size:.88rem}details.toc summary{cursor:pointer;color:var(--ink2)}details.toc a{display:block;text-decoration:none;padding:.08rem 0}details.toc a.l3{padding-left:1rem;color:var(--ink2)}
+.foot{margin-top:3rem;color:var(--ink3);font-size:.82rem}
+</style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><a href="24-math-lab-static-host.html">24. Math Lab: one model owner, two transports</a><a href="25-accretion-gated-growth.html">25. Accretion: an append-only X3D world grown one gated patch at a time</a><a href="26-chess-lenses-oracles.html">26. Lenses on a chess board: a claim is not a picture</a><a class="cur" href="27-shaders-vulkan-contracts.html">27. Shaders and Vulkan: what the explicit APIs teach an X3D renderer</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="27-shaders-vulkan-contracts.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/27-shaders-vulkan-contracts.md">GitHub</a></div><h1>27. Shaders and Vulkan: what the explicit APIs teach an X3D renderer</h1>
+<details class="toc"><summary>On this page (16 sections)</summary><a class="l2" href="#1-the-map">1. The map</a><a class="l2" href="#2-the-x_ite-colour-contract">2. The X_ITE colour contract</a><a class="l2" href="#3-a-white-furnace-on-physicalmaterial">3. A white furnace on PhysicalMaterial</a><a class="l2" href="#4-what-the-fieldbook-adds-as-a-checklist">4. What the Fieldbook adds, as a checklist</a><a class="l2" href="#5-re-running-the-two-packages">5. Re-running the two packages</a><a class="l2" href="#heuristics">Heuristics</a><a class="l2" href="#drills">Drills</a><a class="l3" href="#d-svk-1-find-the-x_ite-encode">D-SVK-1 Find the X_ITE encode</a><a class="l3" href="#d-svk-2-predict-the-three-bytes">D-SVK-2 Predict the three bytes</a><a class="l3" href="#d-svk-3-undo-the-fake-loss">D-SVK-3 Undo the fake loss</a><a class="l3" href="#d-svk-4-write-the-depth-test">D-SVK-4 Write the depth test</a><a class="l3" href="#d-svk-5-same-shader-other-driver">D-SVK-5 Same shader, other driver</a><a class="l3" href="#d-svk-6-reproduce-the-fieldbook-lab">D-SVK-6 Reproduce the Fieldbook lab</a><a class="l2" href="#honest-limits">Honest limits</a><a class="l2" href="#numbers-register">Numbers register</a><a class="l2" href="#sources-and-provenance">Sources and provenance</a></details>
+<blockquote>
+<p><strong>Say it:</strong> An X3D renderer is trustworthy only where its colour encode, depth range and timing scope are named and tested, and X_ITE 16.7.1 encodes output with a plain 2.2 power (byte 186 for linear 0.5, where sRGB gives 188) for the materials its <code>ColorSpace</code> option selects. <strong><span class="g C" title="Confirmed">C</span></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chapter code</td>
+<td><code>SVK</code></td>
+</tr>
+<tr>
+<td>prerequisites</td>
+<td><a href="01-the-tether.html">01 The tether</a>; <a href="06-xite-the-oracle.html">06 X_ITE the oracle</a>; <a href="20-webgpu-compute.html">20 Compute on the GPU</a></td>
+</tr>
+<tr>
+<td>after this you can</td>
+<td>(1) say which materials X_ITE encodes under each <code>ColorSpace</code> value and what byte to expect; (2) decode X_ITE bytes without faking an energy loss; (3) write a white-furnace fixture; (4) write a Vulkan dependency sentence and pick its stage and access pair; (5) say why an image hash binds one driver</td>
+</tr>
+<tr>
+<td>sources read</td>
+<td><code>x3d.loom@90f9862:LEARNINGS-shader-vulkan.md</code>, <code>runs/shader-vulkan-20261117/</code>; <code>x3d.loom@32f5ae7:x3d.webgpu/{SPEC,BENCHMARK,ARCHITECTURE}.md</code>, <code>x3d.gltf/render/README.md</code>, <code>x3d.threejs/bridge/ESTIMATE.md</code>; the Shader-Vulkan Fieldbook and the Vulkan Light Lab (uploaded packages, read and re-run, not in a public repository)</td>
+</tr>
+<tr>
+<td>instruments used</td>
+<td><code>X_ITE 16.7.1</code>, Chromium 153.0.8010.12, Playwright 1.63.0, SwiftShader (software); CPython 3.13.18 and GCC on Linux x86_64, 4 vCPU; Mesa 25.2.8 lavapipe (LLVM 20.1.2), Vulkan 1.4.318, validation layer 1.3.275; no physical GPU</td>
+</tr>
+</tbody>
+</table>
+<p>Two teaching packages about shaders and Vulkan were re-run and one measurement of X_ITE was added. The packages teach a method that matches ours (a small CPU reference, a visible intermediate, one controlled fault, a named measurement) and they supply facts a renderer's receipt should carry. The measurement found a colour-encode difference that explains small parity gaps between engines.</p>
+<hr />
+<h2 id="1-the-map">1. The map</h2>
+<pre><code class="language-text">   X3D scene value (linear)    engine shader                     screenshot byte
+   emissive 0.5 ---+--&gt; X_ITE: pow(c, 1/2.2) ------------------&gt;  186  (PhysicalMaterial)
+                   +--&gt; X_ITE: no encode (unlit, legacy) ------&gt;  128  (default ColorSpace)
+                   +--&gt; exact sRGB, piecewise -----------------&gt;  188  (the Fieldbook's rule)
+   decode with the INVERSE of the writer: 186 -&gt; 0.4995 (2.2 inverse), 0.491 (sRGB inverse)
+</code></pre>
+<pre><code class="language-text">   Vulkan hand-off, one dependency sentence per arrow
+   host init --flush--&gt; [particles] --simulate--&gt; [particles] --render--&gt; [pixels]
+   [pixels] --reduce--&gt; [partials] --fence wait--&gt; host stats
+   [pixels] --copy--&gt; swapchain or readback
+   arrow = producer stage/access -&gt; consumer stage/access (sync2 names)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>in scope</th>
+<th>out of scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>X_ITE output encode and <code>ColorSpace</code> contract; a white furnace on PhysicalMaterial; the Fieldbook's rules; the Light Lab re-run; what each means for the bridges and the WebGPU spec</td>
+<td>a physical GPU, WSL, a native window, Babylon / three.js / Blender / Unreal encode functions (read, not run), prefiltered IBL energy compensation</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>fieldbook label</th>
+<th>meaning</th>
+<th>our grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identity</td>
+<td>follows from stated maths</td>
+<td><span class="g C" title="Confirmed">C</span> if derived and run, else <span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>Guarantee</td>
+<td>an API or spec obligation</td>
+<td><span class="g L" title="Likely">L</span>; <span class="g C" title="Confirmed">C</span> if a validator layer ran</td>
+</tr>
+<tr>
+<td>Approximation</td>
+<td>a substitute with a limited domain</td>
+<td><span class="g C" title="Confirmed">C</span> only with its error measured</td>
+</tr>
+<tr>
+<td>Observation</td>
+<td>a result on one workload and system</td>
+<td><span class="g C" title="Confirmed">C</span> on the named rig only</td>
+</tr>
+</tbody>
+</table>
+<p>Read next: deeper, <a href="20-webgpu-compute.html">20 Compute on the GPU</a> for the twins and the three clocks; wider, <a href="18-three-pathtracer.html">18 Path-tracing X3D</a> for the same colour traps in a path tracer.</p>
+<hr />
+<h2 id="2-the-x_ite-colour-contract">2. The X_ITE colour contract</h2>
+<p>The encode is in the shader source: <code>x_ite.js</code> 16.7.1 line 67921 reads <code>const float GAMMA=2.2; ... linearToSRGB(color) { return pow(color, vec3(INV_GAMMA)); }</code>. Rendering emissive 0.5 on a sphere with no lights and <code>toneMapping=NONE</code> (centre 5x5 mean, 128x128 canvas) gave:</p>
+<table>
+<thead>
+<tr>
+<th>material, emissive 0.5</th>
+<th>default (<code>LINEAR_WHEN_PHYSICAL_MATERIAL</code>)</th>
+<th><code>ColorSpace=LINEAR</code></th>
+<th><code>ColorSpace=SRGB</code></th>
+<th><code>DisplayColorSpace=DISPLAY_P3</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UnlitMaterial</td>
+<td>128</td>
+<td>186</td>
+<td>128</td>
+<td>128</td>
+</tr>
+<tr>
+<td>legacy Material</td>
+<td>128</td>
+<td>186</td>
+<td>128</td>
+<td>128</td>
+</tr>
+<tr>
+<td>PhysicalMaterial</td>
+<td>186</td>
+<td>186</td>
+<td>128</td>
+<td>186</td>
+</tr>
+</tbody>
+</table>
+<p>Byte 128 is a raw pass-through of 0.5; 186 is <code>255 * 0.5^(1/2.2) = 186.08</code>; exact sRGB would give 187.52, byte 188. The two curves differ by about 2 bytes at linear 0.5 and by about 8.5 bytes near linear 0.002 (2.2 power 15.1, sRGB 6.6), so engine gaps are larger in darks. <code>DisplayColorSpace=DISPLAY_P3</code> changed nothing in a headless Chromium screenshot; that is this rig only.</p>
+<h2 id="3-a-white-furnace-on-physicalmaterial">3. A white furnace on PhysicalMaterial</h2>
+<p>The only light is an <code>EnvironmentLight</code> whose diffuse and specular cube maps are six identical 1x1 white PNG faces, headlight off, white background. With no <code>EnvironmentLight</code>, or intensity 0, the sphere is byte 0 although the background is 255.</p>
+<table>
+<thead>
+<tr>
+<th>case</th>
+<th>byte</th>
+<th>linear (2.2 inverse)</th>
+<th>reading</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dielectric, baseColor 0.5, roughness 1, intensity 1</td>
+<td>187</td>
+<td>0.5054</td>
+<td>diffuse about 0.5</td>
+</tr>
+<tr>
+<td>dielectric, baseColor 0.5, roughness 0.5 or 0</td>
+<td>189</td>
+<td>0.5174</td>
+<td>+0.012 from the specular lobe (inferred)</td>
+</tr>
+<tr>
+<td>metal, baseColor 1, intensity 0.5, roughness 0, .25, .5, .75, 1</td>
+<td>186 each</td>
+<td>0.4995</td>
+<td>flat in roughness</td>
+</tr>
+<tr>
+<td>any baseColor 1, intensity 1</td>
+<td>255</td>
+<td>1.0</td>
+<td>clipped; shows nothing</td>
+</tr>
+</tbody>
+</table>
+<p>Flat metal output fits energy compensation or a lookup with no roughness-dependent term; a uniform environment cannot tell them apart, and one byte of quantisation is about 0.3 percent here. The first reading of these bytes used the exact sRGB inverse and gave 0.491, a fake 1.8 percent loss. The decode must be the inverse of what wrote the bytes.</p>
+<h2 id="4-what-the-fieldbook-adds-as-a-checklist">4. What the Fieldbook adds, as a checklist</h2>
+<table>
+<thead>
+<tr>
+<th>topic</th>
+<th>rule</th>
+<th>grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>depth</td>
+<td>forward-Z with <code>w_clip = -z_view</code>: <code>z_ndc = (A z + B)/(-z)</code>, <code>A = f/(n-f)</code>, <code>B = fn/(n-f)</code>; n=0.1, f=100: z=-n gives 0.0, z=-f gives 0.9999999999999999, z=-1 gives 0.9009. Reversed-Z (the WebGPU spec's choice, R-RENDER-07) swaps the ends.</td>
+<td><span class="g C" title="Confirmed">C</span> arithmetic</td>
+</tr>
+<tr>
+<td>NDC y</td>
+<td>depth [0,1] is shared by Vulkan, WebGPU and D3D; NDC y is up in WebGPU and D3D and down in Vulkan</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>sRGB</td>
+<td>piecewise, not 1/2.2; linear 0.5 is 0.7354 encoded; averaging encoded 0 and 1 gives linear 0.2140</td>
+<td><span class="g C" title="Confirmed">C</span></td>
+</tr>
+<tr>
+<td>dependency</td>
+<td>write the sentence first (&quot;A writes this range, B reads it as storage&quot;), then choose stage and access; order alone is neither an execution nor a memory dependency</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>sync2 names</td>
+<td>transfer write to compute storage read is COPY/TRANSFER_WRITE to COMPUTE/SHADER_STORAGE_READ; compute to vertex attribute fetch uses VERTEX_ATTRIBUTE_INPUT/VERTEX_ATTRIBUTE_READ; sync1 names differ</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>memory</td>
+<td>coherent memory removes flush and invalidate, not execution synchronisation; flush ranges are multiples of <code>nonCoherentAtomSize</code> from the start of the <code>VkDeviceMemory</code></td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>barriers</td>
+<td>a workgroup barrier is not a dispatch barrier; tail lanes carry identities and still reach every barrier</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>timing</td>
+<td>submit plus fence wait is latency; kernel time needs timestamp queries; report <code>null</code>, never CPU time, when unsupported</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+<tr>
+<td>presentation</td>
+<td>a frame fence alone does not prove a render-finished semaphore is free; <code>VK_KHR/EXT_swapchain_maintenance1</code> present fences are the formal proof (optional extension)</td>
+<td><span class="g L" title="Likely">L</span></td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-re-running-the-two-packages">5. Re-running the two packages</h2>
+<table>
+<thead>
+<tr>
+<th>check</th>
+<th>authors (Mesa 25.0.7, LLVM 19.1.7)</th>
+<th>here (Mesa 25.2.8, LLVM 20.1.2)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fieldbook lab, C vs Python cases</td>
+<td>745, max diff 1.665e-16</td>
+<td>745, max diff 1.6653345369377348e-16</td>
+</tr>
+<tr>
+<td>particle oracle, 257 particles</td>
+<td>9.313e-10</td>
+<td>9.313e-10, with and without <code>--validate</code></td>
+</tr>
+<tr>
+<td>luminance reduction oracle, 65x33</td>
+<td>2.260e-7</td>
+<td>1.660e-7</td>
+</tr>
+<tr>
+<td>integration checks</td>
+<td>15 PASS</td>
+<td>15 PASS</td>
+</tr>
+<tr>
+<td>GPU ms median, 160x90, 128 particles: simulate, render, reduce</td>
+<td>0.117, 0.493, 0.377</td>
+<td>0.078, 0.480, 0.484</td>
+</tr>
+<tr>
+<td>same 1440x900 4 spp render, bytes differing from the shipped image</td>
+<td>reference</td>
+<td>258 of 3,888,000, max 14 of 255</td>
+</tr>
+</tbody>
+</table>
+<p>The timings are lavapipe numbers and demonstrate a measurement pipeline, not GPU throughput. The same shader bytes gave a bit-identical particle result and a different image tail on another LLVM: a hash of an image binds one driver, the same rule the Math Lab found for float hashes across runtimes.</p>
+<hr />
+<h2 id="heuristics">Heuristics</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule</th>
+<th>Grade</th>
+<th>Evidence</th>
+<th>Instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H-SVK-1</td>
+<td>Name each engine's output encode function in every parity receipt; a 2-byte mid-grey gap and a larger gap in darks are expected between a 2.2 power and exact sRGB.</td>
+<td>C</td>
+<td><code>x_ite.js</code> line 67921; byte 186 vs 188</td>
+<td>X_ITE 16.7.1, Chromium 153.0.8010.12, SwiftShader</td>
+</tr>
+<tr>
+<td>H-SVK-2</td>
+<td>Test a scene that mixes material kinds under each <code>ColorSpace</code>; under the default, unlit and legacy materials are not encoded and PhysicalMaterial is.</td>
+<td>C</td>
+<td>section 2 table, 12 cells</td>
+<td>X_ITE 16.7.1, Chromium 153.0.8010.12, SwiftShader</td>
+</tr>
+<tr>
+<td>H-SVK-3</td>
+<td>Decode bytes with the inverse of the function that wrote them; a mismatched decode fakes a loss.</td>
+<td>C</td>
+<td>0.491 vs 0.4995 on the same byte 186</td>
+<td>Python 3.13.18, X_ITE 16.7.1</td>
+</tr>
+<tr>
+<td>H-SVK-4</td>
+<td>Put a furnace fixture (uniform white environment, albedo 0.5, no tone map) in every renderer's suite; expected diffuse output is the albedo, within byte quantisation.</td>
+<td>C</td>
+<td>byte 187 (0.5054) and 186 (0.4995)</td>
+<td>X_ITE 16.7.1, SwiftShader</td>
+</tr>
+<tr>
+<td>H-SVK-5</td>
+<td>Never set intensity so a furnace result clips; keep a half-intensity control.</td>
+<td>C</td>
+<td>baseColor 1 at intensity 1 read 255 for every roughness</td>
+<td>X_ITE 16.7.1, SwiftShader</td>
+</tr>
+<tr>
+<td>H-SVK-6</td>
+<td>Compare images across drivers with a stated tolerance and the driver named; never by hash.</td>
+<td>C</td>
+<td>258 of 3,888,000 bytes differ, max 14</td>
+<td>Mesa 25.2.8 vs shipped LLVM 19.1.7, <code>imgdiff.py</code></td>
+</tr>
+<tr>
+<td>H-SVK-7</td>
+<td>Write the depth test in the spec's convention; reversed-Z swaps the expected ends, and use a tolerance at the far plane in f32.</td>
+<td>C</td>
+<td>forward-Z values 0.0 and 0.9999999999999999</td>
+<td>Python 3.13.18</td>
+</tr>
+<tr>
+<td>H-SVK-8</td>
+<td>Write a dependency sentence for every compute-to-render hand-off; it documents why the pass order is legal.</td>
+<td>L</td>
+<td>Fieldbook section 10, Light Lab ledger</td>
+<td>read, not run</td>
+</tr>
+<tr>
+<td>H-SVK-9</td>
+<td>Report a missing timestamp as <code>null</code>, never as CPU time, and keep device interval, CPU frame time and process latency apart.</td>
+<td>L</td>
+<td>Light Lab metrics <code>timing_scope</code></td>
+<td>read; <code>bench.py</code> run on lavapipe</td>
+</tr>
+<tr>
+<td>H-SVK-10</td>
+<td>Treat a model-written primer as a lead; publish the corrected canon and keep the retractions as a ledger.</td>
+<td>C</td>
+<td>Fieldbook ledger, 19 rows</td>
+<td><code>Fieldbook.md</code> section 17 counted</td>
+</tr>
+<tr>
+<td>H-SVK-11</td>
+<td>Do not read double-precision agreement as float32 GPU agreement; give the float32 twin its own tolerance.</td>
+<td>L</td>
+<td>Fieldbook VALIDATION.md; chapter 20 particle twin</td>
+<td>read</td>
+</tr>
+</tbody>
+</table>
+<h2 id="drills">Drills</h2>
+<h3 id="d-svk-1-find-the-x_ite-encode">D-SVK-1 Find the X_ITE encode</h3>
+<ul>
+<li><strong>Level:</strong> L1 (look it up)</li>
+<li><strong>Task:</strong> find the function that converts linear to display in the X_ITE 16.7.1 distribution and say its exponent.</li>
+<li><strong>Verify:</strong> <code>grep -n &quot;const float GAMMA&quot; node_modules/x_ite/dist/x_ite.js</code> after <code>npm install x_ite@16.7.1</code>.</li>
+<li><strong>Answer:</strong> line 67921, <code>GAMMA=2.2</code>, <code>linearToSRGB = pow(color, vec3(1./GAMMA))</code>.</li>
+<li><strong>Checked:</strong> 2026-11-17 <code>X_ITE 16.7.1</code>, line 67921 read.</li>
+</ul>
+<h3 id="d-svk-2-predict-the-three-bytes">D-SVK-2 Predict the three bytes</h3>
+<ul>
+<li><strong>Level:</strong> L2 (run a tool and compare)</li>
+<li><strong>Task:</strong> before running, predict the centre byte of an emissive-0.5 sphere for UnlitMaterial and PhysicalMaterial under the default <code>ColorSpace</code>, then run <code>runs/shader-vulkan-20261117/probe/xite-furnace-colour.js</code> in <code>x3d.loom</code>.</li>
+<li><strong>Verify:</strong> the <code>exp2_a_unlit_default</code> and <code>exp2_c_physical_default</code> rows of <code>xite-furnace-colour.json</code>.</li>
+<li><strong>Answer:</strong> 128 and 186; exact sRGB would give 188.</li>
+<li><strong>Checked:</strong> 2026-11-17 <code>X_ITE 16.7.1</code>, Chromium 153.0.8010.12, SwiftShader.</li>
+</ul>
+<h3 id="d-svk-3-undo-the-fake-loss">D-SVK-3 Undo the fake loss</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> the metal half-intensity rows read byte 186. Compute the linear value with the exact sRGB inverse and with the 2.2 inverse, and say which is right for X_ITE.</li>
+<li><strong>Verify:</strong> <code>python3 -c &quot;print(((186/255+0.055)/1.055)**2.4, (186/255)**2.2)&quot;</code>.</li>
+<li><strong>Answer:</strong> 0.4910 and 0.4995; the 2.2 inverse is right because it undoes what the shader wrote.</li>
+<li><strong>Checked:</strong> 2026-11-17 Python 3.13.18.</li>
+</ul>
+<h3 id="d-svk-4-write-the-depth-test">D-SVK-4 Write the depth test</h3>
+<ul>
+<li><strong>Level:</strong> L3 (break it, fix it, extend it)</li>
+<li><strong>Task:</strong> implement forward-Z <code>z_ndc = (A z + B)/(-z)</code> and test z=-n and z=-f; then swap n and f for reversed-Z and say which two outputs change.</li>
+<li><strong>Verify:</strong> the closed form in section 4 with n=0.1, f=100.</li>
+<li><strong>Answer:</strong> forward gives 0.0 and 0.9999999999999999; reversed-Z gives about 1.0 and 0.0.</li>
+<li><strong>Checked:</strong> 2026-11-17 Python 3.13.18 (forward values); reversed case reasoned.</li>
+</ul>
+<h3 id="d-svk-5-same-shader-other-driver">D-SVK-5 Same shader, other driver</h3>
+<ul>
+<li><strong>Level:</strong> L3</li>
+<li><strong>Task:</strong> build the Light Lab, render 1440x900 at 4 samples with default flags on two Mesa/LLVM versions, and diff the images.</li>
+<li><strong>Verify:</strong> <code>python3 -I runs/shader-vulkan-20261117/imgdiff.py beauty.png mine.ppm</code>.</li>
+<li><strong>Answer:</strong> 258 of 3,888,000 bytes differ, max 14 of 255, against the shipped LLVM 19.1.7 image.</li>
+<li><strong>Checked:</strong> 2026-11-17 Mesa 25.2.8 lavapipe, LLVM 20.1.2.</li>
+</ul>
+<h3 id="d-svk-6-reproduce-the-fieldbook-lab">D-SVK-6 Reproduce the Fieldbook lab</h3>
+<ul>
+<li><strong>Level:</strong> L2</li>
+<li><strong>Task:</strong> run <code>run_lab.py</code> from the Fieldbook package and report case count and maximum difference.</li>
+<li><strong>Verify:</strong> <code>labs/output/validation.json</code>.</li>
+<li><strong>Answer:</strong> 745 cases, 1.6653345369377348e-16.</li>
+<li><strong>Checked:</strong> 2026-11-17 CPython 3.13.18, GCC.</li>
+</ul>
+<h2 id="honest-limits">Honest limits</h2>
+<ul>
+<li><span class="g C" title="Confirmed">C</span> No physical GPU, no WSL, no native window, in the authors' run or here; Light Lab timings are lavapipe numbers.</li>
+<li><span class="g C" title="Confirmed">C</span> The X_ITE numbers are SwiftShader only; the furnace cube maps have no mip chain, so prefiltered IBL energy compensation was not tested.</li>
+<li><span class="g C" title="Confirmed">C</span> <code>DisplayColorSpace=DISPLAY_P3</code> had no effect in a headless Chromium screenshot; this rig only.</li>
+<li><span class="g S" title="Suspected">S</span> The three.js, Babylon, Blender and Unreal encode functions were not re-read; statements about them are carried from reading, not run.</li>
+<li><span class="g S" title="Suspected">S</span> The WebGPU synchronisation and NDC-y statements were not re-read in the WebGPU specification.</li>
+<li><span class="g L" title="Likely">L</span> The Fieldbook's Vulkan helper file was never compiled by its authors and not by us.</li>
+<li><span class="g S" title="Suspected">S</span> The 2.2-power encode is a candidate for the X_ITE maintainer and has not been reported upstream.</li>
+</ul>
+<h2 id="numbers-register">Numbers register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Quantity</th>
+<th>Value</th>
+<th>Grade</th>
+<th>Instrument</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-SVK-1</td>
+<td>byte for linear 0.5 under X_ITE's 2.2 encode</td>
+<td>186</td>
+<td>C</td>
+<td>X_ITE 16.7.1, Chromium 153.0.8010.12, SwiftShader</td>
+<td><code>x3d.loom@90f9862:runs/shader-vulkan-20261117/xite-furnace-colour.json</code></td>
+</tr>
+<tr>
+<td>N-SVK-2</td>
+<td>byte for linear 0.5 under exact sRGB</td>
+<td>187.52 (byte 188)</td>
+<td>C</td>
+<td>Python 3.13.18</td>
+<td>closed form</td>
+</tr>
+<tr>
+<td>N-SVK-3</td>
+<td>X_ITE <code>GAMMA</code> constant</td>
+<td>2.2</td>
+<td>C</td>
+<td>X_ITE 16.7.1</td>
+<td><code>x_ite.js</code> line 67921</td>
+</tr>
+<tr>
+<td>N-SVK-4</td>
+<td>Unlit and legacy emissive 0.5, default <code>ColorSpace</code></td>
+<td>128</td>
+<td>C</td>
+<td>X_ITE 16.7.1, SwiftShader</td>
+<td><code>x3d.loom@90f9862:runs/shader-vulkan-20261117/xite-furnace-colour.json</code></td>
+</tr>
+<tr>
+<td>N-SVK-5</td>
+<td>rows in the X_ITE probe result</td>
+<td>41</td>
+<td>C</td>
+<td>X_ITE 16.7.1, SwiftShader</td>
+<td><code>x3d.loom@90f9862:runs/shader-vulkan-20261117/xite-furnace-colour.json</code></td>
+</tr>
+<tr>
+<td>N-SVK-6</td>
+<td>largest 2.2-power vs sRGB gap, bytes (near linear 0.002)</td>
+<td>8.5</td>
+<td>C</td>
+<td>Python 3.13.18</td>
+<td>closed form</td>
+</tr>
+<tr>
+<td>N-SVK-7</td>
+<td>metal furnace, intensity 0.5, linear (2.2 inverse)</td>
+<td>0.4995</td>
+<td>C</td>
+<td>X_ITE 16.7.1, SwiftShader</td>
+<td><code>x3d.loom@90f9862:runs/shader-vulkan-20261117/xite-furnace-colour.json</code></td>
+</tr>
+<tr>
+<td>N-SVK-8</td>
+<td>same bytes with exact sRGB inverse</td>
+<td>0.4910</td>
+<td>C</td>
+<td>Python 3.13.18</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-SVK-9</td>
+<td>dielectric 0.5 rough, intensity 1, linear</td>
+<td>0.5054</td>
+<td>C</td>
+<td>X_ITE 16.7.1, SwiftShader</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-SVK-10</td>
+<td>Fieldbook lab C vs Python cases</td>
+<td>745</td>
+<td>C</td>
+<td>CPython 3.13.18, GCC</td>
+<td>Fieldbook <code>labs/output/validation.json</code>, re-run</td>
+</tr>
+<tr>
+<td>N-SVK-11</td>
+<td>Fieldbook lab max difference</td>
+<td>1.6653345369377348e-16</td>
+<td>C</td>
+<td>CPython 3.13.18, GCC</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-SVK-12</td>
+<td>Light Lab integration checks passed</td>
+<td>15</td>
+<td>C</td>
+<td>Mesa 25.2.8 lavapipe, LLVM 20.1.2</td>
+<td><code>x3d.loom@90f9862:runs/shader-vulkan-20261117/lightlab-rerun.json</code></td>
+</tr>
+<tr>
+<td>N-SVK-13</td>
+<td>image bytes differing across LLVM 19.1.7 and 20.1.2</td>
+<td>258 of 3,888,000</td>
+<td>C</td>
+<td><code>imgdiff.py</code>, Mesa 25.2.8</td>
+<td>same</td>
+</tr>
+<tr>
+<td>N-SVK-14</td>
+<td>Lambert furnace, 32 elevation bins</td>
+<td>0.500201</td>
+<td>C</td>
+<td>Python 3.13.18; Light Lab guide</td>
+<td>Light Lab <code>furnace.json</code></td>
+</tr>
+<tr>
+<td>N-SVK-15</td>
+<td>Fieldbook correction ledger rows</td>
+<td>19</td>
+<td>C</td>
+<td>counted</td>
+<td>Fieldbook <code>Fieldbook.md</code> section 17</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sources-and-provenance">Sources and provenance</h2>
+<p>Public: <code>x3d.loom@90f9862</code> (this change) and the files cited in the table at the top, read at <code>x3d.loom@32f5ae7</code>. The two teaching packages were uploaded by the project owner, are not in a public repository, and were read and re-run in a scratch directory; their MIT-licensed Light Lab was not modified. X_ITE was installed from npm at 16.7.1 for the probe. Nothing was sent to any upstream project.</p>
+<div class="pn"><a href="26-chess-lenses-oracles.html">&larr; 26-chess-lenses-oracles</a><a href="A-validator-register.html">A-validator-register &rarr;</a></div><p class="foot">Grades: <span class="g C">C</span> confirmed (measured, instrument named) · <span class="g L">L</span> likely · <span class="g S">S</span> suspected. Every number names its validator, renderer or rig. Rebuilt by <code>docs/tools-shared/build_learn.py</code>.</p></main></div></body></html>

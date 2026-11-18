@@ -3,7 +3,7 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-412 distinct instrument strings across the numbers registers.
+420 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
@@ -17,10 +17,12 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `driver.py status` | 6 | 08 | C:6 |
 | `learn_lib.py count` | 6 | 14 | C:6 |
 | `Khronos glTF-Validator 2.0.0-dev.3.10` | 5 | 09, 10, 11, 19 | C:5 |
+| `Python 3.13.18` | 5 | 22, 27 | C:5 |
 | `bpy 5.3.0` | 5 | 10, 11 | C:2 L:3 |
 | `x3dgltf step-probe` | 5 | 19 | C:5 |
 | `x3dgltf verify` | 5 | 19 | C:5 |
 | `X_ITE 16.6.0` | 4 | 08, 15 | C:4 |
+| `X_ITE 16.7.1, SwiftShader` | 4 | 27 | C:4 |
 | `build_learn.py at this commit` | 4 | 14 | C:4 |
 | `rdflib 7.6.0` | 4 | 05 | C:4 |
 | `read, not re-run` | 4 | 06, 07 | L:4 |
@@ -34,10 +36,10 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `same receipt` | 3 | 26 | L:3 |
 | `wc -l` | 3 | 08, 10 | C:3 |
 | `x3d_mcp fork b4efcd3, seed 20261029` | 3 | 01, 03 | C:3 |
+| `CPython 3.13.18, GCC` | 2 | 27 | C:2 |
 | `Chromium 153 SwiftShader` | 2 | 18 | C:2 |
 | `Chromium 153, SwiftShader (carried)` | 2 | 11, 12 | L:2 |
 | `Node v22.23.4, Yjs 13.6.33` | 2 | 21 | C:2 |
-| `Python 3.13.18` | 2 | 22 | C:2 |
 | `X_ITE 16.6.0, Chromium 153.0.8010.12 SwiftShader, three.js r187` | 2 | 08 | C:2 |
 | `X_ITE 16.7.0, Chromium 153, SwiftShader, 320 x 240` | 2 | 01 | C:2 |
 | `esbuild 0.25.12` | 2 | 16, 19 | C:2 |
@@ -89,6 +91,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `Khronos glTF-Validator 2.0.0-dev.3.10, 2026-11-14` | 1 | 12 | C:1 |
 | `Khronos glTF-Validator 2.0.0-dev.3.10, receipt` | 1 | 09 | C:1 |
 | `Khronos registry sha256 prefix 32868b162d85` | 1 | 11 | C:1 |
+| `Mesa 25.2.8 lavapipe, LLVM 20.1.2` | 1 | 27 | C:1 |
 | `NODES.json, merge log` | 1 | 08 | C:1 |
 | `Node (D-BAB-6); X_ITE 16.6.0 SwiftShader` | 1 | 08 | C:1 |
 | `Node (D-BAB-6); X_ITE SAI` | 1 | 08 | C:1 |
@@ -110,6 +113,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `Python 3.13.18, numpy 2.5.5, hand-written logistic regression; feasibility of labels only, not a Jev result` | 1 | 22 | C:1 |
 | `Python 3.13.18, x3d_mcp@dcf0815 validators warm, 4 vCPU, one process; render time recorded` | 1 | 22 | C:1 |
 | `Python 3.13.18, x3d_mcp@dcf0815, seed 0, 39 clean scenes` | 1 | 22 | C:1 |
+| `Python 3.13.18; Light Lab guide` | 1 | 27 | C:1 |
 | `Python 3.13.18; bpy 5.3.0 as recorded in the commit message` | 1 | 23 | C:1 |
 | `Python, X_ITE 16.6.0` | 1 | 08 | C:1 |
 | `README text, matches serve.py constants per the review` | 1 | 25 | C:1 |
@@ -145,10 +149,12 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `X_ITE 16.7.0 (and 16.4.3, 16.5.1, 16.6.1, 16.7.1), Chromium 153, SwiftShader` | 1 | 06 | C:1 |
 | `X_ITE 16.7.0, browser.supportedComponents` | 1 | 06 | C:1 |
 | `X_ITE 16.7.0; x3d_mcp fork b4efcd3` | 1 | 06 | C:1 |
+| `X_ITE 16.7.1` | 1 | 27 | C:1 |
 | `X_ITE 16.7.1 vs Babylon 9.32.0, Chromium 153.0.8010.12, SwiftShader, 512 px` | 1 | 09 | C:1 |
 | `X_ITE 16.7.1, Babylon.js 9.32.0, Chrome 153 SwiftShader` | 1 | 10 | C:1 |
 | `X_ITE 16.7.1, Babylon.js 9.32.0, Chromium 153, SwiftShader` | 1 | 11 | L:1 |
 | `X_ITE 16.7.1, Chromium 153, SwiftShader (carried)` | 1 | 12 | L:1 |
+| `X_ITE 16.7.1, Chromium 153.0.8010.12, SwiftShader` | 1 | 27 | C:1 |
 | `a hosted model, as reported` | 1 | 01 | L:1 |
 | `arithmetic on ALPHA` | 1 | 07 | C:1 |
 | `arithmetic on N-MCP-4` | 1 | 04 | C:1 |
@@ -177,6 +183,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `core11.py, inline Python` | 1 | 09 | C:1 |
 | `core11.py; FLIP 1.7, Cycles 256 spp, 512 px` | 1 | 09 | C:1 |
 | `count, x3d.loom@162ab18` | 1 | 02 | C:1 |
+| `counted` | 1 | 27 | C:1 |
 | `default parameters, Playwright 1.63.0 Chromium` | 1 | 24 | C:1 |
 | `drill D-ACC-3, x3d_mcp@b5c9956, lxml 6.1.3` | 1 | 25 | C:1 |
 | `drill D-ACC-4, x3d_mcp@b5c9956` | 1 | 25 | C:1 |
@@ -211,6 +218,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `grep, X_ITE 16.7.0` | 1 | 06 | C:1 |
 | `grep, export header` | 1 | 10 | C:1 |
 | `grep, x_ite.min.js sha256 prefix b7df063e8cb1` | 1 | 08 | C:1 |
+| `imgdiff.py, Mesa 25.2.8` | 1 | 27 | C:1 |
 | `inline Python, 15 scenes` | 1 | 09 | C:1 |
 | `inline Python, ls` | 1 | 09 | C:1 |
 | `inspector, chess.js, python-chess 1.11.2` | 1 | 26 | C:1 |

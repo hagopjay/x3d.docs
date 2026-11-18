@@ -85,6 +85,7 @@ add a dated row, never overwrite the old one.
 | [24](24-math-lab-static-host.md) | Math Lab: one model owner, two transports | Keep one program that owns the model and let it travel (a local server, or the same files inside the page on WebAssembly); then never trust a float hash across the two, never trust a copied receipt across a dependency... | 9 | 6 | 20 | 32 KB |
 | [25](25-accretion-gated-growth.md) | Accretion: an append-only X3D world grown one gated patch at a time | Grow a world by letting a deterministic planner pick the slot, any generator propose a fragment, a whitelist gate plus a pinned XSD and semantic validator admit it, and a hash-chained ledger record it; then say out lo... | 13 | 10 | 26 | 46 KB |
 | [26](26-chess-lenses-oracles.md) | Lenses on a chess board: a claim is not a picture | An overlay is a claim, so give each one a named question, an exact quantity and an instrument; test it against a library that shares no code with it, not against a twin; keep the geometric, the legal, the engine and t... | 15 | 8 | 30 | 47 KB |
+| [27](27-shaders-vulkan-contracts.md) | Shaders and Vulkan: what the explicit APIs teach an X3D renderer | An X3D renderer is trustworthy only where its colour encode, depth range and timing scope are named and tested, and X_ITE 16.7.1 encodes output with a plain 2.2 power (byte 186 for linear 0.5, where sRGB gives 188) fo... | 11 | 6 | 15 | 16 KB |
 <!-- END CHAPTER-TABLE -->
 
 ## What every chapter contains

@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**396 heuristics.** Grades: [C] 328 · [L] 61 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**407 heuristics.** Grades: [C] 336 · [L] 64 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -403,4 +403,15 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-LNS-13 | [26](26-chess-lenses-oracles.md) | Create every overlay shape with `pointerEvents='false'`, and expose the picked point through an outputOnly PROTO field. | C | all overlay generators carry it; `hitPoint` in the board PROTO | `viewer/js/*.js`, `tools/gen_grid.py`, read |
 | H-LNS-14 | [26](26-chess-lenses-oracles.md) | Say in the receipt what a blocked or software-GL run cannot show; never read a pass as a frame-rate or pixel claim. | C | receipt `scope` line; `docs/LENSES.md` limits | `evidence/lens-smoke.json`, Chromium 153.0.8010.12 SwiftShader |
 | H-LNS-15 | [26](26-chess-lenses-oracles.md) | When prose and test disagree on a number, quote the test and grade the prose [S]. | C | "three FENs" in two documents, four in the test | `tools/branches-test.mjs` line 298 |
+| H-SVK-1 | [27](27-shaders-vulkan-contracts.md) | Name each engine's output encode function in every parity receipt; a 2-byte mid-grey gap and a larger gap in darks are expected between a 2.2 power and exact sRGB. | C | `x_ite.js` line 67921; byte 186 vs 188 | X_ITE 16.7.1, Chromium 153.0.8010.12, SwiftShader |
+| H-SVK-2 | [27](27-shaders-vulkan-contracts.md) | Test a scene that mixes material kinds under each `ColorSpace`; under the default, unlit and legacy materials are not encoded and PhysicalMaterial is. | C | section 2 table, 12 cells | X_ITE 16.7.1, Chromium 153.0.8010.12, SwiftShader |
+| H-SVK-3 | [27](27-shaders-vulkan-contracts.md) | Decode bytes with the inverse of the function that wrote them; a mismatched decode fakes a loss. | C | 0.491 vs 0.4995 on the same byte 186 | Python 3.13.18, X_ITE 16.7.1 |
+| H-SVK-4 | [27](27-shaders-vulkan-contracts.md) | Put a furnace fixture (uniform white environment, albedo 0.5, no tone map) in every renderer's suite; expected diffuse output is the albedo, within byte quantisation. | C | byte 187 (0.5054) and 186 (0.4995) | X_ITE 16.7.1, SwiftShader |
+| H-SVK-5 | [27](27-shaders-vulkan-contracts.md) | Never set intensity so a furnace result clips; keep a half-intensity control. | C | baseColor 1 at intensity 1 read 255 for every roughness | X_ITE 16.7.1, SwiftShader |
+| H-SVK-6 | [27](27-shaders-vulkan-contracts.md) | Compare images across drivers with a stated tolerance and the driver named; never by hash. | C | 258 of 3,888,000 bytes differ, max 14 | Mesa 25.2.8 vs shipped LLVM 19.1.7, `imgdiff.py` |
+| H-SVK-7 | [27](27-shaders-vulkan-contracts.md) | Write the depth test in the spec's convention; reversed-Z swaps the expected ends, and use a tolerance at the far plane in f32. | C | forward-Z values 0.0 and 0.9999999999999999 | Python 3.13.18 |
+| H-SVK-8 | [27](27-shaders-vulkan-contracts.md) | Write a dependency sentence for every compute-to-render hand-off; it documents why the pass order is legal. | L | Fieldbook section 10, Light Lab ledger | read, not run |
+| H-SVK-9 | [27](27-shaders-vulkan-contracts.md) | Report a missing timestamp as `null`, never as CPU time, and keep device interval, CPU frame time and process latency apart. | L | Light Lab metrics `timing_scope` | read; `bench.py` run on lavapipe |
+| H-SVK-10 | [27](27-shaders-vulkan-contracts.md) | Treat a model-written primer as a lead; publish the corrected canon and keep the retractions as a ledger. | C | Fieldbook ledger, 19 rows | `Fieldbook.md` section 17 counted |
+| H-SVK-11 | [27](27-shaders-vulkan-contracts.md) | Do not read double-precision agreement as float32 GPU agreement; give the float32 twin its own tolerance. | L | Fieldbook VALIDATION.md; chapter 20 particle twin | read |
 <!-- END GENERATED -->
