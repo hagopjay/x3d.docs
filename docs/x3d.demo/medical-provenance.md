@@ -27,3 +27,7 @@ Next: sign or hash the claim file into the scene, HAnimHumanoid on the 37 mapped
 ## v3 (`medical-provenance/v3/`): claims hashed into the scene
 
 Per-shape SHA-256 of the canonical claim list in each MetadataSet, plus one root (`b3a6e1ac3b237154...`) in the scene head. The page recomputes all of them with WebCrypto from `claims.json`: 111 of 111 match, a changed claim text is caught (110 of 111, root differs). `verify.py` repeats it offline for both scenes (torso 111/111, brain 10/10). Both scenes valid, 0 errors (x3d_mcp `fa5dccf`). Headless Chromium, software GL, X_ITE 16.6.0. A hash is not a signature: hold the root outside the folder and add a keyed signature when the owner sets a key policy.
+
+## v4 (`medical-provenance/v4/`): a jointed H-Anim skeleton
+
+A real `HAnimHumanoid` built from the CT bones: 35 joints, 35 segments (34 bones plus a pelvis), FMA id and claim digest on each segment, posable in the page. Valid, 0 errors (x3d_mcp `fa5dccf`); all 35 joint and 35 segment names in the XSD enumerations; forward-kinematics error 0.000000 m. Joint centres are estimated from the meshes (grade S). Ribs, sternum and cartilage have no H-Anim segment and are drawn outside it. CT scene (+X patient-right, +Z posterior) needs a 180 degree turn about Y for H-Anim. Headless Chromium, software GL, X_ITE 16.6.0; other H-Anim players not tested.
