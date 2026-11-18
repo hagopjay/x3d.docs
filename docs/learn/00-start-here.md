@@ -82,6 +82,7 @@ add a dated row, never overwrite the old one.
 | [21](21-yjs-collaboration.md) | Many hands on one scene: Yjs, CRDTs and the X3D scene graph | A scene graph can be held as a Yjs document so that people, browsers and an LLM agent edit one X3D scene at the same time and always converge, provided the tree is stored as a flat node table with a parent register an... | 9 | 5 | 17 | 18 KB |
 | [22](22-typed-judgments-jev.md) | Typed judgments: what Jev teaches X3D, and what it must never be trusted with | A typed judge such as Jev belongs behind exact code, not in front of it: answer by lookup what code can answer, run the validator twin for the rest, calibrate the judge's probabilities (not its "confidence") against v... | 20 | 8 | 34 | 49 KB |
 | [23](23-traceability-lineage.md) | Traceability: a quote beside every value, and the lineage stack around it | Make whoever writes a value copy the exact words it came from, and let plain code answer three questions (is the quote in the source, is the value in the quote, where is it); then record the answer in the scene's own... | 14 | 6 | 24 | 35 KB |
+| [24](24-shaders-vulkan-contracts.md) | Shaders and Vulkan: what the explicit APIs teach an X3D renderer | An X3D renderer is trustworthy only where its colour encode, depth range and timing scope are named and tested, and X_ITE 16.7.1 encodes output with a plain 2.2 power (byte 186 for linear 0.5, where sRGB gives 188) fo... | 11 | 6 | 15 | 16 KB |
 <!-- END CHAPTER-TABLE -->
 
 ## What every chapter contains

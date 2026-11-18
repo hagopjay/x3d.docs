@@ -3,7 +3,7 @@
 Every drill has a task, a verify command and an answer key. Run the ones marked *not run* and send the result as a PR to the chapter.
 
 <!-- BEGIN GENERATED -->
-**177 drills**, 164 with a recorded run (`Checked`), 13 not yet run. Levels: L1 34, L2 93, L3 50.
+**183 drills**, 170 with a recorded run (`Checked`), 13 not yet run. Levels: L1 35, L2 96, L3 52.
 
 | ID | Ch | Level | Drill | Checked |
 |---|---|---|---|---|
@@ -184,4 +184,10 @@ Every drill has a task, a verify command and an answer key. Run the ones marked 
 | D-TRC-4 | [23](23-traceability-lineage.md) | L3 | Break the verifier, then extend it | 2026-11-16 `x3dtrace` dcba70d7, Python 3.13.18 |
 | D-TRC-5 | [23](23-traceability-lineage.md) | L2 | Edit the record | 2026-11-16 `x3dtrace` dcba70d7, `x3dprov` of `x3d.ml@305fd60`, Python 3.13.18, lxml 6 |
 | D-TRC-6 | [23](23-traceability-lineage.md) | L1 | Coverage that lies | 2026-11-16 `x3dtrace` dcba70d7, Python 3.13.18 |
+| D-SVK-1 | [24](24-shaders-vulkan-contracts.md) | L1 | Find the X_ITE encode | 2026-11-17 `X_ITE 16.7.1`, line 67921 read. |
+| D-SVK-2 | [24](24-shaders-vulkan-contracts.md) | L2 | Predict the three bytes | 2026-11-17 `X_ITE 16.7.1`, Chromium 153.0.8010.12, SwiftShader. |
+| D-SVK-3 | [24](24-shaders-vulkan-contracts.md) | L2 | Undo the fake loss | 2026-11-17 Python 3.13.18. |
+| D-SVK-4 | [24](24-shaders-vulkan-contracts.md) | L3 | Write the depth test | 2026-11-17 Python 3.13.18 (forward values); reversed case reasoned. |
+| D-SVK-5 | [24](24-shaders-vulkan-contracts.md) | L3 | Same shader, other driver | 2026-11-17 Mesa 25.2.8 lavapipe, LLVM 20.1.2. |
+| D-SVK-6 | [24](24-shaders-vulkan-contracts.md) | L2 | Reproduce the Fieldbook lab | 2026-11-17 CPython 3.13.18, GCC. |
 <!-- END GENERATED -->

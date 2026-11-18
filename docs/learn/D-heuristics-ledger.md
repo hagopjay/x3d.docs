@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**359 heuristics.** Grades: [C] 296 · [L] 56 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**370 heuristics.** Grades: [C] 304 · [L] 59 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -366,4 +366,15 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-TRC-12 | [23](23-traceability-lineage.md) | Have the verifier reviewed by someone who has not seen its code, and keep the open failures as expected-failure tests. | C | 43 defects in the first build from 1,204 tests; 8 still open, each with a test that passes when fixed | `x3d.ml@305fd60` `docs/TRACE-REVIEW.md` |
 | H-TRC-13 | [23](23-traceability-lineage.md) | Where the exporter knows where a number came from, record the datablock and the conversion and recompute; use a quote only for values nobody can recompute. | L | a mutation test shows that an emitter that skips the sRGB step is caught by the recompute | `x3d-blender-io@044bea3` `tests/test_lineage.py`, 15 pure tests, read, not rerun here |
 | H-TRC-14 | [23](23-traceability-lineage.md) | Measure a verifier's false-verify rate with planted claims of known truth and quote an upper bound, not only a zero. | C | each zero row carries a rule-of-three upper bound in the receipt | `x3d.loom@be7c481` `x3d.s1/receipts/evidence-2026-11-16.json` |
+| H-SVK-1 | [24](24-shaders-vulkan-contracts.md) | Name each engine's output encode function in every parity receipt; a 2-byte mid-grey gap and a larger gap in darks are expected between a 2.2 power and exact sRGB. | C | `x_ite.js` line 67921; byte 186 vs 188 | X_ITE 16.7.1, Chromium 153.0.8010.12, SwiftShader |
+| H-SVK-2 | [24](24-shaders-vulkan-contracts.md) | Test a scene that mixes material kinds under each `ColorSpace`; under the default, unlit and legacy materials are not encoded and PhysicalMaterial is. | C | section 2 table, 12 cells | X_ITE 16.7.1, Chromium 153.0.8010.12, SwiftShader |
+| H-SVK-3 | [24](24-shaders-vulkan-contracts.md) | Decode bytes with the inverse of the function that wrote them; a mismatched decode fakes a loss. | C | 0.491 vs 0.4995 on the same byte 186 | Python 3.13.18, X_ITE 16.7.1 |
+| H-SVK-4 | [24](24-shaders-vulkan-contracts.md) | Put a furnace fixture (uniform white environment, albedo 0.5, no tone map) in every renderer's suite; expected diffuse output is the albedo, within byte quantisation. | C | byte 187 (0.5054) and 186 (0.4995) | X_ITE 16.7.1, SwiftShader |
+| H-SVK-5 | [24](24-shaders-vulkan-contracts.md) | Never set intensity so a furnace result clips; keep a half-intensity control. | C | baseColor 1 at intensity 1 read 255 for every roughness | X_ITE 16.7.1, SwiftShader |
+| H-SVK-6 | [24](24-shaders-vulkan-contracts.md) | Compare images across drivers with a stated tolerance and the driver named; never by hash. | C | 258 of 3,888,000 bytes differ, max 14 | Mesa 25.2.8 vs shipped LLVM 19.1.7, `imgdiff.py` |
+| H-SVK-7 | [24](24-shaders-vulkan-contracts.md) | Write the depth test in the spec's convention; reversed-Z swaps the expected ends, and use a tolerance at the far plane in f32. | C | forward-Z values 0.0 and 0.9999999999999999 | Python 3.13.18 |
+| H-SVK-8 | [24](24-shaders-vulkan-contracts.md) | Write a dependency sentence for every compute-to-render hand-off; it documents why the pass order is legal. | L | Fieldbook section 10, Light Lab ledger | read, not run |
+| H-SVK-9 | [24](24-shaders-vulkan-contracts.md) | Report a missing timestamp as `null`, never as CPU time, and keep device interval, CPU frame time and process latency apart. | L | Light Lab metrics `timing_scope` | read; `bench.py` run on lavapipe |
+| H-SVK-10 | [24](24-shaders-vulkan-contracts.md) | Treat a model-written primer as a lead; publish the corrected canon and keep the retractions as a ledger. | C | Fieldbook ledger, 19 rows | `Fieldbook.md` section 17 counted |
+| H-SVK-11 | [24](24-shaders-vulkan-contracts.md) | Do not read double-precision agreement as float32 GPU agreement; give the float32 twin its own tolerance. | L | Fieldbook VALIDATION.md; chapter 20 particle twin | read |
 <!-- END GENERATED -->

@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**591 numbers** from 23 chapters. Grades: [C] 541 · [L] 44 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
+**606 numbers** from 24 chapters. Grades: [C] 556 · [L] 44 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -598,4 +598,19 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-TRC-22 | [23](23-traceability-lineage.md) | `scene_evidence`, 600-block scene (92,280 B) with 100 claims, BIND on | 71 ms | [C] | `evaluation/time_scene_evidence.py`, median of 7 calls, engine `dcba70d7`, 4 cores | same |
 | N-TRC-23 | [23](23-traceability-lineage.md) | `x3d-blender-io` lineage tests: pure Python; with Blender | 15; 4 | [C] | Python 3.13.18; bpy 5.3.0 as recorded in the commit message | `x3d-blender-io@044bea3:source/lineage.py` |
 | N-TRC-24 | [23](23-traceability-lineage.md) | open review findings, each with an expected-failure test | 8 | [C] | `tests/test_x3dtrace.py` | `x3d.ml@305fd60:docs/TRACE-REVIEW.md` |
+| N-SVK-1 | [24](24-shaders-vulkan-contracts.md) | byte for linear 0.5 under X_ITE's 2.2 encode | 186 | C | X_ITE 16.7.1, Chromium 153.0.8010.12, SwiftShader | `x3d.loom@90f9862:runs/shader-vulkan-20261117/xite-furnace-colour.json` |
+| N-SVK-2 | [24](24-shaders-vulkan-contracts.md) | byte for linear 0.5 under exact sRGB | 187.52 (byte 188) | C | Python 3.13.18 | closed form |
+| N-SVK-3 | [24](24-shaders-vulkan-contracts.md) | X_ITE `GAMMA` constant | 2.2 | C | X_ITE 16.7.1 | `x_ite.js` line 67921 |
+| N-SVK-4 | [24](24-shaders-vulkan-contracts.md) | Unlit and legacy emissive 0.5, default `ColorSpace` | 128 | C | X_ITE 16.7.1, SwiftShader | `x3d.loom@90f9862:runs/shader-vulkan-20261117/xite-furnace-colour.json` |
+| N-SVK-5 | [24](24-shaders-vulkan-contracts.md) | rows in the X_ITE probe result | 41 | C | X_ITE 16.7.1, SwiftShader | `x3d.loom@90f9862:runs/shader-vulkan-20261117/xite-furnace-colour.json` |
+| N-SVK-6 | [24](24-shaders-vulkan-contracts.md) | largest 2.2-power vs sRGB gap, bytes (near linear 0.002) | 8.5 | C | Python 3.13.18 | closed form |
+| N-SVK-7 | [24](24-shaders-vulkan-contracts.md) | metal furnace, intensity 0.5, linear (2.2 inverse) | 0.4995 | C | X_ITE 16.7.1, SwiftShader | `x3d.loom@90f9862:runs/shader-vulkan-20261117/xite-furnace-colour.json` |
+| N-SVK-8 | [24](24-shaders-vulkan-contracts.md) | same bytes with exact sRGB inverse | 0.4910 | C | Python 3.13.18 | same |
+| N-SVK-9 | [24](24-shaders-vulkan-contracts.md) | dielectric 0.5 rough, intensity 1, linear | 0.5054 | C | X_ITE 16.7.1, SwiftShader | same |
+| N-SVK-10 | [24](24-shaders-vulkan-contracts.md) | Fieldbook lab C vs Python cases | 745 | C | CPython 3.13.18, GCC | Fieldbook `labs/output/validation.json`, re-run |
+| N-SVK-11 | [24](24-shaders-vulkan-contracts.md) | Fieldbook lab max difference | 1.6653345369377348e-16 | C | CPython 3.13.18, GCC | same |
+| N-SVK-12 | [24](24-shaders-vulkan-contracts.md) | Light Lab integration checks passed | 15 | C | Mesa 25.2.8 lavapipe, LLVM 20.1.2 | `x3d.loom@90f9862:runs/shader-vulkan-20261117/lightlab-rerun.json` |
+| N-SVK-13 | [24](24-shaders-vulkan-contracts.md) | image bytes differing across LLVM 19.1.7 and 20.1.2 | 258 of 3,888,000 | C | `imgdiff.py`, Mesa 25.2.8 | same |
+| N-SVK-14 | [24](24-shaders-vulkan-contracts.md) | Lambert furnace, 32 elevation bins | 0.500201 | C | Python 3.13.18; Light Lab guide | Light Lab `furnace.json` |
+| N-SVK-15 | [24](24-shaders-vulkan-contracts.md) | Fieldbook correction ledger rows | 19 | C | counted | Fieldbook `Fieldbook.md` section 17 |
 <!-- END GENERATED -->
