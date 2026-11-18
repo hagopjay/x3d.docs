@@ -55,3 +55,23 @@ behaviour, now on the record.
 
 Lesson: a hash binds evidence only when the hashed bytes are the bytes used, and a check that counts rows is not a
 check of what the rows say.
+
+## Third review (18 Nov 2026, late)
+
+The third pass confirmed the round-2 repairs on their own cases, then found failures on ordinary inputs:
+"unchanged", "atomic" and "lossless" were claimed about sets nobody had written down. Each item was reproduced
+with the reviewer's own probe scripts before the fix and re-run after.
+
+| # | Finding | Grade | Fix | Where |
+|---|---|---|---|---|
+| 1, 3, 4, 5 | Splat sidecar aliasing; failed export changes a referenced GLB; strict import changes sensors (disabled, fan-out, offset box); same-position tour stops collapse | C | content-digest sidecar names; staged publish with rollback; exact-edge and field accounting; pose-matched stops | x3d-blender-io #49 |
+| 2 | `scorer_unchanged` was a path-name guess: edited `expected.json`, or `check.py` under `sh -c`, earned true | C | `--scorer` declares the oracle closure (hashed at base); undeclared = unknown, refused by x3d-static/v3; a declared scorer edit is re-scored with the base scorer | x3d.loom |
+| 6 | Converter wrote `mesh&a.glb` raw (bad XML) and dropped `?query` (HTTP 200 became 403) | C | URI components kept; XML and MFString escaping; output parsed before success | x3d.demo tools/tiles3d v2.2 |
+| 7 | Antimeridian region: GeoLOD centre at lon 0, 12,756,294 m off | C | east < west unwrapped before the midpoint | same |
+| 8 | One page-wide ready flag: second pane lost its failure panel | C | splat v3 page (x3d.demo #103); shared `gfx-guard-v3.js` `pane()` API | x3d.demo |
+| 9 | Receipt written, then manifest collided: partial successor | C | manifest versioned with its receipt; both staged and renamed together | x3d.loom |
+| 10 | Failed optional witness written into `not_run`, against the shipped schema | C | manifest v2 with a `failed` list, validated before writing; profile bytes hashed | x3d.loom |
+| — | Space/Unicode git paths crashed foldback; mode-000 scene lost the validator receipt; polar origin crashed the converter; encoded local paths refused; stale conversion report | C | git's own path parser; per-file read boundary; pole branch; decode for filesystem only; report every run | x3d.loom, x3d.demo |
+
+Lesson: "unchanged" can only be claimed about a declared set, and "atomic" about every file a publication touches.
+Anything undeclared is unknown, and unknown must not pass.
