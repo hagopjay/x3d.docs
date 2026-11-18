@@ -23,3 +23,7 @@ Demo folder `docs/demos/medical-provenance/v1/` in x3d.demo. Educational proof o
 | 1033 claims (C 671, L 284, S 78); both scenes valid, 0 errors | C | x3d_mcp `fa5dccf` `validate_xml` |
 
 Next: sign or hash the claim file into the scene, HAnimHumanoid on the 37 mapped bones, BodyParts3D meshes, VolumeData from open DICOM.
+
+## v3 (`medical-provenance/v3/`): claims hashed into the scene
+
+Per-shape SHA-256 of the canonical claim list in each MetadataSet, plus one root (`b3a6e1ac3b237154...`) in the scene head. The page recomputes all of them with WebCrypto from `claims.json`: 111 of 111 match, a changed claim text is caught (110 of 111, root differs). `verify.py` repeats it offline for both scenes (torso 111/111, brain 10/10). Both scenes valid, 0 errors (x3d_mcp `fa5dccf`). Headless Chromium, software GL, X_ITE 16.6.0. A hash is not a signature: hold the root outside the folder and add a keyed signature when the owner sets a key policy.
