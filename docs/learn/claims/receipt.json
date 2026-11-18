@@ -23,6 +23,14 @@
    "values": 73,
    "values_verified": 29,
    "values_with_quote": 29
+  },
+  {
+   "chapter": "26",
+   "rows": 30,
+   "rows_with_ledger": 18,
+   "values": 60,
+   "values_verified": 32,
+   "values_with_quote": 32
   }
  ],
  "engine": "check_claims 0.1",
@@ -1042,6 +1050,303 @@
    "pin": "pinned",
    "source": "x3d.accrete@93063bf:examples/checkpoint.json",
    "value": 24,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-2",
+   "line": 8,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 13,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-3",
+   "line": 24,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 609,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-4",
+   "line": 25,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 50112,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-4",
+   "line": 25,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 327,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-5",
+   "line": 27,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:tools/concepts_gen.py",
+   "value": 20261117,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-5",
+   "line": 28,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:tools/concepts_gen.py",
+   "value": 300,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-6",
+   "line": 26,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 35,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-6",
+   "line": 26,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 100,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-6",
+   "line": 26,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 64,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-9",
+   "line": 27,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 9,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-10",
+   "line": 298,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:tools/branches-test.mjs",
+   "value": 4,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-11",
+   "line": 28,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 3360,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-11",
+   "line": 28,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 64,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-11",
+   "line": 28,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 7,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-15",
+   "line": 7,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 6,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-15",
+   "line": 7,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 12,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-16",
+   "line": 11,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 6,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-16",
+   "line": 11,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:docs/LENSES.md",
+   "value": 0.4,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-17",
+   "line": 72,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:viewer/js/skyline.js",
+   "value": 0.04,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-19",
+   "line": 290,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:tools/concepts-test.mjs",
+   "value": 0.16,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-20",
+   "line": 75,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:viewer/js/main.js",
+   "value": 3,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-20",
+   "line": 75,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:viewer/js/main.js",
+   "value": 10,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-21",
+   "line": 73,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:viewer/js/main.js",
+   "value": 40,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-21",
+   "line": 73,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:viewer/js/main.js",
+   "value": 100,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-22",
+   "line": 38,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:viewer/js/skyline.js",
+   "value": 60,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-22",
+   "line": 117,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:viewer/js/lenses.js",
+   "value": 240,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-26",
+   "line": 67,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:evidence/lens-smoke.json",
+   "value": 8,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-26",
+   "line": 68,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:evidence/lens-smoke.json",
+   "value": 192,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-26",
+   "line": 69,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:evidence/lens-smoke.json",
+   "value": 0,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-28",
+   "line": 20,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:evidence/lens-smoke.json",
+   "value": 13,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-28",
+   "line": 50,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:evidence/lens-smoke.json",
+   "value": 8,
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-29",
+   "line": 10,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:evidence/lens-smoke.json",
+   "value": "153.0.8010.12",
+   "verdict": "verified"
+  },
+  {
+   "chapter": "26",
+   "id": "N-LNS-29",
+   "line": 9,
+   "pin": "pinned",
+   "source": "x3d.chess@9eb14e9:evidence/lens-smoke.json",
+   "value": "1.63.0",
    "verdict": "verified"
   }
  ],

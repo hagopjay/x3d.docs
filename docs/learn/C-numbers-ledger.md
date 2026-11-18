@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**637 numbers** from 25 chapters. Grades: [C] 578 · [L] 53 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
+**667 numbers** from 26 chapters. Grades: [C] 603 · [L] 58 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -644,4 +644,34 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-ACC-24 | [25](25-accretion-gated-growth.md) | loaded records; detail budgets; entry cap | 512; 24, 48, 96; 10,000 | [C] | README text, matches `serve.py` constants per the review | same |
 | N-ACC-25 | [25](25-accretion-gated-growth.md) | review sweep: candidates; seeds; failures | 1200; 40; 0 | [L] | review file, not re-run | `x3d.accrete@93063bf:docs/REVIEW-2026-11-17.md` |
 | N-ACC-26 | [25](25-accretion-gated-growth.md) | vendored files matching upstream blobs; upstream commits ahead of the pin | 19 of 19; 10 | [L] | review file, not re-run | same |
+| N-LNS-1 | [26](26-chess-lenses-oracles.md) | opt-in overlays in the change | 5 | [C] | read | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-LNS-2 | [26](26-chess-lenses-oracles.md) | concepts in the concept lens | 13 | [C] | `CONCEPT_IDS.length`, Node v22.23.5 | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-LNS-3 | [26](26-chess-lenses-oracles.md) | terrain checks, both modes, vs python-chess | 609 | [C] | `node tools/terrain-test.mjs`, python-chess 1.11.2 | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-LNS-4 | [26](26-chess-lenses-oracles.md) | concepts checks; positions | 50,112; 327 | [C] | `CHESS_TEST_PYTHON=python3 node tools/concepts-test.mjs`, python-chess 1.11.2 | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-LNS-5 | [26](26-chess-lenses-oracles.md) | concepts positions: random; classic; generator seed | 300; 27; 20261117 | [C] | `tools/concepts_gen.py` constants, 327 minus 300 | `x3d.chess@9eb14e9:tools/concepts_gen.py` |
+| N-LNS-6 | [26](26-chess-lenses-oracles.md) | inspector tests; random positions x squares | 35; 100 x 64 | [C] | `node tools/inspector-test.mjs`, python-chess 1.11.2 | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-LNS-7 | [26](26-chess-lenses-oracles.md) | inspector run coverage: en passant; castle; promotion; check; pinned | 21; 21; 92; 20; 12 | [C] | same run, coverage block | `x3d.chess@9eb14e9:tools/inspector-test.mjs` |
+| N-LNS-8 | [26](26-chess-lenses-oracles.md) | inspector run: illegal geometric attackers; attackers with no move to ask about | 698; 4,080 | [C] | same run | `x3d.chess@9eb14e9:tools/inspector-test.mjs` |
+| N-LNS-9 | [26](26-chess-lenses-oracles.md) | branches: test groups; engine setting | 9; MultiPV 3, depth 8 | [C] | `node tools/branches-test.mjs`, vendored Stockfish under Node | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-LNS-10 | [26](26-chess-lenses-oracles.md) | branches real-engine cases: in the prose; in the test | 3; 4 | [C] | prose loses; the test file defines four cases | `x3d.chess@9eb14e9:tools/branches-test.mjs` |
+| N-LNS-11 | [26](26-chess-lenses-oracles.md) | skyline checks; board range; documents validated | 3,360; 1 to 64; 7 | [C] | `node tools/skyline-test.mjs` | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-LNS-12 | [26](26-chess-lenses-oracles.md) | transport tests run; passed | 17; 17 | [C] | `node tools/transport-tests.mjs`, Node v22.23.5 | `x3d.chess@9eb14e9:tools/transport-tests.mjs` |
+| N-LNS-13 | [26](26-chess-lenses-oracles.md) | mutated concept fixtures detected | 19 | [C] | concepts test, negative controls | `x3d.chess@9eb14e9:tools/concepts-test.mjs` |
+| N-LNS-14 | [26](26-chess-lenses-oracles.md) | colour-flip and file-mirror symmetry positions | 1,507 | [C] | concepts test output line | `x3d.chess@9eb14e9:tools/concepts-test.mjs` |
+| N-LNS-15 | [26](26-chess-lenses-oracles.md) | terrain caps: count mode; material mode | 6; 12 | [C] | read | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-LNS-16 | [26](26-chess-lenses-oracles.md) | skyline height: pawns clamp; units per pawn | 6; 0.4 | [C] | read | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| N-LNS-17 | [26](26-chess-lenses-oracles.md) | skyline hairline thickness for cp = 0 | 0.04 | [C] | read; test `near(capY(z,0)-baseRingY(z,0),SKY.MIN_H)` | `x3d.chess@9eb14e9:viewer/js/skyline.js` |
+| N-LNS-18 | [26](26-chess-lenses-oracles.md) | skyline labels for +5, -5, +4, -4, 0 cp | +0.1; -0.1; +0.0; -0.0; 0.0 | [C] | skyline test line 187 and a direct call, Node v22.23.5 | `x3d.chess@9eb14e9:tools/skyline-test.mjs` |
+| N-LNS-19 | [26](26-chess-lenses-oracles.md) | pennant spill before the fix (units off the h-file) | 0.16 | [L] | test comment; pre-fix tree not in the checkout | `x3d.chess@9eb14e9:tools/concepts-test.mjs` |
+| N-LNS-20 | [26](26-chess-lenses-oracles.md) | engine lines from the app button: MultiPV; depth | 3; 10 | [C] | read | `x3d.chess@9eb14e9:viewer/js/main.js` |
+| N-LNS-21 | [26](26-chess-lenses-oracles.md) | hold wait: polls; interval (ms); total (s) | 40; 100; 4 | [C] | read; total derived by multiplication | `x3d.chess@9eb14e9:viewer/js/main.js` |
+| N-LNS-22 | [26](26-chess-lenses-oracles.md) | ribbon window (plies); controller history cap | 60; 240 | [C] | read | `x3d.chess@9eb14e9:viewer/js/skyline.js` |
+| N-LNS-23 | [26](26-chess-lenses-oracles.md) | f6 position: control balance; legal moves; legal destinations on f6 | +1; 4; 0 | [C] | inspector, chess.js, python-chess 1.11.2 | `x3d.chess@9eb14e9:docs/CHESS-REVIEW.md` |
+| N-LNS-24 | [26](26-chess-lenses-oracles.md) | scratch mutation: k guard deleted, heap 200 MB: exit code | 134 | [C] | Node v22.23.5, `--max-old-space-size=200` | `x3d.chess@9eb14e9:viewer/js/terrain.js` |
+| N-LNS-25 | [26](26-chess-lenses-oracles.md) | scratch mutation: wdl branch deleted: bound read | exact | [C] | Node v22.23.5 | `x3d.chess@9eb14e9:viewer/js/branches.js` |
+| N-LNS-26 | [26](26-chess-lenses-oracles.md) | native run: boards; pieces; misplaced; console errors | 8; 192; 0; 0 | [L] | `evidence/lens-smoke.json`, Chromium 153.0.8010.12, SwiftShader, not re-run | `x3d.chess@9eb14e9:evidence/lens-smoke.json` |
+| N-LNS-27 | [26](26-chess-lenses-oracles.md) | native run: engine-line scores (cp, White POV) at depth 10 | -74; -71; -70 | [L] | same receipt | `x3d.chess@9eb14e9:evidence/lens-smoke.json` |
+| N-LNS-28 | [26](26-chess-lenses-oracles.md) | native run: concepts cycled; skyline columns | 13; 8 | [L] | same receipt | `x3d.chess@9eb14e9:evidence/lens-smoke.json` |
+| N-LNS-29 | [26](26-chess-lenses-oracles.md) | native run rig: Chromium; Playwright | 153.0.8010.12; 1.63.0 | [L] | same receipt | `x3d.chess@9eb14e9:evidence/lens-smoke.json` |
+| N-LNS-30 | [26](26-chess-lenses-oracles.md) | lens defects found by adversarial review, each with a regression test | 8 | [C] | list read; tests run | `x3d.chess@9eb14e9:docs/LENSES.md` |
 <!-- END GENERATED -->

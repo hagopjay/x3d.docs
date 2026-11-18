@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**381 heuristics.** Grades: [C] 314 · [L] 60 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**396 heuristics.** Grades: [C] 328 · [L] 61 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -388,4 +388,19 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-ACC-11 | [25](25-accretion-gated-growth.md) | State which of a benchmark's outputs reproduce: timings within a spread, never hashes or sizes that include timestamps. | C | four builds, four tail hashes; build wall time 3.84 to 4.40 s | `build_demo.py`, 4 vCPU |
 | H-ACC-12 | [25](25-accretion-gated-growth.md) | Profile the whole path before a "dominated by X" claim is written; the biggest item may sit outside the claim's scope. | C | JSON re-parse 1.073 s is the largest part of the store's own time; the schema parse 1.394 s is larger over the whole append | cProfile, Python 3.13.18 |
 | H-ACC-13 | [25](25-accretion-gated-growth.md) | Write the stop rule before the run and report a projection as an estimate, not a result. | L | the benchmark refused a 1,000-entry run projected at 154.386 s against a 90 s stop rule | `x3d.accrete@93063bf` `README.md`, read, not run |
+| H-LNS-1 | [26](26-chess-lenses-oracles.md) | Before drawing an overlay, write its question, its exact quantity and its instrument; if one of the three is missing, the overlay is a picture, not a claim. | C | the lens table of `docs/LENSES.md` has an honest-label cell per lens; the legends are asserted in tests | `x3d.chess@9eb14e9:docs/LENSES.md` |
+| H-LNS-2 | [26](26-chess-lenses-oracles.md) | Keep attack count, legal move, static exchange and engine line apart on one square; never merge two into one colour. | C | at f6: balance +1, attacker g5 pseudo-legal, move g5f6 illegal | inspector, python-chess 1.11.2, drill D-LNS-5 |
+| H-LNS-3 | [26](26-chess-lenses-oracles.md) | Return `null`, not `false`, when the question does not apply; render `null` neutrally. | C | defender and pawn-diagonal cases are `null` (defect 5); 4,080 such attackers in the 100-position run | `tools/inspector-test.mjs`, run 2026-11-18 |
+| H-LNS-4 | [26](26-chess-lenses-oracles.md) | Test against a library that shares no code or algorithm with the module; agreement with a twin is parity, not correctness. | C | a board-copying SEE against an iterative swap list; 50,112 checks, 0 disagreements | `tools/concepts-test.mjs`, python-chess 1.11.2 |
+| H-LNS-5 | [26](26-chess-lenses-oracles.md) | Commit the oracle's expectation file and regenerate it in the test; fail on a byte difference. | C | inspector expectation file, fixed seed | `tools/inspector-test.mjs` |
+| H-LNS-6 | [26](26-chess-lenses-oracles.md) | Count what a random test actually met and assert floors; a test that never meets a pin says nothing about pins. | C | 21 en passant, 21 castles, 92 promotions, 12 pinned, 698 illegal attackers | `tools/inspector-test.mjs` coverage block |
+| H-LNS-7 | [26](26-chess-lenses-oracles.md) | Give every oracle a negative control: a mutated fixture it must reject. | C | 19 mutated concept fixtures detected; corrupted PV gives exactly 1 rejection | `tools/concepts-test.mjs`, `tools/branches-test.mjs` |
+| H-LNS-8 | [26](26-chess-lenses-oracles.md) | Parse a producer's output by reading real output, and accept optional tokens in any order it can emit. | C | `wdl` before `lowerbound` turned a bound into `exact` when the branch was deleted | scratch mutation, section 4.1 |
+| H-LNS-9 | [26](26-chess-lenses-oracles.md) | Validate any loop-step parameter; a falsy length check does not catch a zero step. | C | `[1,2,3].length % 0` is NaN; the guard removed gives a heap abort, exit 134 | scratch mutation, Node v22.23.5 |
+| H-LNS-10 | [26](26-chess-lenses-oracles.md) | Treat the neighbourhood of zero as its own test case: -4 cp, 0 cp and a missing score must look different. | C | labels `+0.0`, `-0.0`, `0.0`; cap below baseline for -4 cp; zero is a hairline tick | `tools/skyline-test.mjs` line 187, run |
+| H-LNS-11 | [26](26-chess-lenses-oracles.md) | Put the staleness check after the last `await`, and bump the revision before the first. | C | `showBranches`, `_paintInspection`, header of `concepts.js` | `x3d.chess@9eb14e9:viewer/js/lenses.js`, read |
+| H-LNS-12 | [26](26-chess-lenses-oracles.md) | When an analysis must describe a state, hold the state, say so on screen, and keep the guard strict. | L | held game test passes; the lost-lines first run is carried from a hand-off, not a receipt | `tools/transport-tests.mjs`, 17 of 17 |
+| H-LNS-13 | [26](26-chess-lenses-oracles.md) | Create every overlay shape with `pointerEvents='false'`, and expose the picked point through an outputOnly PROTO field. | C | all overlay generators carry it; `hitPoint` in the board PROTO | `viewer/js/*.js`, `tools/gen_grid.py`, read |
+| H-LNS-14 | [26](26-chess-lenses-oracles.md) | Say in the receipt what a blocked or software-GL run cannot show; never read a pass as a frame-rate or pixel claim. | C | receipt `scope` line; `docs/LENSES.md` limits | `evidence/lens-smoke.json`, Chromium 153.0.8010.12 SwiftShader |
+| H-LNS-15 | [26](26-chess-lenses-oracles.md) | When prose and test disagree on a number, quote the test and grade the prose [S]. | C | "three FENs" in two documents, four in the test | `tools/branches-test.mjs` line 298 |
 <!-- END GENERATED -->
