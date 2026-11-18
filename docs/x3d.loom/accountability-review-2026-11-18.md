@@ -102,3 +102,30 @@ caught in all, plain and `-O`; x3d.demo tiles3d suite 33 of 33.
 Lesson: every set Loom vouches for (the profile, the scorer, the runs, the visible witnesses) must be read once, keyed
 by full identity, and closed. An open set or a second read is where a wrong pass gets in. Real-GPU timing remains
 open, and the Web3D report remains unsent.
+
+## Final scan (18 Nov 2026, evening)
+
+The reviewer closed the series with a bounded queue of ten confirmed defects (seven Loom, two Blender, one converter)
+and asked that automatic promotion stay blocked on those paths until each closes. Every item was reproduced on the
+merged defaults first (Loom 3cc2cb3, Demo 3d9e103, Blender I/O 5b72ab3) with the reviewer's probes, then fixed and
+kept as a control: Loom `review5_controls`, 16 new, 151 caught, plain and `-O`; tiles suite 38 of 38; Blender 4 new
+tests, 737 OK and 35 skipped on bpy 5.2.4.
+
+| # | Finding | Grade | Fix | Where |
+|---|---|---|---|---|
+| 1 | `loom sweep SRC SRC` or `SRC PARENT` deleted the source (and siblings) before exit 2 | C | overlap refused in both directions before any mutation; staged copy; residue never replaces DEST | x3d.loom #129 |
+| 2 | Receipt named two candidates after a concurrent edit | C | one candidate generation, re-hashed before placement | same |
+| 3 | Declared scorer data behind a directory symlink was not inventoried | C | links walked under their logical path; every declaration must match | same |
+| 4 | A later passing replay overwrote a failing one for the same host | C | one trial per host (`PHYS_DUPLICATE_REPLAY`) | same |
+| 5 | `.PNG` skipped the decoder | C | type lower-cased, PNG signature sniffed | same |
+| 6 | BooleanFilter `inputNegate`/`inputFalse` re-exported as `inputTrue` | C | typed event chain checked | x3d-blender-io #51 |
+| 7 | Disabled tour timer re-exported enabled | C | tour timer contract before rebuild | same |
+| 8 | External-tileset wrapper became an empty selectable GeoLOD | C | external root replaces the wrapper; mixed wrapper refused | x3d.demo #110, tiles3d v2.4 |
+| 9 | Witness `../outside-truth` wrote evidence outside the bundle | C | one-segment names, contained evidence, manifest must list it | x3d.loom #129 |
+| 10 | Waiver with observed 0.0 called incomplete | C | presence and value checked separately | same |
+
+Still open and visible: payload types with no decoder are hash-only (now counted), committed-limit metric identity,
+real-GPU timing, a held-out learning study, signed records. The Web3D report remains unsent.
+
+Lesson: refuse before you mutate, and judge every trial. A map keyed by an identity nobody checked for uniqueness is a
+silent overwrite.
