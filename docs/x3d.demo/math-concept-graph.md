@@ -15,3 +15,6 @@ Demo folder `docs/demos/math-concept-graph/v1/` in x3d.demo. Lessons table: x3d.
 
 ## v2 (same day)
 Folder `docs/demos/math-concept-graph/v2/`. Re-run against a full private crawl: 90 links (40 Confirmed, 39 Likely, 11 Suspected), 88 terms, 26 Confirmed gaps, every lesson linked to OntoMathPro (14 with a Confirmed link, up from 11), OEIS and arXiv added, v1 errata listed. Valid by x3d_mcp `fa5dccf`; browser 0 errors in headless Chromium, SwiftShader, X_ITE 16.6.0. Rule learned: search every language label before declaring a gap. The raw crawl is quarantined and not published; a leak check found 0 matches.
+
+## v3 (same day)
+Folder `docs/demos/math-concept-graph/v3/`. Adds Wikidata (CC0) Q-ids for all 18 lessons (15 exact, 3 close) and a Russian-label check: of 50 cited OntoMathPro terms with a Russian label, Wikidata agrees on 19, hits only on 7, has nothing on 24; 4 Russian-only terms still need a human reader. Valid by x3d_mcp `fa5dccf`; 0 console errors, headless Chromium, SwiftShader, X_ITE 16.6.0.
