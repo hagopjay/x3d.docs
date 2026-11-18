@@ -13,3 +13,14 @@ Demo folder `docs/demos/heritage-geo/v1/` in x3d.demo (PR #61, candidate Demo 46
 **Three things to remember.** `metadata` must come first inside a Transform or GeoLocation in the 4.0 XSD. GD is lat, lon; WKT and GeoJSON are lon, lat. GeoLocation needs no extra rotation for Y-up content.
 
 **Open.** USGS EPQS says 627.175 m at the Burruss point; the Drillfield reference is 617 m. No Egyptian DEM, no IFC placement, no GeoSPARQL endpoint yet.
+
+## v2 (x3d.demo PR #63)
+
+| Finding | Grade | Instrument |
+|---|---|---|
+| 627.175 m vs 617 m is not a datum conflict: median of EPQS minus (617 + DSM) is +0.03 m over 140 points; tile ground spans 619.8 to 632.9 m | C numbers, S centre assumption | USGS EPQS 1 m |
+| v1 placed Khafre 208 m and Menkaure 64 m from their Pleiades points; v2 uses Pleiades points and ids | C | Pleiades dump of 17 Nov 2026 |
+| The Confluence IFC has no IfcMapConversion; the placement row (EPSG:32617, scale 0.001) is authored | C file, S placement | grep of model.ifc |
+| Both v2 scenes valid | 0 errors | x3d_mcp `fa5dccf` `validate_xml` |
+
+Terrain tiling and `GeoElevationGrid` are in the geotiling thread's demo, not here.
