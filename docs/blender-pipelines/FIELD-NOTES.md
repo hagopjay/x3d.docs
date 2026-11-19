@@ -49,3 +49,18 @@ The Blender pipelines lane built four demos in one day on x3d-blender-io 8310e7b
 * The Walking Twin: https://hagopjay.github.io/x3d.demo/demos/blender-walking-twin/v1/
 * Add-on: https://github.com/hagopjay/x3d-blender-io
 * Loom copy of these notes: `LEARNINGS-blender-four-demos.md` in x3d.loom
+
+## Demos 63 and 64: the Giza H-Anim pair (19 Nov 2026)
+
+* **Giza Crawl** (Demo 63). An H-Anim explorer walks, stoops, crawls and climbs through the Great Pyramid, the Subterranean Chamber and the Osiris Shaft, then into an imagined Hall of Records, in 28 graded chapters. https://hagopjay.github.io/x3d.demo/demos/blender-giza-crawl/v1/
+* **Giza Fall** (Demo 64). A Bullet ragdoll is shoved off the summit. It is baked to H-Anim joints, followed by a tracking camera, and each of its 197 impacts plays a sound. https://hagopjay.github.io/x3d.demo/demos/blender-giza-fall/v1/
+
+What the next build should know (C = Confirmed, L = Likely). Validator: x3d_mcp 39c6e94. Rig: headless Chromium 157 with SwiftShader and X_ITE 16.7.1.
+
+1. **Moving a figure.** x3d-blender-io 8310e7b drops an armature object's own keyframes (C). Parent the armature to an animated Empty, and keep long travel off `humanoid_root`, or X_ITE loses the skinned mesh (L).
+2. **Jumping in time.** The X_ITE SAI browser has no `currentTime`; use `Date.now()/1000` (C). To jump, disable the TimeSensor, wait, re-enable it and set `startTime` (C).
+3. **Checking the rig.** Check a rig's sign conventions with a rendered side view. In headless bpy that means Cycles, because Workbench needs a GPU (C).
+4. **Background.** A generated scene gets no X3D Background from the add-on. Insert the sky in the generator (C).
+5. **Impact sounds.** Mass × |Δv − gΔt| per body per frame is enough to drive impact sounds with no physics callbacks (C).
+
+Loom copy: `LEARNINGS-blender-giza-demos.md` in x3d.loom.
