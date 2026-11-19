@@ -72,3 +72,20 @@ Loom copy: `LEARNINGS-blender-giza-demos.md` in x3d.loom.
 * **X3D:** x3d_mcp's semantic check rejects a MetadataSet name with a space (C). Transform `visible` through SAI toggles overlay groups in X_ITE 16.7.1 (C).
 
 Loom copy: `LEARNINGS-giza-numbers.md` in x3d.loom.
+
+## Demo 65 v2 and v3: Pyramid Observatory and The Reveal (19 Nov 2026)
+
+- **v2** is the owner's outside review build, kept as delivered: 16 findings, analytic instruments, and a start-up that waits for X_ITE.
+- **v3** adds:
+  - **The Reveal:** five acts, each shown first in a Wonder lens, then in a Test lens with literal digit colouring and a grade stamp.
+  - **Coincidence Engine:** 254 numbers per pyramid checked against 16 constants. At 4 digits, chance predicts 0.70 matches per pyramid. Results: Khufu 1, Khafre 2, Menkaure 3, Red 0, Louvre 1.
+  - **Eclipse sky:** a panel of the eclipse sky.
+  - **Blender round-trip witness:** a census of what the scene keeps and what it loses.
+- **Round trip, Confirmed:**
+  - Geometry, cameras, lights and textures survive.
+  - Switches, Groups, WorldInfo and TextureTransform are lost.
+  - Text comes back as meshes.
+  - DEF names come back with an `OB_` prefix.
+  - The returned file is XSD valid with 0/0 (x3d_mcp 39c6e94).
+- **Importer warning fix:** the false "indexed up to … padding" warnings are fixed in x3d-blender-io #69.
+- Full rules are in x3d.loom `LEARNINGS-giza-numbers-v3.md`.
