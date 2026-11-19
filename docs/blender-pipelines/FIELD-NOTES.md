@@ -89,3 +89,22 @@ Loom copy: `LEARNINGS-giza-numbers.md` in x3d.loom.
   - The returned file is XSD valid with 0/0 (x3d_mcp 39c6e94).
 - **Importer warning fix:** the false "indexed up to … padding" warnings are fixed in x3d-blender-io #69.
 - Full rules are in x3d.loom `LEARNINGS-giza-numbers-v3.md`.
+
+## Demo 65 v4: the Sacred Geometry Atlas (19 Nov 2026)
+
+- **Live:** https://hagopjay.github.io/x3d.demo/demos/blender-giza-numbers/v4/ . A Cycles-baked plateau in two lights (golden hour, moonlit night) under 52,602 HYG stars drawn as X3D 4.1 Gaussian splats with 3,547 labels, plus 63 sacred-geometry claims, each graded twice and each with a 3D proof.
+- **Two grades per claim:** the number (Confirmed 30, Likely 22, Suspected 5, False 5, Untested 1) and the design (Designed 11, Possible 15, Coincidence 29, Unknown 8).
+- **Sky in its own layer, Confirmed (X_ITE 16.7.1):**
+  - Layer 0 holds the stars in light-years; layer 1 holds the scene in metres. The page copies the scene camera's orientation to the sky camera each frame.
+  - A GaussianSplats node under a Transform scale of 300 or more crashed the page; scale 30 and 1 work.
+  - Every GaussianSplats node needs `bboxCenter` and `bboxSize` (Loom trap `splat-bbox`).
+  - A viewpoint made through the SAI is not used until `set_bind = true`.
+- **Bake, Confirmed:**
+  - Ground as a 4096² lightmap on an `ElevationGrid`; pyramids as one baked colour per face.
+  - Welding the add-on's export and sharing `Coordinate` between day and night took two 5.4 MB files to one 2.33 MB file.
+  - `UnlitMaterial` needs `<component name='Shape' level='1'/>` under Immersive and Interchange: XSD-valid, semantic error without it (x3d_mcp 39c6e94).
+  - A camera facing due south is a half turn: take the axis from the quaternion, not from the matrix's antisymmetric part.
+- **Sky findings:** the four shafts fit their stars in four different years (2492, 2357, 2359, 2383 BC); Thuban was 1.34° from the pole in 2560 BC; Herschel's passage star fits 2185 BC, not the building date; Kochab stood over Mizar in 2465 BC (Spence gave 2467 BC).
+- **Gates:** XSD valid (4.0 and 4.1), 0 semantic errors and warnings, Loom traps and page traps 0, unit tests 8 of 8, rig console clean at 1366 px and 390 px. Not checked: a real GPU, a real phone, Firefox, Safari.
+- **Credit:** HYG Database v4.1 by David Nash, CC BY-SA 4.0.
+- Full rules are in x3d.loom `LEARNINGS-giza-atlas-v4.md`.
