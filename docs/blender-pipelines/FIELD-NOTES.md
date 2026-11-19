@@ -64,3 +64,11 @@ What the next build should know (C = Confirmed, L = Likely). Validator: x3d_mcp 
 5. **Impact sounds.** Mass × |Δv − gΔt| per body per frame is enough to drive impact sounds with no physics callbacks (C).
 
 Loom copy: `LEARNINGS-blender-giza-demos.md` in x3d.loom.
+
+## Demo 65: Great Pyramid Numbers (19 Nov 2026)
+
+* **Live:** https://hagopjay.github.io/x3d.demo/demos/blender-giza-numbers/v1/ . The page tests π, τ, φ and the 29.9792458° latitude against Dash 2015, Petrie, Cole and AERA, digit by digit, with error bars. The graded receipt (`claims.json`, 27 claims) drives both the page and the Blender scene.
+* **Method:** for every match, show the digits that agree next to the digits the survey can support. Count the latitude lines that cross a building (about 20,800 at 1e-7° here) before calling a location precise.
+* **X3D:** x3d_mcp's semantic check rejects a MetadataSet name with a space (C). Transform `visible` through SAI toggles overlay groups in X_ITE 16.7.1 (C).
+
+Loom copy: `LEARNINGS-giza-numbers.md` in x3d.loom.
