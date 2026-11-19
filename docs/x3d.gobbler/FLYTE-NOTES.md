@@ -57,3 +57,13 @@ The loop now has a fifth organ, the Assayer. It is built from the AI Engineering
 | A failed critical check stops the line: no new work until a person clears it. | Confirmed | `STOP-THE-LINE.json`, runner |
 
 Drill 5. Your validator suddenly accepts an `ImageTexture` with a web URL. What should an agent loop do? *Answer: stop. A grader that passes a known failure is broken, so every admission since the last good canary is suspect.*
+
+## After the second external review (19 Nov, x3d.gobbler PR #5)
+
+| Lesson | Grade | Where it shows |
+|---|---|---|
+| A validator message can repeat what the model wrote, so treat X3D validator output as untrusted text before it goes back to a model. | Confirmed | `flyte/review_probes/prompt_lesson_injection.py` |
+| "Valid against the schema" is not "true": a record can pass JSON Schema and still claim an execution that never happened. | Confirmed | `memory_transport_provenance.py` |
+| Say what a rate counts: 35 of 61 attempts passed Witness, but only 18 of 35 turns were admitted on the first try. | Confirmed | `runs/sim-2026-11-18-r5/assay-report.json` |
+
+Drill 6. A test suite reports 73 passed and the code has 94 tests. What do you check first? *Answer: the runner. unittest discovery skips plain pytest functions.*
