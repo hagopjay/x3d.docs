@@ -35,3 +35,13 @@ Gobbler.flyte (x3d.gobbler `flyte/`, PR #1) is a 24/7 agent loop that grows an X
 | The Intervention Lab teaches three rules by experiment: a digest you issue yourself adds no witness, a guard must reject known failures, and a retry is not a return. | Confirmed (native run, 12 of 12 rules) | `evidence-lab/`, `tools/lab_browser_check.cjs` |
 
 Drill 3. Why does re-running the same consumption three times leave the reuse count at 1? *Answer: reuse counts distinct (guard, target, input digest) tuples; a retry repeats one tuple.*
+
+## Agentic memory (19 Nov, x3d.gobbler PR #3)
+
+| Lesson | Grade | Where it shows |
+|---|---|---|
+| A memory's exposure is computed, not declared. If any ancestor or any cited evidence is sealed, the memory is sealed too; evidence nobody knows about keeps it out of the context. An outside package missed both cases. | Confirmed (probe) | `flyte/tests/test_flyte.py::Memory` |
+| Filter before ranking, and say what was dropped. Weaver's context reports each exclusion with a reason (held out, not accepted, outside valid time, unknown evidence). | Confirmed | `flyte/runs/sim-2026-11-18-r3/` (45 contexts, 2 held out, 0 leaks) |
+| A refusal plus the fix that followed is a teaching pair. The loop exports them as transport records (44 records, 0 schema errors). | Confirmed | `memory-transport-validation.json` |
+
+Drill 4. A note was written from development data but cites a sealed test result. May the generator read it? *Answer: no. Exposure is the union over everything it was derived from or cites, so the note is sealed.*
