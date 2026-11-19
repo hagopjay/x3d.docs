@@ -45,3 +45,15 @@ Drill 3. Why does re-running the same consumption three times leave the reuse co
 | A refusal plus the fix that followed is a teaching pair. The loop exports them as transport records (44 records, 0 schema errors). | Confirmed | `memory-transport-validation.json` |
 
 Drill 4. A note was written from development data but cites a sealed test result. May the generator read it? *Answer: no. Exposure is the union over everything it was derived from or cites, so the note is sealed.*
+
+## The Assayer (19 Nov, x3d.gobbler PR #4)
+
+The loop now has a fifth organ, the Assayer. It is built from the AI Engineering Atlas (a catalogue of Chip Huyen's *AI Engineering*) and tests every cycle against that book's theses.
+
+| Lesson | Grade | Where it shows |
+|---|---|---|
+| Check your validator daily with fixed known-bad and known-good X3D. Here: a nested animation (GATE_CONTAINMENT), a remote ImageTexture (GATE_NODE_FORBIDDEN) and PhysicalMaterial under the Immersive profile (MCP_SEMANTIC_PROFILE_COMPONENT) must be refused, and a plain Material sphere must pass. | Confirmed | `flyte/gobbler_flyte/organs/assayer.py` (CANARY) |
+| What the world store holds is the outcome; an organ's report of it is not. | Confirmed | `Assayer` tests |
+| A failed critical check stops the line: no new work until a person clears it. | Confirmed | `STOP-THE-LINE.json`, runner |
+
+Drill 5. Your validator suddenly accepts an `ImageTexture` with a web URL. What should an agent loop do? *Answer: stop. A grader that passes a known failure is broken, so every admission since the last good canary is suspect.*
