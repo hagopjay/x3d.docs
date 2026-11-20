@@ -5,6 +5,8 @@ The user's fork [hagopjay/x3d_mcp](https://github.com/hagopjay/x3d_mcp) of
 `13121b6` (2026-11-03). It is compared against the fork base `74da0ec`, which is upstream `main` of 2026-08-05 and
 the commit the fork's own work starts from (the first fork PR merged on 2026-10-11).
 
+> **Dated page.** Every number below describes `13121b6`. Checked on 2026-11-20: the fork's `main` is at `bbd773f` and holds 59 `@mcp.tool` decorators (`grep -rn "@mcp.tool" src`), against the 48 tools counted here. Read the counts as history, not as the current state.
+
 **Labels.** *Measured* numbers come from Python's `ast` over the source, `git`, `gh` and the x3d_mcp validator
 itself. *Inferred* marks a heuristic: X3D node knowledge read from string literals, static call resolution, and
 roles assigned by hand per package. *Claimed* marks a PR description. Nothing in the server was imported or
