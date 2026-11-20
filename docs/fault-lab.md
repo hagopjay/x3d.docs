@@ -1,6 +1,6 @@
 # The Fault Lab: what the ontology fixes catch, and what other formats lose (20 Nov 2026)
 
-Live demo: x3d.demo `docs/demos/fault-lab/v1/` (https://hagopjay.github.io/x3d.demo/demos/fault-lab/v1/ once merged).
+Live demo: https://hagopjay.github.io/x3d.demo/demos/fault-lab/v1/ and, with the Blender fix measured, https://hagopjay.github.io/x3d.demo/demos/fault-lab/v2/.
 Fixes it exercises: [ontology-review-fixes.md](ontology-review-fixes.md). Full notes: x3d.loom `LEARNINGS-fault-lab-v1.md`.
 
 One heritage twin (an X3D scene of the Giza plateau joined to a CIDOC-CRM record) was broken ten ways, one edit each.
@@ -48,6 +48,9 @@ The clean twin carries 3 Metadata trees (6 nodes) on a WorldInfo, a Transform an
 | glTF + KHR_xmp_json_ld (x3dsem 0.1.0) | 1 of 3 | 4 of 6 | only glTF nodes can host a packet; rules S1 and S2 fail out loud |
 | USD customData (demo converter) | 3 of 3 | 6 of 6 | any prim can host |
 | Blender 5.3.0, x3d-blender-io 1040830 | 0 of 3 | 0 of 6 | importer keeps Metadata on Shape hosts only; DEF names survive |
+| Blender 5.3.0, x3d-blender-io f68adbd (PR #70), back to X3D 4.0 | 3 of 3 | 6 of 6 | fixed the same day: trees ride on the object, the material and the scene; XSD valid |
+| the same, through Blender's glTF exporter | 3 of 3 | 6 of 6 | as plain extras, not JSON-LD packets |
+| the same, through Blender's USD exporter | 0 of 3 | 0 of 6 | the exporter skips nested custom properties |
 
 ## For researchers and developers
 
