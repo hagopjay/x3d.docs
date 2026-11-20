@@ -108,3 +108,21 @@ Loom copy: `LEARNINGS-giza-numbers.md` in x3d.loom.
 - **Gates:** XSD valid (4.0 and 4.1), 0 semantic errors and warnings, Loom traps and page traps 0, unit tests 8 of 8, rig console clean at 1366 px and 390 px. Not checked: a real GPU, a real phone, Firefox, Safari.
 - **Credit:** HYG Database v4.1 by David Nash, CC BY-SA 4.0.
 - Full rules are in x3d.loom `LEARNINGS-giza-atlas-v4.md`.
+
+## Demo 65 v5 and v6: the outside review and the Sky Machine (20 Nov 2026)
+
+- **Live:** https://hagopjay.github.io/x3d.demo/demos/blender-giza-numbers/v6/ (v6) and `…/v5/` (the outside engineering review's build, kept exactly as delivered, with its `REVIEW.md`).
+- **What v6 adds:** the lines every sky claim names, drawn in the star layer of the X3D scene: horizon and meridian, equator and pole, ecliptic of date, the pole's 25,800-year path, an angular ruler, and ten-hour long exposures. Three charts beside them: shaft consensus, Petrie's squares under a microscope, and a count of the separate facts behind the 63 claims.
+- **X_ITE 16.7.1, Confirmed in the rig (Chromium + SwiftShader):**
+  - A canvas set from `update="false"` back to `"auto"` draws again, but a ProximitySensor keeps reporting the pose from before the pause. A star layer that copies it shows the old sky over the new ground. Resume with `"true"`.
+  - After `set_bind` the sensor reports the new pose a frame or two late; an on-demand frame loop must keep reading for a moment.
+  - Sky lines drawn as TriangleStripSet ribbons with UnlitMaterial (a core and two halos) read as glowing lines; a LineSet is one pixel.
+- **Frames of reference, Confirmed by unit tests:** equator frame = Rx(latitude − 90°); ecliptic of date = Rx(latitude − 90°) · Ry(−LST) · Rz(obliquity); the pole's path and the ruler ride the stars' own rotation. The ecliptic frame agrees with the star table to 0.02°.
+- **Findings:**
+  - Asked for one year, the four shafts choose 2403 BC and still miss by 0.26° RMS; in 2560 BC the miss is 0.74° RMS. Confirmed (meridian altitudes only, Gantenbrink's angles).
+  - Petrie's casing square walks shut within 1 mm in 921 m; its worst corner is 21 mm from a perfect square. Confirmed (arithmetic on Petrie 1883 section 21).
+  - Orion's belt end to end is 2.734° in 2560 BC and 2.736° in AD 2000. Confirmed.
+  - The 63 claims rest on 19 separate facts about the monuments; 11 stand on one slope and 12 measure nothing at Giza. The table is editorial.
+- **Gates:** XSD 4.0 valid and 0 semantic errors on `celestial.x3d` and `instruments.x3d` (x3d_mcp fork 39c6e94), Loom traps (strict) and page traps pass, unit tests 65 of 65, rig console clean at 1366 px and 390 px. Not checked: a real GPU, a real phone, Firefox, Safari.
+- **Credit:** HYG Database v4.1 by David Nash, CC BY-SA 4.0. Precession: ERFA `ltpequ` / `ltpecl`.
+- Full rules are in x3d.loom `LEARNINGS-giza-sky-machine-v6.md`; the Loom kit gained the page trap `xite-update-auto-resume`.
