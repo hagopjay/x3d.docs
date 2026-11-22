@@ -1,6 +1,6 @@
 # Scripting primer: the X3D behaviour graph methods
 
-This is a primer for the new methods in `x3d-blender-io/source/behaviour_graph.py`. It is not a Blender scripting
+This is a primer for the new methods in `x3d-blender-io/source/behaviour_graph.py` and `behaviour_sim.py`. It is not a Blender scripting
 primer: everything on this page except the last section runs in plain Python, with no Blender installed. Every code
 block here was run before publishing (22 Nov 2026, Python 3.13.18), and the printed output is what it printed.
 
@@ -281,7 +281,141 @@ print(len(c.routes), "ROUTEs,", c.check())
 
 A loop builds the chain, which is the point of scripting: four bits or forty is the same six lines.
 
-## 9. Inside Blender (three functions)
+## 9. Run it without a browser
+
+`behaviour_sim.py` sits beside `behaviour_graph.py` and plays a graph in plain Python. You say what time it is and what
+the pointer did; it tells you every value that reached the scene. These blocks reuse `b`, the door from section 1.
+
+```python
+from behaviour_sim import Simulation
+
+sim = Simulation(b)
+sim.start(0.0)                      # the world loads at time 0
+print(sim.step(1.0))                # one second later: nothing has happened
+print(sim.click("Click", 2.0))      # the pointer clicks the button at 2 s
+print(sim.step(3.5))                # 1.5 s into the 3 s cycle
+```
+
+```text
+[]
+[('Door', 'translation', (0.0, 0.0, 0.0))]
+[('Door', 'translation', (0.0, 1.25, 0.0))]
+```
+
+Each answer is a list of (target, field, value). The click started the timer in the same instant, so the door got its
+first value at once. Half way through the cycle it is half way up.
+
+| Method | What it does |
+|---|---|
+| `Simulation(graph)` | a graph, ready to run |
+| `sim.start(now)` | begin: looping timers start, followers that are not at rest wake up |
+| `sim.step(now)` | move time forward to `now`; returns what reached the scene |
+| `sim.click(sensor, now, held=0)` | press and release a TouchSensor |
+| `sim.press(sensor, now, point)` / `sim.drag(sensor, point, now)` / `sim.release(sensor, now)` | the pointer, one move at a time (a PlaneSensor follows the drag) |
+| `sim.hover(sensor, True or False, now)` | the pointer goes over or leaves |
+| `sim.send(node, field, value, now)` | deliver a value to an input, as a ROUTE would |
+| `sim.post(node, field, value, now)` | send a value out of an output, as the node would |
+| `sim.values[(target, field)]` | the last value that reached a target |
+| `sim.outputs[(node, field)]` | the last value any node sent |
+| `sim.log` | every event sent: (time, node, field, value) |
+| `sim.not_simulated` | the nodes this simulator does not run, by name |
+
+The log is the whole story of a step, in order:
+
+```python
+for when, node, field, value in list(sim.log)[-4:]:
+    print(when, node, field, value)
+```
+
+```text
+3.5 Timer elapsedTime 1.5
+3.5 Timer time 3.5
+3.5 Slide value_changed (0.0, 1.25, 0.0)
+3.5 Door translation (0.0, 1.25, 0.0)
+```
+
+```python
+print(sim.values[("Door", "translation")])
+print(sim.outputs[("Timer", "isActive")])
+print(sim.step(9.0), sim.outputs[("Timer", "isActive")])
+```
+
+```text
+(0.0, 1.25, 0.0)
+True
+[('Door', 'translation', (0.0, 2.5, 0.0))] False
+```
+
+The counter from section 8, pressed eleven times, with no browser anywhere:
+
+```python
+count = Simulation(c)
+count.start(0.0)
+for presses in range(1, 12):
+    count.click("Press", float(presses), held=0.1)
+lamps = [count.values.get((f"Bit{bit}", "visible"), False) for bit in range(4)]
+print(lamps, sum(1 << bit for bit, lit in enumerate(lamps) if lit))
+```
+
+```text
+[True, True, False, True] 11
+```
+
+A follower, watched closing in. After one `tau` a first-order damper has covered 63% of the distance:
+
+```python
+g = Behaviour()
+soft = g.add("PositionDamper", "Soft", tau=0.5, order=1)
+soft.value_changed >> g.target("Transform", "Ball").translation
+s = Simulation(g)
+s.start(0.0)
+s.send("Soft", "set_destination", (10, 0, 0), 0.0)
+for t in (0.5, 1.0, 2.0, 4.0):
+    s.step(t)
+    print(t, round(s.values[("Ball", "translation")][0], 3))
+```
+
+```text
+0.5 6.321
+1.0 8.647
+2.0 9.817
+4.0 9.997
+```
+
+A drag on a PlaneSensor:
+
+```python
+grab = Behaviour()
+handle = grab.add("PlaneSensor", "Grab", parent="Head")
+handle.translation_changed >> grab.target("Transform", "Head").translation
+d = Simulation(grab)
+d.start(0.0)
+d.press("Grab", 1.0, point=(0, 0, 0))
+print(d.drag("Grab", (2, 1, 0), 1.2))
+d.release("Grab", 1.3)
+```
+
+```text
+[('Head', 'translation', (2.0, 1.0, 0.0))]
+```
+
+What it cannot run, it says:
+
+```python
+g.add("SplinePositionInterpolator", "Curve")
+print(Simulation(g).not_simulated)
+```
+
+```text
+['SplinePositionInterpolator Curve']
+```
+
+**Is it right?** The simulator was checked against the X_ITE browser (16.7.1), event by event, with real mouse clicks:
+36 of 36 event streams agree on four files (exact nodes within 0.002, followers within 0.08). The recorded traces are in
+the add-on's `tests/behaviour/x_ite_traces/` and are replayed by its tests. This is why a script, or an AI agent, can
+ask "what will this scene do?" and get the browser's answer without a browser.
+
+## 10. Inside Blender
 
 In Blender the same graph is shown as a node tree. Build the graph exactly as above, then:
 
@@ -290,6 +424,8 @@ In Blender the same graph is shown as a node tree. Build the graph exactly as ab
 | `behaviour_nodes.target(graph, object)` | add a Blender object, camera, light or material to the graph as a wire end |
 | `behaviour_nodes.apply(graph, scene)` | show the graph as the scene's X3D Behaviour node tree |
 | `behaviour_nodes.read(scene)` | the node tree back as a graph |
+| `behaviour_play.Player(scene)` | the simulator, running on the scene's own objects: `start`, `step`, `press(object, now)`, `release`, `click`, and `stop()` to put everything back |
 
 Export then writes the graph into the X3D file. Importing an X3D file with "Behaviour as node graph" ticked builds the
-tree from the file. This works without a window, so a script or an AI agent can do all of it.
+tree from the file. The Play button in the node editor is `Player` driven by the mouse. All of it except the mouse works
+without a window, so a script or an AI agent can do it.
