@@ -187,8 +187,11 @@ Eight items are open and each has an expected-failure test, so a later fix shows
 | record and audit | `trace_claims(xml, claims, {"spec": text})`, `audit_trace(xml, {"spec": text}, scene=True)` | `verified`, `stale` (scene edited), or `broken-chain` |
 | from a model, through MCP | `scene_evidence(content, claims, sources, expect="inventory")` | verdicts, offsets, node handles, coverage; the quote is never repeated |
 | in a browser | `js/x3dtrace.js` | FIND and COMPARE for one claim, 1,767 of 1,767 test rows agree with the Python engine |
+| on an LLM trace (a Langfuse export) | `python3 src/x3dtrace_llm.py trace.json` (pending pull request to `x3d.ml`) | verdicts for the citations each generation returned, checked against the retrieved documents and tool outputs the trace recorded; where each value sits in the answer; a citation found in a different source than the one named, counted as `moved` |
 
 Write `field` as the inventory XPath (or `DEF@attr`) so a repeated quote lands on the right node and coverage counts the claim. Use the `strict` policy (or only `ambiguous_quote_is_check`) when a repeated quote with no prefix, suffix or field must fail.
+
+The first-hit trap of section 3 comes back when a cited value is located inside a model's answer rather than a scene: a short number also occurs inside dates, prices and identifiers, so the first match is often the wrong one. Match whole tokens, let the quote's neighbouring words choose between candidates, and report how many candidates there were. The LLM-trace demo in `x3d.demo` (`llm-trace-3d`, pending) first marked the digit inside a delivery date before this rule was applied.
 
 ---
 
@@ -198,7 +201,7 @@ Write `field` as the inventory XPath (or `DEF@attr`) so a repeated quote lands o
 2. **A gap rule for vectors in prose** (BUG-45): components spread over prose may reach `reworded`, not `verified`.
 3. **A class for every unquoted value**: specified, chosen, derived, default. Only 4.78% of model-written values have a prompt phrase to quote, so "no quote" must become an answer.
 4. **An anchor** (layer 7): a signature, a commit or a C2PA assertion, so the consistent forgery is no longer undetectable.
-5. **A model writing the quotes**, measured: how often does it copy exactly? This needs model calls; it has not been run.
+5. **A model writing the quotes**, measured: how often does it copy exactly? This needs model calls; it has not been run. A harness for the checking half exists for LLM traces (`x3dtrace_llm`, pending): it checks the citations a model returned in a recorded trace. It does not yet measure how often a model copies exactly; that still needs runs.
 
 ---
 

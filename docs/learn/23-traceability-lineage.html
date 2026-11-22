@@ -441,9 +441,15 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td><code>js/x3dtrace.js</code></td>
 <td>FIND and COMPARE for one claim, 1,767 of 1,767 test rows agree with the Python engine</td>
 </tr>
+<tr>
+<td>on an LLM trace (a Langfuse export)</td>
+<td><code>python3 src/x3dtrace_llm.py trace.json</code> (pending pull request to <code>x3d.ml</code>)</td>
+<td>verdicts for the citations each generation returned, checked against the retrieved documents and tool outputs the trace recorded; where each value sits in the answer; a citation found in a different source than the one named, counted as <code>moved</code></td>
+</tr>
 </tbody>
 </table>
 <p>Write <code>field</code> as the inventory XPath (or <code>DEF@attr</code>) so a repeated quote lands on the right node and coverage counts the claim. Use the <code>strict</code> policy (or only <code>ambiguous_quote_is_check</code>) when a repeated quote with no prefix, suffix or field must fail.</p>
+<p>The first-hit trap of section 3 comes back when a cited value is located inside a model's answer rather than a scene: a short number also occurs inside dates, prices and identifiers, so the first match is often the wrong one. Match whole tokens, let the quote's neighbouring words choose between candidates, and report how many candidates there were. The LLM-trace demo in <code>x3d.demo</code> (<code>llm-trace-3d</code>, pending) first marked the digit inside a delivery date before this rule was applied.</p>
 <hr />
 <h2 id="9-what-is-missing-ranked">9. What is missing, ranked</h2>
 <ol>
@@ -451,7 +457,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <li><strong>A gap rule for vectors in prose</strong> (BUG-45): components spread over prose may reach <code>reworded</code>, not <code>verified</code>.</li>
 <li><strong>A class for every unquoted value</strong>: specified, chosen, derived, default. Only 4.78% of model-written values have a prompt phrase to quote, so &quot;no quote&quot; must become an answer.</li>
 <li><strong>An anchor</strong> (layer 7): a signature, a commit or a C2PA assertion, so the consistent forgery is no longer undetectable.</li>
-<li><strong>A model writing the quotes</strong>, measured: how often does it copy exactly? This needs model calls; it has not been run.</li>
+<li><strong>A model writing the quotes</strong>, measured: how often does it copy exactly? This needs model calls; it has not been run. A harness for the checking half exists for LLM traces (<code>x3dtrace_llm</code>, pending): it checks the citations a model returned in a recorded trace. It does not yet measure how often a model copies exactly; that still needs runs.</li>
 </ol>
 <hr />
 <h2 id="heuristics">Heuristics</h2>
