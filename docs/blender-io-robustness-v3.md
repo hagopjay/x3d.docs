@@ -73,3 +73,29 @@ One rule for every judge: a gate is trusted only after it has caught a planted f
 6. **The mapping table covers the whole standard** and feeds the coverage board's Blender column.
 7. **The receipt lives beside the file**, with one content-derived hash line inside it.
 8. **Hub order is glTF, USD, Unreal.** Unity and the behaviour node editor are optional and unscheduled.
+
+## Built: Gates 1 and 2 (22 Nov 2026)
+
+x3d-blender-io PR #72 builds the contract and the oracles; the add-on's own write-up is `docs/ORACLES.md` there, and the
+run record is x3d.loom `runs/blender-io-gates12-20261122/` (lessons: `LEARNINGS-blender-io-gates-1-2.md`). Every judge
+fails a planted fault in CI. Measured with bpy 5.3.0 and the Blender binaries 4.5.14 LTS, 5.1.2 and 5.2.2 LTS.
+
+| Gate 1 piece | Result | Grade |
+|---|---|---|
+| Mapping table, Blender half | 262 rows + 3 patterns; 0 undeclared properties on all four versions | Confirmed |
+| Mapping table, X3D half | 268 nodes, 3,363 fields (x3d.py 4.0.65.8); the export writes 30 nodes, 133 fields | Confirmed |
+| Loss receipt v1 | a head line in every X3D 4.0 file, optional sidecar; probe scene 1 dropped, 4 approximated, 4 clamped | Confirmed |
+| Web3D Schematron | 4 of 4 planted faults caught; 9 listed disagreements, 0 unexplained errors; one upstream rule bug (HAnimJoint USE) | Confirmed |
+
+| Gate 2 judge | Result | Grade |
+|---|---|---|
+| Perturbation sweep, 3 starting states | 54 carried properties (one state found 39); 0 silent losses, 0 stale rows, 0 receipt disagreements on four versions | Confirmed |
+| Golden files, 12 frozen scenes | byte-equal on all four versions | Confirmed |
+| Six metamorphic relations | pass; the camera X3D binds follows the outliner, not the active camera (1 of 12 scenes, budgeted) | Confirmed |
+| Round-trip invariants | faces, world bbox, lights, viewpoints and textures hold; materials, ROUTEs and collection instancing break (budgeted) | Confirmed |
+| X_ITE on the add-on's X3D vs X_ITE on Blender's glb | 5 of 12 scenes pixel-identical; the rest differ for named exporter reasons | Confirmed |
+
+Fixed on the way: Blender 4.5.14's import/export round trip did not converge (a non-unit normal on a degenerate face);
+it now does on all three binaries. Decisions: X3D 4.0 is the default export from 2.7.0; the receipt line is always on
+and the sidecar stays opt-in; A12 (linked collection instances on import) is queued as importer work; the nightly
+workflow runs the slow judges on every Blender line.
