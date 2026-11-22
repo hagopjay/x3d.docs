@@ -1,7 +1,7 @@
 # How a 3D scene comes alive: a student's guide to X3D behaviour graphs
 
 You do not need to know any programming to read this. You need curiosity and about half an hour. Open the
-[Wire Lab](https://hagopjay.github.io/x3d.demo/demos/wire-lab/v1/?world=door) in another tab and try each thing as you
+[Wire Lab](https://hagopjay.github.io/x3d.demo/demos/wire-lab/v2/?world=door) in another tab and try each thing as you
 read it. Nothing you do there can break anything, and "Start over" puts it back.
 
 ## 1. A scene that does nothing
@@ -101,7 +101,7 @@ from mixing up things that must not be mixed up.
 
 ## 6. Wires can compute
 
-Open [world 2, the Ripple Counter](https://hagopjay.github.io/x3d.demo/demos/wire-lab/v1/?world=counter). Press the
+Open [world 2, the Ripple Counter](https://hagopjay.github.io/x3d.demo/demos/wire-lab/v2/?world=counter). Press the
 red button a few times and watch the lamps. They are counting in binary.
 
 There is no program in this scene. There are only two kinds of node.
@@ -129,7 +129,7 @@ This circuit is called a ripple counter and it is inside real computers. You bui
 
 ## 7. Wires can feel alive
 
-Open [world 3, the Follower](https://hagopjay.github.io/x3d.demo/demos/wire-lab/v1/?world=snake). A golden ball flies
+Open [world 3, the Follower](https://hagopjay.github.io/x3d.demo/demos/wire-lab/v2/?world=snake). A golden ball flies
 a figure of eight and a tail of beads follows it. There is no physics engine here.
 
 A **PositionDamper** chases a place. It never jumps; it closes part of the remaining distance each moment, so it
@@ -163,10 +163,16 @@ is. The add-on `x3d-blender-io` now closes that gap as a proof of concept:
 1. Press "Download .x3d" in the lab.
 2. In Blender, import the file with "Behaviour as node graph" ticked.
 3. Open the node editor and choose "X3D Behaviour". Your graph is there, with the same nodes and the same wires.
-4. Change it, export, and open the file in a browser.
+4. Press **Play** in the node editor's header and click the button in the 3D view: the door opens inside Blender,
+   and the nodes glow as the events pass. Press Esc to stop; everything goes back where it was.
+5. Change it, export, and open the file in a browser.
 
 The three lab worlds have each made that trip in a test and come back with every node, every field and every wire
 unchanged.
+
+How do we know Blender plays the scene the way a web browser will? By asking both. A test recorded every event the
+X_ITE browser sent while a real mouse clicked, then made Blender's player do the same. On 36 of 36 streams of events
+they agreed. That is the scientific method in miniature: do not trust the copy, measure it against the original.
 
 ## 10. Things to try, from easy to hard
 
@@ -199,5 +205,5 @@ unchanged.
 
 The lab was driven by a real mouse in a test: the door opened, the counter counted to 15 and back down, and the tail
 followed a real drag (30 of 30 checks, X_ITE 16.7.1, headless Chromium with software drawing). It has not been tried on
-a phone or with a real graphics card. In Blender, the graph was built, changed and exported by script; nobody has yet
-looked at it on a real screen.
+a phone or with a real graphics card. In Blender, the graph was built, changed, played and exported by script; nobody has
+yet looked at the editor or the Play button on a real screen.
