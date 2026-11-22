@@ -1,0 +1,75 @@
+# Blender I/O for X3D 4.0: robustness plan v3, in one page (22 Nov 2026)
+
+The add-on's goal is unchanged from v2: mission-critical does not mean nothing is lost, it means **no loss is silent**.
+v3 keeps v2's twelve weeks and four gates and changes what the gates measure. Full notes and the probe scripts:
+x3d.loom `LEARNINGS-blender-io-robustness-v3.md` and `runs/blender-io-perturb-20261122/`.
+
+Instruments for every measured number here: x3d-blender-io main at `47ed742` (manifest 2.6.5), Blender 5.3.0 `bpy` wheel,
+Python 3.13.18, x3d.py 4.0.65.8, Linux x86_64, no GPU. Grades: Confirmed (a named tool ran or the file was read at the
+named commit), Likely (read or reasoned), Suspected.
+
+## Three measurements that changed the plan
+
+| Measurement | Result | Grade |
+|---|---|---|
+| Change one Blender property, export X3D 4.0, compare | 363 scalar properties changed; 39 change the file, 324 leave it byte-identical; none of the 324 has a declared class | Confirmed |
+| Build a UV sphere in four processes, export | 4 different files; from one saved .blend, 4 identical files. The writer is deterministic; the sphere operator is not | Confirmed for this scene |
+| Rank the first-trip budget by element | ROUTE is the largest group in the main profile: 62 of 221 differences | Confirmed |
+
+| Datablock | Properties changed | File changed | File identical |
+|---|---|---|---|
+| Principled BSDF inputs | 34 | 5 | 29 |
+| Object | 83 | 8 | 75 |
+| Mesh (scalar settings) | 23 | 0 | 23 |
+| Material settings | 35 | 3 | 32 |
+| Camera | 55 | 8 | 47 |
+| World | 15 | 0 | 15 |
+| Lights (point, sun, spot, area) | 118 | 15 | 103 |
+| All | 363 | 39 | 324 |
+
+Most of the 324 are editor flags, and some are masked by the starting state. The list still holds real losses: light
+`energy` changes nothing from the 10 W default on any light type (a Blender-made light is capped at intensity 1).
+
+## The contract: seven properties
+
+| # | Property | Gate |
+|---|---|---|
+| 1 | Declared mapping: every Blender property and every X3D field has a row (exact, approximate, carried, dropped, not applicable) | perturbation sweep both ways; field-level parity check |
+| 2 | Loss receipt: every export and import says what it dropped, approximated or carried | receipt totals equal the sweep's findings on the 195-case suite |
+| 3 | Fixed point: a second round trip changes nothing | `tools/io_sync/fixed_point.py` (in CI) |
+| 4 | Bounded first trip: first-trip loss never grows | `first_trip_budget.json` (in CI: 221, 65, 98) |
+| 5 | Transactional and reproducible: a failed export leaves the old file; a frozen scene gives one file | rollback tests; two-process test on frozen fixtures |
+| 6 | Identity survives (new): DEF names, ROUTE endpoints, Metadata, units, provenance | identity invariants in the round-trip gate |
+| 7 | Hostile input is safe (new): no crash, hang, memory blow-up, stray network call or code execution | fuzzing, hostile corpus, resource-limit tests |
+
+One rule for every judge: a gate is trusted only after it has caught a planted fault of the kind it claims to catch.
+
+## The five judges
+
+| Layer | Today | v3 adds |
+|---|---|---|
+| Structure | XSD, x3d.py strict | Web3D Schematron, disagreements kept as fixtures |
+| Meaning | x3d_mcp by hand | x3d_mcp pinned by commit, in CI |
+| Round trip | fixed point, first-trip budget | counts, bounding box, material values, DEF/USE and ROUTE graphs; six metamorphic relations |
+| Appearance | X_ITE 16.7.1 against Babylon.js 9.32.0 on 9 scenes | same renderer with two exporters (the add-on's X3D and Blender's own glb, both drawn in X_ITE); EEVEE after a calibration run; x3d.wgpu as a browserless witness; Cycles as a witness only |
+| Behaviour | preset tests | X_ITE event log before and after a round trip |
+
+## Four gates
+
+| Gate | Weeks | Exit, in numbers |
+|---|---|---|
+| 1 Contract | 1 to 3 | 0 undeclared Blender properties and X3D fields; 0 of 49 nodes unmeasured (13 today); 0 undeclared ROUTE or DEF changes (58 today); receipt agrees on 195 of 195 cases; Schematron in CI |
+| 2 Oracles | 4 to 6 | 5 of 5 judges catch a planted fault; thresholds written from a calibration run, then 20 scenes gated against Blender; render waivers below 27 of 43; round-trip gate on both Blender LTS lines |
+| 3 Robustness | 7 to 10 | importer split into parser, node-to-IR and builder; 90% branch coverage on pure-Python layers; mutation kill rate 80%; 0 crashes and 0 hangs under fuzzing; no performance ratio above 1.2 |
+| 4 Hub | 11 to 12 | DEF and Metadata survive X3D to Blender to glb and back, and through USD with a flatten codec (Blender's USD exporter returns 0 of 6 Metadata nodes today), one receipt per hop; an Unreal hand-off pack |
+
+## What changed from v2, and why
+
+1. **Find loss by perturbation, not by scanning reads.** A silent loss is a property the code never reads.
+2. **Identity moved from Gate 4 to Gate 1.** It is the largest measured first-trip loss.
+3. **Calibrate before gating appearance.** The delta-E 2.0 and SSIM 0.95 thresholds were never measured; Cycles casts shadows raster engines do not.
+4. **Freeze fixtures; do not sort in the writer.** The nondeterminism is Blender's sphere operator.
+5. **Every judge must catch a planted fault.** Five of the Fault Lab's ten faults change no pixel.
+6. **The mapping table covers the whole standard** and feeds the coverage board's Blender column.
+7. **The receipt lives beside the file**, with one content-derived hash line inside it.
+8. **Hub order is glTF, USD, Unreal.** Unity and the behaviour node editor are optional and unscheduled.
