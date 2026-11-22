@@ -144,3 +144,43 @@ Eight crashes were fixed:
 Three of these lines are also in Blender's own X3D importer (Likely: read, not run). The validator is now strict
 about SFBool spelling and vector widths, which x3d.py 4.0.65.8 does not check. CI runs 240 mutants on every PR, with
 a planted fault, and the nightly runs 960 per Blender line.
+
+## Chaos round 2: 2.7.3 (22 Nov 2026)
+
+x3d-blender-io PR #76 adds the export side, the round trip and hostile files (`docs/CHAOS.md` "Second round" there):
+
+- `tools/chaos/scene_chaos.py` makes 22 kinds of edit to a Blender scene, such as NaN vertices, odd names, zero scales
+  or parents 1,500 deep. It exports with random options and runs the validators. It then checks the fixed point:
+  import, export, import, export, where the last two exports must agree.
+- `tools/chaos/hostile.py` runs 67 hostile files, each in its own sandboxed process:
+  - bombs, XXE and network URLs;
+  - Inline cycles and fan-outs;
+  - broken bytes and huge counts;
+  - classic VRML.
+- `tools/chaos/shrink.py` cuts a crashing file down to the parts that matter.
+
+The 2.7.2 rows ran the 2.7.2 source through the same judges.
+
+| Run | 2.7.2 | 2.7.3 | Grade |
+|---|---|---|---|
+| Scene chaos, rng 7 | 35 of 276 | 0 of 276 | Confirmed |
+| Scene chaos, rng 7, 11 and 23, with the XSDs | – | 0 of 828 | Confirmed |
+| Hostile files, Blender 5.2.2 | 26 of 67 | 0 of 67 | Confirmed |
+| Hostile files, bpy 5.3.0 | – | 0 of 67 | Confirmed |
+
+The largest finds:
+
+- **A texture on `/dev/zero` filled a 50 GB disk.** The re-export copied the device, because Blender core's
+  `path_reference_copy` copies devices. The add-on now copies only regular files, within 4 GiB.
+- **Safe refusals ended in a traceback.** Billion laughs, XXE and truncated files were refused but raised out of the
+  operator. Each now cancels cleanly and gives the reason.
+- **Counts in a file set allocations.** These now have budgets with warnings: subdivision, ElevationGrid, PixelTexture,
+  Inline loads and animation keys. A 47,000 s animation had grown to 1,048,574 keys in one round trip.
+- **Four kinds of round-trip drift.** Each is now a fixed point:
+  - default texture coordinates the import made up were written back;
+  - a half turn had two axis spellings;
+  - a zero scale lost its rotation;
+  - the two writers spelled DEF names differently.
+
+CI now runs all 67 hostile files and 46 scene cases on every PR, each judge with a planted fault. The nightly runs 552
+scene cases and the hostile files on every Blender line.
