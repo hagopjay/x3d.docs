@@ -99,3 +99,21 @@ Fixed on the way: Blender 4.5.14's import/export round trip did not converge (a 
 it now does on all three binaries. Decisions: X3D 4.0 is the default export from 2.7.0; the receipt line is always on
 and the sidecar stays opt-in; A12 (linked collection instances on import) is queued as importer work; the nightly
 workflow runs the slow judges on every Blender line.
+
+## Fortified: 2.7.1 (22 Nov 2026)
+
+x3d-blender-io PR #73 fixes three of the losses the judges found. None was a blocker; each was cheap and showed up in a
+judge's numbers.
+
+| Fix | Judge that found it | Before | After | Grade |
+|---|---|---|---|---|
+| The file opens on the active camera (`extract.bind_first` writes the subtree holding `scene.camera` first) | metamorphic R3 | 1 of 12 scenes moved the binding | 0 of 12 | Confirmed |
+| An ORTHO camera becomes an `OrthoViewpoint` (extents from `ortho_scale` at the render aspect; Navigation level 3), and the importer reads it back | sweep, first-trip budget | written as a perspective Viewpoint; fieldOfView changed on the first round trip | carried; the budget group shrinks 1 to 0 in all 3 profiles | Confirmed |
+| Light temperature folds into the colour (`color x temperature_color`, as Blender's glTF exporter does) | sweep | dropped, listed on the receipt | approximated, carried | Confirmed |
+
+The sweep now counts 63 carried properties on bpy 5.3.0 (54 before) and passes on 4.5.14, 5.1.2, 5.2.2 and 5.3.0. The
+fix showed a second Web3D Schematron rule bug. The `Viewpoint | OrthoViewpoint` rule (.sch line 2495) puts its
+`count(preceding::OrthoViewpoint) > 0` clause outside the parentheses, so every Viewpoint after the first OrthoViewpoint
+is reported as needing Navigation level 3 even when the file declares it. A two-node file gives 1 error with the
+OrthoViewpoint first and 0 with it second. It is listed as a disagreement (7 per suite file) and has not been sent to
+Web3D.
