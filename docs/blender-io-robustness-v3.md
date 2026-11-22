@@ -117,3 +117,30 @@ fix showed a second Web3D Schematron rule bug. The `Viewpoint | OrthoViewpoint` 
 is reported as needing Navigation level 3 even when the file declares it. A two-node file gives 1 error with the
 OrthoViewpoint first and 0 with it second. It is listed as a disagreement (7 per suite file) and has not been sent to
 Web3D.
+
+## Chaos round: 2.7.2 (22 Nov 2026)
+
+x3d-blender-io PR #75 adds differential chaos testing (`tools/chaos/differential.py`, `docs/CHAOS.md` there). Each
+one-edit mutant of the 12 frozen scenes goes to six judges: the add-on's validator, x3d.py, the Web3D XSD, the
+Web3D Schematron, the importer and the re-export.
+
+| Run | Crashing mutants | Grade |
+|---|---|---|
+| 2.7.1, rng 7 | 68 of 960, 5 signatures | Confirmed |
+| after the first five fixes, rng 7 and 11 | 7 of 1,920, 3 more signatures | Confirmed |
+| 2.7.2, rng 7, 11 and 23 (bpy 5.3.0) | 0 of 2,880 | Confirmed |
+| 2.7.2 on Blender 4.5.14 and 5.2.2 | 0 of 960 each | Confirmed |
+
+Eight crashes were fixed:
+- a bool spelt `1` ended the import;
+- one huge coordIndex padded the point list (`2147483647` raised MemoryError), and the same padding hit colours and
+  texture coordinates;
+- a malformed scale raised;
+- fieldOfView INF raised;
+- a NaN scale broke the re-export;
+- X_ITE's radius -1 imported but failed the export's own check;
+- the validator recursed on deep scenes.
+
+Three of these lines are also in Blender's own X3D importer (Likely: read, not run). The validator is now strict
+about SFBool spelling and vector widths, which x3d.py 4.0.65.8 does not check. CI runs 240 mutants on every PR, with
+a planted fault, and the nightly runs 960 per Blender line.
