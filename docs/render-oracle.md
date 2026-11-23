@@ -32,3 +32,19 @@ His order was to fix the three.js bridge first. It now draws `EnvironmentLight` 
 * Five of six engines read 186 to 188 on a headlit PhysicalMaterial; three.js reads 128. Majority vote points at the odd one.
 * Castle's numbers come from today's snapshot (sha256 `dce6a4cd...`), not the build pinned earlier, because the snapshot URL is moving.
 * All software rendering; the scenes are furnace probes, so lit, coloured, asymmetric scenes are the next step.
+
+## Step 3: twelve lit scenes, a second judge, a vote
+
+The furnace scenes could only test one behaviour, so twelve lit, coloured, asymmetric scenes were added (directional, spot and point light, specular, emissive and ambient, transparency, a texture, a metal under one light, fog, nested transforms, a default headlight). Six engines, same rig.
+
+| engine vs X_ITE (12 scenes) | AGREE | NEAR | FAR |
+|---|--:|--:|--:|
+| x3d.wgpu | 9 | 1 | 2 |
+| three.js bridge | 8 | 1 | 3 |
+| Babylon bridge | 6 | 2 | 4 |
+| Castle | 1 | 7 | 4 |
+| Blender importer | 0 | 3 | 9 |
+
+* **Controls:** 24 of 24 planted scene mutants (light flipped, colour changed, shininess changed, taller cone) were caught across all six engines.
+* **New gaps:** x3d.wgpu draws no PixelTexture colours and no linear fog (Babylon and Blender draw no fog either); Babylon draws a PhysicalMaterial under a DirectionalLight black; three.js lights it wrongly (hot sphere, dark box); the Blender importer draws no default headlight and no sky.
+* **No external record exists for these scenes**, so the earlier held-out check is gone. A majority vote and FLIP (a second image metric, agreeing 0.92 on rank with the first) are consistency checks only; where every pair disagrees (fog, texture) the vote names no outlier.
