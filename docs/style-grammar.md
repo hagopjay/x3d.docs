@@ -1,7 +1,7 @@
 # A style vocabulary and grammar for X3D (23 Nov 2026)
 
 Code and spec: x3d.loom `x3d.style/` ([SPEC.md](https://github.com/hagopjay/x3d.loom/blob/main/x3d.style/SPEC.md)). Demo: x3d.demo `docs/demos/style-loom/v1/` (Demo 75, Style Loom).
-Fold-back: x3d.loom `LEARNINGS-style-loom.md`, failure modes 205 to 210.
+Fold-back: x3d.loom `LEARNINGS-style-loom.md`, failure modes 214 to 219.
 
 ## The idea in plain words
 
