@@ -184,3 +184,28 @@ The largest finds:
 
 CI now runs all 67 hostile files and 46 scene cases on every PR, each judge with a planted fault. The nightly runs 552
 scene cases and the hostile files on every Blender line.
+
+## Chaos round 3: 2.7.4 (23 Nov 2026)
+
+This round replayed rules a machine wrote. The receipt-to-rule engine (x3d.loom `kit/loomkit/r2r`) turned the 2.7.1
+crash receipts into 28 candidate rules and replayed them on 2.7.3. Six rules still crashed, and its sweep of 514 real
+files found two failing files. x3d-blender-io 2.7.4 fixes all of them (`docs/CHAOS.md` "Third round" there):
+
+- **CoordinateDouble** is now read wherever Coordinate is. A triangle set on it raised AttributeError.
+- **MetadataBoolean** exports. The add-on's own semantic check read MFBool `true false` as numbers and refused the file.
+- **An index past the points** in an IndexedTriangleSet or IndexedTriangleStripSet with Color or TextureCoordinate is
+  now one added vertex at the origin, as IndexedFaceSet already did. It raised IndexError.
+- **Three or more fans** in an IndexedTriangleFanSet restarted at the wrong index. That raised RuntimeError after 35 s
+  and 4.4 GB.
+- **The IndexedFaceSet vertex-cull path** now reads an index past the points the same way. It raised IndexError.
+- **Scene chaos rng 11** found one more: an Alpha of 1e39 wrote a transparency of -3.4e38 in the X3D 3.3 writer. That
+  writer now clamps it to [0, 1].
+
+| Run (bpy 5.3.0) | 2.7.3 | 2.7.4 | Grade |
+|---|---|---|---|
+| The 8 repro files, import then re-export | 8 of 8 crash | 0 of 8 | Confirmed |
+| The 6 new `replay` hostile cases | 6 of 6 | 0 of 6 | Confirmed |
+| All 73 hostile files | – | 0 of 73 | Confirmed |
+| Scene chaos rng 7, 11 and 23 | – | 0 of 46 each, after the rng 11 fix | Confirmed |
+
+The six replay cases now run in CI on every PR, so the rules the engine wrote are gates.
