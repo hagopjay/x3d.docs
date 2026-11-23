@@ -1,4 +1,4 @@
-# The render oracle: do six engines draw the same X3D scene? (step 1, three engines)
+# The render oracle: do six engines draw the same X3D scene?
 
 **The idea.** Draw the same scene in several engines with one fixed camera, subtract the pictures, and list where they disagree. A disagreement is evidence that one engine departs from the standard. The tool is checked first by planting defects it must catch.
 
@@ -15,3 +15,20 @@
 * Planted defects (brightness, shifts, radius, sphere to box) were caught in every observable case; a 10% gain error and a flipped sphere were **not**, because these scenes are uniform spheres. The 29 scenes make only 10 distinct pictures, so step 2 needs richer scenes.
 
 Code, pictures and the full matrix: `hagopjay/x3d.loom` `x3d.render-oracle/` and `LEARNINGS-render-oracle.md`. Grades: the numbers are Confirmed (measured); the cause is Likely.
+
+## Step 2 (same day): the fix, then six engines
+
+His order was to fix the three.js bridge first. It now draws `EnvironmentLight` and curves the indirect light the way X_ITE does, which took X_ITE vs three.js from 21 FAR scenes to 1. Then Babylon, Blender and Castle were added on the same 29 scenes and the same 128x128 rig:
+
+| engine vs X_ITE | AGREE | NEAR | FAR | held-out rows in tolerance |
+|---|--:|--:|--:|--:|
+| x3d.wgpu | 10 | 19 | 0 | 29 / 29 |
+| three.js bridge | 19 | 9 | 1 | 28 / 29 |
+| Castle | 2 | 7 | 20 | 11 / 29 |
+| Blender importer + Cycles | 6 | 9 | 14 | 9 / 29 |
+| Babylon bridge | 2 | 13 | 14 | 8 / 29 |
+
+* Blender's importer ignores `Background` and `EnvironmentLight` (Likely); Babylon draws metals black under an `EnvironmentLight` (cause Suspected); Castle draws the environment at the wrong level (255 expected, 147 drawn).
+* Five of six engines read 186 to 188 on a headlit PhysicalMaterial; three.js reads 128. Majority vote points at the odd one.
+* Castle's numbers come from today's snapshot (sha256 `dce6a4cd...`), not the build pinned earlier, because the snapshot URL is moving.
+* All software rendering; the scenes are furnace probes, so lit, coloured, asymmetric scenes are the next step.
