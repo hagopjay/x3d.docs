@@ -132,10 +132,41 @@ millions raises `IndexError` in three mesh readers. The fourth is the exporter r
 engine worked that gate's rule out from the outside. A chaos round samples. A rule that keeps its probes is a
 standing question that can be asked of every later version.
 
+### The loop closes: add-on 2.7.4
+
+The Blender lane fixed the live rules in add-on 2.7.4 (x3d-blender-io #77, main 0eb4809). The same 28 rules were
+asked again, with the same probes rebuilt from the same recipes:
+
+```mermaid
+flowchart LR
+  A[2.7.1 receipts] --> B[28 rules]
+  B --> C[2.7.3: 6 still live]
+  C --> D[fix: add-on 2.7.4]
+  D --> E[2.7.4: 0 still live]
+  E --> F[6 replay cases in the add-on's CI]
+```
+
+| Asked of | Closed | Still live | Partly closed | Too few files to call |
+|---|---:|---:|---:|---:|
+| add-on 2.7.3 (8e56437) | 21 | 6 | 1 | 0 |
+| add-on 2.7.4 (0eb4809) | 25 | **0** | 1 | 2 |
+
+All of it is Confirmed on x3d-blender-io 2.7.4 in bpy 5.3.0 with loomkit.r2r 0.1.0. The partly closed rule is still
+the export gate, as designed. The two rules in the last column pass every file they fire on, but have 4 and 2 files,
+and the engine asks for 5 before it writes "closed". So 19 files were written by hand for them: 15 fail on 2.7.3 and
+none on 2.7.4. The sweep of 514 real files has no failure on 2.7.4.
+
+The hand files also corrected two Likely rules. The fan rule said "an index of at least 20 tokens"; a 19-token file
+with four fans fails on 2.7.3 and a 21-token file with one fan passes, so the cause is the third fan. The
+vocabulary has a word for the number of tokens and none for the number of runs, and the engine took the nearest
+word. The `CoordinateDouble` rule said "the node is present"; it fails only under the triangle nodes. A Likely rule
+names the place better than the condition. Before a fix is written from one, vary the thing its probes held fixed.
+
 ## Limits
 
 - One site per rule: a cause that needs two places compared cannot be written.
 - Where the vocabulary has no word, the rule is a fingerprint, graded Suspected and listed as a gap.
+- Or it borrows the nearest word it has: a token count stood in for a fan count (Loom failure mode 198).
 - It learns the tool, not the standard. A Confirmed rule says a tool fails, not that a file is invalid X3D.
 - A cluster that starts from one or two failures grows into several narrow rules under probing.
 - A failure whose file is byte-identical to a passing file has its cause elsewhere (three of the ten Fault Lab faults
