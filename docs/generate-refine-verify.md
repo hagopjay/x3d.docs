@@ -42,6 +42,8 @@ Splat error: distance from each visible splat centre to the nearest X3D surface.
 
 ## What it shows, and what it does not
 
+- **The gated worlds look worse.** Held-out renders show speckled fill and a courtyard sky carved to black (the X3D has no sky, so every sky splat counted as open air). The pipeline won on geometry and lost on pictures: a gate that checks only geometry rewards edits that damage the picture. Next: a picture gate on every pass, carving only inside the volume the X3D encloses, fill coloured from the generated views.
+
 - With all three stages, error fell 21 to 52% and holes 52 to 69% against the best other arm: the pre-registered 20% bar is passed on 3 of 3 worlds. Three worlds is a pilot, not proof.
 - Blind clean-up changed almost nothing here, and in an earlier Marble world it made the picture worse. Refinement pays only when verify chooses it.
 - The fill pass copies X3D shape, so part of the gain is by design. Picture quality and a blind human rating are the next tests.
