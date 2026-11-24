@@ -73,6 +73,30 @@ lights, the 7 animations, the colours and the translucency. Three things to know
 Each of those is a change made in Blender, not in the X3D file, and each is written into the render receipt under
 `added_in_blender`. The picture is honest about which tool did what.
 
+## Bringing the light home to the browser
+
+The Cycles frame looks good because Cycles spends minutes on it. A browser has a few thousandths of a second. So
+the light was worked out once in Blender and written back into the X3D file as plain colours, one per face. The
+browser then paints those colours and does no lighting sums for them at all. That is a "bake".
+
+![Browser before, browser after the bake, and the Cycles frame](img/glass-gobbler-before-after.webp)
+
+*Left: the bird in the browser, lit live. Middle: the same browser and seat, light baked in. Right: the Cycles frame
+the light came from. X_ITE 16.7.0, headless Chromium 157, software GL.*
+
+Three things to know about a bake:
+
+- **It cannot hold glass.** What glass shows depends on where you stand, and a bake is made without anyone
+  standing anywhere. So for the bake only, each part was swapped for a stand-in that looks the same from every
+  side: a matt surface in its own colour that lets some light through from behind and glows a little.
+- **Only the colours travel.** The scene was not saved back out of Blender, because that loses names, cameras and
+  animation wiring. Blender wrote a list of 11,616 colours, and the program that made the scene wrote it again with
+  them. A check first proved Blender's face order was the same as the file's.
+- **Valid is not the same as good-looking.** The first bake turned all the gold lemon yellow, the second turned it
+  white, the third kept it gold. All three passed the validator. Only looking at a frame told them apart.
+
+The baked scene is x3d.gobbler `mascot/baked/gobbler-baked.x3d`; the colours and every setting are in `bake.json`.
+
 ## Try it
 
 ```bash
@@ -87,5 +111,5 @@ checkout of x3d-blender-io.
 
 ## Not done
 
-The Blender lighting is not baked back into the X3D, so the browser bird does not look like this yet. The glTF and
-USD files were read back by Blender only, not by a second tool.
+The baked bird has no reflections or refraction, so it is the same bird under the same lights and not the Cycles
+picture. The glTF and USD files were read back by Blender only, not by a second tool.
