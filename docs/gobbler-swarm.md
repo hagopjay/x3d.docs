@@ -57,3 +57,34 @@ build machine's Xeon).
 
 The page has not been seen on a real graphics card. The view where the swarm rides the live Babylon scene was only
 tested against a stand-in. That check needs a browser with a working WebGPU adapter.
+
+## Version 3: the pipeline at fleet speed
+
+Live page: [Gobbler Gyroscope v3](https://hagopjay.github.io/x3d.demo/demos/gobbler-gyroscope-webgpu/v3/index.html)
+(on its own: [solo.html](https://hagopjay.github.io/x3d.demo/demos/gobbler-gyroscope-webgpu/v3/solo.html)). Press P to
+hide or show the layer.
+
+The owner asked for a light layer of words, small pictures and icons that makes it obvious the pipeline is moving very
+fast. Version 3 adds three things on top of the swarm.
+
+![The stage rail: nine icons for the graph's steps, packets flowing between them, each edge labelled with its rate](img/gobbler-pipeline-rail.webp)
+
+**The stage rail.** The agent graph drawn as a row of icons, from open to close. Little packets run along each line at
+the rate the swarm is really producing, and each line is labelled per second. The red dashed loop under weaver and
+witness is the refusal backflow; the long grey arc is "no signal, skip to the assayer"; a crimson "hold" line only
+appears when the Chaos slider is up.
+
+<img src="img/gobbler-pipeline-stream.webp" alt="The pipeline column: fleet clock, odometers, rate tiles and the event stream" width="374" align="right">
+
+**The fleet clock.** One trip around a hoop on screen stands for one half-hour cron period, so at full speed the
+fleet's clock runs 134 times faster than yours. The clock only counts the work the swarm really did, so a slow
+computer shows its own, lower speed-up, and says so.
+
+**The event stream.** A fast log of things that just happened: "#742, DSPy loop, REFUSED by the containment gate",
+"#996, Ontology loop, council asks HagopJay a question", "#686, ADMITTED". These are not made up. The page reads the
+first 1,024 copies back from the graphics card many times a second and writes a line whenever one of them changes
+step. About a dozen lines a second are shown, with refusals, questions and admissions shown more often than routine
+steps.
+
+Checked: the graphics card and the reference model still agree to the bit (4 of 4 runs). Not checked: a real graphics
+card. In the test machine's software renderer the clock reads x2 to x18 instead of x134.
