@@ -61,3 +61,17 @@ The step 2 fix curved only the environment light and failed under a direct light
 | PhysicalMaterial fixture mad | 5.33 | 0.5 |
 
 Lesson: a fit on one scene family is a hypothesis, not a fix; four engines agreeing is a specification. Open: rough metals (three.js 80 vs X_ITE 59, Suspected multiple scattering). Source: x3d.loom PR #180.
+
+## Steps 5 to 8 (24 Nov): the engines caught up
+
+The oracle's list of faults was worked down in the bridges and renderers we own, one cause at a time (source: x3d.loom README Results 9 to 13, PRs #180 to #188, x3d.wgpu #9).
+
+| engine | fault found | cause | before then after, vs X_ITE 16.6.0 |
+|---|---|---|---|
+| three.js | PhysicalMaterial wrong under a light | X_ITE has no PI factor on PhysicalMaterial light and curves the whole output by 1/2.2 | furnace 29 FAR 1 to 0, `lit_physical_direct` 24.9 to 4.9 |
+| three.js | ambient and attenuation | material ambientIntensity fixed at 0.2; only one attenuation term kept | `lit_emissive_ambient` 15.9 to 0.25, `lit_point_attenuation` 10.4 to 0.4 |
+| Babylon | PBR black (metals under EnvironmentLight and PBR under a direct light were one bug) | PBR winding wrong on Babylon's own primitives | `lit_physical_direct` 59.5 to 1.5, furnace held-out outside 21 to 2 of 29 |
+| Babylon | no fog, no PixelTexture, linear point falloff, UnlitMaterial white | the fog code started only for LocalFog; a texture type never read; the falloff law lives inline in the StandardMaterial shader; the material type was never named | `lit_fog_linear` 71.5 to 3.7, `lit_texture_pixel` 53 to 7.4, `lit_point_attenuation` 30.7 to 1.3, `exp2_a_unlit_default` 127 to 0 |
+| x3d.wgpu | no Fog, no PixelTexture, rotated Box texture | missing nodes; an arbitrary axis pair per Box face | `lit_fog_linear` 70.5 to 0.7, `lit_texture_pixel` 82.8 to 0.5 |
+
+End state (AGREE/NEAR/FAR against X_ITE): furnace 29 three.js 20/9/0, x3d.wgpu 10/19/0, Babylon 18/11/0; lit 12 three.js 10/2/0, x3d.wgpu 11/1/0, Babylon 8/4/0; in the majority vote none of the three is the outlier in any scene. Left for other lanes: the Blender importer ignores Background, headlight and EnvironmentLight; Castle's EnvironmentLight level; a Cycles world for the furnace scenes; rough metals (three.js and Babylon 80 to 83 against 59, cause unknown).
