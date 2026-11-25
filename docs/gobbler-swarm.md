@@ -129,3 +129,44 @@ the labels.
 
 Checked: the graphics card and the reference model still agree to the bit (4 of 4 runs); the page with no WebGPU shows
 the serpent with no errors. Not checked: a real graphics card, and the serpent over the full WebGPU page.
+
+## Version 5: the Gobbler returns
+
+Version 5 puts the bird back, and says how much of the plan is real. The demo is at
+[x3d.demo, Gobbler Gyroscope v5](https://hagopjay.github.io/x3d.demo/demos/gobbler-gyroscope-webgpu/v5/). Keys: G for
+the bird, L for the lanes, O for the serpent, P for the pipeline.
+
+![The serpent around the gyroscope with the glass Gobbler at its head, a ring of labelled lanes around it, and panels listing each lane with a grade](img/gobbler-v5.webp)
+
+**The Gobbler is the serpent's head.** The bird at the bite is the glass mascot itself: the page reads the mascot's
+own scene file and draws its 11,736 faces as glass. Its fan is the frontier board, one feather for each of the 64
+frontiers. Its heart beats each time the fleet admits an entry.
+
+![Close-up: the glass Gobbler at the point where the serpent's head meets its tail](img/gobbler-v5-bird.webp)
+
+**The lanes.** Around the serpent sit 27 small moons, one for each part the Gobbler has or is meant to have. Each
+sends a stream of light inward to the place on the serpent where its work feeds in: bridges feed the raw tail, the
+ontology and the Blender add-on give it structure, the Assayer and the adversarial work stand at the gate, the Loom
+keeps what passes, the eyes look at it, and the hands act.
+
+The colour of a lane is its grade, and a grade is a claim about the public repositories:
+
+| Grade | Means | How many |
+|---|---|---|
+| live (green) | runs inside the recorded Gobbler graph | 3: the Assayer, the Loom, the LangGraph graph |
+| built (cyan) | code and receipts exist | 9: physics, glTF, x3d.xray, ontology, the Blender add-on, the validator, chaos rounds, receipt-to-rule, engine debugging |
+| touched (amber) | first evidence only | 7: URDF, OpenUSD, DSPy, the Loom as an MCP server, vision, XR, the Haiku weaver |
+| planned (violet, dashed) | on the frontier board with a first step written | 3: AEC through IFC, adversarial injection, graph RAG |
+| envisioned (grey, dashed) | named on 25 Nov, nothing in the repositories yet | 5: Bonsai, Omniverse, a Chrome DevTools MCP, Agentic Skills, NVIDIA build APIs |
+
+The page will not build if a lane above "envisioned" cannot point at a file that exists. Some plain facts it states:
+the Blender add-on is at 2.7.4 today (4.0 is the target), the Haiku weaver is simulated in the record with no model
+calls, and engine profiling has not started. How thick a stream looks shows the grade. It is not a measurement.
+
+**The board, the spotlight and the strip.** The left panel lists every lane with its grade and its rank on the
+frontier board, then the commits per day on seven repositories since 18 Nov. A card at the top walks through the lanes
+one at a time and shows the fact and the file paths behind each grade. A strip across the top carries the Loom's size
+today (44 laws, 273 failure modes, 13 theses) and the frontier board by status.
+
+Checked: the graphics card and the reference model still agree to the bit (4 of 4 runs); the page with no WebGPU shows
+all of this with no errors. Not checked: a real graphics card, and version 5 over the full WebGPU page.
