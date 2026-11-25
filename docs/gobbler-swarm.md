@@ -170,3 +170,16 @@ today (44 laws, 273 failure modes, 13 theses) and the frontier board by status.
 
 Checked: the graphics card and the reference model still agree to the bit (4 of 4 runs); the page with no WebGPU shows
 all of this with no errors. Not checked: a real graphics card, and version 5 over the full WebGPU page.
+
+## Version 6: head and flywheels together
+
+Version 5 added so much that the flywheels lost some of their look: the camera had been pulled back to make room, a
+thick cloud had been turned in front of the wheels, and the bird stood over them. Version 6 keeps everything version 5
+added and puts the wheels back the way version 4 showed them: same distance, the thin thread of gold beads in front,
+the bird smaller and standing at the bite, clear of the wheels. The demo is at
+[x3d.demo, Gobbler Gyroscope v6](https://hagopjay.github.io/x3d.demo/demos/gobbler-gyroscope-webgpu/v6/solo.html).
+Press H to hide the panels and see the scene alone.
+
+![The flywheels at full size with the serpent around them, the glass Gobbler at the bite on the right, and the ring of lane labels](img/gobbler-v6.webp)
+
+The flywheel code itself never changed between versions 4 and 5. Only what was placed around it did.
