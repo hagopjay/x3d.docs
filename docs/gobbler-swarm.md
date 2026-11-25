@@ -88,3 +88,44 @@ steps.
 
 Checked: the graphics card and the reference model still agree to the bit (4 of 4 runs). Not checked: a real graphics
 card. In the test machine's software renderer the clock reads x2 to x18 instead of x134.
+
+## Version 4: the Ouroboros
+
+Version 4 answers a different question. Versions 2 and 3 show that the fleet is busy. Version 4 shows what the work
+turns into, and where it goes. The demo is at
+[x3d.demo, Gobbler Gyroscope v4](https://hagopjay.github.io/x3d.demo/demos/gobbler-gyroscope-webgpu/v4/) (press O to
+hide or show the serpent).
+
+![A ring-shaped serpent of particles around the gyroscope: a loose cloud, a lattice, a gate, gold beads, a lens, a white helix, and the head biting the tail](img/gobbler-ouroboros.webp)
+
+An ouroboros is the old picture of a snake eating its own tail. Here the snake is made of 60,000 points of light
+around the gyroscope, and you read it from tail to head:
+
+1. **Raw.** A loose, jittering cloud: everything the Scout sweeps up. Five colours for the five kinds of item on the
+   recorded day; the grey ones are namesakes (the AMD chip called X3D, a video network called X3D) and drift away.
+2. **Structured.** The cloud snaps onto a tidy grid. These are weaves, typed fragments of X3D.
+3. **The Assayer's gate.** A bright hoop. Some of the stream turns red and is thrown out. How much follows the live
+   refusal rate of the 30,000 copies, so the Chaos slider changes it in front of you.
+4. **Knowledge.** Gold beads on a thread: entries admitted to the record.
+5. **The Blender sci-viz lens.** A second hoop where knowledge would be turned into pictures. This agent is not part
+   of the graph yet, and the page says so: the label reads "staged", and no counter is shown for it.
+6. **Action.** A tight white helix: drafts of pull requests back to the docs, the Loom and the Gobbler itself.
+7. **The head** closes on the tail. What was shipped is what gets read next.
+
+At the bite there is a smaller serpent with the same parts, and at its bite a smaller one again.
+
+![Close-up of the bite, with a smaller serpent nested where the head meets the tail](img/gobbler-ouroboros-bite.webp)
+
+**This loop is already in the record.** On the recorded day, the Scout's largest single source was the Loom's own
+commit log (551 of 1,824 raw items), and all 35 admitted entries drafted a fold-back. The receipt-to-rule engine
+closes a second loop: 28 candidate rules were drawn from failure receipts and put back to the Blender add-on, where 25
+are closed and none is still live on version 2.7.4.
+
+The panel on the left carries the numbers: a funnel from raw items to actions, the nine Assayer checks that run today
+(out of 13 theses), what the sci-viz work has rendered by hand so far, the Loom's size (44 laws, 269 failure modes when
+the page was built), and a feed of recent commits. Rows marked ≈ are a live counter multiplied by a ratio from the
+recorded day. The number of points in each part of the serpent is chosen to look right; the counts are the numbers on
+the labels.
+
+Checked: the graphics card and the reference model still agree to the bit (4 of 4 runs); the page with no WebGPU shows
+the serpent with no errors. Not checked: a real graphics card, and the serpent over the full WebGPU page.
