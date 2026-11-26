@@ -78,11 +78,11 @@ An OrientationInterpolator turns along the shortest path. A turntable written "0
 | `0 6.28319` | nothing moves |
 | `0 2.0944 4.18879 6.28319` | a full turn, as meant |
 
-The check predicted all eight spellings tried from the numbers alone (eight of eight, one engine). Run on 2,562 distinct project scenes, it reports 136 of the 443 that hold an OrientationInterpolator: 98 turntables from one generator that rock, 25 model-written spins that never turn, four game levels with fans turning backwards. Every one of those files passed validation before.
+The check predicted all eight spellings tried from the numbers alone (eight of eight, one engine). Run on 2,587 distinct project scenes, it reports 41 of the 463 that hold an OrientationInterpolator: 25 model-written spins that never turn, four game levels with fans turning backwards, two gallery demos and a handful of others. (This page first said 136 of 443. That count read a stale copy of one repository and included 97 turntables that had already been fixed the same morning.) Every one of those files passed validation before.
 
 The first draft of the rule was wrong. It also reported 10 baked animations whose angles wrap around, which play exactly as meant. The survey found them and the rule now lets a step pass when it agrees with its neighbour. The safe way to write a full turn is three steps or more.
 
-Limits: one project's files, two families make most of the count, and the rule was written after the findings were known. Details: x3d.loom `flywheel/rules-from-findings/`, x3d_mcp `docs/ORIENTATION-STEPS.md`.
+Limits: one project's files, one family makes most of the count, and the rule was written after the findings were known. Details: x3d.loom `flywheel/rules-from-findings/`, x3d_mcp `docs/ORIENTATION-STEPS.md`.
 
 ## What to take from it
 
