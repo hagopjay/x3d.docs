@@ -280,6 +280,42 @@ slow: building the node tree itself from a large file (about 7 s for 600 nodes).
 **The loss report tells the truth everywhere.** With "Behaviour as node graph" on, the log lines and
 `X3D_IMPORT_STRICT=1` no longer call a ROUTE lost when the graph kept it.
 
+## Add-on 2.7.7 (26 Nov 2026): the editor shows its own events
+
+**Activity while playing.** Press Play and every ROUTE that really delivers an event lights up in its field type's
+colour: packets travel from socket to socket, a badge on each link counts its events, each node shows events in and
+out, and a small panel lists events, events per second, active ROUTEs, the widest cascade and the last events.
+Nothing moves unless the simulation delivered an event; the totals equal the simulation's own log (unit tests).
+Switches are under Play, "Activity"; "Copy activity report" puts the numbers on the clipboard.
+
+![The counter world playing in Blender's node editor, with the activity overlay](img/behaviour-activity-counter.png)
+![One link of the door world close up: the link takes its field type's colour and carries a count](img/behaviour-activity-door-close.png)
+
+These two pictures are from a real Blender 5.2.2 window opened by a GitHub Actions job (Xvfb, Mesa llvmpipe, OpenGL
+4.5); a reviewer read them. Nobody has yet looked at the overlay on a real graphics card or on a Mac. Cost on
+Player.step, 1,000 interpolators on one timer: 4.35 ms off, 4.99 ms on (`tools/behaviour_bench.py --bpy`, median of
+300 steps, `PYTHONHASHSEED=3`).
+
+**Recordings.** "Record" (or `tools/behaviour_record.py`) writes an `x3d.activity/1` file: every delivery in order,
+plus what was done to the scene (click, press, drag, and on which object). A search in another lane rebuilt the door
+and the counter from such recordings (x3d.loom, self-coding).
+
+**Three more interpolators.** CoordinateInterpolator, CoordinateInterpolator2D and NormalInterpolator are simulated and
+agree with X_ITE 16.8.1 on every stream of the probe world. The Player does not move mesh vertices yet.
+
+**A turn of 0, pi, 2 pi.** Recorded on X_ITE 16.8.1: with the middle key a hair under pi the object rocks to pi and
+back; a hair over, it makes one full turn. The simulator agrees at every sample. To turn a full circle use four keys or
+more. Numbers are now written in the shortest form that reads back exactly, because six decimals changed this motion.
+
+**A judge with its own noise floor.** `tools/behaviour_pair_judge.py` replays two X3D files in X_ITE, interleaved, and
+answers same, differs or unclear against the noise it measured in the same session.
+
+**Measured, not fixed.** Building the node tree from a large file is still slow inside Blender: 601 nodes about 6 s,
+2,001 nodes 68.8 s (`tools/behaviour_bench.py --tree`).
+
+**In the browser.** Wire Lab version 3 (Demo 73) shows the same thing on X_ITE: real events riding the wires, a flywheel
+view of the feedback loops, and a lane that replays a Blender recording beside the live browser run.
+
 ## Limits
 
 Looked at on a real screen by a script (see above) and by the owner for `door.x3d` only; nobody has judged the look by
