@@ -41,11 +41,21 @@ The 87 of 90 above is on tasks written by the same hand as the search. `selfcode
 | Originals of 11 or more nodes | 2 of 11 |
 | Median cost of a rebuilt scene | 4 simulator runs |
 
-Judges: simulator `x3d-blender-io@3e3c1e8`, kernel `x3d_mcp@f0bde28`. No browser in this run.
+Judges: simulator `x3d-blender-io@3e3c1e8`, kernel `x3d_mcp@f0bde28`. These are the simulator's verdicts; a browser sample follows.
 
 Read it with three cautions. It is a test of animation: 50 of the 53 tasks had nothing to poke. Size is the wall: generated scenes with 75 to 400 animated fields are out of reach. And the scenes are a family from this project's own generators and model runs, so they succeed and fail in groups. Two of the six registered predictions failed (large scenes did a little better than predicted, and memory saved a third of the runs where none was predicted) and are reported as failed.
 
 The development split paid for itself. A graph writer that printed six decimals turned a key of 3.14159265 into 3.141593, past pi, and every turntable ran backwards. A lesson of two turns taught the search a recording that broke when watched longer. And one bug in the marking code had filed 21 solved scenes under "cannot be read".
+
+### The wild set in a browser
+
+A sample of the rebuilt scenes (the first 12 by hash) was replayed against the originals in X_ITE 16.8.1. Expectations were written before each run, and both runs failed them, which is the useful part.
+
+- **Run 1** used the pair judge as shipped: 9 same, 2 differs, 1 unclear, and all 3 planted controls came out "same". The judge was blind. In X_ITE a looping TimeSensor takes its phase from the wall clock, so two replays a few seconds apart are at different points of the loop, and a file disagreed with itself on every sample. It also compared rotations number by number, and X_ITE spells one rotation more than one way.
+- **Run 2** started the original and the written scene at the same moment in two browsers and compared rotations as rotations: 9 same, 0 differs, 2 unclear, 1 tool error; controls 1 of 3. A file now agrees with itself.
+- **Afterwards**: the tool error was a stream that is not a number, and that pair is the same; the controls differ only in the first half of the loop, and all 3 differ on every sample when the watch is put there.
+
+No rebuilt scene was seen to behave differently from its original in the browser. Ten of twelve were seen to behave the same over a 6 second watch, one of them counted after a tool fix. The other 27 were not sent.
 
 ## Learning from a recording
 
