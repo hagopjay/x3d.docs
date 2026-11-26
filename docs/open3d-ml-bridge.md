@@ -23,3 +23,11 @@ No ground truth exists for this scan, so segmentation quality is Suspected, not 
 
 ## Try it
 `X3D_MCP_PATH=<x3d_mcp> pytest tests/test_x3do3d.py` in x3d.ml; install notes in `o3d_bridge/README.md` (Open3D needs torch 2.13.* plus a CUDA-12 runtime library even on CPU).
+
+## Second pass: scored against ground truth (v2, 26 Nov 2026)
+Demo: `docs/demos/open3d-ml-bridge/v2/`. Data: Rohbau3D construction-shell scans (Lukas Rauch et al., Universität der Bundeswehr München, doi:10.60776/ZWJFI4, CC BY 4.0; modified, see the demo's DATA-ATTRIBUTION). Same model, three scenes, three runs each, only same-meaning classes scored.
+- Ceiling and floor are found in a real shell (recall 97-100% in two scenes).
+- Walls mostly are not (38 / 5 / 5%): bare concrete gets called "window". Likely a domain gap, not a bridge fault.
+- A multi-storey scene broke the floor-at-zero rule (floor recall 39%).
+- New scene lenses: *correct vs ground truth* and *ground truth*. Failure modes 315 to 317 in the Loom.
+Still missing: 3D boxes on a real LiDAR frame.
