@@ -332,6 +332,45 @@ too high to tell gives "unclear, blind", never "same"; rotations are compared by
 20 s loop watched 4 s against itself reads "same" with floor 0, against a changed keyValue "differs"; a turntable keyed
 3.14159265 against one printed 3.141593 differs by about 3.1 rad.
 
+## Add-on 2.8.0 (26 Nov 2026): all 57 event nodes
+
+X3D 4.0 has 73 nodes that send or receive events on their own (X3DUOM); 12 are Web Audio and 4 are DIS networking, which
+leaves 57. "Covered" means four things, so the add-on counts four rungs, from the code, with one tool
+(`tools/behaviour_coverage.py`; the table is pinned by `tests/test_behaviour_coverage.py`):
+
+| rung | meaning | 2.7.8 | 2.8.0 |
+|---|---|---:|---:|
+| wired | the graph reads, shows and writes the node and its ROUTEs | 45 | 57 |
+| simulated | the simulator computes its events without a browser | 39 | 57 |
+| judged | those events agree with X_ITE 16.8.1 recordings, stream for stream | 38 | 56 |
+| played | Play in Blender's viewport feeds and shows it | 38 | 50 |
+
+What was added, and the instrument behind each number (all against X_ITE 16.8.1 recordings):
+
+| nodes | what they needed | streams that agree |
+|---|---|---|
+| CoordinateChaser, CoordinateDamper, TexCoordChaser2D, TexCoordDamper2D | list values | 28 of 28 |
+| LoadSensor, AudioClip, MovieTexture | a declared `Resources` table: what each URL would load, and when | 171 on 4 probes |
+| TransformSensor, VisibilitySensor, Collision | a `World`: shapes, poses and a viewer as plain data | 59 of 59 |
+| LinePickSensor, PointPickSensor, PrimitivePickSensor, VolumePickSensor | `World.pick` | 129 of 129 |
+| GeoPositionInterpolator, GeoProximitySensor, GeoTouchSensor | geographic conversions | 102 of 102, and 754 conversions |
+| Script | a Python handler the author enables (`Hosted`) | judged |
+| CollisionSensor | contacts from a physics engine (`Hosted`) | consistency check only |
+
+Also in 2.8.0:
+
+- **A warning for half turns.** Rotation keys pi apart (0, 3.1416, 6.2832) have no shortest way round, so the direction
+  is decided by rounding. Two gallery demos turned backward or both ways on X_ITE 16.8.1. The graph now warns with code
+  `half-turn`, names the node and keys, and Play lists it. Write a full turn with four keys: 0, 2.0944, 4.1888, 6.2832.
+- **Fewer faults.** A hostile fuzzer isolated 476 to 608 faults per 2,000 graphs (division by zero, overflow); now 7 to 22,
+  all its own deliberate handler error. 0 failed graphs on seeds 1 to 5 (`tools/behaviour_fuzz.py`).
+- **Speed** (`tools/behaviour_bench.py`, median ms per step at 1,000 nodes, budget 16.7): World sensors 15.4 to 7.8.
+  Over budget and open: list dampers of 100 points (84.8, from 181) and pick sensors (21.4).
+
+Not proven: CollisionSensor against our own physics; VisibilitySensor, TransformSensor, Collision and the pick sensors
+in Play; pick GEOMETRY mode beyond box, sphere, point and line against box; the Script handler's place under Blender's
+extension policy. Design and every table: `docs/BEHAVIOUR_EVENT_NODES.md` in x3d-blender-io.
+
 ## Limits
 
 Looked at on a real screen by a script (see above) and by the owner for `door.x3d` only; nobody has judged the look by
