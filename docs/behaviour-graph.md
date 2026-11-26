@@ -225,6 +225,30 @@ Without the graph, nothing changes (the baked keyframes stay).
 Seen and not changed: the sidebar repeats an unlinked input (`key`, `keyValue`) as a bare label after the node's panel
 (Blender draws unlinked inputs there).
 
+## Add-on 2.7.5 (26 Nov 2026): a timer started in the past, presets to graph, play axes
+
+Code: x3d-blender-io pull request 89.
+
+**A timer started in the past.** X_ITE counts a TimeSensor's cycles from `startTime` whether it loops or not. Started
+with a `startTime` already in the past, a non-looping timer begins part way through a cycle and stops when that cycle
+ends; and a `startTime` that arrives in the frame a cycle ran out is ignored. The simulator now does the same. A new
+probe world agrees with X_ITE 16.8.1 on 14 of 14 event streams (3 disagreed before; headless Chromium, software GL, one
+short press and one held 4.5 s). The seven older recordings still agree. This looks like a departure from the
+standard's clause 8.2.4, which was not re-read (Suspected); the simulator follows X_ITE.
+
+**Presets to graph.** A button in the X3D Behaviour editor's header and in the 3D view sidebar (tab X3D) turns the old
+click and proximity presets (action animate or viewpoint) into the sensors, timers, interpolators and ROUTEs the
+exporter wrote for them, as nodes you can rewire. On the test scene the export before and after has the same 8
+behaviour nodes and 10 ROUTEs. Camera tours are left as presets and named in the report.
+
+**Play axes.** Under Play in the sidebar, Forward and Up choose the axes Play uses (default -Z and Y, taken once from
+the session's last export). Checked against the exporter for three axis pairs.
+
+**Loss report.** With "Behaviour as node graph" on, a ROUTE the graph kept is no longer in the scene's list of import
+losses. The log lines and strict mode run before the graph exists and still list it.
+
+Not checked: the new buttons on a real screen; X_ITE on a file converted from presets.
+
 ## Limits
 
 Looked at on a real screen by a script (see above) and by the owner for `door.x3d` only; nobody has judged the look by
