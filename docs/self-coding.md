@@ -27,6 +27,30 @@ On the node editor's own test worlds it rebuilt the door, and from the counter's
 
 `selfcode/stack/` holds one scene with four layers, each with its own judge: a glTF 2.0 door (Khronos glTF-Validator, 0 errors), an X3D 4.0 scene that Inlines it and whose behaviour was written by the search (kernel, 0 errors), the scene as RDF in X3D Ontology terms answering "what does a press on a TouchSensor end up changing?" with one SPARQL query, and a receipt naming every file by hash and every judge by version.
 
+## Outside its own test: the wild set
+
+The 87 of 90 above is on tasks written by the same hand as the search. `selfcode/wild/` runs the same search on real scenes: every `.x3d` file in the project's repositories that has a ROUTE, no Script, and only nodes the simulator runs. 656 qualify. The split is by file hash, the method was tuned on 60 development scenes, the predictions were committed (`31461d5`), and then 100 unread scenes were run.
+
+| | Result |
+|---|---|
+| Left out, each for a counted reason | 47 of 100 |
+| Rebuilt from one demonstration and right on unseen input | 39 of 53 (74%, 95% interval 60 to 84%) |
+| Written scenes that add a kernel error | 0 of 39 |
+| Originals of 1-3 behaviour nodes | 31 of 32 |
+| Originals of 4-10 nodes | 4 of 8 |
+| Originals of 11 or more nodes | 2 of 11 |
+| Median cost of a rebuilt scene | 4 simulator runs |
+
+Judges: simulator `x3d-blender-io@3e3c1e8`, kernel `x3d_mcp@f0bde28`. No browser in this run.
+
+Read it with three cautions. It is a test of animation: 50 of the 53 tasks had nothing to poke. Size is the wall: generated scenes with 75 to 400 animated fields are out of reach. And the scenes are a family from this project's own generators and model runs, so they succeed and fail in groups. Two of the six registered predictions failed (large scenes did a little better than predicted, and memory saved a third of the runs where none was predicted) and are reported as failed.
+
+The development split paid for itself. A graph writer that printed six decimals turned a key of 3.14159265 into 3.141593, past pi, and every turntable ran backwards. A lesson of two turns taught the search a recording that broke when watched longer. And one bug in the marking code had filed 21 solved scenes under "cannot be read".
+
+## Learning from a recording
+
+`selfcode/lesson.py` reads an `x3d.activity/1` recording from the Blender node editor's recorder and shows the search only the pointer calls and what landed on the stage. Nodes, ROUTEs and inner events are withheld. From one press of a button it rebuilt the door (60 runs, the original's three nodes); from three presses it rebuilt the two-bit counter with its ripple carry (664 runs). Both agree with the original on a stimulus that was not recorded. Two worlds: a first result, not a rate.
+
 ## What to take from it
 
 - A scene language with typed fields and an executable meaning can be written by search, not only checked. 3 of the 108 test tasks could be stated in glTF 2.0 core, which has keyframes and no events.
@@ -34,4 +58,4 @@ On the node editor's own test worlds it rebuilt the door, and from the counter's
 - One demonstration can leave look-alike programs standing. Design the lesson to separate them and judge on an unseen stimulus.
 - A table with a key per sample is a recording, not a rule.
 - A search finds the holes in its judge. One solution is equivalent to its reference in the simulator and different in X_ITE; a sample of every batch should go to a second engine.
-- The tasks are synthetic and by the same author as the method. A sealed task list by someone else is the next step.
+- The registered tasks are synthetic and by the same author as the method. The wild set is the first check on files nobody wrote for it; a sealed task list by someone else is still the next step.
