@@ -35,7 +35,7 @@ The kit, pre-registration and results are in x3d.loom `fault-court/`. The result
 
 The next turn was taken. Every issue code the Khronos glTF-Validator can raise (170) was mapped to X3D, and each one X3D can state got a failing and a passing scene.
 
-| | Before (x3d_mcp `4d433af`) | After (`0b941c9`) |
+| | Before (x3d_mcp `4d433af`) | After (`f0bde28`) |
 |---|---|---|
 | glTF-Validator codes X3D can state, reported by X3D's checks | 40 of 88 | **88 of 88** |
 | Fault Court, X3D caught | 39 of 53 | **52 of 53** |
