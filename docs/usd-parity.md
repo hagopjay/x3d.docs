@@ -4,7 +4,7 @@ The Fault Court's turn 2 matched X3D's validator to the Khronos glTF-Validator. 
 
 - **Kit and tests:** x3d_mcp `tests/usd_parity.py`. The table it generates is `docs/USD-VALIDATION-PARITY.md`.
 - **Ledger and learnings:** x3d.loom `flywheel/LEDGER.md` (turn 3) and `LEARNINGS-flywheel-turn-3.md`.
-- **Failure modes:** 364 to 371.
+- **Failure modes:** 364 to 373.
 
 ## The rulebooks
 
@@ -60,3 +60,16 @@ The new checks were run on 1,548 real X3D scenes from these repositories before 
 The x3d_mcp test suite went from 1,847 to 1,894 passing tests, with none broken.
 
 **The claim we can make now:** for every mistake an X3D file can make that OpenUSD, the Omniverse Asset Validator or SimReady would catch in USD, X3D's validator reports it, before the file ever reaches Blender or USD. Each turn is a row in the Loom's ledger, rerunnable with one command.
+
+## After Blender: the first end-to-end run (26 Nov)
+84 of the parity scenes were imported into Blender 5.3.0, exported to USD, and judged by usd-core 26.11 and the Omniverse Asset Validator 1.18.0 (Python 3.12.3). 70 rules ran; 27 are ones X3D can state.
+
+| Pairs of scene and rule | Count | Meaning |
+|---|---|---|
+| both quiet | 1,748 | |
+| both report a fault | 8 | the X3D check predicted the USD failure |
+| X3D only | 17 | Blender's importer repaired the fault, so USD never sees it |
+| export-made | 1 | the scene was clean, USD complains anyway |
+| to review | 2 | |
+
+Read: for the 17, the X3D validator is the only place the fault shows, which is the case for checking before export. The first 30 USD validators (usd-core) reported nothing on any export, so they say nothing either way. Not covered yet: real files and the SimReady requirement pages. Source: x3d_mcp #33, `docs/USD-BLENDER-JOIN.md`.
