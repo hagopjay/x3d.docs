@@ -29,4 +29,26 @@ The kit, pre-registration and results are in x3d.loom `fault-court/`. The result
   - A schema checks each value on its own, so it cannot see them.
 - **The Loom closed part of the gap, measurably.** Rules learned from half the mistakes caught mistakes they had never seen, with no false alarms. That is one turn of the flywheel. The next turn is to move the rules into the validator itself.
 
-**The claim we can make:** X3D can say the most, and with the Loom it can check more each turn. Its validator does not yet check as much as glTF's.
+**The claim we could make after turn 1:** X3D can say the most, and with the Loom it can check more each turn. Its validator did not yet check as much as glTF's. Turn 2, below, closed that.
+
+## Turn 2 (26 Nov 2026): the rules moved into the validator
+
+The next turn was taken. Every issue code the Khronos glTF-Validator can raise (170) was mapped to X3D, and each one X3D can state got a failing and a passing scene.
+
+| | Before (x3d_mcp `4d433af`) | After (`0b941c9`) |
+|---|---|---|
+| glTF-Validator codes X3D can state, reported by X3D's checks | 40 of 88 | **88 of 88** |
+| Fault Court, X3D caught | 39 of 53 | **52 of 53** |
+| On the 43 mistakes glTF can also state | X3D 29, glTF 41 | X3D 42, glTF 41 |
+| Decoys flagged | 0 of 10 | 1 of 10 |
+
+How to read it:
+
+- **88, not 170.** 46 codes guard glTF's byte layout and 21 guard structures X3D has no way to write. Those are properties of the format, not a score. 12 codes are glTF material features X3D 4.0 cannot express, and 3 wait for the Tangent node of X3D 4.1.
+- **The Fault Court rerun is a fix confirmation.** The checks were written with all 60 mistakes in view. The one still missed is not a mistake in X3D. A new held-out number needs a new sealed list from another author.
+- **The flagged decoy** has key times in seconds, which is legal in glTF and stalls an animation in X3D. It is counted as a false alarm because the list was fixed before the run.
+- **Real files.** The new checks were run over 1,496 X3D scenes before shipping. Three checks raised false alarms and were fixed; the survey also found two real defects in existing demos.
+
+**The claim we can make now:** on the mistakes both can state, X3D's validator reports what glTF's does, and a few things it does not (zero scale, declared boxes through transforms, event wiring). Each turn is recorded in the Loom's `flywheel/LEDGER.md`, and anyone can rerun it with one command.
+
+Table of all 170 codes: x3d_mcp `docs/GLTF-VALIDATOR-PARITY.md`. Method and learnings: x3d.loom `LEARNINGS-flywheel-turn-2.md` (failure modes 323 to 328).
