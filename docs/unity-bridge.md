@@ -1,6 +1,6 @@
 # The Gobbler's Unity bridge: where, how, why, when
 
-Source of truth: x3d.lab `unity/docs/UNITY-BRIDGE.md` (PR x3d.lab #37). Failure modes 299-303: x3d.loom `LEARNINGS-unity-bridge.md`.
+Source of truth: x3d.lab `unity/docs/UNITY-BRIDGE.md` (PR x3d.lab #37). Failure modes 304-308: x3d.loom `LEARNINGS-unity-bridge.md`.
 
 Status 26 Nov 2026. Package `io.x3d.unity` 0.1.0 in `x3d.lab/unity/` until `hagopjay/x3d.unity` exists. Demo number: **80** (reserved; no demo page yet, see §8).
 Grades: **C** Confirmed (ran here, number named), **L** Likely (reasoned or one secondary source), **S** Suspected (written, not run).
