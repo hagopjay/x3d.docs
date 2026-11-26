@@ -52,3 +52,7 @@ How to read it:
 **The claim we can make now:** on the mistakes both can state, X3D's validator reports what glTF's does, and a few things it does not (zero scale, declared boxes through transforms, event wiring). Each turn is recorded in the Loom's `flywheel/LEDGER.md`, and anyone can rerun it with one command.
 
 Table of all 170 codes: x3d_mcp `docs/GLTF-VALIDATOR-PARITY.md`. Method and learnings: x3d.loom `LEARNINGS-flywheel-turn-2.md` (failure modes 323 to 328).
+
+## Turn 3 (26 Nov 2026): the USD rulebooks
+
+The same method against USD: all 340 rules of OpenUSD's validators, NVIDIA's Omniverse Asset Validator and the SimReady Foundation. X3D can state 66 of them, and its validator now reports all 66; 32 more cannot be broken in X3D at all. See [usd-parity.md](usd-parity.md).
