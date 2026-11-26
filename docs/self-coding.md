@@ -55,7 +55,9 @@ A sample of the rebuilt scenes (the first 12 by hash) was replayed against the o
 - **Run 2** started the original and the written scene at the same moment in two browsers and compared rotations as rotations: 9 same, 0 differs, 2 unclear, 1 tool error; controls 1 of 3. A file now agrees with itself.
 - **Afterwards**: the tool error was a stream that is not a number, and that pair is the same; the controls differ only in the first half of the loop, and all 3 differ on every sample when the watch is put there.
 
-No rebuilt scene was seen to behave differently from its original in the browser. Ten of twelve were seen to behave the same over a 6 second watch, one of them counted after a tool fix. The other 27 were not sent.
+- **Run 3** sent all 39 rebuilt scenes through the fixed judge (x3d-blender-io 2.7.8), each watched for a whole loop: 25 same, 1 differs, 9 unclear, 4 tool errors, and all 3 planted errors caught. The expectation was 30 same and none different, so this failed as well.
+
+Of 39 rebuilt scenes, 25 were seen to behave the same in X_ITE. One differs by 0.000004 rad: a model-written "spin" whose keys of 0 and 6.28319 move the cube five millionths of a radian, which the search matched with the wrong clock inside the simulator's tolerance. Thirteen could not be judged, most of them short fast scenes on a loaded machine.
 
 ## Learning from a recording
 
