@@ -75,3 +75,5 @@ The x3d_mcp test suite went from 1,847 to 1,894 passing tests, with none broken.
 Read: for the 17, the X3D validator is the only place the fault shows, which is the case for checking before export. The first 30 USD validators (usd-core) reported nothing on any export, so they say nothing either way. Not covered yet: real files and the SimReady requirement pages. Source: x3d_mcp #33, `docs/USD-BLENDER-JOIN.md`.
 
 Turn 4 (the rulebooks executed after a Blender export, and Newton): [usd-run2-newton.md](usd-run2-newton.md).
+
+Turn 4b, the rules on a new stack (x3d.downey, 20 scenes: one true defect, seven false alarms fixed): [downey-rules-test.md](downey-rules-test.md).

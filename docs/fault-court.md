@@ -56,3 +56,7 @@ Table of all 170 codes: x3d_mcp `docs/GLTF-VALIDATOR-PARITY.md`. Method and lear
 ## Turn 3 (26 Nov 2026): the USD rulebooks
 
 The same method against USD: all 340 rules of OpenUSD's validators, NVIDIA's Omniverse Asset Validator and the SimReady Foundation. X3D can state 66 of them, and its validator now reports all 66; 32 more cannot be broken in X3D at all. See [usd-parity.md](usd-parity.md).
+
+## The rules on a new stack (26 Nov 2026)
+
+The glTF and USD checks run on x3d.downey's 20 scenes before and after they landed: 0 new errors, one true defect every earlier witness had passed, seven false alarms fixed. See [downey-rules-test.md](downey-rules-test.md).
