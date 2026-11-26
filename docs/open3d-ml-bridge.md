@@ -1,6 +1,6 @@
 # Open3D-ML bridge: a neural segmentation that stays accountable in X3D (26 Nov 2026)
 
-Demo: x3d.demo `docs/demos/open3d-ml-bridge/v1/` (Demo 81). Code: x3d.ml `o3d_bridge/x3do3d.py`. Fold-back: x3d.loom `LEARNINGS-open3d-ml-bridge.md`, failure modes 304 to 309.
+Demo: x3d.demo `docs/demos/open3d-ml-bridge/v1/` (Demo 81). Code: x3d.ml `o3d_bridge/x3do3d.py`. Fold-back: x3d.loom `LEARNINGS-open3d-ml-bridge.md`, failure modes 309 to 314.
 Data: Redwood living-room fragment (Choi, Zhou, Koltun, CVPR 2015), model RandLA-Net S3DIS from [Open3D-ML](https://github.com/isl-org/Open3D-ML) (Intel ISL, MIT). Sources and takedown: the demo's `DATA-ATTRIBUTION.md`.
 
 ![Segmented room in X3D](img/open3d-ml-bridge-hero.jpg)
