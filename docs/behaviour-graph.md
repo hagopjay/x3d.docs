@@ -249,6 +249,37 @@ losses. The log lines and strict mode run before the graph exists and still list
 
 Not checked: the new buttons on a real screen; X_ITE on a file converted from presets.
 
+## Add-on 2.7.6 (26 Nov 2026): hostile graphs, large graphs, honest loss reports
+
+Code: x3d-blender-io pull request 92.
+
+**It no longer falls over on bad input.** A fuzzer (`tools/behaviour_fuzz.py`, repeatable from `--seed`) builds random
+graphs and calls. Legal graphs were already clean. Hostile ones (text where a number belongs, NaN, infinities, ROUTEs
+of the wrong type, times that run backwards) were not:
+
+| 2,000 hostile graphs, seed 1 | before | after |
+|---|---:|---:|
+| raised an error out of the simulator | 1,055 | 0 |
+| delivered NaN, infinity or a wrong-shaped value to an object | 271 | 0 |
+
+The rule now: field text that is not a value gives the standard's default; a NaN, an infinity or a value of the wrong
+shape is dropped and counted, never delivered; a node that fails is left out of that one event and named, and the rest
+of the graph runs on. Pressing Stop puts location, rotation and scale back exactly as they were typed.
+
+**Play keeps up with large graphs.** Player.step in Blender, median of 300 steps (`tools/behaviour_bench.py`, bpy 5.3.0,
+shared 4-core Xeon, `PYTHONHASHSEED=3`; 60 steps per second needs 16.7 ms or less):
+
+| one timer driving N interpolators | N=300 | N=1000 | N=5000 |
+|---|---:|---:|---:|
+| 2.7.5 | 5.87 ms | 30.4 ms | did not finish in 40 s |
+| 2.7.6 | 2.39 ms | 4.45 ms | 28.0 ms |
+
+Same events in the same order with the same values. Not measured: a real viewport redraw, which costs more. Still
+slow: building the node tree itself from a large file (about 7 s for 600 nodes).
+
+**The loss report tells the truth everywhere.** With "Behaviour as node graph" on, the log lines and
+`X3D_IMPORT_STRICT=1` no longer call a ROUTE lost when the graph kept it.
+
 ## Limits
 
 Looked at on a real screen by a script (see above) and by the owner for `door.x3d` only; nobody has judged the look by
