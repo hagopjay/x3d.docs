@@ -9,8 +9,8 @@ already accepted under its own Loom profile with 17 of 17 witnesses and three bl
 defect that every earlier witness had passed, seven false alarms (fixed the same day), four profile-only advisories.
 
 - **Evidence:** x3d.loom `runs/20261126-downey-rules/` (predictions written before the run, `RESULTS.md`, raw validator
-  output, scripts). **Learnings:** x3d.loom `LEARNINGS-downey.md`, failure modes 436 to 442 (the stack's own foldback is
-  407 to 435). **Check fixes:** x3d_mcp `tests/test_downey_findings.py`.
+  output, scripts). **Learnings:** x3d.loom `LEARNINGS-downey.md`, failure modes 444 to 450 (the stack's own foldback is
+  415 to 443). **Check fixes:** x3d_mcp `tests/test_downey_findings.py`.
 - **Instruments:** x3d_mcp 4d433af (the stack's own commit, before #31) and 5543a7b (main), CPython 3.12.3, lxml 6.1.3;
   Gilbert's recurrence in `decimal` at 600 digits as the exact reference; X_ITE 16.8.1 in Chromium 158 (SwiftShader).
 
