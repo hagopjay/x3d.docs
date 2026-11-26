@@ -18,7 +18,7 @@ The Fault Court's turn 2 matched X3D's validator to the Khronos glTF-Validator. 
 
 | What X3D does with the mistake | Rules |
 |---|---|
-| **X3D can state it, and its validator reports it** (each with a scene it must flag and a scene it must pass) | **66 of 66** |
+| **X3D can state it, and its validator reports it** (each with a scene it must flag and a scene it must pass) | **66 of the 340 rules** (the 66 the project judged X3D can state; the project classified the other 274) |
 | X3D's standard makes the mistake impossible (one root, +Y up, metres, seconds, normals computed when absent) | 32 |
 | SimReady fixes it differently (Z up); the exporter converts, and Blender's USD export already writes Z up | 1 |
 | USD machinery X3D does not have (layers, variants, API schemas, subsets, packages) | 50 |

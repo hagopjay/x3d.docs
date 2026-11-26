@@ -37,8 +37,8 @@ The next turn was taken. Every issue code the Khronos glTF-Validator can raise (
 
 | | Before (x3d_mcp `4d433af`) | After (`f0bde28`) |
 |---|---|---|
-| glTF-Validator codes X3D can state, reported by X3D's checks | 40 of 88 | **88 of 88** |
-| Fault Court, X3D caught | 39 of 53 | **52 of 53** |
+| glTF-Validator codes X3D can state, reported by X3D's checks | 40 of 88 | **88 of the 170 Khronos codes** (the 88 the project judged X3D can state; the project classified the rest) |
+| Fault Court, X3D caught | 39 of 53 | **52 of 53**, a fix confirmation by a rule writer who had seen the faults (held-out figure: Loom arm, 17 to 20 of 25) |
 | On the 43 mistakes glTF can also state | X3D 29, glTF 41 | X3D 42, glTF 41 |
 | Decoys flagged | 0 of 10 | 1 of 10 |
 
@@ -55,7 +55,7 @@ Table of all 170 codes: x3d_mcp `docs/GLTF-VALIDATOR-PARITY.md`. Method and lear
 
 ## Turn 3 (26 Nov 2026): the USD rulebooks
 
-The same method against USD: all 340 rules of OpenUSD's validators, NVIDIA's Omniverse Asset Validator and the SimReady Foundation. X3D can state 66 of them, and its validator now reports all 66; 32 more cannot be broken in X3D at all. See [usd-parity.md](usd-parity.md).
+The same method against USD: all 340 rules of OpenUSD's validators, NVIDIA's Omniverse Asset Validator and the SimReady Foundation. The project judged that X3D can state 66 of them (66 of 340; the project classified the rest), and its validator now reports those 66; 32 more cannot be broken in X3D at all. See [usd-parity.md](usd-parity.md).
 
 ## The rules on a new stack (26 Nov 2026)
 

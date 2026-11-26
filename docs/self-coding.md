@@ -5,7 +5,7 @@ The kit, pre-registration and results are in x3d.loom `selfcode/`. Failure modes
 ## The test
 
 - **The task.** A static stage with four objects. A hidden reference behaviour is poked by a script (hover, press, drag, release, leave). The synthesiser sees only what the watched fields did every 0.05 s.
-- **The method.** Search over sensors, timers, event utilities, followers and ROUTEs, typed by the X3DUOM catalogue. Interpolator tables are fitted, not searched. One simulator run is the unit of cost. No language model, no person.
+- **The method.** Search over sensors, timers, event utilities, followers and ROUTEs, typed by the X3DUOM catalogue. Interpolator tables are fitted, not searched. One simulator run is the unit of cost. The search made no model calls; its rules, tasks and checks were written by an AI agent with the owner present.
 - **The judges.** The simulator on a stimulus the search never saw; the x3d_mcp kernel (X3D 4.0 XSD and semantic checks, `f0bde28`) on every written file; X_ITE in a browser on a sample.
 - **Registered first.** Five hypotheses were committed (`ec934f1`) before any test seed was run.
 
@@ -13,7 +13,7 @@ The kit, pre-registration and results are in x3d.loom `selfcode/`. Failure modes
 
 | Hypothesis | Result | Grade |
 |---|---|---|
-| It codes itself: at least 80% of unseen in-vocabulary tasks solved and correct on an unseen stimulus | 87 of 90 (95% interval 91 to 99%) | C |
+| It codes itself: at least 80% of unseen in-vocabulary tasks solved and correct on an unseen stimulus | 87 of 90 (95% interval 91 to 99%); tasks written by the method's author, judged by the author's simulator | C |
 | The kernel accepts every file it writes | 267 of 267 with 0 schema and 0 semantic errors | C |
 | A longer lesson is at least as good as a short one | 87 against 86 | C |
 | Memory halves the search on the next batch | 4,109 to 1,018 simulator runs, Wilcoxon p = 2.9e-12, no loss of correctness | C |
@@ -34,7 +34,7 @@ The 87 of 90 above is on tasks written by the same hand as the search. `selfcode
 | | Result |
 |---|---|
 | Left out, each for a counted reason | 47 of 100 |
-| Rebuilt from one demonstration and right on unseen input | 39 of 53 (74%, 95% interval 60 to 84%) |
+| Rebuilt from one demonstration and right on unseen input | 39 of 53 (74%, 95% interval 60 to 84%); 47 of the 100 sampled scenes were left out by counted rules, 50 of the 53 tasks are animation only, and two preregistered predictions failed |
 | Written scenes that add a kernel error | 0 of 39 |
 | Originals of 1-3 behaviour nodes | 31 of 32 |
 | Originals of 4-10 nodes | 4 of 8 |
@@ -83,6 +83,21 @@ The check predicted all eight spellings tried from the numbers alone (eight of e
 The first draft of the rule was wrong. It also reported 10 baked animations whose angles wrap around, which play exactly as meant. The survey found them and the rule now lets a step pass when it agrees with its neighbour. The safe way to write a full turn is three steps or more.
 
 Limits: one project's files, one family makes most of the count, and the rule was written after the findings were known. Details: x3d.loom `flywheel/rules-from-findings/`, x3d_mcp `docs/ORIENTATION-STEPS.md`.
+
+## Sixteen agents, fifteen minutes: what the kernel misses
+
+On 26 Nov sixteen agents each took one question about the flywheel, read-only, with no spend. The collation and every agent's report are in x3d.loom `flywheel/sprint-20261126/`. Kernel: x3d_mcp `96e2849`.
+
+| Question | Answer | Grade |
+|---|---|---|
+| How many behaviour faults does the kernel catch when their author has not read its checks? | 11 of 20; the XSD caught none | C |
+| And structure faults? | 13 of 20, 6 of them by the XSD; 0 of 5 decoys flagged | C |
+| What do the behaviour misses share? | All nine are scenes wired legally that do nothing: a sensor with nothing to sense, a clock that can never start, an output routed nowhere, a ROUTE cycle | C |
+| Can checks be written for that family? | Eight candidates flag all nine with the decoys quiet. That is a fix confirmation, and they are not in the kernel until every flag on real scenes is read | C |
+| Why did the writing search fail on 14 real scenes? | Mostly two limits. With both changed, 6 of the 13 that could be rerun are rebuilt. A third change that looked certain made it worse | C, the agent's runs |
+| Does a second reader agree with our glTF and USD denominators? | On 26 of 30 and 27 of 30 sampled rules. Three glTF codes we count are loose analogues | C counts, S beyond |
+
+Two changes to this site follow from it. Headlines now print the full denominator (88 of the 170 glTF-Validator codes, 66 of the 340 USD rules) and say the project did the sorting. And "52 of 53" is labelled as what it is: a rule writer confirming fixes for faults it had seen. The blind figure today is 24 of 40.
 
 ## What to take from it
 
