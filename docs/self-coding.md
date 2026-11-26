@@ -63,6 +63,27 @@ Of 39 rebuilt scenes, 25 were seen to behave the same in X_ITE. One differs by 0
 
 `selfcode/lesson.py` reads an `x3d.activity/1` recording from the Blender node editor's recorder and shows the search only the pointer calls and what landed on the stage. Nodes, ROUTEs and inner events are withheld. From one press of a button it rebuilt the door (60 runs, the original's three nodes); from three presses it rebuilt the two-bit counter with its ripple carry (664 runs). Both agree with the original on a stimulus that was not recorded. Two worlds: a first result, not a rate.
 
+## From finding to rule: the half turn
+
+The experiments above left three notes about rotation. They are now one check in the validator (x3d_mcp `check_orientation_steps`), which is the point of the loop: a finding becomes something the kernel runs on every file.
+
+An OrientationInterpolator turns along the shortest path. A turntable written "0, pi, 2 pi" therefore depends on how pi was rounded:
+
+| Angles written | What plays in X_ITE 16.8.1 |
+|---|---|
+| `0 3.14159 6.28318` | a full turn, as meant |
+| `0 3.1416 6.2832` | a full turn, the wrong way round |
+| `0 3.141593 6.283185` | rocks back and returns |
+| `0 3.14159265 6.28318531` | rocks forward and returns |
+| `0 6.28319` | nothing moves |
+| `0 2.0944 4.18879 6.28319` | a full turn, as meant |
+
+The check predicted all eight spellings tried from the numbers alone (eight of eight, one engine). Run on 2,562 distinct project scenes, it reports 136 of the 443 that hold an OrientationInterpolator: 98 turntables from one generator that rock, 25 model-written spins that never turn, four game levels with fans turning backwards. Every one of those files passed validation before.
+
+The first draft of the rule was wrong. It also reported 10 baked animations whose angles wrap around, which play exactly as meant. The survey found them and the rule now lets a step pass when it agrees with its neighbour. The safe way to write a full turn is three steps or more.
+
+Limits: one project's files, two families make most of the count, and the rule was written after the findings were known. Details: x3d.loom `flywheel/rules-from-findings/`, x3d_mcp `docs/ORIENTATION-STEPS.md`.
+
 ## What to take from it
 
 - A scene language with typed fields and an executable meaning can be written by search, not only checked. 3 of the 108 test tasks could be stated in glTF 2.0 core, which has keyframes and no events.
