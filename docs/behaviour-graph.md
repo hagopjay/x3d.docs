@@ -316,6 +316,22 @@ answers same, differs or unclear against the noise it measured in the same sessi
 **In the browser.** Wire Lab version 3 (Demo 73) shows the same thing on X_ITE: real events riding the wires, a flywheel
 view of the feedback loops, and a lane that replays a Blender recording beside the live browser run.
 
+## Add-on 2.7.8 (26 Nov 2026): joints, Switch and shader fields; a judge that knows when it cannot see
+
+**More things a ROUTE can end at.** HAnimJoint (`rotation`, `translation`, `scale`, `center`), HAnimSite,
+`Switch.whichChoice`, and a ComposedShader's own fields declared with `<field>`. The simulator agrees with X_ITE 16.8.1
+on 16 of 16, 3 of 3 and 12 of 12 event streams of the three probe worlds. In Blender, Play poses the joint's bone and
+shows the chosen Switch branch; a site moves only if an object carries its name; shader fields are delivered in the
+simulation and listed as not applied. X3D 4.0 gives HAnimSegment no placement field, so a ROUTE to its `rotation` is
+refused by name. Not yet seen in a real Blender window.
+
+**The pair judge after real scenes.** Its first use on real files showed it was blind on free-running loops: X_ITE
+gives a looping timer wall-clock phase, so two runs one after the other disagree with themselves, and the judge called
+everything "same". Now the two files run at the same moment and are compared at X_ITE's own time stamps; a noise floor
+too high to tell gives "unclear, blind", never "same"; rotations are compared by the angle between them. Measured: a
+20 s loop watched 4 s against itself reads "same" with floor 0, against a changed keyValue "differs"; a turntable keyed
+3.14159265 against one printed 3.141593 differs by about 3.1 rad.
+
 ## Limits
 
 Looked at on a real screen by a script (see above) and by the owner for `door.x3d` only; nobody has judged the look by
