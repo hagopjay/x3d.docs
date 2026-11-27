@@ -3,12 +3,12 @@
 Which validator, renderer, rig or checkout stands behind each number. The hand-written part describes the pins; the table below is generated.
 
 <!-- BEGIN GENERATED -->
-420 distinct instrument strings across the numbers registers.
+424 distinct instrument strings across the numbers registers.
 
 | Instrument as written | Numbers | Chapters | Grades |
 |---|---|---|---|
 | `same` | 91 | 05, 06, 07, 09, 10, 11, 12, 15, 16, 17, 18, 20, 21, 23, 24, 25 | C:90 L:1 |
-| `same rig` | 36 | 08, 09, 13, 15 | C:36 |
+| `same rig` | 39 | 08, 09, 13, 15 | C:39 |
 | `x3d_mcp fork b4efcd3` | 17 | 01, 03, 04, 05, 07, 09, 10 | C:17 |
 | `numpy 2.5.3` | 8 | 13 | C:8 |
 | `read` | 8 | 14, 24, 26 | C:8 |
@@ -119,6 +119,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `README text, matches serve.py constants per the review` | 1 | 25 | C:1 |
 | `UE 5.8.4 Vulkan SM6+RT, X_ITE 16.7.0 ANGLE Vulkan, Cycles 5.2.3, flip-evaluator LDR object pixels, RTX PRO 6000 Blackwell SE, 2026-11-15` | 1 | 12 | C:1 |
 | `UE 5.8.4 on RTX PRO 6000 Blackwell SE, driver 580.82.07, 2026-11-14` | 1 | 12 | C:1 |
+| `Web Audio worklet taps on the page's own clock` | 1 | 08 | C:1 |
 | `X3DUOM 4.0 via NODES.json` | 1 | 08 | C:1 |
 | `X3DUOM 4.1 (4fc10e8e15c0), X3DUOM 4.0 (7e426a238656)` | 1 | 03 | C:1 |
 | `X3DUOM 4.1 (sha256 4fc10e8e15c0), ElementTree` | 1 | 06 | C:1 |
@@ -192,6 +193,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `drill D-ACC-7` | 1 | 25 | C:1 |
 | `drill D-ACC-8, seed 20261117, Python 3.13.18` | 1 | 25 | C:1 |
 | `driver.py batch -n 10 --close, X_ITE 16.6.0, Chromium 153.0.8010.12, SwiftShader` | 1 | 08 | C:1 |
+| `driver.py check and status; three.js r187, X_ITE 16.6.0, Chromium 158.0.8127.36 SwiftShader` | 1 | 08 | C:1 |
 | `driver.py check over all fixtures` | 1 | 08 | C:1 |
 | `driver.py status, x3d.loom@162ab18` | 1 | 08 | C:1 |
 | `estimate only, not run` | 1 | 25 | L:1 |
@@ -268,6 +270,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `physics.py docstring; last-run.json` | 1 | 02 | C:1 |
 | `physx_controls.py` | 1 | 02 | C:1 |
 | `pip index versions, npm view` | 1 | 10 | C:1 |
+| `positions sampled every 0.25 s in both engines` | 1 | 08 | C:1 |
 | `prose loses; the test file defines four cases` | 1 | 26 | C:1 |
 | `pyshacl 0.40.2, owlrl 7.6.2` | 1 | 05 | C:1 |
 | `pytest, Python 3.13.18` | 1 | 23 | C:1 |
@@ -315,6 +318,7 @@ Which validator, renderer, rig or checkout stands behind each number. The hand-w
 | `same rig, @theatre/core 0.7.2` | 1 | 15 | C:1 |
 | `same rig, gsap 3.15.1` | 1 | 15 | C:1 |
 | `same rig, one run` | 1 | 08 | C:1 |
+| `same rig, run-tests.js` | 1 | 08 | C:1 |
 | `same rig, same fixture twice` | 1 | 08 | C:1 |
 | `same rig, two runs of the 10 fixtures` | 1 | 08 | C:1 |
 | `same rig, unmatched Cycles` | 1 | 18 | C:1 |
