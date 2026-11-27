@@ -60,3 +60,37 @@ The same method against USD: all 340 rules of OpenUSD's validators, NVIDIA's Omn
 ## The rules on a new stack (26 Nov 2026)
 
 The glTF and USD checks run on x3d.downey's 20 scenes before and after they landed: 0 new errors, one true defect every earlier witness had passed, seven false alarms fixed. See [downey-rules-test.md](downey-rules-test.md).
+
+## Blind court 3 (27 Nov 2026): the first score with the test sealed first
+
+Courts 2 and 2b gave the kernel its only blind score, 24 of 40, and checks were then written from their misses. Scoring those checks on the same two sets (37 of 40) only confirms the fix. Court 3 was built to measure the turn properly:
+
+1. Two fresh authors, forbidden to read any repository, each wrote 20 faults, a corrected twin for every fault, and 5 legal decoys, and returned only a hash.
+2. The kernel was frozen by pushed commit with its 11 new checks (x3d_mcp `d647a10`).
+3. The scoring rule and four expectations were pushed.
+4. Only then was the set opened, and the old and the new kernel were each run on it once.
+
+| Measure | Old kernel `ebe969b` | New kernel `d647a10` |
+|---|---|---|
+| All 40 unseen faults caught | 19 | 25 (+6, none lost) |
+| Behaviour (20) | 8 | 11 |
+| Structure (20) | 11 | 14 |
+| Caught by the XSD alone | 5 | 5 |
+| Warnings or errors on the 50 legal files | 18 | 18, none from the new checks, none judged wrong |
+| The sets the checks were written from (courts 2 and 2b) | 24 of 40 | 37 of 40 |
+
+Instruments: x3d_mcp `validate_xml` (X3D 4.0 XSD) and `semantic_diagnostics`; two readers decided separately whether a finding names the planted mistake and agree on all 40 faults. The authors' witness is X_ITE 16.8.0 (34 of 40 pairs run in the browser, 6 reasoned).
+
+**How to read it.**
+
+- The paired change, 19 to 25 on one unseen set, is the measure of the turn. The checks written from the last test did carry to a new one.
+- The same kernel flags 92% of the faults it was written from and 62% of unseen ones. That gap is the over-fitting, and it is printed every turn from now on.
+- The old kernel scored 24 of 40 on the last unseen set and 19 of 40 on this one with the same code, so scores on different sets cannot be compared.
+- One of the four expectations failed: 26 of 40 was expected and 25 arrived.
+- The 15 misses are mostly legal files that play wrong (a clock meant to repeat with loop false, swapped drag limits, a Script handler whose name matches no field, Viewpoint order, a LOD range as long as its children, `ccw` false on outward faces). They are the next candidates, and they are now seen.
+
+**The eleven checks** (x3d_mcp PR 39): a pointing sensor with nothing to sense or switched off for good; a clock that can never start; an interpolator, sequencer or trigger with nothing in or nothing out; a Switch index past its children; plain ROUTEs in a circle; an environment sensor of size 0 0 0; a Script with no code; a looping spin that does not close; an angle that reads as degrees; an Extrusion with fewer than two points; a light with direction 0 0 0. On 2,396 tracked project scenes the wiring checks raise 44 warnings on real scenes: 30 true, all in model-written scenes, and 14 where a web page drives the scene from outside the file, which a file check cannot see.
+
+**Limits.** One browser engine as witness; authors, second reader and rule writer are agents of the same family; forty faults; two small leaks from the authors' reports, disclosed before opening (dropping the affected pair gives 18 to 24 of 38).
+
+Plan, set, every verdict and the scoring script: x3d.loom `flywheel/court-3/` (`PREREG.md`, `RESULTS.md`). Failure modes 476 to 483.
