@@ -332,6 +332,33 @@ too high to tell gives "unclear, blind", never "same"; rotations are compared by
 20 s loop watched 4 s against itself reads "same" with floor 0, against a changed keyValue "differs"; a turntable keyed
 3.14159265 against one printed 3.141593 differs by about 3.1 rad.
 
+## Add-on 2.9.0 (27 Nov 2026): one board for all 260 nodes
+
+The 57 event nodes above are a slice. Version 2.9.0 (x3d-blender-io pull request 117) adds the whole picture: `docs/NODE_BOARD.md` in the add-on's repository is one generated table with a row for each of the 260 concrete nodes of the X3D 4.0 object model (X3DUOM 4.0, sha256 7e426a238656), and each row has a **measured** read rung and written rung. Instruments: `tools/node_board_probe.py` run in Blender 5.3.0 (the bpy wheel, Python 3.13), every exported file validated with lxml against x3d-4.0.xsd. `tools/node_board.py --check` fails when the page is stale, and a test pins the headline counts.
+
+| rung | 2.8.0 | 2.9.0 |
+|---|---|---|
+| concrete nodes | 260 | 260 |
+| written, seen in a validated export run | 89 | 100 |
+| read: builds Blender data | 62 | 64 |
+| read: none (a lower bound, see below) | 149 | 147 |
+| round trip exact / equivalent / lossy | 22 / 4 / 3 | 22 / 5 / 3 |
+| event nodes wired / simulated / judged / played | 57 / 57 / 56 / 50 | unchanged |
+
+Thirteen nodes moved, and they are not all the same kind of move:
+
+- **Five from new code**, each with a real Blender round trip: Text and FontStyle (a plain Blender text object is written as `Text`), Extrusion and ElevationGrid (kept on the mesh and written back while no vertex moved), Rectangle2D.
+- **Six from a new fixture only** (WorldInfo, four Metadata nodes, Color): the exporter could already write them and nothing had ever observed it.
+- **Two from importer fixes**: a file holding only `<Sound/>` stopped the import with a TypeError, and FontStyle `style` was read only in its X3D 3.x form.
+
+Three cautions that come with the board:
+
+- The older "31 nodes written" was what three corpus files contain, not what the exporter can do. A run over every fixture measured 89 at 2.8.0.
+- "read: none" is a lower bound. The probe imports each node alone, and a node that only acts in company (a shader part, a rigid body outside its collection) shows no change.
+- A plain Blender text object now leaves as an X3D `Text` node, so its letters are drawn by the viewer's font. Extruded, bevelled, offset or modified text is still written as a mesh.
+
+The gap list on the board is ranked by how many of the project's own X3D files use each node (1,451 files in x3d.demo and x3d.loom). The top of it, not yet closed: Switch, GeoElevationGrid, IndexedTriangleSet, GeoLocation, Billboard, PixelTexture, LOD.
+
 ## Add-on 2.8.0 (26 Nov 2026): all 57 event nodes
 
 X3D 4.0 has 73 nodes that send or receive events on their own (X3DUOM); 12 are Web Audio and 4 are DIS networking, which

@@ -613,6 +613,29 @@ What the bounds tree measured (125,000 triangles, 23 rays): 33 times faster per 
 
 What the style board does and does not show: nine looks (the bridge's own materials, toon, hologram, blueprint, halftone, thermal, normals, pearl, dither) built from `three/tsl` node materials out of each X3D material's colours, on the Still life, Prismatica and Asterion scenes. The WebGPURenderer chose its WebGL 2 backend on this rig, so no WebGPU timing exists [L]. Shapes that use a raw GLSL `ComposedShader` are hidden, because a node material cannot restyle them. A scene over a million triangles shows one tile, since nine passes of 3.6 million triangles do not fit software rendering. The GLSL patches the bridge already carries (projector, fog coordinate, the ADD multi-texture stage) are not ported to TSL [L].
 
+### 14.12 Batch 9: the todo list is empty, and what a label had been hiding
+
+On 27 November 2026 the tracker's `todo` row went from 32 to 0 (`x3d.loom` pull request 232, commit `487c139`). Rig for every number here: three.js r187, X_ITE 16.6.0, Chromium 158.0.8127.36 headless on SwiftShader, 320 x 240, `tools/driver.py check`, one receipt per node [C].
+
+| group | nodes | what it took |
+|---|---|---|
+| Volume rendering | 13 | a new `src/nodes/Volume.js` (376 lines): the Babylon port's ray march rewritten in GLSL ES 3.00 on the same 400 planes, with the hidden default opacity map, the same over operator and the same stop at alpha 0.998. The 13 shared specs ran unchanged |
+| Rigid body physics | 11 | nothing in the body, because the reader owns the physics; ten shared fixtures passed as they were and one needed a different wait |
+| NURBS | 7 | six passed as they were; one needed the body to redraw when control points change |
+| Sound | 1 | the classic Sound node, which had played nothing in either bridge |
+
+Four things in that table are worth more than the count.
+
+**Half the list was already done.** The first act of the batch was one run of the 32 shared fixtures as they stood: 16 passed in both engines. The same run over the 23 nodes labelled `upstream` passed 17. The labels had been copied from the Babylon tracker's status column when the three.js tracker was made, and nobody had run them since. A label that was never produced by a run is a plan, not a state.
+
+**An assertion on a crossing tests the rig.** BallJoint failed here and passed in X_ITE, twice out of three runs. Sampling the ball every 0.25 s in both engines showed why: the shared spec waits 1.5 s and then asks whether the ball is below y 4.9, and 1.5 s is when the ball swings back up to the pivot height (y 5.00 here, 4.92 in X_ITE). The second question, |z| above 0.3, sits where z crosses zero. The three.js copy of the spec waits 0.6 s, where both engines read y 3.2 to 3.9 and |z| 0.78 to 1.23.
+
+**Agreeing numbers did not mean the picture changed.** NurbsCurve passed every point-list comparison (to 1e-5) and failed its second picture at IoU 0.65: after an event moved the control points, the list was right and the line on screen was the old one. The shared node spec names its dependencies in `refs`, and only the Babylon body read that field. One line in `geometryChanged` took the picture to IoU 1.00.
+
+**A node that parses is not a node that works.** Sound had a field table in the shared reader and a tracker status of `base`. It played nothing. The three.js body now builds X_ITE's own graph (a splitter, four gains, a merger) and X_ITE's loudness rule: full level inside the inner ellipsoid, silence outside the outer one, a straight line between, and a pan of `left = 1 - pan^2`, `right = 1 - (1 - pan)^2` from the direction to the sound in view space. The fixture checks the rms of each ear against the number computed from those formulas: 100 of 100 steps in both engines, every level within 0.012.
+
+After the batch, 232 of the 260 nodes have a receipt against X_ITE. Four still fail in this body (MultiTextureTransform, MultiTextureCoordinate, PointProperties, and MovieTexture, whose fixture also fails in X_ITE itself), and 24 have no fixture and are not claimed.
+
 ## 15. Geospatial and the last volume styles: a position is a point, and two engines disagree on a rotated volume
 
 Batch 45 bridged ten nodes: GeoOrigin, GeoCoordinate, GeoLocation, GeoTransform, GeoViewpoint, GeoElevationGrid, GeoPositionInterpolator, and the volume styles BlendedVolumeStyle, ComposedVolumeStyle and ProjectionVolumeStyle. Read at `x3d.loom@bfeba57` (the batch-45 pull request branch); reference engine `X_ITE 16.6.0`; rig for every number in this section: `Chromium 153.0.8010.12`, SwiftShader (no real GPU), `Babylon 9.32.0`, 320 x 240 pictures. The reasoning is in `x3d.webgpu/bridge/WHY-geospatial-batch.md`.
@@ -826,6 +849,10 @@ A point is kept when an odd number of contours contain it. A contour inside anot
 | H-BAB-83 | Compare two triangulations of a cut shape by area and bounding box, not by corners. | C | trimmed surface: all eight cases equal to three decimals though the triangles differ | `NurbsTrimmedSurface.test.json` |
 | H-BAB-84 | Give every list-valued shared-code fix (a SAI conversion, a default) a sweep of all earlier fixtures before the merge request. | C | one change to `toSAI('MFVec2f')` touches every 2D interpolator | chunked regression sweep, chunks of 8 |
 | H-BAB-85 | After a batch is green, review it with lenses that ask where the node is used and what arrives by event, and have two skeptics try to refute each claim; the picture sweep cannot see either. | C | 23 of 24 claims held; none was visible to 144 picture and 48 event fixtures | workflow run of 52 agents over the uncommitted batch 48 and 49 diff |
+| H-BAB-97 | Before planning a batch from a tracker, run every fixture it lists once; treat a status that no run produced as a guess. | C | 16 of 32 "todo" and 17 of 23 "upstream" nodes already passed (N-BAB-108, N-BAB-109) | x3d.loom@487c139:x3d.threejs/bridge/NODES.json |
+| H-BAB-98 | Before choosing how long a physics test waits, sample the value over time in both engines and ask the question where both have margin. | C | BallJoint asked y < 4.9 where the ball reads 5.00 and 4.92 (N-BAB-110) | x3d.loom@487c139:x3d.threejs/bridge/fixtures/BallJoint.test.json |
+| H-BAB-99 | Follow every event in a scene fixture with a picture, not only a value comparison. | C | NurbsCurve: lists equal to 1e-5, picture IoU 0.65 (N-BAB-111) | x3d.loom@487c139:x3d.threejs/bridge/src/body-three.js |
+| H-BAB-100 | Count a sound node only when a signal fixture passes; parsing and holding fields is not support. | C | the classic Sound node played nothing in two bridges (N-BAB-112) | x3d.loom@487c139:x3d.threejs/bridge/src/nodes/Sound.js |
 
 ## Drills
 
@@ -1001,6 +1028,7 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 
 ## Honest limits
 
+- **Batch 9 is not a full sweep [C].** The 32 closed nodes and 36 others were re-run on 27 November 2026 (Chromium 158.0.8127.36, a newer build than the earlier batches); of the 229 receipts only 45 older ones were re-run after the body changed. Volumes have pixel probes and no picture-level IoU. Four nodes still fail and 24 have no fixture.
 - **Software GL only, Chromium only [C].** Every pixel number is SwiftShader in Chrome for Testing 153.0.8010.12; no real GPU, Firefox or Safari. Babylon 9.32.0 is a snapshot; 9.33.0 to 9.35.0 (per the primer) were not run [L].
 - **Per-port dB figures are read, not re-run [L].** Re-run here: the facade frames, the census counts, the hash keys, the greps, the 33 tests. The 42 visual rows of batches 21 to 26 were parsed from the batch reports, not regenerated (that needs X_ITE 16.6.0 and a browser).
 - **Sources disagree.** C1: playbooks v1 and v2 say to convert authored sRGB; `brain/body.js` line 303 assigns the colour as authored; the code is the evidence and no later playbook version corrects the sentence. C2: "42 of 260" (playbook v1), 62, 68 and 186 count different readers; the primer explains 42 as 44 table entries minus 2 X_ITE-only names [L, carried]. C3: the blocklist, `STATE.md` against the playbook (section 10). C4: the primer's "55 traps" is its own symptom table; the 50 here merge the four playbook files; they are not the same list. C5: the primer's 22 hash keys against 26 today. C6: batch headlines are non-monotonic (184, 184, 181, 186); the dip's cause is inferred [L].
@@ -1113,6 +1141,13 @@ Run from `x3d.webgpu/bridge` of `x3d.loom@4887a98`.
 | N-BAB-104 | Bounds tree against plain raycast, 125,000-triangle ElevationGrid | 33 times faster per pick; same point on 23 of 23 rays | C | Chromium 153.0.8010.12, SwiftShader, three-mesh-bvh 0.9.18 | docs/demos/three-bvh/v1 (x3d.demo) |
 | N-BAB-105 | 1,000,000 triangles: tree build, one pick, 24,000-ray scan | about 0.5 s, about 0.1 ms, about 110 ms | C | same rig | docs/demos/three-bvh/v1 (x3d.demo) |
 | N-BAB-106 | Full fixture sweep of the three.js body after batch 8 | 132 of 132 (127 scene, 5 events) | C | same rig | x3d.threejs/bridge/tools/run-tests.js |
+| N-BAB-107 | three.js bridge status, batch 9 | drawn 184, reader-checked 48, reader 24, todo 0, upstream 4; 232 of 260 receipted | C | `driver.py check` and `status`; three.js r187, X_ITE 16.6.0, Chromium 158.0.8127.36 SwiftShader | x3d.loom@487c139:x3d.threejs/bridge/NODES.json |
+| N-BAB-108 | The 32 todo nodes on their first run, before any change | 16 pass, 16 fail (13 volume, Sound, NurbsCurve, BallJoint) | C | same rig, `run-tests.js` | x3d.loom@ebf3807:x3d.threejs/bridge/NODES.json |
+| N-BAB-109 | The 23 `upstream` nodes on their first run | 17 pass in both engines | C | same rig | x3d.loom@ebf3807:x3d.threejs/bridge/NODES.json |
+| N-BAB-110 | BallJoint ball height at 1.5 s against the bound y < 4.9 | 5.00 (three.js body), 4.92 (X_ITE); X_ITE failed 1 run of 3 | C | positions sampled every 0.25 s in both engines | x3d.loom@487c139:x3d.threejs/bridge/fixtures/BallJoint.test.json |
+| N-BAB-111 | NurbsCurve second picture, before and after reading `refs` | IoU 0.65 to 1.00 | C | same rig | x3d.loom@487c139:x3d.threejs/bridge/src/body-three.js |
+| N-BAB-112 | Sound fixture, steps and level tolerance | 100 of 100 in both engines; rms within 0.012 (AudioClip 0.02) | C | Web Audio worklet taps on the page's own clock | x3d.loom@487c139:x3d.threejs/bridge/fixtures/Sound.test.json |
+| N-BAB-113 | Volume nodes against X_ITE, and the regression pass | 13 of 13; 45 of 45 older fixtures | C | same rig | x3d.loom@487c139:x3d.threejs/bridge/src/nodes/Volume.js |
 | N-BAB-90 | Disk2D, Rectangle2D, Extrusion silhouette overlap with X_ITE | 0.98, 0.97, 0.93 | C | SwiftShader, 320 x 240 | x3d.loom@cd71796:x3d.webgpu/bridge/receipts |
 | N-BAB-91 | PointProperties default pointSizeMin, scale, max | 1, 1, 1 in the standard and X_ITE; hall default was 0 | C | X_ITE 16.6.0 | PointProperties.test.json |
 | N-BAB-92 | NurbsTextureCoordinate uv step with centre weight 3, 8 cells | 0.125 in X_ITE (regular); rational form would give 0.114 | C | X_ITE 16.6.0 | NurbsTextureCoordinate.test.json |

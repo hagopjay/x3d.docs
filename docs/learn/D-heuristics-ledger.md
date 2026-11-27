@@ -3,7 +3,7 @@
 Merged from the *Heuristics* table of every chapter. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**407 heuristics.** Grades: [C] 336 · [L] 64 · [S] 7. Retired rules are struck through in their chapter, never deleted.
+**411 heuristics.** Grades: [C] 340 · [L] 64 · [S] 7. Retired rules are struck through in their chapter, never deleted.
 
 | ID | Ch | Rule | Grade | Evidence | Instrument |
 |---|---|---|---|---|---|
@@ -163,6 +163,10 @@ Merged from the *Heuristics* table of every chapter. Edit the chapter, not this 
 | H-BAB-83 | [08](08-babylon-bridge.md) | Compare two triangulations of a cut shape by area and bounding box, not by corners. | C | trimmed surface: all eight cases equal to three decimals though the triangles differ | `NurbsTrimmedSurface.test.json` |
 | H-BAB-84 | [08](08-babylon-bridge.md) | Give every list-valued shared-code fix (a SAI conversion, a default) a sweep of all earlier fixtures before the merge request. | C | one change to `toSAI('MFVec2f')` touches every 2D interpolator | chunked regression sweep, chunks of 8 |
 | H-BAB-85 | [08](08-babylon-bridge.md) | After a batch is green, review it with lenses that ask where the node is used and what arrives by event, and have two skeptics try to refute each claim; the picture sweep cannot see either. | C | 23 of 24 claims held; none was visible to 144 picture and 48 event fixtures | workflow run of 52 agents over the uncommitted batch 48 and 49 diff |
+| H-BAB-97 | [08](08-babylon-bridge.md) | Before planning a batch from a tracker, run every fixture it lists once; treat a status that no run produced as a guess. | C | 16 of 32 "todo" and 17 of 23 "upstream" nodes already passed (N-BAB-108, N-BAB-109) | x3d.loom@487c139:x3d.threejs/bridge/NODES.json |
+| H-BAB-98 | [08](08-babylon-bridge.md) | Before choosing how long a physics test waits, sample the value over time in both engines and ask the question where both have margin. | C | BallJoint asked y < 4.9 where the ball reads 5.00 and 4.92 (N-BAB-110) | x3d.loom@487c139:x3d.threejs/bridge/fixtures/BallJoint.test.json |
+| H-BAB-99 | [08](08-babylon-bridge.md) | Follow every event in a scene fixture with a picture, not only a value comparison. | C | NurbsCurve: lists equal to 1e-5, picture IoU 0.65 (N-BAB-111) | x3d.loom@487c139:x3d.threejs/bridge/src/body-three.js |
+| H-BAB-100 | [08](08-babylon-bridge.md) | Count a sound node only when a signal fixture passes; parsing and holding fields is not support. | C | the classic Sound node played nothing in two bridges (N-BAB-112) | x3d.loom@487c139:x3d.threejs/bridge/src/nodes/Sound.js |
 | H-CAS-1 | [09](09-castle-engine.md) | Judge a Castle load by its warnings and a shape census against the declared count; never by "it loaded" or an exit code. | C | classic reader warns once and skips the rest of the file | `castle-engine@48ce617:x3dnodes_encoding_classic.inc:569-573` |
 | H-CAS-2 | [09](09-castle-engine.md) | Quote node coverage by rung and definition (registered, parse-only, name present in a peer, behaves); never a bare "98 of 328". | C | 99 registrations, 98 concrete, five denominators in circulation | `castle-engine@48ce617`; `x_ite@16.7.1` dist |
 | H-CAS-3 | [09](09-castle-engine.md) | Treat name presence in a peer as the weakest rung; do not turn 97 of 99 into "X_ITE implements them". | C | the scan reads class names, not behaviour | `x_ite@16.7.1` dist |
