@@ -77,3 +77,41 @@ Read: for the 17, the X3D validator is the only place the fault shows, which is 
 Turn 4 (the rulebooks executed after a Blender export, and Newton): [usd-run2-newton.md](usd-run2-newton.md).
 
 Turn 4b, the rules on a new stack (x3d.downey, 20 scenes: one true defect, seven false alarms fixed): [downey-rules-test.md](downey-rules-test.md).
+
+## The SimReady profile: 66 becomes 66 plus 20 (27 Nov 2026)
+
+The table above files 92 SimReady rules as "a pipeline or profile convention". Twenty of them needed only one thing: a place in an X3D file to write the fact. The X3D SimReady profile (draft 2) gives each a place, x3d_mcp checks it, and NVIDIA's own validator confirms the check on the converted file.
+
+- **Checks:** x3d_mcp `src/validation/simready_checks.py` (PR 40). **Crossing and receipts:** x3d.nVidia `q12/profile_crossing.py`, `docs/SIMREADY-X3D-PROFILE.md` (PR 4).
+- **Failure modes:** 497 to 504 (x3d.loom `LEARNINGS-simready-profile.md`).
+
+| | Rules | Source |
+|---|---|---|
+| Stated by plain X3D and checked | 66 of 340 | unchanged |
+| Open in plain X3D, closed by the opt-in profile, checked | 20 | new ledger status `profile` |
+| **Stated and checked in all** | **86 of 340** | always quoted as 66 plus 20 |
+| Still a pipeline or profile convention | 71 | mate, connection, gripper, packaging and AIF equipment profiles |
+| Profile rules confirmed both ways by NVIDIA's validator | 19 of 20 | usd-validation-nvidia 1.23.0, SimReady tiers c3bd1d8, usd-core 26.11, Python 3.12.3 |
+| Profile rules with no executable NVIDIA rule | 1 (VG.021, triangulated meshes) | X3D-only |
+
+### Where an X3D file writes each fact
+
+| Fact SimReady asks for | In the X3D file | SimReady rules |
+|---|---|---|
+| Author, licence, category, Wikidata Q-code | `<meta name="creator">`, `<meta name="license">`, `<meta name="simready:category">`, `<meta name="simready:qcode">` | SR.003, SR.004 |
+| Thumbnail | `<meta name="Image" content="picture.png"/>` | SR.002 |
+| Metres | no `<unit category="length">`, or a factor of 1 | UN.007 |
+| Meshes, triangulated | `IndexedFaceSet` or `IndexedTriangleSet`, not `Box` or `Sphere` | VG.MESH.001, VG.021 |
+| At least one moving body, or two | `<meta name="simready:features" content="rigid_bodies multibody"/>` and `RigidBody` nodes | RB.001, RB.MB.001 |
+| Every shape and material labelled | a `MetadataSet name="semantics:labels"` holding one `MetadataString` per taxonomy | SL.001, SL.003, SL.QCODE.001, SL.MAT.001 |
+| Labels from a closed vocabulary | the `MetadataString` is named `coco`, `cityscapes`, `ade20k`, `pascal_voc`, `sunrgbd`, `imagenet_1k`, `affordance` or `affordance_state` | COCO.001, CITY.001, ADE.001, VOC.001, SUN.001, IN1K.001, AFF.001, AFF.002 |
+
+### How to read it
+
+- **The profile is opt-in.** A file is judged only when its head carries a `simready:` meta element. A plain X3D file in centimetres, built of Spheres, with no licence is still valid X3D and is never reported. That is why the 20 are counted apart: they are not mistakes in X3D.
+- **"Confirmed both ways" fills four cells.** For each rule, the X3D check reports the failing scene and SimReady fails its USD; the X3D check passes the passing scene and SimReady passes its USD. The USD is written by `x3d2usdphysics` with nothing repaired.
+- **The crossing found a real defect in our own writer.** It wrote `metersPerUnit = 1` for every scene, so a centimetre X3D file became a metre USD stage and passed UN.007. It now carries the unit as declared.
+- **Three rules were left out on purpose.** SR.001 and NP.006 ask for fields the writer authors itself, so no X3D file can fail them. NP.001 fails the prim names `World` and `Looks` on a passing scene (7 failures, measured), so no writer following the usual USD layout can meet it.
+- **One pair per rule is a small sample.** The next test is both validators over real files that opt in.
+- **Third-party lists.** The eight label vocabularies (1,314 names, no images) come from NVIDIA/simready-foundation c3bd1d8 (Apache-2.0) and the public datasets it names: [ADE20K](https://ade20k.csail.mit.edu/), [Cityscapes](https://www.cityscapes-dataset.com/), [COCO](https://cocodataset.org/), [ImageNet](https://www.image-net.org/), [PASCAL VOC](http://host.robots.ox.ac.uk/pascal/VOC/), [SUN RGB-D](https://rgbd.cs.princeton.edu/). A rights holder who wants a list removed can open an issue on x3d_mcp and it is taken out at once.
+
