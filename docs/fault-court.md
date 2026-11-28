@@ -128,3 +128,49 @@ Instruments: x3d_mcp `validate_xml` (X3D 4.0 XSD) and `semantic_diagnostics`, Py
 **Limits.** Authors, second reader and rule writer are agents of one model family, which is why half the set repeats the last one; a stranger's set would likely score lower. The repeat marking is one reader's judgement. Forty faults; +4 is within what a different author would move (sign test p = 0.125). One scoring script was edited after the seal was opened, to leave a helper file out of the reader's packet; the results page lists it.
 
 Plan, set, every verdict and the scoring script: x3d.loom `flywheel/court-4/` (`PREREG.md`, `RESULTS.md`). The checks: x3d_mcp PR 42. Failure modes 519 to 525.
+
+## Blind court 5 (plan of 28 Nov 2026): closing the gap without tricks
+
+There is no court 5 score. This is the plan it will be run under, written and tested on a dummy set before any author is briefed.
+
+**The gap has three parts.** Court 4's kernel named 18 of the 19 faults that repeated court 3 and 5 of the 21 that were new. Rules written from the last court's misses gained only repeats. And 8 of the 17 misses were legal files that are wrong only against what the author meant.
+
+**Five changes, ranked.**
+
+1. **New mistakes only in the headline.** Authors are handed the 120 mistakes already planted in courts 2, 2b, 3 and 4, one line each, and may repeat none. Repeats are still marked by the second reader and scored beside the headline.
+2. **Rules from the standard, not from the last set.** A grid built from the X3D 4.0 object model lists 6,434 places where one of 15 classes of mistake can occur across the 260 nodes (a value outside its stated range, a ROUTE into a field that takes no events, an index past the end of its array, and so on). A cell is closed by a wrong file and its corrected twin on which the kernel speaks and stays silent. Every new check is labelled `grid` or `misses`, and the score says which label earned each gain. A count of cells is coverage of this grid, not of X3D.
+3. **Stated intent as its own arm.** A scene may say what it is for in `meta` lines a machine can test, for example `after 1.6s: Door.rotation[3] > 1.4`. A headless play test in X_ITE sends the stimuli and checks each line. The kernel never sees the intent and the two scores are never added.
+4. **A catch proven by machine.** A diagnostic counts only if the check that names the mistake fires more often on the fault than on its corrected twin. Rescoring court 4 this way changes nothing (still 19 to 23, and 3 to 5 on new mistakes), so the rule costs no comparability.
+5. **A set by a stranger.** Every court so far was written by agents of one model family. A slot is reserved for a set from outside; it is empty until the project owner chooses a source.
+
+**No promised number.** Court 3's target was missed by one and court 4's by seven. Court 5 registers a direction test (the new kernel proves more new mistakes than the old one and loses none, with the exact sign test printed), the like-for-like figure from court 4 (5 of 21), and a forecast labelled as a guess.
+
+**Twelve tricks it may not use**, among them: rescoring after the seal is opened, dropping a fault from the denominator, counting a note that fires whatever the mistake was, a check keyed to a file name or an author's habit, an intent line that states the answer, and calling a seen set held-out.
+
+**State.** Sixty faults are planned (three authors: behaviour, structure and data, look). The list of earlier mistakes, the grid, the intent stripper, the play test, the scorer and the briefs exist and ran end to end on a dummy set of four faults (kernels x3d_mcp `ebe969b` and `2943b78`, X_ITE 16.8.0, headless Chromium). The three author sets are not briefed yet.
+
+**Two passes of the rule-writing turn (28 Nov 2026).** A generator now builds a wrong file and its corrected twin for each grid cell, places the node in a scene the X3D 4.0 XSD accepts (253 of 260 nodes), and asks the schema and the kernel about both. After the first pass two classes about relations between fields were added, taking the grid to 6,502 cells in 17 classes; 14 are probed.
+
+| | Old kernel `2943b78` | New kernel `d446f94` |
+|---|---|---|
+| Cells the file alone decides, with a probe | 5,552 | 5,552 |
+| Closed by the schema or a kernel check | 5,379 | 5,552 |
+| Missed | 167 | 0 |
+| Kernel crashed | 6 | 0 |
+
+The 173 open cells closed with five checks read from the object model (a number in a vector or array outside its stated range, a string not in its closed list, a node written switched off with nothing to switch it on, the low end of a range above its high end, Background angles that go down), fixes to four older checks, and a crash fixed. One of those older checks had picked its nodes by a name ending in "Interpolator" and so had never run on the 2D interpolators. x3d_mcp suite: 2,121 passed.
+
+**The honest reading.** Split the grid in two and the gap shows itself.
+
+| Kind of class | Decidable cells | Closed before the turn |
+|---|---|---|
+| One field at a time | 5,505 | 5,360 (97.4%) |
+| A relation between two fields, or the order inside one array | 47 | 19 (40%) |
+
+Every one of the 3,967 ROUTE cells was already caught, yet the same kernel named only 5 of 21 new mistakes in court 4. What blind authors plant is mostly not one field against its declared type, range or list. It is a relation between fields, between nodes, or between the scene and its purpose. Forty-seven cells is a small sample and covers only relations the field names give away; relations stated only in the standard's prose are next. Closing the grid is not a forecast of the next score.
+
+**Two rules written and thrown away.** A check for a sensor that no ROUTE leaves closed 23 cells and then fired about 2,300 times on 1,685 real scenes, 2,069 of them on TouchSensors that the hosting page listens to. It is not in the kernel; those cells are ruled as needing intent, with `visible='false'` (40 cells).
+
+**The stranger set is sealed.** A blind collector rebuilt 16 real mistakes and 5 legal look-alikes from 21 public reports on 4 sites, each with a link, the site's licence and a takedown notice. Its archive hash is recorded (`74b80378…fa899b`) and nobody on the kernel side has opened it.
+
+Plan and scaffold: x3d.loom `flywheel/court-5/` (`PLAN.md`, `PREREG-DRAFT.md`, `intent/INTENT.md`, `grid/PROBE-RESULTS.md`). The checks: x3d_mcp `model_checks.py`. Failure modes 568 to 574.
