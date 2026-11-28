@@ -162,6 +162,44 @@ vocabulary has a word for the number of tokens and none for the number of runs, 
 word. The `CoordinateDouble` rule said "the node is present"; it fails only under the triangle nodes. A Likely rule
 names the place better than the condition. Before a fix is written from one, vary the thing its probes held fixed.
 
+### The weekly watch: add-on 2.9.0 and every real file
+
+From 28 November the engine runs once a week: sweep the real files, ask the kept rules again, read what is new. The
+first run is the baseline.
+
+A correction came first. The 514-file sweep above was fourteen hand-picked folders with a 400 KB cap, not every file
+(Loom failure mode 532). The weekly list is made by `git ls-tree`: 2,644 `.x3d` files of at most 2 MB in sixteen
+repositories, 2,300 of them distinct.
+
+| Measured (Confirmed) | Result | Instrument |
+|---|---|---|
+| Importer | 2,264 pass, 36 fail of 2,300 | x3d-blender-io 2.9.0 in bpy 5.3.0 |
+| Import then export | 2,256 pass, 8 with no answer in 60 s | same |
+| x3d.py through the add-on | 2,300 pass | x3d.py 4.0.65.8 |
+| The 30 kept rules, asked of 2.9.0 | 28 closed, 1 partly closed by design, 1 not exercised, **0 still live** | `kit/loom r2r replay` |
+
+Nothing regressed. The wider sweep met four things the narrow one could not:
+
+| Failures | Cause | Grade |
+|---|---|---|
+| 34 imports refused | The files are not well-formed XML; 33 were written by language models | Confirmed |
+| 1 import crash | A `Sound` with no `AudioClip` child, even an empty `<Sound/>` | Confirmed |
+| 1 import crash | An `Extrusion` whose crossSection points are all the same | Confirmed |
+| 8 exports with no answer | The exporter writes still objects as animations | Confirmed |
+
+The last one looked like a speed problem and was a correctness one. A 67 KB level, imported and exported, came back
+as 45.5 MB: 5 interpolators became 497 with 2,161 keys each, and 12 of them move. The exporter samples every object
+at every frame and calls an object "moving" when its transform differs at all. The transforms come through a matrix
+inversion, so rounding noise counts as motion (Loom failure mode 535).
+
+The engine wrote four candidate rules from these failures, and nine small hand files graded them: one right (not
+well-formed), one true and too narrow (it kept the literal crossSection), one a correlate (file size counts standing
+in for frames times objects), one wrong (it blamed an `AudioClip` that sat beside the real cause). It marked three of
+the four Suspected. One failing file with no known-good twin is not enough to find a cause, and the grade said so.
+
+Three words the vocabulary lacks, each of which would have given the true rule: a child that is absent, a list whose
+points are all equal, and a product of two counts.
+
 ## Limits
 
 - One site per rule: a cause that needs two places compared cannot be written.
@@ -171,6 +209,10 @@ names the place better than the condition. Before a fix is written from one, var
 - A cluster that starts from one or two failures grows into several narrow rules under probing.
 - A failure whose file is byte-identical to a passing file has its cause elsewhere (three of the ten Fault Lab faults
   live in the record beside the scene); the engine says so and writes no rule.
+- From one failing file with no twin it names the rarest thing in the file, which may be a neighbour of the cause
+  (Loom failure mode 536). Such a rule stays Suspected.
+- A verdict is pass or fail. "No answer in 60 s" is a signature like any other, and a rule drawn from it describes
+  large files, not the reason they are slow.
 
 ## Use it
 
