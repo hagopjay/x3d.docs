@@ -94,3 +94,37 @@ Instruments: x3d_mcp `validate_xml` (X3D 4.0 XSD) and `semantic_diagnostics`; tw
 **Limits.** One browser engine as witness; authors, second reader and rule writer are agents of the same family; forty faults; two small leaks from the authors' reports, disclosed before opening (dropping the affected pair gives 18 to 24 of 38).
 
 Plan, set, every verdict and the scoring script: x3d.loom `flywheel/court-3/` (`PREREG.md`, `RESULTS.md`). Failure modes 476 to 483.
+
+## Blind court 4 (28 Nov 2026): the target was 30 and the score was 23
+
+One turn later, the same protocol. Court 3's 15 misses were turned into 13 checks, 7 more were written from the editor's own list of what goes wrong, and the 20 were frozen by pushed commit (x3d_mcp `c185673`) before two new blind authors' set was opened. The target told to the project owner beforehand was 30 of 40.
+
+| Measure | Old kernel `ca0e75c` | New kernel `c185673` |
+|---|---|---|
+| All 40 unseen faults caught | 19 | 23 (+4, none lost) |
+| Behaviour (20) | 12 | 13 |
+| Structure (20) | 7 | 10 |
+| Caught by the XSD alone | 3 | 3 |
+| The 19 faults that repeat a court 3 fault | 16 | 18 |
+| **The 21 faults that are new mistakes** | **3** | **5** |
+| Warnings or errors on the 50 legal files | 0 | 0 |
+| The set the checks were written from (court 3, editor's reading) | 25 of 40 | 38 of 40 |
+
+Instruments: x3d_mcp `validate_xml` (X3D 4.0 XSD) and `semantic_diagnostics`, Python 3.13.18, lxml 6.1.3. A fresh second reader, not told which kernel said what, and the kernel editor agree on all 40 faults; the reader judged all 40 real. The authors' witness is X_ITE 16.8.0 in headless Chromium 158 on SwiftShader, all 40 pairs run, not repeated by us.
+
+**How to read it.**
+
+- The target failed by seven. Four of five written expectations held: at least +3, and three limits on false alarms.
+- The headline hides two different numbers. The second reader marked 19 of the 40 faults as the same mistake court 3 had planted. The kernel names 18 of those 19 and 5 of the other 21: 95% on mistakes it has met, 24% on mistakes it has not.
+- The 13 checks written from court 3's misses gained two faults, and both were court 3's mistakes planted again (a Script function whose name matches no field, a ProtoInstance field the prototype does not declare). On new mistakes they gained nothing. A check written from a miss is a regression test.
+- The only gains on new mistakes came from the 7 checks written from no test set: a ball with transparency 1, and a first Viewpoint looking away from the scene.
+- Of the 14 faults that break the standard the kernel names 13. Of the 26 that are legal and wrong only against what the scene was meant to do, it names 10 (the second reader's count).
+- The legal files are clean. Court 3's 18 complaints came mostly from a kit with no X_ITE component files; with the whole distribution in the kit there are none.
+
+**The 17 misses split in two.** Nine could be stated from the file alone and are the next rule candidates: a PlaneSensor's `trackPoint_changed` driving a position, browser key codes compared with `actionKeyPress`, a moving target routed to a damper's `set_value`, `isActive` routed to `set_bind`, a `USE` with attributes of its own, one face wound the other way on a closed mesh, per-face colours with `colorPerVertex` left TRUE, an Inline url that names no file, and a MetadataSet entry with `containerField='metadata'`. Eight cannot be told from a correct file at all: a `cycleInterval` of 500, a door that turns about its middle, a texture scale of 0.25 meant as four repeats. Pattern rules do not reach those. A scene would have to carry its own expectations for a checker to hold it to them.
+
+**What the next court changes.** Each author gets the one-line list of every mistake already planted, with the instruction not to plant any again. The headline is the score on new mistakes, with repeats beside it. The target is set on new mistakes only: 5 of 21 is the number to beat.
+
+**Limits.** Authors, second reader and rule writer are agents of one model family, which is why half the set repeats the last one; a stranger's set would likely score lower. The repeat marking is one reader's judgement. Forty faults; +4 is within what a different author would move (sign test p = 0.125). One scoring script was edited after the seal was opened, to leave a helper file out of the reader's packet; the results page lists it.
+
+Plan, set, every verdict and the scoring script: x3d.loom `flywheel/court-4/` (`PREREG.md`, `RESULTS.md`). The checks: x3d_mcp PR 42. Failure modes 519 to 525.
