@@ -115,3 +115,32 @@ The table above files 92 SimReady rules as "a pipeline or profile convention". T
 - **One pair per rule is a small sample.** The next test is both validators over real files that opt in.
 - **Third-party lists.** The eight label vocabularies (1,314 names, no images) come from NVIDIA/simready-foundation c3bd1d8 (Apache-2.0) and the public datasets it names: [ADE20K](https://ade20k.csail.mit.edu/), [Cityscapes](https://www.cityscapes-dataset.com/), [COCO](https://cocodataset.org/), [ImageNet](https://www.image-net.org/), [PASCAL VOC](http://host.robots.ox.ac.uk/pascal/VOC/), [SUN RGB-D](https://rgbd.cs.princeton.edu/). A rights holder who wants a list removed can open an issue on x3d_mcp and it is taken out at once.
 
+
+## Real assets: 0 of 27 as authored, 13 of 27 after the opt-in upgrade (28 Nov 2026)
+
+The test the section above asked for. 27 real X3D physics scenes, the marble-machine scenes of x3d.loom `x3d.physics/physx-bridge/scenes`, were written to USD and judged by NVIDIA's validator against NVIDIA's own **Robotics-Prop 5.0.0** profile, first untouched and then after an opt-in upgrade.
+
+| Measure | Count |
+|---|---|
+| Pass as authored | 0 of 27 |
+| Pass after the upgrade | 13 of 27 (13 of the 18 with a body that can move) |
+| Pass with no warning either | 6 |
+| Upgraded copies valid against the X3D 4.0 XSD | 27 of 27 |
+| x3d_mcp's profile checks agree with the validator on the untouched files | 157 of 162 scene-by-rule cells |
+
+Instruments: usd-validation-nvidia 1.23.0, usd-core 26.11, SimReady tiers from NVIDIA/simready-foundation c3bd1d8, Python 3.12. Robotics-Prop 5.0.0 requires 47 requirements, 38 of them with a rule that can be run; the other 9 are not counted as passed. Pass is NVIDIA's own package-sample rule: no ERROR or FAILURE on a required requirement.
+
+**How to read it.**
+
+- As authored, only six required rules fail: provenance, thumbnail, the two label rules, no mesh, and no moving body. No physics rule fails. The bodies, colliders, masses and joints in the X3D files already satisfy the profile.
+- The gap is facts. The upgrade adds a creator, a licence, a category, a Wikidata code, a thumbnail and one material word per look. It writes a copy, changes no shape and no number, and writes nothing for a fact it was not handed.
+- The 14 that do not pass each have a stated reason: 9 have nothing that moves, 2 are test fixtures with no honest class code, and 3 draw with looks the facts file cannot name.
+- The X3D check predicts NVIDIA's verdict on real files in 157 of 162 cells. Four of the five misses have one cause: the writer exports only what takes part in physics, so a shape that is only drawn is judged by one side and never seen by the other.
+
+**What the real files taught.** Rewriting each Box as a mesh inside the X3D made ten dominoes vanish from view in X_ITE 16.8.0 within 2.5 seconds, so the X3D keeps its Boxes and the USD writer emits the exact twelve-triangle mesh. Spheres and cylinders stay as they are, because a faceted marble does not roll like a marble, and the validator's warning about them is left standing.
+
+**Limits.** One corpus from one generator. No engine was run: a pass says the asset is well formed, not that it simulates well. Every fact graded likely or suggested in the sidecar (the creator name, 21 material words, the class chosen per scene) is waiting for the owner's review.
+
+**Attribution.** Scenes: [hagopjay/x3d.loom, x3d.physics/physx-bridge](https://github.com/hagopjay/x3d.loom/tree/main/x3d.physics/physx-bridge), Apache-2.0. Class codes: [Wikidata](https://www.wikidata.org/) (CC0) through [QLever](https://qlever.dev/). Profile and rules: [NVIDIA/simready-foundation](https://github.com/NVIDIA/simready-foundation) c3bd1d8. If anything here is yours and should not be, open an issue on the repository and it will be taken down promptly.
+
+Harness, facts, copies and receipt: x3d.nVidia `q12/real-assets/` and `q12/receipts/real-assets-20261128.json` (PR 5). Failure modes 532 to 537.
