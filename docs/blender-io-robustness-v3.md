@@ -209,3 +209,27 @@ files found two failing files. x3d-blender-io 2.7.4 fixes all of them (`docs/CHA
 | Scene chaos rng 7, 11 and 23 | – | 0 of 46 each, after the rng 11 fix | Confirmed |
 
 The six replay cases now run in CI on every PR, so the rules the engine wrote are gates.
+
+## Chaos round 4: 2.9.1 (28 Nov 2026)
+
+The receipt-to-rule weekly run replayed every kept rule on add-on 2.9.0 against 2,300 real files. Nothing had
+regressed since 2.7.4, and it found four old defects. x3d-blender-io 2.9.1 fixes them (`docs/CHAOS.md` "Fourth round"
+there):
+
+- **A Sound on an X3D 4 sound graph** (an OscillatorSource), or an empty Sound, crashed the import. It is now a silent
+  speaker.
+- **An Extrusion whose crossSection is all one point** crashed the import. It is now skipped with a warning. The file
+  came from a language model's one-shot output.
+- **The animation export wrote float32 noise as motion**, for every child of a moving parent. A 67 KB level exported
+  as 45.5 MB in 36 s; it is now 1.6 MB in 5 s.
+- **Bold Text went through edit mode**, and each switch evaluated every text. 646 Text nodes imported in 23 s; now
+  3.1 s.
+
+| Run (bpy 5.3.0) | 2.9.0 | 2.9.1 | Grade |
+|---|---|---|---|
+| The two real crash files | 2 of 2 crash | 0 of 2 | Confirmed |
+| Hostile files | – | 0 of 75 | Confirmed |
+| Scene chaos rng 7, 11 and 23 | – | 0 of 46 each | Confirmed |
+| Export round-trip gate (Blender 5.2.2) | – | PASS | Confirmed |
+
+A key-thinning step that took the level to 0.66 MB was dropped, because it broke the round-trip fixed point.
