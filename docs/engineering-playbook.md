@@ -107,6 +107,12 @@ A three-strut tensegrity prism designed for an 800 N load, and the six-strut cla
 
 ![Tensegrity prism](img/tensegrity-prism.webp)
 
+## 4c. A fourth study, added later on 28 Nov: a truss footbridge
+
+A 30 m steel truss footbridge under a moving crowd: influence lines, patterned load, sizing, deflection and footfall frequency, cross-checked against OpenSeesPy. 17 of 17 gates, 14 of 14 controls. Failure modes 544 to 550. Full page: [footbridge-study.md](footbridge-study.md).
+
+![Footbridge](img/footbridge.webp)
+
 ## 5. What the studies changed in the toolchain
 
 | Finding | Evidence | State |
