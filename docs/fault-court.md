@@ -149,21 +149,28 @@ There is no court 5 score. This is the plan it will be run under, written and te
 
 **State.** Sixty faults are planned (three authors: behaviour, structure and data, look). The list of earlier mistakes, the grid, the intent stripper, the play test, the scorer and the briefs exist and ran end to end on a dummy set of four faults (kernels x3d_mcp `ebe969b` and `2943b78`, X_ITE 16.8.0, headless Chromium). The three author sets are not briefed yet.
 
-**First pass of the rule-writing turn (28 Nov 2026).** A generator now builds a wrong file and its corrected twin for each grid cell, places the node in a scene the X3D 4.0 XSD accepts (253 of 260 nodes), and asks the schema and the kernel about both. Twelve of the 15 classes are probed.
+**Two passes of the rule-writing turn (28 Nov 2026).** A generator now builds a wrong file and its corrected twin for each grid cell, places the node in a scene the X3D 4.0 XSD accepts (253 of 260 nodes), and asks the schema and the kernel about both. After the first pass two classes about relations between fields were added, taking the grid to 6,502 cells in 17 classes; 14 are probed.
 
-| | Old kernel `2943b78` | New kernel `ae1243e` |
+| | Old kernel `2943b78` | New kernel `d446f94` |
 |---|---|---|
-| Cells the file alone decides, with a probe | 5,505 | 5,505 |
-| Closed by the schema or a kernel check | 5,360 | 5,505 |
-| Missed | 139 | 0 |
+| Cells the file alone decides, with a probe | 5,552 | 5,552 |
+| Closed by the schema or a kernel check | 5,379 | 5,552 |
+| Missed | 167 | 0 |
 | Kernel crashed | 6 | 0 |
 
-The 145 open cells closed with three checks read from the object model (a number in a vector or array outside its stated range, a string not in its closed list, a node written switched off with nothing to switch it on), two older checks widened, and a crash fixed. x3d_mcp suite: 2,114 passed.
+The 173 open cells closed with five checks read from the object model (a number in a vector or array outside its stated range, a string not in its closed list, a node written switched off with nothing to switch it on, the low end of a range above its high end, Background angles that go down), fixes to four older checks, and a crash fixed. One of those older checks had picked its nodes by a name ending in "Interpolator" and so had never run on the 2D interpolators. x3d_mcp suite: 2,121 passed.
 
-**The honest reading.** The grid was 97.4% closed before the turn began, and every one of its 3,967 ROUTE cells was already caught, yet the same kernel named only 5 of 21 new mistakes in court 4. So what blind authors plant is mostly not one field against its declared type, range or list. It is a relation between fields, between nodes, or between the scene and its purpose. The grid needs relation classes before its coverage can predict anything.
+**The honest reading.** Split the grid in two and the gap shows itself.
+
+| Kind of class | Decidable cells | Closed before the turn |
+|---|---|---|
+| One field at a time | 5,505 | 5,360 (97.4%) |
+| A relation between two fields, or the order inside one array | 47 | 19 (40%) |
+
+Every one of the 3,967 ROUTE cells was already caught, yet the same kernel named only 5 of 21 new mistakes in court 4. What blind authors plant is mostly not one field against its declared type, range or list. It is a relation between fields, between nodes, or between the scene and its purpose. Forty-seven cells is a small sample and covers only relations the field names give away; relations stated only in the standard's prose are next. Closing the grid is not a forecast of the next score.
 
 **Two rules written and thrown away.** A check for a sensor that no ROUTE leaves closed 23 cells and then fired about 2,300 times on 1,685 real scenes, 2,069 of them on TouchSensors that the hosting page listens to. It is not in the kernel; those cells are ruled as needing intent, with `visible='false'` (40 cells).
 
 **The stranger set is sealed.** A blind collector rebuilt 16 real mistakes and 5 legal look-alikes from 21 public reports on 4 sites, each with a link, the site's licence and a takedown notice. Its archive hash is recorded (`74b80378…fa899b`) and nobody on the kernel side has opened it.
 
-Plan and scaffold: x3d.loom `flywheel/court-5/` (`PLAN.md`, `PREREG-DRAFT.md`, `intent/INTENT.md`, `grid/PROBE-RESULTS.md`). The checks: x3d_mcp `model_checks.py`. Failure modes 568 to 573.
+Plan and scaffold: x3d.loom `flywheel/court-5/` (`PLAN.md`, `PREREG-DRAFT.md`, `intent/INTENT.md`, `grid/PROBE-RESULTS.md`). The checks: x3d_mcp `model_checks.py`. Failure modes 568 to 574.
