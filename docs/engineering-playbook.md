@@ -101,6 +101,12 @@ The geometry crossed almost perfectly. Half the property keys on every element d
 
 **The honest part.** Of the five code clauses behind "passes", one was read from a source that quotes the code (L) and four were recalled from memory (S). The arithmetic is checked to 1e-14. The rules it was checked against are mostly not.
 
+## 4b. A third study, added later on 28 Nov: tensegrity
+
+A three-strut tensegrity prism designed for an 800 N load, and the six-strut classic. 17 of 17 gates, 17 of 17 controls. It was built under the playbook and did not pay for it; it added no pattern and failure modes 526 to 531. Full page: [tensegrity-study.md](tensegrity-study.md).
+
+![Tensegrity prism](img/tensegrity-prism.webp)
+
 ## 5. What the studies changed in the toolchain
 
 | Finding | Evidence | State |
