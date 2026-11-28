@@ -143,4 +143,4 @@ Instruments: usd-validation-nvidia 1.23.0, usd-core 26.11, SimReady tiers from N
 
 **Attribution.** Scenes: [hagopjay/x3d.loom, x3d.physics/physx-bridge](https://github.com/hagopjay/x3d.loom/tree/main/x3d.physics/physx-bridge), Apache-2.0. Class codes: [Wikidata](https://www.wikidata.org/) (CC0) through [QLever](https://qlever.dev/). Profile and rules: [NVIDIA/simready-foundation](https://github.com/NVIDIA/simready-foundation) c3bd1d8. If anything here is yours and should not be, open an issue on the repository and it will be taken down promptly.
 
-Harness, facts, copies and receipt: x3d.nVidia `q12/real-assets/` and `q12/receipts/real-assets-20261128.json` (PR 5). Failure modes 532 to 537.
+Harness, facts, copies and receipt: x3d.nVidia `q12/real-assets/` and `q12/receipts/real-assets-20261128.json` (PR 5). Failure modes 538 to 543.
