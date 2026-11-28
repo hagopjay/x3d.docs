@@ -2,7 +2,7 @@
 
 Source of truth: x3d.loom `ENGINEERING-PLAYBOOK.md`, with the two studies in `x3d.engineering/` and the card in `kit/templates/ENGINEERING-STUDY-CARD.md`. Failure modes 505 to 513 are in x3d.loom `LOOM-v1.md`.
 
-Status 28 Nov 2026. Grades: **C** Confirmed (ran here, number named), **L** Likely (read or reasoned), **S** Suspected.
+Status 28 Nov 2026, updated the same day after the two fixes in section 5. Grades: **C** Confirmed (ran here, number named), **L** Likely (read or reasoned), **S** Suspected.
 Rig for every number: Python 3.13, Node v22.23.5, IfcOpenShell 0.9.0.post1, Rapier 0.21.0, cannon-es 0.20.0, the x3d.loom bridge reader at 4a8dcd2, validator x3d_mcp `fa4a8e3` (X3D 4.0 schema plus semantic checks). Stills: X_ITE 16.5.1 in Chromium 158 headless on a software rasteriser (SwiftShader), no GPU.
 Every C below is measured by the thread that built it. Nobody else has recomputed any of it, so read each as Likely until someone does.
 
@@ -35,7 +35,7 @@ Four are new to the Loom (E1, E2, E3, E9). Eight extend laws it already had. No 
 
 ![Four-bar linkage, coupler coloured by utilisation](img/engineering-fourbar.webp)
 
-A crank-rocker (0.30, 0.90, 0.70, 1.00 m) in steel, resisting 1,200 N·m at the rocker. **8 of 8 gates, 8 of 8 controls caught** (C).
+A crank-rocker (0.30, 0.90, 0.70, 1.00 m) in steel, resisting 1,200 N·m at the rocker. **10 of 10 gates, 8 of 8 controls caught** (C; 8 gates at the first run, 2 added with the adapter fix).
 
 | What | Number | Limit |
 |---|---|---|
@@ -57,7 +57,15 @@ The yield check sits at 6 % and looks like the answer. Buckling governs at 73 %.
 | 10 rad/s (probe) | 1 of 3 | Rapier |
 | 30 rad/s (probe) | 0 of 3 | none |
 
-**The finding: a hinge is not a crank pin.** X3D 4.0 clause 37.4.12 says "A hinge may not travel more than π radians (or the equivalent angle base units) in either direction from its initial position." With four hinge joints the built-in engine stops at 3.1447 rad, as the clause says. The Rapier and cannon-es adapters travel 18.94 and 18.53 rad and write no note that they dropped the stop. The same valid file is a rocking linkage in one engine and a turning one in two, and the engine that looked broken was the one following the standard.
+**The finding: a hinge is not a portable crank pin.** X3D 4.0 clause 37.4.12 says "A hinge may not travel more than π radians (or the equivalent angle base units) in either direction from its initial position." With four hinge joints the built-in engine stops at 3.1447 rad. The Rapier and cannon-es adapters travelled 18.94 and 18.53 rad and, at the first run, wrote no note.
+
+**Corrected the same day: two readings, not one.** The first version of this page said the engine that looked broken was the one following the standard. That holds for the X3D sentence. But ODE, the engine the component was modelled on (L), says "For rotational joints, this stop must be greater than -pi to be effective" (ODE v0.5 user guide, 7.5.1), so there a stop at exactly π is no stop, and the two adapters follow that. Which the standard intends is not settled here.
+
+| Engine | Default | With `hingeStop: 'x3d'` |
+|---|---|---|
+| Built-in | 3.1447 rad | 3.1447 rad |
+| Rapier 0.21.0 adapter | 18.94 rad, now with a note naming the clause | 3.1573 rad |
+| cannon-es 0.20.0 adapter | 18.53 rad, now with a note naming the clause | 3.1621 rad |
 
 ## 4. Study B, Civil and AEC: a building's loss receipt and a roof truss
 
@@ -93,13 +101,14 @@ The geometry crossed almost perfectly. Half the property keys on every element d
 
 **The honest part.** Of the five code clauses behind "passes", one was read from a source that quotes the code (L) and four were recalled from memory (S). The arithmetic is checked to 1e-14. The rules it was checked against are mostly not.
 
-## 5. Three things the studies taught the toolchain
+## 5. What the studies changed in the toolchain
 
-| Finding | Evidence | Grade |
+| Finding | Evidence | State |
 |---|---|---|
-| Two physics adapters drop the X3D hinge stop silently | travel 18.94 and 18.53 rad against 3.1447 | C |
-| The validator's name rule and the X3D 4.0 object model disagree on CAD names: 34 errors on a scene the schema accepts | x3d_mcp `fa4a8e3`, `naming-convention` against `X3dUnifiedObjectModel-4.0.xml` | C that they disagree, L which should change |
-| Dropping the pattern load case changes no utilisation here, so only a coverage gate catches it | control `drop-pattern-case` fails coverage and nothing else | C |
+| Two physics adapters let a default-range hinge turn and did not say so | travel 18.94 and 18.53 rad against 3.1447 | **Fixed 28 Nov**: both write a note naming clause 37.4.12, and an option applies the stop. 43 of 43 adapter tests, 11 new. Default behaviour unchanged (the study's pose hash is identical) |
+| The first Rapier stop did not let go | under a reverse torque the bar ended at 3.1417 rad, on the stop | **Fixed before it shipped**: a test written for "it lets go" caught it; the bar now ends at 0.086 rad (built-in −0.443) |
+| The validator's name rule called free-text names illegal: 34 errors on a scene the schema accepts | x3d_mcp `fa4a8e3`, `naming-convention` against `X3dUnifiedObjectModel-4.0.xml` | **Fixed 28 Nov** in x3d_mcp `4519043`: the rule reads the field's type from the object model (10 nodes: 4 CAD, 6 metadata). 34 errors to 0; 3 new tests failed first; full suite 2,025 passed |
+| Dropping the pattern load case changes no utilisation here, so only a coverage gate catches it | control `drop-pattern-case` fails coverage and nothing else | a property of this truss, kept as a control |
 
 ## 6. The other six disciplines
 
@@ -119,5 +128,5 @@ One page each in the playbook, no results. Each names the first study that would
 - Nobody outside the session has recomputed a number.
 - Four code clauses need someone with the texts.
 - The failure table has no severity ranking, and neither study has operating data to replay.
-- The hinge stop in the two adapters and the validator's name rule are both unfixed; each is a small change in its own repository.
+- Which reading of the hinge stop the X3D standard intends. Each engine here now states its own; the question belongs to the standard's authors, and nothing has been sent to anyone.
 - No real GPU, no second browser, no paired visual review. The stills are a look, not a witness.
