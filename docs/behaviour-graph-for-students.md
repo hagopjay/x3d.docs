@@ -162,7 +162,8 @@ is. The add-on `x3d-blender-io` now closes that gap as a proof of concept:
 
 1. Press "Download .x3d" in the lab.
 2. In Blender, import the file with "Behaviour as node graph" ticked.
-3. Open the node editor and choose "X3D Behaviour". Your graph is there, with the same nodes and the same wires.
+3. If a node editor is open, your graph appears in it, with the same nodes and the same wires. If not, change any
+   editor's type to "X3D Behaviour" (the bottom line of the window says so after the import).
 4. Press **Play** in the node editor's header and click the button in the 3D view: the door opens inside Blender,
    and the nodes glow as the events pass. Press Esc to stop; everything goes back where it was.
 5. Change it, export, and open the file in a browser.
@@ -205,5 +206,6 @@ they agreed. That is the scientific method in miniature: do not trust the copy, 
 
 The lab was driven by a real mouse in a test: the door opened, the counter counted to 15 and back down, and the tail
 followed a real drag (30 of 30 checks, X_ITE 16.7.1, headless Chromium with software drawing). It has not been tried on
-a phone or with a real graphics card. In Blender, the graph was built, changed, played and exported by script; nobody has
-yet looked at the editor or the Play button on a real screen.
+a phone or with a real graphics card. In Blender, the graph was built, changed, played and exported by script, and on 25 Nov 2026 a
+script opened a real Blender window, clicked Play and the button in five worlds, and took screenshots; the owner opened
+the door by hand. Nobody has yet judged the editor's look by eye in the other worlds.

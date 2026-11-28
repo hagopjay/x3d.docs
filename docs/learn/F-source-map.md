@@ -3,7 +3,7 @@
 Every `repo@sha` cited anywhere in the chapters, with the chapters that cite it.
 
 <!-- BEGIN GENERATED -->
-67 (repo, commit) pairs cited. A number holds only at the commit named beside it.
+69 (repo, commit) pairs cited. A number holds only at the commit named beside it.
 
 | Repo | Commit | Chapters |
 |---|---|---|
@@ -37,6 +37,7 @@ Every `repo@sha` cited anywhere in the chapters, with the chapters that cite it.
 | `x3d.loom` | `34bc760` | 22 |
 | `x3d.loom` | `38530ab` | 08 |
 | `x3d.loom` | `3acc825` | 15 |
+| `x3d.loom` | `487c139` | 08 |
 | `x3d.loom` | `4887a98` | 08 |
 | `x3d.loom` | `56340c2` | 17 |
 | `x3d.loom` | `5f59349` | 18 |
@@ -60,6 +61,7 @@ Every `repo@sha` cited anywhere in the chapters, with the chapters that cite it.
 | `x3d.loom` | `c9b7695` | 08 |
 | `x3d.loom` | `cd71796` | 08 |
 | `x3d.loom` | `d8e02ef` | 16 |
+| `x3d.loom` | `ebf3807` | 08 |
 | `x3d.loom` | `ed1bed8` | 08 |
 | `x3d.mathslab` | `24c9bbd` | 24 |
 | `x3d.ml` | `305fd60` | 23 |

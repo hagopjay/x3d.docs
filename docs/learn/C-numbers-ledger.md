@@ -3,7 +3,7 @@
 Merged from the *Numbers register* of every chapter by `tools-shared/build_learn.py`. Edit the chapter, not this file.
 
 <!-- BEGIN GENERATED -->
-**682 numbers** from 27 chapters. Grades: [C] 618 · [L] 58 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
+**689 numbers** from 27 chapters. Grades: [C] 625 · [L] 58 · [S] 6. Every row names its instrument; a row without one fails `check_learn.py`.
 
 | ID | Ch | Quantity | Value | Grade | Instrument | Source |
 |---|---|---|---|---|---|---|
@@ -258,6 +258,13 @@ Merged from the *Numbers register* of every chapter by `tools-shared/build_learn
 | N-BAB-104 | [08](08-babylon-bridge.md) | Bounds tree against plain raycast, 125,000-triangle ElevationGrid | 33 times faster per pick; same point on 23 of 23 rays | C | Chromium 153.0.8010.12, SwiftShader, three-mesh-bvh 0.9.18 | docs/demos/three-bvh/v1 (x3d.demo) |
 | N-BAB-105 | [08](08-babylon-bridge.md) | 1,000,000 triangles: tree build, one pick, 24,000-ray scan | about 0.5 s, about 0.1 ms, about 110 ms | C | same rig | docs/demos/three-bvh/v1 (x3d.demo) |
 | N-BAB-106 | [08](08-babylon-bridge.md) | Full fixture sweep of the three.js body after batch 8 | 132 of 132 (127 scene, 5 events) | C | same rig | x3d.threejs/bridge/tools/run-tests.js |
+| N-BAB-107 | [08](08-babylon-bridge.md) | three.js bridge status, batch 9 | drawn 184, reader-checked 48, reader 24, todo 0, upstream 4; 232 of 260 receipted | C | `driver.py check` and `status`; three.js r187, X_ITE 16.6.0, Chromium 158.0.8127.36 SwiftShader | x3d.loom@487c139:x3d.threejs/bridge/NODES.json |
+| N-BAB-108 | [08](08-babylon-bridge.md) | The 32 todo nodes on their first run, before any change | 16 pass, 16 fail (13 volume, Sound, NurbsCurve, BallJoint) | C | same rig, `run-tests.js` | x3d.loom@ebf3807:x3d.threejs/bridge/NODES.json |
+| N-BAB-109 | [08](08-babylon-bridge.md) | The 23 `upstream` nodes on their first run | 17 pass in both engines | C | same rig | x3d.loom@ebf3807:x3d.threejs/bridge/NODES.json |
+| N-BAB-110 | [08](08-babylon-bridge.md) | BallJoint ball height at 1.5 s against the bound y < 4.9 | 5.00 (three.js body), 4.92 (X_ITE); X_ITE failed 1 run of 3 | C | positions sampled every 0.25 s in both engines | x3d.loom@487c139:x3d.threejs/bridge/fixtures/BallJoint.test.json |
+| N-BAB-111 | [08](08-babylon-bridge.md) | NurbsCurve second picture, before and after reading `refs` | IoU 0.65 to 1.00 | C | same rig | x3d.loom@487c139:x3d.threejs/bridge/src/body-three.js |
+| N-BAB-112 | [08](08-babylon-bridge.md) | Sound fixture, steps and level tolerance | 100 of 100 in both engines; rms within 0.012 (AudioClip 0.02) | C | Web Audio worklet taps on the page's own clock | x3d.loom@487c139:x3d.threejs/bridge/fixtures/Sound.test.json |
+| N-BAB-113 | [08](08-babylon-bridge.md) | Volume nodes against X_ITE, and the regression pass | 13 of 13; 45 of 45 older fixtures | C | same rig | x3d.loom@487c139:x3d.threejs/bridge/src/nodes/Volume.js |
 | N-BAB-90 | [08](08-babylon-bridge.md) | Disk2D, Rectangle2D, Extrusion silhouette overlap with X_ITE | 0.98, 0.97, 0.93 | C | SwiftShader, 320 x 240 | x3d.loom@cd71796:x3d.webgpu/bridge/receipts |
 | N-BAB-91 | [08](08-babylon-bridge.md) | PointProperties default pointSizeMin, scale, max | 1, 1, 1 in the standard and X_ITE; hall default was 0 | C | X_ITE 16.6.0 | PointProperties.test.json |
 | N-BAB-92 | [08](08-babylon-bridge.md) | NurbsTextureCoordinate uv step with centre weight 3, 8 cells | 0.125 in X_ITE (regular); rational form would give 0.114 | C | X_ITE 16.6.0 | NurbsTextureCoordinate.test.json |

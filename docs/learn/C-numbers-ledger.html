@@ -22,7 +22,7 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 </style></head><body><div class="wrap"><nav class="side"><b class="t">X3D Elucidation</b><a href="../index.html">&larr; all teardowns</a><a href="index.html">Start here</a><h4>Chapters</h4><a href="01-the-tether.html">01. The tether</a><a href="02-loom-laws.html">02. The Loom laws</a><a href="03-validator-and-gates.html">03. The validator and the gates</a><a href="04-mcp-for-agents.html">04. x3d_mcp as the agent interface</a><a href="05-semantic-layer.html">05. The semantic layer: RDF, OWL, SPARQL, SHACL on X3D</a><a href="06-xite-the-oracle.html">06. X_ITE, the reference renderer</a><a href="07-xray.html">07. x3d.xray, the X-ray method</a><a href="08-babylon-bridge.html">08. The Babylon bridge</a><a href="09-castle-engine.html">09. Castle Game Engine as an X3D host</a><a href="10-blender-pipeline.html">10. Blender as the studio: x3d-blender-io and the sci-vis knowledge base</a><a href="11-gltf-usd-khronos.html">11. glTF, USD and Khronos: what survives and what the gate proves</a><a href="12-unreal-tier1.html">12. Unreal as a tier-1 X3D framework</a><a href="13-physics.html">13. Physics in X3D: RigidBodyPhysics, PhysX, MuJoCo and the Ten Minute Physics ports</a><a href="14-methods.html">14. Methods: how to learn, test and extend this base</a><a href="15-animation-timelines.html">15. Animation timelines: Theatre.js and GSAP to X3D</a><a href="16-typed-x3d-zod.html">16. Typed X3D: Zod, JSON Schema and the model that can be held to it</a><a href="17-physics-engines.html">17. Pluggable physics engines behind RigidBodyPhysics: Rapier, cannon-es and the built-in solver</a><a href="18-three-pathtracer.html">18. Path-tracing X3D: three-gpu-pathtracer as a light-transport reference</a><a href="19-gltf-tooling.html">19. glTF tooling that keeps X3D identity: glTF-Transform, meshopt, Draco, KTX2 and the gates around them</a><a href="20-webgpu-compute.html">20. Compute on the GPU: WebGPU kernels for X3D workloads</a><a href="21-yjs-collaboration.html">21. Many hands on one scene: Yjs, CRDTs and the X3D scene graph</a><a href="22-typed-judgments-jev.html">22. Typed judgments: what Jev teaches X3D, and what it must never be trusted with</a><a href="23-traceability-lineage.html">23. Traceability: a quote beside every value, and the lineage stack around it</a><a href="24-math-lab-static-host.html">24. Math Lab: one model owner, two transports</a><a href="25-accretion-gated-growth.html">25. Accretion: an append-only X3D world grown one gated patch at a time</a><a href="26-chess-lenses-oracles.html">26. Lenses on a chess board: a claim is not a picture</a><a href="27-shaders-vulkan-contracts.html">27. Shaders and Vulkan: what the explicit APIs teach an X3D renderer</a><h4>Appendices</h4><a href="A-validator-register.html">Appendix A. Instrument and validator register</a><a href="B-glossary.html">Appendix B. Glossary</a><a class="cur" href="C-numbers-ledger.html">Appendix C. Numbers ledger</a><a href="D-heuristics-ledger.html">Appendix D. Heuristics ledger</a><a href="E-drills.html">Appendix E. Drill index</a><a href="F-source-map.html">Appendix F. Source map</a><a href="G-claims-ledger.html">Appendix G. Claim ledger</a><h4>About</h4><a href="AUTHORING.html">Authoring contract</a><a href="CHANGELOG.html">Changelog</a></nav><main><div class="nav"><a href="index.html">X3D Elucidation</a><a href="C-numbers-ledger.md">Markdown source</a><a href="https://github.com/hagopjay/x3d.docs/blob/gh-pages/docs/learn/C-numbers-ledger.md">GitHub</a></div><h1>Appendix C. Numbers ledger</h1>
 <p>Merged from the <em>Numbers register</em> of every chapter by <code>tools-shared/build_learn.py</code>. Edit the chapter, not this file.</p>
 <!-- BEGIN GENERATED -->
-<p><strong>682 numbers</strong> from 27 chapters. Grades: <span class="g C" title="Confirmed">C</span> 618 · <span class="g L" title="Likely">L</span> 58 · <span class="g S" title="Suspected">S</span> 6. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
+<p><strong>689 numbers</strong> from 27 chapters. Grades: <span class="g C" title="Confirmed">C</span> 625 · <span class="g L" title="Likely">L</span> 58 · <span class="g S" title="Suspected">S</span> 6. Every row names its instrument; a row without one fails <code>check_learn.py</code>.</p>
 <table>
 <thead>
 <tr>
@@ -2294,6 +2294,69 @@ details.toc{background:var(--panel);border:1px solid var(--line);border-radius:6
 <td>C</td>
 <td>same rig</td>
 <td>x3d.threejs/bridge/tools/run-tests.js</td>
+</tr>
+<tr>
+<td>N-BAB-107</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>three.js bridge status, batch 9</td>
+<td>drawn 184, reader-checked 48, reader 24, todo 0, upstream 4; 232 of 260 receipted</td>
+<td>C</td>
+<td><code>driver.py check</code> and <code>status</code>; three.js r187, X_ITE 16.6.0, Chromium 158.0.8127.36 SwiftShader</td>
+<td>x3d.loom@487c139:x3d.threejs/bridge/NODES.json</td>
+</tr>
+<tr>
+<td>N-BAB-108</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>The 32 todo nodes on their first run, before any change</td>
+<td>16 pass, 16 fail (13 volume, Sound, NurbsCurve, BallJoint)</td>
+<td>C</td>
+<td>same rig, <code>run-tests.js</code></td>
+<td>x3d.loom@ebf3807:x3d.threejs/bridge/NODES.json</td>
+</tr>
+<tr>
+<td>N-BAB-109</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>The 23 <code>upstream</code> nodes on their first run</td>
+<td>17 pass in both engines</td>
+<td>C</td>
+<td>same rig</td>
+<td>x3d.loom@ebf3807:x3d.threejs/bridge/NODES.json</td>
+</tr>
+<tr>
+<td>N-BAB-110</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>BallJoint ball height at 1.5 s against the bound y &lt; 4.9</td>
+<td>5.00 (three.js body), 4.92 (X_ITE); X_ITE failed 1 run of 3</td>
+<td>C</td>
+<td>positions sampled every 0.25 s in both engines</td>
+<td>x3d.loom@487c139:x3d.threejs/bridge/fixtures/BallJoint.test.json</td>
+</tr>
+<tr>
+<td>N-BAB-111</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>NurbsCurve second picture, before and after reading <code>refs</code></td>
+<td>IoU 0.65 to 1.00</td>
+<td>C</td>
+<td>same rig</td>
+<td>x3d.loom@487c139:x3d.threejs/bridge/src/body-three.js</td>
+</tr>
+<tr>
+<td>N-BAB-112</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Sound fixture, steps and level tolerance</td>
+<td>100 of 100 in both engines; rms within 0.012 (AudioClip 0.02)</td>
+<td>C</td>
+<td>Web Audio worklet taps on the page's own clock</td>
+<td>x3d.loom@487c139:x3d.threejs/bridge/fixtures/Sound.test.json</td>
+</tr>
+<tr>
+<td>N-BAB-113</td>
+<td><a href="08-babylon-bridge.html">08</a></td>
+<td>Volume nodes against X_ITE, and the regression pass</td>
+<td>13 of 13; 45 of 45 older fixtures</td>
+<td>C</td>
+<td>same rig</td>
+<td>x3d.loom@487c139:x3d.threejs/bridge/src/nodes/Volume.js</td>
 </tr>
 <tr>
 <td>N-BAB-90</td>
